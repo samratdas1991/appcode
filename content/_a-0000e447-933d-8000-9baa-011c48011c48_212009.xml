@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e607-97fd-8000-9be9-011c48011c48_1605299</versionUuid>
+    <rule>
+        <name>z_AS_ADT_TST_Parent</name>
+        <uuid>_a-0000e447-933d-8000-9baa-011c48011c48_212009</uuid>
+        <description>Sample parent CDT used for test cases</description>
+        <parentUuid>_a-0000e42d-ffef-8000-9ba6-011c48011c48_7213-adt</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>'type!{urn:com:appian:types:AS:ADT}AS_ADT_SAMPLE_Parent'(
+  parentId: 1,
+  text: "This is the text of parent 1",
+  date: today() + 1,
+  complexChildSingle: 'type!{urn:com:appian:types:AS:ADT}AS_ADT_SAMPLE_ComplexChildSingle'(
+    childId: 1,
+    text: "This is the text of complex child single",
+    date: today() + 1
+  ),
+  complexChildMultiple: {
+    'type!{urn:com:appian:types:AS:ADT}AS_ADT_SAMPLE_ComplexChildMultiple'(
+      childId: 1,
+      text: "This is the text of complex child multiple 1",
+      date: today() + 1
+    ),
+    'type!{urn:com:appian:types:AS:ADT}AS_ADT_SAMPLE_ComplexChildMultiple'(
+      childId: 2,
+      text: "This is the text of complex child multiple 2",
+      date: today() + 2
+    ),
+    'type!{urn:com:appian:types:AS:ADT}AS_ADT_SAMPLE_ComplexChildMultiple'(
+      childId: 3,
+      text: "This is the text of complex child multiple 3",
+      date: today() + 3
+    ),
+    'type!{urn:com:appian:types:AS:ADT}AS_ADT_SAMPLE_ComplexChildMultiple'(
+      childId: 4,
+      text: "This is the text of complex child multiple 4",
+      date: today() + 4
+    )
+  },
+  isActive: true
+)</definition>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name>Unnamed Test Case</a:name>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e447-933d-8000-9baa-011c48011c48_212020"/>
+        <historyInfo versionUuid="_a-0000e539-6d59-8000-9bd0-011c48011c48_1242085"/>
+        <historyInfo versionUuid="_a-0000e607-97fd-8000-9be9-011c48011c48_1605299"/>
+    </history>
+</contentHaul>

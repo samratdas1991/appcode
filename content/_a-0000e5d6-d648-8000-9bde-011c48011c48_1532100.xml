@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e69f-3688-8000-9bf2-011c48011c48_2128618</versionUuid>
+    <rule>
+        <name>AS_FS_BL_constructProduct</name>
+        <uuid>_a-0000e5d6-d648-8000-9bde-011c48011c48_1532100</uuid>
+        <description>Rule to construct Product for a customer</description>
+        <parentUuid>_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_968428</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>#"_a-0000e3e6-fb42-8000-9ba5-011c48011c48_157603"(
+  type: 'type!{urn:com:appian:types:AS:FS}AS_FS_Product',
+  value: {
+    productId: null,
+    customerId: ri!customerId,
+    accounts: if(
+      #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(ri!product.accounts),
+      null,
+      #"SYSTEM_SYSRULES_forEach"(
+        items: ri!product.accounts,
+        expression: #"_a-0000e3e6-fb42-8000-9ba5-011c48011c48_157603"(
+          type: 'type!{urn:com:appian:types:AS:FS}AS_FS_Account',
+          value: {
+            accountId: null,
+            name: fv!item.name,
+            type: fv!item.type,
+            accountNumber: fv!item.accountNumber,
+            isDeleted: fv!item.isDeleted
+          }
+        )
+      )
+    ),
+    name: ri!product.name,
+    productTypeCode: ri!product.productTypeCode,
+    description: ri!product.description,
+    entity: ri!product.entity,
+    entityType: ri!product.entityType,
+    strategy: ri!product.strategy,
+    value: ri!product.value,
+    valueCurrencyCode: ri!product.valueCurrencyCode,
+    duration: ri!product.duration,
+    upfrontFee: ri!product.upfrontFee,
+    commitmentFee: ri!product.commitmentFee,
+    interest: ri!product.interest,
+    coverRequired: ri!product.coverRequired,
+    collateral: ri!product.collateral,
+    collateralValue: ri!product.collateralValue,
+    collateralCurrencyCode: ri!product.collateralCurrencyCode,
+    coverProvided: ri!product.coverProvided,
+    createdBy: ri!product.createdBy,
+    createdDatetime: ri!product.createdDatetime,
+    modifiedBy: ri!product.modifiedBy,
+    modifiedDatetime: ri!product.modifiedDatetime,
+    isParent: ri!product.isParent,
+    isDeleted: ri!product.isDeleted,
+    term: if(
+      #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(ri!product.term),
+      null,
+      #"_a-0000e3e6-fb42-8000-9ba5-011c48011c48_157603"(
+        type: 'type!{urn:com:appian:types:AS:FS}AS_FS_Term',
+        value: {
+          termId: null,
+          performanceStartDate: ri!product.term.performanceStartDate,
+          performanceReturnTerm: ri!product.term.,
+          committedMargin: ri!product.term.,
+          rateLock: ri!product.term.rateLock,
+          shortLock: ri!product.term.shortLock,
+          otherTerm: ri!product.term.otherTerm,
+          isDeleted: ri!product.term.isDeleted
+        }
+      )
+    ),
+    countries: if(
+      #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(ri!product.countries),
+      null,
+      #"SYSTEM_SYSRULES_forEach"(
+        items: ri!product.countries,
+        expression: #"_a-0000e3e6-fb42-8000-9ba5-011c48011c48_157603"(
+          type: 'type!{urn:com:appian:types:AS:FS}AS_FS_Country',
+          value: {
+            countryId: null,
+            countryCode: fv!item.countryCode,
+            isTradingAllowed: fv!item.isTradingAllowed,
+            isDeleted: fv!item.isDeleted
+          }
+        )
+      )
+    ),
+    fees: if(
+      #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(ri!product.fees),
+      null,
+      #"SYSTEM_SYSRULES_forEach"(
+        items: ri!product.fees,
+        expression: #"_a-0000e3e6-fb42-8000-9ba5-011c48011c48_157603"(
+          type: 'type!{urn:com:appian:types:AS:FS}AS_FS_Fee',
+          value: {
+            feeId: null,
+            fee: fv!item.fee,
+            type: fv!item.type,
+            adValorem: fv!item.adValorem,
+            transactionCharge: fv!item.transactionCharge,
+            transactionCurrencyCode: fv!item.transactionCurrencyCode,
+            feeCurrencyCode: fv!item.feeCurrencyCode,
+            country: if(
+              #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(fv!item.country),
+              null,
+              #"_a-0000e3e6-fb42-8000-9ba5-011c48011c48_157603"(
+                type: 'type!{urn:com:appian:types:AS:FS}AS_FS_Country',
+                value: {
+                  countryId: null,
+                  countryCode: fv!item.country.countryCode,
+                  isTradingAllowed: fv!item.country.isTradingAllowed,
+                  isDeleted: fv!item.country.isDeleted
+                }
+              )
+            )
+          }
+        )
+      )
+    ),
+    thresholds: if(
+      #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(ri!product.thresholds),
+      null,
+      #"SYSTEM_SYSRULES_forEach"(
+        items: ri!product.thresholds,
+        expression: #"_a-0000e3e6-fb42-8000-9ba5-011c48011c48_157603"(
+          type: 'type!{urn:com:appian:types:AS:FS}AS_FS_PayThreshold',
+          value: {
+            payThresholdId: null,
+            operator: fv!item.operator,
+            threshold: fv!item.threshold,
+            thresholdCurrencyCode: fv!item.thresholdCurrencyCode,
+            authorizations: fv!item.authorizations
+          }
+        )
+      )
+    )
+  }
+)</definition>
+        <namedTypedValue>
+            <name>product</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>customerId</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name>Unnamed Test Case</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                    <a:nameRef>product</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:int"/>
+                    <a:nameRef>customerId</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e5d6-d648-8000-9bde-011c48011c48_1534392"/>
+        <historyInfo versionUuid="_a-0000e5f9-18eb-8000-9be1-011c48011c48_1555007"/>
+        <historyInfo versionUuid="_a-0000e5fd-0ed3-8000-9be6-011c48011c48_1571467"/>
+        <historyInfo versionUuid="_a-0000e69f-3688-8000-9bf2-011c48011c48_2128618"/>
+    </history>
+</contentHaul>

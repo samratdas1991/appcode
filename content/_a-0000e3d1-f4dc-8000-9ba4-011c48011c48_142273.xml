@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e811-1167-8000-9c18-011c48011c48_3498714</versionUuid>
+    <rule>
+        <name>AS_IO_CDT_mapTemplateTaskToRuntimeTask</name>
+        <uuid>_a-0000e3d1-f4dc-8000-9ba4-011c48011c48_142273</uuid>
+        <description>Converts an AS_IO_R_TemplateTask to an AS_IO_Task object</description>
+        <parentUuid>_a-0000e2bb-4188-8000-9ba2-011c48011c48_25469</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>'type!{urn:com:appian:types:AS:IO}AS_IO_Task'(
+  taskId: null,
+  request: null,
+  taskRefId: ri!templateTask.taskRef.taskRefId,
+  taskName: ri!templateTask.taskName,
+  taskDesc: ri!templateTask.taskDesc,
+  taskBehaviorType: ri!templateTask.taskRef.taskBehaviorType,
+  taskCategory: ri!templateTask.taskRef.taskCategory,
+  groupAssignee: if(
+    and(
+      ri!templateTask.groupAssignee = group(#"_a-0000e539-6d59-8000-9bd0-011c48011c48_1296974", "id"),
+      #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75636"(
+        input: #"_a-0000e3ff-a5bc-8000-9ba8-011c48011c48_39070"(ri!skipCustomerGroupSwap)
+      )
+    ),
+    ri!request.customer.groupId,
+    ri!templateTask.groupAssignee
+  ),
+  userAssignee: null,
+  taskStatus: if(
+    ri!templateTask.taskRef.taskBehaviorType.behaviorSubtypeCode = #"_a-0000e393-fbf1-8000-9ba2-011c48011c48_99647",
+    #"_a-0000e79b-0335-8000-9c0c-011c48011c48_3006672"(
+      returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290157",
+      taskStatusIds: #"_a-0000e460-9d93-8000-9bc1-011c48011c48_603236"
+    ),
+    if(
+      ri!templateTask.taskRef.taskBehaviorType.behaviorSubtypeCode = #"_a-0000e79b-0335-8000-9c0c-011c48011c48_3040883",
+      #"_a-0000e79b-0335-8000-9c0c-011c48011c48_3006672"(
+        returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290157",
+        taskStatusIds: #"_a-0000e460-9d93-8000-9bc1-011c48011c48_603230"
+      ),
+      if(
+        #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(ri!templateTask.templateTaskPrecedents),
+        #"_a-0000e79b-0335-8000-9c0c-011c48011c48_3006672"(
+          returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290157",
+          taskStatusIds: #"_a-0000e460-9d93-8000-9bc1-011c48011c48_603236"
+        ),
+        #"_a-0000e79b-0335-8000-9c0c-011c48011c48_3006672"(
+          returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290157",
+          taskStatusIds: #"_a-0000e460-9d93-8000-9bc1-011c48011c48_603230"
+        ),
+        
+      ),
+      
+    )
+  ),
+  docUploadContext: ri!templateTask.taskRef.docUploadContext,
+  docSignatureContext: ri!templateTask.taskRef.docSignatureContext,
+  taskPrecedents: #"SYSTEM_SYSRULES_forEach"(
+    items: ri!templateTask.templateTaskPrecedents,
+    expression: 'type!{urn:com:appian:types:AS:IO}AS_IO_Task_Precedent'(
+      taskPrecedentId: null,
+      taskId: null,
+      /* Here we are storing the index of the precedent within the larger list of tasks */
+      /* This is because we do not have actual IDs before writing to the database */
+      /* Within process AS IO Process Setup, within rule AS_IO_UT_setTaskPrecedentsOnTasksAfterInitialWrite, */
+      /* we will update the IDs after writing the initial tasks without precedents */
+      taskId_precedent: #"_a-0000e40a-de32-8000-9ba8-011c48011c48_269546"(
+        cdt: ri!template.templateTasks,
+        field: "templateTaskUUID",
+        value: fv!item.templateTaskUUIDPrecedent
+      )
+    )
+  ),
+  availableDatetime: null,
+  orderNumber: ri!templateTask.orderNumber,
+  completedBy: null,
+  completedDatetime: null,
+  createdBy: null,
+  createdDatetime: null,
+  modifiedBy: null,
+  modifiedDatetime: null,
+  dueDate: #"_a-0000e471-623a-8000-9bc3-011c48011c48_655029"(
+    slaDays: ri!templateTask.slaDays,
+    slaRule: ri!templateTask.slaRule,
+    fundingDate: ri!request.fundingDetails.estFundingDate,
+    slaDayType: ri!template.slaDayType
+  ),
+  slaDays: ri!templateTask.slaDays,
+  slaRule: ri!templateTask.slaRule
+)</definition>
+        <namedTypedValue>
+            <name>templateTask</name>
+            <type>
+                <name>AS_IO_R_TemplateTask</name>
+                <namespace>urn:com:appian:types:AS:IO</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>template</name>
+            <type>
+                <name>AS_IO_R_Template</name>
+                <namespace>urn:com:appian:types:AS:IO</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>request</name>
+            <type>
+                <name>AS_IO_OnboardingRequest</name>
+                <namespace>urn:com:appian:types:AS:IO</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>skipCustomerGroupSwap</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name>Sample Test Case</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_155202"(
+  excludeNestedCdts:  false,
+  returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290157"
+).templateTasks[1]</a:value>
+                    <a:nameRef>templateTask</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_155202"(
+  excludeNestedCdts:  false,
+  returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290163"
+)</a:value>
+                    <a:nameRef>template</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">'type!{urn:com:appian:types:AS:IO}AS_IO_OnboardingRequest'()</a:value>
+                    <a:nameRef>request</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:boolean"/>
+                    <a:nameRef>skipCustomerGroupSwap</a:nameRef>
+                    <a:id>4</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+            <el>
+                <a:name>Unnamed Test Case</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">'type!{urn:com:appian:types:AS:IO}AS_IO_R_TemplateTask'(
+  groupAssignee: #"_a-0000e539-6d59-8000-9bd0-011c48011c48_1296974"
+)</a:value>
+                    <a:nameRef>templateTask</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:n1="urn:com:appian:types:AS:IO" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="n1:AS_IO_R_Template"/>
+                    <a:nameRef>template</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">'type!{urn:com:appian:types:AS:IO}AS_IO_OnboardingRequest'(
+  customer: 'type!{urn:com:appian:types:AS:FS}AS_FS_Customer'(
+    /*customerId: 2,*/
+    groupId: 340
+  )
+)</a:value>
+                    <a:nameRef>request</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:boolean">true</a:value>
+                    <a:nameRef>skipCustomerGroupSwap</a:nameRef>
+                    <a:id>4</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e3d1-f4dc-8000-9ba4-011c48011c48_145543"/>
+        <historyInfo versionUuid="_a-0000e3e6-fb42-8000-9ba5-011c48011c48_193942"/>
+        <historyInfo versionUuid="_a-0000e3e6-fb42-8000-9ba5-011c48011c48_214842"/>
+        <historyInfo versionUuid="_a-0000e40a-de32-8000-9ba8-011c48011c48_270970"/>
+        <historyInfo versionUuid="_a-0000e41a-e649-8000-9ba5-011c48011c48_17675"/>
+        <historyInfo versionUuid="_a-0000e430-f270-8000-9bbc-011c48011c48_368594"/>
+        <historyInfo versionUuid="_a-0000e460-9d93-8000-9bc1-011c48011c48_604604"/>
+        <historyInfo versionUuid="_a-0000e460-9d93-8000-9bc1-011c48011c48_616891"/>
+        <historyInfo versionUuid="_a-0000e471-623a-8000-9bc3-011c48011c48_657403"/>
+        <historyInfo versionUuid="_a-0000e471-623a-8000-9bc3-011c48011c48_671602"/>
+        <historyInfo versionUuid="_a-0000e471-623a-8000-9bc3-011c48011c48_696738"/>
+        <historyInfo versionUuid="_a-0000e471-623a-8000-9bc3-011c48011c48_712843"/>
+        <historyInfo versionUuid="_a-0000e471-623a-8000-9bc3-011c48011c48_788255"/>
+        <historyInfo versionUuid="_a-0000e50d-bf1d-8000-9bcd-011c48011c48_1019345"/>
+        <historyInfo versionUuid="_a-0000e586-af6f-8000-9bd2-011c48011c48_1355006"/>
+        <historyInfo versionUuid="_a-0000e586-af6f-8000-9bd2-011c48011c48_1371642"/>
+        <historyInfo versionUuid="_a-0000e5a0-53e9-8000-9bd8-011c48011c48_1465120"/>
+        <historyInfo versionUuid="_a-0000e62c-7375-8000-9bec-011c48011c48_1867074"/>
+        <historyInfo versionUuid="_a-0000e7fa-f829-8000-9c17-011c48011c48_3431709"/>
+        <historyInfo versionUuid="_a-0000e7fa-f829-8000-9c17-011c48011c48_3463113"/>
+        <historyInfo versionUuid="_a-0000e811-1167-8000-9c18-011c48011c48_3498714"/>
+    </history>
+</contentHaul>

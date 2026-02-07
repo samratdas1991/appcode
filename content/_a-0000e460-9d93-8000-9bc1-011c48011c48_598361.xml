@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e5a0-53e9-8000-9bd8-011c48011c48_1400594</versionUuid>
+    <rule>
+        <name>AS_QNM_VD_evaluateResponseRequirement_MAX_CHAR_LENGTH</name>
+        <uuid>_a-0000e460-9d93-8000-9bc1-011c48011c48_598361</uuid>
+        <description>Used to evaluate response requirements of type MAX_CHAR_LENGTH</description>
+        <parentUuid>_a-0000e42d-ffef-8000-9ba6-011c48011c48_7213-qnm</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>if(
+  ri!returnValidationMessage,
+  /* Max character length requirements are handled directly in text based CPS objects, so we return no validation here */
+  {""},
+  len(ri!responses.value) &lt;= ri!responseRequirement.requirementValue 
+)</definition>
+        <namedTypedValue>
+            <name>responses</name>
+            <type>
+                <name>AS_QNM_Response</name>
+                <namespace>urn:com:appian:types:AS:QNM</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>responseRequirement</name>
+            <type>
+                <name>AS_QNM_ResponseRequirement</name>
+                <namespace>urn:com:appian:types:AS:QNM</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>returnValidationMessage</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name>Null Test Case</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:n1="urn:com:appian:types:AS:QNM" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="n1:AS_QNM_Response"/>
+                    <a:nameRef>responses</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:n1="urn:com:appian:types:AS:QNM" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="n1:AS_QNM_ResponseRequirement"/>
+                    <a:nameRef>responseRequirement</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:boolean"/>
+                    <a:nameRef>returnValidationMessage</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e460-9d93-8000-9bc1-011c48011c48_599945"/>
+        <historyInfo versionUuid="_a-0000e460-9d93-8000-9bc1-011c48011c48_601367"/>
+        <historyInfo versionUuid="_a-0000e460-9d93-8000-9bc1-011c48011c48_608623"/>
+        <historyInfo versionUuid="_a-0000e471-623a-8000-9bc3-011c48011c48_671982"/>
+        <historyInfo versionUuid="_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_857103"/>
+        <historyInfo versionUuid="_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_896498"/>
+        <historyInfo versionUuid="_a-0000e5a0-53e9-8000-9bd8-011c48011c48_1400594"/>
+    </history>
+</contentHaul>

@@ -1,0 +1,389 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e70f-2824-8000-9c01-011c48011c48_2703710</versionUuid>
+    <rule>
+        <name>AS_FS_REF_PRODUCT_FIELDS_DETAILS</name>
+        <uuid>_a-0000e528-bc07-8000-9bcf-011c48011c48_1035088</uuid>
+        <description>fields in the "details" section</description>
+        <parentUuid>_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_968428</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>{
+  {
+    fieldKey: #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_1021020",
+    sectionKey: #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_1021334",
+    /* Label, in the context of this rule, is used to define the list of fields from which administrators can select to display for a product type */
+    label: if(
+      ri!isInternationalizedForAdminSetup,
+      #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+        i18nData: ri!adminSetupI18nData,
+        bundleKey: "AS.FS.AllBundles.lbl_Amount"
+      ),
+      null
+    ),
+    cdtField: { "value", "valueCurrencyCode" },
+    isValid: if(
+      #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(ri!product),
+      null,
+      or(
+        isnull(ri!product.value),
+        and(
+          ri!product.value &gt;= 0,
+          not(isnull(ri!product.valueCurrencyCode))
+        )
+      )
+    )
+  },
+  {
+    fieldKey: #"_a-0000e539-6d59-8000-9bd0-011c48011c48_1159810",
+    sectionKey: #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_1021334",
+    label: if(
+      ri!isInternationalizedForAdminSetup,
+      #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+        i18nData: ri!adminSetupI18nData,
+        bundleKey: "AS.FS.AllBundles.lbl_Interest"
+      ),
+      null
+    ),
+    cdtField: { "interest" },
+    isValid: if(
+      #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(ri!product),
+      null,
+      or(
+        isnull(ri!product.interest),
+        ri!product.interest &gt;= 0
+      )
+    )
+  },
+  {
+    fieldKey: #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_1021026",
+    sectionKey: #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_1021334",
+    label: if(
+      ri!isInternationalizedForAdminSetup,
+      #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+        i18nData: ri!adminSetupI18nData,
+        bundleKey: "AS.FS.AllBundles.lbl_Fund"
+      ),
+      null
+    ),
+    cdtField: { "fundId" },
+    isValid: if(
+      #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(ri!product),
+      null,
+      true
+    )
+  },
+  {
+    fieldKey: #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_1021032",
+    sectionKey: #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_1021334",
+    label: if(
+      ri!isInternationalizedForAdminSetup,
+      #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+        i18nData: ri!adminSetupI18nData,
+        bundleKey: "AS.FS.AllBundles.lbl_Entity"
+      ),
+      null
+    ),
+    cdtField: { "entity" },
+    isValid: if(
+      #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(ri!product),
+      null,
+      true
+    ),
+    
+  },
+  {
+    fieldKey: #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_1021038",
+    sectionKey: #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_1021334",
+    label: if(
+      ri!isInternationalizedForAdminSetup,
+      #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+        i18nData: ri!adminSetupI18nData,
+        bundleKey: "AS.FS.AllBundles.lbl_Strategy"
+      ),
+      null
+    ),
+    cdtField: { "strategy" },
+    isValid: if(
+      #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(ri!product),
+      null,
+      len(ri!product.strategy) &lt;= #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73500"
+    ),
+    
+  },
+  {
+    fieldKey: #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_1021044",
+    sectionKey: #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_1021334",
+    label: if(
+      ri!isInternationalizedForAdminSetup,
+      #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+        i18nData: ri!adminSetupI18nData,
+        bundleKey: "AS.FS.AllBundles.lbl_Duration"
+      ),
+      null
+    ),
+    cdtField: { "duration" },
+    isValid: if(
+      #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(ri!product),
+      null,
+      or(
+        isnull(ri!product.duration),
+        and(
+          ri!product.duration &gt;= 0,
+          ri!product.duration &lt;= #"_a-0000e539-6d59-8000-9bd0-011c48011c48_1137712"
+        )
+      )
+    ),
+    
+  },
+  {
+    fieldKey: #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_1021077",
+    sectionKey: #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_1021334",
+    label: if(
+      ri!isInternationalizedForAdminSetup,
+      #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+        i18nData: ri!adminSetupI18nData,
+        bundleKey: "AS.FS.AllBundles.lbl_UpfrontFee"
+      ),
+      null
+    ),
+    cdtField: { "upfrontFee" },
+    isValid: if(
+      #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(ri!product),
+      null,
+      or(
+        isnull(ri!product.upfrontFee),
+        ri!product.upfrontFee &gt;= 0
+      )
+    ),
+    
+  },
+  {
+    fieldKey: #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_1021083",
+    sectionKey: #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_1021334",
+    label: if(
+      ri!isInternationalizedForAdminSetup,
+      #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+        i18nData: ri!adminSetupI18nData,
+        bundleKey: "AS.FS.AllBundles.lbl_RestrictedCountries"
+      ),
+      null
+    ),
+    /* 
+    While this is technically the field for both restricted and allowed countries,
+    I don't think it is valid that there be one without the other or that they be
+    individually required, so clearing for both or checking against either should be fine
+    */
+    cdtField: { "countries" },
+    isValid: if(
+      #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(ri!product),
+      null,
+      a!localVariables(
+        local!permissibleCountries: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+          cdt: ri!product.countries,
+          field: "isTradingAllowed",
+          value: true
+        ),
+        local!restrictedCountries: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+          cdt: ri!product.countries,
+          field: "isTradingAllowed",
+          value: false
+        ),
+        #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(
+          #"_a-0000e5fb-e360-8000-9be3-011c48011c48_1557034"(
+            restrictedCountries: local!restrictedCountries,
+            permissibleCountries: local!permissibleCountries,
+            i18nData: ri!adminSetupI18nData
+          )
+        )
+      )
+    ),
+    
+  },
+  {
+    fieldKey: #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_1021089",
+    sectionKey: #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_1021334",
+    label: if(
+      ri!isInternationalizedForAdminSetup,
+      #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+        i18nData: ri!adminSetupI18nData,
+        bundleKey: "AS.FS.AllBundles.lbl_PermissibleCountries"
+      ),
+      null
+    ),
+    /* 
+    While this is technically the field for both restricted and allowed countries,
+    I don't think it is valid that there be one without the other or that they be
+    individually required, so clearing for both or checking against either should be fine
+    */
+    cdtField: { "countries" },
+    isValid: if(
+      #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(ri!product),
+      null,
+      a!localVariables(
+        local!permissibleCountries: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+          cdt: ri!product.countries,
+          field: "isTradingAllowed",
+          value: true
+        ),
+        local!restrictedCountries: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+          cdt: ri!product.countries,
+          field: "isTradingAllowed",
+          value: false
+        ),
+        #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(
+          #"_a-0000e5fb-e360-8000-9be3-011c48011c48_1557034"(
+            restrictedCountries: local!restrictedCountries,
+            permissibleCountries: local!permissibleCountries,
+            i18nData: ri!adminSetupI18nData
+          )
+        )
+      )
+    ),
+    
+  },
+  {
+    fieldKey: #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_1021131",
+    sectionKey: #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_1021334",
+    label: if(
+      ri!isInternationalizedForAdminSetup,
+      #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+        i18nData: ri!adminSetupI18nData,
+        bundleKey: "AS.FS.AllBundles.lbl_CommitmentFeeRate"
+      ),
+      null
+    ),
+    cdtField: { "commitmentFee" },
+    isValid: if(
+      #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(ri!product),
+      null,
+      or(
+        isnull(ri!product.commitmentFee),
+        ri!product.commitmentFee &gt;= 0
+      )
+    ),
+    
+  },
+  {
+    fieldKey: #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_1021541",
+    sectionKey: #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_1021334",
+    label: if(
+      ri!isInternationalizedForAdminSetup,
+      #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+        i18nData: ri!adminSetupI18nData,
+        bundleKey: "AS.FS.AllBundles.lbl_Description"
+      ),
+      null
+    ),
+    cdtField: { "description" },
+    isValid: if(
+      #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(ri!product),
+      null,
+      or(
+        isnull(ri!product.description),
+        len(ri!product.description) &lt;= #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_27447"
+      )
+    ),
+    
+  }
+}</definition>
+        <namedTypedValue>
+            <name>adminSetupI18nData</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>product</name>
+            <type>
+                <name>AS_FS_Product</name>
+                <namespace>urn:com:appian:types:AS:FS</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>isInternationalizedForAdminSetup</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name>No errors</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                    <a:nameRef>adminSetupI18nData</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:n1="urn:com:appian:types:AS:FS" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="n1:AS_FS_Product"/>
+                    <a:nameRef>product</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:boolean"/>
+                    <a:nameRef>isInternationalizedForAdminSetup</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e528-bc07-8000-9bcf-011c48011c48_1039147"/>
+        <historyInfo versionUuid="_a-0000e528-bc07-8000-9bcf-011c48011c48_1048137"/>
+        <historyInfo versionUuid="_a-0000e539-6d59-8000-9bd0-011c48011c48_1159910"/>
+        <historyInfo versionUuid="_a-0000e539-6d59-8000-9bd0-011c48011c48_1167140"/>
+        <historyInfo versionUuid="_a-0000e5a0-53e9-8000-9bd8-011c48011c48_1398179"/>
+        <historyInfo versionUuid="_a-0000e5a0-53e9-8000-9bd8-011c48011c48_1398196"/>
+        <historyInfo versionUuid="_a-0000e5a0-53e9-8000-9bd8-011c48011c48_1440255"/>
+        <historyInfo versionUuid="_a-0000e5fb-e360-8000-9be3-011c48011c48_1562134"/>
+        <historyInfo versionUuid="_a-0000e5fd-0ed3-8000-9be6-011c48011c48_1563610"/>
+        <historyInfo versionUuid="_a-0000e5fd-0ed3-8000-9be6-011c48011c48_1568634"/>
+        <historyInfo versionUuid="_a-0000e62c-7375-8000-9bec-011c48011c48_1851358"/>
+        <historyInfo versionUuid="_a-0000e6ca-7e19-8000-9bfb-011c48011c48_2225330"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2703710"/>
+    </history>
+</contentHaul>

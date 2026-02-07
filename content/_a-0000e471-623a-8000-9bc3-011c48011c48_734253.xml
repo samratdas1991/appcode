@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e825-b425-8000-9c1c-011c48011c48_3644439</versionUuid>
+    <interface>
+        <name>AS_IO_HCL_trendsReports</name>
+        <uuid>_a-0000e471-623a-8000-9bc3-011c48011c48_734253</uuid>
+        <description>Landing page for the onboarding metrics.</description>
+        <parentUuid>_a-0000e2bb-4188-8000-9ba2-011c48011c48_25469</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  local!i18nData: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81834"(triggerRefresh: null),
+  local!triggerRefresh: now(),
+  local!onboardingsTypes: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_39864"(
+    typeList: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_40302",
+    i18nData: local!i18nData
+  ),
+  local!timeFilterValues: #"_a-0000e471-623a-8000-9bc3-011c48011c48_782935"(i18nData: local!i18nData),
+  local!filters: #"_a-0000e6ca-7e19-8000-9bfb-011c48011c48_2235196"(i18nData: local!i18nData),
+  #"SYSTEM_SYSRULES_headerContentLayout"(
+    header: if(
+      local!filters.hideOtherCharts,
+      {},
+      {
+        #"SYSTEM_SYSRULES_cardLayout"(
+          contents: {
+            #"_a-0000e7e5-dad4-8000-9c14-011c48011c48_3312632"(),
+            #"_a-0000e7e5-dad4-8000-9c14-011c48011c48_3312448"("AS_IO_HCL_trendsReports"),
+            #"SYSTEM_SYSRULES_sideBySideLayout"(
+              items: {
+                #"SYSTEM_SYSRULES_sideBySideItem"(
+                  item: #"_a-0000e528-bc07-8000-9bcf-011c48011c48_1022677"(
+                    label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                      i18nData: local!i18nData,
+                      bundleKey: "AS.CO.AllBundles.lbl_Days"
+                    ),
+                    choiceLabels: local!timeFilterValues.label,
+                    choiceValues: local!timeFilterValues,
+                    value: local!filters.timeFilter,
+                    saveInto: { local!filters.timeFilter },
+                    noPlaceholderLabel: true
+                  ),
+                  width: "MINIMIZE"
+                ),
+                #"SYSTEM_SYSRULES_sideBySideItem"(
+                  item: #"_a-0000e528-bc07-8000-9bcf-011c48011c48_1032072"(
+                    label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                      i18nData: local!i18nData,
+                      bundleKey: "AS.CO.AllBundles.lbl_OnboardingTypes"
+                    ),
+                    choiceLabels: local!onboardingsTypes.label,
+                    choiceValues: local!onboardingsTypes.code,
+                    value: local!filters.onboardingTypesFilter,
+                    saveInto: { local!filters.onboardingTypesFilter },
+                    placeholderOverride: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                      i18nData: local!i18nData,
+                      bundleKey: "AS.CO.AllBundles.plc_AllOnboardingTypes"
+                    ),
+                    wrapInMarkers: false()
+                  ),
+                  width: "1X"
+                ),
+                #"SYSTEM_SYSRULES_sideBySideItem"(width: "5X")
+              },
+              showWhen: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75636"(local!filters.hideOtherCharts),
+              stackWhen: {
+                "PHONE",
+                "TABLET_PORTRAIT",
+                "TABLET_LANDSCAPE"
+              }
+            )
+          },
+          height: "AUTO",
+          style: #"_a-0000e62c-7375-8000-9bec-011c48011c48_1924695"(brandingKey: "TrendsFiltersBackground"),
+          marginBelow: "NONE",
+          showBorder: false,
+          showShadow: true
+        )
+      }
+    ),
+    contents: {
+      #"_a-0000e825-b425-8000-9c1c-011c48011c48_3643498"(),
+      #"_a-0000e40a-961e-8000-9ba7-011c48011c48_258735"(
+        label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+          i18nData: local!i18nData,
+          bundleKey: "AS.CO.AllBundles.lbl_BackToDashboard"
+        ),
+        saveInto: {
+          a!save(local!filters.hideOtherCharts, false),
+          a!save(
+            local!filters,
+            #"_a-0000e6ca-7e19-8000-9bfb-011c48011c48_2235196"(i18nData: local!i18nData)
+          ),
+          #"_a-0000e3c8-6861-8000-9ba2-011c48011c48_124064"(local!triggerRefresh)
+        },
+        showWhen: local!filters.hideOtherCharts
+      ),
+      #"_a-0000e62c-7375-8000-9bec-011c48011c48_1790734"(
+        i18nData: local!i18nData,
+        hideOtherCharts: local!filters.hideOtherCharts
+      ),
+      #"_a-0000e528-bc07-8000-9bcf-011c48011c48_1106638"(
+        i18nData: local!i18nData,
+        dateFilter: #"_a-0000e6ca-7e19-8000-9bfb-011c48011c48_2235210"(
+          interval: local!filters.timeFilter.interval
+        ),
+        onboardingTypesFilter: local!filters.onboardingTypesFilter,
+        showWhen: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75636"(local!filters.hideOtherCharts)
+      ),
+      #"952d7ebd-0e03-43f9-a3bd-0b0ea3d83db5"(
+        i18nData: local!i18nData,
+        dateFilter: #"_a-0000e6ca-7e19-8000-9bfb-011c48011c48_2235210"(
+          interval: local!filters.timeFilter.interval
+        ),
+        onboardingTypeCodeFilter: local!filters.onboardingTypesFilter,
+        hideOtherCharts: local!filters.hideOtherCharts,
+        triggerRefresh: local!triggerRefresh
+      )
+    },
+    backgroundColor: "TRANSPARENT"
+  )
+)</definition>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+        <isCustom>false</isCustom>
+    </interface>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <history>
+        <historyInfo versionUuid="_a-0000e471-623a-8000-9bc3-011c48011c48_736238"/>
+        <historyInfo versionUuid="_a-0000e4ae-1ed6-8000-9bc5-011c48011c48_802919"/>
+        <historyInfo versionUuid="_a-0000e528-bc07-8000-9bcf-011c48011c48_1036335"/>
+        <historyInfo versionUuid="_a-0000e539-6d59-8000-9bd0-011c48011c48_1154650"/>
+        <historyInfo versionUuid="_a-0000e539-6d59-8000-9bd0-011c48011c48_1182338"/>
+        <historyInfo versionUuid="_a-0000e539-6d59-8000-9bd0-011c48011c48_1218293"/>
+        <historyInfo versionUuid="_a-0000e5a0-53e9-8000-9bd8-011c48011c48_1396987"/>
+        <historyInfo versionUuid="_a-0000e607-97fd-8000-9be9-011c48011c48_1669015"/>
+        <historyInfo versionUuid="_a-0000e62c-7375-8000-9bec-011c48011c48_1774003"/>
+        <historyInfo versionUuid="_a-0000e62c-7375-8000-9bec-011c48011c48_1793769"/>
+        <historyInfo versionUuid="_a-0000e69f-3688-8000-9bf2-011c48011c48_2094845"/>
+        <historyInfo versionUuid="_a-0000e69f-3688-8000-9bf2-011c48011c48_2149785"/>
+        <historyInfo versionUuid="_a-0000e6ca-7e19-8000-9bfb-011c48011c48_2227736"/>
+        <historyInfo versionUuid="_a-0000e6ca-7e19-8000-9bfb-011c48011c48_2235858"/>
+        <historyInfo versionUuid="_a-0000e6ca-7e19-8000-9bfb-011c48011c48_2273002"/>
+        <historyInfo versionUuid="_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2365844"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2717744"/>
+        <historyInfo versionUuid="_a-0000e825-b425-8000-9c1c-011c48011c48_3576596"/>
+        <historyInfo versionUuid="_a-0000e825-b425-8000-9c1c-011c48011c48_3644439"/>
+    </history>
+</contentHaul>

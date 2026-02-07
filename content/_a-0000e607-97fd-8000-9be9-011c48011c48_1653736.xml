@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e825-b425-8000-9c1c-011c48011c48_3644773</versionUuid>
+    <interface>
+        <name>AS_FS_CPS_serviceRequestReport</name>
+        <uuid>_a-0000e607-97fd-8000-9be9-011c48011c48_1653736</uuid>
+        <description>Service Request report in customer portal</description>
+        <parentUuid>_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_968428</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  local!i18nData: #"_a-0000e69f-3688-8000-9bf2-011c48011c48_2172179"(triggerRefresh: now()),
+  local!customer: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_33079"(
+    returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290157",
+    groupIds: tointeger(
+      #"_a-0000e5da-4dac-8000-9ba5-011c48011c48_23439"()
+    )
+  ),
+  local!serviceRequestDetails: #"_a-0000e607-97fd-8000-9be9-011c48011c48_1653862"(
+    serviceRequests: #"_a-0000e5d6-d648-8000-9bde-011c48011c48_1479339"(customerId: local!customer.customerId)
+  ),
+  local!selectedServiceRequest: index(local!serviceRequestDetails, 1, null),
+  local!triggerRefresh: now(),
+  if(
+    #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(local!customer),
+    #"_a-0000e3e6-fb42-8000-9ba5-011c48011c48_212429"(
+      label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+        i18nData: local!i18nData,
+        bundleKey: "AS.FS.AllBundles.ins_NoAccess"
+      )
+    ),
+    #"SYSTEM_SYSRULES_headerContentLayout"(
+      backgroundColor: "TRANSPARENT",
+      contents: {
+        #"_a-0000e825-b425-8000-9c1c-011c48011c48_3643576"(),
+        if(
+          #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(local!serviceRequestDetails),
+          #"SYSTEM_SYSRULES_columnsLayout"(
+            columns: {
+              #"SYSTEM_SYSRULES_columnLayout"(contents: {}, width: "MEDIUM_PLUS"),
+              #"SYSTEM_SYSRULES_columnLayout"(
+                contents: {
+                  #"_a-0000e62c-7375-8000-9bec-011c48011c48_1726553"(
+                    textToDisplay: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                      i18nData: local!i18nData,
+                      bundleKey: "AS.FS.AllBundles.txt_NoServiceRequestAvailable"
+                    ),
+                    iconToDisplay: "info-circle",
+                    contentAlignment: "CENTER"
+                  )
+                },
+                width: "MEDIUM"
+              ),
+              #"SYSTEM_SYSRULES_columnLayout"(contents: {}, width: "MEDIUM_PLUS")
+            }
+          ),
+          {
+            #"_a-0000e607-97fd-8000-9be9-011c48011c48_1653699"(
+              serviceRequests: local!serviceRequestDetails,
+              selectedServiceRequest: local!selectedServiceRequest
+            ),
+            #"_a-0000e607-97fd-8000-9be9-011c48011c48_1664533"(
+              i18nData: local!i18nData,
+              selectedServiceRequest: local!selectedServiceRequest,
+              requestId: local!selectedServiceRequest.recordId,
+              customer: local!customer,
+              triggerRefresh: local!triggerRefresh
+            )
+          }
+        )
+      }
+    )
+  )
+)</definition>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+        <isCustom>false</isCustom>
+    </interface>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <history>
+        <historyInfo versionUuid="_a-0000e607-97fd-8000-9be9-011c48011c48_1672020"/>
+        <historyInfo versionUuid="_a-0000e62c-7375-8000-9bec-011c48011c48_1726721"/>
+        <historyInfo versionUuid="_a-0000e62c-7375-8000-9bec-011c48011c48_1886801"/>
+        <historyInfo versionUuid="_a-0000e69f-3688-8000-9bf2-011c48011c48_2177882"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2707568"/>
+        <historyInfo versionUuid="_a-0000e825-b425-8000-9c1c-011c48011c48_3644773"/>
+    </history>
+</contentHaul>

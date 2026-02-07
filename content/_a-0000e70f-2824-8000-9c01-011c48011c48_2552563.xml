@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e70f-2824-8000-9c01-011c48011c48_2709309</versionUuid>
+    <rule>
+        <name>AS_FS_ALT_BL_AlertConfigurationOperatorMetadata</name>
+        <uuid>_a-0000e70f-2824-8000-9c01-011c48011c48_2552563</uuid>
+        <description>returns the operator label(s) given a list of operator that could be applied to alert config trigger conditions or filters</description>
+        <parentUuid>_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_968428</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  local!operatorMetadata: {
+    a!map(
+      label: "&gt;",
+      code: #"AS_FS_ALT_OPERATOR_CODE_GREATER_THAN"
+    ),
+    a!map(
+      label: "&gt;=",
+      code: #"AS_FS_ALT_OPERATOR_CODE_GREATER_THAN_OR_EQUAL"
+    ),
+    a!map(
+      label: "&lt;",
+      code: #"AS_FS_ALT_OPERATOR_CODE_LESS_THAN"
+    ),
+    a!map(
+      label: "&lt;=",
+      code: #"AS_FS_ALT_OPERATOR_CODE_LESS_THAN_OR_EQUAL"
+    ),
+    a!map(
+      label: "=",
+      code: #"AS_FS_ALT_OPERATOR_CODE_EQUAL"
+    ),
+    a!map(
+      label: "&lt;&gt;",
+      code: #"AS_FS_ALT_OPERATOR_CODE_NOT_EQUAL"
+    ),
+    a!map(
+      label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+        i18nData: ri!i18nData,
+        bundleKey: "AS.FS.AllBundles.lbl_Between"
+      ),
+      code: #"AS_FS_ALT_OPERATOR_CODE_BETWEEN"
+    ),
+    a!map(
+      label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+        i18nData: ri!i18nData,
+        bundleKey: "AS.FS.AllBundles.lbl_In"
+      ),
+      code: #"AS_FS_ALT_OPERATOR_CODE_IN"
+    ),
+    a!map(
+      label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+        i18nData: ri!i18nData,
+        bundleKey: "AS.FS.AllBundles.lbl_NotIn"
+      ),
+      code: #"AS_FS_ALT_OPERATOR_CODE_NOT_IN"
+    ),
+    a!map(
+      label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+        i18nData: ri!i18nData,
+        bundleKey: "AS.FS.AllBundles.txt_Or"
+      ),
+      code: #"AS_FS_ALT_OPERATOR_CODE_OR"
+    ),
+    a!map(
+      label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+        i18nData: ri!i18nData,
+        bundleKey: "AS.FS.AllBundles.txt_And"
+      ),
+      code: #"AS_FS_ALT_OPERATOR_CODE_AND"
+    ),
+    a!map(
+      label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+        i18nData: ri!i18nData,
+        bundleKey: "AS.FS.AllBundles.txt_IsAdded"
+      ),
+      code: #"_a-0000e3e6-fb42-8000-9ba5-011c48011c48_181584-adt"
+    ),
+    a!map(
+      label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+        i18nData: ri!i18nData,
+        bundleKey: "AS.FS.AllBundles.txt_IsModified"
+      ),
+      code: #"_a-0000e3e6-fb42-8000-9ba5-011c48011c48_181596-adt"
+    ),
+    /*Entity relations and beneficial owners are deactivated, but for the front-end we show deleted*/
+    a!map(
+      label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+        i18nData: ri!i18nData,
+        bundleKey: "AS.FS.AllBundles.txt_IsDeleted"
+      ),
+      code: #"_a-0000e3e6-fb42-8000-9ba5-011c48011c48_181602-adt"
+    )
+  },
+  /*ensure order matches list of operators passed in*/
+  #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75708"(
+    cdt: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+      cdt: local!operatorMetadata,
+      field: "code",
+      value: ri!operators
+    ),
+    field: "code",
+    array: ri!operators
+  )
+)</definition>
+        <namedTypedValue>
+            <name>i18nData</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>operators</name>
+            <type>
+                <name>Text?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name>Sample Test Case</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                    <a:nameRef>i18nData</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                    <a:nameRef>operators</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+            <el>
+                <a:name>=</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                    <a:nameRef>i18nData</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"AS_FS_ALT_OPERATOR_CODE_EQUAL"</a:value>
+                    <a:nameRef>operators</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2552731"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2560821"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2571983"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2612020"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2623488"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2709309"/>
+    </history>
+</contentHaul>

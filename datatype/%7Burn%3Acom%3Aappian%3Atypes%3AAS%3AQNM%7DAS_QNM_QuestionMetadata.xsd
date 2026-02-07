@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema targetNamespace="urn:com:appian:types:AS:QNM"
+  xmlns:tns="urn:com:appian:types:AS:QNM" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <xsd:include schemaLocation="%7Burn%3Acom%3Aappian%3Atypes%3AAS%3AQNM%7DAS_QNM_FieldMetadata.xsd"/>
+  <xsd:complexType name="AS_QNM_QuestionMetadata">
+    <xsd:annotation>
+      <xsd:appinfo source="http://www.appian.com/ae/types/2009">
+        <ns2:Metadata xmlns:ns2="http://www.appian.com/ae/types/2009">
+          <ns2:versionUuid>0000e477-910b-8000-0794-7f0000014e7a</ns2:versionUuid>
+          <ns2:history>
+            <ns2:historyInfo versionUuid="0000e471-02b8-8000-06f6-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0000e477-910b-8000-0794-7f0000014e7a"/>
+          </ns2:history>
+        </ns2:Metadata>
+      </xsd:appinfo>
+      <xsd:documentation><![CDATA[Runtime CDT for storing question metadata]]></xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="questionId" nillable="true" type="xsd:int"/>
+      <xsd:element name="showWhen" nillable="true" type="xsd:boolean"/>
+      <xsd:element name="required" nillable="true" type="xsd:boolean"/>
+      <xsd:element name="valid" nillable="true" type="xsd:boolean"/>
+      <xsd:element name="fulfilled" nillable="true" type="xsd:boolean"/>
+      <xsd:element maxOccurs="unbounded" minOccurs="0"
+        name="fieldMetadata" type="tns:AS_QNM_FieldMetadata"/>
+    </xsd:sequence>
+  </xsd:complexType>
+</xsd:schema>

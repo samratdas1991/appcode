@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e59e-fc58-8000-9bd3-011c48011c48_1388262</versionUuid>
+    <rule>
+        <name>AS_QNM_UT_evaluateQuestionPrecedentSet</name>
+        <uuid>_a-0000e447-933d-8000-9baa-011c48011c48_31064</uuid>
+        <description>Given a questionPrecedentSet and the corresponding questionnaire, returns a boolean evaluation of the questionPrecedentSet.  If the set is null, returns true.  If the set has no criteria (empty sets/precedents), returns false, as that means this precedent can never be fulfilled.  Otherwise, evaluates the conditions for the precedents  and further nested precedent sets based upon the operator to determine a boolean result.</description>
+        <parentUuid>_a-0000e42d-ffef-8000-9ba6-011c48011c48_7213-qnm</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>/* A null question precedent set is always considered fulfilled */
+or(
+  isnull(
+    ri!questionPrecedentSet
+  ),
+  and(
+    /* A non-null precedent set with no precedents or precedent sets can intentionally never be fulfilled */
+    or(
+      length(
+        {
+          ri!questionPrecedentSet.questionPrecedentSets
+        }
+      ) &lt;&gt; 0,
+      length(
+        {
+          ri!questionPrecedentSet.questionPrecedents
+        }
+      ) &lt;&gt; 0
+    ),
+    with(
+      /* Below local variables should only reevaluate on changes to the applicable questions as defined in rules calling this rule */
+      local!questionPrecedentSetsResults: apply(
+        #"_a-0000e447-933d-8000-9baa-011c48011c48_31064"(
+          questionPrecedentSet: _,
+          applicableQuestions: ri!applicableQuestions,
+          applicableQuestionsMetadata: ri!applicableQuestionsMetadata
+        ),
+        ri!questionPrecedentSet.questionPrecedentSets
+      ),
+      local!questionPrecedentsResults: apply(
+        #"_a-0000e447-933d-8000-9baa-011c48011c48_31190"(
+          questionPrecedent: _,
+          question_precedent: _,
+          question_precedentMetadata: _
+        ),
+        merge(
+          /* Merge only supports list arguments, so we need to substitute an empty list when null */
+          if(
+            isnull(
+              ri!questionPrecedentSet.questionPrecedents
+            ),
+            {},
+            ri!questionPrecedentSet.questionPrecedents
+          ),
+          index(
+            ri!applicableQuestions,
+            apply(
+              wherecontains(
+                _,
+                ri!applicableQuestions.questionId
+              ),
+              index(
+                ri!questionPrecedentSet.questionPrecedents,
+                "questionId_precedent",
+                {}
+              )
+            ),
+            null
+          ),
+          index(
+            ri!applicableQuestionsMetadata,
+            apply(
+              wherecontains(
+                _,
+                ri!applicableQuestionsMetadata.questionId
+              ),
+              index(
+                ri!questionPrecedentSet.questionPrecedents,
+                "questionId_precedent",
+                {}
+              )
+            ),
+            null
+          )
+        )
+      ),
+      local!allResults: {
+        local!questionPrecedentSetsResults,
+        local!questionPrecedentsResults
+      },
+      local!evaluation: displayvalue(
+        ri!questionPrecedentSet.operator,
+        {
+          #"_a-0000e447-933d-8000-9baa-011c48011c48_28921",
+          #"_a-0000e447-933d-8000-9baa-011c48011c48_28927",
+          #"_a-0000e447-933d-8000-9baa-011c48011c48_31142",
+          
+        },
+        {
+          and(
+            local!allResults
+          ),
+          or(
+            local!allResults
+          ),
+          not(
+            or(
+              local!allResults
+            )
+          )          
+        },
+        null
+      ),
+      if(
+        isnull(
+          local!evaluation
+        ),
+        error(
+          concat(
+            {
+              "Question Precedent Set (ID: ",
+              ri!questionPrecedentSet.questionPrecedentSetId,
+              ") does not have a valid operator (operator: ",
+              ri!questionPrecedentSet.operator,
+              ").  See this rule for a list of valid operators."
+            }
+          )
+        ),
+        local!evaluation
+      )
+    )
+  )
+)</definition>
+        <namedTypedValue>
+            <name>questionPrecedentSet</name>
+            <type>
+                <name>AS_QNM_QuestionPrecedentSet</name>
+                <namespace>urn:com:appian:types:AS:QNM</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>applicableQuestions</name>
+            <type>
+                <name>AS_QNM_Question?list</name>
+                <namespace>urn:com:appian:types:AS:QNM</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>applicableQuestionsMetadata</name>
+            <type>
+                <name>AS_QNM_QuestionMetadata?list</name>
+                <namespace>urn:com:appian:types:AS:QNM</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <history>
+        <historyInfo versionUuid="_a-0000e447-933d-8000-9baa-011c48011c48_36870"/>
+        <historyInfo versionUuid="_a-0000e447-933d-8000-9baa-011c48011c48_62637"/>
+        <historyInfo versionUuid="_a-0000e460-9d93-8000-9bc1-011c48011c48_595780"/>
+        <historyInfo versionUuid="_a-0000e460-9d93-8000-9bc1-011c48011c48_612619"/>
+        <historyInfo versionUuid="_a-0000e460-9d93-8000-9bc1-011c48011c48_613114"/>
+        <historyInfo versionUuid="_a-0000e460-9d93-8000-9bc1-011c48011c48_652298"/>
+        <historyInfo versionUuid="_a-0000e471-623a-8000-9bc3-011c48011c48_672120"/>
+        <historyInfo versionUuid="_a-0000e471-623a-8000-9bc3-011c48011c48_681933"/>
+        <historyInfo versionUuid="_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_856592"/>
+        <historyInfo versionUuid="_a-0000e59e-fc58-8000-9bd3-011c48011c48_1388262"/>
+    </history>
+</contentHaul>

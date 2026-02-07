@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_857143</versionUuid>
+    <rule>
+        <name>AS_QNM_VD_evaluateResponseRequirement_MIN_RESPONSES</name>
+        <uuid>_a-0000e460-9d93-8000-9bc1-011c48011c48_597983</uuid>
+        <description>Used to evaluate response requirements of type MIN_RESPONSES</description>
+        <parentUuid>_a-0000e42d-ffef-8000-9ba6-011c48011c48_7213-qnm</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>with(
+  local!result: length(
+    ri!responses
+  ) &gt;= ri!responseRequirement.requirementValue,
+  if(
+    ri!returnValidationMessage,
+    if(
+      local!result,
+      "",
+      #"_a-0000e447-933d-8000-9baa-011c48011c48_42943"(
+        bundleKey: if(
+          ri!responseRequirement.requirementValue = 1,
+          "AS.QNM.ResponseRequirements.vld_MinResponseValidationSingle",
+          "AS.QNM.ResponseRequirements.vld_MinResponseValidationMultiple"
+        ),
+        arguments: ri!responseRequirement.requirementValue
+      )
+    ),
+    local!result
+  )
+)</definition>
+        <namedTypedValue>
+            <name>responses</name>
+            <type>
+                <name>AS_QNM_Response?list</name>
+                <namespace>urn:com:appian:types:AS:QNM</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>responseRequirement</name>
+            <type>
+                <name>AS_QNM_ResponseRequirement</name>
+                <namespace>urn:com:appian:types:AS:QNM</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>returnValidationMessage</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <history>
+        <historyInfo versionUuid="_a-0000e460-9d93-8000-9bc1-011c48011c48_599947"/>
+        <historyInfo versionUuid="_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_857143"/>
+    </history>
+</contentHaul>

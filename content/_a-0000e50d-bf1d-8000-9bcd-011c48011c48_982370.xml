@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e70f-2824-8000-9c01-011c48011c48_2746735</versionUuid>
+    <interface>
+        <name>AS_CO_DSP_yesNoRadioButtonField</name>
+        <uuid>_a-0000e50d-bf1d-8000-9bcd-011c48011c48_982370</uuid>
+        <description>Generic Yes/No radio button field to handle read-only logic dynamically.</description>
+        <parentUuid>_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73105</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>#"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_74506"(
+  label: ri!label,
+  labelPosition: ri!labelPosition,
+  instructions: ri!instructions,
+  required: ri!required,
+  readOnly: ri!readOnly,
+  disabled: ri!disabled,
+  choiceLabels: #"SYSTEM_SYSRULES_forEach"(
+    items: {
+      "AS.CO.CommonObjects.lbl_Yes",
+      "AS.CO.CommonObjects.lbl_No"
+    },
+    expression: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_84411"(
+      bundleFolder: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_104931",
+      bundleKey: fv!item
+    )
+  ),
+  choiceValues: {
+    true,
+    false
+  },
+  value: a!defaultValue(
+    ri!value,
+    ri!ifNullDefault
+  ),
+  validations: ri!validations,
+  saveInto: {
+    ri!value,
+    ri!additionalSaveInto
+  },
+  validationGroup: ri!validationGroup,
+  requiredMessage: ri!requiredMessage,
+  choiceLayout: ri!choiceLayout,
+  helpTooltip: ri!helpTooltip,
+  showWhen: ri!showWhen,
+  accessibilityText: ri!accessibilityText,
+  choiceStyle: ri!choiceStyle
+)</definition>
+        <namedTypedValue>
+            <name>instructions</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>required</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>readOnly</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>disabled</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>label</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>value</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>validations</name>
+            <type>
+                <name>Text?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>validationGroup</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>requiredMessage</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>choiceLayout</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>labelPosition</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>helpTooltip</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>showWhen</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>accessibilityText</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>additionalSaveInto</name>
+            <type>
+                <name>Save?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>choiceStyle</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>ifNullDefault</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+        <isCustom>false</isCustom>
+    </interface>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <history>
+        <historyInfo versionUuid="_a-0000e50d-bf1d-8000-9bcd-011c48011c48_988584"/>
+        <historyInfo versionUuid="_a-0000e586-af6f-8000-9bd2-011c48011c48_1340767"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2597264"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2746735"/>
+    </history>
+</contentHaul>

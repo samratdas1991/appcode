@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e7e5-dad4-8000-9c14-011c48011c48_3321596</versionUuid>
+    <rule>
+        <name>AS_DBG_UT_isUserDesignerOrSysAdmin</name>
+        <uuid>_a-0000e7e5-dad4-8000-9c14-011c48011c48_3321579</uuid>
+        <description>Returns true if the user is a designer or sys admin (someone who can access /design)</description>
+        <parentUuid>39ceb4d5-3596-4942-8baa-b4c5d22406e6</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  local!check: or(
+    /*Sys admins are userTypeId 1*/
+    user(loggedInUser(), "userTypeId") = 1,
+    #"urn:appian:function:v1:a:isusermemberofgroup?okey=a!isUserMemberOfGroup"(
+      username: loggedInUser(),
+      groups: #"_a-0000e7e5-dad4-8000-9c14-011c48011c48_3321585"
+    )
+  ),
+  local!check
+)</definition>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <history>
+        <historyInfo versionUuid="_a-0000e7e5-dad4-8000-9c14-011c48011c48_3321596"/>
+    </history>
+</contentHaul>

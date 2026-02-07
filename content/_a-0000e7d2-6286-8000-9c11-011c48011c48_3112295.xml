@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e825-b425-8000-9c1c-011c48011c48_3633384</versionUuid>
+    <interface>
+        <name>AS_FS_CRD_sidePaneForUploadDocuments</name>
+        <uuid>_a-0000e7d2-6286-8000-9c11-011c48011c48_3112295</uuid>
+        <description>Rule that holds the side pane for upload documents</description>
+        <parentUuid>_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_968428</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  local!steps: {
+    a!map(
+      stepNumber: #"_a-0000e7d2-6286-8000-9c11-011c48011c48_3112171",
+      stepName: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+        i18nData: ri!i18nData,
+        bundleKey: "AS.FS.AllBundles.lbl_UploadDocument"
+      )
+    ),
+    a!map(
+      stepNumber: #"_a-0000e7d2-6286-8000-9c11-011c48011c48_3112439",
+      stepName: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+        i18nData: ri!i18nData,
+        bundleKey: "AS.FS.AllBundles.lbl_DocumentDetails"
+      )
+    )
+  },
+  {
+    #"_a-0000e7e5-dad4-8000-9c14-011c48011c48_3312448"("AS_FS_CRD_sidePaneForUploadDocuments"),
+    #"SYSTEM_SYSRULES_cardLayout"(
+      contents: {
+        #"SYSTEM_SYSRULES_richTextDisplayField"(
+          labelPosition: "COLLAPSED",
+          value: {
+            char(10),
+            #"SYSTEM_SYSRULES_richTextItem_v1"(
+              text: {
+                #"SYSTEM_SYSRULES_richTextIcon"(icon: "file-o"),
+                " ",
+                #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                  i18nData: ri!i18nData,
+                  bundleKey: "AS.FS.AllBundles.lbl_AttachDocuments"
+                )
+              },
+              size: "MEDIUM_PLUS"
+            ),
+            char(10),
+            char(10),
+            char(10)
+          }
+        ),
+        {
+          #"SYSTEM_SYSRULES_forEach"(
+            items: local!steps,
+            expression: #"SYSTEM_SYSRULES_sideBySideLayout"(
+              items: {
+                #"SYSTEM_SYSRULES_sideBySideItem"(
+                  item: if(
+                    fv!index &lt; ri!activeStep,
+                    #"SYSTEM_SYSRULES_stampField"(
+                      labelPosition: "COLLAPSED",
+                      icon: "check",
+                      backgroundColor: "ACCENT",
+                      contentColor: "STANDARD",
+                      size: "TINY"
+                    ),
+                    #"SYSTEM_SYSRULES_stampField"(
+                      labelPosition: "COLLAPSED",
+                      text: fv!index,
+                      backgroundColor: "ACCENT",
+                      contentColor: "STANDARD",
+                      size: "TINY"
+                    )
+                  ),
+                  width: "MINIMIZE"
+                ),
+                #"SYSTEM_SYSRULES_sideBySideItem"(
+                  item: #"SYSTEM_SYSRULES_richTextDisplayField"(
+                    labelPosition: "COLLAPSED",
+                    value: {
+                      #"SYSTEM_SYSRULES_richTextItem_v1"(
+                        text: fv!item.stepName,
+                        linkStyle: "STANDALONE",
+                        color: if(
+                          fv!index = ri!activeStep,
+                          "ACCENT",
+                          "STANDARD"
+                        ),
+                        size: "MEDIUM",
+                        style: if(
+                          fv!index = ri!activeStep,
+                          "STRONG",
+                          "PLAIN"
+                        )
+                      )
+                    }
+                  )
+                )
+              },
+              alignVertical: "MIDDLE",
+              marginBelow: "STANDARD"
+            )
+          )
+        },
+        #"SYSTEM_SYSRULES_cardLayout"(
+          contents: {},
+          height: "AUTO",
+          style: "STANDARD",
+          padding: "EVEN_LESS",
+          marginBelow: "NONE",
+          showBorder: false
+        ),
+        #"SYSTEM_SYSRULES_cardLayout"(
+          contents: {},
+          height: "EXTRA_TALL",
+          style: "STANDARD",
+          marginBelow: "STANDARD",
+          showBorder: false
+        )
+      },
+      height: "AUTO",
+      style: "STANDARD",
+      padding: "MORE",
+      marginBelow: "NONE",
+      showBorder: false
+    )
+  }
+)</definition>
+        <namedTypedValue>
+            <name>i18nData</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>activeStep</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+        <isCustom>false</isCustom>
+    </interface>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name/>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression"> #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_975720"(triggerRefresh: now())</a:value>
+                    <a:nameRef>i18nData</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e7d2-6286-8000-9c11-011c48011c48_3112171"</a:value>
+                    <a:nameRef>activeStep</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e7d2-6286-8000-9c11-011c48011c48_3112566"/>
+        <historyInfo versionUuid="_a-0000e825-b425-8000-9c1c-011c48011c48_3633384"/>
+    </history>
+</contentHaul>

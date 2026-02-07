@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<recordTypeHaul xmlns:a="http://www.appian.com/ae/types/2009" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <versionUuid>2f37fcb9-db02-4234-8fbb-f200b9793be0</versionUuid>
+  <recordType a:uuid="79f38873-fec3-493b-baf2-b5fea8326c53" name="AS_FS_RefData_RecordType_forAccountType">
+    <a:pluralName>AS_FS_RefData_RecordType_forAccountTypes</a:pluralName>
+    <a:description>Record Type for Accounts type Ref Data</a:description>
+    <a:urlStub>eEAo8w</a:urlStub>
+    <a:source
+      a:uuid="baa97fb7-5f03-4423-80ed-0d158171639e@_a-0000e50d-bf1d-8000-9bcd-011c48011c48_975240" xsi:type="a:DataStoreEntity"/>
+    <a:listViewTemplateExpr>#"SYSTEM_SYSRULES_recordGridField"(
+  columns: {
+    #"SYSTEM_SYSRULES_gridColumn"(
+      label: "R Data Id",
+      sortField: #"urn:appian:record-field:v1:79f38873-fec3-493b-baf2-b5fea8326c53/rDataId",
+      value: fv!row[#"urn:appian:record-field:v1:79f38873-fec3-493b-baf2-b5fea8326c53/rDataId"],
+      align: "END"
+    ),
+    #"SYSTEM_SYSRULES_gridColumn"(
+      label: "Label",
+      sortField: #"urn:appian:record-field:v1:79f38873-fec3-493b-baf2-b5fea8326c53/label",
+      value: #"SYSTEM_SYSRULES_linkField"(
+        links: {
+          #"SYSTEM_SYSRULES_recordLink"(
+            label: fv!row[#"urn:appian:record-field:v1:79f38873-fec3-493b-baf2-b5fea8326c53/label"],
+            recordType: #"urn:appian:record-type:v1:79f38873-fec3-493b-baf2-b5fea8326c53",
+            identifier: fv!identifier
+          )
+        }
+      )
+    ),
+    #"SYSTEM_SYSRULES_gridColumn"(
+      label: "Type",
+      sortField: #"urn:appian:record-field:v1:79f38873-fec3-493b-baf2-b5fea8326c53/type",
+      value: fv!row[#"urn:appian:record-field:v1:79f38873-fec3-493b-baf2-b5fea8326c53/type"]
+    ),
+    #"SYSTEM_SYSRULES_gridColumn"(
+      label: "Code",
+      sortField: #"urn:appian:record-field:v1:79f38873-fec3-493b-baf2-b5fea8326c53/code",
+      value: fv!row[#"urn:appian:record-field:v1:79f38873-fec3-493b-baf2-b5fea8326c53/code"]
+    ),
+    #"SYSTEM_SYSRULES_gridColumn"(
+      label: "Sort Order",
+      sortField: #"urn:appian:record-field:v1:79f38873-fec3-493b-baf2-b5fea8326c53/sortOrder",
+      value: fv!row[#"urn:appian:record-field:v1:79f38873-fec3-493b-baf2-b5fea8326c53/sortOrder"],
+      align: "END"
+    ),
+    #"SYSTEM_SYSRULES_gridColumn"(
+      label: "Icon",
+      sortField: #"urn:appian:record-field:v1:79f38873-fec3-493b-baf2-b5fea8326c53/icon",
+      value: fv!row[#"urn:appian:record-field:v1:79f38873-fec3-493b-baf2-b5fea8326c53/icon"]
+    ),
+    #"SYSTEM_SYSRULES_gridColumn"(
+      label: "Is Active",
+      sortField: #"urn:appian:record-field:v1:79f38873-fec3-493b-baf2-b5fea8326c53/isActive",
+      value: fv!row[#"urn:appian:record-field:v1:79f38873-fec3-493b-baf2-b5fea8326c53/isActive"]
+    ),
+    #"SYSTEM_SYSRULES_gridColumn"(
+      label: "Created By",
+      sortField: #"urn:appian:record-field:v1:79f38873-fec3-493b-baf2-b5fea8326c53/createdBy",
+      value: fv!row[#"urn:appian:record-field:v1:79f38873-fec3-493b-baf2-b5fea8326c53/createdBy"]
+    ),
+    #"SYSTEM_SYSRULES_gridColumn"(
+      label: "Created Datetime",
+      sortField: #"urn:appian:record-field:v1:79f38873-fec3-493b-baf2-b5fea8326c53/createdDatetime",
+      value: if(
+      isnull(fv!row[#"urn:appian:record-field:v1:79f38873-fec3-493b-baf2-b5fea8326c53/createdDatetime"]),
+      fv!row[#"urn:appian:record-field:v1:79f38873-fec3-493b-baf2-b5fea8326c53/createdDatetime"],
+      datetext(fv!row[#"urn:appian:record-field:v1:79f38873-fec3-493b-baf2-b5fea8326c53/createdDatetime"], "default")
+      ),
+      align: "END"
+    ),
+    #"SYSTEM_SYSRULES_gridColumn"(
+      label: "Modified By",
+      sortField: #"urn:appian:record-field:v1:79f38873-fec3-493b-baf2-b5fea8326c53/modifiedBy",
+      value: fv!row[#"urn:appian:record-field:v1:79f38873-fec3-493b-baf2-b5fea8326c53/modifiedBy"]
+    ),
+    #"SYSTEM_SYSRULES_gridColumn"(
+      label: "Modified Datetime",
+      sortField: #"urn:appian:record-field:v1:79f38873-fec3-493b-baf2-b5fea8326c53/modifiedDatetime",
+      value: if(
+      isnull(fv!row[#"urn:appian:record-field:v1:79f38873-fec3-493b-baf2-b5fea8326c53/modifiedDatetime"]),
+      fv!row[#"urn:appian:record-field:v1:79f38873-fec3-493b-baf2-b5fea8326c53/modifiedDatetime"],
+      datetext(fv!row[#"urn:appian:record-field:v1:79f38873-fec3-493b-baf2-b5fea8326c53/modifiedDatetime"], "default")
+      ),
+      align: "END"
+    )
+  },
+  pageSize: 50,
+  shadeAlternateRows: true
+)</a:listViewTemplateExpr>
+    <a:detailViewCfg>
+      <a:nameExpr>#"SYSTEM_SYSRULES_rtd_getDefaultSummaryViewName"()</a:nameExpr>
+      <a:uiExpr/>
+      <a:visibilityExpr>=true()</a:visibilityExpr>
+      <a:urlStub>summary</a:urlStub>
+      <a:headerExpr/>
+      <a:recordActionLaunchType>DIALOG</a:recordActionLaunchType>
+      <a:recordUiSecurityType>EXPRESSION</a:recordUiSecurityType>
+    </a:detailViewCfg>
+    <a:isSystem>false</a:isSystem>
+    <a:dataSrcExpr/>
+    <a:facetsListExpr/>
+    <a:titleExpr/>
+    <a:defaultFiltersExpr>{
+  #"SYSTEM_SYSRULES_queryFilter"(
+    field: #"urn:appian:record-field:v1:79f38873-fec3-493b-baf2-b5fea8326c53/type",
+    operator: "=",
+    value: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_41592"
+  ),
+  if(
+    #"_a-0000e69f-3688-8000-9bf2-011c48011c48_2143846"(),
+    {},
+    #"SYSTEM_SYSRULES_queryFilter"(
+      field: #"urn:appian:record-field:v1:79f38873-fec3-493b-baf2-b5fea8326c53/rDataId",
+      operator: "is null"
+    )
+  )
+}</a:defaultFiltersExpr>
+    <a:layoutType>GRID</a:layoutType>
+    <a:security>16383</a:security>
+    <a:hideLatestNews>false</a:hideLatestNews>
+    <a:hideNewsView>false</a:hideNewsView>
+    <a:hideRelatedActionsView>false</a:hideRelatedActionsView>
+    <a:isExportable>true</a:isExportable>
+    <a:listViewSrcExpr/>
+    <a:recordViewSrcExpr/>
+    <a:recordListActionCfg a:uuid="77a991a2-3de9-4a76-9232-fe6e5067ec0d">
+      <a:titleExpr>#"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_976788"(bundleKey: "AS.FS.AllBundles.txt_NewAccount")</a:titleExpr>
+      <a:staticDescription/>
+      <a:iconId>f055</a:iconId>
+      <a:target a:uuid="0002e54f-ae95-8000-1dc0-7f0000014e7a" xsi:type="a:ProcessModel"/>
+      <a:visibilityExpr>#"_a-0000e69f-3688-8000-9bf2-011c48011c48_2143846"()</a:visibilityExpr>
+      <a:referenceKey>addNewAccount</a:referenceKey>
+      <a:dialogSize>FIT$FIT</a:dialogSize>
+      <a:showInRecordList>true</a:showInRecordList>
+      <a:recordUiSecurityType>EXPRESSION</a:recordUiSecurityType>
+      <a:dialogWidth>FIT</a:dialogWidth>
+      <a:dialogHeight>FIT</a:dialogHeight>
+    </a:recordListActionCfg>
+    <a:recordTypeSearchCfg>
+      <searchFieldsSrc>DEFAULT</searchFieldsSrc>
+      <placeholderSrc>DEFAULT</placeholderSrc>
+      <placeholder/>
+    </a:recordTypeSearchCfg>
+    <a:iconId/>
+    <a:listAutoRefreshInterval>0.0</a:listAutoRefreshInterval>
+    <a:enabledFeatures>63</a:enabledFeatures>
+    <a:isVisibleInRecordTypeList>false</a:isVisibleInRecordTypeList>
+    <a:recordActionLaunchType>DIALOG</a:recordActionLaunchType>
+    <a:showSearchBox>true</a:showSearchBox>
+    <a:isVisibleInDataFabric>false</a:isVisibleInDataFabric>
+    <a:usesRollingSyncLimit>false</a:usesRollingSyncLimit>
+    <a:usesRecoverySync>false</a:usesRecoverySync>
+    <a:isScheduledIndexingEnabled>false</a:isScheduledIndexingEnabled>
+    <a:smartSearchAcceptableFailureRate>0.0</a:smartSearchAcceptableFailureRate>
+    <a:skipFailedSmartServicesSync>false</a:skipFailedSmartServicesSync>
+  </recordType>
+  <roleMap>
+    <role name="record_type_administrator">
+      <users/>
+      <groups>
+        <groupUuid>_e-0000e2bb-4188-8000-9aee-01075c01075c_41</groupUuid>
+      </groups>
+    </role>
+    <role name="record_type_viewer">
+      <users/>
+      <groups>
+        <groupUuid>_e-0000e2cd-bc96-8000-9aee-01075c01075c_134</groupUuid>
+      </groups>
+    </role>
+  </roleMap>
+  <history>
+    <historyInfo versionUuid="b392e234-3769-4cf4-a3c4-ed4acad1ef4f"/>
+    <historyInfo versionUuid="2f2d07a1-10fa-4549-84b2-e9c202110a9b"/>
+    <historyInfo versionUuid="a50d4175-3f11-4583-a159-2749e23c886f"/>
+    <historyInfo versionUuid="2a2c2da8-4179-44f4-882e-30f918d62eb1"/>
+    <historyInfo versionUuid="779f66c1-4884-4736-af94-70b4f2c06e8c"/>
+    <historyInfo versionUuid="adc513bf-8a8b-4e7c-a6cb-35e501767957"/>
+    <historyInfo versionUuid="2f37fcb9-db02-4234-8fbb-f200b9793be0"/>
+  </history>
+  <migrationVersion>1</migrationVersion>
+</recordTypeHaul>

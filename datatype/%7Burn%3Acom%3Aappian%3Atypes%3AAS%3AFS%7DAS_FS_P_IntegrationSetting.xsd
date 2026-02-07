@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema targetNamespace="urn:com:appian:types:AS:FS"
+  xmlns:a="http://www.appian.com/ae/types/2009"
+  xmlns:tns="urn:com:appian:types:AS:FS" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <xsd:import namespace="http://www.appian.com/ae/types/2009" schemaLocation="%7Bhttp%3A%2F%2Fwww.appian.com%2Fae%2Ftypes%2F2009%7DCollaborationDocument.xsd"/>
+  <xsd:complexType name="AS_FS_P_IntegrationSetting">
+    <xsd:annotation>
+      <xsd:documentation><![CDATA[This cdt is used for structuring integration setting in system admin center screen.  For detailed information on how it is used, refer to the documentation in AS_FS_BL_AdditionalSystemAdminCenterIntegrations_v1_default.]]></xsd:documentation>
+      <xsd:appinfo source="http://www.appian.com/ae/types/2009">
+        <ns2:Metadata xmlns:ns2="http://www.appian.com/ae/types/2009">
+          <ns2:versionUuid>0000e6ec-7b4a-8000-4dd1-7f0000014e7a</ns2:versionUuid>
+          <ns2:history>
+            <ns2:historyInfo versionUuid="0000e6d8-bdd2-8000-49c3-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0000e6e1-e6cc-8000-4c91-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0000e6e3-1966-8000-4cc4-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0000e6e9-c402-8000-4d74-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0000e6ea-126b-8000-4d8f-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0000e6ec-7b4a-8000-4dd1-7f0000014e7a"/>
+          </ns2:history>
+        </ns2:Metadata>
+      </xsd:appinfo>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="integrationCode" nillable="true" type="xsd:string">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@Column(length=255) @Id</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="integrationLabel" nillable="true" type="xsd:string">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@Column(length=255)</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="integrationIcon" nillable="true" type="xsd:string">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@Column(length=255)</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="integrationUserImage" nillable="true" type="a:CollaborationDocument"/>
+      <xsd:element name="integrationDescription" nillable="true" type="xsd:string">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@Column(length=255)</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element maxOccurs="unbounded" minOccurs="0"
+        name="integrationMethods" nillable="true" type="xsd:string">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@Column(length=255)</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="apiVersion" nillable="true" type="xsd:string">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@Column(length=255)</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="isEnabledSettingCode" nillable="true" type="xsd:string">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@Column(length=255)</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="recordActionOverride" nillable="true" type="xsd:anyType"/>
+      <xsd:element name="testIntegrationAction" nillable="true" type="xsd:anyType"/>
+      <xsd:element name="additionalIntegrationProperties"
+        nillable="true" type="xsd:anyType"/>
+      <xsd:element name="additionalReadOnlyContents" nillable="true" type="xsd:anyType"/>
+    </xsd:sequence>
+  </xsd:complexType>
+</xsd:schema>

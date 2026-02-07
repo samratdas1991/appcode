@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e471-623a-8000-9bc3-011c48011c48_725838</versionUuid>
+    <rule>
+        <name>AS_ADT_UT_determineAuditActionCode</name>
+        <uuid>_a-0000e3e6-fb42-8000-9ba5-011c48011c48_161958-adt</uuid>
+        <description>Given a newObject, an oldObject, and the auditConfig, determines the auditActionCode</description>
+        <parentUuid>_a-0000e42d-ffef-8000-9ba6-011c48011c48_7213-adt</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>choose(
+  where(
+    {
+      #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(index(ri!originalObject, ri!auditConfig.idField, null)),
+      or(
+        #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(index(ri!newObject, ri!auditConfig.idField, null)),
+        toboolean(index(ri!newObject, "isDeleted", false))
+      ),
+      toboolean(index(ri!originalObject, "isActive", 1)) = toboolean(index(ri!newObject, "isActive", 1)),
+      toboolean(index(ri!originalObject, "isActive", false)),
+      toboolean(index(ri!newObject, "isActive", true))
+    }
+  )[1],
+  #"_a-0000e3e6-fb42-8000-9ba5-011c48011c48_181584-adt",
+  #"_a-0000e3e6-fb42-8000-9ba5-011c48011c48_181590-adt",
+  #"_a-0000e3e6-fb42-8000-9ba5-011c48011c48_181596-adt",
+  #"_a-0000e3e6-fb42-8000-9ba5-011c48011c48_181602-adt",
+  #"_a-0000e3e6-fb42-8000-9ba5-011c48011c48_181608-adt"
+)</definition>
+        <namedTypedValue>
+            <name>originalObject</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>newObject</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>auditConfig</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name>Add</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:string"/>
+                    <a:nameRef>originalObject</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">'type!{urn:com:appian:types:AS:ADT}AS_ADT_SAMPLE_Parent'(
+  parentId: 1
+)</a:value>
+                    <a:nameRef>newObject</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e3ff-79a3-8000-7714-45ef9045ef90_8682-adt"()</a:value>
+                    <a:nameRef>auditConfig</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions>
+                    <a:expectedOutput>
+                        <a:type a:uuid="{http://www.appian.com/ae/types/2009}Variant"/>
+                        <a:runtimeType a:uuid="{http://www.appian.com/ae/types/2009}Variant"/>
+                        <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e3e6-fb42-8000-9ba5-011c48011c48_181584-adt"</a:value>
+                    </a:expectedOutput>
+                </a:assertions>
+            </el>
+            <el>
+                <a:name>Delete</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">'type!{urn:com:appian:types:AS:ADT}AS_ADT_SAMPLE_Parent'(
+  parentId: 1
+)</a:value>
+                    <a:nameRef>originalObject</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:string"/>
+                    <a:nameRef>newObject</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e3ff-79a3-8000-7714-45ef9045ef90_8682-adt"()</a:value>
+                    <a:nameRef>auditConfig</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions>
+                    <a:expectedOutput>
+                        <a:type a:uuid="{http://www.appian.com/ae/types/2009}Variant"/>
+                        <a:runtimeType a:uuid="{http://www.appian.com/ae/types/2009}Variant"/>
+                        <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e3e6-fb42-8000-9ba5-011c48011c48_181590-adt"</a:value>
+                    </a:expectedOutput>
+                </a:assertions>
+            </el>
+            <el>
+                <a:name>Modify</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">'type!{urn:com:appian:types:AS:ADT}AS_ADT_SAMPLE_Parent'(
+  parentId: 1,
+  text: ""
+)</a:value>
+                    <a:nameRef>originalObject</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">'type!{urn:com:appian:types:AS:ADT}AS_ADT_SAMPLE_Parent'(
+  parentId: 1,
+  text: "new text"
+)</a:value>
+                    <a:nameRef>newObject</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e3ff-79a3-8000-7714-45ef9045ef90_8682-adt"()</a:value>
+                    <a:nameRef>auditConfig</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions>
+                    <a:expectedOutput>
+                        <a:type a:uuid="{http://www.appian.com/ae/types/2009}Variant"/>
+                        <a:runtimeType a:uuid="{http://www.appian.com/ae/types/2009}Variant"/>
+                        <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e3e6-fb42-8000-9ba5-011c48011c48_181596-adt"</a:value>
+                    </a:expectedOutput>
+                </a:assertions>
+            </el>
+            <el>
+                <a:name>Deactivate</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">'type!{urn:com:appian:types:AS:ADT}AS_ADT_SAMPLE_Parent'(
+  parentId: 1,
+  isActive: true
+)</a:value>
+                    <a:nameRef>originalObject</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">'type!{urn:com:appian:types:AS:ADT}AS_ADT_SAMPLE_Parent'(
+  parentId: 1,
+  isActive: false
+)</a:value>
+                    <a:nameRef>newObject</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e3ff-79a3-8000-7714-45ef9045ef90_8682-adt"()</a:value>
+                    <a:nameRef>auditConfig</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions>
+                    <a:expectedOutput>
+                        <a:type a:uuid="{http://www.appian.com/ae/types/2009}Variant"/>
+                        <a:runtimeType a:uuid="{http://www.appian.com/ae/types/2009}Variant"/>
+                        <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e3e6-fb42-8000-9ba5-011c48011c48_181602-adt"</a:value>
+                    </a:expectedOutput>
+                </a:assertions>
+            </el>
+            <el>
+                <a:name>Reactivate</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">'type!{urn:com:appian:types:AS:ADT}AS_ADT_SAMPLE_Parent'(
+  parentId: 1,
+  isActive: false
+)</a:value>
+                    <a:nameRef>originalObject</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">'type!{urn:com:appian:types:AS:ADT}AS_ADT_SAMPLE_Parent'(
+  parentId: 1,
+  isActive: true
+)</a:value>
+                    <a:nameRef>newObject</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e3ff-79a3-8000-7714-45ef9045ef90_8682-adt"()</a:value>
+                    <a:nameRef>auditConfig</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions>
+                    <a:expectedOutput>
+                        <a:type a:uuid="{http://www.appian.com/ae/types/2009}Variant"/>
+                        <a:runtimeType a:uuid="{http://www.appian.com/ae/types/2009}Variant"/>
+                        <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e3e6-fb42-8000-9ba5-011c48011c48_181608-adt"</a:value>
+                    </a:expectedOutput>
+                </a:assertions>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e3e6-fb42-8000-9ba5-011c48011c48_184266"/>
+        <historyInfo versionUuid="_a-0000e3ff-79a3-8000-7714-45ef9045ef90_8832-fs"/>
+        <historyInfo versionUuid="_a-0000e430-f270-8000-9bbc-011c48011c48_370928"/>
+        <historyInfo versionUuid="_a-0000e467-127b-8000-0fb7-43ef9043ef90_9023-adt"/>
+        <historyInfo versionUuid="_a-0000e447-933d-8000-9baa-011c48011c48_85208"/>
+        <historyInfo versionUuid="_a-0000e471-623a-8000-9bc3-011c48011c48_725838"/>
+    </history>
+</contentHaul>

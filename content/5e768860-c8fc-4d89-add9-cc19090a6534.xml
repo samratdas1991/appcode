@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e825-b425-8000-9c1c-011c48011c48_3647922</versionUuid>
+    <interface>
+        <name>AS_QNM_FM_createOrUpdateReferenceQuestion</name>
+        <uuid>5e768860-c8fc-4d89-add9-cc19090a6534</uuid>
+        <description>Form to add new question</description>
+        <parentUuid>_a-0000e42d-ffef-8000-9ba6-011c48011c48_7213-qnm</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  local!i18nData: #"_a-0000e447-933d-8000-9baa-011c48011c48_43088"(triggerRefresh: null),
+  local!isUpdateQuestion: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(ri!question.questionReferenceId),
+  #"SYSTEM_SYSRULES_formLayout_v1"(
+    label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+      i18nData: local!i18nData,
+      bundleKey: if(
+        local!isUpdateQuestion,
+        "AS.QNM.QuestionnaireSettings.lbl_UpdateQuestion",
+        "AS.QNM.QuestionnaireSettings.lbl_CreateQuestion"
+      )
+    ),
+    contents: {
+      #"_a-0000e7e5-dad4-8000-9c14-011c48011c48_3312448"(
+        "AS_QNM_FM_createOrUpdateReferenceQuestion"
+      ),
+      #"_a-0000e3e6-fb42-8000-9ba5-011c48011c48_247447"(
+        showWhen: local!isUpdateQuestion,
+        label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+          i18nData: local!i18nData,
+          bundleKey: "AS.QNM.QuestionnaireSettings.ins_UpdateReferenceQuestion"
+        )
+      ),
+      #"SYSTEM_SYSRULES_sectionLayout_v1"(
+        label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+          i18nData: local!i18nData,
+          bundleKey: "AS.QNM.QuestionnaireSettings.lbl_Question"
+        ),
+        contents: {
+          #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73562"(
+            label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+              i18nData: local!i18nData,
+              bundleKey: "AS.QNM.QuestionnaireSettings.lbl_QuestionText"
+            ),
+            labelPosition: "ABOVE",
+            placeholder: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+              i18nData: local!i18nData,
+              bundleKey: "AS.QNM.QuestionnaireSettings.plc_SampleQuestion"
+            ),
+            saveInto: ri!question.defaultLabel,
+            value: ri!question.defaultLabel,
+            refreshAfter: "UNFOCUS",
+            required: true,
+            maxLength: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_27447"
+          )
+        },
+        marginBelow: "STANDARD"
+      ),
+      #"_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_887364"(
+        i18nData: local!i18nData,
+        question: ri!question
+      )
+    },
+    validations: #"d47b5a80-85bc-41c0-9c37-0f91e129a92c"(
+      i18nData: local!i18nData,
+      question: ri!question
+    ),
+    buttons: #"_a-0000e3d1-f4dc-8000-9ba4-011c48011c48_134344"(
+      confirmLabel: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+        i18nData: local!i18nData,
+        bundleKey: if(
+          local!isUpdateQuestion,
+          "AS.QNM.QuestionnaireSettings.btn_UpdateQuestion",
+          "AS.QNM.QuestionnaireSettings.btn_CreateQuestion"
+        )
+      ),
+      cancelLabel: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+        i18nData: local!i18nData,
+        bundleKey: "AS.QNM.QuestionnaireSettings.btn_Cancel"
+      ),
+      cancelSaveInto: {
+        a!save(
+          ri!userAction,
+          #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73173"
+        )
+      },
+      confirmSaveInto: {
+        a!save(
+          ri!userAction,
+          #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73305"
+        )
+      },
+      includeDivider: false,
+      confirmSubmit: true,
+      cancelSubmit: true,
+      confirmDisabled: false,
+      cancelDisabled: false,
+      cancelStyle: "NORMAL"
+    )
+  )
+)</definition>
+        <namedTypedValue>
+            <name>question</name>
+            <type>
+                <name>AS_QNM_R_Question</name>
+                <namespace>urn:com:appian:types:AS:QNM</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>userAction</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+        <isCustom>false</isCustom>
+    </interface>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name/>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e447-933d-8000-9baa-011c48011c48_39392"(
+  returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290157"
+)</a:value>
+                    <a:nameRef>question</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:string"/>
+                    <a:nameRef>userAction</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_890807"/>
+        <historyInfo versionUuid="_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_926089"/>
+        <historyInfo versionUuid="_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_949742"/>
+        <historyInfo versionUuid="_a-0000e528-bc07-8000-9bcf-011c48011c48_1028223"/>
+        <historyInfo versionUuid="_a-0000e539-6d59-8000-9bd0-011c48011c48_1223914"/>
+        <historyInfo versionUuid="_a-0000e5a0-53e9-8000-9bd8-011c48011c48_1398006"/>
+        <historyInfo versionUuid="_a-0000e62c-7375-8000-9bec-011c48011c48_1817019"/>
+        <historyInfo versionUuid="_a-0000e62c-7375-8000-9bec-011c48011c48_1833088"/>
+        <historyInfo versionUuid="_a-0000e6ca-7e19-8000-9bfb-011c48011c48_2242478"/>
+        <historyInfo versionUuid="_a-0000e6ca-7e19-8000-9bfb-011c48011c48_2259432"/>
+        <historyInfo versionUuid="_a-0000e825-b425-8000-9c1c-011c48011c48_3647922"/>
+    </history>
+</contentHaul>

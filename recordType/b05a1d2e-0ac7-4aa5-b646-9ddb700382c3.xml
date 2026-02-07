@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<recordTypeHaul xmlns:a="http://www.appian.com/ae/types/2009" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <versionUuid>aae68a55-994d-4a43-9b5f-31bc0ced9e78</versionUuid>
+  <recordType a:uuid="b05a1d2e-0ac7-4aa5-b646-9ddb700382c3" name="AS_FS_Customer_EXTERNAL_RecordType">
+    <a:pluralName>AS_FS_Customer_EXTERNAL_RecordTypes</a:pluralName>
+    <a:description>Record type for customer entity accessible only to external users</a:description>
+    <a:urlStub>5JzJ0w</a:urlStub>
+    <a:source
+      a:uuid="09a7ab63-2402-4b7e-ac82-8d9488735f6e@_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_968035" xsi:type="a:DataStoreEntity"/>
+    <a:listViewTemplateExpr>#"SYSTEM_SYSRULES_recordGridField"(
+  columns: {},
+  pageSize: 50,
+  shadeAlternateRows: true
+)</a:listViewTemplateExpr>
+    <a:detailViewCfg>
+      <a:nameExpr>#"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_976788"(
+  bundleKey: "AS.FS.AllBundles.lbl_CustomerExternalSummary"
+)</a:nameExpr>
+      <a:uiExpr>#"_a-0000e70f-2824-8000-9c01-011c48011c48_2506921"(
+  customerDetails: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_33079"(
+    returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290157",
+    customerId: rv!identifier
+  ),
+  i18nData: #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_975720"(triggerRefresh: null)
+)</a:uiExpr>
+      <a:visibilityExpr>=true()</a:visibilityExpr>
+      <a:urlStub>summary</a:urlStub>
+      <a:headerExpr/>
+      <a:recordActionLaunchType>DIALOG</a:recordActionLaunchType>
+      <a:recordUiSecurityType>EXPRESSION</a:recordUiSecurityType>
+    </a:detailViewCfg>
+    <a:defaultFilter>
+      <a:field>groupId</a:field>
+      <a:operator>in</a:operator>
+      <a:valueExpression>a!groupsForUser(username: loggedInUser())</a:valueExpression>
+    </a:defaultFilter>
+    <a:relatedActionCfg a:uuid="dd2b09f1-87d4-4ee8-ad37-c7b7387e6a9b">
+      <a:target a:uuid="0003e5e7-2b2d-8000-3057-7f0000014e7a" xsi:type="a:ProcessModel"/>
+      <a:contextExpr>{
+  customerId: rv!identifier /* Number (Integer) */
+}</a:contextExpr>
+      <a:visibilityExpr>#"_a-0000e69f-3688-8000-9bf2-011c48011c48_2129992"()</a:visibilityExpr>
+      <a:iconId>f274</a:iconId>
+      <a:refId>refId-dd2b09f1-87d4-4ee8-ad37-c7b7387e6a9b</a:refId>
+      <a:titleExpr>#"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_976788"(
+  bundleKey: "AS.FS.AllBundles.lbl_ScheduleServiceRequest"
+)</a:titleExpr>
+      <a:descriptionExpr/>
+      <a:referenceKey>scheduleServiceRequest</a:referenceKey>
+      <a:dialogSize>FIT$FIT</a:dialogSize>
+      <a:showInRecordList>false</a:showInRecordList>
+      <a:recordUiSecurityType>EXPRESSION</a:recordUiSecurityType>
+      <a:dialogWidth>FIT</a:dialogWidth>
+      <a:dialogHeight>FIT</a:dialogHeight>
+    </a:relatedActionCfg>
+    <a:isSystem>false</a:isSystem>
+    <a:dataSrcExpr/>
+    <a:facetsListExpr/>
+    <a:titleExpr>rv!record[#"urn:appian:record-field:v1:b05a1d2e-0ac7-4aa5-b646-9ddb700382c3/name"]</a:titleExpr>
+    <a:defaultFiltersExpr/>
+    <a:layoutType>GRID</a:layoutType>
+    <a:security>16383</a:security>
+    <a:hideLatestNews>false</a:hideLatestNews>
+    <a:hideNewsView>true</a:hideNewsView>
+    <a:hideRelatedActionsView>true</a:hideRelatedActionsView>
+    <a:isExportable>true</a:isExportable>
+    <a:listViewSrcExpr/>
+    <a:recordViewSrcExpr/>
+    <a:recordTypeSearchCfg>
+      <searchFieldsSrc>DEFAULT</searchFieldsSrc>
+      <placeholderSrc>DEFAULT</placeholderSrc>
+      <placeholder/>
+    </a:recordTypeSearchCfg>
+    <a:iconId/>
+    <a:listAutoRefreshInterval>0.0</a:listAutoRefreshInterval>
+    <a:enabledFeatures>63</a:enabledFeatures>
+    <a:isVisibleInRecordTypeList>false</a:isVisibleInRecordTypeList>
+    <a:recordActionLaunchType>DIALOG</a:recordActionLaunchType>
+    <a:showSearchBox>true</a:showSearchBox>
+    <a:isVisibleInDataFabric>false</a:isVisibleInDataFabric>
+    <a:usesRollingSyncLimit>false</a:usesRollingSyncLimit>
+    <a:usesRecoverySync>false</a:usesRecoverySync>
+    <a:isScheduledIndexingEnabled>false</a:isScheduledIndexingEnabled>
+    <a:smartSearchAcceptableFailureRate>0.0</a:smartSearchAcceptableFailureRate>
+    <a:skipFailedSmartServicesSync>false</a:skipFailedSmartServicesSync>
+  </recordType>
+  <roleMap>
+    <role name="record_type_administrator">
+      <users/>
+      <groups>
+        <groupUuid>_e-0000e2bb-4188-8000-9aee-01075c01075c_41</groupUuid>
+      </groups>
+    </role>
+    <role name="record_type_viewer">
+      <users/>
+      <groups>
+        <groupUuid>_e-0000e2cd-bc96-8000-9aee-01075c01075c_136</groupUuid>
+      </groups>
+    </role>
+  </roleMap>
+  <history>
+    <historyInfo versionUuid="11e018ef-2a1e-46c7-b9f1-979eb8525d51"/>
+    <historyInfo versionUuid="f43641b1-19f5-4bae-9fca-98b0133195c2"/>
+    <historyInfo versionUuid="8635bc5a-6a6d-47bc-98f4-c81b588ecf11"/>
+    <historyInfo versionUuid="2d39ed4c-ba63-40b1-8b5e-c0142a6c248a"/>
+    <historyInfo versionUuid="65f4b165-afb0-47e1-a0ed-c62ccd9c5b56"/>
+    <historyInfo versionUuid="b19140d0-3481-4df4-b9e7-beaceee94028"/>
+    <historyInfo versionUuid="aae68a55-994d-4a43-9b5f-31bc0ced9e78"/>
+  </history>
+  <migrationVersion>1</migrationVersion>
+</recordTypeHaul>

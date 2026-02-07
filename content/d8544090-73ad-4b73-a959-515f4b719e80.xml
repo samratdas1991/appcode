@@ -1,0 +1,345 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e5d6-d648-8000-9bde-011c48011c48_1534703</versionUuid>
+    <outboundIntegration>
+        <name>AS_FS_RPA_INT_executeUpdateAddress</name>
+        <uuid>d8544090-73ad-4b73-a959-515f4b719e80</uuid>
+        <description>Integration to call AddressUpdateProcess robotic process</description>
+        <parentUuid>_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_968428</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition></definition>
+        <namedTypedValue>
+            <name>auditProcessParameters</name>
+            <type>
+                <name>AS_ADT_P_AuditProcessParameters</name>
+                <namespace>urn:com:appian:types:AS:ADT</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>customerName</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>onSuccess</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>onError</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <metadataExpr>{
+deferredRuleInputs: {
+    onSuccess: {
+      "fv!result": 'type!{http://www.appian.com/ae/types/2009}Dictionary'
+    },
+    onError: {
+      "fv!result": 'type!{http://www.appian.com/ae/types/2009}Dictionary',
+      "fv!error": 'type!{http://www.appian.com/ae/types/2009}Dictionary',
+      "fv!connectedSystem": 'type!{http://www.appian.com/ae/types/2009}ConnectedSystem'
+    }
+  }
+}</metadataExpr>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+        <sharedConfigParameters>
+            <a:Dictionary xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>
+        </sharedConfigParameters>
+        <configParameters>
+            <a:Dictionary xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <types xsi:type="a:Dictionary">
+                    <instructionsLocalType xsi:type="a:Dictionary">
+                        <properties xsi:type="a:Dictionary?list">
+                            <item>
+<description xsi:nil="true" xsi:type="a:Null"/>
+<refresh xsi:type="xsd:string">NEVER</refresh>
+<placeholder xsi:nil="true" xsi:type="a:Null"/>
+<isImportCustomizable xsi:type="xsd:boolean">false</isImportCustomizable>
+<instructionText xsi:type="xsd:string">Old and new address values</instructionText>
+<isExpressionable xsi:type="xsd:boolean">true</isExpressionable>
+<label xsi:type="xsd:string">auditProcessParameters</label>
+<isRequired xsi:type="xsd:boolean">false</isRequired>
+<displayHint xsi:type="xsd:string">EXPRESSION</displayHint>
+<key xsi:type="xsd:string">auditProcessParameters</key>
+<isHidden xsi:type="xsd:boolean">false</isHidden>
+<isReadOnly xsi:type="xsd:boolean">false</isReadOnly>
+<qualifiedTypeName xsi:type="xsd:string">{urn:com:appian:types:AS:ADT}AS_ADT_P_AuditProcessParameters</qualifiedTypeName>
+<type xsi:type="xsd:string">APPIAN_VALUE</type>
+                            </item>
+                            <item>
+<description xsi:nil="true" xsi:type="a:Null"/>
+<refresh xsi:type="xsd:string">NEVER</refresh>
+<placeholder xsi:nil="true" xsi:type="a:Null"/>
+<isImportCustomizable xsi:type="xsd:boolean">false</isImportCustomizable>
+<instructionText xsi:type="xsd:string">customerName</instructionText>
+<isExpressionable xsi:type="xsd:boolean">true</isExpressionable>
+<label xsi:type="xsd:string">customerName</label>
+<isRequired xsi:type="xsd:boolean">false</isRequired>
+<displayHint xsi:type="xsd:string">NORMAL</displayHint>
+<hasTransientChoices xsi:type="xsd:boolean">false</hasTransientChoices>
+<key xsi:type="xsd:string">customerName</key>
+<isHidden xsi:type="xsd:boolean">false</isHidden>
+<isMasked xsi:type="xsd:boolean">false</isMasked>
+<isReadOnly xsi:type="xsd:boolean">false</isReadOnly>
+<type xsi:type="xsd:string">STRING</type>
+                            </item>
+                            <item>
+<description xsi:nil="true" xsi:type="a:Null"/>
+<refresh xsi:type="xsd:string">NEVER</refresh>
+<placeholder xsi:nil="true" xsi:type="a:Null"/>
+<isImportCustomizable xsi:type="xsd:boolean">false</isImportCustomizable>
+<instructionText xsi:type="xsd:string">URL of the legacy site to update</instructionText>
+<isExpressionable xsi:type="xsd:boolean">true</isExpressionable>
+<label xsi:type="xsd:string">legacySiteUrl</label>
+<isRequired xsi:type="xsd:boolean">false</isRequired>
+<displayHint xsi:type="xsd:string">NORMAL</displayHint>
+<hasTransientChoices xsi:type="xsd:boolean">false</hasTransientChoices>
+<key xsi:type="xsd:string">legacySiteUrl</key>
+<isHidden xsi:type="xsd:boolean">false</isHidden>
+<isMasked xsi:type="xsd:boolean">false</isMasked>
+<isReadOnly xsi:type="xsd:boolean">false</isReadOnly>
+<type xsi:type="xsd:string">STRING</type>
+                            </item>
+                        </properties>
+                        <name xsi:type="xsd:string">instructionsLocalType</name>
+                    </instructionsLocalType>
+                    <RootType xsi:type="a:Dictionary">
+                        <properties xsi:type="a:Dictionary?list">
+                            <item>
+<description xsi:nil="true" xsi:type="a:Null"/>
+<refresh xsi:type="xsd:string">ALWAYS</refresh>
+<placeholder xsi:type="xsd:string">Select a robotic process</placeholder>
+<isImportCustomizable xsi:type="xsd:boolean">false</isImportCustomizable>
+<instructionText xsi:type="xsd:string">Name of the robotic process to be executed</instructionText>
+<isExpressionable xsi:type="xsd:boolean">false</isExpressionable>
+<choices xsi:type="a:Dictionary?list">
+    <item>
+        <name xsi:type="xsd:string">Browser</name>
+        <value xsi:type="xsd:string">601bcaebe4b0cacaf1873c3b</value>
+    </item>
+    <item>
+        <name xsi:type="xsd:string">HelloWorld</name>
+        <value xsi:type="xsd:string">601ab300e4b0cacaf1873c2b</value>
+    </item>
+    <item>
+        <name xsi:type="xsd:string">LegacyAddressUpdateProcess</name>
+        <value xsi:type="xsd:string">601d03a1e4b0cacaf1873c4d</value>
+    </item>
+    <item>
+        <name xsi:type="xsd:string">LoginAppianDev</name>
+        <value xsi:type="xsd:string">601beadfe4b0cacaf1873c47</value>
+    </item>
+    <item>
+        <name xsi:type="xsd:string">OpenAppianDev</name>
+        <value xsi:type="xsd:string">601be434e4b0cacaf1873c42</value>
+    </item>
+    <item>
+        <name xsi:type="xsd:string">Test</name>
+        <value xsi:type="xsd:string">602fa454e4b0cacaf1873cf7</value>
+    </item>
+</choices>
+<label xsi:type="xsd:string">Robotic Process</label>
+<isRequired xsi:type="xsd:boolean">true</isRequired>
+<displayHint xsi:type="xsd:string">NORMAL</displayHint>
+<hasTransientChoices xsi:type="xsd:boolean">false</hasTransientChoices>
+<key xsi:type="xsd:string">robot</key>
+<isHidden xsi:type="xsd:boolean">false</isHidden>
+<isMasked xsi:type="xsd:boolean">false</isMasked>
+<isReadOnly xsi:type="xsd:boolean">false</isReadOnly>
+<type xsi:type="xsd:string">STRING</type>
+                            </item>
+                            <item>
+<description xsi:type="xsd:string">Only compatible resources (those that share the same permissions as the selected robotic process) are displayed in the dropdown.</description>
+<refresh xsi:type="xsd:string">NEVER</refresh>
+<placeholder xsi:type="xsd:string">First available resource</placeholder>
+<isImportCustomizable xsi:type="xsd:boolean">false</isImportCustomizable>
+<instructionText xsi:type="xsd:string">Name of the resource where the robotic process will be executed</instructionText>
+<isExpressionable xsi:type="xsd:boolean">true</isExpressionable>
+<choices xsi:type="a:Dictionary?list">
+    <item>
+        <name xsi:type="xsd:string">AK_PC (Offline)</name>
+        <value xsi:type="xsd:string">602fcb6de4b0cacaf1873d03#1</value>
+    </item>
+    <item>
+        <name xsi:type="xsd:string">Persistent_GaganPC (Offline)</name>
+        <value xsi:type="xsd:string">602e6a14e4b0cacaf1873cf3#1</value>
+    </item>
+    <item>
+        <name xsi:type="xsd:string">Persistent_Rahul_PC (Offline)</name>
+        <value xsi:type="xsd:string">601bbc16e4b0cacaf1873c30#1</value>
+    </item>
+    <item>
+        <name xsi:type="xsd:string">Persistent_Varsha_PC (Offline)</name>
+        <value xsi:type="xsd:string">601aafa9e4b0cacaf1873c29#1</value>
+    </item>
+</choices>
+<label xsi:type="xsd:string">Resource</label>
+<isRequired xsi:type="xsd:boolean">false</isRequired>
+<displayHint xsi:type="xsd:string">NORMAL</displayHint>
+<hasTransientChoices xsi:type="xsd:boolean">false</hasTransientChoices>
+<key xsi:type="xsd:string">node</key>
+<isHidden xsi:type="xsd:boolean">false</isHidden>
+<isMasked xsi:type="xsd:boolean">false</isMasked>
+<isReadOnly xsi:type="xsd:boolean">false</isReadOnly>
+<type xsi:type="xsd:string">STRING</type>
+                            </item>
+                            <item>
+<description xsi:type="xsd:string">Execution description will be displayed in the console</description>
+<refresh xsi:type="xsd:string">NEVER</refresh>
+<placeholder xsi:nil="true" xsi:type="a:Null"/>
+<isImportCustomizable xsi:type="xsd:boolean">false</isImportCustomizable>
+<instructionText xsi:nil="true" xsi:type="a:Null"/>
+<isExpressionable xsi:type="xsd:boolean">true</isExpressionable>
+<label xsi:type="xsd:string">Description</label>
+<isRequired xsi:type="xsd:boolean">false</isRequired>
+<displayHint xsi:type="xsd:string">NORMAL</displayHint>
+<hasTransientChoices xsi:type="xsd:boolean">false</hasTransientChoices>
+<key xsi:type="xsd:string">description</key>
+<isHidden xsi:type="xsd:boolean">false</isHidden>
+<isMasked xsi:type="xsd:boolean">false</isMasked>
+<isReadOnly xsi:type="xsd:boolean">false</isReadOnly>
+<type xsi:type="xsd:string">STRING</type>
+                            </item>
+                            <item>
+<description xsi:nil="true" xsi:type="a:Null"/>
+<refresh xsi:type="xsd:string">NEVER</refresh>
+<placeholder xsi:nil="true" xsi:type="a:Null"/>
+<isImportCustomizable xsi:type="xsd:boolean">false</isImportCustomizable>
+<instructionText xsi:nil="true" xsi:type="a:Null"/>
+<isExpressionable xsi:type="xsd:boolean">true</isExpressionable>
+<label xsi:type="xsd:string">Parameters</label>
+<isRequired xsi:type="xsd:boolean">true</isRequired>
+<displayHint xsi:type="xsd:string">NORMAL</displayHint>
+<key xsi:type="xsd:string">instructions</key>
+<isHidden xsi:type="xsd:boolean">false</isHidden>
+<isReadOnly xsi:type="xsd:boolean">false</isReadOnly>
+<type xsi:type="xsd:string">#/types/instructionsLocalType</type>
+                            </item>
+                        </properties>
+                        <name xsi:type="xsd:string">RootType</name>
+                    </RootType>
+                </types>
+                <state xsi:type="a:Dictionary">
+                    <a:entry key="#t" xsi:type="xsd:string">#/types/RootType</a:entry>
+                    <node xsi:type="xsd:string"/>
+                    <description xsi:type="xsd:string"/>
+                    <robot xsi:type="xsd:string">601d03a1e4b0cacaf1873c4d</robot>
+                    <instructions xsi:type="a:Dictionary">
+                        <a:entry key="#t" xsi:type="xsd:string">#/types/instructionsLocalType</a:entry>
+                        <auditProcessParameters xsi:type="a:Expression">ri!auditProcessParameters</auditProcessParameters>
+                        <customerName xsi:type="a:Expression">ri!customerName</customerName>
+                        <legacySiteUrl xsi:type="a:Expression">concat(
+  #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_100254"(),
+  "sites/legacy-system"
+)</legacySiteUrl>
+                    </instructions>
+                </state>
+                <connectedSystemTemplateKey xsi:type="xsd:string"/>
+            </a:Dictionary>
+        </configParameters>
+        <isWrite>true</isWrite>
+        <integrationType>plugin.[AppianRPA].[AppianRPA].[AppianRPAExecuteRobotIntegration2].WRITE@2</integrationType>
+        <connectedSystemUuid>_a-0000e5d6-d648-8000-9bde-011c48011c48_1492697</connectedSystemUuid>
+        <isConnectedSystemConnectionOptionSelected>true</isConnectedSystemConnectionOptionSelected>
+        <integrationOutputs>
+            <a:Dictionary xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <outputs xsi:type="a:IntegrationOutput?list"/>
+            </a:Dictionary>
+        </integrationOutputs>
+        <isRequestResponseLoggingEnabled>false</isRequestResponseLoggingEnabled>
+    </outboundIntegration>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name/>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">'type!{urn:com:appian:types:AS:ADT}AS_ADT_P_AuditProcessParameters'(
+  originalObjects: {
+
+  },
+  newObjects: {
+    streetAddress : "12, Fd Strt,",
+    addressLine2 : "Phoenix",
+    city : "Cityville",
+    stateRegion : "DH",
+    postalCode : 5535,
+    countryCode : "AG"
+  }
+)</a:value>
+                    <a:nameRef>auditProcessParameters</a:nameRef>
+                    <a:id/>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:string">Abode</a:value>
+                    <a:nameRef>customerName</a:nameRef>
+                    <a:id/>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:string"/>
+                    <a:nameRef>onSuccess</a:nameRef>
+                    <a:id/>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:string"/>
+                    <a:nameRef>onError</a:nameRef>
+                    <a:id/>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e5d6-d648-8000-9bde-011c48011c48_1496806"/>
+        <historyInfo versionUuid="_a-0000e5d6-d648-8000-9bde-011c48011c48_1520080"/>
+        <historyInfo versionUuid="_a-0000e5d6-d648-8000-9bde-011c48011c48_1532826"/>
+        <historyInfo versionUuid="_a-0000e5d6-d648-8000-9bde-011c48011c48_1534377"/>
+        <historyInfo versionUuid="_a-0000e5d6-d648-8000-9bde-011c48011c48_1534703"/>
+    </history>
+</contentHaul>

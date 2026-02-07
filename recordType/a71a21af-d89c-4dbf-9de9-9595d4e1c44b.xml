@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<recordTypeHaul xmlns:a="http://www.appian.com/ae/types/2009" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <versionUuid>f47bc95f-96ee-42a9-b1fb-3f19294e0c3f</versionUuid>
+  <recordType a:uuid="a71a21af-d89c-4dbf-9de9-9595d4e1c44b" name="AS_FS_R_Region_SyncedRecord">
+    <a:pluralName>AS_FS_R_Region_SyncedRecords</a:pluralName>
+    <a:description>Synced record for the region reference table</a:description>
+    <a:urlStub>5gZAlg</a:urlStub>
+    <a:source xsi:type="a:RecordsReplica"/>
+    <a:listViewTemplateExpr>#"SYSTEM_SYSRULES_recordGridField"(
+  columns: {
+    #"SYSTEM_SYSRULES_gridColumn"(
+      label: "Region Id",
+      sortField: #"urn:appian:record-field:v1:a71a21af-d89c-4dbf-9de9-9595d4e1c44b/f27549c0-5dc3-4f92-8953-6f4d714a86ad",
+      value: fv!row[#"urn:appian:record-field:v1:a71a21af-d89c-4dbf-9de9-9595d4e1c44b/f27549c0-5dc3-4f92-8953-6f4d714a86ad"],
+      align: "END"
+    ),
+    #"SYSTEM_SYSRULES_gridColumn"(
+      label: "Region Code",
+      sortField: #"urn:appian:record-field:v1:a71a21af-d89c-4dbf-9de9-9595d4e1c44b/e9c5f77f-ce71-44ee-9c4b-8a7e29166ab0",
+      value: #"SYSTEM_SYSRULES_linkField"(
+        links: {
+          #"SYSTEM_SYSRULES_recordLink"(
+            label: fv!row[#"urn:appian:record-field:v1:a71a21af-d89c-4dbf-9de9-9595d4e1c44b/e9c5f77f-ce71-44ee-9c4b-8a7e29166ab0"],
+            recordType: #"urn:appian:record-type:v1:a71a21af-d89c-4dbf-9de9-9595d4e1c44b",
+            identifier: fv!identifier
+          )
+        }
+      )
+    ),
+    #"SYSTEM_SYSRULES_gridColumn"(
+      label: "Region Name",
+      sortField: #"urn:appian:record-field:v1:a71a21af-d89c-4dbf-9de9-9595d4e1c44b/eb42c8e9-a404-4542-ac7e-181d66576e88",
+      value: fv!row[#"urn:appian:record-field:v1:a71a21af-d89c-4dbf-9de9-9595d4e1c44b/eb42c8e9-a404-4542-ac7e-181d66576e88"]
+    ),
+    #"SYSTEM_SYSRULES_gridColumn"(
+      label: "Is Active",
+      sortField: #"urn:appian:record-field:v1:a71a21af-d89c-4dbf-9de9-9595d4e1c44b/790f04b4-fbbc-4ae2-91df-87ec6b5a5e5d",
+      value: fv!row[#"urn:appian:record-field:v1:a71a21af-d89c-4dbf-9de9-9595d4e1c44b/790f04b4-fbbc-4ae2-91df-87ec6b5a5e5d"]
+    )
+  },
+  pageSize: 50,
+  shadeAlternateRows: true
+)</a:listViewTemplateExpr>
+    <a:detailViewCfg>
+      <a:nameExpr>#"SYSTEM_SYSRULES_rtd_getDefaultSummaryViewName"()</a:nameExpr>
+      <a:uiExpr/>
+      <a:visibilityExpr>=true()</a:visibilityExpr>
+      <a:urlStub>summary</a:urlStub>
+      <a:headerExpr/>
+      <a:recordActionLaunchType>DIALOG</a:recordActionLaunchType>
+      <a:recordUiSecurityType>EXPRESSION</a:recordUiSecurityType>
+    </a:detailViewCfg>
+    <a:isSystem>false</a:isSystem>
+    <a:dataSrcExpr/>
+    <a:facetsListExpr/>
+    <a:titleExpr>rv!record[#"urn:appian:record-field:v1:a71a21af-d89c-4dbf-9de9-9595d4e1c44b/e9c5f77f-ce71-44ee-9c4b-8a7e29166ab0"]</a:titleExpr>
+    <a:defaultFiltersExpr/>
+    <a:layoutType>GRID</a:layoutType>
+    <a:security>16383</a:security>
+    <a:hideLatestNews>false</a:hideLatestNews>
+    <a:hideNewsView>false</a:hideNewsView>
+    <a:hideRelatedActionsView>false</a:hideRelatedActionsView>
+    <a:isExportable>true</a:isExportable>
+    <a:listViewSrcExpr/>
+    <a:recordViewSrcExpr/>
+    <a:recordRelationshipCfg>
+      <uuid>844788c6-0902-4404-b5f0-b4ddcd168317</uuid>
+      <relationshipName>countries</relationshipName>
+      <targetRecordTypeUuid>68f03530-0a19-4ddc-b115-5f11894be715</targetRecordTypeUuid>
+      <relationshipType>ONE_TO_MANY</relationshipType>
+      <relationshipData>{"sourceRecordTypeFieldUuid":"e9c5f77f-ce71-44ee-9c4b-8a7e29166ab0","targetRecordTypeFieldUuid":"c122e166-085e-44e5-9784-4fc7d354541c","relationshipOperator":"1","joinTableSourceField":"","joinTableTargetField":""}</relationshipData>
+      <updateBehavior>NON_CASCADING</updateBehavior>
+    </a:recordRelationshipCfg>
+    <a:recordTypeSearchCfg>
+      <searchFieldsSrc>DEFAULT</searchFieldsSrc>
+      <placeholderSrc>DEFAULT</placeholderSrc>
+      <placeholder/>
+    </a:recordTypeSearchCfg>
+    <a:iconId/>
+    <a:listAutoRefreshInterval>0.0</a:listAutoRefreshInterval>
+    <a:sourceConfiguration>
+      <sourceUuid>AS_FS_R_REGION@jdbc/Appian</sourceUuid>
+      <sourceType>RDBMS_TABLE</sourceType>
+      <sourceSubType>NONE</sourceSubType>
+      <friendlyName>AS_FS_R_REGION</friendlyName>
+      <sourceFilterExpr/>
+      <field>
+        <uuid>f27549c0-5dc3-4f92-8953-6f4d714a86ad</uuid>
+        <type>{http://www.appian.com/ae/types/2009}Integer</type>
+        <sourceFieldName>REGION_ID</sourceFieldName>
+        <sourceFieldType>INTEGER</sourceFieldType>
+        <fieldName>regionId</fieldName>
+        <isRecordId>true</isRecordId>
+        <isUnique>true</isUnique>
+        <isCustomField>false</isCustomField>
+        <customFieldExpr/>
+        <customFieldDefaultValueStr>null</customFieldDefaultValueStr>
+        <fieldCalculationType>NA</fieldCalculationType>
+        <fieldTemplateType>NA</fieldTemplateType>
+        <isIndexable>false</isIndexable>
+        <subType>NA</subType>
+        <displayNameSource>STATIC</displayNameSource>
+        <descriptionSource>STATIC</descriptionSource>
+        <isHidden>false</isHidden>
+      </field>
+      <field>
+        <uuid>e9c5f77f-ce71-44ee-9c4b-8a7e29166ab0</uuid>
+        <type>{http://www.appian.com/ae/types/2009}Text</type>
+        <sourceFieldName>REGION_CODE</sourceFieldName>
+        <sourceFieldType>VARCHAR(255)</sourceFieldType>
+        <fieldName>regionCode</fieldName>
+        <isRecordId>false</isRecordId>
+        <isUnique>true</isUnique>
+        <isCustomField>false</isCustomField>
+        <customFieldExpr/>
+        <customFieldDefaultValueStr>null</customFieldDefaultValueStr>
+        <fieldCalculationType>NA</fieldCalculationType>
+        <fieldTemplateType>NA</fieldTemplateType>
+        <isIndexable>false</isIndexable>
+        <subType>NA</subType>
+        <displayNameSource>STATIC</displayNameSource>
+        <descriptionSource>STATIC</descriptionSource>
+        <isHidden>false</isHidden>
+      </field>
+      <field>
+        <uuid>eb42c8e9-a404-4542-ac7e-181d66576e88</uuid>
+        <type>{http://www.appian.com/ae/types/2009}Text</type>
+        <sourceFieldName>REGION_NAME</sourceFieldName>
+        <sourceFieldType>VARCHAR(255)</sourceFieldType>
+        <fieldName>regionName</fieldName>
+        <isRecordId>false</isRecordId>
+        <isUnique>false</isUnique>
+        <isCustomField>false</isCustomField>
+        <customFieldExpr/>
+        <customFieldDefaultValueStr>null</customFieldDefaultValueStr>
+        <fieldCalculationType>NA</fieldCalculationType>
+        <fieldTemplateType>NA</fieldTemplateType>
+        <isIndexable>false</isIndexable>
+        <subType>NA</subType>
+        <displayNameSource>STATIC</displayNameSource>
+        <descriptionSource>STATIC</descriptionSource>
+        <isHidden>false</isHidden>
+      </field>
+      <field>
+        <uuid>790f04b4-fbbc-4ae2-91df-87ec6b5a5e5d</uuid>
+        <type>{http://www.appian.com/ae/types/2009}Boolean</type>
+        <sourceFieldName>IS_ACTIVE</sourceFieldName>
+        <sourceFieldType>BIT</sourceFieldType>
+        <fieldName>isActive</fieldName>
+        <isRecordId>false</isRecordId>
+        <isUnique>false</isUnique>
+        <isCustomField>false</isCustomField>
+        <customFieldExpr/>
+        <customFieldDefaultValueStr>null</customFieldDefaultValueStr>
+        <fieldCalculationType>NA</fieldCalculationType>
+        <fieldTemplateType>NA</fieldTemplateType>
+        <isIndexable>false</isIndexable>
+        <subType>NA</subType>
+        <displayNameSource>STATIC</displayNameSource>
+        <descriptionSource>STATIC</descriptionSource>
+        <isHidden>false</isHidden>
+      </field>
+      <uuid>2097eb05-82bb-4bae-890b-4cbd6a249dfd</uuid>
+      <refreshSchedule>
+        <frequency>DAILY</frequency>
+        <value>{"hour":3,"minute":"00","amPM":"AM","timeZone":"GMT","version":"v1"}</value>
+        <activated>false</activated>
+      </refreshSchedule>
+      <skipFailureEnabled>false</skipFailureEnabled>
+    </a:sourceConfiguration>
+    <a:enabledFeatures>63</a:enabledFeatures>
+    <a:isVisibleInRecordTypeList>false</a:isVisibleInRecordTypeList>
+    <a:recordActionLaunchType>DIALOG</a:recordActionLaunchType>
+    <a:showSearchBox>true</a:showSearchBox>
+    <a:isVisibleInDataFabric>false</a:isVisibleInDataFabric>
+    <a:usesRollingSyncLimit>false</a:usesRollingSyncLimit>
+    <a:usesRecoverySync>false</a:usesRecoverySync>
+    <a:isScheduledIndexingEnabled>false</a:isScheduledIndexingEnabled>
+    <a:smartSearchAcceptableFailureRate>0.0</a:smartSearchAcceptableFailureRate>
+    <a:skipFailedSmartServicesSync>false</a:skipFailedSmartServicesSync>
+  </recordType>
+  <roleMap>
+    <role name="record_type_administrator">
+      <users/>
+      <groups>
+        <groupUuid>_e-0000e2bb-4188-8000-9aee-01075c01075c_41</groupUuid>
+      </groups>
+    </role>
+    <role name="record_type_viewer">
+      <users/>
+      <groups>
+        <groupUuid>_e-0000e2cd-bc96-8000-9aee-01075c01075c_134</groupUuid>
+      </groups>
+    </role>
+  </roleMap>
+  <history>
+    <historyInfo versionUuid="c18a007a-166d-4a31-9b15-6c771c5fe03a"/>
+    <historyInfo versionUuid="76f90146-c67c-4d17-a47b-52d41fdca641"/>
+    <historyInfo versionUuid="f47bc95f-96ee-42a9-b1fb-3f19294e0c3f"/>
+  </history>
+  <migrationVersion>1</migrationVersion>
+</recordTypeHaul>

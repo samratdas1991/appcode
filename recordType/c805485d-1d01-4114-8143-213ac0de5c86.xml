@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<recordTypeHaul xmlns:a="http://www.appian.com/ae/types/2009" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <versionUuid>883e9987-9814-468a-a8dd-5b3b79e1924a</versionUuid>
+  <recordType a:uuid="c805485d-1d01-4114-8143-213ac0de5c86" name="AS_ALT_Alert_Dismissal_Status_RecordType">
+    <a:pluralName>AS_ALT_Alert_Dismissal_Status_RecordTypes</a:pluralName>
+    <a:description>Contains record for AS_ALT_ALERT_DISMISSAL_STATUS view in database</a:description>
+    <a:urlStub>pFSBVg</a:urlStub>
+    <a:source
+      a:uuid="ee78978b-285f-4faf-92c6-4ac52430ea39@_a-0000e6ca-7e19-8000-9bfb-011c48011c48_2273294" xsi:type="a:DataStoreEntity"/>
+    <a:listViewTemplateExpr>#"SYSTEM_SYSRULES_recordGridField"(
+  columns: {
+    #"SYSTEM_SYSRULES_gridColumn"(
+      label: "Alert Id",
+      sortField: #"urn:appian:record-field:v1:c805485d-1d01-4114-8143-213ac0de5c86/alertId",
+      value: fv!row[#"urn:appian:record-field:v1:c805485d-1d01-4114-8143-213ac0de5c86/alertId"],
+      align: "END"
+    ),
+    #"SYSTEM_SYSRULES_gridColumn"(
+      label: "Alert Set Id",
+      sortField: #"urn:appian:record-field:v1:c805485d-1d01-4114-8143-213ac0de5c86/alertSetId",
+      value: #"SYSTEM_SYSRULES_linkField"(
+        links: {
+          #"SYSTEM_SYSRULES_recordLink"(
+            label: fv!row[#"urn:appian:record-field:v1:c805485d-1d01-4114-8143-213ac0de5c86/alertSetId"],
+            recordType: #"urn:appian:record-type:v1:c805485d-1d01-4114-8143-213ac0de5c86",
+            identifier: fv!identifier
+          )
+        }
+      ),
+      align: "END"
+    ),
+    #"SYSTEM_SYSRULES_gridColumn"(
+      label: "Message",
+      sortField: #"urn:appian:record-field:v1:c805485d-1d01-4114-8143-213ac0de5c86/message",
+      value: fv!row[#"urn:appian:record-field:v1:c805485d-1d01-4114-8143-213ac0de5c86/message"]
+    ),
+    #"SYSTEM_SYSRULES_gridColumn"(
+      label: "I 18 N Folder Id",
+      sortField: #"urn:appian:record-field:v1:c805485d-1d01-4114-8143-213ac0de5c86/i18nFolderId",
+      value: fv!row[#"urn:appian:record-field:v1:c805485d-1d01-4114-8143-213ac0de5c86/i18nFolderId"],
+      align: "END"
+    ),
+    #"SYSTEM_SYSRULES_gridColumn"(
+      label: "Created Datetime",
+      sortField: #"urn:appian:record-field:v1:c805485d-1d01-4114-8143-213ac0de5c86/createdDatetime",
+      value: if(
+      isnull(fv!row[#"urn:appian:record-field:v1:c805485d-1d01-4114-8143-213ac0de5c86/createdDatetime"]),
+      fv!row[#"urn:appian:record-field:v1:c805485d-1d01-4114-8143-213ac0de5c86/createdDatetime"],
+      datetext(fv!row[#"urn:appian:record-field:v1:c805485d-1d01-4114-8143-213ac0de5c86/createdDatetime"], "default")
+      ),
+      align: "END"
+    ),
+    #"SYSTEM_SYSRULES_gridColumn"(
+      label: "I 18 N Bundle Name",
+      sortField: #"urn:appian:record-field:v1:c805485d-1d01-4114-8143-213ac0de5c86/i18nBundleName",
+      value: fv!row[#"urn:appian:record-field:v1:c805485d-1d01-4114-8143-213ac0de5c86/i18nBundleName"]
+    ),
+    #"SYSTEM_SYSRULES_gridColumn"(
+      label: "Alert Dismissal Id",
+      sortField: #"urn:appian:record-field:v1:c805485d-1d01-4114-8143-213ac0de5c86/alertDismissalId",
+      value: fv!row[#"urn:appian:record-field:v1:c805485d-1d01-4114-8143-213ac0de5c86/alertDismissalId"],
+      align: "END"
+    ),
+    #"SYSTEM_SYSRULES_gridColumn"(
+      label: "Dismissal Reason",
+      sortField: #"urn:appian:record-field:v1:c805485d-1d01-4114-8143-213ac0de5c86/dismissalReason",
+      value: fv!row[#"urn:appian:record-field:v1:c805485d-1d01-4114-8143-213ac0de5c86/dismissalReason"],
+      align: "END"
+    ),
+    #"SYSTEM_SYSRULES_gridColumn"(
+      label: "Dismissal Comment",
+      sortField: #"urn:appian:record-field:v1:c805485d-1d01-4114-8143-213ac0de5c86/dismissalComment",
+      value: fv!row[#"urn:appian:record-field:v1:c805485d-1d01-4114-8143-213ac0de5c86/dismissalComment"]
+    ),
+    #"SYSTEM_SYSRULES_gridColumn"(
+      label: "Dismissed By",
+      sortField: #"urn:appian:record-field:v1:c805485d-1d01-4114-8143-213ac0de5c86/dismissedBy",
+      value: fv!row[#"urn:appian:record-field:v1:c805485d-1d01-4114-8143-213ac0de5c86/dismissedBy"]
+    ),
+    #"SYSTEM_SYSRULES_gridColumn"(
+      label: "Dismissed On",
+      sortField: #"urn:appian:record-field:v1:c805485d-1d01-4114-8143-213ac0de5c86/dismissedOn",
+      value: if(
+      isnull(fv!row[#"urn:appian:record-field:v1:c805485d-1d01-4114-8143-213ac0de5c86/dismissedOn"]),
+      fv!row[#"urn:appian:record-field:v1:c805485d-1d01-4114-8143-213ac0de5c86/dismissedOn"],
+      datetext(fv!row[#"urn:appian:record-field:v1:c805485d-1d01-4114-8143-213ac0de5c86/dismissedOn"], "default")
+      ),
+      align: "END"
+    )
+  },
+  pageSize: 50,
+  shadeAlternateRows: true
+)</a:listViewTemplateExpr>
+    <a:fieldCfg a:uuid="e6a0bdd1-7a7b-4871-8945-7dd166a02c5f" name="Status">
+      <a:isSortable>false</a:isSortable>
+      <a:isSearchable>false</a:isSearchable>
+      <a:isFacet>true</a:isFacet>
+      <a:facetType>EXPRESSION</a:facetType>
+      <a:isExclusiveFacet>true</a:isExclusiveFacet>
+      <a:facetExpr>a!localVariables(
+  local!i18nData: #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_995278"(triggerRefresh: null),
+  local!status: {
+    a!map(
+      label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+        i18nData: local!i18nData,
+        bundleKey: "AS.ALT.Alerts.lbl_Active"
+      ),
+      value: true()
+    ),
+    a!map(
+      label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+        i18nData: local!i18nData,
+        bundleKey: "AS.ALT.Alerts.lbl_Dismissed"
+      ),
+      value: false()
+    )
+  },
+  #"SYSTEM_SYSRULES_recordFilterList"(
+    name: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+      i18nData: local!i18nData,
+      bundleKey: "AS.ALT.Alerts.lbl_Status"
+    ),
+    isVisible: true,
+    allowMultipleSelections: true,
+    options: #"SYSTEM_SYSRULES_forEach"(
+      items: local!status,
+      expression: #"SYSTEM_SYSRULES_recordFilterListOption"(
+        id: fv!index,
+        name: fv!item.label,
+        filter: {
+          if(
+            fv!item.value = true(),
+            #"SYSTEM_SYSRULES_queryFilter"(
+              field: #"urn:appian:record-field:v1:c805485d-1d01-4114-8143-213ac0de5c86/alertDismissalId",
+              operator: "is null",
+
+            ),
+            #"SYSTEM_SYSRULES_queryFilter"(
+               field: #"urn:appian:record-field:v1:c805485d-1d01-4114-8143-213ac0de5c86/alertDismissalId",
+              operator: "not null",
+
+            )
+          )
+        }
+      )
+    )
+  )
+)</a:facetExpr>
+      <a:sortOrderIndex>0</a:sortOrderIndex>
+      <a:facetOrderIndex>0</a:facetOrderIndex>
+      <a:visibilityExpr/>
+      <a:defaultOptionExpr/>
+      <a:allowMultipleSelections>true</a:allowMultipleSelections>
+      <a:relatedRecordUserFilterSort>UNSORTED</a:relatedRecordUserFilterSort>
+    </a:fieldCfg>
+    <a:fieldCfg a:uuid="3264f242-2410-4318-9a79-2b5bfd5e3f14" name="Source">
+      <a:isSortable>false</a:isSortable>
+      <a:isSearchable>false</a:isSearchable>
+      <a:isFacet>true</a:isFacet>
+      <a:facetType>EXPRESSION</a:facetType>
+      <a:isExclusiveFacet>true</a:isExclusiveFacet>
+      <a:facetExpr>a!localVariables(
+  local!i18nData: #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_995278"(triggerRefresh: null),
+  local!alertSources: {
+    #"_a-0000e6ca-7e19-8000-9bfb-011c48011c48_2349282",
+    #"_a-0000e6ca-7e19-8000-9bfb-011c48011c48_2349267",
+    #"_a-0000e6ca-7e19-8000-9bfb-011c48011c48_2349273"
+  },
+  local!integrations: #"_a-0000e6ca-7e19-8000-9bfb-011c48011c48_2234155"(
+    i18nData: local!i18nData
+  ),
+  #"SYSTEM_SYSRULES_recordFilterList"(
+    name: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+      i18nData: local!i18nData,
+      bundleKey: "AS.ALT.Alerts.lbl_Source"
+    ),
+    isVisible: true,
+    allowMultipleSelections: true,
+    options: #"SYSTEM_SYSRULES_forEach"(
+      items: local!alertSources,
+      expression: #"SYSTEM_SYSRULES_recordFilterListOption"(
+        id: fv!index,
+        name: fv!item,
+        filter: {
+          if(
+            fv!item = #"_a-0000e6ca-7e19-8000-9bfb-011c48011c48_2349267",
+            #"SYSTEM_SYSRULES_queryFilter"(
+              field: #"urn:appian:record-field:v1:c805485d-1d01-4114-8143-213ac0de5c86/createdBy",
+              operator: "in",
+              value: {
+                local!integrations.integrationCode
+              }
+            ),
+            fv!item = #"_a-0000e6ca-7e19-8000-9bfb-011c48011c48_2349282",
+            #"SYSTEM_SYSRULES_queryFilter"(
+              field: #"urn:appian:record-field:v1:c805485d-1d01-4114-8143-213ac0de5c86/createdBy",
+              operator: "=",
+              value: #"_a-0000e6ca-7e19-8000-9bfb-011c48011c48_2349282"
+            ),
+            fv!item = #"_a-0000e6ca-7e19-8000-9bfb-011c48011c48_2349273",
+            #"SYSTEM_SYSRULES_queryFilter"(
+              field: #"urn:appian:record-field:v1:c805485d-1d01-4114-8143-213ac0de5c86/createdBy",
+              operator: "not in",
+              value: {
+                local!integrations.integrationCode,
+                #"_a-0000e6ca-7e19-8000-9bfb-011c48011c48_2349282"
+              }
+            ),
+            {}
+          )
+        }
+      )
+    )
+  )
+)</a:facetExpr>
+      <a:sortOrderIndex>1</a:sortOrderIndex>
+      <a:facetOrderIndex>1</a:facetOrderIndex>
+      <a:visibilityExpr/>
+      <a:defaultOptionExpr/>
+      <a:allowMultipleSelections>true</a:allowMultipleSelections>
+      <a:relatedRecordUserFilterSort>UNSORTED</a:relatedRecordUserFilterSort>
+    </a:fieldCfg>
+    <a:detailViewCfg>
+      <a:nameExpr>#"SYSTEM_SYSRULES_rtd_getDefaultSummaryViewName"()</a:nameExpr>
+      <a:uiExpr/>
+      <a:visibilityExpr>=true()</a:visibilityExpr>
+      <a:urlStub>summary</a:urlStub>
+      <a:headerExpr/>
+      <a:recordActionLaunchType>DIALOG</a:recordActionLaunchType>
+      <a:recordUiSecurityType>EXPRESSION</a:recordUiSecurityType>
+    </a:detailViewCfg>
+    <a:isSystem>false</a:isSystem>
+    <a:dataSrcExpr/>
+    <a:facetsListExpr/>
+    <a:titleExpr>rv!record[#"urn:appian:record-field:v1:c805485d-1d01-4114-8143-213ac0de5c86/message"]</a:titleExpr>
+    <a:defaultFiltersExpr/>
+    <a:layoutType>GRID</a:layoutType>
+    <a:security>16383</a:security>
+    <a:hideLatestNews>false</a:hideLatestNews>
+    <a:hideNewsView>false</a:hideNewsView>
+    <a:hideRelatedActionsView>false</a:hideRelatedActionsView>
+    <a:isExportable>true</a:isExportable>
+    <a:listViewSrcExpr/>
+    <a:recordViewSrcExpr/>
+    <a:recordTypeSearchCfg>
+      <searchFieldsSrc>DEFAULT</searchFieldsSrc>
+      <placeholderSrc>DEFAULT</placeholderSrc>
+      <placeholder/>
+    </a:recordTypeSearchCfg>
+    <a:iconId/>
+    <a:listAutoRefreshInterval>0.0</a:listAutoRefreshInterval>
+    <a:enabledFeatures>63</a:enabledFeatures>
+    <a:isVisibleInRecordTypeList>false</a:isVisibleInRecordTypeList>
+    <a:recordActionLaunchType>DIALOG</a:recordActionLaunchType>
+    <a:showSearchBox>true</a:showSearchBox>
+    <a:isVisibleInDataFabric>false</a:isVisibleInDataFabric>
+    <a:usesRollingSyncLimit>false</a:usesRollingSyncLimit>
+    <a:usesRecoverySync>false</a:usesRecoverySync>
+    <a:isScheduledIndexingEnabled>false</a:isScheduledIndexingEnabled>
+    <a:smartSearchAcceptableFailureRate>0.0</a:smartSearchAcceptableFailureRate>
+    <a:skipFailedSmartServicesSync>false</a:skipFailedSmartServicesSync>
+  </recordType>
+  <roleMap>
+    <role name="record_type_administrator">
+      <users/>
+      <groups>
+        <groupUuid>_e-0000e447-933d-8000-9af7-01075c01075c_207</groupUuid>
+      </groups>
+    </role>
+    <role name="record_type_viewer">
+      <users/>
+      <groups>
+        <groupUuid>_e-0000e447-933d-8000-9af7-01075c01075c_210</groupUuid>
+      </groups>
+    </role>
+  </roleMap>
+  <history>
+    <historyInfo versionUuid="72f8ae10-84ae-4789-9ef5-e137c5ddcfd7"/>
+    <historyInfo versionUuid="bb3d97a3-5e0f-4bdf-8bd5-4d337dbf9409"/>
+    <historyInfo versionUuid="883e9987-9814-468a-a8dd-5b3b79e1924a"/>
+  </history>
+  <migrationVersion>1</migrationVersion>
+</recordTypeHaul>

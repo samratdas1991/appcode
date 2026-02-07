@@ -1,0 +1,343 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e6ca-7e19-8000-9bfb-011c48011c48_2259383</versionUuid>
+    <interface>
+        <name>AS_QNM_CPS_responseOptionsToAddNewQuestion</name>
+        <uuid>_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_887364</uuid>
+        <description>Response options to add new question</description>
+        <parentUuid>_a-0000e42d-ffef-8000-9ba6-011c48011c48_7213-qnm</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  local!templateQuestions: #"_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_852676"(
+    executeWhen: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(ri!question.questionReferenceId),
+    questionReferenceId: ri!question.questionReferenceId,
+    returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290163"
+  ),
+  local!questionnaireTemplates: #"_a-0000e447-933d-8000-9baa-011c48011c48_39379"(
+    questionnaireTemplateId: local!templateQuestions.questionnaireTemplateId,
+    returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290163"
+  ),
+  local!hasFollowUp: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(
+    wherecontains(
+      #"_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_941527"(
+        local!templateQuestions.questionTemplateId
+      ).questionPrecedentTemplateId,
+      tointeger(
+        index(
+          #"SYSTEM_SYSRULES_forEach"(
+            items: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_76367"(
+              array: #"SYSTEM_SYSRULES_forEach"(
+                items: cast(
+                  'type!{urn:com:appian:types:AS:QNM}AS_QNM_T_Question?list',
+                  #"SYSTEM_SYSRULES_forEach"(
+                    items: local!questionnaireTemplates,
+                    expression: fv!item.questions
+                  )
+                ),
+                expression: index(fv!item, "isDisplayedPrecedentSets", {})
+              )
+            ),
+            expression: index(fv!item, "questionPrecedents", {})
+          ),
+          "questionPrecedentTemplateId",
+          {}
+        )
+      )
+    )
+  ),
+  #"SYSTEM_SYSRULES_sectionLayout_v1"(
+    label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+      i18nData: ri!i18nData,
+      bundleKey: "AS.QNM.QuestionnaireSettings.lbl_Response"
+    ),
+    contents: {
+      #"SYSTEM_SYSRULES_columnsLayout"(
+        columns: {
+          #"SYSTEM_SYSRULES_columnLayout"(
+            contents: {
+              a!localVariables(
+                local!questionTypes: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75720"(
+                  cdt: #"_a-0000e447-933d-8000-9baa-011c48011c48_36913"(internationalize: true),
+                  field: "questionTypeLabel",
+                  
+                ),
+                #"_a-0000e528-bc07-8000-9bcf-011c48011c48_1027802"(
+                  label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                    i18nData: ri!i18nData,
+                    bundleKey: "AS.QNM.QuestionnaireSettings.lbl_Type"
+                  ),
+                  labelPosition: "ABOVE",
+                  placeholderLabel: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                    i18nData: ri!i18nData,
+                    bundleKey: "AS.QNM.QuestionnaireSettings.lbl_Type"
+                  ),
+                  choiceLabels: local!questionTypes.questionTypeLabel,
+                  choiceValues: local!questionTypes.questionTypeCode,
+                  saveInto: {
+                    ri!question.questionTypeCode,
+                    #"_a-0000e3c8-6861-8000-9ba2-011c48011c48_124304"(ri!question.defaultResponseOptions),
+                    a!save(
+                      ri!question.defaultResponseOptions,
+                      #"SYSTEM_SYSRULES_forEach"(
+                        items: #"_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_928264"(
+                          questionTypeCode: ri!question.questionTypeCode
+                        ),
+                        expression: 'type!{urn:com:appian:types:AS:QNM}AS_QNM_R_Response'(fieldKey: fv!item.fieldKey)
+                      )
+                    ),
+                    a!save(
+                      ri!question.defaultResponseRequirements,
+                      null
+                    ),
+                    a!save(
+                      ri!question.defaultDefaultResponses,
+                      null
+                    )
+                  },
+                  value: ri!question.questionTypeCode,
+                  required: true,
+                  validations: {},
+                  disabled: local!hasFollowUp
+                )
+              ),
+              /* TOBEDONE this should ultimately be displayed for each dropdown field in a question */
+              #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_74362"(
+                label: proper(
+                  #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                    i18nData: ri!i18nData,
+                    bundleKey: "AS.QNM.QuestionnaireSettings.lbl_MaxSelections"
+                  )
+                ),
+                helpTooltip: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                  i18nData: ri!i18nData,
+                  bundleKey: "AS.QNM.QuestionnaireSettings.hlp_MaxSelectionsTooltip"
+                ),
+                disabled: local!hasFollowUp,
+                value: index(
+                  ri!question.defaultResponseRequirements,
+                  "requirementValue",
+                  {}
+                ),
+                saveInto: {
+                  a!save(
+                    ri!question.defaultResponseRequirements,
+                    if(
+                      isnull(save!value),
+                      {},
+                      'type!{urn:com:appian:types:AS:QNM}AS_QNM_R_ResponseRequirement'(
+                        fieldKey: null,
+                        requirementTypeCode: #"_a-0000e460-9d93-8000-9bc1-011c48011c48_597312",
+                        requirementValue: save!value,
+                        
+                      )
+                    )
+                  )
+                },
+                validations: if(
+                  tointeger(
+                    index(
+                      ri!question.defaultResponseRequirements,
+                      "requirementValue",
+                      {}
+                    )
+                  ) &gt; 0,
+                  null,
+                  #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                    i18nData: ri!i18nData,
+                    bundleKey: "AS.QNM.QuestionnaireSettings.vld_EnterValueGreaterThanZero"
+                  )
+                ),
+                showWhen: ri!question.questionTypeCode = #"_a-0000e447-933d-8000-9baa-011c48011c48_109121"
+              )
+            }
+          ),
+          /*Question field options */
+          if(
+            #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(ri!question.questionTypeCode),
+            #"SYSTEM_SYSRULES_columnLayout"(
+              contents: {
+                /* TOBEDONE ultimately this could support setting response options for more complex questions types in a manner like this */
+                #"SYSTEM_SYSRULES_forEach"(
+                  items: #"_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_928264"(
+                    questionTypeCode: ri!question.questionTypeCode
+                  ),
+                  expression: #"3396abb6-39b5-4ab5-a7f9-6ae05ffbcef0"(
+                    hasFollowUp: local!hasFollowUp,
+                    i18nData: ri!i18nData,
+                    question: ri!question
+                  )
+                ),
+                #"SYSTEM_SYSRULES_forEach"(
+                  items: #"_a-0000e460-9d93-8000-9bc1-011c48011c48_595627"(
+                    questionTypeCode: ri!question.questionTypeCode
+                  ),
+                  expression: a!localVariables(
+                    local!selectedDocumentTypeCode: #"_a-0000e460-9d93-8000-9bc1-011c48011c48_597476"(
+                      question: #"_a-0000e447-933d-8000-9baa-011c48011c48_44317"(questions_Reference: ri!question),
+                      requirementTypeCode: #"_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_889953",
+                      fieldKey: fv!item.fieldKey
+                    ),
+                    local!fsi18nData: #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_975720"(triggerRefresh: null),
+                    #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_1005381"(
+                      required: true,
+                      i18nData: local!fsi18nData,
+                      disabled: local!hasFollowUp,
+                      selectedTypeCode: local!selectedDocumentTypeCode,
+                      additionalSaveInto: {
+                        a!save(
+                          ri!question.defaultResponseRequirements,
+                          'type!{urn:com:appian:types:AS:QNM}AS_QNM_R_ResponseRequirement'(
+                            fieldKey: fv!item.fieldKey,
+                            requirementTypeCode: #"_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_889953",
+                            requirementValue: save!value
+                          )
+                        ),
+                        a!save(
+                          ri!question.defaultDefaultResponses,
+                          'type!{urn:com:appian:types:AS:QNM}AS_QNM_R_Response'(
+                            fieldKey: "documentTypeCode",
+                            value: save!value
+                          )
+                        )
+                      },
+                      refData: #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_975294"(
+                        typeList: #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_975334",
+                        i18nData: local!fsi18nData
+                      )
+                    )
+                  )
+                )
+              },
+              showWhen: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(ri!question.questionTypeCode)
+            ),
+            #"SYSTEM_SYSRULES_columnLayout"(contents: {})
+          ),
+          #"SYSTEM_SYSRULES_columnLayout"(contents: {})
+        }
+      ),
+      #"SYSTEM_SYSRULES_columnsLayout"(
+        columns: {
+          #"SYSTEM_SYSRULES_columnLayout"(
+            contents: {
+              #"_a-0000e447-933d-8000-9baa-011c48011c48_50686"(
+                showWhen: local!hasFollowUp,
+                label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                  i18nData: ri!i18nData,
+                  bundleKey: "AS.QNM.QuestionnaireSettings.lbl_DisableResponses"
+                ),
+                secondaryLabel: {
+                  #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                    i18nData: ri!i18nData,
+                    bundleKey: "AS.QNM.QuestionnaireSettings.ins_SinceThisQuestionIsUsedWithFollowUp"
+                  ) &amp; char(10) &amp; #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                    i18nData: ri!i18nData,
+                    bundleKey: "AS.QNM.QuestionnaireSettings.txt_TemplatesThisQuestionIsUsed"
+                  )
+                },
+                additionalRichText: #"SYSTEM_SYSRULES_richTextBulletedList"(
+                  items: local!questionnaireTemplates.name,
+                  showWhen: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(local!questionnaireTemplates.name)
+                )
+              )
+            },
+            width: "WIDE_PLUS",
+            
+          ),
+          #"SYSTEM_SYSRULES_columnLayout"(width: "MEDIUM_PLUS", contents: {})
+        }
+      )
+    },
+    marginBelow: "STANDARD"
+  )
+)</definition>
+        <namedTypedValue>
+            <name>question</name>
+            <type>
+                <name>AS_QNM_R_Question</name>
+                <namespace>urn:com:appian:types:AS:QNM</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>i18nData</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+        <isCustom>false</isCustom>
+    </interface>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name/>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e447-933d-8000-9baa-011c48011c48_39392"(returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290157")</a:value>
+                    <a:nameRef>question</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e447-933d-8000-9baa-011c48011c48_43088"({})</a:value>
+                    <a:nameRef>i18nData</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_903141"/>
+        <historyInfo versionUuid="_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_927450"/>
+        <historyInfo versionUuid="_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_955093"/>
+        <historyInfo versionUuid="_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_955688"/>
+        <historyInfo versionUuid="_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_955794"/>
+        <historyInfo versionUuid="_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_957422"/>
+        <historyInfo versionUuid="_a-0000e528-bc07-8000-9bcf-011c48011c48_1028197"/>
+        <historyInfo versionUuid="_a-0000e5a0-53e9-8000-9bd8-011c48011c48_1397977"/>
+        <historyInfo versionUuid="_a-0000e62c-7375-8000-9bec-011c48011c48_1816989"/>
+        <historyInfo versionUuid="_a-0000e62c-7375-8000-9bec-011c48011c48_1835451"/>
+        <historyInfo versionUuid="_a-0000e69f-3688-8000-9bf2-011c48011c48_2152533"/>
+        <historyInfo versionUuid="_a-0000e69f-3688-8000-9bf2-011c48011c48_2174830"/>
+        <historyInfo versionUuid="_a-0000e6ca-7e19-8000-9bfb-011c48011c48_2240694"/>
+        <historyInfo versionUuid="_a-0000e6ca-7e19-8000-9bfb-011c48011c48_2259383"/>
+    </history>
+</contentHaul>

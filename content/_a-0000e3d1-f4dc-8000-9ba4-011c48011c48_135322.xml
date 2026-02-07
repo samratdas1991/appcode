@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e70f-2824-8000-9c01-011c48011c48_2713624</versionUuid>
+    <interface>
+        <name>AS_IO_CP_taskCategoryContents</name>
+        <uuid>_a-0000e3d1-f4dc-8000-9ba4-011c48011c48_135322</uuid>
+        <description>Allows user to configure a task category</description>
+        <parentUuid>_a-0000e2bb-4188-8000-9ba2-011c48011c48_25469</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  /*Check to see if there is a different category with the same name in the DB*/
+  local!isDuplicateTaskCategoryName: a!refreshVariable(
+    value: #"_a-0000e3d1-f4dc-8000-9ba4-011c48011c48_135350"(taskCategory: ri!taskCategory),
+    /*Don't want to update every time anything changes, just the name*/
+    refreshOnReferencedVarChange: false,
+    refreshOnVarChange: ri!taskCategory.categoryName
+  ),
+  {
+    #"SYSTEM_SYSRULES_columnsLayout"(
+      columns: {
+        #"SYSTEM_SYSRULES_columnLayout"(
+          contents: {
+            #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73562"(
+              label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                i18nData: ri!i18nData,
+                bundleKey: "AS.CO.AllBundles.lbl_CategoryName"
+              ),
+              required: true,
+              value: ri!taskCategory.categoryName,
+              validations: {
+                #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_74104"(
+                  value: ri!taskCategory.categoryName,
+                  minLength: 1,
+                  maxLength: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73500"
+                ),
+                if(
+                  local!isDuplicateTaskCategoryName,
+                  #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                    i18nData: ri!i18nData,
+                    bundleKey: "AS.CO.AllBundles.vld_DuplicateCategoryName"
+                  ),
+                  ""
+                )
+              },
+              saveInto: a!save(
+                target: ri!taskCategory.categoryName,
+                value: save!value
+              ),
+              refreshAfter: "UNFOCUS",
+              labelPosition: "ABOVE"
+            )
+          },
+          width: "MEDIUM_PLUS"
+        )
+      }
+    )
+  }
+)</definition>
+        <namedTypedValue>
+            <name>i18nData</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>taskCategory</name>
+            <type>
+                <name>AS_IO_R_TaskCategory</name>
+                <namespace>urn:com:appian:types:AS:IO</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+        <isCustom>false</isCustom>
+    </interface>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name/>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression"> #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81834"(
+   triggerRefresh: null
+ )</a:value>
+                    <a:nameRef>i18nData</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e393-fbf1-8000-9ba2-011c48011c48_113793"(
+  returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290131",
+  pagingInfo: #"SYSTEM_SYSRULES_pagingInfo"(1, 1)
+).data[1]</a:value>
+                    <a:nameRef>taskCategory</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e3d1-f4dc-8000-9ba4-011c48011c48_135619"/>
+        <historyInfo versionUuid="_a-0000e3e6-fb42-8000-9ba5-011c48011c48_157830"/>
+        <historyInfo versionUuid="_a-0000e3e6-fb42-8000-9ba5-011c48011c48_192155"/>
+        <historyInfo versionUuid="_a-0000e430-f270-8000-9bbc-011c48011c48_363754"/>
+        <historyInfo versionUuid="_a-0000e62c-7375-8000-9bec-011c48011c48_1866063"/>
+        <historyInfo versionUuid="_a-0000e673-a4a7-8000-9bef-011c48011c48_1965216"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2713624"/>
+    </history>
+</contentHaul>

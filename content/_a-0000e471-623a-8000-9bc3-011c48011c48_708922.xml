@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e825-b425-8000-9c1c-011c48011c48_3634349</versionUuid>
+    <interface>
+        <name>AS_IO_FM_EnterActualFundingDetails</name>
+        <uuid>_a-0000e471-623a-8000-9bc3-011c48011c48_708922</uuid>
+        <description>Capture actual funding details task</description>
+        <parentUuid>_a-0000e2bb-4188-8000-9ba2-011c48011c48_25469</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  local!i18nData: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81834"(triggerRefresh: null),
+  #"_a-0000e3e6-fb42-8000-9ba5-011c48011c48_189668"(
+    task: ri!task,
+    i18nData: local!i18nData,
+    userAction: ri!userAction,
+    startTime: ri!startTime,
+    taskContents: {
+      #"SYSTEM_SYSRULES_columnsLayout"(
+        columns: {
+          #"SYSTEM_SYSRULES_columnLayout"(
+            contents: {
+              #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_74175"(
+                label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                  i18nData: local!i18nData,
+                  bundleKey: "AS.CO.AllBundles.lbl_ActualFundingDate"
+                ),
+                required: true,
+                value: ri!request.fundingDetails.actualFundingDate,
+                saveInto: {
+                  ri!request.fundingDetails.actualFundingDate
+                },
+                instructions: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                  i18nData: local!i18nData,
+                  bundleKey: "AS.CO.AllBundles.ins_DateFormat"
+                )
+              )
+            }
+          ),
+          #"SYSTEM_SYSRULES_columnLayout"(contents: {}, width: "NARROW_PLUS")
+        }
+      ),
+      #"SYSTEM_SYSRULES_columnsLayout"(
+        columns: {
+          #"SYSTEM_SYSRULES_columnLayout"(
+            contents: {
+              #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_125906"(
+                readOnly: false,
+                dollarValue: ri!request.fundingDetails.actualFundingValue,
+                currencyCode: ri!request.fundingDetails.actualValueCurrencyCode,
+                dollarLabel: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                  i18nData: local!i18nData,
+                  bundleKey: "AS.CO.AllBundles.lbl_ActualFundingValue"
+                ),
+                required: true,
+                currencyLabel: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                  i18nData: local!i18nData,
+                  bundleKey: "AS.CO.AllBundles.lbl_Currency"
+                ),
+                i18nData: local!i18nData
+              )
+            },
+            width: "MEDIUM"
+          )
+        }
+      )
+    },
+    headerText: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+      i18nData: local!i18nData,
+      bundleKey: "AS.CO.AllBundles.lbl_EnterFundingDetails"
+    ),
+    bodyText: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+      i18nData: local!i18nData,
+      bundleKey: "AS.CO.AllBundles.ins_DueDatesInstruction"
+    ),
+    confirmSaveInto: {},
+    textAlignment: "LEFT",
+    cancelSaveInto: { #"_a-0000e539-6d59-8000-9bd0-011c48011c48_1227743"(),  },
+    /*Inputs for Debug Framework*/
+    isFromCompleteTask: true(),
+    ruleNameForDebugFw: "AS_IO_FM_EnterActualFundingDetails"
+  )
+)</definition>
+        <namedTypedValue>
+            <name>userAction</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>task</name>
+            <type>
+                <name>AS_IO_Task</name>
+                <namespace>urn:com:appian:types:AS:IO</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>startTime</name>
+            <type>
+                <name>dateTime</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>request</name>
+            <type>
+                <name>AS_IO_OnboardingRequest</name>
+                <namespace>urn:com:appian:types:AS:IO</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+        <isCustom>false</isCustom>
+    </interface>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name/>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:string"/>
+                    <a:nameRef>userAction</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e393-fbf1-8000-9ba2-011c48011c48_104148"(
+  behaviorSubtypeCode: #"_a-0000e471-623a-8000-9bc3-011c48011c48_708464",
+  returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290157"
+)
+</a:value>
+                    <a:nameRef>task</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:dateTime"/>
+                    <a:nameRef>startTime</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:n1="urn:com:appian:types:AS:IO" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="n1:AS_IO_OnboardingRequest"/>
+                    <a:nameRef>request</a:nameRef>
+                    <a:id>4</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e471-623a-8000-9bc3-011c48011c48_717512"/>
+        <historyInfo versionUuid="_a-0000e471-623a-8000-9bc3-011c48011c48_725243"/>
+        <historyInfo versionUuid="_a-0000e471-623a-8000-9bc3-011c48011c48_791618"/>
+        <historyInfo versionUuid="_a-0000e539-6d59-8000-9bd0-011c48011c48_1156833"/>
+        <historyInfo versionUuid="_a-0000e539-6d59-8000-9bd0-011c48011c48_1228212"/>
+        <historyInfo versionUuid="_a-0000e62c-7375-8000-9bec-011c48011c48_1862101"/>
+        <historyInfo versionUuid="_a-0000e69f-3688-8000-9bf2-011c48011c48_2138990"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2717656"/>
+        <historyInfo versionUuid="_a-0000e77e-5277-8000-9c09-011c48011c48_2903857"/>
+        <historyInfo versionUuid="_a-0000e79b-0335-8000-9c0c-011c48011c48_2943987"/>
+        <historyInfo versionUuid="_a-0000e825-b425-8000-9c1c-011c48011c48_3634349"/>
+    </history>
+</contentHaul>

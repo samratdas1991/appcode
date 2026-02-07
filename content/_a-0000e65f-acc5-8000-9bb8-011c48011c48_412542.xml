@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e6ca-7e19-8000-9bfb-011c48011c48_2212498</versionUuid>
+    <rule>
+        <name>AS_FRM_colorSchemeColorByIndex</name>
+        <uuid>_a-0000e65f-acc5-8000-9bb8-011c48011c48_412542</uuid>
+        <description>Returns a single value of a branding color scheme value by the index (e.g. passing value: MIDNIGHT and index: 2 returns the second color of the MIDNIGHT color scheme)</description>
+        <parentUuid>_a-0000e5d4-2024-8000-9baf-011c48011c48_320771</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>if(
+  isnull(ri!colorSchemeValue),
+  "",
+  a!localVariables(
+    local!hexCodes: #"_a-0000e65f-acc5-8000-9bb8-011c48011c48_409039"(
+      colorSchemeValue: ri!colorSchemeValue,
+      returnRawHexCodes: true
+    ),
+    local!isStandardColorScheme: contains(
+      #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_165064"(
+        array: #"_a-0000e65f-acc5-8000-9bb8-011c48011c48_409027"().key,
+        values: "CLASSIC"
+      ),
+      ri!colorSchemeValue
+    ),
+    if(
+      local!isStandardColorScheme,
+      /* Standard color schemes aside from CLASSIC behave (somewhat unintuitively) as follows --
+      1) If there is only one color to be displayed, the second color in the scheme is used
+      2) For pie charts, the colors are displayed backwards starting at the index of the number of colors to be displayed */
+      if(
+        ri!totalIndexes = 1,
+        local!hexCodes[2],
+        if(
+          isnull(ri!colorIndex),
+          local!hexCodes[1],
+          a!localVariables(
+            local!relevantHexCodes: index(
+              local!hexCodes,
+              enumerate(
+                min(
+                  if(
+                    isnull(ri!totalIndexes),
+                    {},
+                    ri!totalIndexes
+                  ),
+                  count(local!hexCodes)
+                )
+              ) + 1
+            ),
+            local!relevantHexCodesOrdered: if(
+              ri!isPieChart,
+              reverse(local!relevantHexCodes),
+              local!relevantHexCodes
+            ),
+            local!relevantHexCodesOrdered[mod(ri!colorIndex - 1, count(local!hexCodes)) + 1]
+          )
+        )
+      ),
+      /*custom color scheme*/
+      local!hexCodes[mod(ri!colorIndex - 1, count(local!hexCodes)) + 1]
+    )
+  )
+)</definition>
+        <namedTypedValue>
+            <name>colorSchemeValue</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>colorIndex</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>totalIndexes</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>isPieChart</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <history>
+        <historyInfo versionUuid="_a-0000e65f-acc5-8000-9bb8-011c48011c48_412573"/>
+        <historyInfo versionUuid="_a-0000e69f-3688-8000-9bf2-011c48011c48_2102226"/>
+        <historyInfo versionUuid="_a-0000e65f-acc5-8000-9bb8-011c48011c48_433965"/>
+        <historyInfo versionUuid="_a-0000e65f-acc5-8000-9bb8-011c48011c48_434244"/>
+        <historyInfo versionUuid="_a-0000e65f-acc5-8000-9bb8-011c48011c48_434683"/>
+        <historyInfo versionUuid="_a-0000e6ca-7e19-8000-9bfb-011c48011c48_2212452"/>
+        <historyInfo versionUuid="_a-0000e6ca-7e19-8000-9bfb-011c48011c48_2212498"/>
+    </history>
+</contentHaul>

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e70f-2824-8000-9c01-011c48011c48_2680337</versionUuid>
+    <rule>
+        <name>AS_CO_UT_webApiResponseSuccess</name>
+        <uuid>_a-0000e329-3415-8000-9ba2-011c48011c48_394532</uuid>
+        <description>Successful Web API Response constructor -- note, pass in an Appian Dictionary or CDTs for body, this rule will handle casting to JSON</description>
+        <parentUuid>_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73105</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>#"SYSTEM_SYSRULES_httpResponse_v1"(
+  statusCode: 200,
+  headers: #"_a-0000e329-3415-8000-9ba2-011c48011c48_381056"(),
+  body: #"SYSTEM_SYSRULES_toJson_v1"(ri!body)
+)</definition>
+        <namedTypedValue>
+            <name>body</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name>valid case</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">{         "sequenceNumber": 1, "relationCode": "10", "relationPositionCode": "L", "relationTypeDescription": "director is", "numberOfRelatedClient": "5757603", "nameOfRelatedClient": "CONSULTING ASS. SITORA"      }</a:value>
+                    <a:nameRef>body</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e329-3415-8000-9ba2-011c48011c48_394543"/>
+        <historyInfo versionUuid="_a-0000e430-f270-8000-9bbc-011c48011c48_372123"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2679533"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2680337"/>
+    </history>
+</contentHaul>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema targetNamespace="urn:com:appian:types:AS:IO"
+  xmlns:tns="urn:com:appian:types:AS:IO" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <xsd:complexType name="AS_IO_R_TemplateTask_Precedent">
+    <xsd:annotation>
+      <xsd:appinfo source="appian.jpa">@Table(name="AS_IO_R_TEMPLATE_TASK_PRECEDNT")</xsd:appinfo>
+      <xsd:appinfo source="http://www.appian.com/ae/types/2009">
+        <ns2:Metadata xmlns:ns2="http://www.appian.com/ae/types/2009">
+          <ns2:versionUuid>0000e7fa-5672-8000-6df8-7f0000014e7a</ns2:versionUuid>
+          <ns2:history>
+            <ns2:historyInfo versionUuid="0000e3b6-1bf4-8000-f92f-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0000e7fa-5672-8000-6df8-7f0000014e7a"/>
+          </ns2:history>
+        </ns2:Metadata>
+      </xsd:appinfo>
+      <xsd:documentation><![CDATA[Mapping data type used to indicate that a reference task is a precedent of a template task]]></xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="templateTaskPrecedentId" nillable="true" type="xsd:int">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@Id @GeneratedValue @Column(name="TEMPLATE_TASK_PRECEDENT_ID", nullable=false, unique=true)</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="templateTaskId" nillable="true" type="xsd:int">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@Column(name="TEMPLATE_TASK_ID")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="templateTaskUUIDPrecedent" nillable="true" type="xsd:string">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@Column(name="TEMPLATE_TASK_UUID_PRECEDENT")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+</xsd:schema>

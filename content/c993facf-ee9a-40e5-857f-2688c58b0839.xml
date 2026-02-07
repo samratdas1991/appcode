@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e811-1167-8000-9c18-011c48011c48_3524228</versionUuid>
+    <rule>
+        <name>AS_IO_UT_createTaskActionAuditCdts</name>
+        <uuid>c993facf-ee9a-40e5-857f-2688c58b0839</uuid>
+        <description>Builds the audit CDTs for use in process</description>
+        <parentUuid>_a-0000e2bb-4188-8000-9ba2-011c48011c48_25469</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>cast(
+  'type!{urn:com:appian:types:AS:IO}AS_IO_TaskActionAudit?list',
+  #"SYSTEM_SYSRULES_forEach"(
+    items: ri!tasks,
+    expression: {
+      if(
+        #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(ri!startTime),
+        {},
+        'type!{urn:com:appian:types:AS:IO}AS_IO_TaskActionAudit'(
+          task: fv!item,
+          review: fv!item.review,
+          username: ri!initiator,
+          timestamp: ri!startTime,
+          taskAction: 'type!{urn:com:appian:types:AS:IO}AS_IO_R_TaskAction'(
+            taskActionId: #"_a-0000e460-9d93-8000-9bc1-011c48011c48_602167"
+          ),
+          assignedTo: null,
+          
+        )
+      ),
+      'type!{urn:com:appian:types:AS:IO}AS_IO_TaskActionAudit'(
+        task: fv!item,
+        review: fv!item.review,
+        username: ri!initiator,
+        timestamp: now(),
+        taskAction: 'type!{urn:com:appian:types:AS:IO}AS_IO_R_TaskAction'(taskActionId: ri!taskActionId),
+        assignedTo: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73980"(
+          nullableValue: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73660"(user: fv!item.userAssignee),
+          replacementValue: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73726"(groupOrUser: fv!item.groupAssignee)
+        ),
+        comment: if(
+         count(ri!comments) = 1,
+          ri!comments,
+          index(ri!comments, fv!index, null)
+        ),
+        oldDueDate: ri!oldDueDate
+      )
+    }
+  )
+)</definition>
+        <namedTypedValue>
+            <name>tasks</name>
+            <type>
+                <name>AS_IO_Task?list</name>
+                <namespace>urn:com:appian:types:AS:IO</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>initiator</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>startTime</name>
+            <type>
+                <name>dateTime</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>taskActionId</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>comments</name>
+            <type>
+                <name>Text?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>oldDueDate</name>
+            <type>
+                <name>date</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name>A few test inputs</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">'type!{urn:com:appian:types:AS:IO}AS_IO_Task'()</a:value>
+                    <a:nameRef>tasks</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">loggedInUser()</a:value>
+                    <a:nameRef>initiator</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">now()</a:value>
+                    <a:nameRef>startTime</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:int"/>
+                    <a:nameRef>taskActionId</a:nameRef>
+                    <a:id>4</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                    <a:nameRef>comments</a:nameRef>
+                    <a:id>5</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:date"/>
+                    <a:nameRef>oldDueDate</a:nameRef>
+                    <a:id>6</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e2cd-bc96-8000-9ba2-011c48011c48_78008"/>
+        <historyInfo versionUuid="_a-0000e2cd-bc96-8000-9ba2-011c48011c48_106511"/>
+        <historyInfo versionUuid="_a-0000e3c8-6861-8000-9ba2-011c48011c48_115425"/>
+        <historyInfo versionUuid="_a-0000e3e6-fb42-8000-9ba5-011c48011c48_212021"/>
+        <historyInfo versionUuid="_a-0000e3e6-fb42-8000-9ba5-011c48011c48_225824"/>
+        <historyInfo versionUuid="_a-0000e430-f270-8000-9bbc-011c48011c48_368401"/>
+        <historyInfo versionUuid="_a-0000e460-9d93-8000-9bc1-011c48011c48_603024"/>
+        <historyInfo versionUuid="_a-0000e460-9d93-8000-9bc1-011c48011c48_608938"/>
+        <historyInfo versionUuid="_a-0000e460-9d93-8000-9bc1-011c48011c48_613883"/>
+        <historyInfo versionUuid="_a-0000e4ae-1ed6-8000-9bc5-011c48011c48_799450"/>
+        <historyInfo versionUuid="_a-0000e62c-7375-8000-9bec-011c48011c48_1865208"/>
+        <historyInfo versionUuid="_a-0000e7d2-6286-8000-9c11-011c48011c48_3205513"/>
+        <historyInfo versionUuid="_a-0000e811-1167-8000-9c18-011c48011c48_3524228"/>
+    </history>
+</contentHaul>

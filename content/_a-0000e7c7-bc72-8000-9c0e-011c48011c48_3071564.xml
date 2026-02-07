@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e7e5-dad4-8000-9c14-011c48011c48_3245742</versionUuid>
+    <rule>
+        <name>AS_IO_QR_getOnboardingDocument</name>
+        <uuid>_a-0000e7c7-bc72-8000-9c0e-011c48011c48_3071564</uuid>
+        <description>Query record for AS_IO_OnboardingDocument_SyncedRecordType</description>
+        <parentUuid>_a-0000e2bb-4188-8000-9ba2-011c48011c48_25469</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>#"_a-0000e6c8-d132-8000-9bbe-011c48011c48_469266"(
+  recordType: #"urn:appian:record-type:v1:ebe416f9-47e7-4305-98b7-d2227d9a71a0",
+  fields: ri!fields,
+  filters: {
+    #"SYSTEM_SYSRULES_queryFilter"(
+      field: #"urn:appian:record-field:v1:ebe416f9-47e7-4305-98b7-d2227d9a71a0/b4395b3a-941e-4852-9064-71ad0d9a31eb",
+      operator: "in",
+      value: ri!requestId,
+      applywhen: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(ri!requestId)
+    ),
+    #"SYSTEM_SYSRULES_queryFilter"(
+      field: #"urn:appian:record-field:v1:ebe416f9-47e7-4305-98b7-d2227d9a71a0/b2de03ee-2abc-4fe2-81c0-f13b5228fafa",
+      operator: "in",
+      value: ri!onboardingDocumentId
+    ),
+    #"SYSTEM_SYSRULES_queryFilter"(
+      field: #"urn:appian:record-field:v1:ebe416f9-47e7-4305-98b7-d2227d9a71a0/d18d3e10-da40-42de-9655-26de8c564de8",
+      operator: "=",
+      value: ri!customerDocumentId
+    ),
+    #"SYSTEM_SYSRULES_queryFilter"(
+      field: #"urn:appian:record-field:v1:ebe416f9-47e7-4305-98b7-d2227d9a71a0/b347fb34-4eb9-465b-9cc8-a0c217a75e41",
+      operator: "in",
+      value: ri!status
+    ),
+    #"SYSTEM_SYSRULES_queryFilter"(
+      field: #"urn:appian:record-field:v1:ebe416f9-47e7-4305-98b7-d2227d9a71a0/f69bd0c1-51c0-4323-8b88-d608a0aee8fe/c0423faa-e9c8-49a9-a393-1b1562782280",
+      operator: "in",
+      value: ri!onboardingStatus
+    ),
+    #"SYSTEM_SYSRULES_queryFilter"(
+      field: #"urn:appian:record-field:v1:ebe416f9-47e7-4305-98b7-d2227d9a71a0/9118b2da-8f9f-4d05-9ccf-b42f870277e3",
+      operator: "in",
+      value: a!defaultValue(value: ri!isDeleted, default: { false })
+    ),
+    #"SYSTEM_SYSRULES_queryFilter"(
+      field: #"urn:appian:record-field:v1:ebe416f9-47e7-4305-98b7-d2227d9a71a0/45af2d17-1965-4655-a68d-0d4ec1961d75",
+      operator: "not in",
+      value: ri!assigneeUser
+    )
+  },
+  logicalExpression: ri!additionalLogicalExpressions,
+  returnType: ri!returnType,
+  castToCdtType: if(
+    ri!castToCdtType,
+    'type!{urn:com:appian:types:AS:IO}AS_IO_OnboardingDocument',
+    {}
+  ),
+  triggerRefresh: ri!triggerRefresh,
+  sort: ri!sort,
+  pagingInfo: ri!pagingInfo,
+  executeWhen: ri!executeWhen
+)</definition>
+        <namedTypedValue>
+            <name>requestId</name>
+            <type>
+                <name>Integer?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>additionalLogicalExpressions</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>returnType</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>triggerRefresh</name>
+            <type>
+                <name>dateTime</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>sort</name>
+            <type>
+                <name>SortInfo</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>pagingInfo</name>
+            <type>
+                <name>PagingInfo</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>onboardingDocumentId</name>
+            <type>
+                <name>Integer?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>customerDocumentId</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>assigneeUser</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>isDeleted</name>
+            <type>
+                <name>Boolean?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>castToCdtType</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>fields</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>status</name>
+            <type>
+                <name>Text?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>onboardingStatus</name>
+            <type>
+                <name>Text?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>executeWhen</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name>Sample Test Case</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">11</a:value>
+                    <a:nameRef>requestId</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                    <a:nameRef>additionalLogicalExpressions</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e415-3035-8000-9bb2-011c48011c48_290163"</a:value>
+                    <a:nameRef>returnType</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:dateTime"/>
+                    <a:nameRef>triggerRefresh</a:nameRef>
+                    <a:id>4</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="a:SortInfo"/>
+                    <a:nameRef>sort</a:nameRef>
+                    <a:id>5</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="a:PagingInfo"/>
+                    <a:nameRef>pagingInfo</a:nameRef>
+                    <a:id>6</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                    <a:nameRef>onboardingDocumentId</a:nameRef>
+                    <a:id>7</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:int"/>
+                    <a:nameRef>customerDocumentId</a:nameRef>
+                    <a:id>8</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:string"/>
+                    <a:nameRef>assigneeUser</a:nameRef>
+                    <a:id>9</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                    <a:nameRef>isDeleted</a:nameRef>
+                    <a:id>10</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:boolean"/>
+                    <a:nameRef>castToCdtType</a:nameRef>
+                    <a:id>11</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                    <a:nameRef>fields</a:nameRef>
+                    <a:id>12</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                    <a:nameRef>status</a:nameRef>
+                    <a:id>13</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                    <a:nameRef>onboardingStatus</a:nameRef>
+                    <a:id>14</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                    <a:nameRef>executeWhen</a:nameRef>
+                    <a:id>15</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e7c7-bc72-8000-9c0e-011c48011c48_3071927"/>
+        <historyInfo versionUuid="_a-0000e7d2-6286-8000-9c11-011c48011c48_3169803"/>
+        <historyInfo versionUuid="_a-0000e7e5-dad4-8000-9c14-011c48011c48_3245742"/>
+    </history>
+</contentHaul>

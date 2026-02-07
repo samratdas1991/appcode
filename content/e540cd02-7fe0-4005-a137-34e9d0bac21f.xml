@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e7e5-dad4-8000-9c14-011c48011c48_3248451</versionUuid>
+    <rule>
+        <name>AS_IO_BL_TaskTemplateMappingFields_v1_default</name>
+        <uuid>e540cd02-7fe0-4005-a137-34e9d0bac21f</uuid>
+        <description>This rule defines the onboarding fields that will be used by the system to select the default task template during onboarding creation.
+
+@customizable:1.0
+@category:BUSINESS_LOGIC
+@app:FS.IO</description>
+        <parentUuid>_a-0000e2bb-4188-8000-9ba2-011c48011c48_25469</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>/*
+
+DESCRIPTION: This rule contains information about which fields from the onboarding request
+will be used to select a task template during onboarding creation.
+It affects...
+  - The fields displayed in the onboarding summary box that is shown during process setup
+  - The fields that can be configured when editing a task template
+  - The logic that enforces a unique combination of these fields
+  - The query that retrieves the task template during creation.
+
+
+DEFAULT BEHAVIOR: By default, the mapping fields are the customer's region and the onboarding type code
+
+
+CUSTOMIZATION STEPS: 
+- Add any new template mapping fields to AS_IO_R_Template_CustomFields and the underlying database table
+    NOTE: The customization of AS_IO_R_Template_CustomFields is not yet fully supported in that it will be overwritten on upgrade. 
+      This CDT will need to be backported from higher environments after deploying solutions upgrades in order to prevent loss of custom fields
+- Create a new custom version of this rule containing a fully populated instance of AS_IO_TemplateMappingFieldConfigs for each new field
+    NOTE: All configured fields will be required on each task template
+    NOTE: All onboarding fields must be found within the AS_IO_OnboardingRequest CDT or its nested CDTs
+- Query for any reference data that is needed to populate these dropdowns
+    NOTE: Use queryDropdownValues in the executeWhen parameter to minimize unnecessary querying, as is done in the default rule
+- If new internationalization text is needed, define that using the Content section of the Solutions Customization Suite
+    NOTE: If you are not internationalizing your application, you can use plaintext and do not need to use AS_CO_I18N_UT_displayLabel
+
+
+PARAMETERS: 
+- i18nData (input-only) - Internationalization label mappings used throughout the application
+- queryDropdownValues (input-only) - Boolean used to determine whether or not the ref data needs to be queried
+    (Should only be true when the dropdowns are displayed while editing task templates)
+
+
+EXPECTED RETURN TYPE: List of AS_IO_TemplateMappingFieldConfigs
+
+*/
+
+a!localVariables(
+  local!onboardingTypeCodes: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_39864"(
+    i18nData: ri!i18nData,
+    typeList: { #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_40302" },
+    executeWhen: ri!queryDropdownValues
+  ),
+  local!regions: #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_979643"(
+    i18nData: ri!i18nData,
+    returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290163",
+    executeWhen: ri!queryDropdownValues
+  ),
+  {
+    'type!{urn:com:appian:types:AS:IO}AS_IO_TemplateMappingFieldConfig'(
+      templateField: "onboardingTypeCode",
+      onboardingField: "type",
+      label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+        i18nData: ri!i18nData,
+        bundleKey: "AS.CO.AllBundles.lbl_OnboardingType"
+      ),
+      placeholderLabel: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+        i18nData: ri!i18nData,
+        bundleKey: "AS.CO.AllBundles.plc_SelectAnOnboardingType"
+      ),
+      choiceLabels: local!onboardingTypeCodes.label,
+      choiceValues: local!onboardingTypeCodes.code
+    ),
+    'type!{urn:com:appian:types:AS:IO}AS_IO_TemplateMappingFieldConfig'(
+      templateField: "regionCode",
+      onboardingField: "customer.domicile.regionCode",
+      label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+        i18nData: ri!i18nData,
+        bundleKey: "AS.CO.AllBundles.lbl_Region"
+      ),
+      placeholderLabel: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+        i18nData: ri!i18nData,
+        bundleKey: "AS.CO.AllBundles.plc_SelectARegion"
+      ),
+      choiceLabels: local!regions.regionName,
+      choiceValues: local!regions.regionCode
+    )
+  }
+)</definition>
+        <namedTypedValue>
+            <name>i18nData</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>queryDropdownValues</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name>Output type</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81834"(
+  triggerRefresh: null
+)</a:value>
+                    <a:nameRef>i18nData</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:boolean">true</a:value>
+                    <a:nameRef>queryDropdownValues</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions>
+                    <a:expectedOutput xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                    <a:resultAssertions>typeof(test!output) = 'type!{urn:com:appian:types:AS:IO}AS_IO_TemplateMappingFieldConfig?list'</a:resultAssertions>
+                </a:assertions>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e6c5-6536-8000-9bf8-011c48011c48_2209880"/>
+        <historyInfo versionUuid="_a-0000e6ca-7e19-8000-9bfb-011c48011c48_2272725"/>
+        <historyInfo versionUuid="_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2360792"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2805581"/>
+        <historyInfo versionUuid="_a-0000e7e5-dad4-8000-9c14-011c48011c48_3248451"/>
+    </history>
+</contentHaul>

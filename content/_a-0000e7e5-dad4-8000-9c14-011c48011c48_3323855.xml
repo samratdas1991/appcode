@@ -1,0 +1,426 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e811-1167-8000-9c18-011c48011c48_3531586</versionUuid>
+    <interface>
+        <name>AS_IO_CPS_manageOnboardingTemplate_TasksGrid</name>
+        <uuid>_a-0000e7e5-dad4-8000-9c14-011c48011c48_3323855</uuid>
+        <description>grid to display tasks for each onboarding template</description>
+        <parentUuid>_a-0000e2bb-4188-8000-9ba2-011c48011c48_25469</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  /* Tasks are sorted in parent rules, so no need for sorting here */
+  local!pagingInfo: #"SYSTEM_SYSRULES_pagingInfo"(startIndex: 1, batchSize: 50),
+  {
+    #"SYSTEM_SYSRULES_gridLayout"(
+      emptyGridMessage: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+        i18nData: ri!i18nData,
+        bundleKey: "AS.CO.AllBundles.plc_NoTasks"
+      ),
+      headerCells: {
+        #"SYSTEM_SYSRULES_gridLayoutHeaderCell"(label: ""),
+        #"SYSTEM_SYSRULES_gridLayoutHeaderCell"(
+          label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+            i18nData: ri!i18nData,
+            bundleKey: "AS.CO.AllBundles.lbl_TaskName"
+          )
+        ),
+        #"SYSTEM_SYSRULES_gridLayoutHeaderCell"(
+          label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+            i18nData: ri!i18nData,
+            bundleKey: "AS.CO.AllBundles.lbl_Precedents"
+          ),
+          helpTooltip: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+            i18nData: ri!i18nData,
+            bundleKey: "AS.CO.AllBundles.ins_Precedents"
+          )
+        ),
+        #"SYSTEM_SYSRULES_gridLayoutHeaderCell"(
+          label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+            i18nData: ri!i18nData,
+            bundleKey: "AS.CO.AllBundles.lbl_AssignedGroup"
+          )
+        ),
+        #"SYSTEM_SYSRULES_gridLayoutHeaderCell"(
+          label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+            i18nData: ri!i18nData,
+            bundleKey: "AS.CO.AllBundles.lbl_DueDate"
+          ),
+          helpTooltip: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+            i18nData: ri!i18nData,
+            bundleKey: "AS.CO.AllBundles.lbl_InDays"
+          )
+        ),
+        #"SYSTEM_SYSRULES_gridLayoutHeaderCell"(
+          label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+            i18nData: ri!i18nData,
+            bundleKey: "AS.CO.AllBundles.lbl_FundingDate"
+          )
+        ),
+        #"SYSTEM_SYSRULES_gridLayoutHeaderCell"(),
+        #"SYSTEM_SYSRULES_gridLayoutHeaderCell"(label: "")
+      },
+      columnConfigs: {
+        #"SYSTEM_SYSRULES_gridLayoutColumnConfig"(width: "ICON"),
+        #"SYSTEM_SYSRULES_gridLayoutColumnConfig"(weight: 3),
+        /*Make description and precedents fields larger*/
+        #"SYSTEM_SYSRULES_gridLayoutColumnConfig"(weight: 2),
+        #"SYSTEM_SYSRULES_gridLayoutColumnConfig"(weight: 1),
+        #"SYSTEM_SYSRULES_gridLayoutColumnConfig"(weight: 2),
+        #"SYSTEM_SYSRULES_gridLayoutColumnConfig"(weight: 2),
+        #"SYSTEM_SYSRULES_gridLayoutColumnConfig"(width: "ICON"),
+        #"SYSTEM_SYSRULES_gridLayoutColumnConfig"(width: "ICON")
+      },
+      rows: {
+        #"SYSTEM_SYSRULES_forEach"(
+          items: todatasubset(
+            arrayToPage: { ri!selectedTemplateTasks },
+            pagingConfiguration: local!pagingInfo
+          ).data,
+          expression: {
+            a!localVariables(
+              local!trueIndex: local!pagingInfo.startIndex - 1 + fv!index,
+              #"SYSTEM_SYSRULES_gridRowLayout"(
+                contents: {
+                  /*index*/
+                  #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_74362"(
+                    readOnly: true,
+                    value: local!trueIndex,
+                    align: "CENTER"
+                  ),
+                  /*name*/
+                  #"SYSTEM_SYSRULES_richTextDisplayField"(
+                    labelPosition: "COLLAPSED",
+                    value: {
+                      #"SYSTEM_SYSRULES_richTextItem_v1"(text: fv!item.taskName),
+                      char(10),
+                      #"SYSTEM_SYSRULES_richTextIcon"(
+                        /*icon: fv!row.due_icon,*/
+                        icon: "gift",
+                        color: "SECONDARY",
+                        size: "SMALL"
+                      ),
+                      " ",
+                      #"SYSTEM_SYSRULES_richTextItem_v1"(
+                        text: fv!item.taskRef.taskCategory.categoryName &amp; " • ",
+                        color: "SECONDARY",
+                        size: "SMALL"
+                      ),
+                      #"SYSTEM_SYSRULES_richTextIcon"(
+                        icon: "list-alt",
+                        color: "SECONDARY",
+                        size: "SMALL"
+                      ),
+                      " ",
+                      #"SYSTEM_SYSRULES_richTextItem_v1"(
+                        text: #"_a-0000e438-fdf5-8000-9ba8-011c48011c48_21856"(
+                          singleData: fv!item.taskRef.taskBehaviorType,
+                          labelField: "behaviorDisplayName",
+                          i18nData: ri!i18nData
+                        ),
+                        color: "SECONDARY",
+                        size: "SMALL"
+                      )
+                    }
+                  ),
+                  /*precedents*/
+                  if(
+                    fv!item.taskRef.taskBehaviorType.behaviorSubtypeCode = #"_a-0000e528-bc07-8000-9bcf-011c48011c48_1023225",
+                    #"SYSTEM_SYSRULES_richTextDisplayField"(
+                      value: #"SYSTEM_SYSRULES_richTextItem_v1"(
+                        text: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                          i18nData: ri!i18nData,
+                          bundleKey: "AS.CO.AllBundles.ins_NoPrecedentsForQuestionnaireTask"
+                        ),
+                        style: "EMPHASIS",
+                        color: "SECONDARY",
+                        size: "SMALL"
+                      )
+                    ),
+                    a!localVariables(
+                      local!precTaskOptions: #"_a-0000e40a-de32-8000-9ba8-011c48011c48_271202"(
+                        cdt: ri!selectedTemplateTasks,
+                        field: "templateTaskUUID",
+                        value: fv!item.templateTaskUUID
+                      ),
+                      /*Removes Attach Required Document tasks from the list*/
+                      local!filteredPrecTaskOptions: #"_a-0000e40a-de32-8000-9ba8-011c48011c48_271202"(
+                        cdt: local!precTaskOptions,
+                        field: "taskRef.taskBehaviorType.behaviorSubtypeCode",
+                        value: #"_a-0000e393-fbf1-8000-9ba2-011c48011c48_99647"
+                      ),
+                      if(
+                        contains(
+                          {
+                            #"_a-0000e393-fbf1-8000-9ba2-011c48011c48_99647",
+                            #"_a-0000e79b-0335-8000-9c0c-011c48011c48_3040883"
+                          },
+                          fv!item.taskRef.taskBehaviorType.behaviorSubtypeCode
+                        ),
+                        /*Used if condition instead of handling it in the disabled because attach tasks are filtered out for the rest of the tasks*/
+                        #"SYSTEM_SYSRULES_textField"(
+                          value: if(
+                            fv!item.taskRef.taskBehaviorType.behaviorSubtypeCode = #"_a-0000e79b-0335-8000-9c0c-011c48011c48_3040883",
+                            index(
+                              local!precTaskOptions,
+                              wherecontains(
+                                touniformstring(
+                                  a!flatten(fv!item.templateTaskPrecedents).templateTaskUUIDPrecedent
+                                ),
+                                touniformstring(local!precTaskOptions.templateTaskUUID)
+                              ),
+                              null
+                            ).taskName,
+                            #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                              i18nData: ri!i18nData,
+                              bundleKey: "AS.CO.AllBundles.txt_uploadTaskCantHavePrecedents"
+                            )
+                          ),
+                          /* Disabling if it's required document tasks */
+                          disabled: true()
+                        ),
+                        #"_a-0000e528-bc07-8000-9bcf-011c48011c48_1032065"(
+                          placeholderLabel: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                            i18nData: ri!i18nData,
+                            bundleKey: "AS.CO.AllBundles.lbl_Precedents"
+                          ),
+                          choiceLabels: { local!filteredPrecTaskOptions.taskName },
+                          choiceValues: {
+                            local!filteredPrecTaskOptions.templateTaskUUID
+                          },
+                          value: a!flatten(fv!item.templateTaskPrecedents).templateTaskUUIDPrecedent,
+                          saveInto: {
+                            a!save(
+                              ri!selectedTemplateTasks[local!trueIndex].templateTaskPrecedents,
+                              #"SYSTEM_SYSRULES_forEach"(
+                                items: save!value,
+                                expression: 'type!{urn:com:appian:types:AS:IO}AS_IO_R_TemplateTask_Precedent'(templateTaskUUIDPrecedent: fv!item)
+                              )
+                            )
+                          }
+                        )
+                      )
+                    )
+                  ),
+                  /*default assignee*/
+                  #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_74426"(
+                    label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                      i18nData: ri!i18nData,
+                      bundleKey: "AS.CO.AllBundles.lbl_DefaultGroupAssignee"
+                    ),
+                    required: true,
+                    maxSelections: 1,
+                    suggestFunction: #"_a-0000e586-af6f-8000-9bd2-011c48011c48_1359122"(
+                      searchText: _,
+                      customerGroupId: #"_a-0000e539-6d59-8000-9bd0-011c48011c48_1296974"
+                    ),
+                    selectedLabels: if(
+                      #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(fv!item.groupAssignee),
+                      null,
+                      group(
+                        tointeger(fv!item.groupAssignee),
+                        "groupName"
+                      )
+                    ),
+                    value: fv!item.groupAssignee,
+                    saveInto: ri!selectedTemplateTasks[local!trueIndex].groupAssignee,
+                    labelPosition: "ABOVE"
+                  ),
+                  /*sla days*/
+                  #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_74362"(
+                    required: true,
+                    minSize: 0,
+                    readOnly: false,
+                    value: fv!item.slaDays,
+                    saveInto: ri!selectedTemplateTasks[local!trueIndex].slaDays
+                  ),
+                  /*sla rule type */
+                  #"_a-0000e528-bc07-8000-9bcf-011c48011c48_1027802"(
+                    label: "",
+                    choiceLabels: {
+                      #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                        i18nData: ri!i18nData,
+                        bundleKey: "AS.CO.AllBundles.lbl_After"
+                      ),
+                      #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                        i18nData: ri!i18nData,
+                        bundleKey: "AS.CO.AllBundles.lbl_Before"
+                      )
+                    },
+                    choiceValues: {
+                      #"_a-0000e460-9d93-8000-9bc1-011c48011c48_620343",
+                      #"_a-0000e460-9d93-8000-9bc1-011c48011c48_620337"
+                    },
+                    value: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73980"(
+                      nullableValue: fv!item.slaRule,
+                      replacementValue: #"_a-0000e460-9d93-8000-9bc1-011c48011c48_620337"
+                    ),
+                    saveInto: ri!selectedTemplateTasks[local!trueIndex].slaRule,
+                    readOnly: false,
+                    required: true,
+                    noPlaceholderLabel: true
+                  ),
+                  /*reorder*/
+                  #"_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_948885"(
+                    list: ri!selectedTemplateTasks,
+                    index: local!trueIndex
+                  ),
+                  /*remove task*/
+                  a!localVariables(
+                    local!removeDisabled: or(
+                      fv!item.taskRef.taskBehaviorType.behaviorSubtypeCode = #"_a-0000e471-623a-8000-9bc3-011c48011c48_708464",
+                      contains(
+                        {
+                          #"_a-0000e393-fbf1-8000-9ba2-011c48011c48_99647",
+                          #"_a-0000e79b-0335-8000-9c0c-011c48011c48_3040883"
+                        },
+                        touniformstring(
+                          fv!item.taskRef.taskBehaviorType.behaviorSubtypeCode
+                        )
+                      )
+                    ),
+                    #"_a-0000e3e6-fb42-8000-9ba5-011c48011c48_180322"(
+                      caption: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                        i18nData: ri!i18nData,
+                        bundleKey: if(
+                          local!removeDisabled,
+                          "AS.CO.AllBundles.ins_RemoveDisabled",
+                          "AS.CO.AllBundles.ins_RemoveTask"
+                        )
+                      ),
+                      /*remove task as precedent for other tasks, then remove task from template*/
+                      saveInto: #"_a-0000e3d1-f4dc-8000-9ba4-011c48011c48_143273"(
+                        selectedTemplateTasks: ri!selectedTemplateTasks,
+                        taskUUIDsToRemove: fv!item.templateTaskUUID
+                      ),
+                      removalType: #"_a-0000e3e6-fb42-8000-9ba5-011c48011c48_186249",
+                      disable: local!removeDisabled,
+                      /*user shouldn't be able to remove required document tasks*/
+                      
+                    )
+                  )
+                }
+              )
+            )
+          }
+        )
+      },
+      validations: #"SYSTEM_SYSRULES_validationMessage"(
+        message: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+          i18nData: ri!i18nData,
+          bundleKey: "AS.CO.AllBundles.vld_FillOutRequiredFields"
+        ),
+        validateAfter: "SUBMIT",
+        showWhen: and(
+          #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(ri!selectedTemplateTasks),
+          or(
+            #"SYSTEM_SYSRULES_forEach"(
+              items: ri!selectedTemplateTasks,
+              expression: or(
+                #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(
+                  fv!item.taskRef.taskCategory.categoryName
+                ),
+                #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(fv!item.taskRef.taskBehaviorType),
+                #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(fv!item.groupAssignee),
+                #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(fv!item.slaDays)
+              )
+            )
+          )
+        )
+      )
+    ),
+    #"_a-0000e539-6d59-8000-9bd0-011c48011c48_1207543"(
+      align: "RIGHT",
+      pagingInfo: local!pagingInfo,
+      totalCount: #"_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_880586"(ri!selectedTemplateTasks)
+    )
+  }
+)</definition>
+        <namedTypedValue>
+            <name>i18nData</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>selectedTemplateTasks</name>
+            <type>
+                <name>AS_IO_R_TemplateTask?list</name>
+                <namespace>urn:com:appian:types:AS:IO</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+        <isCustom>false</isCustom>
+    </interface>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name/>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81834"(triggerRefresh: now())</a:value>
+                    <a:nameRef>i18nData</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75720"(
+  cdt: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_155202"(
+  excludeNestedCdts:  false,
+  returnType:  #"_a-0000e415-3035-8000-9bb2-011c48011c48_290157"
+ ).templateTasks,
+ field: "orderNumber",
+ascending: true)</a:value>
+                    <a:nameRef>selectedTemplateTasks</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e7fa-f829-8000-9c17-011c48011c48_3371792"/>
+        <historyInfo versionUuid="_a-0000e7fa-f829-8000-9c17-011c48011c48_3399052"/>
+        <historyInfo versionUuid="_a-0000e7fa-f829-8000-9c17-011c48011c48_3400115"/>
+        <historyInfo versionUuid="_a-0000e7fa-f829-8000-9c17-011c48011c48_3400912"/>
+        <historyInfo versionUuid="_a-0000e7fa-f829-8000-9c17-011c48011c48_3402449"/>
+        <historyInfo versionUuid="_a-0000e811-1167-8000-9c18-011c48011c48_3531586"/>
+    </history>
+</contentHaul>

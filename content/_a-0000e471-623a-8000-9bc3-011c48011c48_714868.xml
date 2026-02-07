@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e6c5-6536-8000-9bf8-011c48011c48_2204706</versionUuid>
+    <rule>
+        <name>AS_IO_ADT_BL_auditConfig_OnboardingRequest</name>
+        <uuid>_a-0000e471-623a-8000-9bc3-011c48011c48_714868</uuid>
+        <description>Audit config for the AS_IO_OnboardingRequest CDT</description>
+        <parentUuid>_a-0000e2bb-4188-8000-9ba2-011c48011c48_25469</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>/*
+Audit config for 
+'type!{urn:com:appian:types:AS:IO}AS_IO_OnboardingRequest'
+*/
+{
+  idField: "requestId",
+  simpleFields: {
+    /*"requestId", excluded since it is the primary key*/
+    "status",
+    "type",
+    "description",
+    "cancelReason",
+    "forNewClient",
+    "priorityCode",
+    "primaryOwner.owner"
+    /*"templateId" will not change after process setup*/
+    /*"createdBy", no need to track changes to this*/
+    /*"createdDatetime", no need to track changes to this*/
+    /*"modifiedBy", no need to track changes to this*/
+    /*"modifiedDatetime" no need to track changes to this*/
+    /*"isDeleted" no need to track this*/
+    /*"slaDayType" will not change*/
+    /*"customer" tracked in complex fields*/
+    
+  },
+  complexFields: {
+    {
+      fieldName: "customer",
+      auditFieldName: "customerChanges",
+      idField: "customerId",
+      simpleFields: {
+        /*"customerId", excluded since it is the primary key*/
+        "name",
+        "type",
+        "isInternational",
+        "domicile.countryCode",
+        "gmei",
+        "taxId",
+        "isQIB",
+        "isERISA",
+        /*"customerAcronym" is not used in IO*/
+        "industryClassificationCode",
+        "folderId",
+        "logoDocId",
+        "hasRequest",
+        "isDeleted"
+        /*no need to track metadata fields*/     
+      },
+      complexFields: {},
+      recordIdField:"customerId"
+    }
+  },
+  recordIdField: "requestId"
+}
+</definition>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name>Sample Test case</a:name>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e471-623a-8000-9bc3-011c48011c48_716782"/>
+        <historyInfo versionUuid="_a-0000e471-623a-8000-9bc3-011c48011c48_739600"/>
+        <historyInfo versionUuid="_a-0000e471-623a-8000-9bc3-011c48011c48_790625"/>
+        <historyInfo versionUuid="_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_821063"/>
+        <historyInfo versionUuid="_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_835447"/>
+        <historyInfo versionUuid="_a-0000e539-6d59-8000-9bd0-011c48011c48_1145374"/>
+        <historyInfo versionUuid="_a-0000e6c5-6536-8000-9bf8-011c48011c48_2204706"/>
+    </history>
+</contentHaul>

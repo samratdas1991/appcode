@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e70f-2824-8000-9c01-011c48011c48_2720636</versionUuid>
+    <rule>
+        <name>AS_IO_UI_taskRefTaskTypeComponents</name>
+        <uuid>_a-0000e586-af6f-8000-9bd2-011c48011c48_1355279</uuid>
+        <description>Returns a map of lists of components to be array in columns while creating/modifying a reference task</description>
+        <parentUuid>_a-0000e2bb-4188-8000-9ba2-011c48011c48_25469</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  local!isExistingTaskRef: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(ri!taskRef.taskRefId),
+  a!map(
+    taskTypeDropdown: {
+      #"_a-0000e528-bc07-8000-9bcf-011c48011c48_1027802"(
+        label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+          i18nData: ri!i18nData,
+          bundleKey: "AS.CO.AllBundles.lbl_TaskType"
+        ),
+        labelPosition: "ABOVE",
+        required: true,
+        placeholderLabel: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+          i18nData: ri!i18nData,
+          bundleKey: "AS.CO.AllBundles.lbl_Type"
+        ),
+        /*Users should not be able to edit the type of system tasks*/
+        readOnly: local!isExistingTaskRef,
+        choiceLabels: #"SYSTEM_SYSRULES_forEach"(
+          items: ri!taskBehaviorTypes,
+          expression: #"_a-0000e438-fdf5-8000-9ba8-011c48011c48_21856"(
+            singleData: fv!item,
+            labelField: "behaviorDisplayName",
+            i18nData: ri!i18nData
+          )
+        ),
+        choiceValues: ri!taskBehaviorTypes,
+        value: ri!taskRef.taskBehaviorType,
+        validations: {},
+        saveInto: {
+          ri!taskRef.taskBehaviorType,
+          a!save(
+            target: ri!taskRef.docUploadContext,
+            value: null
+          ),
+          a!save(
+            target: ri!taskRef.docSignatureContext,
+            value: null
+          )
+        }
+      )
+    },
+    taskTypeSpecificContents: {
+      #"_a-0000e393-fbf1-8000-9ba2-011c48011c48_81756"(
+        i18nData: ri!i18nData,
+        refData: ri!refData,
+        showWhen: contains(
+          {
+            #"_a-0000e393-fbf1-8000-9ba2-011c48011c48_99647",
+            #"_a-0000e586-af6f-8000-9bd2-011c48011c48_1347796"
+          },
+          ri!taskRef.taskBehaviorType.behaviorSubtypeCode
+        ),
+        labelPosition: "ABOVE",
+        required: true,
+        selectedTypeCode: if(
+          #"_a-0000e586-af6f-8000-9bd2-011c48011c48_1347796" = ri!taskRef.taskBehaviorType.behaviorSubtypeCode,
+          ri!taskRef.docSignatureContext.documentTypeCode,
+          ri!taskRef.docUploadContext.docTypeCode
+        )
+      ),
+      #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_74302"(
+        label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+          i18nData: ri!i18nData,
+          bundleKey: "AS.CO.AllBundles.lbl_DocumentToBeSigned"
+        ),
+        showWhen: #"_a-0000e586-af6f-8000-9bd2-011c48011c48_1347796" = ri!taskRef.taskBehaviorType.behaviorSubtypeCode,
+        value: ri!taskRef.docSignatureContext.unsignedDocumentId,
+        saveInto: ri!taskRef.docSignatureContext.unsignedDocumentId,
+        target: #"_a-0000e586-af6f-8000-9bd2-011c48011c48_1354903",
+        maxSelections: 1,
+        maxDocSize: "25 MB",
+        required: true,
+        allUploadedDocuments: ri!allUploadedDocuments,
+        allowedFileExtensions: #"_a-0000e52f-5316-8000-9bac-011c48011c48_290777"()
+      )
+    }
+  )
+)</definition>
+        <namedTypedValue>
+            <name>i18nData</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>refData</name>
+            <type>
+                <name>AS_IO_R_Data?list</name>
+                <namespace>urn:com:appian:types:AS:IO</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>taskRef</name>
+            <type>
+                <name>AS_IO_R_TaskRef</name>
+                <namespace>urn:com:appian:types:AS:IO</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>taskBehaviorTypes</name>
+            <type>
+                <name>AS_IO_R_TaskBehaviorType?list</name>
+                <namespace>urn:com:appian:types:AS:IO</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>allUploadedDocuments</name>
+            <type>
+                <name>CollaborationDocument?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name>Test Case</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81834"(
+ triggerRefresh: null
+)</a:value>
+                    <a:nameRef>i18nData</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e430-f270-8000-9bbc-011c48011c48_355384"(
+  returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290163"
+)</a:value>
+                    <a:nameRef>refData</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e393-fbf1-8000-9ba2-011c48011c48_113793"(
+  returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290157"
+)</a:value>
+                    <a:nameRef>taskRef</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e393-fbf1-8000-9ba2-011c48011c48_108080"(
+  behaviorSubtypeCode: {}
+)</a:value>
+                    <a:nameRef>taskBehaviorTypes</a:nameRef>
+                    <a:id>4</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                    <a:nameRef>allUploadedDocuments</a:nameRef>
+                    <a:id>5</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e586-af6f-8000-9bd2-011c48011c48_1355448"/>
+        <historyInfo versionUuid="_a-0000e586-af6f-8000-9bd2-011c48011c48_1356458"/>
+        <historyInfo versionUuid="_a-0000e5a0-53e9-8000-9bd8-011c48011c48_1396712"/>
+        <historyInfo versionUuid="_a-0000e62c-7375-8000-9bec-011c48011c48_1859558"/>
+        <historyInfo versionUuid="_a-0000e673-a4a7-8000-9bef-011c48011c48_1986122"/>
+        <historyInfo versionUuid="_a-0000e673-a4a7-8000-9bef-011c48011c48_2000630"/>
+        <historyInfo versionUuid="_a-0000e69f-3688-8000-9bf2-011c48011c48_2164701"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2720636"/>
+    </history>
+</contentHaul>

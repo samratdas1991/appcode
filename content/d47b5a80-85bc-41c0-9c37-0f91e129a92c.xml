@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e6ca-7e19-8000-9bfb-011c48011c48_2260139</versionUuid>
+    <rule>
+        <name>AS_QNM_VLD_addNewQuestion</name>
+        <uuid>d47b5a80-85bc-41c0-9c37-0f91e129a92c</uuid>
+        <description>Validations for the addition of new questions</description>
+        <parentUuid>_a-0000e42d-ffef-8000-9ba6-011c48011c48_7213-qnm</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>if(
+  #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(ri!question.questionTypeCode),
+  {
+    /* Do not validate until a type code is selected to prevent bad results */
+    
+  },
+  a!localVariables(
+    local!isDuplicateQuestion: #"_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_907642"(
+      question: ri!question,
+      returnDuplicate: false
+    ),
+    local!selectionFields: #"_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_890094"(
+      questionTypeCode: ri!question.questionTypeCode
+    ),
+    {
+      #"SYSTEM_SYSRULES_validationMessage"(
+        message: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+          i18nData: ri!i18nData,
+          bundleKey: if(
+            #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(local!selectionFields),
+            "AS.QNM.Question.vld_DuplicateQuestionName",
+            "AS.QNM.Question.vld_DuplicateSelectionQuestion",
+            
+          )
+        ),
+        validateAfter: "SUBMIT",
+        showWhen: local!isDuplicateQuestion
+      ),
+      #"SYSTEM_SYSRULES_validationMessage"(
+        message: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+          i18nData: ri!i18nData,
+          bundleKey: "AS.QNM.QuestionnaireSettings.vld_MinimumResponseOptions"
+        ),
+        validateAfter: "SUBMIT",
+        showWhen: or(
+          #"SYSTEM_SYSRULES_forEach"(
+            items: local!selectionFields.fieldKey,
+            expression: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(
+              #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+                cdt: ri!question.defaultResponseOptions,
+                field: "fieldKey",
+                value: fv!item
+              )
+            )
+          )
+        )
+      ),
+      #"SYSTEM_SYSRULES_validationMessage"(
+        message: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+          i18nData: ri!i18nData,
+          bundleKey: "AS.QNM.QuestionnaireSettings.vld_MinimumResponseOptionForMultipleDropdown"
+        ),
+        validateAfter: "SUBMIT",
+        showWhen: and(
+          /* TOBEDONE should ultimately be done for each dropdown field, if more complex questions are implemented */
+          ri!question.questionTypeCode = #"_a-0000e447-933d-8000-9baa-011c48011c48_109121",
+          length({ ri!question.defaultResponseOptions }) &lt; tointeger(
+            #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+              cdt: ri!question.defaultResponseRequirements,
+              field: "requirementTypeCode",
+              value: #"_a-0000e460-9d93-8000-9bc1-011c48011c48_597312"
+            ).requirementValue
+          )
+        )
+      )
+    }
+  )
+)</definition>
+        <namedTypedValue>
+            <name>i18nData</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>question</name>
+            <type>
+                <name>AS_QNM_R_Question</name>
+                <namespace>urn:com:appian:types:AS:QNM</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name>questionTypeCode: Radio Button</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e447-933d-8000-9baa-011c48011c48_43088"({})</a:value>
+                    <a:nameRef>i18nData</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">'type!{urn:com:appian:types:AS:QNM}AS_QNM_R_Question'(
+  questionTypeCode:#"_a-0000e447-933d-8000-9baa-011c48011c48_36963" 
+)</a:value>
+                    <a:nameRef>question</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+            <el>
+                <a:name>Null question type</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e447-933d-8000-9baa-011c48011c48_43088"({})</a:value>
+                    <a:nameRef>i18nData</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">'type!{urn:com:appian:types:AS:QNM}AS_QNM_R_Question'(
+  questionTypeCode:""
+)</a:value>
+                    <a:nameRef>question</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions>
+                    <a:expectedOutput>
+                        <a:type a:uuid="{http://www.appian.com/ae/types/2009}Variant"/>
+                        <a:runtimeType a:uuid="{http://www.appian.com/ae/types/2009}Variant"/>
+                        <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">{}</a:value>
+                    </a:expectedOutput>
+                </a:assertions>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_907979"/>
+        <historyInfo versionUuid="_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_927484"/>
+        <historyInfo versionUuid="_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_929508"/>
+        <historyInfo versionUuid="_a-0000e6ca-7e19-8000-9bfb-011c48011c48_2242415"/>
+        <historyInfo versionUuid="_a-0000e6ca-7e19-8000-9bfb-011c48011c48_2260139"/>
+    </history>
+</contentHaul>

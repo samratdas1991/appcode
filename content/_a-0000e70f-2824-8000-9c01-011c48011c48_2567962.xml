@@ -1,0 +1,1018 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e70f-2824-8000-9c01-011c48011c48_2749188</versionUuid>
+    <rule>
+        <name>AS_FS_ALT_BL_EvaluateBeneficialOwnershipTrigger</name>
+        <uuid>_a-0000e70f-2824-8000-9c01-011c48011c48_2567962</uuid>
+        <description>Expression rule that evaluates whether a beneficial owner trigger condition has been met</description>
+        <parentUuid>_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_968428</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  local!action: #"_a-0000e70f-2824-8000-9c01-011c48011c48_2539235"(
+    json: ri!configurationTriggerSettings,
+    field: "action",
+    indexDefault: null
+  ),
+  local!activeOriginalEntityRelationships: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+    cdt: ri!auditParameters.originalObjects,
+    field: "isActive",
+    value: true
+  ),
+  local!activeNewEntityRelationships: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+    cdt: ri!auditParameters.newObjects,
+    field: "isActive",
+    value: true
+  ),
+  if(
+    local!action = #"_a-0000e3e6-fb42-8000-9ba5-011c48011c48_181596-adt",
+    /*check for specified modification - tailored to numeric thresholds*/
+    a!localVariables(
+      local!field: #"_a-0000e70f-2824-8000-9c01-011c48011c48_2539235"(
+        json: ri!configurationTriggerSettings,
+        field: "modificationTriggerCriteria.field",
+        indexDefault: null
+      ),
+      local!operator: #"_a-0000e70f-2824-8000-9c01-011c48011c48_2539235"(
+        json: ri!configurationTriggerSettings,
+        field: "modificationTriggerCriteria.operator",
+        indexDefault: null
+      ),
+      local!threshold: #"_a-0000e70f-2824-8000-9c01-011c48011c48_2539235"(
+        json: ri!configurationTriggerSettings,
+        field: "modificationTriggerCriteria.threshold",
+        indexDefault: null
+      ),
+      local!originalBeneficialOwnersFulfillingTriggerCondition: #"_a-0000e70f-2824-8000-9c01-011c48011c48_2571943"(
+        cdt: local!activeOriginalEntityRelationships,
+        field: local!field,
+        operator: local!operator,
+        value: local!threshold
+      ),
+      local!newBeneficialOwnersFulfillingTriggerCondition: #"_a-0000e70f-2824-8000-9c01-011c48011c48_2571943"(
+        cdt: local!activeNewEntityRelationships,
+        field: local!field,
+        operator: local!operator,
+        value: local!threshold
+      ),
+      /*if beneficial owner A is over the threshold, and an action is taken which moves A below the threshold and*/
+      /*B above the threshold, a new alert will be generated*/
+      if(
+        ri!isOriginalObjectEvaluation,
+        /*Original object evaluation is true if any old percents are over the threshold and there are no new beneficial owners that were updated to be over the threshold*/
+        and(
+          #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(
+            local!originalBeneficialOwnersFulfillingTriggerCondition
+          ),
+          #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(
+            difference(
+              tointeger(
+                index(
+                  local!newBeneficialOwnersFulfillingTriggerCondition,
+                  "beneficialOwnerId",
+                  null
+                )
+              ),
+              tointeger(
+                index(
+                  local!originalBeneficialOwnersFulfillingTriggerCondition,
+                  "beneficialOwnerId",
+                  null
+                )
+              )
+            )
+          )
+        ),
+        /*Updated object evaluation is true if any new percents are over the threshold*/
+        #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(
+          local!newBeneficialOwnersFulfillingTriggerCondition
+        )
+      )
+    ),
+    local!action = #"_a-0000e3e6-fb42-8000-9ba5-011c48011c48_181584-adt",
+    if(
+      ri!isOriginalObjectEvaluation,
+      /*cannot evaluate transitory triggers on the original object*/
+      false,
+      /*check for mismatch in pks between original and new object*/
+      a!localVariables(
+        local!originalPrimaryKeys: tointeger(
+          index(
+            local!activeOriginalEntityRelationships,
+            "beneficialOwnerId",
+            {}
+          )
+        ),
+        local!newPrimaryKeys: tointeger(
+          index(
+            local!activeNewEntityRelationships,
+            "beneficialOwnerId",
+            {}
+          )
+        ),
+        /*if any new pks don't exist in the list of old pks, return true*/
+        #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(
+          difference(
+            local!newPrimaryKeys,
+            local!originalPrimaryKeys
+          )
+        )
+      )
+    ),
+    /*we deactivate beneficial owners instead of deleting*/
+    local!action = #"_a-0000e3e6-fb42-8000-9ba5-011c48011c48_181602-adt",
+    if(
+      ri!isOriginalObjectEvaluation,
+      /*cannot evaluate transitory triggers on the original object*/
+      false,
+      /*check for mismatch in pks between original and new object*/
+      /*we could just check for the existance of any deactivated entries, but a comparison of active entries is safer*/
+      a!localVariables(
+        local!originalPrimaryKeys: tointeger(
+          index(
+            local!activeOriginalEntityRelationships,
+            "beneficialOwnerId",
+            {}
+          )
+        ),
+        local!newPrimaryKeys: tointeger(
+          index(
+            local!activeNewEntityRelationships,
+            "beneficialOwnerId",
+            {}
+          )
+        ),
+        /*if any old pks don't exist in the list of new pks, return true*/
+        #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(
+          difference(
+            local!originalPrimaryKeys,
+            local!newPrimaryKeys
+          )
+        )
+      )
+    ),
+    error(
+      "Invalid beneficial owner action code in triggerConditionId: " &amp; ri!triggerConditionId
+    )
+  )
+)</definition>
+        <namedTypedValue>
+            <name>configurationTriggerSettings</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>isOriginalObjectEvaluation</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>triggerConditionId</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>auditParameters</name>
+            <type>
+                <name>AS_ADT_P_AuditProcessParameters</name>
+                <namespace>urn:com:appian:types:AS:ADT</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name>action: ADD on originalObject</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"SYSTEM_SYSRULES_toJson_v1"(
+  {
+    action: "ADD",
+  }
+)</a:value>
+                    <a:nameRef>configurationTriggerSettings</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:boolean">true</a:value>
+                    <a:nameRef>isOriginalObjectEvaluation</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:int"/>
+                    <a:nameRef>triggerConditionId</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:n1="urn:com:appian:types:AS:ADT" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="n1:AS_ADT_P_AuditProcessParameters"/>
+                    <a:nameRef>auditParameters</a:nameRef>
+                    <a:id>4</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions>
+                    <a:expectedOutput>
+                        <a:type a:uuid="{http://www.appian.com/ae/types/2009}Boolean"/>
+                        <a:runtimeType a:uuid="{http://www.appian.com/ae/types/2009}Boolean"/>
+                        <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:boolean">false</a:value>
+                    </a:expectedOutput>
+                </a:assertions>
+            </el>
+            <el>
+                <a:name>action: DEACTIVATE on originalObject</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"SYSTEM_SYSRULES_toJson_v1"(
+  {
+    action: "DEACTIVATE",
+  }
+)</a:value>
+                    <a:nameRef>configurationTriggerSettings</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:boolean">true</a:value>
+                    <a:nameRef>isOriginalObjectEvaluation</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:int"/>
+                    <a:nameRef>triggerConditionId</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:n1="urn:com:appian:types:AS:ADT" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="n1:AS_ADT_P_AuditProcessParameters"/>
+                    <a:nameRef>auditParameters</a:nameRef>
+                    <a:id>4</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions>
+                    <a:expectedOutput>
+                        <a:type a:uuid="{http://www.appian.com/ae/types/2009}Boolean"/>
+                        <a:runtimeType a:uuid="{http://www.appian.com/ae/types/2009}Boolean"/>
+                        <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:boolean">false</a:value>
+                    </a:expectedOutput>
+                </a:assertions>
+            </el>
+            <el>
+                <a:name>action: ADD on newObject with simple add</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"SYSTEM_SYSRULES_toJson_v1"(
+  {
+    action: "ADD",
+  }
+)</a:value>
+                    <a:nameRef>configurationTriggerSettings</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:boolean">false</a:value>
+                    <a:nameRef>isOriginalObjectEvaluation</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:int"/>
+                    <a:nameRef>triggerConditionId</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">'type!{urn:com:appian:types:AS:ADT}AS_ADT_P_AuditProcessParameters'(
+  newObjects: {
+    'type!{urn:com:appian:types:AS:FS}AS_FS_BeneficialOwner'(
+      beneficialOwnerId: 1,
+      isActive: true
+    )
+  }
+)</a:value>
+                    <a:nameRef>auditParameters</a:nameRef>
+                    <a:id>4</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions>
+                    <a:expectedOutput>
+                        <a:type a:uuid="{http://www.appian.com/ae/types/2009}Boolean"/>
+                        <a:runtimeType a:uuid="{http://www.appian.com/ae/types/2009}Boolean"/>
+                        <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:boolean">true</a:value>
+                    </a:expectedOutput>
+                </a:assertions>
+            </el>
+            <el>
+                <a:name>action: ADD on newObject with no add</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"SYSTEM_SYSRULES_toJson_v1"(
+  {
+    action: "ADD",
+  }
+)</a:value>
+                    <a:nameRef>configurationTriggerSettings</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:boolean">false</a:value>
+                    <a:nameRef>isOriginalObjectEvaluation</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:int"/>
+                    <a:nameRef>triggerConditionId</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">'type!{urn:com:appian:types:AS:ADT}AS_ADT_P_AuditProcessParameters'(
+  originalObjects: {
+    'type!{urn:com:appian:types:AS:FS}AS_FS_BeneficialOwner'(
+      beneficialOwnerId: 1
+    ),
+    'type!{urn:com:appian:types:AS:FS}AS_FS_BeneficialOwner'(
+      beneficialOwnerId: 2
+    ),
+    'type!{urn:com:appian:types:AS:FS}AS_FS_BeneficialOwner'(
+      beneficialOwnerId: 3
+    )
+  },
+  newObjects: {
+    'type!{urn:com:appian:types:AS:FS}AS_FS_BeneficialOwner'(
+      beneficialOwnerId: 1
+    ),
+    'type!{urn:com:appian:types:AS:FS}AS_FS_BeneficialOwner'(
+      beneficialOwnerId: 2
+    ),
+    'type!{urn:com:appian:types:AS:FS}AS_FS_BeneficialOwner'(
+      beneficialOwnerId: 3
+    )
+  }
+)</a:value>
+                    <a:nameRef>auditParameters</a:nameRef>
+                    <a:id>4</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions>
+                    <a:expectedOutput>
+                        <a:type a:uuid="{http://www.appian.com/ae/types/2009}Boolean"/>
+                        <a:runtimeType a:uuid="{http://www.appian.com/ae/types/2009}Boolean"/>
+                        <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:boolean">false</a:value>
+                    </a:expectedOutput>
+                </a:assertions>
+            </el>
+            <el>
+                <a:name>action: ADD on newObject with add and deactivate</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"SYSTEM_SYSRULES_toJson_v1"(
+  {
+    action: "ADD",
+  }
+)</a:value>
+                    <a:nameRef>configurationTriggerSettings</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:boolean">false</a:value>
+                    <a:nameRef>isOriginalObjectEvaluation</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:int"/>
+                    <a:nameRef>triggerConditionId</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">'type!{urn:com:appian:types:AS:ADT}AS_ADT_P_AuditProcessParameters'(
+  originalObjects: {
+    'type!{urn:com:appian:types:AS:FS}AS_FS_BeneficialOwner'(
+      beneficialOwnerId: 1,
+      isActive: true
+    ),
+    'type!{urn:com:appian:types:AS:FS}AS_FS_BeneficialOwner'(
+      beneficialOwnerId: 2,
+      isActive: true
+    ),
+    'type!{urn:com:appian:types:AS:FS}AS_FS_BeneficialOwner'(
+      beneficialOwnerId: 3,
+      isActive: true
+    )
+  },
+  newObjects: {
+    'type!{urn:com:appian:types:AS:FS}AS_FS_BeneficialOwner'(
+      beneficialOwnerId: 1,
+      isActive: true
+    ),
+    'type!{urn:com:appian:types:AS:FS}AS_FS_BeneficialOwner'(
+      beneficialOwnerId: 2,
+      isActive: false
+    ),
+    'type!{urn:com:appian:types:AS:FS}AS_FS_BeneficialOwner'(
+      beneficialOwnerId: 3,
+      isActive: false
+    ),
+    'type!{urn:com:appian:types:AS:FS}AS_FS_BeneficialOwner'(
+      beneficialOwnerId: 4,
+      isActive: true
+    )
+  }
+)</a:value>
+                    <a:nameRef>auditParameters</a:nameRef>
+                    <a:id>4</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions>
+                    <a:expectedOutput>
+                        <a:type a:uuid="{http://www.appian.com/ae/types/2009}Boolean"/>
+                        <a:runtimeType a:uuid="{http://www.appian.com/ae/types/2009}Boolean"/>
+                        <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:boolean">true</a:value>
+                    </a:expectedOutput>
+                </a:assertions>
+            </el>
+            <el>
+                <a:name>action: DEACTIVATE on newObject with simple deactivate</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"SYSTEM_SYSRULES_toJson_v1"(
+  {
+    action: "DEACTIVATE",
+  }
+)</a:value>
+                    <a:nameRef>configurationTriggerSettings</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:boolean">false</a:value>
+                    <a:nameRef>isOriginalObjectEvaluation</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:int"/>
+                    <a:nameRef>triggerConditionId</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">'type!{urn:com:appian:types:AS:ADT}AS_ADT_P_AuditProcessParameters'(
+  originalObjects: {
+    'type!{urn:com:appian:types:AS:FS}AS_FS_BeneficialOwner'(
+      beneficialOwnerId: 1,
+      isActive: true
+    ),
+    'type!{urn:com:appian:types:AS:FS}AS_FS_BeneficialOwner'(
+      beneficialOwnerId: 2,
+      isActive: true
+    ),
+    'type!{urn:com:appian:types:AS:FS}AS_FS_BeneficialOwner'(
+      beneficialOwnerId: 3,
+      isActive: true
+    )
+  },
+  newObjects: {
+    'type!{urn:com:appian:types:AS:FS}AS_FS_BeneficialOwner'(
+      beneficialOwnerId: 1,
+      isActive: true
+    ),
+    'type!{urn:com:appian:types:AS:FS}AS_FS_BeneficialOwner'(
+      beneficialOwnerId: 2,
+      isActive: true
+    ),
+    'type!{urn:com:appian:types:AS:FS}AS_FS_BeneficialOwner'(
+      beneficialOwnerId: 3,
+      isActive: false
+    )
+  }
+)</a:value>
+                    <a:nameRef>auditParameters</a:nameRef>
+                    <a:id>4</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions>
+                    <a:expectedOutput>
+                        <a:type a:uuid="{http://www.appian.com/ae/types/2009}Boolean"/>
+                        <a:runtimeType a:uuid="{http://www.appian.com/ae/types/2009}Boolean"/>
+                        <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:boolean">true</a:value>
+                    </a:expectedOutput>
+                </a:assertions>
+            </el>
+            <el>
+                <a:name>action: DEACTIVATE on newObject with no deactivate</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"SYSTEM_SYSRULES_toJson_v1"(
+  {
+    action: "DEACTIVATE",
+  }
+)</a:value>
+                    <a:nameRef>configurationTriggerSettings</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:boolean">false</a:value>
+                    <a:nameRef>isOriginalObjectEvaluation</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:int"/>
+                    <a:nameRef>triggerConditionId</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">'type!{urn:com:appian:types:AS:ADT}AS_ADT_P_AuditProcessParameters'(
+  originalObjects: {
+    'type!{urn:com:appian:types:AS:FS}AS_FS_BeneficialOwner'(
+      beneficialOwnerId: 1
+    ),
+    'type!{urn:com:appian:types:AS:FS}AS_FS_BeneficialOwner'(
+      beneficialOwnerId: 2
+    ),
+    'type!{urn:com:appian:types:AS:FS}AS_FS_BeneficialOwner'(
+      beneficialOwnerId: 3
+    )
+  },
+  newObjects: {
+    'type!{urn:com:appian:types:AS:FS}AS_FS_BeneficialOwner'(
+      beneficialOwnerId: 1
+    ),
+    'type!{urn:com:appian:types:AS:FS}AS_FS_BeneficialOwner'(
+      beneficialOwnerId: 2
+    ),
+    'type!{urn:com:appian:types:AS:FS}AS_FS_BeneficialOwner'(
+      beneficialOwnerId: 3
+    )
+  }
+)</a:value>
+                    <a:nameRef>auditParameters</a:nameRef>
+                    <a:id>4</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions>
+                    <a:expectedOutput>
+                        <a:type a:uuid="{http://www.appian.com/ae/types/2009}Boolean"/>
+                        <a:runtimeType a:uuid="{http://www.appian.com/ae/types/2009}Boolean"/>
+                        <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:boolean">false</a:value>
+                    </a:expectedOutput>
+                </a:assertions>
+            </el>
+            <el>
+                <a:name>action: DEACTIVATE on newObject with add and deactivate</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"SYSTEM_SYSRULES_toJson_v1"(
+  {
+    action: "DEACTIVATE",
+  }
+)</a:value>
+                    <a:nameRef>configurationTriggerSettings</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:boolean">false</a:value>
+                    <a:nameRef>isOriginalObjectEvaluation</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:int"/>
+                    <a:nameRef>triggerConditionId</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">'type!{urn:com:appian:types:AS:ADT}AS_ADT_P_AuditProcessParameters'(
+  originalObjects: {
+    'type!{urn:com:appian:types:AS:FS}AS_FS_BeneficialOwner'(
+      beneficialOwnerId: 1,
+      isActive: true
+    ),
+    'type!{urn:com:appian:types:AS:FS}AS_FS_BeneficialOwner'(
+      beneficialOwnerId: 2,
+      isActive: true
+    ),
+    'type!{urn:com:appian:types:AS:FS}AS_FS_BeneficialOwner'(
+      beneficialOwnerId: 3,
+      isActive: true
+    )
+  },
+  newObjects: {
+    'type!{urn:com:appian:types:AS:FS}AS_FS_BeneficialOwner'(
+      beneficialOwnerId: 1,
+      isActive: true
+    ),
+    'type!{urn:com:appian:types:AS:FS}AS_FS_BeneficialOwner'(
+      beneficialOwnerId: 2,
+      isActive: false
+    ),
+    'type!{urn:com:appian:types:AS:FS}AS_FS_BeneficialOwner'(
+      beneficialOwnerId: 3,
+      isActive: false
+    ),
+    'type!{urn:com:appian:types:AS:FS}AS_FS_BeneficialOwner'(
+      beneficialOwnerId: 4,
+      isActive: true
+    )
+  }
+)</a:value>
+                    <a:nameRef>auditParameters</a:nameRef>
+                    <a:id>4</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions>
+                    <a:expectedOutput>
+                        <a:type a:uuid="{http://www.appian.com/ae/types/2009}Boolean"/>
+                        <a:runtimeType a:uuid="{http://www.appian.com/ae/types/2009}Boolean"/>
+                        <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:boolean">true</a:value>
+                    </a:expectedOutput>
+                </a:assertions>
+            </el>
+            <el>
+                <a:name>action: MODIFY, originalObject is under threshold</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"SYSTEM_SYSRULES_toJson_v1"(
+  {
+    action: "MODIFY",
+    modificationTriggerCriteria: {
+      field: "beneficialOwnershipPercent",
+      operator: "&gt;=",
+      threshold: 50
+    }
+  }
+)</a:value>
+                    <a:nameRef>configurationTriggerSettings</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:boolean">true</a:value>
+                    <a:nameRef>isOriginalObjectEvaluation</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:int"/>
+                    <a:nameRef>triggerConditionId</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">'type!{urn:com:appian:types:AS:ADT}AS_ADT_P_AuditProcessParameters'(
+  originalObjects: {
+    'type!{urn:com:appian:types:AS:FS}AS_FS_BeneficialOwner'(
+      beneficialOwnerId: 1,
+      beneficialOwnershipPercent: 10
+    ),
+    'type!{urn:com:appian:types:AS:FS}AS_FS_BeneficialOwner'(
+      beneficialOwnerId: 2,
+      beneficialOwnershipPercent: 40
+    ),
+    'type!{urn:com:appian:types:AS:FS}AS_FS_BeneficialOwner'(
+      beneficialOwnerId: 3,
+      beneficialOwnershipPercent: 30
+    )
+  },
+  newObjects: {
+    'type!{urn:com:appian:types:AS:FS}AS_FS_BeneficialOwner'(
+      beneficialOwnerId: 1,
+      beneficialOwnershipPercent: 10
+    ),
+    'type!{urn:com:appian:types:AS:FS}AS_FS_BeneficialOwner'(
+      beneficialOwnerId: 2,
+      beneficialOwnershipPercent: 30
+    ),
+    'type!{urn:com:appian:types:AS:FS}AS_FS_BeneficialOwner'(
+      beneficialOwnerId: 3,
+      beneficialOwnershipPercent: 50
+    )
+  }
+)</a:value>
+                    <a:nameRef>auditParameters</a:nameRef>
+                    <a:id>4</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions>
+                    <a:expectedOutput>
+                        <a:type a:uuid="{http://www.appian.com/ae/types/2009}Boolean"/>
+                        <a:runtimeType a:uuid="{http://www.appian.com/ae/types/2009}Boolean"/>
+                        <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:boolean">false</a:value>
+                    </a:expectedOutput>
+                </a:assertions>
+            </el>
+            <el>
+                <a:name>action: MODIFY, newObject is at threshold</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"SYSTEM_SYSRULES_toJson_v1"(
+  {
+    action: "MODIFY",
+    modificationTriggerCriteria: {
+      field: "beneficialOwnershipPercent",
+      operator: "&gt;=",
+      threshold: 50
+    }
+  }
+)</a:value>
+                    <a:nameRef>configurationTriggerSettings</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:boolean">false</a:value>
+                    <a:nameRef>isOriginalObjectEvaluation</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:int"/>
+                    <a:nameRef>triggerConditionId</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">'type!{urn:com:appian:types:AS:ADT}AS_ADT_P_AuditProcessParameters'(
+  originalObjects: {
+    'type!{urn:com:appian:types:AS:FS}AS_FS_BeneficialOwner'(
+      beneficialOwnerId: 1,
+      beneficialOwnershipPercent: 10,
+      isActive: true
+    ),
+    'type!{urn:com:appian:types:AS:FS}AS_FS_BeneficialOwner'(
+      beneficialOwnerId: 2,
+      beneficialOwnershipPercent: 40,
+      isActive: true
+    ),
+    'type!{urn:com:appian:types:AS:FS}AS_FS_BeneficialOwner'(
+      beneficialOwnerId: 3,
+      beneficialOwnershipPercent: 30,
+      isActive: true
+    )
+  },
+  newObjects: {
+    'type!{urn:com:appian:types:AS:FS}AS_FS_BeneficialOwner'(
+      beneficialOwnerId: 1,
+      beneficialOwnershipPercent: 10,
+      isActive: true
+    ),
+    'type!{urn:com:appian:types:AS:FS}AS_FS_BeneficialOwner'(
+      beneficialOwnerId: 2,
+      beneficialOwnershipPercent: 30,
+      isActive: true
+    ),
+    'type!{urn:com:appian:types:AS:FS}AS_FS_BeneficialOwner'(
+      beneficialOwnerId: 3,
+      beneficialOwnershipPercent: 50,
+      isActive: true
+    )
+  }
+)</a:value>
+                    <a:nameRef>auditParameters</a:nameRef>
+                    <a:id>4</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions>
+                    <a:expectedOutput>
+                        <a:type a:uuid="{http://www.appian.com/ae/types/2009}Boolean"/>
+                        <a:runtimeType a:uuid="{http://www.appian.com/ae/types/2009}Boolean"/>
+                        <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:boolean">true</a:value>
+                    </a:expectedOutput>
+                </a:assertions>
+            </el>
+            <el>
+                <a:name>action: MODIFY, one originalObject was above threshold but a different newObject is above threshold</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"SYSTEM_SYSRULES_toJson_v1"(
+  {
+    action: "MODIFY",
+    modificationTriggerCriteria: {
+      field: "beneficialOwnershipPercent",
+      operator: "&gt;=",
+      threshold: 25
+    }
+  }
+)</a:value>
+                    <a:nameRef>configurationTriggerSettings</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:boolean">false</a:value>
+                    <a:nameRef>isOriginalObjectEvaluation</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:int"/>
+                    <a:nameRef>triggerConditionId</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">'type!{urn:com:appian:types:AS:ADT}AS_ADT_P_AuditProcessParameters'(
+  originalObjects: {
+    'type!{urn:com:appian:types:AS:FS}AS_FS_BeneficialOwner'(
+      beneficialOwnerId: 1,
+      beneficialOwnershipPercent: 30,
+      isActive: true
+    ),
+    'type!{urn:com:appian:types:AS:FS}AS_FS_BeneficialOwner'(
+      beneficialOwnerId: 2,
+      beneficialOwnershipPercent: 20,
+      isActive: true
+    ),
+    'type!{urn:com:appian:types:AS:FS}AS_FS_BeneficialOwner'(
+      beneficialOwnerId: 3,
+      beneficialOwnershipPercent: 10,
+      isActive: true
+    )
+  },
+  newObjects: {
+    'type!{urn:com:appian:types:AS:FS}AS_FS_BeneficialOwner'(
+      beneficialOwnerId: 1,
+      beneficialOwnershipPercent: 30,
+      isActive: true
+    ),
+    'type!{urn:com:appian:types:AS:FS}AS_FS_BeneficialOwner'(
+      beneficialOwnerId: 2,
+      beneficialOwnershipPercent: 30,
+      isActive: true
+    ),
+    'type!{urn:com:appian:types:AS:FS}AS_FS_BeneficialOwner'(
+      beneficialOwnerId: 3,
+      beneficialOwnershipPercent: 10,
+      isActive: true
+    )
+  }
+)</a:value>
+                    <a:nameRef>auditParameters</a:nameRef>
+                    <a:id>4</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions>
+                    <a:expectedOutput>
+                        <a:type a:uuid="{http://www.appian.com/ae/types/2009}Boolean"/>
+                        <a:runtimeType a:uuid="{http://www.appian.com/ae/types/2009}Boolean"/>
+                        <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:boolean">true</a:value>
+                    </a:expectedOutput>
+                </a:assertions>
+            </el>
+            <el>
+                <a:name>action: MODIFY, one originalObject was above threshold but a different newObject is above threshold (isOriginalObjectEvaluation=true)</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"SYSTEM_SYSRULES_toJson_v1"(
+  {
+    action: "MODIFY",
+    modificationTriggerCriteria: {
+      field: "beneficialOwnershipPercent",
+      operator: "&gt;=",
+      threshold: 25
+    }
+  }
+)</a:value>
+                    <a:nameRef>configurationTriggerSettings</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:boolean">true</a:value>
+                    <a:nameRef>isOriginalObjectEvaluation</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:int"/>
+                    <a:nameRef>triggerConditionId</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">'type!{urn:com:appian:types:AS:ADT}AS_ADT_P_AuditProcessParameters'(
+  originalObjects: {
+    'type!{urn:com:appian:types:AS:FS}AS_FS_BeneficialOwner'(
+      beneficialOwnerId: 1,
+      beneficialOwnershipPercent: 30,
+      isActive: true
+    ),
+    'type!{urn:com:appian:types:AS:FS}AS_FS_BeneficialOwner'(
+      beneficialOwnerId: 2,
+      beneficialOwnershipPercent: 20,
+      isActive: true
+    ),
+    'type!{urn:com:appian:types:AS:FS}AS_FS_BeneficialOwner'(
+      beneficialOwnerId: 3,
+      beneficialOwnershipPercent: 10,
+      isActive: true
+    )
+  },
+  newObjects: {
+    'type!{urn:com:appian:types:AS:FS}AS_FS_BeneficialOwner'(
+      beneficialOwnerId: 1,
+      beneficialOwnershipPercent: 30,
+      isActive: true
+    ),
+    'type!{urn:com:appian:types:AS:FS}AS_FS_BeneficialOwner'(
+      beneficialOwnerId: 2,
+      beneficialOwnershipPercent: 30,
+      isActive: true
+    ),
+    'type!{urn:com:appian:types:AS:FS}AS_FS_BeneficialOwner'(
+      beneficialOwnerId: 3,
+      beneficialOwnershipPercent: 10,
+      isActive: true
+    )
+  }
+)</a:value>
+                    <a:nameRef>auditParameters</a:nameRef>
+                    <a:id>4</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions>
+                    <a:expectedOutput>
+                        <a:type a:uuid="{http://www.appian.com/ae/types/2009}Boolean"/>
+                        <a:runtimeType a:uuid="{http://www.appian.com/ae/types/2009}Boolean"/>
+                        <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:boolean">false</a:value>
+                    </a:expectedOutput>
+                </a:assertions>
+            </el>
+            <el>
+                <a:name>action: ADD on newObject with list add</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"SYSTEM_SYSRULES_toJson_v1"(
+  {
+    action: "ADD",
+  }
+)</a:value>
+                    <a:nameRef>configurationTriggerSettings</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:boolean">false</a:value>
+                    <a:nameRef>isOriginalObjectEvaluation</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:int"/>
+                    <a:nameRef>triggerConditionId</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">'type!{urn:com:appian:types:AS:ADT}AS_ADT_P_AuditProcessParameters'(
+  originalObjects: {
+    'type!{urn:com:appian:types:AS:FS}AS_FS_BeneficialOwner'(
+      beneficialOwnerId: 1,
+      isActive: true
+    ),
+    'type!{urn:com:appian:types:AS:FS}AS_FS_BeneficialOwner'(
+      beneficialOwnerId: 2,
+      isActive: true
+    ),
+    'type!{urn:com:appian:types:AS:FS}AS_FS_BeneficialOwner'(
+      beneficialOwnerId: 3,
+      isActive: true
+    )
+  },
+  newObjects: {
+    'type!{urn:com:appian:types:AS:FS}AS_FS_BeneficialOwner'(
+      beneficialOwnerId: 1,
+      isActive: true
+    ),
+    'type!{urn:com:appian:types:AS:FS}AS_FS_BeneficialOwner'(
+      beneficialOwnerId: 2,
+      isActive: true
+    ),
+    'type!{urn:com:appian:types:AS:FS}AS_FS_BeneficialOwner'(
+      beneficialOwnerId: 3,
+      isActive: true
+    ),
+    'type!{urn:com:appian:types:AS:FS}AS_FS_BeneficialOwner'(
+      beneficialOwnerId: 4,
+      isActive: true
+    )
+  }
+)</a:value>
+                    <a:nameRef>auditParameters</a:nameRef>
+                    <a:id>4</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions>
+                    <a:expectedOutput>
+                        <a:type a:uuid="{http://www.appian.com/ae/types/2009}Boolean"/>
+                        <a:runtimeType a:uuid="{http://www.appian.com/ae/types/2009}Boolean"/>
+                        <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:boolean">true</a:value>
+                    </a:expectedOutput>
+                </a:assertions>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2573208"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2573687"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2612299"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2619012"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2623396"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2658595"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2749188"/>
+    </history>
+</contentHaul>

@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e62c-7375-8000-9bec-011c48011c48_1886272</versionUuid>
+    <rule>
+        <name>AS_IO_BL_getRelatedActionVisibilityForRequest_update</name>
+        <uuid>_a-0000e2cd-bc96-8000-9ba2-011c48011c48_157157</uuid>
+        <description>Visibility of related action for updateRequest</description>
+        <parentUuid>_a-0000e2bb-4188-8000-9ba2-011c48011c48_25469</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>and(
+  #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_114114"(
+    user: loggedInUser(),
+    groups: #"_a-0000e438-fd8a-8000-9bbe-011c48011c48_411694"
+  ),
+  #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75636"(
+    contains(
+      {
+        #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_49494",
+        #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_49488",
+        #"_a-0000e471-623a-8000-9bc3-011c48011c48_659949"
+      },
+      ri!status
+    )
+  )
+)</definition>
+        <namedTypedValue>
+            <name>status</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name>Status  - Cancelled</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_49494"</a:value>
+                    <a:nameRef>status</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions>
+                    <a:expectedOutput>
+                        <a:type a:uuid="{http://www.appian.com/ae/types/2009}Boolean"/>
+                        <a:runtimeType a:uuid="{http://www.appian.com/ae/types/2009}Boolean"/>
+                        <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:boolean">false</a:value>
+                    </a:expectedOutput>
+                </a:assertions>
+            </el>
+            <el>
+                <a:name>Status -null</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:string"/>
+                    <a:nameRef>status</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions>
+                    <a:expectedOutput xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                    <a:resultAssertions>typeof(test!output)=typeof(false())</a:resultAssertions>
+                </a:assertions>
+            </el>
+            <el>
+                <a:name>Status - Active</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_48769"</a:value>
+                    <a:nameRef>status</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions>
+                    <a:expectedOutput xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                    <a:resultAssertions>typeof(test!output)=typeof(false())</a:resultAssertions>
+                </a:assertions>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e2cd-bc96-8000-9ba2-011c48011c48_157168"/>
+        <historyInfo versionUuid="_a-0000e2cd-bc96-8000-9ba2-011c48011c48_198508"/>
+        <historyInfo versionUuid="_a-0000e3e6-fb42-8000-9ba5-011c48011c48_189537"/>
+        <historyInfo versionUuid="_a-0000e430-f270-8000-9bbc-011c48011c48_369533"/>
+        <historyInfo versionUuid="_a-0000e471-623a-8000-9bc3-011c48011c48_656217"/>
+        <historyInfo versionUuid="_a-0000e471-623a-8000-9bc3-011c48011c48_746293"/>
+        <historyInfo versionUuid="_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_818507"/>
+        <historyInfo versionUuid="_a-0000e62c-7375-8000-9bec-011c48011c48_1886272"/>
+    </history>
+</contentHaul>

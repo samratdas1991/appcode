@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e430-f270-8000-9bbc-011c48011c48_369884</versionUuid>
+    <rule>
+        <name>AS_IO_UT_buildProcessSetUpDetailedTrendsFromTaskAndTemplateChanges</name>
+        <uuid>_a-0000e40a-de32-8000-9ba8-011c48011c48_276907</uuid>
+        <description>Builds process setup trends detailed trends from task and template changes </description>
+        <parentUuid>_a-0000e2bb-4188-8000-9ba2-011c48011c48_25469</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  /*Gather all data from the two sources*/
+  local!taskChanges: #"_a-0000e40a-de32-8000-9ba8-011c48011c48_277014"(
+    dateFilter: ri!dateFilter,
+    drilldownSelection: ri!drilldownSelection,
+    pagingInfo: ri!pagingInfo
+  ),
+  local!templateChanges: #"_a-0000e40a-de32-8000-9ba8-011c48011c48_277020"(
+    dateFilter: ri!dateFilter,
+    drilldownSelection: ri!drilldownSelection,
+    pagingInfo: ri!pagingInfo
+  ),
+  
+  /*Get the series configs for each type of change*/
+  local!taskSeriesConfigs: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+    cdt: #"_a-0000e40a-961e-8000-9ba7-011c48011c48_258082"(),
+    field: "dataField",
+    value: "taskChanges"
+  ),
+  local!templateSeriesConfigs: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+    cdt: #"_a-0000e40a-961e-8000-9ba7-011c48011c48_258082"(),
+    field: "dataField",
+    value: "templateChanges"
+  ),
+  
+  /*Join the two datasets*/
+  local!joinedData: a!flatten(
+    {
+      #"SYSTEM_SYSRULES_forEach"(
+        items: local!taskChanges,
+        expression: {
+          itemId: fv!item.taskProcSetupAuditId,
+          timestamp: fv!item.timestamp,
+          username: fv!item.username,
+          auditActionCode: fv!item.auditActionCode,
+          templateId: fv!item.templateId,
+          seriesConfig: #"_a-0000e3e6-fb42-8000-9ba5-011c48011c48_187421"(
+            value: fv!item.auditActionCode,
+            inArray: local!taskSeriesConfigs.auditActionCode,
+            replacement: local!taskSeriesConfigs
+          ),
+          auditItem: #"_a-0000e40a-de32-8000-9ba8-011c48011c48_279147"(
+            value: fv!item
+          )
+        }
+      ),
+      #"SYSTEM_SYSRULES_forEach"(
+        items: local!templateChanges,
+        expression: {
+          itemId: fv!item.templateProcSetupAuditId,
+          timestamp: fv!item.timestamp,
+          username: fv!item.username,
+          auditActionCode: fv!item.templateAuditActionCode,
+          templateId: fv!item.originalTemplateId,
+          seriesConfig: #"_a-0000e3e6-fb42-8000-9ba5-011c48011c48_187421"(
+            value: fv!item.templateAuditActionCode,
+            inArray: local!templateSeriesConfigs.auditActionCode,
+            replacement: local!templateSeriesConfigs
+          ),
+          auditItem: #"_a-0000e40a-de32-8000-9ba8-011c48011c48_279147"(
+            value: fv!item
+          )
+        }
+      )
+    }
+  ),
+  
+  /*Format the datasubset from the joined data*/
+  local!datasubset: todatasubset(
+    local!joinedData,
+    ri!pagingInfo
+  ),
+  
+  local!datasubset
+)
+</definition>
+        <namedTypedValue>
+            <name>dateFilter</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>drilldownSelection</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>pagingInfo</name>
+            <type>
+                <name>PagingInfo</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name>Sample Test Case</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:date"/>
+                    <a:nameRef>dateFilter</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                    <a:nameRef>drilldownSelection</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"SYSTEM_SYSRULES_pagingInfo"(
+  startIndex: 1,
+  batchSize: 100
+)</a:value>
+                    <a:nameRef>pagingInfo</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e40a-de32-8000-9ba8-011c48011c48_279345"/>
+        <historyInfo versionUuid="_a-0000e40a-de32-8000-9ba8-011c48011c48_284218"/>
+        <historyInfo versionUuid="_a-0000e430-f270-8000-9bbc-011c48011c48_369884"/>
+    </history>
+</contentHaul>

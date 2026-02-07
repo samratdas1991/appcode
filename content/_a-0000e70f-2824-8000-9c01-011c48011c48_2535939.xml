@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e811-1167-8000-9c18-011c48011c48_3505892</versionUuid>
+    <rule>
+        <name>AS_FS_ALT_QR_getAlertConfiguration</name>
+        <uuid>_a-0000e70f-2824-8000-9c01-011c48011c48_2535939</uuid>
+        <description>Rule to query alert configuration</description>
+        <parentUuid>_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_968428</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>#"_a-0000e6c8-d132-8000-9bbe-011c48011c48_469266"(
+  recordType: #"urn:appian:record-type:v1:af6da350-d001-4fce-b3ab-90c06e269df9",
+  pagingInfo: ri!pagingInfo,
+  triggerRefresh: ri!triggerRefresh,
+  returnType: ri!returnType,
+  fields: ri!fields,
+  filters: {
+    #"SYSTEM_SYSRULES_queryFilter"(
+      field: #"urn:appian:record-field:v1:af6da350-d001-4fce-b3ab-90c06e269df9/5d7c5d46-9919-4b24-986f-4bb7fb71ea56",
+      operator: "in",
+      value: ri!alertConfigurationId
+    ),
+    #"SYSTEM_SYSRULES_queryFilter"(
+      field: #"urn:appian:record-field:v1:af6da350-d001-4fce-b3ab-90c06e269df9/b34a2690-4b55-4ef8-b35e-a81789ca8f7f",
+      operator: "includes",
+      value: ri!nameIncludes,
+      applywhen: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(ri!nameIncludes)
+    ),
+    #"SYSTEM_SYSRULES_queryFilter"(
+      field: #"urn:appian:record-field:v1:af6da350-d001-4fce-b3ab-90c06e269df9/c187dc63-c3b6-45cd-af5e-4d124418cd1c",
+      operator: "=",
+      value: lower(ri!caseInsensitiveName)
+    ),
+    #"SYSTEM_SYSRULES_queryFilter"(
+      field: #"urn:appian:record-field:v1:af6da350-d001-4fce-b3ab-90c06e269df9/80121f23-73f9-4f0e-92fd-bea4de5d0ead",
+      operator: "in",
+      value: ri!isActive
+    )
+  },
+  /*apply customer filters*/
+  logicalExpression: if(
+    #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(ri!customer),
+    #"SYSTEM_SYSRULES_queryLogicalExpression"(
+      ignoreFiltersWithEmptyValues: true,
+      operator: "AND",
+      logicalexpressions: #"SYSTEM_SYSRULES_forEach"(
+        items: #"_a-0000e70f-2824-8000-9c01-011c48011c48_2603969"(i18nData: null),
+        expression: fv!item.queryExpressionBuilderRule(customer: ri!customer)
+      )
+    ),
+    {}
+  )
+)</definition>
+        <namedTypedValue>
+            <name>returnType</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>pagingInfo</name>
+            <type>
+                <name>PagingInfo</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>triggerRefresh</name>
+            <type>
+                <name>dateTime</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>fields</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>alertConfigurationId</name>
+            <type>
+                <name>Integer?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>isActive</name>
+            <type>
+                <name>Boolean?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>nameIncludes</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>caseInsensitiveName</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>customer</name>
+            <type>
+                <name>AS_FS_Customer</name>
+                <namespace>urn:com:appian:types:AS:FS</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name>Single Test Case</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e415-3035-8000-9bb2-011c48011c48_290157"</a:value>
+                    <a:nameRef>returnType</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="a:PagingInfo"/>
+                    <a:nameRef>pagingInfo</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:dateTime"/>
+                    <a:nameRef>triggerRefresh</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                    <a:nameRef>fields</a:nameRef>
+                    <a:id>4</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                    <a:nameRef>alertConfigurationId</a:nameRef>
+                    <a:id>5</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                    <a:nameRef>isActive</a:nameRef>
+                    <a:id>6</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:string"/>
+                    <a:nameRef>nameIncludes</a:nameRef>
+                    <a:id>7</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:string"/>
+                    <a:nameRef>caseInsensitiveName</a:nameRef>
+                    <a:id>8</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:n1="urn:com:appian:types:AS:FS" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="n1:AS_FS_Customer"/>
+                    <a:nameRef>customer</a:nameRef>
+                    <a:id>9</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2538064"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2570559"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2589763"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2615541"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2618096"/>
+        <historyInfo versionUuid="_a-0000e811-1167-8000-9c18-011c48011c48_3505892"/>
+    </history>
+</contentHaul>

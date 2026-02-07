@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema targetNamespace="urn:com:appian:types:AS:QNM"
+  xmlns:tns="urn:com:appian:types:AS:QNM" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <xsd:complexType name="AS_QNM_QuestionCategory">
+    <xsd:annotation>
+      <xsd:appinfo source="appian.jpa">@Table(name="AS_QNM_QUESTION_CATEGORY")</xsd:appinfo>
+      <xsd:appinfo source="http://www.appian.com/ae/types/2009">
+        <ns2:Metadata xmlns:ns2="http://www.appian.com/ae/types/2009">
+          <ns2:versionUuid>0000e4ea-3a5c-8000-14b0-7f0000014e7a</ns2:versionUuid>
+          <ns2:history>
+            <ns2:historyInfo versionUuid="0000e48b-ed39-8000-0a98-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0000e4ea-3a5c-8000-14b0-7f0000014e7a"/>
+          </ns2:history>
+        </ns2:Metadata>
+      </xsd:appinfo>
+      <xsd:documentation><![CDATA[Datatype for indicating the category of a question.  This is a business defined datatype.  Not to be confused with QuestionType, which dictates the UI and other metadata pertaining to a question.]]></xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="questionCategoryId" nillable="true" type="xsd:int">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@Id @GeneratedValue @Column(name="QUESTION_CATEGORY_ID")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="questionCategoryName" nillable="true" type="xsd:string">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@Column(name="QUESTION_CATEGORY_NAME")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="questionCategoryDescription" nillable="true" type="xsd:string">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@Column(name="QSTION_CATEGORY_DESCRIPTION")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="displayOrder" nillable="true" type="xsd:int">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@Column(name="DISPLAY_ORDER")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+</xsd:schema>

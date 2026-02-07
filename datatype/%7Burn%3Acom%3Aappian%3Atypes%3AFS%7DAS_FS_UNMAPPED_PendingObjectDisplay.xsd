@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema targetNamespace="urn:com:appian:types:FS"
+  xmlns:tns="urn:com:appian:types:FS" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <xsd:include schemaLocation="%7Burn%3Acom%3Aappian%3Atypes%3AFS%7DAS_FS_UNMAPPED_PendingFieldUpdateDisplayMetadata.xsd"/>
+  <xsd:complexType name="AS_FS_UNMAPPED_PendingObjectDisplay">
+    <xsd:annotation>
+      <xsd:appinfo source="http://www.appian.com/ae/types/2009">
+        <ns2:Metadata xmlns:ns2="http://www.appian.com/ae/types/2009">
+          <ns2:versionUuid>0001e70a-de1d-8000-5034-7f0000014e7a</ns2:versionUuid>
+          <ns2:history>
+            <ns2:historyInfo versionUuid="0000e6ff-960c-8000-4f00-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0001e70a-de1d-8000-5034-7f0000014e7a"/>
+          </ns2:history>
+        </ns2:Metadata>
+      </xsd:appinfo>
+      <xsd:documentation><![CDATA[Runtime CDT used to handle displaying objects in the context of the central FS application and incorporate pending changes from other applications (e.g. SRQ and IO) without directly referencing SRQ or other applications that may or may not exist in the environment.]]></xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="objectAsQueried" nillable="true" type="xsd:anyType"/>
+      <xsd:element name="objectForDisplay" nillable="true" type="xsd:anyType"/>
+      <xsd:element maxOccurs="unbounded" minOccurs="0"
+        name="pendingFieldUpdateDisplayMetadata" type="tns:AS_FS_UNMAPPED_PendingFieldUpdateDisplayMetadata">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@OneToMany(cascade=CascadeType.ALL, indexed=false)</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+</xsd:schema>

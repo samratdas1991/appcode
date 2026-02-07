@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e7fa-f829-8000-9c17-011c48011c48_3461278</versionUuid>
+    <rule>
+        <name>AS_IO_UI_RecordFiltersForHomePageOnboardingsGrid_v1_default</name>
+        <uuid>_a-0000e77e-5277-8000-9c09-011c48011c48_2855675</uuid>
+        <description>The filters above the Home Page Onboardings Grid that save back filters which are passed into the query for the grid.
+
+@customizable:1.0
+@category:USER_INTERFACE
+@app:FS.IO</description>
+        <parentUuid>_a-0000e2bb-4188-8000-9ba2-011c48011c48_25469</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>/*
+
+DESCRIPTION: Filters above the Home Page Onboardings Grid that save back filters 
+which are passed into the query for the grid.
+
+
+DEFAULT BEHAVIOR: This renders the following filters:
+- Owners
+  NOTE: if the user is not a manager, this filter will default to their username
+- Customer
+- Status
+
+
+CUSTOMIZATION STEPS: 
+- Adjust this expression rule to display filters you'd like to show above the onboardings grid
+  NOTE: we recommend leaving the owners filter, as there is a default filter applied to this field
+    for non-manager users that will become invisible to the end user without this filter
+- Use queryRecord() to retrive the value of the filter to pass to the Record `AS_IO_OnboardingRequest_SyncedRecordType`.
+- See examples below of how these rules are used for dropdown
+- NOTE in order to check which other fields are available to filter on, open the cdt `AS_IO_OnboardingRequest`
+- NOTE that these filters will be passed as input `filters` to the Record UserFilter `AS_IO_OnboardingRequest_SyncedRecordType`. 
+    You can try passing your 'filters' value from here into that Record in order to debug any issues with the filter parameter
+- NOTE that filters can have null values, which are automatically ignored in the query itself via the `a!forEach` 
+
+PARAMETERS: 
+i18nData (input-only) - The internationalized labels.
+List of Facet -Output of this rule.
+*/
+{
+  #"SYSTEM_SYSRULES_recordFilterList"(
+    name: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+      i18nData: ri!i18nData,
+      bundleKey: "AS.CO.AllBundles.lbl_Owner"
+    ),
+    options: a!localVariables(
+      local!owners:  #"SYSTEM_SYSRULES_queryRecordType_v1"(
+        recordType: #"urn:appian:record-type:v1:1bc6764d-cb19-4d4e-8177-8ffba175376a",
+        fields: #"SYSTEM_SYSRULES_aggregationFields"(
+          groupings: #"SYSTEM_SYSRULES_grouping"(
+            field: #"urn:appian:record-field:v1:1bc6764d-cb19-4d4e-8177-8ffba175376a/ef27eabb-7afc-400f-acd7-824ff3c0693d",
+            alias: "owner"
+          ),
+
+        ),
+        filters: {
+          #"SYSTEM_SYSRULES_queryFilter"(
+            field: #"urn:appian:record-field:v1:1bc6764d-cb19-4d4e-8177-8ffba175376a/ef27eabb-7afc-400f-acd7-824ff3c0693d",
+            operator: "not null"
+          )
+        },
+        pagingInfo: #"SYSTEM_SYSRULES_pagingInfo"(
+          startIndex: 1,
+          batchSize: 5000,
+          sort: #"SYSTEM_SYSRULES_sortInfo"(field: "owner", ascending: true())
+        )
+      ).data,
+      local!fieldValues: if(
+        contains(
+          touniformstring({ local!owners.owner }),
+          tostring(loggedInUser())
+        ),
+        local!owners,
+        append(
+          local!owners,
+          a!map(owner: tostring(loggedInUser()))
+        )
+      ),
+      #"SYSTEM_SYSRULES_forEach"(
+        items: local!fieldValues,
+        expression: #"SYSTEM_SYSRULES_recordFilterListOption"(
+          id: fv!index,
+          name: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73660"(user: fv!item.owner),
+          filter: #"SYSTEM_SYSRULES_queryFilter"(
+            field: #"urn:appian:record-field:v1:04c66223-4089-4d5e-8ed8-6a853822f478/6ce2159e-c78e-4bc7-95f4-a37e221b9812/ef27eabb-7afc-400f-acd7-824ff3c0693d",
+            operator: "=",
+            value: fv!item.owner
+          )
+        )
+      )
+    ),
+    defaultOption: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73660"(user: loggedInUser()),
+    isVisible: true,
+    allowMultipleSelections: true
+  ),
+  #"SYSTEM_SYSRULES_recordFilterList"(
+    name: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+      i18nData: ri!i18nData,
+      bundleKey: "AS.CO.AllBundles.lbl_Customer"
+    ),
+    options: a!localVariables(
+      local!fieldValues: #"SYSTEM_SYSRULES_queryRecordType_v1"(
+        recordType: #"urn:appian:record-type:v1:ac016353-2977-4ef1-b643-fed621e7b701",
+        fields: #"SYSTEM_SYSRULES_aggregationFields"(
+          groupings: #"SYSTEM_SYSRULES_grouping"(
+            field: #"urn:appian:record-field:v1:ac016353-2977-4ef1-b643-fed621e7b701/82717263-d098-48ae-ad24-1591d57c5a00",
+            alias: "customer"
+          ),
+          
+        ),
+        filters: {
+          #"SYSTEM_SYSRULES_queryFilter"(
+            field: #"urn:appian:record-field:v1:ac016353-2977-4ef1-b643-fed621e7b701/82717263-d098-48ae-ad24-1591d57c5a00",
+            operator: "not null"
+          )
+        },
+        pagingInfo: #"SYSTEM_SYSRULES_pagingInfo"(
+          startIndex: 1,
+          batchSize: 5000,
+          sort: #"SYSTEM_SYSRULES_sortInfo"(field: "customer", ascending: true())
+        )
+      ).data,
+      #"SYSTEM_SYSRULES_forEach"(
+        items: local!fieldValues,
+        expression: #"SYSTEM_SYSRULES_recordFilterListOption"(
+          id: fv!index,
+          name: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73660"(user: fv!item.customer),
+          filter: #"SYSTEM_SYSRULES_queryFilter"(
+            field: #"urn:appian:record-field:v1:04c66223-4089-4d5e-8ed8-6a853822f478/f0617580-5e23-4819-bcca-603b48ae4897/82717263-d098-48ae-ad24-1591d57c5a00",
+            operator: "=",
+            value: fv!item.customer
+          )
+        )
+      )
+    ),
+    defaultOption: null,
+    isVisible: true,
+    allowMultipleSelections: true
+  ),
+  #"SYSTEM_SYSRULES_recordFilterList"(
+    name: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+      i18nData: ri!i18nData,
+      bundleKey: "AS.CO.AllBundles.lbl_Status"
+    ),
+    options: a!localVariables(
+      local!fieldValues: #"SYSTEM_SYSRULES_queryRecordType_v1"(
+        recordType: #"urn:appian:record-type:v1:04c66223-4089-4d5e-8ed8-6a853822f478",
+        fields: #"SYSTEM_SYSRULES_aggregationFields"(
+          groupings: #"SYSTEM_SYSRULES_grouping"(
+            field: #"urn:appian:record-field:v1:04c66223-4089-4d5e-8ed8-6a853822f478/c0423faa-e9c8-49a9-a393-1b1562782280",
+            alias: "status"
+          ),
+          
+        ),
+        filters: {
+          #"SYSTEM_SYSRULES_queryFilter"(
+            field: #"urn:appian:record-field:v1:04c66223-4089-4d5e-8ed8-6a853822f478/c0423faa-e9c8-49a9-a393-1b1562782280",
+            operator: "not null"
+          )
+        },
+        pagingInfo: #"SYSTEM_SYSRULES_pagingInfo"(
+          startIndex: 1,
+          batchSize: 5000,
+          sort: #"SYSTEM_SYSRULES_sortInfo"(field: "status", ascending: true())
+        )
+      ).data,
+      #"SYSTEM_SYSRULES_forEach"(
+        items: local!fieldValues,
+        expression: #"SYSTEM_SYSRULES_recordFilterListOption"(
+          id: fv!index,
+          name: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+            i18nData: ri!i18nData,
+            bundleKey: #"_a-0000e586-af6f-8000-9bd2-011c48011c48_1320404"(statusCode: fv!item.status)
+          ),
+          filter: #"SYSTEM_SYSRULES_queryFilter"(
+            field: #"urn:appian:record-field:v1:04c66223-4089-4d5e-8ed8-6a853822f478/c0423faa-e9c8-49a9-a393-1b1562782280",
+            operator: "=",
+            value: fv!item.status
+          )
+        )
+      )
+    ),
+    /*defaultOption: null,*/
+    defaultOption: {
+      #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+        i18nData: ri!i18nData,
+        bundleKey: #"_a-0000e586-af6f-8000-9bd2-011c48011c48_1320404"(statusCode: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_48769")
+      ),
+    },
+    isVisible: true,
+    allowMultipleSelections: true
+  )
+}</definition>
+        <namedTypedValue>
+            <name>i18nData</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <history>
+        <historyInfo versionUuid="_a-0000e77e-5277-8000-9c09-011c48011c48_2855965"/>
+        <historyInfo versionUuid="_a-0000e77e-5277-8000-9c09-011c48011c48_2911206"/>
+        <historyInfo versionUuid="_a-0000e79b-0335-8000-9c0c-011c48011c48_2915053"/>
+        <historyInfo versionUuid="_a-0000e7fa-f829-8000-9c17-011c48011c48_3455123"/>
+        <historyInfo versionUuid="_a-0000e7fa-f829-8000-9c17-011c48011c48_3461278"/>
+    </history>
+</contentHaul>

@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_895803</versionUuid>
+    <rule>
+        <name>AS_QNM_CDT_cloneQuestionnaireTemplate_Questions</name>
+        <uuid>_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_894899</uuid>
+        <description>Rule to clone the questions in a template</description>
+        <parentUuid>_a-0000e42d-ffef-8000-9ba6-011c48011c48_7213-qnm</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>#"SYSTEM_SYSRULES_forEach"(
+  items: ri!questionsToClone,
+  expression: 'type!{urn:com:appian:types:AS:QNM}AS_QNM_T_Question'(
+    questionTemplateId: null,
+    questionReferenceId: fv!item.questionReferenceId,
+    questionTypeCode: fv!item.questionTypeCode,
+    label: fv!item.label,
+    instructions: fv!item.instructions,
+    pageNumber: fv!item.pageNumber,
+    groupNumber: fv!item.groupNumber,
+    orderNumber: fv!item.orderNumber,
+    responseOptions: #"_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_895029"(
+      responsesToClone: fv!item.responseOptions
+    ),
+    responseRequirements: #"_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_894986"(
+      res_requirementsToClone: fv!item.responseRequirements
+    ),
+    defaultResponses: #"_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_895029"(
+      responsesToClone: fv!item.defaultResponses
+    ),
+    isExternalUserFacing: fv!item.isExternalUserFacing,
+    isDisplayedPrecedentSets: #"_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_895105"(
+      precedentSetsToClone: fv!item.isDisplayedPrecedentSets,
+      questionsToClone: ri!questionsToClone
+    ),
+    isRequiredPrecedentSets: #"_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_895105"(
+      precedentSetsToClone: fv!item.isRequiredPrecedentSets,
+      questionsToClone: ri!questionsToClone
+    ),
+    questionCategoryTemplateId: wherecontains(
+      fv!item.questionCategoryTemplateId,
+      ri!categoriesToClone.questionCategoryTemplateId
+    ),
+    isActive: fv!item.isActive
+  )
+)</definition>
+        <namedTypedValue>
+            <name>questionsToClone</name>
+            <type>
+                <name>AS_QNM_T_Question?list</name>
+                <namespace>urn:com:appian:types:AS:QNM</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>categoriesToClone</name>
+            <type>
+                <name>AS_QNM_T_QuestionCategory?list</name>
+                <namespace>urn:com:appian:types:AS:QNM</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <history>
+        <historyInfo versionUuid="_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_895803"/>
+    </history>
+</contentHaul>

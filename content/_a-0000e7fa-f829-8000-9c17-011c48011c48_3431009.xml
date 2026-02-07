@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e7fa-f829-8000-9c17-011c48011c48_3454605</versionUuid>
+    <rule>
+        <name>AS_IO_UT_determineRequiredDocumentTaskIndexes</name>
+        <uuid>_a-0000e7fa-f829-8000-9c17-011c48011c48_3431009</uuid>
+        <description>removes deleted required document tasks from a list given a list of tasks and a list of required documents </description>
+        <parentUuid>_a-0000e2bb-4188-8000-9ba2-011c48011c48_25469</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  local!uniqueRequiredDocuments: union(
+    index(
+      ri!requiredDocuments,
+      "requirementName",
+      {}
+    ),
+    index(
+      ri!requiredDocuments,
+      "requirementName",
+      {}
+    )
+  ),
+  where(
+    #"SYSTEM_SYSRULES_forEach"(
+      items: ri!tasks,
+      expression: a!localVariables(
+        local!task: fv!item,
+        and(
+          local!task.taskCategory.taskCategoryId = #"_a-0000e7d2-6286-8000-9c11-011c48011c48_3119705",
+          #"SYSTEM_SYSRULES_forEach"(
+            items: local!uniqueRequiredDocuments,
+            expression: find(fv!item, local!task.taskName),
+            
+          ) = 0
+        )
+      )
+    )
+  )
+),</definition>
+        <namedTypedValue>
+            <name>requiredDocuments</name>
+            <type>
+                <name>AS_IO_RequiredOnboardingDocument?list</name>
+                <namespace>urn:com:appian:types:AS:IO</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>tasks</name>
+            <type>
+                <name>AS_IO_Task?list</name>
+                <namespace>urn:com:appian:types:AS:IO</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name>one index to return</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">{
+  'type!{urn:com:appian:types:AS:IO}AS_IO_RequiredOnboardingDocument'(
+    requirementName: "Prospectus"
+  )
+}</a:value>
+                    <a:nameRef>requiredDocuments</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">{'type!{urn:com:appian:types:AS:IO}AS_IO_Task'(
+  taskName: "Prospectus",
+  taskCategory: 'type!{urn:com:appian:types:AS:IO}AS_IO_R_TaskCategory'(
+    taskCategoryId: #"_a-0000e7d2-6286-8000-9c11-011c48011c48_3119705"
+    )
+),
+'type!{urn:com:appian:types:AS:IO}AS_IO_Task'(
+  taskName: "Nothing",
+  taskCategory: 'type!{urn:com:appian:types:AS:IO}AS_IO_R_TaskCategory'(
+    taskCategoryId: #"_a-0000e7d2-6286-8000-9c11-011c48011c48_3119705"
+  )
+)
+}</a:value>
+                    <a:nameRef>tasks</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions>
+                    <a:expectedOutput>
+                        <a:type a:uuid="{http://www.appian.com/ae/types/2009}Integer?list"/>
+                        <a:runtimeType a:uuid="{http://www.appian.com/ae/types/2009}Integer?list"/>
+                        <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">2</a:value>
+                    </a:expectedOutput>
+                </a:assertions>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e7fa-f829-8000-9c17-011c48011c48_3454605"/>
+    </history>
+</contentHaul>

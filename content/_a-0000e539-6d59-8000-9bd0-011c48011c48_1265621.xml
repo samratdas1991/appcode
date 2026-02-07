@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e673-a4a7-8000-9bef-011c48011c48_1962411</versionUuid>
+    <rule>
+        <name>AS_FS_IDP_generateCloudStorageUploadDocName</name>
+        <uuid>_a-0000e539-6d59-8000-9bd0-011c48011c48_1265621</uuid>
+        <description></description>
+        <parentUuid>_a-0000e539-6d59-8000-9bd0-011c48011c48_1261631</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>/*Object naming requirements and best practices:*/
+/*https://cloud.google.com/storage/docs/naming#objectnames*/
+/*https://cloud.google.com/storage/docs/request-rate#naming-convention*/
+tostring(
+  if(
+    isnull(ri!document),
+    null,
+    joinarray(dec2hex(tointeger(rand(4)*256),2))
+    &amp; "-"
+    &amp; #"_a-0000e539-6d59-8000-9bd0-011c48011c48_1265589"()
+    &amp; #"_a-0000e539-6d59-8000-9bd0-011c48011c48_1265609"
+    &amp; tointeger(ri!document)
+    &amp; #"_a-0000e539-6d59-8000-9bd0-011c48011c48_1265615"
+    &amp; datetext(now(), "yyyy_MM_dd_hh_mm_ss")
+    &amp; "."
+    &amp; fn!document(ri!document, "extension")
+  )
+)
+</definition>
+        <namedTypedValue>
+            <name>document</name>
+            <type>
+                <name>CollaborationDocument</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name>Example</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:CollaborationDocument">_a-0000e539-6d59-8000-9bd0-011c48011c48_1266836</a:value>
+                    <a:nameRef>document</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e539-6d59-8000-9bd0-011c48011c48_1299306"/>
+        <historyInfo versionUuid="_a-0000e62c-7375-8000-9bec-011c48011c48_1816031"/>
+        <historyInfo versionUuid="_a-0000e673-a4a7-8000-9bef-011c48011c48_1962411"/>
+    </history>
+</contentHaul>

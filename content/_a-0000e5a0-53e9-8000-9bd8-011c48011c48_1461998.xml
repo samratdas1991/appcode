@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e81d-5ddb-8000-9c1b-011c48011c48_3544409</versionUuid>
+    <rule>
+        <name>AS_IO_WA_POST_Onboardings_V2</name>
+        <uuid>_a-0000e5a0-53e9-8000-9bd8-011c48011c48_1461998</uuid>
+        <description>Version 2 of AS IO WA Post onbardings web API, includes product information</description>
+        <parentUuid>_a-0000e2bb-4188-8000-9ba2-011c48011c48_25469</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  local!i18nData: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81834"(triggerRefresh: null),
+  local!body: #"SYSTEM_SYSRULES_fromJson_v1"(ri!request.body),
+  /*Check for missing required fields*/
+  local!missingFieldsError: #"_a-0000e329-3415-8000-9ba2-011c48011c48_381285"(
+    queryParameters: ri!request.queryParameters,
+    qpRequiredFields: {},
+    body: local!body,
+    bodyRequiredFields: {
+      "customer.customerId",
+      "type",
+      "AS.CO.AllBundles.productTypeCode"
+    }
+  ),
+  if(
+    /*Error - Missing Required Fields*/
+    #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(local!missingFieldsError),
+    local!missingFieldsError,
+    a!localVariables(
+      /*Map codes and IDs to Appian objects*/
+      local!customer: if(
+        #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(local!body.customer.customerId),
+        {},
+        #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_33079"(
+          customerId: local!body.customer.customerId,
+          returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290157"
+        )
+      ),
+      local!type: tostring(
+        #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_82511"(
+          codeList: local!body.type,
+          executeWhen: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(local!body.type)
+        ).code
+      ),
+      local!priorityCode: tostring(
+        #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_82511"(
+          codeList: local!body.priorityCode,
+          executeWhen: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(local!body.priorityCode)
+        ).code
+      ),
+      local!productType: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_82511"(
+        codeList: local!body.product.productTypeCode,
+        executeWhen: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(local!body.product.productTypeCode),
+        i18nData: local!i18nData
+      ),
+      local!productTypeCode: tostring(local!productType.code),
+      /*Check for invalid values*/
+      local!invalidValuesError: #"_a-0000e329-3415-8000-9ba2-011c48011c48_385581"(
+        dictionaryOfFieldValues: {
+          {
+            field: "customer.customerId",
+            inputValue: local!body.customer.customerId,
+            mappedToValue: local!customer
+          },
+          {
+            field: "type",
+            inputValue: local!body.type,
+            mappedToValue: local!type
+          },
+          {
+            field: "priorityCode",
+            inputValue: local!body.priorityCode,
+            mappedToValue: local!priorityCode
+          },
+          {
+            field: "AS.CO.AllBundles.productTypeCode",
+            inputValue: local!body.product.productTypeCode,
+            mappedToValue: local!productTypeCode
+          }
+        }
+      ),
+      if(
+        /*Error - Invalid Values*/
+        #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(local!invalidValuesError),
+        local!invalidValuesError,
+        a!localVariables(
+          /*Build process parameters*/
+          local!onboardingRequest: #"_a-0000e329-3415-8000-9ba2-011c48011c48_394827"(
+            body: local!body,
+            customer: local!customer,
+            type: local!type,
+            priorityCode: local!priorityCode
+          ),
+          local!product: #"_a-0000e5a0-53e9-8000-9bd8-011c48011c48_1462251"(
+            productType: local!productType,
+            body: local!body
+          ),
+          /*Start Process*/
+          #"SYSTEM_SYSRULES_startProcess"(
+            processModel: #"_a-0000e329-3415-8000-9ba2-011c48011c48_376350",
+            processParameters: {
+              customer: local!customer,
+              onboardingRequest: local!onboardingRequest,
+              products: local!product
+            },
+            onSuccess: a!localVariables(
+              local!requestId: fv!processInfo.pv.onboardingRequest.requestId,
+              if(
+                #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(local!requestId),
+                /*Error - Unknown Process Issue*/
+                #"_a-0000e329-3415-8000-9ba2-011c48011c48_391241"(),
+                /*Success*/
+                #"_a-0000e329-3415-8000-9ba2-011c48011c48_394532"(
+                  body: {
+                    onboardingId: local!requestId,
+                    onboardingUrl: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_91843"(
+                      recordType: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_33188",
+                      recordId: local!requestId,
+                      siteWebAddressIdentifier: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_95966",
+                      sitePage: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_95973"
+                    )
+                  }
+                )
+              )
+            ),
+            /*Error - Security*/
+            onError: #"_a-0000e329-3415-8000-9ba2-011c48011c48_381401"(
+              detail: "User does not have access to 'Create Onboarding by Web API' process model"
+            )
+          )
+        )
+      )
+    )
+  )
+)</definition>
+        <namedTypedValue>
+            <name>request</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name>Missing sysCode</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">{
+  queryParameters: {
+    sysCode: ""
+  },
+  body: #"SYSTEM_SYSRULES_toJson_v1"({
+    "priorityCode":"",
+    "type":"SME",
+    "customerId":"3746U3333IO"
+  })
+}</a:value>
+                    <a:nameRef>request</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+            <el>
+                <a:name>Invalid sysCode</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">{
+  queryParameters: {
+    sysCode: "ABC"
+  },
+  body: #"SYSTEM_SYSRULES_toJson_v1"({
+    "priorityCode":"",
+    "type":"SME",
+    "customerId":"3746U3333IO"
+  })
+}</a:value>
+                    <a:nameRef>request</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+            <el>
+                <a:name>Missing type</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">{
+  queryParameters: {
+    sysCode: "SF"
+  },
+  body: #"SYSTEM_SYSRULES_toJson_v1"({
+    "priorityCode":"",
+    "type":"",
+    "customerId":"3746U3333IO"
+  })
+}</a:value>
+                    <a:nameRef>request</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+            <el>
+                <a:name>Invalid type</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">{
+  queryParameters: {
+    sysCode: "SF"
+  },
+  body: #"SYSTEM_SYSRULES_toJson_v1"({
+    "priorityCode":"",
+    "type":"XYZ",
+    "customerId":"3746U3333IO"
+  })
+}</a:value>
+                    <a:nameRef>request</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+            <el>
+                <a:name>Success</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">{
+  queryParameters: {
+    sysCode: "SF"
+  },
+  body: #"SYSTEM_SYSRULES_toJson_v1"({
+    "priorityCode":"",
+    "type":"SME",
+    "customerId":"3746U3333IO"
+  })
+}</a:value>
+                    <a:nameRef>request</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e5a0-53e9-8000-9bd8-011c48011c48_1462003"/>
+        <historyInfo versionUuid="_a-0000e5a0-53e9-8000-9bd8-011c48011c48_1463066"/>
+        <historyInfo versionUuid="_a-0000e5d6-d648-8000-9bde-011c48011c48_1541806"/>
+        <historyInfo versionUuid="_a-0000e62c-7375-8000-9bec-011c48011c48_1850361"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2721262"/>
+        <historyInfo versionUuid="_a-0000e81d-5ddb-8000-9c1b-011c48011c48_3544409"/>
+    </history>
+</contentHaul>

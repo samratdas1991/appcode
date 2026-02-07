@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<recordTypeHaul xmlns:a="http://www.appian.com/ae/types/2009" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <versionUuid>723b8a97-7caf-4ecd-89ac-bef6b8abf6f0</versionUuid>
+  <recordType a:uuid="36466bb6-2d5d-4b01-b671-77970b109437" name="AS_EI_CHS_CompanyInformation_RecordType">
+    <a:pluralName>AS_EI_CHS_CompanyInformation_RecordTypes</a:pluralName>
+    <a:description>Record type to show company information integration test UI in a modal</a:description>
+    <a:urlStub>3Dtoig</a:urlStub>
+    <a:source a:uuid="0000e5c2-752a-8000-2c3b-7f0000014e7a" xsi:type="a:ProcessModel"/>
+    <a:listViewTemplateExpr>#"SYSTEM_SYSRULES_recordGridField"(
+  pageSize: 50,
+  columns: {},
+  shadeAlternateRows: true
+)</a:listViewTemplateExpr>
+    <a:detailViewCfg>
+      <a:nameExpr>#"SYSTEM_SYSRULES_rtd_getDefaultSummaryViewName"()</a:nameExpr>
+      <a:uiExpr/>
+      <a:visibilityExpr>=true()</a:visibilityExpr>
+      <a:urlStub>summary</a:urlStub>
+      <a:headerExpr/>
+      <a:recordActionLaunchType>DIALOG</a:recordActionLaunchType>
+      <a:recordUiSecurityType>EXPRESSION</a:recordUiSecurityType>
+    </a:detailViewCfg>
+    <a:isSystem>false</a:isSystem>
+    <a:dataSrcExpr/>
+    <a:facetsListExpr/>
+    <a:titleExpr/>
+    <a:defaultFiltersExpr>if(
+  #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_114114"(
+    user: loggedInUser(),
+    groups: #"_a-0000e62c-7375-8000-9bec-011c48011c48_1839635"
+  ),
+  {},
+  #"SYSTEM_SYSRULES_queryFilter"(
+    field: #"urn:appian:record-field:v1:36466bb6-2d5d-4b01-b671-77970b109437/pm%40id",
+    operator: "is null"
+  )
+)</a:defaultFiltersExpr>
+    <a:layoutType>GRID</a:layoutType>
+    <a:security>16383</a:security>
+    <a:hideLatestNews>false</a:hideLatestNews>
+    <a:hideNewsView>false</a:hideNewsView>
+    <a:hideRelatedActionsView>false</a:hideRelatedActionsView>
+    <a:isExportable>true</a:isExportable>
+    <a:listViewSrcExpr/>
+    <a:recordViewSrcExpr/>
+    <a:recordListActionCfg a:uuid="a3f8c37b-6182-4803-a47a-345942fb23dc">
+      <a:titleExpr>#"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_84411"(
+  bundleFolder: #"_a-0000e5a0-53e9-8000-9bd8-011c48011c48_1414247",
+  bundleKey: "AS.EI.CHS.AdminCenter.lbl_TestIntegration"
+)</a:titleExpr>
+      <a:staticDescription/>
+      <a:iconId>f0ad</a:iconId>
+      <a:target a:uuid="0000e5c2-752a-8000-2c3b-7f0000014e7a" xsi:type="a:ProcessModel"/>
+      <a:visibilityExpr>#"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_114114"(
+  user: loggedInUser(),
+  groups: #"_a-0000e62c-7375-8000-9bec-011c48011c48_1839635"
+)</a:visibilityExpr>
+      <a:referenceKey>testIntegration</a:referenceKey>
+      <a:dialogSize>FIT$FIT</a:dialogSize>
+      <a:showInRecordList>true</a:showInRecordList>
+      <a:recordUiSecurityType>EXPRESSION</a:recordUiSecurityType>
+      <a:dialogWidth>FIT</a:dialogWidth>
+      <a:dialogHeight>FIT</a:dialogHeight>
+    </a:recordListActionCfg>
+    <a:iconId/>
+    <a:listAutoRefreshInterval>0.0</a:listAutoRefreshInterval>
+    <a:enabledFeatures>63</a:enabledFeatures>
+    <a:isVisibleInRecordTypeList>false</a:isVisibleInRecordTypeList>
+    <a:recordActionLaunchType>DIALOG</a:recordActionLaunchType>
+    <a:showSearchBox>true</a:showSearchBox>
+    <a:isVisibleInDataFabric>false</a:isVisibleInDataFabric>
+    <a:usesRollingSyncLimit>false</a:usesRollingSyncLimit>
+    <a:usesRecoverySync>false</a:usesRecoverySync>
+    <a:isScheduledIndexingEnabled>false</a:isScheduledIndexingEnabled>
+    <a:smartSearchAcceptableFailureRate>0.0</a:smartSearchAcceptableFailureRate>
+    <a:skipFailedSmartServicesSync>false</a:skipFailedSmartServicesSync>
+  </recordType>
+  <roleMap>
+    <role name="record_type_administrator">
+      <users/>
+      <groups>
+        <groupUuid>_e-0000e5a0-53e9-8000-9b24-01075c01075c_10770</groupUuid>
+      </groups>
+    </role>
+    <role name="record_type_viewer">
+      <users/>
+      <groups>
+        <groupUuid>_e-0000e5a0-53e9-8000-9b24-01075c01075c_10768</groupUuid>
+      </groups>
+    </role>
+  </roleMap>
+  <history>
+    <historyInfo versionUuid="69a4613b-6fb1-43b0-bc49-1ddf1c58d8a0"/>
+    <historyInfo versionUuid="b061bc44-f9fd-4e7f-9aa3-264fc373b51d"/>
+    <historyInfo versionUuid="c499a7df-5d10-4578-b136-5ba1b979b154"/>
+    <historyInfo versionUuid="7612d0f1-9f3a-4864-b4f8-41500f27becc"/>
+    <historyInfo versionUuid="723b8a97-7caf-4ecd-89ac-bef6b8abf6f0"/>
+  </history>
+  <migrationVersion>1</migrationVersion>
+</recordTypeHaul>

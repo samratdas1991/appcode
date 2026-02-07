@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e811-1167-8000-9c18-011c48011c48_3498777</versionUuid>
+    <interface>
+        <name>AS_IO_CPS_onboardingRequestTasks</name>
+        <uuid>_a-0000e7fa-f829-8000-9c17-011c48011c48_3405763</uuid>
+        <description>Form for the user to set up their onboarding process and tasks</description>
+        <parentUuid>_a-0000e2bb-4188-8000-9ba2-011c48011c48_25469</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  /*Will contain name of category that user wants to add tasks to */
+  local!taskCategoryFilter,
+  local!showTasksWarning: or(
+    #"SYSTEM_SYSRULES_forEach"(
+      items: ri!tasksForRequest,
+      expression: #"b64d04d7-f6c4-4717-b97b-406293e74fd7"(
+        currentTask: fv!item,
+        taskForRequest: ri!tasksForRequest
+      )
+    )
+  ),
+  local!viewDependencies: false,
+  /*local!isCircularDependency: rule!AS_CO_UT_findCircularDependency(*/
+  /*allCdts: ri!tasksForRequest,*/
+  /*precedentPointerField: "taskPrecedents.taskId_precedent",*/
+  /*precedentValueField: cons!AS_CO_ENUM_INDEX_AS_PRECEDENT_POINTER*/
+  /*),*/
+  local!isCircularDependency: false,
+  if(
+    ri!addNewTask,
+    /*add tasks to a category from catalog*/
+    #"_a-0000e3e6-fb42-8000-9ba5-011c48011c48_177580"(
+      i18nData: ri!i18nData,
+      tasksForRequest: ri!tasksForRequest,
+      request: ri!onboardingRequest,
+      taskCategoryFilter: local!taskCategoryFilter,
+      addNewTask: ri!addNewTask
+    ),
+    {
+      #"SYSTEM_SYSRULES_sectionLayout_v1"(label: "", contents: {}, divider: "BELOW"),
+      #"SYSTEM_SYSRULES_ButtonArrayLayout"(
+        buttons: {
+          #"SYSTEM_SYSRULES_ButtonWidget"(
+            label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+              i18nData: ri!i18nData,
+              bundleKey: "AS.CO.AllBundles.btn_ViewTaskDependencies"
+            ),
+            icon: "eye",
+            tooltip: if(
+              local!isCircularDependency,
+              #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                i18nData: ri!i18nData,
+                bundleKey: "AS.CO.AllBundles.vld_CircularTaskDependency"
+              ),
+              {}
+            ),
+            saveInto: {
+              a!save(local!viewDependencies, true),
+              a!save(
+                ri!tasksForRequest,
+                #"SYSTEM_SYSRULES_forEach"(
+                  items: ri!tasksForRequest,
+                  expression: #"_a-0000e40a-de32-8000-9ba8-011c48011c48_260165"(
+                    cdt: fv!item,
+                    fields: "orderNumber",
+                    newValues: fv!index
+                  )
+                )
+              )
+            },
+            size: "SMALL",
+            style: "NORMAL",
+            disabled: or(
+              #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(ri!template.templateId),
+              local!isCircularDependency
+            ),
+            showWhen: local!viewDependencies &lt;&gt; true
+          ),
+          #"SYSTEM_SYSRULES_ButtonWidget"(
+            label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+              i18nData: ri!i18nData,
+              bundleKey: "AS.CO.AllBundles.btn_EditTasks"
+            ),
+            icon: "wrench",
+            saveInto: { a!save(local!viewDependencies, false) },
+            size: "SMALL",
+            style: "NORMAL",
+            showWhen: local!viewDependencies = true
+          )
+        },
+        align: "START"
+      ),
+      if(
+        local!viewDependencies,
+        {
+          #"_a-0000e4ae-1ed6-8000-9bc5-011c48011c48_803300"(
+            allTasks: ri!tasksForRequest,
+            i18nData: ri!i18nData
+          )
+        },
+        {
+          /*Tasks Grid*/
+          #"SYSTEM_SYSRULES_sectionLayout_v1"(
+            contents: {
+              #"_a-0000e3d1-f4dc-8000-9ba4-011c48011c48_151906"(
+                i18nData: ri!i18nData,
+                addNewTask: ri!addNewTask
+              ),
+              #"_a-0000e3d1-f4dc-8000-9ba4-011c48011c48_150016"(
+                i18nData: ri!i18nData,
+                tasksForRequest: ri!tasksForRequest,
+                request: ri!onboardingRequest
+              )
+            }
+          ),
+          #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_270368"(
+            showWhen: local!showTasksWarning,
+            label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+              i18nData: ri!i18nData,
+              bundleKey: "AS.CO.AllBundles.lbl_TaskWarning"
+            ),
+            
+          ),
+          #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_270368"(
+            showWhen: true,
+            label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+              i18nData: ri!i18nData,
+              bundleKey: "AS.CO.AllBundles.lbl_CircularDependencyTaskWarning"
+            ),
+            
+          )
+        }
+      )
+    }
+  )
+)</definition>
+        <namedTypedValue>
+            <name>onboardingRequest</name>
+            <type>
+                <name>AS_IO_OnboardingRequest</name>
+                <namespace>urn:com:appian:types:AS:IO</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>template</name>
+            <type>
+                <name>AS_IO_R_Template</name>
+                <namespace>urn:com:appian:types:AS:IO</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>i18nData</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>tasksForRequest</name>
+            <type>
+                <name>AS_IO_Task?list</name>
+                <namespace>urn:com:appian:types:AS:IO</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>addNewTask</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+        <isCustom>false</isCustom>
+    </interface>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name/>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:n1="urn:com:appian:types:AS:IO" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="n1:AS_IO_OnboardingRequest"/>
+                    <a:nameRef>onboardingRequest</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_155202"(
+  returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290157",
+)</a:value>
+                    <a:nameRef>template</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81834"(triggerRefresh: now()),</a:value>
+                    <a:nameRef>i18nData</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">a!localVariables(
+  local!template: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_155202"(
+    returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290157",
+  ),
+  #"_a-0000e3d1-f4dc-8000-9ba4-011c48011c48_145492"(
+  template: #"_a-0000e40a-de32-8000-9ba8-011c48011c48_269170"(
+    cdt: local!template,
+    fieldValuePairs: {
+      field: "templateTasks",
+      value: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75720"(
+        cdt: local!template.templateTasks,
+        field: "orderNumber",
+        ascending: true
+      )
+    }
+  ),
+  request: {}
+),
+)</a:value>
+                    <a:nameRef>tasksForRequest</a:nameRef>
+                    <a:id>4</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:boolean"/>
+                    <a:nameRef>addNewTask</a:nameRef>
+                    <a:id>5</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e7fa-f829-8000-9c17-011c48011c48_3436084"/>
+        <historyInfo versionUuid="_a-0000e7fa-f829-8000-9c17-011c48011c48_3455471"/>
+        <historyInfo versionUuid="_a-0000e7fa-f829-8000-9c17-011c48011c48_3464058"/>
+        <historyInfo versionUuid="_a-0000e811-1167-8000-9c18-011c48011c48_3498777"/>
+    </history>
+</contentHaul>

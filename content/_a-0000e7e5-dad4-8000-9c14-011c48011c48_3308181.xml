@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e7fa-f829-8000-9c17-011c48011c48_3390488</versionUuid>
+    <rule>
+        <name>AS_CO_UT_generateUUID</name>
+        <uuid>_a-0000e7e5-dad4-8000-9c14-011c48011c48_3308181</uuid>
+        <description>Generates a pseudo random UUID</description>
+        <parentUuid>_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73105</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>joinarray(
+  {
+    dec2hex(tointeger(rand(4)*256),2),
+    "-",
+    dec2hex(tointeger(rand(4)*256),2),
+    "-",
+    dec2hex(tointeger(rand(4)*256),2),
+    "-",
+    dec2hex(tointeger(rand(4)*256),2),
+    "-",
+    dec2hex(datetext(now(), "yyyy"),3),
+    dec2hex(datetext(now(), "MMdd"),3),
+    dec2hex(datetext(now(), "HHmm"),3),
+    dec2hex(datetext(now(), "SSss"),3)
+  }
+)</definition>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <history>
+        <historyInfo versionUuid="_a-0000e7fa-f829-8000-9c17-011c48011c48_3356404"/>
+        <historyInfo versionUuid="_a-0000e7fa-f829-8000-9c17-011c48011c48_3390488"/>
+    </history>
+</contentHaul>

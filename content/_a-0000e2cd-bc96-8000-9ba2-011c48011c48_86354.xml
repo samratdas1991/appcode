@@ -1,0 +1,904 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e825-b425-8000-9c1c-011c48011c48_3574196</versionUuid>
+    <interface>
+        <name>AS_IO_SBS_runtimeTaskToolbar</name>
+        <uuid>_a-0000e2cd-bc96-8000-9ba2-011c48011c48_86354</uuid>
+        <description>Menu Bar for the tasks</description>
+        <parentUuid>_a-0000e2bb-4188-8000-9ba2-011c48011c48_25469</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  local!selectedTasks: if(
+    #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(ri!selectedTasks),
+    #"_a-0000e393-fbf1-8000-9ba2-011c48011c48_104148"(
+      taskId: ri!selectedTaskIds,
+      returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290163",
+      executeWhen: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(ri!selectedTaskIds)
+    ),
+    ri!selectedTasks
+  ),
+  /*To Disable actions if the tasks are completed*/
+  /*Returns true if there's atleast one completed tasks*/
+  local!isTaskComplete: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(
+    intersection(
+      tointeger(
+        local!selectedTasks.taskStatus.taskStatusId
+      ),
+      #"_a-0000e7d2-6286-8000-9c11-011c48011c48_3151642"(),
+      
+    )
+  ),
+  /*Checks for the assignees and a minimum of one selected task*/
+  local!disableTaskActions: #"_a-0000e36c-7599-8000-9ba2-011c48011c48_64585"(tasks: local!selectedTasks),
+  /*disable actions if none or multiple tasks are selected*/
+  local!disableMultiTaskSelection: or(
+    #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(local!selectedTasks),
+    #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73962"(local!selectedTasks) &gt; 1
+  ),
+  /*To Disable actions if the tasks are of Required Documents*/
+  local!isReqDocTasks: contains(
+    tointeger(
+      local!selectedTasks.taskCategory.taskCategoryId
+    ),
+    #"_a-0000e7d2-6286-8000-9c11-011c48011c48_3119705"
+  ),
+  /*task behavior type options for dropdown*/
+  local!behaviorTypes: #"_a-0000e393-fbf1-8000-9ba2-011c48011c48_108080"(
+    configurationLevelCode: #"_a-0000e393-fbf1-8000-9ba2-011c48011c48_99629"
+  ),
+  local!behaviorNames: #"SYSTEM_SYSRULES_forEach"(
+    items: local!behaviorTypes,
+    expression: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+      i18nData: ri!i18nData,
+      bundleKey: fv!item.behaviorDisplayName
+    )
+  ),
+  {
+    #"_a-0000e7e5-dad4-8000-9c14-011c48011c48_3312448"("AS_IO_SBS_runtimeTaskToolbar"),
+    #"SYSTEM_SYSRULES_columnsLayout"(
+      columns: {
+        #"SYSTEM_SYSRULES_columnLayout"(
+          contents: {
+            #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_233094"(
+              value: ri!searchText,
+              saveInto: ri!searchText,
+              placeholder: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                i18nData: ri!i18nData,
+                bundleKey: "AS.CO.AllBundles.plc_SearchTasks"
+              ),
+              label: "Search"
+            )
+          }
+        ),
+        #"SYSTEM_SYSRULES_columnLayout"(
+          contents: {
+            #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_74254"(
+              label: "Type",
+              labelPosition: "COLLAPSED",
+              choiceLabels: local!behaviorNames,
+              choiceValues: local!behaviorTypes.behaviorSubtypeCode,
+              placeholderLabel: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                i18nData: ri!i18nData,
+                bundleKey: "AS.CO.AllBundles.plc_AnyType"
+              ),
+              value: ri!behaviorSubTypeFilter,
+              saveInto: {
+                ri!behaviorSubTypeFilter,
+                #"_a-0000e3c8-6861-8000-9ba2-011c48011c48_124304"(valueToNull: local!selectedTasks)
+              }
+            )
+          }
+        ),
+        #"SYSTEM_SYSRULES_columnLayout"(
+          contents: {
+            #"_a-0000e447-9390-8000-9baa-011c48011c48_43776"(
+              labelPosition: "COLLAPSED",
+              recordType: ri!recordType,
+              placeholder: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                i18nData: ri!i18nData,
+                bundleKey: "AS.CO.AllBundles.plc_AnyRequest"
+              ),
+              saveInto: ri!recordIdFilter,
+              value: ri!recordIdFilter,
+              maxSelections: 1,
+              label: "Request"
+            )
+          }
+        ),
+        #"SYSTEM_SYSRULES_columnLayout"(
+          contents: {
+            #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_74494"(
+              label: "Assignee",
+              maxSelections: 1,
+              groupFilter: #"_a-0000e36c-7599-8000-9ba2-011c48011c48_44966",
+              value: ri!assigneeFilter,
+              saveInto: ri!assigneeFilter,
+              labelPosition: "COLLAPSED",
+              placeholder: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_74260"(
+                placeholder: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                  i18nData: ri!i18nData,
+                  bundleKey: "AS.CO.AllBundles.plc_AnyUser"
+                ),
+                wrapInMarkers: true()
+              ),
+              i18nData: ri!i18nData
+            )
+          }
+        ),
+        #"SYSTEM_SYSRULES_columnLayout"()
+      },
+      showWhen: ri!showFilters,
+      stackWhen: {
+        "PHONE",
+        "TABLET_PORTRAIT",
+        "TABLET_LANDSCAPE",
+        "DESKTOP_NARROW"
+      }
+    ),
+    #"SYSTEM_SYSRULES_columnsLayout"(
+      columns: {
+        #"SYSTEM_SYSRULES_columnLayout"(
+          contents: #"SYSTEM_SYSRULES_sideBySideLayout"(
+            items: {
+              /*New Task*/
+              if(
+                #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(local!selectedTasks),
+                #"SYSTEM_SYSRULES_sideBySideItem"(
+                  item: #"SYSTEM_SYSRULES_recordActionField"(
+                    actions: #"SYSTEM_SYSRULES_recordActionItem"(
+                      action: #"urn:appian:record-action:v1:11785fba-fdff-40a6-801c-4a34bb011a4e/9be054fc-e662-4997-a6c1-e0a02fb782e5",
+                      identifier: ri!recordIdFilter
+                    ),
+                    style: "TOOLBAR",
+                    display: "LABEL",
+                    openActionsIn: "DIALOG",
+                    align: "START"
+                  ),
+                  width: "MINIMIZE",
+                  showWhen: ri!showNewTaskAction
+                ),
+                #"SYSTEM_SYSRULES_sideBySideItem"(
+                  item: #"SYSTEM_SYSRULES_ButtonArrayLayout"(
+                    buttons: #"SYSTEM_SYSRULES_ButtonWidget"(
+                      label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                        i18nData: ri!i18nData,
+                        bundleKey: "AS.CO.AllBundles.lbl_NewTask"
+                      ),
+                      tooltip: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                        i18nData: ri!i18nData,
+                        bundleKey: "AS.CO.AllBundles.hlp_DeselectATask"
+                      ),
+                      size: "SMALL",
+                      style: "SECONDARY",
+                      disabled: true
+                    ),
+                    align: "START"
+                  ),
+                  width: "MINIMIZE",
+                  showWhen: ri!showNewTaskAction
+                )
+              ),
+              /*Mark Complete*/
+              #"SYSTEM_SYSRULES_sideBySideItem"(
+                item: #"SYSTEM_SYSRULES_ButtonArrayLayout"(
+                  buttons: {
+                    #"SYSTEM_SYSRULES_ButtonWidget"(
+                      label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                        i18nData: ri!i18nData,
+                        bundleKey: "AS.CO.AllBundles.btn_MarkComplete"
+                      ),
+                      tooltip: if(
+                        or(
+                          local!disableTaskActions,
+                          local!isTaskComplete,
+                          local!isReqDocTasks,
+                          #"_a-0000e3e6-fb42-8000-9ba5-011c48011c48_223021"(tasks: local!selectedTasks),
+                          
+                        ),
+                        #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                          i18nData: ri!i18nData,
+                          bundleKey: "AS.CO.AllBundles.hlp_NotApplicable"
+                        ),
+                        if(
+                          #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(local!selectedTasks),
+                          #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                            i18nData: ri!i18nData,
+                            bundleKey: "AS.CO.AllBundles.hlp_SelectATask"
+                          ),
+                          ""
+                        )
+                      ),
+                      saveInto: {
+                        #"SYSTEM_SYSRULES_startProcess"(
+                          processModel: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_38752",
+                          processParameters: { currentTasks: local!selectedTasks },
+                          onSuccess: {
+                            #"_a-0000e3c8-6861-8000-9ba2-011c48011c48_124304"(valueToNull: local!selectedTasks),
+                            #"_a-0000e3c8-6861-8000-9ba2-011c48011c48_124064"(triggerRefresh: ri!triggerRefresh)
+                          }
+                        )
+                      },
+                      size: "SMALL",
+                      style: "SECONDARY",
+                      disabled: or(
+                        local!disableTaskActions,
+                        local!isTaskComplete,
+                        local!isReqDocTasks,
+                        #"_a-0000e3e6-fb42-8000-9ba5-011c48011c48_223021"(tasks: local!selectedTasks),
+                        
+                      )
+                    )
+                  },
+                  align: "START"
+                ),
+                width: "MINIMIZE"
+              ),
+              /*Mark not needed*/
+              #"SYSTEM_SYSRULES_sideBySideItem"(
+                item: #"SYSTEM_SYSRULES_ButtonArrayLayout"(
+                  buttons: {
+                    #"SYSTEM_SYSRULES_ButtonWidget"(
+                      label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                        i18nData: ri!i18nData,
+                        bundleKey: "AS.CO.AllBundles.btn_MarkNotNeeded"
+                      ),
+                      tooltip: if(
+                        or(
+                          local!disableTaskActions,
+                          local!isTaskComplete,
+                          local!isReqDocTasks,
+                          #"_a-0000e447-91f4-8000-9bc0-011c48011c48_555175"(tasks: local!selectedTasks),
+                          
+                        ),
+                        #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                          i18nData: ri!i18nData,
+                          bundleKey: "AS.CO.AllBundles.hlp_NotApplicable"
+                        ),
+                        if(
+                          #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(local!selectedTasks),
+                          #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                            i18nData: ri!i18nData,
+                            bundleKey: "AS.CO.AllBundles.hlp_SelectATask"
+                          ),
+                          ""
+                        )
+                      ),
+                      saveInto: {
+                        #"SYSTEM_SYSRULES_startProcess"(
+                          processModel: #"_a-0000e7fa-f829-8000-9c17-011c48011c48_3374101",
+                          processParameters: { tasks: local!selectedTasks },
+                          onSuccess: {
+                            #"_a-0000e3c8-6861-8000-9ba2-011c48011c48_124304"(valueToNull: local!selectedTasks),
+                            #"_a-0000e3c8-6861-8000-9ba2-011c48011c48_124064"(triggerRefresh: ri!triggerRefresh)
+                          }
+                        )
+                      },
+                      size: "SMALL",
+                      style: "SECONDARY",
+                      disabled: or(
+                        local!disableTaskActions,
+                        local!isTaskComplete,
+                        local!isReqDocTasks,
+                        #"_a-0000e447-91f4-8000-9bc0-011c48011c48_555175"(tasks: local!selectedTasks),
+                        
+                      )
+                    )
+                  },
+                  align: "START"
+                ),
+                width: "MINIMIZE"
+              ),
+              /*Claim Task*/
+              #"SYSTEM_SYSRULES_sideBySideItem"(
+                item: #"SYSTEM_SYSRULES_ButtonArrayLayout"(
+                  buttons: {
+                    #"SYSTEM_SYSRULES_ButtonWidget"(
+                      label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                        i18nData: ri!i18nData,
+                        bundleKey: "AS.CO.AllBundles.btn_ClaimTask"
+                      ),
+                      tooltip: if(
+                        local!isTaskComplete,
+                        #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                          i18nData: ri!i18nData,
+                          bundleKey: "AS.CO.AllBundles.hlp_NotApplicable"
+                        ),
+                        if(
+                          #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(local!selectedTasks),
+                          #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                            i18nData: ri!i18nData,
+                            bundleKey: "AS.CO.AllBundles.hlp_SelectATask"
+                          ),
+                          ""
+                        )
+                      ),
+                      saveInto: {
+                        #"SYSTEM_SYSRULES_startProcess"(
+                          processModel: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_45538",
+                          processParameters: {
+                            tasks: local!selectedTasks,
+                            assignee: loggedInUser()
+                          },
+                          onSuccess: {
+                            #"_a-0000e3c8-6861-8000-9ba2-011c48011c48_124304"(valueToNull: local!selectedTasks),
+                            #"_a-0000e3c8-6861-8000-9ba2-011c48011c48_124064"(triggerRefresh: ri!triggerRefresh)
+                          }
+                        )
+                      },
+                      size: "SMALL",
+                      style: "SECONDARY",
+                      disabled: or(
+                        #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(local!selectedTasks),
+                        local!isTaskComplete,
+                        
+                      )
+                    )
+                  },
+                  align: "START"
+                ),
+                width: "MINIMIZE"
+              ),
+              /*Reassign*/
+              #"SYSTEM_SYSRULES_sideBySideItem"(
+                item: #"SYSTEM_SYSRULES_recordActionField"(
+                  actions: #"SYSTEM_SYSRULES_recordActionItem"(
+                    action: #"urn:appian:record-action:v1:31b77cbe-8b51-41ba-927f-f11ee2d7fd33/560a734c-f42c-4bb1-991d-c9b115f55ea3",
+                    identifier: if(
+                      #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(local!selectedTasks),
+                      null,
+                      local!selectedTasks[1].taskId
+                    )
+                  ),
+                  style: "TOOLBAR",
+                  display: "LABEL",
+                  openActionsIn: "DIALOG",
+                  align: "START"
+                ),
+                width: "MINIMIZE",
+                showWhen: and(
+                  #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75636"(local!disableMultiTaskSelection),
+                  #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75636"(local!isTaskComplete)
+                )
+              ),
+              #"SYSTEM_SYSRULES_sideBySideItem"(
+                item: #"SYSTEM_SYSRULES_ButtonArrayLayout"(
+                  buttons: {
+                    #"SYSTEM_SYSRULES_ButtonWidget"(
+                      label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                        i18nData: ri!i18nData,
+                        bundleKey: "AS.CO.AllBundles.btn_Reassign"
+                      ),
+                      tooltip: if(
+                        #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(local!selectedTasks),
+                        #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                          i18nData: ri!i18nData,
+                          bundleKey: "AS.CO.AllBundles.hlp_SelectATask"
+                        ),
+                        #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                          i18nData: ri!i18nData,
+                          bundleKey: "AS.CO.AllBundles.hlp_NotApplicable"
+                        )
+                      ),
+                      saveInto: {},
+                      size: "SMALL",
+                      style: "SECONDARY",
+                      disabled: true
+                    )
+                  },
+                  align: "START"
+                ),
+                width: "MINIMIZE",
+                showWhen: or(
+                  local!disableMultiTaskSelection,
+                  local!isTaskComplete
+                )
+              ),
+              /*Change Due Date*/
+              #"SYSTEM_SYSRULES_sideBySideItem"(
+                item: #"SYSTEM_SYSRULES_ButtonArrayLayout"(
+                  buttons: {
+                    #"SYSTEM_SYSRULES_ButtonWidget"(
+                      label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                        i18nData: ri!i18nData,
+                        bundleKey: "AS.CO.AllBundles.btn_ChangeDueDate"
+                      ),
+                      tooltip: if(
+                        #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(local!selectedTasks),
+                        #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                          i18nData: ri!i18nData,
+                          bundleKey: "AS.CO.AllBundles.hlp_SelectATask"
+                        ),
+                        #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                          i18nData: ri!i18nData,
+                          bundleKey: "AS.CO.AllBundles.hlp_NotApplicable"
+                        )
+                      ),
+                      saveInto: {},
+                      size: "SMALL",
+                      style: "SECONDARY",
+                      disabled: true,
+                      showWhen: if(
+                        #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_114114"(
+                          groups: #"_a-0000e62c-7375-8000-9bec-011c48011c48_1910088",
+                          user: loggedInUser()
+                        ),
+                        and(
+                          or(
+                            local!disableTaskActions,
+                            local!disableMultiTaskSelection
+                          ),
+                          #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75636"(local!isTaskComplete)
+                        ),
+                        false()
+                      )
+                    )
+                  },
+                  align: "START"
+                ),
+                width: "MINIMIZE"
+              ),
+              #"SYSTEM_SYSRULES_sideBySideItem"(
+                item: #"SYSTEM_SYSRULES_recordActionField"(
+                  actions: #"SYSTEM_SYSRULES_recordActionItem"(
+                    action: #"urn:appian:record-action:v1:31b77cbe-8b51-41ba-927f-f11ee2d7fd33/a7e49124-e4ed-420a-97c5-f233df61a48c",
+                    identifier: if(
+                      #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(local!selectedTasks),
+                      null,
+                      local!selectedTasks[1].taskId
+                    )
+                  ),
+                  style: "TOOLBAR",
+                  display: "LABEL",
+                  openActionsIn: "DIALOG",
+                  align: "START"
+                ),
+                width: "MINIMIZE",
+                showWhen: if(
+                  #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_114114"(
+                    groups: #"_a-0000e62c-7375-8000-9bec-011c48011c48_1910088",
+                    user: loggedInUser()
+                  ),
+                  #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75636"(
+                    input: or(
+                      local!disableTaskActions,
+                      local!disableMultiTaskSelection,
+                      local!isTaskComplete
+                    )
+                  ),
+                  false()
+                )
+              ),
+              /*Reopen Task*/
+              #"SYSTEM_SYSRULES_sideBySideItem"(
+                item: #"SYSTEM_SYSRULES_ButtonArrayLayout"(
+                  buttons: #"SYSTEM_SYSRULES_ButtonWidget"(
+                    label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                      i18nData: ri!i18nData,
+                      bundleKey: "AS.CO.AllBundles.lbl_ReopenTask"
+                    ),
+                    tooltip: if(
+                      or(
+                        #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(local!selectedTasks),
+                        #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75636"(
+                          #"_a-0000e3e6-fb42-8000-9ba5-011c48011c48_190621"(
+                            requestStatus: ri!requestStatus,
+                            taskStatus: local!selectedTasks.taskStatus.taskStatusId,
+                            taskBehaviorType: local!selectedTasks.taskBehaviorType
+                          )
+                        ),
+                        local!isReqDocTasks
+                      ),
+                      if(
+                        #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(local!selectedTasks),
+                        #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                          i18nData: ri!i18nData,
+                          bundleKey: "AS.CO.AllBundles.hlp_SelectATask"
+                        ),
+                        #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                          i18nData: ri!i18nData,
+                          bundleKey: "AS.CO.AllBundles.hlp_NotApplicable"
+                        )
+                      ),
+                      #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                        i18nData: ri!i18nData,
+                        bundleKey: "AS.CO.AllBundles.ins_ReopenTask"
+                      )
+                    ),
+                    saveInto: {
+                      #"SYSTEM_SYSRULES_startProcess"(
+                        processModel: #"_a-0000e3e6-fb42-8000-9ba5-011c48011c48_190736",
+                        processParameters: { tasksToReopen: local!selectedTasks },
+                        onSuccess: {
+                          #"_a-0000e3c8-6861-8000-9ba2-011c48011c48_124304"(valueToNull: local!selectedTasks),
+                          #"_a-0000e3c8-6861-8000-9ba2-011c48011c48_124064"(triggerRefresh: ri!triggerRefresh)
+                        }
+                      )
+                    },
+                    size: "SMALL",
+                    style: "SECONDARY",
+                    disabled: or(
+                      #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(local!selectedTasks),
+                      #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75636"(
+                        #"_a-0000e3e6-fb42-8000-9ba5-011c48011c48_190621"(
+                          requestStatus: ri!requestStatus,
+                          taskStatus: local!selectedTasks.taskStatus.taskStatusId,
+                          taskBehaviorType: local!selectedTasks.taskBehaviorType
+                        )
+                      ),
+                      local!isReqDocTasks
+                    )
+                  ),
+                  align: "START"
+                ),
+                width: "MINIMIZE",
+                showWhen: a!defaultValue(
+                  value: ri!showReopenTaskAction,
+                  default: true()
+                )
+              ),
+              /*Send Task*/
+              #"SYSTEM_SYSRULES_sideBySideItem"(
+                item: #"SYSTEM_SYSRULES_ButtonArrayLayout"(
+                  buttons: #"SYSTEM_SYSRULES_ButtonWidget"(
+                    label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                      i18nData: ri!i18nData,
+                      bundleKey: "AS.CO.AllBundles.lbl_SendTask"
+                    ),
+                    tooltip: if(
+                      or(
+                        #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(local!selectedTasks),
+                        #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75636"(
+                          #"_a-0000e3e6-fb42-8000-9ba5-011c48011c48_186828"(
+                            onboardingStatus: ri!requestStatus,
+                            taskStatus: local!selectedTasks.taskStatus.taskStatusId,
+                            taskCategory: local!selectedTasks.taskCategory.taskCategoryId,
+                            availableDatetime: local!selectedTasks.availableDatetime
+                          )
+                        ),
+                        local!isTaskComplete,
+                        local!isReqDocTasks
+                      ),
+                      if(
+                        #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(local!selectedTasks),
+                        #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                          i18nData: ri!i18nData,
+                          bundleKey: "AS.CO.AllBundles.hlp_SelectATask"
+                        ),
+                        #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                          i18nData: ri!i18nData,
+                          bundleKey: "AS.CO.AllBundles.hlp_NotApplicable"
+                        )
+                      ),
+                      #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                        i18nData: ri!i18nData,
+                        bundleKey: "AS.CO.AllBundles.ins_SendTask"
+                      )
+                    ),
+                    saveInto: {
+                      #"SYSTEM_SYSRULES_startProcess"(
+                        processModel: #"_a-0000e3e6-fb42-8000-9ba5-011c48011c48_186751",
+                        processParameters: { tasksToInitiate: local!selectedTasks },
+                        onSuccess: {
+                          #"_a-0000e3c8-6861-8000-9ba2-011c48011c48_124304"(valueToNull: local!selectedTasks),
+                          #"_a-0000e3c8-6861-8000-9ba2-011c48011c48_124064"(triggerRefresh: ri!triggerRefresh)
+                        }
+                      )
+                    },
+                    size: "SMALL",
+                    style: "SECONDARY",
+                    disabled: or(
+                      #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(local!selectedTasks),
+                      #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75636"(
+                        #"_a-0000e3e6-fb42-8000-9ba5-011c48011c48_186828"(
+                          onboardingStatus: ri!requestStatus,
+                          taskStatus: local!selectedTasks.taskStatus.taskStatusId,
+                          taskCategory: local!selectedTasks.taskCategory.taskCategoryId,
+                          availableDatetime: local!selectedTasks.availableDatetime
+                        )
+                      ),
+                      local!isTaskComplete,
+                      local!isReqDocTasks
+                    )
+                  ),
+                  align: "START"
+                ),
+                width: "MINIMIZE",
+                showWhen: a!defaultValue(
+                  value: ri!showSendTaskAction,
+                  default: true()
+                )
+              )
+            },
+            alignvertical: "TOP",
+            spacing: "DENSE",
+            marginBelow: "NONE",
+            stackWhen: {
+              "PHONE",
+              "TABLET_PORTRAIT",
+              "TABLET_LANDSCAPE",
+              "DESKTOP_NARROW",
+              "DESKTOP"
+            }
+          )
+        )
+      },
+      stackWhen: {
+        "PHONE",
+        "TABLET_PORTRAIT",
+        "TABLET_LANDSCAPE",
+        "DESKTOP_NARROW"
+      }
+    )
+  }
+)</definition>
+        <namedTypedValue>
+            <name>i18nData</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>selectedTasks</name>
+            <type>
+                <name>AS_IO_Task?list</name>
+                <namespace>urn:com:appian:types:AS:IO</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>triggerRefresh</name>
+            <type>
+                <name>dateTime</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>recordIdFilter</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>selectedTaskIds</name>
+            <type>
+                <name>Integer?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>requestStatus</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>searchText</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>behaviorSubTypeFilter</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>recordType</name>
+            <type>
+                <name>RecordType2</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>assigneeFilter</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>showFilters</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>showNewTaskAction</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>showReopenTaskAction</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>showSendTaskAction</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+        <isCustom>false</isCustom>
+    </interface>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name/>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81834"(
+ triggerRefresh: null
+)</a:value>
+                    <a:nameRef>i18nData</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                    <a:nameRef>selectedTasks</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:dateTime"/>
+                    <a:nameRef>triggerRefresh</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:int"/>
+                    <a:nameRef>recordIdFilter</a:nameRef>
+                    <a:id>4</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                    <a:nameRef>selectedTaskIds</a:nameRef>
+                    <a:id>5</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:string"/>
+                    <a:nameRef>requestStatus</a:nameRef>
+                    <a:id>6</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:string"/>
+                    <a:nameRef>searchText</a:nameRef>
+                    <a:id>7</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:string"/>
+                    <a:nameRef>behaviorSubTypeFilter</a:nameRef>
+                    <a:id>8</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="a:RecordType2"/>
+                    <a:nameRef>recordType</a:nameRef>
+                    <a:id>9</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:string"/>
+                    <a:nameRef>assigneeFilter</a:nameRef>
+                    <a:id>10</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:boolean"/>
+                    <a:nameRef>showFilters</a:nameRef>
+                    <a:id>11</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:boolean"/>
+                    <a:nameRef>showNewTaskAction</a:nameRef>
+                    <a:id>12</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:boolean"/>
+                    <a:nameRef>showReopenTaskAction</a:nameRef>
+                    <a:id>13</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:boolean"/>
+                    <a:nameRef>showSendTaskAction</a:nameRef>
+                    <a:id>14</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e2cd-bc96-8000-9ba2-011c48011c48_161904"/>
+        <historyInfo versionUuid="_a-0000e2cd-bc96-8000-9ba2-011c48011c48_272222"/>
+        <historyInfo versionUuid="_a-0000e2cd-bc96-8000-9ba2-011c48011c48_272642"/>
+        <historyInfo versionUuid="_a-0000e329-3415-8000-9ba2-011c48011c48_286087"/>
+        <historyInfo versionUuid="_a-0000e329-3415-8000-9ba2-011c48011c48_320829"/>
+        <historyInfo versionUuid="_a-0000e329-3415-8000-9ba2-011c48011c48_329852"/>
+        <historyInfo versionUuid="_a-0000e329-3415-8000-9ba2-011c48011c48_331645"/>
+        <historyInfo versionUuid="_a-0000e36c-7599-8000-9ba2-011c48011c48_67137"/>
+        <historyInfo versionUuid="_a-0000e3c8-6861-8000-9ba2-011c48011c48_123576"/>
+        <historyInfo versionUuid="_a-0000e3e6-fb42-8000-9ba5-011c48011c48_192933"/>
+        <historyInfo versionUuid="_a-0000e3e6-fb42-8000-9ba5-011c48011c48_223675"/>
+        <historyInfo versionUuid="_a-0000e3e6-fb42-8000-9ba5-011c48011c48_229679"/>
+        <historyInfo versionUuid="_a-0000e3ff-a5bc-8000-9ba8-011c48011c48_40071"/>
+        <historyInfo versionUuid="_a-0000e430-f270-8000-9bbc-011c48011c48_364023"/>
+        <historyInfo versionUuid="_a-0000e447-91f4-8000-9bc0-011c48011c48_555296"/>
+        <historyInfo versionUuid="_a-0000e460-9d93-8000-9bc1-011c48011c48_605783"/>
+        <historyInfo versionUuid="_a-0000e471-623a-8000-9bc3-011c48011c48_660351"/>
+        <historyInfo versionUuid="_a-0000e471-623a-8000-9bc3-011c48011c48_667827"/>
+        <historyInfo versionUuid="_a-0000e471-623a-8000-9bc3-011c48011c48_705692"/>
+        <historyInfo versionUuid="_a-0000e471-623a-8000-9bc3-011c48011c48_708070"/>
+        <historyInfo versionUuid="_a-0000e471-623a-8000-9bc3-011c48011c48_715666"/>
+        <historyInfo versionUuid="_a-0000e471-623a-8000-9bc3-011c48011c48_744043"/>
+        <historyInfo versionUuid="_a-0000e471-623a-8000-9bc3-011c48011c48_763879"/>
+        <historyInfo versionUuid="_a-0000e4ae-1ed6-8000-9bc5-011c48011c48_803650"/>
+        <historyInfo versionUuid="_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_813507"/>
+        <historyInfo versionUuid="_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_813803"/>
+        <historyInfo versionUuid="_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_832392"/>
+        <historyInfo versionUuid="_a-0000e5a0-53e9-8000-9bd8-011c48011c48_1437674"/>
+        <historyInfo versionUuid="_a-0000e607-97fd-8000-9be9-011c48011c48_1603767"/>
+        <historyInfo versionUuid="_a-0000e62c-7375-8000-9bec-011c48011c48_1817799"/>
+        <historyInfo versionUuid="_a-0000e62c-7375-8000-9bec-011c48011c48_1900786"/>
+        <historyInfo versionUuid="_a-0000e62c-7375-8000-9bec-011c48011c48_1910280"/>
+        <historyInfo versionUuid="_a-0000e673-a4a7-8000-9bef-011c48011c48_2008001"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2711948"/>
+        <historyInfo versionUuid="_a-0000e79b-0335-8000-9c0c-011c48011c48_3015897"/>
+        <historyInfo versionUuid="_a-0000e79b-0335-8000-9c0c-011c48011c48_3021579"/>
+        <historyInfo versionUuid="_a-0000e79b-0335-8000-9c0c-011c48011c48_3023081"/>
+        <historyInfo versionUuid="_a-0000e79b-0335-8000-9c0c-011c48011c48_3023952"/>
+        <historyInfo versionUuid="_a-0000e79b-0335-8000-9c0c-011c48011c48_3029686"/>
+        <historyInfo versionUuid="_a-0000e7c7-bc72-8000-9c0e-011c48011c48_3094638"/>
+        <historyInfo versionUuid="_a-0000e7d2-6286-8000-9c11-011c48011c48_3171914"/>
+        <historyInfo versionUuid="_a-0000e7fa-f829-8000-9c17-011c48011c48_3374321"/>
+        <historyInfo versionUuid="_a-0000e81d-5ddb-8000-9c1b-011c48011c48_3543431"/>
+        <historyInfo versionUuid="_a-0000e825-b425-8000-9c1c-011c48011c48_3574196"/>
+    </history>
+</contentHaul>

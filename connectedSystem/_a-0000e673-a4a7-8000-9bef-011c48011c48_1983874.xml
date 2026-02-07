@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<connectedSystemHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e81d-5ddb-8000-9c1b-011c48011c48_3558205</versionUuid>
+    <connectedSystem>
+        <name>AS EI DNB HTTP Bearer Token Connected System</name>
+        <uuid>_a-0000e673-a4a7-8000-9bef-011c48011c48_1983874</uuid>
+        <description>HTTP connected system explicitly for retrieving the bearer token for authorization in other Dun and Bradstreet endpoints</description>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <sharedConfigParameters>
+            <a:Dictionary xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                <configurationDescriptor xsi:type="xsd:string"/>
+                <url xsi:type="xsd:string"/>
+                <isInheritedUrlOptionSelected xsi:type="xsd:boolean">false</isInheritedUrlOptionSelected>
+                <baseUrl xsi:type="xsd:string">https://plus.dnb.com/v2/token</baseUrl>
+                <authType xsi:type="xsd:string">Basic</authType>
+                <authDetails xsi:type="a:OutboundIntegrationAuthBasic">
+                    <a:username xsi:type="a:EncryptedText"/>
+                    <a:password xsi:type="a:EncryptedText"/>
+                    <a:isPreemptive>true</a:isPreemptive>
+                </authDetails>
+            </a:Dictionary>
+        </sharedConfigParameters>
+        <logoChoice></logoChoice>
+        <integrationType>system.http</integrationType>
+    </connectedSystem>
+    <roleMap public="true">
+        <role inherit="false" allowForAll="false" name="readers">
+            <users/>
+            <groups>
+                <groupUuid>_e-0000e539-6d59-8000-9b1c-01075c01075c_10232</groupUuid>
+            </groups>
+        </role>
+        <role inherit="false" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="administrators">
+            <users/>
+            <groups>
+                <groupUuid>_e-0000e539-6d59-8000-9b1c-01075c01075c_10144</groupUuid>
+            </groups>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <history>
+        <historyInfo versionUuid="_a-0000e673-a4a7-8000-9bef-011c48011c48_1983904"/>
+        <historyInfo versionUuid="_a-0000e673-a4a7-8000-9bef-011c48011c48_2010671"/>
+        <historyInfo versionUuid="_a-0000e81d-5ddb-8000-9c1b-011c48011c48_3558205"/>
+    </history>
+</connectedSystemHaul>

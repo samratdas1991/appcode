@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e7d2-6286-8000-9c11-011c48011c48_3150223</versionUuid>
+    <interface>
+        <name>AS_FS_CPS_reviewRequiredDocumentDecisionSection</name>
+        <uuid>_a-0000e7d2-6286-8000-9c11-011c48011c48_3126479</uuid>
+        <description>Section contains the decision card for uploaded document review task</description>
+        <parentUuid>_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_968428</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  local!rejectionReasons: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+    cdt: ri!refData,
+    field: "type",
+    value: #"_a-0000e7d2-6286-8000-9c11-011c48011c48_3126468"
+  ),
+  {
+    #"_a-0000e3e6-fb42-8000-9ba5-011c48011c48_235251"(
+      align: "CENTER",
+      prominentText: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+        i18nData: ri!i18nData,
+        bundleKey: "AS.FS.AllBundles.lbl_ChooseDecision"
+      ),
+      secondaryText: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+        i18nData: ri!i18nData,
+        bundleKey: "AS.FS.AllBundles.ins_reviewTaskDecision"
+      )
+    ),
+    #"SYSTEM_SYSRULES_cardLayout"(
+      contents: {},
+      height: "AUTO",
+      style: "NONE",
+      marginBelow: "STANDARD",
+      showBorder: false
+    ),
+    #"SYSTEM_SYSRULES_cardLayout"(
+      contents: {},
+      height: "AUTO",
+      style: "NONE",
+      marginBelow: "STANDARD",
+      showBorder: false
+    ),
+    #"SYSTEM_SYSRULES_columnsLayout"(
+      columns: {
+        #"SYSTEM_SYSRULES_columnLayout"(),
+        #"SYSTEM_SYSRULES_columnLayout"(
+          contents: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_74506"(
+            /*change choice labels*/
+            choiceLabels: {
+              #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                i18nData: ri!i18nData,
+                bundleKey: "AS.FS.AllBundles.lbl_Approve"
+              ),
+              #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                i18nData: ri!i18nData,
+                bundleKey: "AS.FS.AllBundles.lbl_Reject"
+              )
+            },
+            choiceValues: {
+              #"_a-0000e70f-2824-8000-9c01-011c48011c48_2777404",
+              #"_a-0000e36c-7599-8000-9ba2-011c48011c48_48067"
+            },
+            value: ri!statusCode,
+            saveInto: ri!statusCode,
+            choiceLayout: "COMPACT",
+            choiceStyle: "CARDS",
+            required: true()
+          )
+        ),
+        #"SYSTEM_SYSRULES_columnLayout"()
+      }
+    ),
+    #"_a-0000e528-bc07-8000-9bcf-011c48011c48_1027802"(
+      label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+        i18nData: ri!i18nData,
+        bundleKey: "AS.FS.AllBundles.lbl_Reason"
+      ),
+      required: ri!statusCode = #"_a-0000e36c-7599-8000-9ba2-011c48011c48_48067",
+      labelPosition: "ABOVE",
+      placeholderLabel: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+        i18nData: ri!i18nData,
+        bundleKey: "AS.FS.AllBundles.plc_SelectAReason"
+      ),
+      choiceLabels: local!rejectionReasons.label,
+      choiceValues: local!rejectionReasons.code,
+      value: ri!reason,
+      saveInto: ri!reason,
+      showWhen: ri!statusCode = #"_a-0000e36c-7599-8000-9ba2-011c48011c48_48067"
+    ),
+    #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_74400"(
+      label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+        i18nData: ri!i18nData,
+        bundleKey: "AS.FS.AllBundles.lbl_Comments"
+      ),
+      value: ri!comments,
+      saveInto: ri!comments,
+      validations: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_74104"(
+        value: ri!comments,
+        maxLength: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73500"
+      )
+    )
+  }
+)</definition>
+        <namedTypedValue>
+            <name>i18nData</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>statusCode</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>refData</name>
+            <type>
+                <name>AS_FS_R_Data?list</name>
+                <namespace>urn:com:appian:types:AS:FS</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>comments</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>reason</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+        <isCustom>false</isCustom>
+    </interface>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name/>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_975720"(null)</a:value>
+                    <a:nameRef>i18nData</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:string"/>
+                    <a:nameRef>statusCode</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                    <a:nameRef>refData</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:string"/>
+                    <a:nameRef>comments</a:nameRef>
+                    <a:id>4</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:string"/>
+                    <a:nameRef>reason</a:nameRef>
+                    <a:id>5</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e7d2-6286-8000-9c11-011c48011c48_3126575"/>
+        <historyInfo versionUuid="_a-0000e7d2-6286-8000-9c11-011c48011c48_3150223"/>
+    </history>
+</contentHaul>

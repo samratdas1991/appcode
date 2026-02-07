@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e825-b425-8000-9c1c-011c48011c48_3577000</versionUuid>
+    <interface>
+        <name>AS_IO_CPS_runtimetaskTimeLine</name>
+        <uuid>_a-0000e4ae-1ed6-8000-9bc5-011c48011c48_803300</uuid>
+        <description>Display runtime task timeline</description>
+        <parentUuid>_a-0000e2bb-4188-8000-9ba2-011c48011c48_25469</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  local!initialNumTasks: 50,
+  local!numTasksToShow: local!initialNumTasks,
+  local!sortedHierarchyTasks: #"_a-0000e776-697a-8000-9c05-011c48011c48_2827461"(
+    precedentTask: null,
+    /*replace a null list with null since null list breaks recursion*/
+    allTasks: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73980"(
+      nullableValue: ri!allTasks,
+      replacementValue: null
+    ),
+    level: 0
+  ),
+  local!totalTasksShownForEachTopTask: if(
+    #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(local!sortedHierarchyTasks.dependents),
+    /*if there are no tasks, return an empty list*/
+    tointeger({}),
+    a!flatten(
+      #"SYSTEM_SYSRULES_forEach"(
+        /*for each top level task*/
+        items: enumerate(
+          #"_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_880586"(local!sortedHierarchyTasks.dependents)
+        ) + 1,
+        /*find how many tasks would be shown if that task and all of its dependents*/
+        /*were shown, as well as any previous tasks*/
+        expression: a!localVariables(
+          /*find the sum of the current and previous dependent tasks*/
+          local!totalTasks: sum(
+            #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_76433"(
+              cdt: index(
+                local!sortedHierarchyTasks.dependents,
+                enumerate(fv!item) + 1,
+                {}
+              ),
+              field: "numTotalDependents",
+              indexDefault: 0
+            ) + 1
+          ),
+          /*if the number of tasks would be above the limit, return {}, else the number of tasks*/
+          if(
+            or(
+              local!numTasksToShow = - 1,
+              local!numTasksToShow &gt;= local!totalTasks
+            ),
+            local!totalTasks,
+            {}
+          )
+        )
+      )
+    )
+  ),
+  {
+    #"_a-0000e7e5-dad4-8000-9c14-011c48011c48_3312448"("AS_IO_CPS_runtimetaskTimeLine"),
+    #"SYSTEM_SYSRULES_forEach"(
+      items: local!totalTasksShownForEachTopTask,
+      expression: #"SYSTEM_SYSRULES_sectionLayout_v1"(
+        divider: if(fv!isFirst, "NONE", "ABOVE"),
+        marginbelow: "NONE",
+        contents: #"_a-0000e4ae-1ed6-8000-9bc5-011c48011c48_802721"(
+          iterationLevel: 0,
+          currentTask: local!sortedHierarchyTasks.dependents[fv!index].task,
+          dependents: local!sortedHierarchyTasks.dependents[fv!index].dependents,
+          i18nData: ri!i18nData
+        )
+      )
+    ),
+    #"_a-0000e62c-7375-8000-9bec-011c48011c48_1757926"(
+      align: "LEFT",
+      i18nData: ri!i18nData,
+      batchSize: local!numTasksToShow,
+      numItems: local!sortedHierarchyTasks.numTotalDependents,
+      collapsedBatchSize: local!initialNumTasks
+    )
+  }
+)</definition>
+        <namedTypedValue>
+            <name>allTasks</name>
+            <type>
+                <name>AS_IO_Task?list</name>
+                <namespace>urn:com:appian:types:AS:IO</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>i18nData</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+        <isCustom>false</isCustom>
+    </interface>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name/>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">a!localVariables(
+  local!task: #"_a-0000e393-fbf1-8000-9ba2-011c48011c48_104148"(
+    behaviorSubtypeCode: #"_a-0000e393-fbf1-8000-9ba2-011c48011c48_99653",
+    returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290157"
+  ),
+  /*Load reference data*/
+  local!i18nData: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81834"(triggerRefresh: null),
+  /*Get the template to be used for this request*/
+  local!template: cast(
+    'type!{urn:com:appian:types:AS:IO}AS_IO_R_Template',
+    #"_a-0000e3e6-fb42-8000-9ba5-011c48011c48_229680"(task: local!task)
+  ),
+  local!triggerRefresh: now(),
+  local!request: a!refreshVariable(
+    value: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_33091"(
+      requestId: local!task.request.requestId,
+      includeNestedCdts: true,
+      returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290157"
+    ),
+    refreshAfter: "RECORD_ACTION",
+    refreshOnVarChange: local!triggerRefresh
+  ),
+  local!requiredDocuments: #"607eb6d4-1f23-4d78-a712-ceb43f1ccd2a"(
+    /*requestId: local!task.request.requestId,*/
+    /*isDocUploaded: false,*/
+    returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290169",
+    aggregation: #"SYSTEM_SYSRULES_queryAggregation"(
+      aggregationColumns: #"SYSTEM_SYSRULES_queryAggregationColumn"(field: "docTypeCode", isGrouping: true)
+    )
+  ),
+  local!docUploadTasks: #"SYSTEM_SYSRULES_forEach"(
+    items: local!requiredDocuments,
+    expression: #"_a-0000e539-6d59-8000-9bd0-011c48011c48_1301346"(
+      requiredDocument: fv!item,
+      i18nData: local!i18nData,
+      fundingDate: local!request.fundingDetails.estFundingDate
+    )
+  ),
+  /*Convert the template tasks to runtime tasks*/
+  append(
+    #"_a-0000e3d1-f4dc-8000-9ba4-011c48011c48_145492"(
+      template: #"_a-0000e40a-de32-8000-9ba8-011c48011c48_269170"(
+        cdt: local!template,
+        fieldValuePairs: {
+          field: "templateTasks",
+          value: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75720"(
+            cdt: local!template.templateTasks,
+            field: "orderNumber",
+            ascending: true
+          )
+        }
+      ),
+      request: local!request
+    ),
+    local!docUploadTasks
+  )
+)</a:value>
+                    <a:nameRef>allTasks</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81834"(
+  triggerRefresh: null
+)</a:value>
+                    <a:nameRef>i18nData</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e4ae-1ed6-8000-9bc5-011c48011c48_803436"/>
+        <historyInfo versionUuid="_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_811552"/>
+        <historyInfo versionUuid="_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_819508"/>
+        <historyInfo versionUuid="_a-0000e528-bc07-8000-9bcf-011c48011c48_1024157"/>
+        <historyInfo versionUuid="_a-0000e539-6d59-8000-9bd0-011c48011c48_1159809"/>
+        <historyInfo versionUuid="_a-0000e59e-fc58-8000-9bd3-011c48011c48_1387641"/>
+        <historyInfo versionUuid="_a-0000e607-97fd-8000-9be9-011c48011c48_1600684"/>
+        <historyInfo versionUuid="_a-0000e62c-7375-8000-9bec-011c48011c48_1849802"/>
+        <historyInfo versionUuid="_a-0000e673-a4a7-8000-9bef-011c48011c48_1965479"/>
+        <historyInfo versionUuid="_a-0000e777-b9f8-8000-9c06-011c48011c48_2832633"/>
+        <historyInfo versionUuid="_a-0000e77e-5277-8000-9c09-011c48011c48_2845879"/>
+        <historyInfo versionUuid="_a-0000e77e-5277-8000-9c09-011c48011c48_2886248"/>
+        <historyInfo versionUuid="_a-0000e79b-0335-8000-9c0c-011c48011c48_3013560"/>
+        <historyInfo versionUuid="_a-0000e825-b425-8000-9c1c-011c48011c48_3577000"/>
+    </history>
+</contentHaul>

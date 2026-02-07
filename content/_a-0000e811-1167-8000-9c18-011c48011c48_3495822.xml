@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e825-b425-8000-9c1c-011c48011c48_3642159</versionUuid>
+    <rule>
+        <name>AS_IO_UT_productSavesCreateRequest</name>
+        <uuid>_a-0000e811-1167-8000-9c18-011c48011c48_3495822</uuid>
+        <description>Rule for product saves</description>
+        <parentUuid>_a-0000e2bb-4188-8000-9ba2-011c48011c48_25469</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>if(
+  #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(ri!onboardingProductTemplates),
+  {},
+  #"SYSTEM_SYSRULES_forEach"(
+    items: ri!onboardingProductTemplates,
+    expression: a!localVariables(
+      local!currentProductTemplate: fv!item,
+      local!fieldData: #"SYSTEM_SYSRULES_fromJson_v1"(
+        #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_1021459"(
+          productTypeCode: fv!item.productTypeCode,
+          returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290157"
+        ).fieldData
+      ),
+      local!populateDefaultAccountRow: if(
+        #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(local!fieldData),
+        false,
+        or(
+          #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+            cdt: local!fieldData,
+            field: "fieldKey",
+            value: #"_a-0000e528-bc07-8000-9bcf-011c48011c48_1037510"(isInternationalizedForAdminSetup: false).fieldKey
+          ).required
+        )
+      ),
+      local!accountMappings: #"SYSTEM_SYSRULES_forEach"(
+        items: local!currentProductTemplate.accountTypeProductTypeMappings,
+        expression: 'type!{urn:com:appian:types:AS:IO}AS_IO_Account_C'(
+          type: fv!item.accountTypeCode,
+          isParent: false
+        )
+      ),
+      local!populateDefaultThresholdRow: if(
+        #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(local!fieldData),
+        false,
+        or(
+          #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+            cdt: local!fieldData,
+            field: "fieldKey",
+            value: #"_a-0000e528-bc07-8000-9bcf-011c48011c48_1037538"(isInternationalizedForAdminSetup: false).fieldKey
+          ).required
+        )
+      ),
+      local!populateDefaultFeeRow: if(
+        #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(local!fieldData),
+        false,
+        or(
+          #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+            cdt: local!fieldData,
+            field: "fieldKey",
+            value: #"_a-0000e528-bc07-8000-9bcf-011c48011c48_1037524"(isInternationalizedForAdminSetup: false).fieldKey
+          ).required
+        )
+      ),
+      local!numProductsOfType: count(
+        wherecontains(
+          local!currentProductTemplate.productTypeCode,
+          remove(
+            rdrop(
+              ri!onboardingProductTemplates.productTypeCode,
+              fv!itemCount - fv!index
+            ),
+            fv!index
+          )
+        )
+      ) + 1,
+      'type!{urn:com:appian:types:AS:IO}AS_IO_Product_P'(
+        name: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+          cdt: ri!refData,
+          field: "code",
+          value: local!currentProductTemplate.productTypeCode
+        ).label &amp; /*add number based on number of products of same type that were already created*/
+        if(
+          local!numProductsOfType = 1,
+          "",
+          " " &amp; local!numProductsOfType
+        ),
+        productTypeCode: local!currentProductTemplate.productTypeCode,
+        isParent: true,
+        accounts: if(
+          and(
+            #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(local!accountMappings),
+            local!populateDefaultAccountRow
+          ),
+          'type!{urn:com:appian:types:AS:IO}AS_IO_Account_C'(isParent: false),
+          local!accountMappings
+        ),
+        thresholds: if(
+          local!populateDefaultThresholdRow,
+          'type!{urn:com:appian:types:AS:FS}AS_FS_PayThreshold'(productId: null),
+          {}
+        ),
+        fees: if(
+          local!populateDefaultFeeRow,
+          'type!{urn:com:appian:types:AS:FS}AS_FS_Fee'(productId: null),
+          {}
+        )
+      )
+    )
+  )
+)</definition>
+        <namedTypedValue>
+            <name>onboardingProductTemplates</name>
+            <type>
+                <name>AS_IO_T_OnboardingProduct?list</name>
+                <namespace>urn:com:appian:types:AS:IO</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>refData</name>
+            <type>
+                <name>AS_IO_R_Data?list</name>
+                <namespace>urn:com:appian:types:AS:IO</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <history>
+        <historyInfo versionUuid="_a-0000e811-1167-8000-9c18-011c48011c48_3495907"/>
+        <historyInfo versionUuid="_a-0000e825-b425-8000-9c1c-011c48011c48_3641428"/>
+        <historyInfo versionUuid="_a-0000e825-b425-8000-9c1c-011c48011c48_3642159"/>
+    </history>
+</contentHaul>

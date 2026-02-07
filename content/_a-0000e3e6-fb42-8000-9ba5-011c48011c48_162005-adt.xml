@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e62c-7375-8000-9bec-011c48011c48_1848898</versionUuid>
+    <rule>
+        <name>AS_ADT_UT_buildSimpleFieldChangesDictionary</name>
+        <uuid>_a-0000e3e6-fb42-8000-9ba5-011c48011c48_162005-adt</uuid>
+        <description>Given the fieldName, original object, and the new object, determines if a simple field change was made, returning {} if not, and returning a dictionary representation of the simple field audit if so.</description>
+        <parentUuid>_a-0000e42d-ffef-8000-9ba6-011c48011c48_7213-adt</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  local!oldValue: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_76433"(
+    cdt: ri!originalObject,
+    field: ri!simpleFieldName
+  ),
+  local!newValue: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_76433"(
+    cdt: ri!newObject,
+    field: ri!simpleFieldName
+  ),
+  if(
+    #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73624"(
+      value1: local!oldValue,
+      value2: local!newValue
+    ),
+    {},
+    #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73856"(
+      fieldValuePairs: {
+        {
+          field: "fieldName",
+          value: ri!simpleFieldName
+        },
+        {
+          field: "oldValue",
+          value: #"_a-0000e447-933d-8000-9baa-011c48011c48_112825"(local!oldValue)
+        },
+        {
+          field: "newValue",
+          value: #"_a-0000e447-933d-8000-9baa-011c48011c48_112825"(local!newValue)
+        }
+      }
+    )
+  )
+)</definition>
+        <namedTypedValue>
+            <name>simpleFieldName</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>originalObject</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>newObject</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name>No Changes</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">"text"</a:value>
+                    <a:nameRef>simpleFieldName</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">'type!{urn:com:appian:types:AS:ADT}AS_ADT_SAMPLE_Parent'(
+  parentId: 1,
+  text: "text"
+)</a:value>
+                    <a:nameRef>originalObject</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">'type!{urn:com:appian:types:AS:ADT}AS_ADT_SAMPLE_Parent'(
+  parentId: 1,
+  text: "text"
+)</a:value>
+                    <a:nameRef>newObject</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions>
+                    <a:expectedOutput>
+                        <a:type a:uuid="{http://www.appian.com/ae/types/2009}Variant"/>
+                        <a:runtimeType a:uuid="{http://www.appian.com/ae/types/2009}Variant"/>
+                        <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">{}</a:value>
+                    </a:expectedOutput>
+                </a:assertions>
+            </el>
+            <el>
+                <a:name>Changes</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">"text"</a:value>
+                    <a:nameRef>simpleFieldName</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">'type!{urn:com:appian:types:AS:ADT}AS_ADT_SAMPLE_Parent'(
+  parentId: 1,
+  text: ""
+)</a:value>
+                    <a:nameRef>originalObject</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">'type!{urn:com:appian:types:AS:ADT}AS_ADT_SAMPLE_Parent'(
+  parentId: 1,
+  text: "new text"
+)</a:value>
+                    <a:nameRef>newObject</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions>
+                    <a:expectedOutput>
+                        <a:type a:uuid="{http://www.appian.com/ae/types/2009}Variant"/>
+                        <a:runtimeType a:uuid="{http://www.appian.com/ae/types/2009}Variant"/>
+                        <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">{
+  fieldName: "text",
+  oldValue: "",
+  newValue: "new text"
+}</a:value>
+                    </a:expectedOutput>
+                </a:assertions>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e3e6-fb42-8000-9ba5-011c48011c48_175687-fs"/>
+        <historyInfo versionUuid="_a-0000e3e6-fb42-8000-9ba5-011c48011c48_243126"/>
+        <historyInfo versionUuid="_a-0000e430-f270-8000-9bbc-011c48011c48_370931"/>
+        <historyInfo versionUuid="_a-0000e467-127b-8000-0fb7-43ef9043ef90_9024-adt"/>
+        <historyInfo versionUuid="_a-0000e447-933d-8000-9baa-011c48011c48_112888"/>
+        <historyInfo versionUuid="_a-0000e607-97fd-8000-9be9-011c48011c48_1707482"/>
+        <historyInfo versionUuid="_a-0000e62c-7375-8000-9bec-011c48011c48_1848898"/>
+    </history>
+</contentHaul>

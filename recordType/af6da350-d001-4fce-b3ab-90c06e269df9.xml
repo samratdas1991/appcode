@@ -1,0 +1,472 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<recordTypeHaul xmlns:a="http://www.appian.com/ae/types/2009" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <versionUuid>0e9591fe-a65f-4070-92e5-25c9a2070c34</versionUuid>
+  <recordType a:uuid="af6da350-d001-4fce-b3ab-90c06e269df9" name="AS_FS_ALT_CONF_AlertConfiguration_SyncedRecordType">
+    <a:pluralName>AS_FS_ALT_CONF_AlertConfiguration_SyncedRecordTypes</a:pluralName>
+    <a:description>Contains record for AS_FS_ALT_CONF_AlertConfiguration table in database</a:description>
+    <a:urlStub>fCng-g</a:urlStub>
+    <a:source xsi:type="a:RecordsReplica"/>
+    <a:listViewTemplateExpr>#"SYSTEM_SYSRULES_recordGridField"(
+  columns: {},
+  pageSize: 50,
+  shadeAlternateRows: true
+)</a:listViewTemplateExpr>
+    <a:detailViewCfg>
+      <a:nameExpr>#"SYSTEM_SYSRULES_rtd_getDefaultSummaryViewName"()</a:nameExpr>
+      <a:uiExpr/>
+      <a:visibilityExpr>=true()</a:visibilityExpr>
+      <a:urlStub>summary</a:urlStub>
+      <a:headerExpr/>
+      <a:recordActionLaunchType>DIALOG</a:recordActionLaunchType>
+      <a:recordUiSecurityType>EXPRESSION</a:recordUiSecurityType>
+    </a:detailViewCfg>
+    <a:relatedActionCfg a:uuid="997ba404-34eb-448a-a59e-1cfa3318a361">
+      <a:target a:uuid="0002e719-92c4-8000-536c-7f0000014e7a" xsi:type="a:ProcessModel"/>
+      <a:contextExpr>{
+  alertConfiguration: #"_a-0000e70f-2824-8000-9c01-011c48011c48_2527920"(
+    returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290157",
+    alertConfigurationId: rv!identifier
+  )
+}</a:contextExpr>
+      <a:visibilityExpr>not(
+  rv!record[#"urn:appian:record-field:v1:af6da350-d001-4fce-b3ab-90c06e269df9/80121f23-73f9-4f0e-92fd-bea4de5d0ead"]
+)</a:visibilityExpr>
+      <a:iconId>f144</a:iconId>
+      <a:refId>refId-997ba404-34eb-448a-a59e-1cfa3318a361</a:refId>
+      <a:titleExpr>#"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_976788"(
+  bundleKey: "AS.FS.AllBundles.lbl_Enable"
+)</a:titleExpr>
+      <a:descriptionExpr>#"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_976788"(
+  bundleKey: "AS.FS.AllBundles.desc_Enable"
+)</a:descriptionExpr>
+      <a:referenceKey>enableAlertConfiguration</a:referenceKey>
+      <a:dialogSize>SHORT$MEDIUM</a:dialogSize>
+      <a:showInRecordList>false</a:showInRecordList>
+      <a:recordUiSecurityType>EXPRESSION</a:recordUiSecurityType>
+      <a:dialogWidth>MEDIUM</a:dialogWidth>
+      <a:dialogHeight>SHORT</a:dialogHeight>
+    </a:relatedActionCfg>
+    <a:relatedActionCfg a:uuid="f3531f16-a1dd-404b-935a-84a1901743b4">
+      <a:target a:uuid="0004e719-9487-8000-5370-7f0000014e7a" xsi:type="a:ProcessModel"/>
+      <a:contextExpr>{
+  alertConfiguration: #"_a-0000e70f-2824-8000-9c01-011c48011c48_2527920"(
+    returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290157",
+    alertConfigurationId: rv!identifier
+  )
+}</a:contextExpr>
+      <a:visibilityExpr>rv!record[#"urn:appian:record-field:v1:af6da350-d001-4fce-b3ab-90c06e269df9/80121f23-73f9-4f0e-92fd-bea4de5d0ead"]</a:visibilityExpr>
+      <a:iconId>f28b</a:iconId>
+      <a:refId>refId-f3531f16-a1dd-404b-935a-84a1901743b4</a:refId>
+      <a:titleExpr>#"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_976788"(
+  bundleKey: "AS.FS.AllBundles.lbl_Disable"
+)</a:titleExpr>
+      <a:descriptionExpr>#"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_976788"(
+  bundleKey: "AS.FS.AllBundles.desc_Disable"
+)</a:descriptionExpr>
+      <a:referenceKey>disableAlertConfiguration</a:referenceKey>
+      <a:dialogSize>TALL$WIDE</a:dialogSize>
+      <a:showInRecordList>false</a:showInRecordList>
+      <a:recordUiSecurityType>EXPRESSION</a:recordUiSecurityType>
+      <a:dialogWidth>WIDE</a:dialogWidth>
+      <a:dialogHeight>TALL</a:dialogHeight>
+    </a:relatedActionCfg>
+    <a:relatedActionCfg a:uuid="0b051b6e-20dd-4e65-a64f-4b82bb58d624">
+      <a:target a:uuid="0002e713-ce8b-8000-51d7-7f0000014e7a" xsi:type="a:ProcessModel"/>
+      <a:contextExpr>{
+  alertConfiguration: #"_a-0000e70f-2824-8000-9c01-011c48011c48_2527920"(
+    returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290157",
+    alertConfigurationId: rv!identifier
+  ), /* AS_FS_ALT_CONF_AlertConfiguration */
+  userAction: null /* Text */
+}</a:contextExpr>
+      <a:visibilityExpr>=true()</a:visibilityExpr>
+      <a:iconId>f040</a:iconId>
+      <a:refId>refId-0b051b6e-20dd-4e65-a64f-4b82bb58d624</a:refId>
+      <a:titleExpr>#"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_976788"(
+  bundleKey: "AS.FS.AllBundles.txt_Update"
+)</a:titleExpr>
+      <a:staticDescriptionString/>
+      <a:referenceKey>updateAlertConfiguration</a:referenceKey>
+      <a:dialogSize>FIT$FIT</a:dialogSize>
+      <a:showInRecordList>false</a:showInRecordList>
+      <a:recordUiSecurityType>EXPRESSION</a:recordUiSecurityType>
+      <a:dialogWidth>FIT</a:dialogWidth>
+      <a:dialogHeight>FIT</a:dialogHeight>
+    </a:relatedActionCfg>
+    <a:relatedActionCfg a:uuid="b9415ad1-0d54-4e6a-b2da-d718c60bce97">
+      <a:target a:uuid="0002e713-ce8b-8000-51d7-7f0000014e7a" xsi:type="a:ProcessModel"/>
+      <a:contextExpr>{
+  alertConfiguration: #"_a-0000e70f-2824-8000-9c01-011c48011c48_2607518"(
+    configurationToClone: #"_a-0000e70f-2824-8000-9c01-011c48011c48_2527920"(
+    returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290157",
+    alertConfigurationId: rv!identifier
+  ))
+,
+  userAction: null /* Text */
+}</a:contextExpr>
+      <a:visibilityExpr>=true()</a:visibilityExpr>
+      <a:iconId>f0e7</a:iconId>
+      <a:refId>refId-b9415ad1-0d54-4e6a-b2da-d718c60bce97</a:refId>
+      <a:titleExpr>#"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_976788"(
+  bundleKey: "AS.FS.AllBundles.txt_CopyAlert"
+)</a:titleExpr>
+      <a:descriptionExpr>#"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_976788"(
+  bundleKey: "AS.FS.AllBundles.desc_CopyAlert"
+)</a:descriptionExpr>
+      <a:referenceKey>copyAlertConfiguration</a:referenceKey>
+      <a:dialogSize>FIT$FIT</a:dialogSize>
+      <a:showInRecordList>false</a:showInRecordList>
+      <a:recordUiSecurityType>EXPRESSION</a:recordUiSecurityType>
+      <a:dialogWidth>FIT</a:dialogWidth>
+      <a:dialogHeight>FIT</a:dialogHeight>
+    </a:relatedActionCfg>
+    <a:isSystem>false</a:isSystem>
+    <a:dataSrcExpr/>
+    <a:facetsListExpr/>
+    <a:titleExpr>rv!record[#"urn:appian:record-field:v1:af6da350-d001-4fce-b3ab-90c06e269df9/b34a2690-4b55-4ef8-b35e-a81789ca8f7f"]</a:titleExpr>
+    <a:defaultFiltersExpr/>
+    <a:layoutType>GRID</a:layoutType>
+    <a:security>16383</a:security>
+    <a:hideLatestNews>false</a:hideLatestNews>
+    <a:hideNewsView>false</a:hideNewsView>
+    <a:hideRelatedActionsView>false</a:hideRelatedActionsView>
+    <a:isExportable>true</a:isExportable>
+    <a:listViewSrcExpr/>
+    <a:recordViewSrcExpr/>
+    <a:recordListActionCfg a:uuid="41f40301-f494-422a-9ab5-c6522835c997">
+      <a:titleExpr>#"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_976788"(
+  bundleKey: "AS.FS.AllBundles.txt_NewConfiguration"
+)
+</a:titleExpr>
+      <a:staticDescription/>
+      <a:iconId>f067</a:iconId>
+      <a:target a:uuid="0002e713-ce8b-8000-51d7-7f0000014e7a" xsi:type="a:ProcessModel"/>
+      <a:visibilityExpr>true()</a:visibilityExpr>
+      <a:referenceKey>createAlertConfiguration</a:referenceKey>
+      <a:dialogSize>FIT$FIT</a:dialogSize>
+      <a:showInRecordList>true</a:showInRecordList>
+      <a:recordUiSecurityType>EXPRESSION</a:recordUiSecurityType>
+      <a:dialogWidth>FIT</a:dialogWidth>
+      <a:dialogHeight>FIT</a:dialogHeight>
+    </a:recordListActionCfg>
+    <a:recordListActionCfg a:uuid="893f61fa-e983-4300-8c43-6637ac6df4fd">
+      <a:titleExpr>#"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_976788"(
+  bundleKey: "AS.FS.AllBundles.txt_ViewAlertConfigurationHistory"
+)
+</a:titleExpr>
+      <a:staticDescription/>
+      <a:iconId>f1da</a:iconId>
+      <a:target a:uuid="0002e735-1898-8000-5644-7f0000014e7a" xsi:type="a:ProcessModel"/>
+      <a:visibilityExpr>=true()</a:visibilityExpr>
+      <a:referenceKey>viewAlertConfigurationHistory</a:referenceKey>
+      <a:dialogSize>FIT$FIT</a:dialogSize>
+      <a:showInRecordList>true</a:showInRecordList>
+      <a:recordUiSecurityType>EXPRESSION</a:recordUiSecurityType>
+      <a:dialogWidth>FIT</a:dialogWidth>
+      <a:dialogHeight>FIT</a:dialogHeight>
+    </a:recordListActionCfg>
+    <a:recordRelationshipCfg>
+      <uuid>9143db97-7cf1-4522-9a96-2cd77673946c</uuid>
+      <relationshipName>events</relationshipName>
+      <targetRecordTypeUuid>f32f8e61-b67e-453c-8e95-fbcedbe0bf50</targetRecordTypeUuid>
+      <relationshipType>ONE_TO_MANY</relationshipType>
+      <relationshipData>{"sourceRecordTypeFieldUuid":"5d7c5d46-9919-4b24-986f-4bb7fb71ea56","targetRecordTypeFieldUuid":"b61012a6-4ca5-44a8-a917-9f749af4a53a","relationshipOperator":"1","joinTableSourceField":"","joinTableTargetField":""}</relationshipData>
+      <updateBehavior>NON_CASCADING</updateBehavior>
+    </a:recordRelationshipCfg>
+    <a:recordRelationshipCfg>
+      <uuid>79ea3bec-70b0-47d9-8736-2283e8f049ea</uuid>
+      <relationshipName>filterSet</relationshipName>
+      <targetRecordTypeUuid>65d4b78b-c2eb-4b91-b119-a51bc4da8d35</targetRecordTypeUuid>
+      <relationshipType>ONE_TO_ONE</relationshipType>
+      <relationshipData>{"sourceRecordTypeFieldUuid":"4f5222a7-077e-415c-a703-5fd16970745c","targetRecordTypeFieldUuid":"3408f602-8556-4af3-ab83-c4682090315f","relationshipOperator":"1","joinTableSourceField":"","joinTableTargetField":""}</relationshipData>
+      <updateBehavior>NON_CASCADING</updateBehavior>
+    </a:recordRelationshipCfg>
+    <a:recordRelationshipCfg>
+      <uuid>7d5e0869-87df-4ef8-93c3-b6504f12f8d4</uuid>
+      <relationshipName>triggerSet</relationshipName>
+      <targetRecordTypeUuid>d3b72367-335b-4a58-b28d-fc4b9c29c011</targetRecordTypeUuid>
+      <relationshipType>ONE_TO_ONE</relationshipType>
+      <relationshipData>{"sourceRecordTypeFieldUuid":"f361d9bc-5f1e-4955-9452-0ddb07ec6dae","targetRecordTypeFieldUuid":"52993943-d475-4aa1-885e-638efd0e445f","relationshipOperator":"1","joinTableSourceField":"","joinTableTargetField":""}</relationshipData>
+      <updateBehavior>NON_CASCADING</updateBehavior>
+    </a:recordRelationshipCfg>
+    <a:recordRelationshipCfg>
+      <uuid>8d23a54f-6b3e-42ad-ae0c-29100948847c</uuid>
+      <relationshipName>alerts</relationshipName>
+      <targetRecordTypeUuid>b68a6595-9eaf-4ecc-bde6-452db35bfc42</targetRecordTypeUuid>
+      <relationshipType>ONE_TO_MANY</relationshipType>
+      <relationshipData>{"sourceRecordTypeFieldUuid":"5d7c5d46-9919-4b24-986f-4bb7fb71ea56","targetRecordTypeFieldUuid":"40442ceb-37b9-4d5d-8d4c-374cf44eb828","relationshipOperator":"1","joinTableSourceField":"","joinTableTargetField":""}</relationshipData>
+      <updateBehavior>NON_CASCADING</updateBehavior>
+    </a:recordRelationshipCfg>
+    <a:recordTypeSearchCfg>
+      <searchFieldsSrc>DEFAULT</searchFieldsSrc>
+      <placeholderSrc>DEFAULT</placeholderSrc>
+      <placeholder/>
+    </a:recordTypeSearchCfg>
+    <a:iconId/>
+    <a:listAutoRefreshInterval>0.0</a:listAutoRefreshInterval>
+    <a:sourceConfiguration>
+      <sourceUuid>AS_FS_ALT_CONF_ALERT_CONFIGURATION@jdbc/Appian</sourceUuid>
+      <sourceType>RDBMS_TABLE</sourceType>
+      <sourceSubType>NONE</sourceSubType>
+      <friendlyName>AS_FS_ALT_CONF_ALERT_CONFIGURATION</friendlyName>
+      <sourceFilterExpr/>
+      <field>
+        <uuid>5d7c5d46-9919-4b24-986f-4bb7fb71ea56</uuid>
+        <type>{http://www.appian.com/ae/types/2009}Integer</type>
+        <sourceFieldName>ALERT_CONFIGURATION_ID</sourceFieldName>
+        <sourceFieldType>INTEGER</sourceFieldType>
+        <fieldName>alertConfigurationId</fieldName>
+        <isRecordId>true</isRecordId>
+        <isUnique>true</isUnique>
+        <isCustomField>false</isCustomField>
+        <customFieldExpr/>
+        <customFieldDefaultValueStr>null</customFieldDefaultValueStr>
+        <fieldCalculationType>NA</fieldCalculationType>
+        <fieldTemplateType>NA</fieldTemplateType>
+        <isIndexable>false</isIndexable>
+        <subType>NA</subType>
+        <displayNameSource>STATIC</displayNameSource>
+        <descriptionSource>STATIC</descriptionSource>
+        <isHidden>false</isHidden>
+      </field>
+      <field>
+        <uuid>4f5222a7-077e-415c-a703-5fd16970745c</uuid>
+        <type>{http://www.appian.com/ae/types/2009}Integer</type>
+        <sourceFieldName>ALERT_CONFIGURATION_FILTER_SET_ID</sourceFieldName>
+        <sourceFieldType>INTEGER</sourceFieldType>
+        <fieldName>alertConfigurationFilterSetId</fieldName>
+        <isRecordId>false</isRecordId>
+        <isUnique>true</isUnique>
+        <isCustomField>false</isCustomField>
+        <customFieldExpr/>
+        <customFieldDefaultValueStr>null</customFieldDefaultValueStr>
+        <fieldCalculationType>NA</fieldCalculationType>
+        <fieldTemplateType>NA</fieldTemplateType>
+        <isIndexable>false</isIndexable>
+        <subType>NA</subType>
+        <displayNameSource>STATIC</displayNameSource>
+        <descriptionSource>STATIC</descriptionSource>
+        <isHidden>false</isHidden>
+      </field>
+      <field>
+        <uuid>f361d9bc-5f1e-4955-9452-0ddb07ec6dae</uuid>
+        <type>{http://www.appian.com/ae/types/2009}Integer</type>
+        <sourceFieldName>ALERT_CONFIGURATION_TRIGGER_SET_ID</sourceFieldName>
+        <sourceFieldType>INTEGER</sourceFieldType>
+        <fieldName>alertConfigurationTriggerSetId</fieldName>
+        <isRecordId>false</isRecordId>
+        <isUnique>true</isUnique>
+        <isCustomField>false</isCustomField>
+        <customFieldExpr/>
+        <customFieldDefaultValueStr>null</customFieldDefaultValueStr>
+        <fieldCalculationType>NA</fieldCalculationType>
+        <fieldTemplateType>NA</fieldTemplateType>
+        <isIndexable>false</isIndexable>
+        <subType>NA</subType>
+        <displayNameSource>STATIC</displayNameSource>
+        <descriptionSource>STATIC</descriptionSource>
+        <isHidden>false</isHidden>
+      </field>
+      <field>
+        <uuid>b34a2690-4b55-4ef8-b35e-a81789ca8f7f</uuid>
+        <type>{http://www.appian.com/ae/types/2009}Text</type>
+        <sourceFieldName>ALERT_CONFIGURATION_NAME</sourceFieldName>
+        <sourceFieldType>VARCHAR(255)</sourceFieldType>
+        <fieldName>alertConfigurationName</fieldName>
+        <isRecordId>false</isRecordId>
+        <isUnique>false</isUnique>
+        <isCustomField>false</isCustomField>
+        <customFieldExpr/>
+        <customFieldDefaultValueStr>null</customFieldDefaultValueStr>
+        <fieldCalculationType>NA</fieldCalculationType>
+        <fieldTemplateType>NA</fieldTemplateType>
+        <isIndexable>false</isIndexable>
+        <subType>NA</subType>
+        <displayNameSource>STATIC</displayNameSource>
+        <descriptionSource>STATIC</descriptionSource>
+        <isHidden>false</isHidden>
+      </field>
+      <field>
+        <uuid>a14aed9c-095e-4540-a450-0199683aba43</uuid>
+        <type>{http://www.appian.com/ae/types/2009}Text</type>
+        <sourceFieldName>ALERT_TEXT</sourceFieldName>
+        <sourceFieldType>VARCHAR(255)</sourceFieldType>
+        <fieldName>alertText</fieldName>
+        <isRecordId>false</isRecordId>
+        <isUnique>false</isUnique>
+        <isCustomField>false</isCustomField>
+        <customFieldExpr/>
+        <customFieldDefaultValueStr>null</customFieldDefaultValueStr>
+        <fieldCalculationType>NA</fieldCalculationType>
+        <fieldTemplateType>NA</fieldTemplateType>
+        <isIndexable>false</isIndexable>
+        <subType>NA</subType>
+        <displayNameSource>STATIC</displayNameSource>
+        <descriptionSource>STATIC</descriptionSource>
+        <isHidden>false</isHidden>
+      </field>
+      <field>
+        <uuid>80121f23-73f9-4f0e-92fd-bea4de5d0ead</uuid>
+        <type>{http://www.appian.com/ae/types/2009}Boolean</type>
+        <sourceFieldName>IS_ACTIVE</sourceFieldName>
+        <sourceFieldType>BIT</sourceFieldType>
+        <fieldName>isActive</fieldName>
+        <isRecordId>false</isRecordId>
+        <isUnique>false</isUnique>
+        <isCustomField>false</isCustomField>
+        <customFieldExpr/>
+        <customFieldDefaultValueStr>null</customFieldDefaultValueStr>
+        <fieldCalculationType>NA</fieldCalculationType>
+        <fieldTemplateType>NA</fieldTemplateType>
+        <isIndexable>false</isIndexable>
+        <subType>NA</subType>
+        <displayNameSource>STATIC</displayNameSource>
+        <descriptionSource>STATIC</descriptionSource>
+        <isHidden>false</isHidden>
+      </field>
+      <field>
+        <uuid>65915602-f06f-42f0-b661-670c05613a0b</uuid>
+        <type>{http://www.appian.com/ae/types/2009}Text</type>
+        <sourceFieldName>CREATED_BY</sourceFieldName>
+        <sourceFieldType>VARCHAR(255)</sourceFieldType>
+        <fieldName>createdBy</fieldName>
+        <isRecordId>false</isRecordId>
+        <isUnique>false</isUnique>
+        <isCustomField>false</isCustomField>
+        <customFieldExpr/>
+        <customFieldDefaultValueStr>null</customFieldDefaultValueStr>
+        <fieldCalculationType>NA</fieldCalculationType>
+        <fieldTemplateType>NA</fieldTemplateType>
+        <isIndexable>false</isIndexable>
+        <subType>NA</subType>
+        <displayNameSource>STATIC</displayNameSource>
+        <descriptionSource>STATIC</descriptionSource>
+        <isHidden>false</isHidden>
+      </field>
+      <field>
+        <uuid>2cb07009-f063-454e-8fb6-e9d642c0af1d</uuid>
+        <type>{http://www.appian.com/ae/types/2009}Datetime</type>
+        <sourceFieldName>CREATED_DATETIME</sourceFieldName>
+        <sourceFieldType>TIMESTAMP</sourceFieldType>
+        <fieldName>createdDatetime</fieldName>
+        <isRecordId>false</isRecordId>
+        <isUnique>false</isUnique>
+        <isCustomField>false</isCustomField>
+        <customFieldExpr/>
+        <customFieldDefaultValueStr>null</customFieldDefaultValueStr>
+        <fieldCalculationType>NA</fieldCalculationType>
+        <fieldTemplateType>NA</fieldTemplateType>
+        <isIndexable>false</isIndexable>
+        <subType>NA</subType>
+        <displayNameSource>STATIC</displayNameSource>
+        <descriptionSource>STATIC</descriptionSource>
+        <isHidden>false</isHidden>
+      </field>
+      <field>
+        <uuid>3e4e1571-22e8-4aa5-9377-f73d7e624e80</uuid>
+        <type>{http://www.appian.com/ae/types/2009}Text</type>
+        <sourceFieldName>MODIFIED_BY</sourceFieldName>
+        <sourceFieldType>VARCHAR(255)</sourceFieldType>
+        <fieldName>modifiedBy</fieldName>
+        <isRecordId>false</isRecordId>
+        <isUnique>false</isUnique>
+        <isCustomField>false</isCustomField>
+        <customFieldExpr/>
+        <customFieldDefaultValueStr>null</customFieldDefaultValueStr>
+        <fieldCalculationType>NA</fieldCalculationType>
+        <fieldTemplateType>NA</fieldTemplateType>
+        <isIndexable>false</isIndexable>
+        <subType>NA</subType>
+        <displayNameSource>STATIC</displayNameSource>
+        <descriptionSource>STATIC</descriptionSource>
+        <isHidden>false</isHidden>
+      </field>
+      <field>
+        <uuid>1c3da0be-d84a-43d6-b495-d3ebd2bf4279</uuid>
+        <type>{http://www.appian.com/ae/types/2009}Datetime</type>
+        <sourceFieldName>MODIFIED_DATETIME</sourceFieldName>
+        <sourceFieldType>TIMESTAMP</sourceFieldType>
+        <fieldName>modifiedDatetime</fieldName>
+        <isRecordId>false</isRecordId>
+        <isUnique>false</isUnique>
+        <isCustomField>false</isCustomField>
+        <customFieldExpr/>
+        <customFieldDefaultValueStr>null</customFieldDefaultValueStr>
+        <fieldCalculationType>NA</fieldCalculationType>
+        <fieldTemplateType>NA</fieldTemplateType>
+        <isIndexable>false</isIndexable>
+        <subType>NA</subType>
+        <displayNameSource>STATIC</displayNameSource>
+        <descriptionSource>STATIC</descriptionSource>
+        <isHidden>false</isHidden>
+      </field>
+      <field>
+        <uuid>c187dc63-c3b6-45cd-af5e-4d124418cd1c</uuid>
+        <type>{http://www.appian.com/ae/types/2009}Text</type>
+        <sourceFieldName/>
+        <sourceFieldType/>
+        <fieldName>lowercaseAlertConfigurationName</fieldName>
+        <isRecordId>false</isRecordId>
+        <isUnique>false</isUnique>
+        <isCustomField>true</isCustomField>
+        <customFieldExpr>lower(rv!record[#"urn:appian:record-field:v1:af6da350-d001-4fce-b3ab-90c06e269df9/b34a2690-4b55-4ef8-b35e-a81789ca8f7f"])</customFieldExpr>
+        <customFieldDefaultValueStr>""</customFieldDefaultValueStr>
+        <fieldCalculationType>WRITE_TIME</fieldCalculationType>
+        <fieldTemplateType>NA</fieldTemplateType>
+        <isIndexable>false</isIndexable>
+        <subType>NA</subType>
+        <displayNameSource>STATIC</displayNameSource>
+        <descriptionSource>STATIC</descriptionSource>
+        <isHidden>false</isHidden>
+      </field>
+      <uuid>0d3f1441-35d7-4c94-9b9e-91ae5964d221</uuid>
+      <refreshSchedule>
+        <frequency>DAILY</frequency>
+        <value>{"hour":1,"minute":"00","amPM":"AM","timeZone":"America/New_York"}</value>
+        <activated>true</activated>
+      </refreshSchedule>
+      <skipFailureEnabled>false</skipFailureEnabled>
+    </a:sourceConfiguration>
+    <a:enabledFeatures>63</a:enabledFeatures>
+    <a:isVisibleInRecordTypeList>false</a:isVisibleInRecordTypeList>
+    <a:recordActionLaunchType>DIALOG</a:recordActionLaunchType>
+    <a:showSearchBox>true</a:showSearchBox>
+    <a:isVisibleInDataFabric>false</a:isVisibleInDataFabric>
+    <a:usesRollingSyncLimit>false</a:usesRollingSyncLimit>
+    <a:usesRecoverySync>false</a:usesRecoverySync>
+    <a:isScheduledIndexingEnabled>false</a:isScheduledIndexingEnabled>
+    <a:smartSearchAcceptableFailureRate>0.0</a:smartSearchAcceptableFailureRate>
+    <a:skipFailedSmartServicesSync>false</a:skipFailedSmartServicesSync>
+  </recordType>
+  <roleMap>
+    <role name="record_type_administrator">
+      <users/>
+      <groups>
+        <groupUuid>_e-0000e2bb-4188-8000-9aee-01075c01075c_41</groupUuid>
+      </groups>
+    </role>
+    <role name="record_type_viewer">
+      <users/>
+      <groups>
+        <groupUuid>_e-0000e70f-2824-8000-9b4d-01075c01075c_13667</groupUuid>
+      </groups>
+    </role>
+  </roleMap>
+  <history>
+    <historyInfo versionUuid="441f8477-c10f-42a8-b7db-d170e5b39716"/>
+    <historyInfo versionUuid="f90cd8a2-4378-4e7f-a486-edb2eb2bacf6"/>
+    <historyInfo versionUuid="84930fae-5636-4cd6-b2ae-6cbb6e41968b"/>
+    <historyInfo versionUuid="89a6d411-5dda-410f-9429-40698dcb7aff"/>
+    <historyInfo versionUuid="9cddb420-33c3-4d25-b512-4e69bafc8a8d"/>
+    <historyInfo versionUuid="c5d86b64-6158-4369-b333-2b57db036c56"/>
+    <historyInfo versionUuid="9cd7a3e9-d0e5-4efd-bf38-86d6eef14a6e"/>
+    <historyInfo versionUuid="392d4188-a302-47ea-b2bc-fd9d55bf63bd"/>
+    <historyInfo versionUuid="7ee3a4aa-8190-451f-9469-fc57fd92ab5f"/>
+    <historyInfo versionUuid="623fc953-daa5-4ae4-b1d9-153f84fec7c6"/>
+    <historyInfo versionUuid="33f5644d-ea1c-479c-b133-5e68e46361d1"/>
+    <historyInfo versionUuid="68e9925f-b3e8-4a49-808d-90bebdc1f2bc"/>
+    <historyInfo versionUuid="725f9c65-5b40-4f3c-a163-a7a6338b723e"/>
+    <historyInfo versionUuid="0e9591fe-a65f-4070-92e5-25c9a2070c34"/>
+  </history>
+  <migrationVersion>1</migrationVersion>
+</recordTypeHaul>

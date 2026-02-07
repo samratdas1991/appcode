@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2354951</versionUuid>
+    <interface>
+        <name>AS_QNM_FM_setDefaultQuestionnaireTemplate</name>
+        <uuid>_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_861601</uuid>
+        <description>Confirmation screen to set an investigation template as default</description>
+        <parentUuid>_a-0000e42d-ffef-8000-9ba6-011c48011c48_7213-qnm</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  local!i18nData: #"_a-0000e447-933d-8000-9baa-011c48011c48_43088"(triggerRefresh: null),
+  local!defaultTemplate: #"_a-0000e447-933d-8000-9baa-011c48011c48_39379"(
+    questionnaireTemplateId: #"_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_863602",
+    returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290157"
+  ),
+  local!isDefaultTemplate: local!defaultTemplate.questionnaireTemplateId = ri!questionnaireTemplateId,
+  #"SYSTEM_SYSRULES_formLayout_v1"(
+    label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+      i18nData: local!i18nData,
+      bundleKey: "AS.QNM.QuestionnaireSettings.lbl_SetDefaultQuestionnaire"
+    ),
+    contents: {
+      #"SYSTEM_SYSRULES_cardLayout"(height: "SHORT", showBorder: false),
+      #"SYSTEM_SYSRULES_columnsLayout"(
+        columns: {
+          #"SYSTEM_SYSRULES_columnLayout"(contents: {}, width: "NARROW"),
+          #"SYSTEM_SYSRULES_columnLayout"(
+            contents: {
+              #"SYSTEM_SYSRULES_richTextDisplayField"(
+                label: "Rich Text",
+                labelPosition: "COLLAPSED",
+                value: {
+                  #"SYSTEM_SYSRULES_richTextItem_v1"(
+                    text: {
+                      #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                        i18nData: local!i18nData,
+                        bundleKey: "AS.QNM.QuestionnaireSettings.lbl_SetAsTheDefaultQuestionnaire",
+                        arguments: ri!questionnaireName
+                      )
+                    },
+                    color: "ACCENT",
+                    size: "LARGE",
+                    style: { "STRONG" }
+                  ),
+                  char(10),
+                  char(10),
+                  #"SYSTEM_SYSRULES_richTextItem_v1"(
+                    text: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                      i18nData: local!i18nData,
+                      bundleKey: "AS.QNM.QuestionnaireSettings.txt_SetDefaultQuestionnaireInformation",
+                      arguments: local!defaultTemplate.name
+                    ),
+                    color: "SECONDARY",
+                    size: "MEDIUM"
+                  ),
+                  char(10),
+                  char(10)
+                },
+                align: "CENTER"
+              )
+            }
+          ),
+          #"SYSTEM_SYSRULES_columnLayout"(contents: {}, width: "NARROW")
+        }
+      ),
+      #"SYSTEM_SYSRULES_cardLayout"(height: "SHORT", showBorder: false)
+    },
+    buttons: #"_a-0000e3d1-f4dc-8000-9ba4-011c48011c48_134344"(
+      confirmLabel: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+        i18nData: local!i18nData,
+        bundleKey: "AS.QNM.QuestionnaireSettings.btn_SetDefault"
+      ),
+      cancelLabel: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+        i18nData: local!i18nData,
+        bundleKey: "AS.QNM.QuestionnaireSettings.btn_Cancel"
+      ),
+      confirmSaveInto: a!save(
+        ri!userAction,
+        #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73305"
+      ),
+      cancelSaveInto: a!save(
+        ri!userAction,
+        #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73173"
+      ),
+      confirmSubmit: true,
+      cancelSubmit: true,
+      confirmDisabled: local!isDefaultTemplate
+    )
+  )
+)</definition>
+        <namedTypedValue>
+            <name>userAction</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>questionnaireTemplateId</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>questionnaireName</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+        <isCustom>false</isCustom>
+    </interface>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name/>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:string"/>
+                    <a:nameRef>userAction</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">1</a:value>
+                    <a:nameRef>questionnaireTemplateId</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">"Questionnaire 3"</a:value>
+                    <a:nameRef>questionnaireName</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_864767"/>
+        <historyInfo versionUuid="_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_905637"/>
+        <historyInfo versionUuid="_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_923783"/>
+        <historyInfo versionUuid="_a-0000e62c-7375-8000-9bec-011c48011c48_1864229"/>
+        <historyInfo versionUuid="_a-0000e6ca-7e19-8000-9bfb-011c48011c48_2249299"/>
+        <historyInfo versionUuid="_a-0000e6ca-7e19-8000-9bfb-011c48011c48_2259797"/>
+        <historyInfo versionUuid="_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2354706"/>
+        <historyInfo versionUuid="_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2354951"/>
+    </history>
+</contentHaul>

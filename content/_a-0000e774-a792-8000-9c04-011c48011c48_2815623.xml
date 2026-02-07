@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e81d-5ddb-8000-9c1b-011c48011c48_3562727</versionUuid>
+    <interface>
+        <name>AS_IO_CPS_alertsForLandingPage</name>
+        <uuid>_a-0000e774-a792-8000-9c04-011c48011c48_2815623</uuid>
+        <description>displays active alerts for CO landing page</description>
+        <parentUuid>_a-0000e2bb-4188-8000-9ba2-011c48011c48_25469</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  local!triggerRefresh: a!refreshVariable(
+    value: now(),
+    refreshAfter: "RECORD_ACTION"
+  ),
+  local!alertTypes: #"_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2394197"(
+    i18nData: ri!i18nData,
+    /*Get list of created by users (not system and integrations)*/
+    userInitatorValues: #"_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2387037"(
+      triggerRefresh: local!triggerRefresh,
+      returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290169",
+      aggregationFields: #"SYSTEM_SYSRULES_aggregationFields"(
+        groupings: #"SYSTEM_SYSRULES_grouping"(
+          field: #"urn:appian:record-field:v1:b68a6595-9eaf-4ecc-bde6-452db35bfc42/7bbbef15-9dd2-4a57-8839-c509b3758191",
+          alias: "user"
+        )
+      ),
+      type: #"_a-0000e6ca-7e19-8000-9bfb-011c48011c48_2349273"
+    ).user
+  ),
+  local!selectedSources: a!refreshVariable(
+    value: null(),
+    refreshAfter: "RECORD_ACTION"
+  ),
+  local!selectedTypes,
+  local!pagingInfo: a!refreshVariable(
+    value: #"SYSTEM_SYSRULES_pagingInfo"(
+      startIndex: 1,
+      batchSize: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73148",
+      sort: #"SYSTEM_SYSRULES_sortInfo"(
+        field: #"urn:appian:record-field:v1:b68a6595-9eaf-4ecc-bde6-452db35bfc42/75d22155-9212-49bd-8d41-f3663b93ae2a",
+        ascending: false
+      )
+    ),
+    refreshOnVarChange: {
+      local!selectedSources,
+      local!selectedTypes
+    }
+  ),
+  local!alerts: #"_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2387037"(
+    returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290131",
+    pagingInfo: local!pagingInfo,
+    triggerRefresh: local!triggerRefresh,
+    source: local!selectedSources,
+    type: local!selectedTypes,
+    fields: {
+      #"urn:appian:record-relationship:v1:b68a6595-9eaf-4ecc-bde6-452db35bfc42/69477411-623b-4361-a7ae-6efaef445892",
+      #"urn:appian:record-relationship:v1:b68a6595-9eaf-4ecc-bde6-452db35bfc42/69477411-623b-4361-a7ae-6efaef445892/1c246674-646a-42cf-b03b-88fb94d33ce5",
+      #"urn:appian:record-relationship:v1:b68a6595-9eaf-4ecc-bde6-452db35bfc42/69477411-623b-4361-a7ae-6efaef445892/1c246674-646a-42cf-b03b-88fb94d33ce5/1c246674-646a-42cf-b03b-88fb94d33ce5",
+      #"urn:appian:record-relationship:v1:b68a6595-9eaf-4ecc-bde6-452db35bfc42/88617967-71fd-42e0-b70a-411716344124",
+      #"urn:appian:record-field:v1:b68a6595-9eaf-4ecc-bde6-452db35bfc42/358dbf2c-c441-4d89-9529-1a3afb193d6f/82717263-d098-48ae-ad24-1591d57c5a00"
+    }
+  ),
+  {
+  #"_a-0000e7e5-dad4-8000-9c14-011c48011c48_3312448"(
+    "AS_IO_CPS_alertsForLandingPage"
+  ),
+  #"_a-0000e77d-004e-8000-9c08-011c48011c48_2837928"(
+    header: #"_a-0000e774-a792-8000-9c04-011c48011c48_2816790"(
+      i18nData: ri!i18nData,
+      selectedSources: local!selectedSources,
+      selectedTypes: local!selectedTypes,
+      alertTypes: local!alertTypes
+    ),
+    contents: #"SYSTEM_SYSRULES_forEach"(
+      items: local!alerts.data,
+      expression: #"_a-0000e77d-004e-8000-9c08-011c48011c48_2837892"(
+        contents: #"_a-0000e447-933d-8000-9baa-011c48011c48_103563"(
+          i18nData: ri!i18nData,
+          alert: fv!item,
+          alertStyle: #"_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2387746",
+          allowDismissals: #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_998895"(),
+          shortenAlertMessagesToLength: #"_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2446585",
+          integrationCodes: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+            cdt: local!alertTypes,
+            field: "value",
+            value: #"_a-0000e6ca-7e19-8000-9bfb-011c48011c48_2349267"
+          ).initiatorValues,
+          showCustomer: true(),
+          showCreatedBy: true(),
+          showCreatedOn: true()
+        )
+      )
+    ),
+    showPagingInfo: true,
+    pagingInfo: local!pagingInfo,
+    totalCount: local!alerts.totalCount,
+    emptyState: #"_a-0000e777-b9f8-8000-9c06-011c48011c48_2828600"(
+      icon: "bell-slash-o",
+      label: "AS.FS.AllBundles.lbl_NoAlerts",
+      size: "EXTRA_LARGE",
+      color: "SECONDARY",
+      i18nData: ri!i18nData
+    )
+  )
+  }
+)</definition>
+        <namedTypedValue>
+            <name>i18nData</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+        <isCustom>false</isCustom>
+    </interface>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name/>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81834"(triggerRefresh: null),</a:value>
+                    <a:nameRef>i18nData</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e774-a792-8000-9c04-011c48011c48_2819345"/>
+        <historyInfo versionUuid="_a-0000e777-b9f8-8000-9c06-011c48011c48_2833316"/>
+        <historyInfo versionUuid="_a-0000e77d-004e-8000-9c08-011c48011c48_2838814"/>
+        <historyInfo versionUuid="_a-0000e77e-5277-8000-9c09-011c48011c48_2841716"/>
+        <historyInfo versionUuid="_a-0000e77e-5277-8000-9c09-011c48011c48_2841878"/>
+        <historyInfo versionUuid="_a-0000e81d-5ddb-8000-9c1b-011c48011c48_3562727"/>
+    </history>
+</contentHaul>

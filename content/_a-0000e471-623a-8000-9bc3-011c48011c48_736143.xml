@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e70f-2824-8000-9c01-011c48011c48_2727564</versionUuid>
+    <rule>
+        <name>AS_FS_UT_displayCustomerTitle</name>
+        <uuid>_a-0000e471-623a-8000-9bc3-011c48011c48_736143</uuid>
+        <description>Used to define the customer title for display purposes</description>
+        <parentUuid>_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_968428</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>concat(
+  ri!customer[#"urn:appian:record-field:v1:15ec9ef8-96dd-41ff-a034-7863526026d4/f14dec40-56b6-417a-aa2f-56fb2df4fac6"],
+  " (",
+  ri!customer[#"urn:appian:record-field:v1:15ec9ef8-96dd-41ff-a034-7863526026d4/f3ae270f-6ad2-444c-ab9e-8234905a5035"],
+  ")"
+)</definition>
+        <namedTypedValue>
+            <name>customer</name>
+            <type>
+                <name>15ec9ef8-96dd-41ff-a034-7863526026d4</name>
+                <namespace>urn:com:appian:recordtype:datatype</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name>Valid Customer</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_33079"(
+  returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290157"
+)</a:value>
+                    <a:nameRef>customer</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e471-623a-8000-9bc3-011c48011c48_736154"/>
+        <historyInfo versionUuid="_a-0000e50d-bf1d-8000-9bcd-011c48011c48_977765"/>
+        <historyInfo versionUuid="_a-0000e5f9-18eb-8000-9be1-011c48011c48_1553138"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2727564"/>
+    </history>
+</contentHaul>

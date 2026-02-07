@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema targetNamespace="urn:com:appian:types:AS:IO"
+  xmlns:tns="urn:com:appian:types:AS:IO" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <xsd:include schemaLocation="%7Burn%3Acom%3Aappian%3Atypes%3AAS%3AIO%7DAS_IO_A_R_TemplateTask.xsd"/>
+  <xsd:include schemaLocation="%7Burn%3Acom%3Aappian%3Atypes%3AAS%3AIO%7DAS_IO_A_R_Template_Field.xsd"/>
+  <xsd:include schemaLocation="%7Burn%3Acom%3Aappian%3Atypes%3AAS%3AIO%7DAS_IO_A_T_OnboardingProduct.xsd"/>
+  <xsd:include schemaLocation="%7Burn%3Acom%3Aappian%3Atypes%3AAS%3AIO%7DAS_IO_A_T_RequiredDocument.xsd"/>
+  <xsd:complexType name="AS_IO_A_R_Template">
+    <xsd:annotation>
+      <xsd:appinfo source="appian.jpa">@Table(name="AS_IO_A_R_TEMPLATE")</xsd:appinfo>
+      <xsd:appinfo source="http://www.appian.com/ae/types/2009">
+        <ns2:Metadata xmlns:ns2="http://www.appian.com/ae/types/2009">
+          <ns2:versionUuid>0000e7fe-3e4b-8000-6eaa-7f0000014e7a</ns2:versionUuid>
+          <ns2:history>
+            <ns2:historyInfo versionUuid="0000e3f6-61a3-8000-fa91-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0000e3f7-912e-8000-fadb-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0000e409-b824-8000-fc62-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0000e40a-87e9-8000-fc68-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0000e542-3e97-8000-1cf8-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0001e620-3311-8000-3847-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0001e7e5-d38a-8000-6778-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0000e7fe-3e4b-8000-6eaa-7f0000014e7a"/>
+          </ns2:history>
+        </ns2:Metadata>
+      </xsd:appinfo>
+      <xsd:documentation><![CDATA[Holds auditing data for `AS_IO_R_Template`]]></xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="templateAuditId" nillable="true" type="xsd:int">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@Id @GeneratedValue @Column(name="TEMPLATE_AUDIT_ID", unique=true)</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="templateId" nillable="true" type="xsd:int">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@Column(name="TEMPLATE_ID")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="recordId" nillable="true" type="xsd:int">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@Column(name="RECORD_ID")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="timestamp" nillable="true" type="xsd:dateTime">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@Column(name="TIMESTAMP")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="username" nillable="true" type="xsd:string">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@Column(name="USERNAME")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="auditActionCode" nillable="true" type="xsd:string">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@Column(name="AUDIT_ACTION_CODE")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element maxOccurs="unbounded" minOccurs="0"
+        name="simpleFieldChanges" type="tns:AS_IO_A_R_Template_Field">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@OneToMany(cascade=CascadeType.ALL, indexed=false) @JoinColumn(name="TEMPLATE_AUDIT_ID")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element maxOccurs="unbounded" minOccurs="0"
+        name="templateTasksChanges" type="tns:AS_IO_A_R_TemplateTask">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@OneToMany(cascade=CascadeType.ALL, indexed=false) @JoinColumn(name="TEMPLATE_AUDIT_ID")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element maxOccurs="unbounded" minOccurs="0"
+        name="onboardingProductTemplateChanges" type="tns:AS_IO_A_T_OnboardingProduct">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@OneToMany(cascade=CascadeType.ALL, indexed=false) @JoinColumn(name="TEMPLATE_AUDIT_ID")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element maxOccurs="unbounded" minOccurs="0"
+        name="requiredDocumentTemplateChanges" type="tns:AS_IO_A_T_RequiredDocument">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@OneToMany(cascade=CascadeType.ALL, indexed=false) @JoinColumn(name="TEMPLATE_AUDIT_ID")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+</xsd:schema>

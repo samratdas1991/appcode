@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema targetNamespace="urn:com:appian:types:AS:EI:NORTHROW"
+  xmlns:ei1="urn:com:appian:types:AS:EI"
+  xmlns:tns="urn:com:appian:types:AS:EI:NORTHROW" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <xsd:import namespace="urn:com:appian:types:AS:EI" schemaLocation="%7Burn%3Acom%3Aappian%3Atypes%3AAS%3AEI%7DAS_EI_NORTHROW_Company.xsd"/>
+  <xsd:import namespace="urn:com:appian:types:AS:EI" schemaLocation="%7Burn%3Acom%3Aappian%3Atypes%3AAS%3AEI%7DAS_EI_NORTHROW_CustomData.xsd"/>
+  <xsd:import namespace="urn:com:appian:types:AS:EI" schemaLocation="%7Burn%3Acom%3Aappian%3Atypes%3AAS%3AEI%7DAS_EI_NORTHROW_Header.xsd"/>
+  <xsd:import namespace="urn:com:appian:types:AS:EI" schemaLocation="%7Burn%3Acom%3Aappian%3Atypes%3AAS%3AEI%7DAS_EI_NORTHROW_Person.xsd"/>
+  <xsd:complexType name="AS_EI_NORTHROW_CompanyCheckRequest">
+    <xsd:annotation>
+      <xsd:appinfo source="appian.jpa">@Table(name="AS_EI_NORTHROW_COMPANY_CHECK_SUMMARY")</xsd:appinfo>
+      <xsd:appinfo source="http://www.appian.com/ae/types/2009">
+        <ns2:Metadata xmlns:ns2="http://www.appian.com/ae/types/2009">
+          <ns2:versionUuid>0000e64f-671d-8000-3eec-7f0000014e7a</ns2:versionUuid>
+          <ns2:history>
+            <ns2:historyInfo versionUuid="0001e570-5849-8000-2074-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0000e64f-671d-8000-3eec-7f0000014e7a"/>
+          </ns2:history>
+        </ns2:Metadata>
+      </xsd:appinfo>
+      <xsd:documentation><![CDATA[Used to format the Northrow Company Check Request.]]></xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="company" nillable="true" type="ei1:AS_EI_NORTHROW_Company">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@Column(name="CHECK_UUID", columnDefinition="VARCHAR(255)") @ManyToOne(cascade=CascadeType.REFRESH)</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="contacts" type="ei1:AS_EI_NORTHROW_Person">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@Column(name="CUSTOMER_ID", columnDefinition="INT") @OneToMany(cascade=CascadeType.ALL, indexed=false)</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element maxOccurs="unbounded" minOccurs="0"
+        name="custom_data" type="ei1:AS_EI_NORTHROW_CustomData">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@Column(name="JSON_RESPONSE", columnDefinition="BLOB") @OneToMany(cascade=CascadeType.ALL, indexed=false)</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="header" nillable="true" type="ei1:AS_EI_NORTHROW_Header">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@Column(name="CREATED_BY", columnDefinition="VARCHAR(55)") @ManyToOne(cascade=CascadeType.REFRESH)</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+</xsd:schema>

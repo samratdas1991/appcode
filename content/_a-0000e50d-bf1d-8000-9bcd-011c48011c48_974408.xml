@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e7d2-6286-8000-9c11-011c48011c48_3169901</versionUuid>
+    <rule>
+        <name>AS_FS_BL_getRelatedActionVisibilityForRemoveCustomerDocs</name>
+        <uuid>_a-0000e50d-bf1d-8000-9bcd-011c48011c48_974408</uuid>
+        <description>Contains the visibility condition for the remove customer docs</description>
+        <parentUuid>_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_968428</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  local!permanentSecurityConditions: if(
+    /*
+ri!isForDummyComponentDisplay should ONLY be used for determining visibility of disabled a dummy component in leiu of the record action component
+SHOULD NEVER BE PASSED AS TRUE FROM THE ACTUAL SECURITY SETTING
+If the recordAction is not visible due to security, there is no way to provide any indication of WHY it is not visible aside from substituting some disabled dummy component
+This is good UX practice to not show disabled component when the user cannot enable it through some action of theirs (i.e. a resolvable condition -- see below)
+If the user could NEVER see the button due to a permanent condition failing to be fulfilled, we still want this rule to return AS IF the true recordAction item is there so we do not display the disabled dummy button
+    */
+    ri!isForDummyComponentDisplay,
+    true,
+    and(
+      /*user created the doc or is in access group*/
+      or(
+        ri!createdBy = loggedInUser(),
+        #"urn:appian:function:v1:a:isusermemberofgroup?okey=a!isUserMemberOfGroup"(
+          username: loggedInUser(),
+          groups: {
+            #"_a-0000e7d2-6286-8000-9c11-011c48011c48_3158915"
+          }
+        )
+      )/* check against further permanent conditions here */
+      
+    )
+  ),
+  local!resolvableSecurityConditions: a!localVariables(
+    local!onboardingRequestCount: #"_a-0000e7d2-6286-8000-9c11-011c48011c48_3156764"(
+      customerDocumentId: ri!customerDocumentId,
+      isOnboardingActive: true(),
+      returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290175"
+    ),
+    local!serviceRequestCount: #"_a-0000e7d2-6286-8000-9c11-011c48011c48_3157415"(
+      customerDocumentId: ri!customerDocumentId,
+      isServiceRequestActive: true(),
+      returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290175"
+    ),
+    local!investigationRequestCount: #"_a-0000e7d2-6286-8000-9c11-011c48011c48_3158002"(
+      customerDocumentId: ri!customerDocumentId,
+      isInvestigationActive: true(),
+      returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290175"
+    ),
+    /*restrict the action if there is at least one active event that relies on the doc*/
+    #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_52795"(
+      {
+        local!onboardingRequestCount,
+        local!serviceRequestCount,
+        local!investigationRequestCount
+      }
+    ) = 0
+  ),
+  and(
+    local!permanentSecurityConditions,
+    local!resolvableSecurityConditions
+  )
+)</definition>
+        <namedTypedValue>
+            <name>isForDummyComponentDisplay</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>createdBy</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>customerDocumentId</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name>Unnamed Test Case</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:boolean">true</a:value>
+                    <a:nameRef>isForDummyComponentDisplay</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                    <a:nameRef>createdBy</a:nameRef>
+                    <a:id>5</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                    <a:nameRef>customerDocumentId</a:nameRef>
+                    <a:id>6</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e50d-bf1d-8000-9bcd-011c48011c48_974420"/>
+        <historyInfo versionUuid="_a-0000e539-6d59-8000-9bd0-011c48011c48_1241593"/>
+        <historyInfo versionUuid="_a-0000e7d2-6286-8000-9c11-011c48011c48_3158970"/>
+        <historyInfo versionUuid="_a-0000e7d2-6286-8000-9c11-011c48011c48_3163501"/>
+        <historyInfo versionUuid="_a-0000e7d2-6286-8000-9c11-011c48011c48_3169454"/>
+        <historyInfo versionUuid="_a-0000e7d2-6286-8000-9c11-011c48011c48_3169901"/>
+    </history>
+</contentHaul>

@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e7e5-dad4-8000-9c14-011c48011c48_3326516</versionUuid>
+    <interface>
+        <name>AS_IO_GRD_taskCategoriesGrid</name>
+        <uuid>_a-0000e393-fbf1-8000-9ba2-011c48011c48_100178</uuid>
+        <description>Used to display or manage the different types of AS_IO_R_TaskCategory</description>
+        <parentUuid>_a-0000e2bb-4188-8000-9ba2-011c48011c48_25469</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>#"SYSTEM_SYSRULES_gridField_v1"(
+  labelPosition: "COLLAPSED",
+  data: #"_a-0000e393-fbf1-8000-9ba2-011c48011c48_100474"(
+    returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290131",
+    pagingInfo: fv!pagingInfo,
+    triggerRefresh: ri!triggerRefresh,
+    taskCategoryIdToExclude: #"_a-0000e7d2-6286-8000-9c11-011c48011c48_3119705"
+  ),
+  columns: {
+    #"SYSTEM_SYSRULES_gridColumn"(
+      label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+        i18nData: ri!i18nData,
+        bundleKey: "AS.CO.AllBundles.lbl_CategoryName"
+      ),
+      sortField: "categoryName",
+      value: #"SYSTEM_SYSRULES_recordActionField"(
+        actions: #"SYSTEM_SYSRULES_recordActionItem"(
+          action: #"urn:appian:record-action:v1:d2293df9-f18a-415e-b6f1-8983ac6370e0/b8d5c612-4ad0-4837-aafa-0b12b00dac7d",
+          identifier: fv!row.taskCategoryId
+        ),
+        style: "LINKS",
+        display: "LABEL"
+      ),
+      helpTooltip: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+        i18nData: ri!i18nData,
+        bundleKey: "AS.CO.AllBundles.ins_ClickCategoryNameToEdit"
+      )
+    ),
+    #"SYSTEM_SYSRULES_gridColumn"(
+      label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+        i18nData: ri!i18nData,
+        bundleKey: "AS.CO.AllBundles.lbl_LastModified"
+      ),
+      sortField: "modifiedDatetime",
+      value: #"_a-0000e3c8-6861-8000-9ba2-011c48011c48_120056"(
+        user: fv!row.modifiedBy,
+        dateTime: fv!row.modifiedDatetime
+      )
+    ),
+    #"SYSTEM_SYSRULES_gridColumn"(
+      value: #"_a-0000e3e6-fb42-8000-9ba5-011c48011c48_180322"(
+        caption: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+          i18nData: ri!i18nData,
+          bundleKey: "AS.CO.AllBundles.ins_RemoveCategory"
+        ),
+        size: "MEDIUM",
+        saveInto: {
+          if(
+            #"_a-0000e3e6-fb42-8000-9ba5-011c48011c48_223070"(category: fv!row),
+            #"_a-0000e3e6-fb42-8000-9ba5-011c48011c48_180559-adt"(
+              newObjects: #"_a-0000e40a-de32-8000-9ba8-011c48011c48_260165"(
+                cdt: fv!row,
+                fields: "isActive",
+                newValues: false
+              ),
+              objectType: 'type!{urn:com:appian:types:AS:IO}AS_IO_R_TaskCategory',
+              objectDse: #"_a-0000e393-fbf1-8000-9ba2-011c48011c48_99414",
+              auditDse: #"_a-0000e3e6-fb42-8000-9ba5-011c48011c48_190730",
+              auditConfig: #"_a-0000e3e6-fb42-8000-9ba5-011c48011c48_228237"(),
+              onSuccess: {
+                #"_a-0000e3c8-6861-8000-9ba2-011c48011c48_124064"(triggerRefresh: ri!triggerRefresh),
+                #"_a-0000e3c8-6861-8000-9ba2-011c48011c48_124304"(
+                  valueToNull: ri!deletionFailedCategoryName
+                )
+              },
+              onError: {}
+            ),
+            a!save(
+              ri!deletionFailedCategoryName,
+              fv!row.categoryName
+            )
+          )
+        },
+        removalType: #"_a-0000e3e6-fb42-8000-9ba5-011c48011c48_186255"
+      ),
+      width: "ICON"
+    )
+  },
+  initialSorts: #"SYSTEM_SYSRULES_sortInfo"(field: "categoryName", ascending: true),
+  secondarySorts: #"SYSTEM_SYSRULES_sortInfo"(field: "categoryName", ascending: true),
+  pageSize: 30
+)</definition>
+        <namedTypedValue>
+            <name>i18nData</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>triggerRefresh</name>
+            <type>
+                <name>dateTime</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>deletionFailedCategoryName</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+        <isCustom>false</isCustom>
+    </interface>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name/>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81834"(triggerRefresh: null)</a:value>
+                    <a:nameRef>i18nData</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:dateTime"/>
+                    <a:nameRef>triggerRefresh</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:string"/>
+                    <a:nameRef>deletionFailedCategoryName</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e393-fbf1-8000-9ba2-011c48011c48_101230"/>
+        <historyInfo versionUuid="_a-0000e3d1-f4dc-8000-9ba4-011c48011c48_137386"/>
+        <historyInfo versionUuid="_a-0000e3e6-fb42-8000-9ba5-011c48011c48_192527"/>
+        <historyInfo versionUuid="_a-0000e3e6-fb42-8000-9ba5-011c48011c48_223328"/>
+        <historyInfo versionUuid="_a-0000e3e6-fb42-8000-9ba5-011c48011c48_228000"/>
+        <historyInfo versionUuid="_a-0000e419-f401-8000-9ba4-011c48011c48_17141"/>
+        <historyInfo versionUuid="_a-0000e41a-e649-8000-9ba5-011c48011c48_17645"/>
+        <historyInfo versionUuid="_a-0000e3ff-a5bc-8000-9ba8-011c48011c48_40007"/>
+        <historyInfo versionUuid="_a-0000e41f-788a-8000-9ba9-011c48011c48_57054"/>
+        <historyInfo versionUuid="_a-0000e430-f270-8000-9bbc-011c48011c48_363437"/>
+        <historyInfo versionUuid="_a-0000e447-91f4-8000-9bc0-011c48011c48_437653"/>
+        <historyInfo versionUuid="_a-0000e447-91f4-8000-9bc0-011c48011c48_577630"/>
+        <historyInfo versionUuid="_a-0000e447-91f4-8000-9bc0-011c48011c48_587264"/>
+        <historyInfo versionUuid="_a-0000e460-9d93-8000-9bc1-011c48011c48_600883"/>
+        <historyInfo versionUuid="_a-0000e460-9d93-8000-9bc1-011c48011c48_610305"/>
+        <historyInfo versionUuid="_a-0000e460-9d93-8000-9bc1-011c48011c48_611154"/>
+        <historyInfo versionUuid="_a-0000e460-9d93-8000-9bc1-011c48011c48_648026"/>
+        <historyInfo versionUuid="_a-0000e471-623a-8000-9bc3-011c48011c48_682591"/>
+        <historyInfo versionUuid="_a-0000e586-af6f-8000-9bd2-011c48011c48_1362794"/>
+        <historyInfo versionUuid="_a-0000e62c-7375-8000-9bec-011c48011c48_1860698"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2671989"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2712578"/>
+        <historyInfo versionUuid="_a-0000e7e5-dad4-8000-9c14-011c48011c48_3326516"/>
+    </history>
+</contentHaul>

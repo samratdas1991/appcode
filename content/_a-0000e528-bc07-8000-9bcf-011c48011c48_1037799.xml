@@ -1,0 +1,554 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e70f-2824-8000-9c01-011c48011c48_2703824</versionUuid>
+    <interface>
+        <name>AS_FS_CPS_Products_FeesSection</name>
+        <uuid>_a-0000e528-bc07-8000-9bcf-011c48011c48_1037799</uuid>
+        <description>Fees section for a single product view</description>
+        <parentUuid>_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_968428</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  local!visibleFeesFields: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+    cdt: ri!fieldData,
+    field: "fieldKey",
+    value: #"_a-0000e528-bc07-8000-9bcf-011c48011c48_1037524"(isInternationalizedForAdminSetup: false).fieldKey
+  ),
+  local!requiredRow: or(local!visibleFeesFields.required),
+  local!adtDictionary: #"_a-0000e3e6-fb42-8000-9ba5-011c48011c48_248820-adt"(),
+  if(
+    #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(local!visibleFeesFields),
+    {},
+    a!localVariables(
+      local!marketFieldData: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+        cdt: local!visibleFeesFields,
+        field: "fieldKey",
+        value: #"_a-0000e528-bc07-8000-9bcf-011c48011c48_1026481"
+      ),
+      local!periodFieldData: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+        cdt: local!visibleFeesFields,
+        field: "fieldKey",
+        value: #"_a-0000e528-bc07-8000-9bcf-011c48011c48_1026487"
+      ),
+      local!minimumFieldData: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+        cdt: local!visibleFeesFields,
+        field: "fieldKey",
+        value: #"_a-0000e528-bc07-8000-9bcf-011c48011c48_1026475"
+      ),
+      local!minimumCurrencyFieldData: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+        cdt: local!visibleFeesFields,
+        field: "fieldKey",
+        value: #"_a-0000e528-bc07-8000-9bcf-011c48011c48_1026493"
+      ),
+      local!adValoremFieldData: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+        cdt: local!visibleFeesFields,
+        field: "fieldKey",
+        value: #"_a-0000e528-bc07-8000-9bcf-011c48011c48_1026499"
+      ),
+      local!transactionChargeFieldData: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+        cdt: local!visibleFeesFields,
+        field: "fieldKey",
+        value: #"_a-0000e528-bc07-8000-9bcf-011c48011c48_1026505"
+      ),
+      local!transactionChargeCurrencyFieldData: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+        cdt: local!visibleFeesFields,
+        field: "fieldKey",
+        value: #"_a-0000e528-bc07-8000-9bcf-011c48011c48_1026511"
+      ),
+      {
+        #"_a-0000e528-bc07-8000-9bcf-011c48011c48_1037497"(
+          icon: "money",
+          label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+            i18nData: ri!i18nData,
+            bundleKey: "AS.FS.AllBundles.lbl_FeesSection"
+          ),
+          size: "SMALL",
+          showWhen: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75636"(ri!hideLabel)
+        ),
+        #"SYSTEM_SYSRULES_gridLayout"(
+          label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+            i18nData: ri!i18nData,
+            bundleKey: "AS.FS.AllBundles.lbl_FeesSection"
+          ),
+          labelPosition: "COLLAPSED",
+          headerCells: {
+            #"SYSTEM_SYSRULES_gridLayoutHeaderCell"(
+              label: concat(
+                #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                  i18nData: ri!i18nData,
+                  bundleKey: "AS.FS.AllBundles.lbl_Market"
+                ),
+                if(
+                  and(
+                    local!marketFieldData.required,
+                    ri!readOnly &lt;&gt; true
+                  ),
+                  " *",
+                  ""
+                )
+              ),
+              showWhen: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(local!marketFieldData)
+            ),
+            #"SYSTEM_SYSRULES_gridLayoutHeaderCell"(
+              label: concat(
+                #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                  i18nData: ri!i18nData,
+                  bundleKey: "AS.FS.AllBundles.lbl_Period"
+                ),
+                if(local!periodFieldData.required, " *", "")
+              ),
+              showWhen: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(local!periodFieldData)
+            ),
+            #"SYSTEM_SYSRULES_gridLayoutHeaderCell"(
+              label: concat(
+                #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                  i18nData: ri!i18nData,
+                  bundleKey: "AS.FS.AllBundles.lbl_Minimum"
+                ),
+                if(
+                  local!minimumFieldData.required,
+                  " *",
+                  ""
+                )
+              ),
+              showWhen: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(local!minimumFieldData)
+            ),
+            #"SYSTEM_SYSRULES_gridLayoutHeaderCell"(
+              label: concat(
+                #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                  i18nData: ri!i18nData,
+                  bundleKey: "AS.FS.AllBundles.lbl_Currency"
+                ),
+                if(
+                  and(
+                    ri!readOnly &lt;&gt; true,
+                    local!minimumCurrencyFieldData.required
+                  ),
+                  " *",
+                  ""
+                )
+              ),
+              showWhen: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(local!minimumCurrencyFieldData)
+            ),
+            #"SYSTEM_SYSRULES_gridLayoutHeaderCell"(
+              label: concat(
+                #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                  i18nData: ri!i18nData,
+                  bundleKey: "AS.FS.AllBundles.lbl_AdValorem"
+                ),
+                if(
+                  local!adValoremFieldData.required,
+                  " *",
+                  ""
+                )
+              ),
+              showWhen: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(local!adValoremFieldData)
+            ),
+            #"SYSTEM_SYSRULES_gridLayoutHeaderCell"(
+              label: concat(
+                #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                  i18nData: ri!i18nData,
+                  bundleKey: "AS.FS.AllBundles.lbl_TransactionCharge"
+                ),
+                if(
+                  local!transactionChargeFieldData.required,
+                  " *",
+                  ""
+                )
+              ),
+              showWhen: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(local!transactionChargeFieldData)
+            ),
+            #"SYSTEM_SYSRULES_gridLayoutHeaderCell"(
+              label: concat(
+                #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                  i18nData: ri!i18nData,
+                  bundleKey: "AS.FS.AllBundles.lbl_Currency"
+                ),
+                if(
+                  local!transactionChargeCurrencyFieldData.required,
+                  " *",
+                  ""
+                )
+              ),
+              showWhen: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(
+                local!transactionChargeCurrencyFieldData
+              )
+            ),
+            #"SYSTEM_SYSRULES_gridLayoutHeaderCell"(
+              showWhen: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75636"(ri!readOnly)
+            ),
+            #"SYSTEM_SYSRULES_gridLayoutHeaderCell"(
+              showWhen: and(
+                ri!readOnly,
+                #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(
+                  #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_76433"(
+                    cdt: ri!product.fees,
+                    field: "updateActionCode",
+                    indexDefault: {}
+                  )
+                )
+              )
+            )
+          },
+          columnConfigs: {
+            #"SYSTEM_SYSRULES_forEach"(
+              items: local!visibleFeesFields,
+              expression: #"SYSTEM_SYSRULES_gridLayoutColumnConfig"()
+            ),
+            #"SYSTEM_SYSRULES_gridLayoutColumnConfig"(
+              width: "ICON",
+              showWhen: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75636"(ri!readOnly)
+            ),
+            #"SYSTEM_SYSRULES_gridLayoutColumnConfig"(
+              showWhen: and(
+                ri!readOnly,
+                #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(
+                  #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_76433"(
+                    cdt: ri!product.fees,
+                    field: "updateActionCode",
+                    indexDefault: {}
+                  )
+                )
+              )
+            )
+          },
+          rows: #"SYSTEM_SYSRULES_forEach"(
+            items: ri!product.fees,
+            expression: #"SYSTEM_SYSRULES_gridRowLayout"(
+              contents: {
+                if(
+                  #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(local!marketFieldData),
+                  a!localVariables(
+                    local!countries: #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_976936"(
+                      i18nData: ri!i18nData,
+                      countryCodes: if(
+                        ri!readOnly,
+                        fv!item.country.countryCode,
+                        {}
+                      ),
+                      returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290163"
+                    ),
+                    #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_982262"(
+                      required: local!marketFieldData.required,
+                      i18nData: ri!i18nData,
+                      readOnly: ri!readOnly,
+                      countries: local!countries,
+                      selectedCountryCode: fv!item.country.countryCode,
+                      additionalSaveInto: a!localVariables(
+                        local!currencyCode: #"_a-0000e539-6d59-8000-9bd0-011c48011c48_1135817"(
+                          i18nData: ri!i18nData,
+                          countryCodes: fv!item.country.countryCode,
+                          executeWhen: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(fv!item.country.countryCode),
+                          returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290157"
+                        ).currencyCode,
+                        {
+                          a!save(
+                            fv!item.transactionCurrencyCode,
+                            #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73980"(
+                              nullableValue: fv!item.transactionCurrencyCode,
+                              replacementValue: local!currencyCode
+                            )
+                          ),
+                          a!save(
+                            fv!item.feeCurrencyCode,
+                            #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73980"(
+                              nullableValue: fv!item.feeCurrencyCode,
+                              replacementValue: local!currencyCode
+                            )
+                          )
+                        }
+                      )
+                    )
+                  ),
+                  {}
+                ),
+                a!localVariables(
+                  local!feeTypes: a!refreshVariable(
+                    value: #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_976967"(
+                      refData: ri!refData,
+                      currentValue: index(ri!product.fees, "type", {}),
+                      type: #"_a-0000e329-3415-8000-9ba2-011c48011c48_294168"
+                    ),
+                    refreshAlways: true
+                  ),
+                  #"_a-0000e528-bc07-8000-9bcf-011c48011c48_1027802"(
+                    showWhen: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(local!periodFieldData),
+                    required: local!periodFieldData.required,
+                    choiceLabels: apply(
+                      #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(i18nData: ri!i18nData, bundleKey: _),
+                      local!feeTypes.label
+                    ),
+                    choiceValues: local!feeTypes.code,
+                    /*placeholderLabel: "AS.FS.AllBundles.lbl_Type",*/
+                    value: fv!item.type,
+                    saveInto: fv!item.type,
+                    readOnly: ri!readOnly
+                  )
+                ),
+                #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_74314"(
+                  showWhen: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(local!minimumFieldData),
+                  required: local!minimumFieldData.required,
+                  value: fv!item.fee,
+                  saveInto: fv!item.fee,
+                  align: "RIGHT",
+                  readOnly: ri!readOnly,
+                  minSize: 0,
+                  formattedInput: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_126042"(
+                    currencyCode: fv!item.feeCurrencyCode,
+                    currencyValue: fv!item.fee,
+                    showDecimal: true
+                  )
+                ),
+                #"_a-0000e69f-3688-8000-9bf2-011c48011c48_2137905"(
+                  showWhen: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(local!minimumCurrencyFieldData),
+                  required: local!minimumCurrencyFieldData.required,
+                  selectedCurrencyCode: fv!item.feeCurrencyCode,
+                  i18nData: ri!i18nData,
+                  readOnly: ri!readOnly
+                ),
+                #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_74314"(
+                  showWhen: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(local!adValoremFieldData),
+                  required: local!adValoremFieldData.required,
+                  value: fv!item.adValorem,
+                  saveInto: fv!item.adValorem,
+                  readOnly: ri!readOnly,
+                  align: "RIGHT",
+                  textToAppend: "%",
+                  minSize: 0,
+                  formattedInput: fv!item.adValorem
+                ),
+                #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_74314"(
+                  showWhen: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(local!transactionChargeFieldData),
+                  required: local!transactionChargeFieldData.required,
+                  value: fv!item.transactionCharge,
+                  readOnly: ri!readOnly,
+                  saveInto: fv!item.transactionCharge,
+                  align: "RIGHT",
+                  minSize: 0,
+                  formattedInput: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_126042"(
+                    currencyCode: fv!item.transactionCurrencyCode,
+                    currencyValue: fv!item.transactionCharge,
+                    showDecimal: true
+                  )
+                ),
+                #"_a-0000e69f-3688-8000-9bf2-011c48011c48_2137905"(
+                  showWhen: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(
+                    local!transactionChargeCurrencyFieldData
+                  ),
+                  i18nData: ri!i18nData,
+                  required: local!transactionChargeCurrencyFieldData.required,
+                  readOnly: ri!readOnly,
+                  selectedCurrencyCode: fv!item.transactionCurrencyCode
+                ),
+                #"_a-0000e3e6-fb42-8000-9ba5-011c48011c48_180322"(
+                  showWhen: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75636"(ri!readOnly),
+                  caption: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                    i18nData: ri!i18nData,
+                    bundleKey: "AS.FS.AllBundles.lbl_RemoveFee"
+                  ),
+                  removalType: #"_a-0000e3e6-fb42-8000-9ba5-011c48011c48_186249",
+                  saveInto: {
+                    a!save(
+                      ri!product.fees,
+                      remove(ri!product.fees, fv!index)
+                    )
+                  },
+                  disable: and(
+                    local!requiredRow,
+                    length(ri!product.fees) = 1
+                  )
+                ),
+                #"SYSTEM_SYSRULES_richTextDisplayField"(
+                  value: #"SYSTEM_SYSRULES_richTextItem_v1"(
+                    color: "SECONDARY",
+                    text: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+                      cdt: local!adtDictionary,
+                      field: "code",
+                      value: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_76433"(
+                        cdt: fv!item,
+                        field: "updateActionCode",
+                        indexDefault: {}
+                      )
+                    ).label
+                  ),
+                  showWhen: and(
+                    ri!readOnly,
+                    #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(
+                      #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_76433"(
+                        cdt: ri!product.fees,
+                        field: "updateActionCode",
+                        indexDefault: {}
+                      )
+                    )
+                  )
+                )
+              }
+            )
+          ),
+          addRowLink: #"_a-0000e438-fdf5-8000-9ba8-011c48011c48_23008"(
+            showWhen: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75636"(ri!readOnly),
+            label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+              i18nData: ri!i18nData,
+              bundleKey: "AS.FS.AllBundles.lbl_AddFee"
+            ),
+            gridItems: ri!product.fees,
+            itemToAdd: 'type!{urn:com:appian:types:AS:FS}AS_FS_Fee'()
+          )
+        )
+      }
+    )
+  )
+)</definition>
+        <namedTypedValue>
+            <name>fieldData</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>i18nData</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>product</name>
+            <type>
+                <name>Map</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>readOnly</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>refData</name>
+            <type>
+                <name>AS_FS_R_Data?list</name>
+                <namespace>urn:com:appian:types:AS:FS</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>hideLabel</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+        <isCustom>false</isCustom>
+    </interface>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name/>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"SYSTEM_SYSRULES_fromJson_v1"(#"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_1021459"(
+  returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290157"
+).fieldData)</a:value>
+                    <a:nameRef>fieldData</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_975720"(triggerRefresh: {})</a:value>
+                    <a:nameRef>i18nData</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">'type!{urn:com:appian:types:AS:FS}AS_FS_Product'(
+  productTypeCode: "PRODUCT_TYPE_COMMITTED_LINE_OF_CREDIT"
+)</a:value>
+                    <a:nameRef>product</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:boolean">false</a:value>
+                    <a:nameRef>readOnly</a:nameRef>
+                    <a:id>4</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_975294"(
+  typeList: {}
+)</a:value>
+                    <a:nameRef>refData</a:nameRef>
+                    <a:id>5</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:boolean"/>
+                    <a:nameRef>hideLabel</a:nameRef>
+                    <a:id>6</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e528-bc07-8000-9bcf-011c48011c48_1038963"/>
+        <historyInfo versionUuid="_a-0000e528-bc07-8000-9bcf-011c48011c48_1048228"/>
+        <historyInfo versionUuid="_a-0000e539-6d59-8000-9bd0-011c48011c48_1138208"/>
+        <historyInfo versionUuid="_a-0000e539-6d59-8000-9bd0-011c48011c48_1172435"/>
+        <historyInfo versionUuid="_a-0000e586-af6f-8000-9bd2-011c48011c48_1349069"/>
+        <historyInfo versionUuid="_a-0000e5a0-53e9-8000-9bd8-011c48011c48_1398115"/>
+        <historyInfo versionUuid="_a-0000e5a0-53e9-8000-9bd8-011c48011c48_1438532"/>
+        <historyInfo versionUuid="_a-0000e5a0-53e9-8000-9bd8-011c48011c48_1448281"/>
+        <historyInfo versionUuid="_a-0000e5d6-d648-8000-9bde-011c48011c48_1486284"/>
+        <historyInfo versionUuid="_a-0000e5fd-0ed3-8000-9be6-011c48011c48_1563869"/>
+        <historyInfo versionUuid="_a-0000e5fd-0ed3-8000-9be6-011c48011c48_1575707"/>
+        <historyInfo versionUuid="_a-0000e5fd-0ed3-8000-9be6-011c48011c48_1584552"/>
+        <historyInfo versionUuid="_a-0000e607-97fd-8000-9be9-011c48011c48_1603349"/>
+        <historyInfo versionUuid="_a-0000e607-97fd-8000-9be9-011c48011c48_1618926"/>
+        <historyInfo versionUuid="_a-0000e607-97fd-8000-9be9-011c48011c48_1675555"/>
+        <historyInfo versionUuid="_a-0000e62c-7375-8000-9bec-011c48011c48_1756762"/>
+        <historyInfo versionUuid="_a-0000e62c-7375-8000-9bec-011c48011c48_1827084"/>
+        <historyInfo versionUuid="_a-0000e673-a4a7-8000-9bef-011c48011c48_1964912"/>
+        <historyInfo versionUuid="_a-0000e673-a4a7-8000-9bef-011c48011c48_2024371"/>
+        <historyInfo versionUuid="_a-0000e69f-3688-8000-9bf2-011c48011c48_2114799"/>
+        <historyInfo versionUuid="_a-0000e69f-3688-8000-9bf2-011c48011c48_2139223"/>
+        <historyInfo versionUuid="_a-0000e69f-3688-8000-9bf2-011c48011c48_2154759"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2703824"/>
+    </history>
+</contentHaul>

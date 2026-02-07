@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e70f-2824-8000-9c01-011c48011c48_2705966</versionUuid>
+    <rule>
+        <name>AS_FS_ALT_UT_buildAlert_documentDetailsUpdate_documentType</name>
+        <uuid>_a-0000e539-6d59-8000-9bd0-011c48011c48_1300263</uuid>
+        <description>Used to build the alert for an customer document type update</description>
+        <parentUuid>_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_968428</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  local!customer: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_33079"(
+    customerId: ri!customerDocument.customerId,
+    returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290157"
+  ),
+  #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_994447"(
+    alertSetId: local!customer.alertSetId,
+    message: "AS.FS.AllBundles.lbl_DocumentTypeUpdate",
+    arguments: {
+      'type!{urn:com:appian:types:AS:ALT}AS_ALT_AlertArgument'(
+        argumentPosition: 1,
+        argument: ri!customerDocument.modifiedBy,
+        argumentDisplayType: #"_a-0000e447-933d-8000-9baa-011c48011c48_106902"
+      ),
+      'type!{urn:com:appian:types:AS:ALT}AS_ALT_AlertArgument'(
+        argumentPosition: 2,
+        argument: ri!customerDocument.documentName
+      ),
+      'type!{urn:com:appian:types:AS:ALT}AS_ALT_AlertArgument'(
+        argumentPosition: 3,
+        argument: ri!customerDocument.docTypeCode,
+        argumentDisplayType: #"_a-0000e539-6d59-8000-9bd0-011c48011c48_1300291"
+      )
+    },
+    createdBy: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73366"
+  )
+)</definition>
+        <namedTypedValue>
+            <name>customerDocument</name>
+            <type>
+                <name>AS_FS_CustomerDocument</name>
+                <namespace>urn:com:appian:types:AS:FS</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name>Unnamed Test Case</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_33079"(returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290157")</a:value>
+                    <a:nameRef>customerDocument</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e586-af6f-8000-9bd2-011c48011c48_1315865"/>
+        <historyInfo versionUuid="_a-0000e6ca-7e19-8000-9bfb-011c48011c48_2350092"/>
+        <historyInfo versionUuid="_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2355547"/>
+        <historyInfo versionUuid="_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2374436"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2705966"/>
+    </history>
+</contentHaul>

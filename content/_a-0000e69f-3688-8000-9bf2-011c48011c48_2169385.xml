@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e70f-2824-8000-9c01-011c48011c48_2676042</versionUuid>
+    <rule>
+        <name>AS_FS_APPREF_IO_getBundleFolders</name>
+        <uuid>_a-0000e69f-3688-8000-9bf2-011c48011c48_2169385</uuid>
+        <description>Application reference to `AS_IO_ENTRYPOINT_GETDATA_getBundleFolders`</description>
+        <parentUuid>_a-0000e586-af6f-8000-9bd2-011c48011c48_1321233</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  /*Return the entry-point rule if it exists, or else returns a no-op*/
+  local!rule: a!refreshVariable(
+    value: #"_a-0000e571-774f-8000-b919-01ef9001ef90_28790"(
+      ruleName: "AS_IO_ENTRYPOINT_GETDATA_getBundleFolders"
+    ),
+    /*Note this always needs to be refreshAlways: true*/
+    refreshAlways: true
+  ),
+  /*Actually execute the rule*/
+  local!rule(
+    /*This should be passed in every app reference rule, */
+    /*which returns a default value if the rule does not exist*/
+    ifNull_default: {},
+    /*Entrypoint-specific inputs for that rule*/
+
+  )
+)</definition>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name>valid case</a:name>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e69f-3688-8000-9bf2-011c48011c48_2172297"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2676042"/>
+    </history>
+</contentHaul>

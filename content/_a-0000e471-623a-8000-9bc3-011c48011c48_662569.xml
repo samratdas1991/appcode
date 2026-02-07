@@ -1,0 +1,355 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_957368</versionUuid>
+    <rule>
+        <name>AS_QNM_TST_questionnaire</name>
+        <uuid>_a-0000e471-623a-8000-9bc3-011c48011c48_662569</uuid>
+        <description>This is a questionnaire CDT for use in interface test cases</description>
+        <parentUuid>_a-0000e42d-ffef-8000-9ba6-011c48011c48_7213-qnm</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>'type!{urn:com:appian:types:AS:QNM}AS_QNM_Questionnaire'(
+  questionCategories: {
+    'type!{urn:com:appian:types:AS:QNM}AS_QNM_QuestionCategory'(
+      questionCategoryId: 1,
+      displayOrder: 1,
+      questionCategoryName: "Category 1"
+    ),
+    'type!{urn:com:appian:types:AS:QNM}AS_QNM_QuestionCategory'(
+      questionCategoryId: 2,
+      displayOrder: 2,
+      questionCategoryName: "Category 2"
+    ),
+    'type!{urn:com:appian:types:AS:QNM}AS_QNM_QuestionCategory'(
+      questionCategoryId: 3,
+      displayOrder: 3,
+      questionCategoryName: "Category 3"
+    ),
+    'type!{urn:com:appian:types:AS:QNM}AS_QNM_QuestionCategory'(
+      questionCategoryId: 4,
+      displayOrder: 4,
+      questionCategoryName: "Category 4"
+    ),
+    'type!{urn:com:appian:types:AS:QNM}AS_QNM_QuestionCategory'(
+      questionCategoryId: 5,
+      displayOrder: 5,
+      questionCategoryName: "Category 5"
+    )
+  },
+  questions: {
+    'type!{urn:com:appian:types:AS:QNM}AS_QNM_Question'(
+      questionId: 1,
+      label: "Doc Upload Minimum 2",
+      groupNumber: 2,
+      orderNumber: 1,
+      responseRequirements: {
+        'type!{urn:com:appian:types:AS:QNM}AS_QNM_ResponseRequirement'(
+          requirementTypeCode: #"_a-0000e460-9d93-8000-9bc1-011c48011c48_597977",
+          requirementValue: "2"
+        )
+      },
+      questionCategoryId: 1,
+      questionTypeCode: "DOCUMENT"
+    ),
+    'type!{urn:com:appian:types:AS:QNM}AS_QNM_Question'(
+      questionId: 2,
+      label: "Paragraph Question",
+      groupNumber: 1,
+      orderNumber: 1,
+      isExternalUserFacing: true,
+      questionCategoryId: 2,
+      questionTypeCode: "PARAGRAPH"
+    ),
+    'type!{urn:com:appian:types:AS:QNM}AS_QNM_Question'(
+      questionId: 3,
+      label: "Doc Upload Max 1",
+      groupNumber: 1,
+      orderNumber: 1,
+      responseRequirements: {
+        'type!{urn:com:appian:types:AS:QNM}AS_QNM_ResponseRequirement'(
+          requirementTypeCode: #"_a-0000e460-9d93-8000-9bc1-011c48011c48_597312",
+          requirementValue: "1"
+        )
+      },
+      isExternalUserFacing: true,
+      questionCategoryId: 1,
+      questionTypeCode: "DOCUMENT"
+    ),
+    'type!{urn:com:appian:types:AS:QNM}AS_QNM_Question'(
+      questionId: 4,
+      label: "Radio Button Parent Question",
+      groupNumber: 1,
+      orderNumber: 1,
+      responseOptions: {
+        'type!{urn:com:appian:types:AS:QNM}AS_QNM_Response'(
+          label: "Yes",
+          value: "Yes"
+        ),
+        'type!{urn:com:appian:types:AS:QNM}AS_QNM_Response'(
+          label: "No",
+          value: "No"
+        )
+      },
+      questionCategoryId: 3,
+      questionTypeCode: "RADIO_BUTTON_TEXT"
+    ),
+    'type!{urn:com:appian:types:AS:QNM}AS_QNM_Question'(
+      questionId: 5,
+      label: "Radio Button Child Question",
+      groupNumber: 1,
+      orderNumber: 2,
+      responseOptions: {
+        'type!{urn:com:appian:types:AS:QNM}AS_QNM_Response'(
+          label: "Yes",
+          value: "Yes"
+        ),
+        'type!{urn:com:appian:types:AS:QNM}AS_QNM_Response'(
+          label: "No",
+          value: "No"
+        )
+      },
+      isDisplayedPrecedentSets: 'type!{urn:com:appian:types:AS:QNM}AS_QNM_QuestionPrecedentSet'(
+        operator: #"_a-0000e447-933d-8000-9baa-011c48011c48_28921",
+        questionPrecedents: 'type!{urn:com:appian:types:AS:QNM}AS_QNM_QuestionPrecedent'(
+          questionId_precedent: 4,
+          responseRequirement: 'type!{urn:com:appian:types:AS:QNM}AS_QNM_ResponseRequirement'(
+            requirementTypeCode: #"_a-0000e471-623a-8000-9bc3-011c48011c48_671102",
+            requirementValue: "Yes"
+          )
+        )
+      ),
+      questionCategoryId: 3,
+      questionTypeCode: "RADIO_BUTTON_TEXT"
+    ),
+    'type!{urn:com:appian:types:AS:QNM}AS_QNM_Question'(
+      questionId: 6,
+      label: "Document Upload Grandchild Question",
+      groupNumber: 1,
+      orderNumber: 3,
+      isDisplayedPrecedentSets: 'type!{urn:com:appian:types:AS:QNM}AS_QNM_QuestionPrecedentSet'(
+        operator: #"_a-0000e447-933d-8000-9baa-011c48011c48_28921",
+        questionPrecedents: 'type!{urn:com:appian:types:AS:QNM}AS_QNM_QuestionPrecedent'(
+          questionId_precedent: 5,
+          responseRequirement: 'type!{urn:com:appian:types:AS:QNM}AS_QNM_ResponseRequirement'(
+            requirementTypeCode: #"_a-0000e471-623a-8000-9bc3-011c48011c48_671102",
+            requirementValue: "Yes"
+          )
+        )
+      ),
+      questionCategoryId: 3,
+      questionTypeCode: "DOCUMENT"
+    ),
+    'type!{urn:com:appian:types:AS:QNM}AS_QNM_Question'(
+      questionId: 7,
+      label: "Paragraph Grandchild Question",
+      groupNumber: 1,
+      orderNumber: 4,
+      isDisplayedPrecedentSets: 'type!{urn:com:appian:types:AS:QNM}AS_QNM_QuestionPrecedentSet'(
+        operator: #"_a-0000e447-933d-8000-9baa-011c48011c48_28921",
+        questionPrecedents: 'type!{urn:com:appian:types:AS:QNM}AS_QNM_QuestionPrecedent'(
+          questionId_precedent: 5,
+          responseRequirement: 'type!{urn:com:appian:types:AS:QNM}AS_QNM_ResponseRequirement'(
+            requirementTypeCode: #"_a-0000e471-623a-8000-9bc3-011c48011c48_671102",
+            requirementValue: "Yes"
+          )
+        )
+      ),
+      questionCategoryId: 3,
+      questionTypeCode: "PARAGRAPH"
+    ),
+    'type!{urn:com:appian:types:AS:QNM}AS_QNM_Question'(
+      questionId: 8,
+      label: "Paragraph Question",
+      groupNumber: 1,
+      orderNumber: 1,
+      questionCategoryId: 4,
+      questionTypeCode: "PARAGRAPH"
+    ),
+    'type!{urn:com:appian:types:AS:QNM}AS_QNM_Question'(
+      questionId: 9,
+      label: "Paragraph Question",
+      groupNumber: 2,
+      orderNumber: 1,
+      questionCategoryId: 4,
+      questionTypeCode: "PARAGRAPH"
+    ),
+    'type!{urn:com:appian:types:AS:QNM}AS_QNM_Question'(
+      questionId: 10,
+      label: "Document Question",
+      groupNumber: 3,
+      orderNumber: 1,
+      questionCategoryId: 4,
+      questionTypeCode: "DOCUMENT"
+    ),
+    'type!{urn:com:appian:types:AS:QNM}AS_QNM_Question'(
+      questionId: 11,
+      label: "Paragraph Min Length 50",
+      groupNumber: 3,
+      orderNumber: 1,
+      responseRequirements: {
+        'type!{urn:com:appian:types:AS:QNM}AS_QNM_ResponseRequirement'(
+          requirementTypeCode: #"_a-0000e460-9d93-8000-9bc1-011c48011c48_598355",
+          requirementValue: "50"
+        )
+      },
+      questionCategoryId: 2,
+      questionTypeCode: "PARAGRAPH"
+    ),
+    'type!{urn:com:appian:types:AS:QNM}AS_QNM_Question'(
+      questionId: 12,
+      label: "Paragraph Max Length 50",
+      groupNumber: 2,
+      orderNumber: 1,
+      responseRequirements: {
+        'type!{urn:com:appian:types:AS:QNM}AS_QNM_ResponseRequirement'(
+          requirementTypeCode: #"_a-0000e460-9d93-8000-9bc1-011c48011c48_598349",
+          requirementValue: "50"
+        )
+      },
+      questionCategoryId: 2,
+      questionTypeCode: "PARAGRAPH"
+    ),
+    'type!{urn:com:appian:types:AS:QNM}AS_QNM_Question'(
+      questionId: 13,
+      label: "Text Dropdown",
+      groupNumber: 1,
+      orderNumber: 1,
+      questionCategoryId: 5,
+      questionTypeCode: "DROPDOWN_TEXT",
+      responseOptions: {
+        'type!{urn:com:appian:types:AS:QNM}AS_QNM_Response'(
+          label: "Option 1",
+          value: "OPTION_1"
+        ),
+        'type!{urn:com:appian:types:AS:QNM}AS_QNM_Response'(
+          label: "Option 2",
+          value: "OPTION_2"
+        ),
+        'type!{urn:com:appian:types:AS:QNM}AS_QNM_Response'(
+          label: "Option 3",
+          value: "OPTION_3"
+        )
+      }
+    ),
+    'type!{urn:com:appian:types:AS:QNM}AS_QNM_Question'(
+      questionId: 14,
+      label: "Text Dropdown Min Response 2",
+      groupNumber: 1,
+      orderNumber: 1,
+      questionCategoryId: 5,
+      questionTypeCode: "DROPDOWN_TEXT",
+      responseRequirements: {
+        'type!{urn:com:appian:types:AS:QNM}AS_QNM_ResponseRequirement'(
+          requirementTypeCode: #"_a-0000e460-9d93-8000-9bc1-011c48011c48_597977",
+          requirementValue: "2"
+        )
+      },
+      responseOptions: {
+        'type!{urn:com:appian:types:AS:QNM}AS_QNM_Response'(
+          label: "Option 1",
+          value: "OPTION_1"
+        ),
+        'type!{urn:com:appian:types:AS:QNM}AS_QNM_Response'(
+          label: "Option 2",
+          value: "OPTION_2"
+        ),
+        'type!{urn:com:appian:types:AS:QNM}AS_QNM_Response'(
+          label: "Option 3",
+          value: "OPTION_3"
+        )
+      }
+    ),
+    'type!{urn:com:appian:types:AS:QNM}AS_QNM_Question'(
+      questionId: 15,
+      label: "Text Dropdown Max Response 1",
+      groupNumber: 1,
+      orderNumber: 1,
+      questionCategoryId: 5,
+      questionTypeCode: "DROPDOWN_TEXT",
+      responseRequirements: {
+        'type!{urn:com:appian:types:AS:QNM}AS_QNM_ResponseRequirement'(
+          requirementTypeCode: #"_a-0000e460-9d93-8000-9bc1-011c48011c48_597312",
+          requirementValue: "1"
+        )
+      },
+      responseOptions: {
+        'type!{urn:com:appian:types:AS:QNM}AS_QNM_Response'(
+          label: "Option 1",
+          value: "OPTION_1"
+        ),
+        'type!{urn:com:appian:types:AS:QNM}AS_QNM_Response'(
+          label: "Option 2",
+          value: "OPTION_2"
+        ),
+        'type!{urn:com:appian:types:AS:QNM}AS_QNM_Response'(
+          label: "Option 3",
+          value: "OPTION_3"
+        )
+      }
+    )
+  },
+  questionnaireStatusCode: "QUESTIONNAIRE_STATUS_IN_PROGRESS",
+  createdBy: "appian.adminstrator",
+  createdDatetime: now(),
+  modifiedBy: "appian.adminstrator",
+  modifiedDatetime: now()
+)</definition>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name>returns type AS_QNM_Questionnaire</a:name>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e471-623a-8000-9bc3-011c48011c48_672234"/>
+        <historyInfo versionUuid="_a-0000e471-623a-8000-9bc3-011c48011c48_707077"/>
+        <historyInfo versionUuid="_a-0000e471-623a-8000-9bc3-011c48011c48_721943"/>
+        <historyInfo versionUuid="_a-0000e447-933d-8000-9baa-011c48011c48_109365"/>
+        <historyInfo versionUuid="_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_863940"/>
+        <historyInfo versionUuid="_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_931097"/>
+        <historyInfo versionUuid="_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_956759"/>
+        <historyInfo versionUuid="_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_957368"/>
+    </history>
+</contentHaul>

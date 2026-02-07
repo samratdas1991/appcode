@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e825-b425-8000-9c1c-011c48011c48_3632542</versionUuid>
+    <interface>
+        <name>AS_FS_SCT_customerDetails_lookupCustomer</name>
+        <uuid>_a-0000e673-a4a7-8000-9bef-011c48011c48_2053139</uuid>
+        <description>This section is for getting DNB results using customer name and domicile and also to enter company number</description>
+        <parentUuid>_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_968428</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>{
+  #"_a-0000e7e5-dad4-8000-9c14-011c48011c48_3312448"(
+    "AS_FS_SCT_customerDetails_lookupCustomer"
+  ),
+  #"SYSTEM_SYSRULES_sectionLayout_v1"(
+    contents: {
+      #"SYSTEM_SYSRULES_columnsLayout"(
+        columns: {
+          #"SYSTEM_SYSRULES_columnLayout"(
+            contents: {
+              #"SYSTEM_SYSRULES_columnsLayout"(
+                columns: {
+                  #"SYSTEM_SYSRULES_columnLayout"(
+                    contents: {
+                      #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73562"(
+                        label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                          i18nData: ri!i18nData,
+                          bundleKey: "AS.FS.AllBundles.lbl_Name"
+                        ),
+                        required: true,
+                        readOnly: false(),
+                        value: ri!customer.name,
+                        saveInto: {
+                          ri!customer.name,
+                          a!save(
+                            {
+                              ri!selectedRow,
+                              ri!selection,
+                              ri!dnbLookupResults
+                            },
+                            {}
+                          ),
+                          a!save(ri!isLookupButtonClicked, false())
+                        },
+                        labelPosition: "ABOVE",
+                        maxLength: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73500"
+                      )
+                    }
+                  ),
+                  #"SYSTEM_SYSRULES_columnLayout"(
+                    contents: {
+                      #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73562"(
+                        label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                          i18nData: ri!i18nData,
+                          bundleKey: "AS.FS.AllBundles.lbl_CustomerNumber"
+                        ),
+                        helpTooltip: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                          i18nData: ri!i18nData,
+                          bundleKey: "AS.FS.AllBundles.hlp_CustomerNumber"
+                        ),
+                        labelPosition: "ABOVE",
+                        readOnly: false(),
+                        value: ri!customer.customerNumber,
+                        saveInto: ri!customer.customerNumber,
+                        validations: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_74104"(
+                          value: ri!customer.customerNumber,
+                          minLength: #"_a-0000e5a0-53e9-8000-9bd8-011c48011c48_1407440",
+                          maxLength: #"_a-0000e5a0-53e9-8000-9bd8-011c48011c48_1407440"
+                        )
+                      ),
+                      #"_a-0000e673-a4a7-8000-9bef-011c48011c48_2053217"(
+                        i18nData: ri!i18nData,
+                        showWhen: ri!chsEnabled
+                      )
+                    }
+                  )
+                }
+              )
+            }
+          ),
+          #"SYSTEM_SYSRULES_columnLayout"(
+            contents: {
+              #"SYSTEM_SYSRULES_sideBySideLayout"(
+                alignVertical: "BOTTOM",
+                items: {
+                  #"SYSTEM_SYSRULES_sideBySideItem"(
+                    item: #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_982262"(
+                      additionalSaveInto: {
+                        a!save(
+                          {
+                            ri!selectedRow,
+                            ri!selection,
+                            ri!dnbLookupResults
+                          },
+                          {}
+                        ),
+                        a!save(ri!isLookupButtonClicked, false())
+                      },
+                      alternateLabel: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                        i18nData: ri!i18nData,
+                        bundleKey: "AS.FS.AllBundles.lbl_Domicile"
+                      ),
+                      labelPosition: "ABOVE",
+                      readOnly: false(),
+                      selectedCountry: ri!customer.domicile,
+                      i18nData: ri!i18nData,
+                      required: true,
+                      countries: ri!countries
+                    )
+                  ),
+                  #"SYSTEM_SYSRULES_sideBySideItem"(
+                    item: #"_a-0000e673-a4a7-8000-9bef-011c48011c48_2053298"(
+                      showWhen: ri!dnbEnabled = true(),
+                      i18nData: ri!i18nData,
+                      results: ri!dnbLookupResults,
+                      name: ri!customer.name,
+                      countryCode: ri!customer.domicile.countryCode,
+                      isLookupButtonClicked: ri!isLookupButtonClicked
+                    )
+                  )
+                }
+              )
+            }
+          )
+        }
+      ),
+      #"_a-0000e673-a4a7-8000-9bef-011c48011c48_2053723"(
+        results: ri!dnbLookupResults,
+        showWhen: and(
+          ri!dnbEnabled = true(),
+          #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(ri!dnbLookupResults)
+        ),
+        isLookupButtonClicked: ri!isLookupButtonClicked,
+        i18nData: ri!i18nData
+      ),
+      #"_a-0000e673-a4a7-8000-9bef-011c48011c48_2053894"(
+        showWhen: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(ri!dnbLookupResults),
+        i18nData: ri!i18nData,
+        customer: ri!customer,
+        selection: ri!selection,
+        selectedRow: ri!selectedRow,
+        results: ri!dnbLookupResults
+      )
+    }
+  )
+}</definition>
+        <namedTypedValue>
+            <name>i18nData</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>customer</name>
+            <type>
+                <name>AS_FS_Customer</name>
+                <namespace>urn:com:appian:types:AS:FS</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>countries</name>
+            <type>
+                <name>AS_FS_R_Country?list</name>
+                <namespace>urn:com:appian:types:AS:FS</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>isLookupButtonClicked</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>dnbEnabled</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>dnbLookupResults</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>selection</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>selectedRow</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>chsEnabled</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+        <isCustom>false</isCustom>
+    </interface>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name/>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression"> #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_975720"(
+   triggerRefresh: null
+ )</a:value>
+                    <a:nameRef>i18nData</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:n1="urn:com:appian:types:AS:FS" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="n1:AS_FS_Customer"/>
+                    <a:nameRef>customer</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_976936"(
+  i18nData: #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_975720"(null),
+  returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290163"
+)</a:value>
+                    <a:nameRef>countries</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:boolean"/>
+                    <a:nameRef>isLookupButtonClicked</a:nameRef>
+                    <a:id>4</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:boolean">true</a:value>
+                    <a:nameRef>dnbEnabled</a:nameRef>
+                    <a:id>5</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:string"/>
+                    <a:nameRef>dnbLookupResults</a:nameRef>
+                    <a:id>6</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:int"/>
+                    <a:nameRef>selection</a:nameRef>
+                    <a:id>7</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:string"/>
+                    <a:nameRef>selectedRow</a:nameRef>
+                    <a:id>8</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:boolean"/>
+                    <a:nameRef>chsEnabled</a:nameRef>
+                    <a:id>9</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e673-a4a7-8000-9bef-011c48011c48_2057501"/>
+        <historyInfo versionUuid="_a-0000e673-a4a7-8000-9bef-011c48011c48_2064990"/>
+        <historyInfo versionUuid="_a-0000e673-a4a7-8000-9bef-011c48011c48_2065880"/>
+        <historyInfo versionUuid="_a-0000e673-a4a7-8000-9bef-011c48011c48_2067671"/>
+        <historyInfo versionUuid="_a-0000e69f-3688-8000-9bf2-011c48011c48_2078243"/>
+        <historyInfo versionUuid="_a-0000e69f-3688-8000-9bf2-011c48011c48_2097844"/>
+        <historyInfo versionUuid="_a-0000e69f-3688-8000-9bf2-011c48011c48_2131550"/>
+        <historyInfo versionUuid="_a-0000e69f-3688-8000-9bf2-011c48011c48_2155711"/>
+        <historyInfo versionUuid="_a-0000e69f-3688-8000-9bf2-011c48011c48_2175996"/>
+        <historyInfo versionUuid="_a-0000e6c5-6536-8000-9bf8-011c48011c48_2207225"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2708483"/>
+        <historyInfo versionUuid="_a-0000e825-b425-8000-9c1c-011c48011c48_3632542"/>
+    </history>
+</contentHaul>

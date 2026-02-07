@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e79b-0335-8000-9c0c-011c48011c48_3024002</versionUuid>
+    <interface>
+        <name>AS_IO_CPS_runtimeTaskGridAndToolbar</name>
+        <uuid>_a-0000e3e6-fb42-8000-9ba5-011c48011c48_217501</uuid>
+        <description>Contains the grid for the onboarding tasks with the upper toolbar</description>
+        <parentUuid>_a-0000e2bb-4188-8000-9ba2-011c48011c48_25469</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  local!selectedTasks: a!refreshVariable(
+    value: #"_a-0000e3d1-f4dc-8000-9ba4-011c48011c48_143475"(
+      type: 'type!{urn:com:appian:types:AS:IO}AS_IO_Task?list'
+    ),
+    refreshOnVarChange: ri!triggerRefresh,
+    refreshAfter: "RECORD_ACTION"
+  ),
+  local!assigneeTypeFilter: #"_a-0000e3e6-fb42-8000-9ba5-011c48011c48_217576",
+  local!behaviorSubTypeFilter,
+  local!assigneeFilter,
+  local!recordIdFilter,
+  local!searchText,
+  {
+    #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_86354"(
+      i18nData: ri!i18nData,
+      selectedTasks: local!selectedTasks,
+      triggerRefresh: ri!triggerRefresh,
+      behaviorSubTypeFilter: local!behaviorSubTypeFilter,
+      assigneeFilter: local!assigneeFilter,
+      recordIdFilter: local!recordIdFilter,
+      recordType: ri!recordType,
+      searchText: local!searchText,
+      showFilters: true(),
+      showSendTaskAction: false(),
+      showReopenTaskAction: false()
+    ),
+    #"_a-0000e3e6-fb42-8000-9ba5-011c48011c48_192676"(
+      i18nData: ri!i18nData,
+      triggerRefresh: ri!triggerRefresh,
+      selectedTasks: local!selectedTasks,
+      recordIdFilter: local!recordIdFilter,
+      pageSize: ri!pageSize,
+      disableLinks: ri!disableLinks,
+      assigneeTypeFilter: local!assigneeTypeFilter,
+      applyGroupFilter: ri!applyGroupFilter,
+      assigneeFilter: local!assigneeFilter,
+      searchText: local!searchText,
+      behaviorSubTypeFilter: local!behaviorSubTypeFilter
+    )
+  }
+)</definition>
+        <namedTypedValue>
+            <name>i18nData</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>triggerRefresh</name>
+            <type>
+                <name>dateTime</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>pageSize</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>disableLinks</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>applyGroupFilter</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>recordType</name>
+            <type>
+                <name>RecordType2</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+        <isCustom>false</isCustom>
+    </interface>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name/>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81834"(
+  triggerRefresh: null
+)</a:value>
+                    <a:nameRef>i18nData</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:dateTime"/>
+                    <a:nameRef>triggerRefresh</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:int"/>
+                    <a:nameRef>pageSize</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:boolean">false</a:value>
+                    <a:nameRef>disableLinks</a:nameRef>
+                    <a:id>4</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:boolean"/>
+                    <a:nameRef>applyGroupFilter</a:nameRef>
+                    <a:id>6</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="a:RecordType2"/>
+                    <a:nameRef>recordType</a:nameRef>
+                    <a:id>10</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e3e6-fb42-8000-9ba5-011c48011c48_221219"/>
+        <historyInfo versionUuid="_a-0000e3e6-fb42-8000-9ba5-011c48011c48_229581"/>
+        <historyInfo versionUuid="_a-0000e3e6-fb42-8000-9ba5-011c48011c48_242561"/>
+        <historyInfo versionUuid="_a-0000e3ff-a5bc-8000-9ba8-011c48011c48_40098"/>
+        <historyInfo versionUuid="_a-0000e430-f270-8000-9bbc-011c48011c48_365251"/>
+        <historyInfo versionUuid="_a-0000e447-91f4-8000-9bc0-011c48011c48_573392"/>
+        <historyInfo versionUuid="_a-0000e471-623a-8000-9bc3-011c48011c48_660207"/>
+        <historyInfo versionUuid="_a-0000e471-623a-8000-9bc3-011c48011c48_679517"/>
+        <historyInfo versionUuid="_a-0000e471-623a-8000-9bc3-011c48011c48_705247"/>
+        <historyInfo versionUuid="_a-0000e471-623a-8000-9bc3-011c48011c48_741958"/>
+        <historyInfo versionUuid="_a-0000e471-623a-8000-9bc3-011c48011c48_763718"/>
+        <historyInfo versionUuid="_a-0000e4ae-1ed6-8000-9bc5-011c48011c48_798361"/>
+        <historyInfo versionUuid="_a-0000e539-6d59-8000-9bd0-011c48011c48_1210064"/>
+        <historyInfo versionUuid="_a-0000e62c-7375-8000-9bec-011c48011c48_1845321"/>
+        <historyInfo versionUuid="_a-0000e79b-0335-8000-9c0c-011c48011c48_3015996"/>
+        <historyInfo versionUuid="_a-0000e79b-0335-8000-9c0c-011c48011c48_3021042"/>
+        <historyInfo versionUuid="_a-0000e79b-0335-8000-9c0c-011c48011c48_3024002"/>
+    </history>
+</contentHaul>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema targetNamespace="urn:com:appian:types:AS:ADT"
+  xmlns:tns="urn:com:appian:types:AS:ADT" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <xsd:include schemaLocation="%7Burn%3Acom%3Aappian%3Atypes%3AAS%3AADT%7DAS_ADT_SAMPLE_ReferenceChildSingle.xsd"/>
+  <xsd:complexType name="AS_ADT_SAMPLE_ComplexChildSingle">
+    <xsd:annotation>
+      <xsd:appinfo source="http://www.appian.com/ae/types/2009">
+        <ns2:Metadata xmlns:ns2="http://www.appian.com/ae/types/2009">
+          <ns2:versionUuid>0000e530-75a6-8000-0077-7f0000014e7a</ns2:versionUuid>
+          <ns2:history>
+            <ns2:historyInfo versionUuid="0000e3f1-1f4f-8000-f9f2-7f0000014e7a-adt"/>
+            <ns2:historyInfo versionUuid="0000e52c-9579-8000-0052-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0000e530-75a6-8000-0077-7f0000014e7a"/>
+          </ns2:history>
+        </ns2:Metadata>
+      </xsd:appinfo>
+      <xsd:documentation><![CDATA[Complex Child Single CDT which we audit against for test cases for auditing rules]]></xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="childId" nillable="true" type="xsd:int">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@Id</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="text" nillable="true" type="xsd:string"/>
+      <xsd:element name="date" nillable="true" type="xsd:date"/>
+      <xsd:element name="referenceChild" nillable="true" type="tns:AS_ADT_SAMPLE_ReferenceChildSingle">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@ManyToOne(cascade=CascadeType.REFRESH)</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="isActive" nillable="true" type="xsd:boolean"/>
+      <xsd:element name="createdBy" nillable="true" type="xsd:string"/>
+      <xsd:element name="createdDatetime" nillable="true" type="xsd:dateTime"/>
+      <xsd:element name="modifiedBy" nillable="true" type="xsd:string"/>
+      <xsd:element name="modifiedDatetime" nillable="true" type="xsd:dateTime"/>
+    </xsd:sequence>
+  </xsd:complexType>
+</xsd:schema>

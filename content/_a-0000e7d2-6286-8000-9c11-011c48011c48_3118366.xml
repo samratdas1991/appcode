@@ -1,0 +1,761 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e7d2-6286-8000-9c11-011c48011c48_3168886</versionUuid>
+    <interface>
+        <name>AS_IO_CPS_multipleUploadedDocumentEdit</name>
+        <uuid>_a-0000e7d2-6286-8000-9c11-011c48011c48_3118366</uuid>
+        <description>This interface is for edit document details</description>
+        <parentUuid>_a-0000e2bb-4188-8000-9ba2-011c48011c48_25469</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  local!allDocumentRefTypes: #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_975294"(
+    typeList: #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_975334",
+    i18nData: ri!i18nData
+  ),
+  local!isRequiredDocument: if(
+    #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(ri!requiredDocuments),
+    #"_a-0000e7d2-6286-8000-9c11-011c48011c48_3118420"(
+      documentType: ri!onboardingDocument[ri!index].customerDocument.docTypeCode,
+      requiredDocuments: ri!requiredDocuments,
+      onboardingRequestId: ri!onboardingDocument[ri!index].onboardingId
+    ),
+    false
+  ),
+  local!currentRequiredDoc: a!refreshVariable(
+    value: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+      cdt: ri!requiredDocuments,
+      field: "requiredOnboardingDocumentId",
+      value: ri!requiredDocIndexInvDocs[ri!index]
+    ),
+    refreshOnVarChange: ri!requiredDocIndexInvDocs
+  ),
+  local!selectedReqDoc: local!currentRequiredDoc.requiredOnboardingDocumentId,
+  local!filteredReqdDocs: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+    cdt: #"_a-0000e70f-2824-8000-9c01-011c48011c48_2594908"(
+      cdt: ri!requiredDocuments,
+      fields: {
+        "onboardingDocument",
+        "onboardingDocument.documentStatusCode"
+      },
+      values: {
+        null,
+        #"_a-0000e36c-7599-8000-9ba2-011c48011c48_48067"
+      }
+    ),
+    field: "docTypeCode",
+    value: ri!onboardingDocument[ri!index].customerDocument.docTypeCode
+  ),
+  local!requiredocsOfSameType: a!refreshVariable(
+    value: if(
+      local!isRequiredDocument,
+      if(
+        #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(local!currentRequiredDoc),
+        local!filteredReqdDocs,
+        append(
+          local!filteredReqdDocs,
+          local!currentRequiredDoc
+        )
+      ),
+      {}
+    ),
+    refreshOnReferencedVarChange: false
+  ),
+  local!selectedUploadField: if(
+    #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(
+      ri!onboardingDocument[ri!index].customerDocument.docTypeCode
+    ),
+    null,
+    if(
+      and(
+        or(
+          ri!onboardingDocument[ri!index].documentStatusCode = #"_a-0000e70f-2824-8000-9c01-011c48011c48_2790167",
+          #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(local!requiredocsOfSameType)
+        ),
+        #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(local!currentRequiredDoc)
+      ),
+      #"_a-0000e77e-5277-8000-9c09-011c48011c48_2902679",
+      #"_a-0000e77e-5277-8000-9c09-011c48011c48_2902672"
+    )
+  ),
+  local!documentTypesToShow: a!refreshVariable(
+    value: if(
+      or(
+        local!selectedUploadField = #"_a-0000e77e-5277-8000-9c09-011c48011c48_2902679",
+        #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(
+          ri!onboardingDocument[ri!index].customerDocument.docTypeCode
+        )
+      ),
+      local!allDocumentRefTypes,
+      and(
+        local!selectedUploadField = #"_a-0000e77e-5277-8000-9c09-011c48011c48_2902672",
+        #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(local!requiredocsOfSameType),
+        #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(
+          ri!onboardingDocument[ri!index].customerDocument.customerDocumentId
+        )
+      ),
+      #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+        cdt: local!allDocumentRefTypes,
+        field: "code",
+        value: ri!onboardingDocument[ri!index].customerDocument.docTypeCode
+      ),
+      #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+        cdt: local!allDocumentRefTypes,
+        field: "code",
+        value: append(
+          #"_a-0000e70f-2824-8000-9c01-011c48011c48_2594908"(
+            cdt: ri!requiredDocuments,
+            fields: {
+              "onboardingDocument",
+              "onboardingDocument.documentStatusCode"
+            },
+            values: {
+              null,
+              #"_a-0000e36c-7599-8000-9ba2-011c48011c48_48067"
+            }
+          ).docTypeCode,
+          local!currentRequiredDoc.docTypeCode
+        ),
+        
+      )
+    ),
+    refreshOnReferencedVarChange: false
+  ),
+  local!selectedDocTypeCode: ri!onboardingDocument[ri!index].customerDocument.docTypeCode,
+  #"SYSTEM_SYSRULES_cardLayout"(
+    contents: {
+      #"SYSTEM_SYSRULES_columnsLayout"(
+        columns: {
+          #"SYSTEM_SYSRULES_columnLayout"(
+            contents: {
+              /*Document Type*/
+              #"_a-0000e393-fbf1-8000-9ba2-011c48011c48_81756"(
+                i18nData: ri!i18nData,
+                refData: local!documentTypesToShow,
+                selectedTypeCode: ri!onboardingDocument[ri!index].customerDocument.docTypeCode,
+                additionalSaveInto: {
+                  local!selectedDocTypeCode,
+                  #"_a-0000e3c8-6861-8000-9ba2-011c48011c48_124304"(valueToNull: local!selectedReqDoc),
+                  a!save(
+                    ri!requiredDocIndexInvDocs[ri!index],
+                    null
+                  ),
+                  a!localVariables(
+                    local!index: wherecontains(
+                      ri!onboardingDocument[ri!index].customerDocument.appianDocId,
+                      ri!requiredDocuments.onboardingDocument.customerDocument.appianDocId
+                    ),
+                    a!save(
+                      ri!requiredDocuments,
+                      if(
+                        #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(local!index),
+                        ri!requiredDocuments,
+                        #"_a-0000e40a-de32-8000-9ba8-011c48011c48_260165"(
+                          cdt: ri!requiredDocuments,
+                          fields: "onboardingDocument",
+                          newValues: null,
+                          indices: local!index
+                        )
+                      )
+                    )
+                  ),
+                  a!save(
+                    ri!onboardingDocument[ri!index].customerDocument.docTypeCode,
+                    local!selectedDocTypeCode
+                  ),
+                  a!save(
+                    local!isRequiredDocument,
+                    if(
+                      #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(ri!requiredDocuments),
+                      false,
+                      #"_a-0000e7d2-6286-8000-9c11-011c48011c48_3118420"(
+                        documentType: ri!onboardingDocument[ri!index].customerDocument.docTypeCode,
+                        requiredDocuments: ri!requiredDocuments,
+                        onboardingRequestId: ri!onboardingDocument[ri!index].onboardingId
+                      )
+                    )
+                  ),
+                  a!save(
+                    local!requiredocsOfSameType,
+                    #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81482"(
+                      cdt: #"_a-0000e70f-2824-8000-9c01-011c48011c48_2594908"(
+                        cdt: ri!requiredDocuments,
+                        fields: {
+                          "onboardingDocument",
+                          "onboardingDocument.documentStatusCode"
+                        },
+                        values: {
+                          null,
+                          #"_a-0000e36c-7599-8000-9ba2-011c48011c48_48067"
+                        }
+                      ),
+                      fields: "docTypeCode",
+                      values: local!selectedDocTypeCode
+                    )
+                  ),
+                  a!save(
+                    local!selectedUploadField,
+                    if(
+                      #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(local!requiredocsOfSameType),
+                      #"_a-0000e77e-5277-8000-9c09-011c48011c48_2902679",
+                      #"_a-0000e77e-5277-8000-9c09-011c48011c48_2902672"
+                    )
+                  ),
+                  if(
+                    local!selectedUploadField = #"_a-0000e77e-5277-8000-9c09-011c48011c48_2902672",
+                    a!save(
+                      ri!onboardingDocument[ri!index].documentStatusCode,
+                      #"_a-0000e70f-2824-8000-9c01-011c48011c48_2774613"
+                    ),
+                    a!save(
+                      ri!onboardingDocument[ri!index].documentStatusCode,
+                      #"_a-0000e70f-2824-8000-9c01-011c48011c48_2790167"
+                    )
+                  )
+                },
+                required: true(),
+                instructions: if(
+                  and(
+                    local!isRequiredDocument,
+                    local!selectedUploadField = #"_a-0000e77e-5277-8000-9c09-011c48011c48_2902672",
+                    #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(
+                      ri!onboardingDocument[ri!index].customerDocument.docTypeCode
+                    )
+                  ),
+                  if(
+                    #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(local!requiredocsOfSameType),
+                    #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                      i18nData: ri!i18nData,
+                      bundleKey: "AS.CO.AllBundles.ins_NoDocumentRequirement"
+                    ),
+                    #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                      i18nData: ri!i18nData,
+                      bundleKey: "AS.CO.AllBundles.ins_RequiredDocument"
+                    )
+                  ),
+                  {}
+                ),
+                readOnly: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(
+                  ri!onboardingDocument[ri!index].customerDocument.customerDocumentId
+                ),
+                labelPosition: "ABOVE"
+              ),
+              /*Required or Supporting*/
+              #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_74506"(
+                label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                  i18nData: ri!i18nData,
+                  bundleKey: "AS.CO.AllBundles.txt_RequiredOrSupporting"
+                ),
+                choiceLabels: {
+                  #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                    i18nData: ri!i18nData,
+                    bundleKey: "AS.CO.AllBundles.lbl_Required"
+                  ),
+                  #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                    i18nData: ri!i18nData,
+                    bundleKey: "AS.CO.AllBundles.lbl_Supporting"
+                  )
+                },
+                choiceValues: {
+                  #"_a-0000e77e-5277-8000-9c09-011c48011c48_2902672",
+                  #"_a-0000e77e-5277-8000-9c09-011c48011c48_2902679"
+                },
+                value: local!selectedUploadField,
+                saveInto: {
+                  local!selectedUploadField,
+                  /*Saving status for supporting document alone as we can filter out unmapped invsDoc*/
+                  if(
+                    local!selectedUploadField = #"_a-0000e77e-5277-8000-9c09-011c48011c48_2902679",
+                    {
+                      a!save(
+                        ri!onboardingDocument[ri!index].documentStatusCode,
+                        #"_a-0000e70f-2824-8000-9c01-011c48011c48_2790167"
+                      ),
+                      #"_a-0000e3c8-6861-8000-9ba2-011c48011c48_124304"(valueToNull: local!selectedReqDoc),
+                      a!save(
+                        ri!requiredDocIndexInvDocs[ri!index],
+                        null
+                      ),
+                      a!save(
+                        local!documentTypesToShow,
+                        local!allDocumentRefTypes
+                      ),
+                      a!localVariables(
+                        local!index: wherecontains(
+                          ri!onboardingDocument[ri!index].customerDocument.appianDocId,
+                          ri!requiredDocuments.onboardingDocument.customerDocument.appianDocId
+                        ),
+                        a!save(
+                          ri!requiredDocuments,
+                          if(
+                            #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(local!index),
+                            ri!requiredDocuments,
+                            #"_a-0000e40a-de32-8000-9ba8-011c48011c48_260165"(
+                              cdt: ri!requiredDocuments,
+                              fields: "onboardingDocument",
+                              newValues: null,
+                              indices: local!index
+                            )
+                          )
+                        )
+                      )
+                    },
+                    {
+                      a!save(
+                        ri!onboardingDocument[ri!index].documentStatusCode,
+                        #"_a-0000e70f-2824-8000-9c01-011c48011c48_2774613"
+                      ),
+                      a!save(
+                        local!documentTypesToShow,
+                        #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+                          cdt: local!allDocumentRefTypes,
+                          field: "code",
+                          value: #"_a-0000e70f-2824-8000-9c01-011c48011c48_2594908"(
+                            cdt: ri!requiredDocuments,
+                            fields: {
+                              "onboardingDocument",
+                              "onboardingDocument.documentStatusCode"
+                            },
+                            values: {
+                              null,
+                              #"_a-0000e36c-7599-8000-9ba2-011c48011c48_48067"
+                            }
+                          ).docTypeCode
+                        )
+                      )
+                    }
+                  ),
+                  if(
+                    #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(
+                      ri!onboardingDocument[ri!index].customerDocument.customerDocumentId
+                    ),
+                    {
+                      a!save(
+                        local!isRequiredDocument,
+                        if(
+                          #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(ri!requiredDocuments),
+                          false,
+                          #"_a-0000e7d2-6286-8000-9c11-011c48011c48_3118420"(
+                            documentType: ri!onboardingDocument[ri!index].customerDocument.docTypeCode,
+                            requiredDocuments: ri!requiredDocuments,
+                            onboardingRequestId: ri!onboardingDocument[ri!index].onboardingId
+                          )
+                        )
+                      ),
+                      a!save(
+                        local!requiredocsOfSameType,
+                        #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+                          cdt: #"_a-0000e70f-2824-8000-9c01-011c48011c48_2594908"(
+                            cdt: ri!requiredDocuments,
+                            fields: {
+                              "onboardingDocument",
+                              "onboardingDocument.documentStatusCode"
+                            },
+                            values: {
+                              null,
+                              #"_a-0000e36c-7599-8000-9ba2-011c48011c48_48067"
+                            }
+                          ),
+                          field: "docTypeCode",
+                          value: ri!onboardingDocument[ri!index].customerDocument.docTypeCode
+                        )
+                      )
+                    },
+                    {}
+                  )
+                },
+                labelPosition: "ABOVE",
+                choiceLayout: "COMPACT",
+                choiceStyle: "CARDS",
+                required: true(),
+                disabled: or(
+                  #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(
+                    ri!onboardingDocument[ri!index].customerDocument.docTypeCode
+                  ),
+                  #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(local!requiredocsOfSameType)
+                ),
+                instructions: if(
+                  and(
+                    #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(local!requiredocsOfSameType),
+                    #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(
+                      ri!onboardingDocument[ri!index].customerDocument.docTypeCode
+                    )
+                  ),
+                  #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                    i18nData: ri!i18nData,
+                    bundleKey: "AS.CO.AllBundles.vld_NoRequirementOfType",
+                    arguments: #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_977034"(
+                      code: ri!onboardingDocument[ri!index].customerDocument.docTypeCode,
+                      refData: local!allDocumentRefTypes
+                    )
+                  ),
+                  {}
+                )
+              ),
+              /*Document requirement*/
+              a!localVariables(
+                local!removeMappedReqTypes: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75330"(
+                  cdt: append(
+                    #"_a-0000e40a-de32-8000-9ba8-011c48011c48_271202"(
+                      cdt: local!requiredocsOfSameType,
+                      field: "onboardingDocument.documentStatusCode",
+                      value: #"_a-0000e70f-2824-8000-9c01-011c48011c48_2774613"
+                    ),
+                    local!currentRequiredDoc
+                  ),
+                  field: "requiredOnboardingDocumentId"
+                ),
+                #"_a-0000e528-bc07-8000-9bcf-011c48011c48_1027802"(
+                  showWhen: and(
+                    local!isRequiredDocument,
+                    #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(local!requiredocsOfSameType),
+                    local!selectedUploadField = #"_a-0000e77e-5277-8000-9c09-011c48011c48_2902672"
+                  ),
+                  label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                    i18nData: ri!i18nData,
+                    bundleKey: "AS.CO.AllBundles.lbl_DocumentRequirementName"
+                  ),
+                  required: true(),
+                  choiceLabels: index(
+                    local!removeMappedReqTypes,
+                    "requirementName",
+                    {}
+                  ),
+                  choiceValues: local!removeMappedReqTypes.requiredOnboardingDocumentId,
+                  value: local!selectedReqDoc,
+                  saveInto: {
+                    local!selectedReqDoc,
+                    a!save(
+                      ri!requiredDocuments,
+                      #"_a-0000e40a-de32-8000-9ba8-011c48011c48_260165"(
+                        cdt: ri!requiredDocuments,
+                        fields: "onboardingDocument",
+                        newValues: if(
+                          #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(local!selectedReqDoc),
+                          null,
+                          ri!onboardingDocument[ri!index]
+                        ),
+                        indices: wherecontains(
+                          tointeger(local!selectedReqDoc),
+                          ri!requiredDocuments.requiredOnboardingDocumentId
+                        )
+                      )
+                    ),
+                    a!save(
+                      ri!requiredDocIndexInvDocs[ri!index],
+                      local!selectedReqDoc
+                    ),
+                    a!save(
+                      local!currentRequiredDoc,
+                      #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+                        cdt: ri!requiredDocuments,
+                        field: "requiredOnboardingDocumentId",
+                        value: ri!requiredDocIndexInvDocs[ri!index]
+                      )
+                    ),
+                    a!save(
+                      local!removeMappedReqTypes,
+                      #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75330"(
+                        cdt: append(
+                          #"_a-0000e40a-de32-8000-9ba8-011c48011c48_271202"(
+                            cdt: local!requiredocsOfSameType,
+                            field: "onboardingDocument.documentStatusCode",
+                            value: #"_a-0000e70f-2824-8000-9c01-011c48011c48_2774613"
+                          ),
+                          local!currentRequiredDoc
+                        ),
+                        field: "requiredOnboardingDocumentId"
+                      )
+                    )
+                  },
+                  placeholderLabel: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                    i18nData: ri!i18nData,
+                    bundleKey: "AS.CO.AllBundles.lbl_DocumentName"
+                  )
+                )
+              )
+            }
+          ),
+          #"SYSTEM_SYSRULES_columnLayout"(contents: {})
+        }
+      ),
+      #"SYSTEM_SYSRULES_columnsLayout"(
+        columns: {
+          #"SYSTEM_SYSRULES_columnLayout"(
+            contents: {
+              #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_74175"(
+                labelPosition: "ABOVE",
+                label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                  i18nData: ri!i18nData,
+                  bundleKey: "AS.CO.AllBundles.lbl_ExpirationDate"
+                ),
+                value: ri!onboardingDocument[ri!index].customerDocument.expirationDate,
+                saveInto: {
+                  ri!onboardingDocument[ri!index].customerDocument.expirationDate,
+                  if(
+                    #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(local!selectedReqDoc),
+                    {},
+                    a!save(
+                      ri!requiredDocuments,
+                      #"_a-0000e40a-de32-8000-9ba8-011c48011c48_260165"(
+                        cdt: ri!requiredDocuments,
+                        fields: "onboardingDocument",
+                        newValues: if(
+                          #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(local!selectedReqDoc),
+                          null,
+                          ri!onboardingDocument[ri!index]
+                        ),
+                        indices: wherecontains(
+                          tointeger(local!selectedReqDoc),
+                          ri!requiredDocuments.requiredOnboardingDocumentId
+                        )
+                      )
+                    )
+                  )
+                },
+                align: "LEFT",
+                readOnly: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(
+                  ri!onboardingDocument[ri!index].customerDocument.customerDocumentId
+                )
+              ),
+              #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_74400"(
+                labelPosition: "ABOVE",
+                height: "SHORT",
+                value: ri!onboardingDocument[ri!index].customerDocument.documentDesc,
+                label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                  i18nData: ri!i18nData,
+                  bundleKey: "AS.CO.AllBundles.lbl_Description"
+                ),
+                saveInto: {
+                  ri!onboardingDocument[ri!index].customerDocument.documentDesc,
+                  if(
+                    #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(local!selectedReqDoc),
+                    {},
+                    a!save(
+                      ri!requiredDocuments,
+                      #"_a-0000e40a-de32-8000-9ba8-011c48011c48_260165"(
+                        cdt: ri!requiredDocuments,
+                        fields: "onboardingDocument",
+                        newValues: if(
+                          #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(local!selectedReqDoc),
+                          null,
+                          ri!onboardingDocument[ri!index]
+                        ),
+                        indices: wherecontains(
+                          tointeger(local!selectedReqDoc),
+                          ri!requiredDocuments.requiredOnboardingDocumentId
+                        )
+                      )
+                    )
+                  )
+                },
+                validations: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_74104"(
+                  value: ri!onboardingDocument[ri!index].customerDocument.documentDesc,
+                  maxLength: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73500"
+                ),
+                readOnly: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(
+                  ri!onboardingDocument[ri!index].customerDocument.customerDocumentId
+                )
+              ),
+              #"_a-0000e62c-7375-8000-9bec-011c48011c48_1726044"(
+                labelPosition: "ABOVE",
+                label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                  i18nData: ri!i18nData,
+                  bundleKey: "AS.FS.AllBundles.lbl_Security"
+                ),
+                choiceLayout: "COMPACT",
+                align: "LEFT",
+                i18nData: ri!i18nData,
+                required: false(),
+                isInternalValue: ri!onboardingDocument[ri!index].customerDocument.isInternal,
+                readOnlyValue: if(
+                  or(
+                    #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(
+                      ri!onboardingDocument[ri!index].customerDocument.customerDocumentId
+                    ),
+                    ri!onboardingDocument[ri!index].customerDocument.isUploadedByCustomer
+                  ),
+                  #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                    i18nData: ri!i18nData,
+                    bundleKey: if(
+                      ri!onboardingDocument[ri!index].customerDocument.isInternal,
+                      "AS.FS.AllBundles.txt_InternalUseOnly",
+                      "AS.FS.AllBundles.txt_None"
+                    )
+                  ),
+                  {}
+                ),
+                additionalSave: if(
+                  #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(local!selectedReqDoc),
+                  {},
+                  a!save(
+                    ri!requiredDocuments,
+                    #"_a-0000e40a-de32-8000-9ba8-011c48011c48_260165"(
+                      cdt: ri!requiredDocuments,
+                      fields: "onboardingDocument",
+                      newValues: if(
+                        #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(local!selectedReqDoc),
+                        null,
+                        ri!onboardingDocument[ri!index]
+                      ),
+                      indices: wherecontains(
+                        tointeger(local!selectedReqDoc),
+                        ri!requiredDocuments.requiredOnboardingDocumentId
+                      )
+                    )
+                  )
+                )
+              )
+            }
+          ),
+          #"SYSTEM_SYSRULES_columnLayout"(contents: {})
+        }
+      )
+    },
+    showWhen: ri!isExpanded,
+    padding: "STANDARD",
+    marginBelow: "NONE",
+    showBorder: false
+  )
+)</definition>
+        <namedTypedValue>
+            <name>i18nData</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>onboardingDocument</name>
+            <type>
+                <name>AS_IO_OnboardingDocument?list</name>
+                <namespace>urn:com:appian:types:AS:IO</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>isExpanded</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>index</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>requiredDocuments</name>
+            <type>
+                <name>AS_IO_RequiredOnboardingDocument?list</name>
+                <namespace>urn:com:appian:types:AS:IO</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>requiredDocIndexInvDocs</name>
+            <type>
+                <name>Integer?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+        <isCustom>false</isCustom>
+    </interface>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name/>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81834"(
+  triggerRefresh: null
+)</a:value>
+                    <a:nameRef>i18nData</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">'type!{urn:com:appian:types:AS:IO}AS_IO_RequiredOnboardingDocument'(
+  'requestId': 1,
+  'requirementName': "Agreement: Custody 1",
+  'docTypeCode': "DOCUMENT_TYPE_AGREEMENT_CUSTODY",
+  'isDeleted': false
+)</a:value>
+                    <a:nameRef>onboardingDocument</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:boolean"/>
+                    <a:nameRef>isExpanded</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:int">1</a:value>
+                    <a:nameRef>index</a:nameRef>
+                    <a:id>4</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression"> #"_a-0000e40a-de32-8000-9ba8-011c48011c48_271202"(
+   cdt: #"_a-0000e79b-0335-8000-9c0c-011c48011c48_3029015"(
+     castToCdtType: true,
+     returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290157" 
+   ),
+   field: "onboardingDocument.documentStatusCode",
+   value: #"_a-0000e36c-7599-8000-9ba2-011c48011c48_48067"
+ )</a:value>
+                    <a:nameRef>requiredDocuments</a:nameRef>
+                    <a:id>5</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">{null}</a:value>
+                    <a:nameRef>requiredDocIndexInvDocs</a:nameRef>
+                    <a:id>6</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e7d2-6286-8000-9c11-011c48011c48_3118608"/>
+        <historyInfo versionUuid="_a-0000e7d2-6286-8000-9c11-011c48011c48_3158913"/>
+        <historyInfo versionUuid="_a-0000e7d2-6286-8000-9c11-011c48011c48_3168886"/>
+    </history>
+</contentHaul>

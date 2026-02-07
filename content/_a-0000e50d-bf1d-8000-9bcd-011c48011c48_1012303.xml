@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e70f-2824-8000-9c01-011c48011c48_2718966</versionUuid>
+    <rule>
+        <name>AS_IO_BL_displayStatusForOnboarding</name>
+        <uuid>_a-0000e50d-bf1d-8000-9bcd-011c48011c48_1012303</uuid>
+        <description>display status for onboardings</description>
+        <parentUuid>_a-0000e2bb-4188-8000-9ba2-011c48011c48_25469</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  local!onboardingStatus: #"_a-0000e41f-788a-8000-9ba9-011c48011c48_54484"(
+    refData: ri!refData,
+    refDataCodes: ri!onboarding.status
+  ),
+  {
+    icon: local!onboardingStatus.icon,
+    color: #"_a-0000e62c-7375-8000-9bec-011c48011c48_1924695"(
+      brandingKey: "OnboardingRequestStatusIcon"
+    ),
+    label: if(
+      #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(local!onboardingStatus.code),
+      "",
+      contains(
+        #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_1017465"(),
+        local!onboardingStatus.code
+      ),
+      concat(
+        proper(local!onboardingStatus.label),
+        if(
+          contains(
+            {
+              #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_49494",
+              #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_49488"
+            },
+            local!onboardingStatus.code
+          ),
+          concat(
+            " ",
+            #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+              i18nData: ri!i18nData,
+              bundleKey: "AS.CO.AllBundles.ins_OnDateTime",
+              arguments: {
+                #"_a-0000e447-933d-8000-9baa-011c48011c48_31679"(date: ri!onboarding.modifiedDatetime),
+                
+              }
+            )
+          ),
+          ""
+        )
+      ),
+      error(
+        #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+          i18nData: ri!i18nData,
+          bundleKey: "AS.CO.AllBundles.ins_StatusNotFound",
+          arguments: local!onboardingStatus.code
+        )
+      )
+    )
+  }
+)</definition>
+        <namedTypedValue>
+            <name>onboarding</name>
+            <type>
+                <name>AS_IO_OnboardingRequest</name>
+                <namespace>urn:com:appian:types:AS:IO</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>i18nData</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>refData</name>
+            <type>
+                <name>AS_IO_R_Data?list</name>
+                <namespace>urn:com:appian:types:AS:IO</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name>Unnamed Test Case</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_33091"(returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290157")</a:value>
+                    <a:nameRef>onboarding</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                    <a:nameRef>i18nData</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_39864"(typeList: {})</a:value>
+                    <a:nameRef>refData</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e528-bc07-8000-9bcf-011c48011c48_1033196"/>
+        <historyInfo versionUuid="_a-0000e69f-3688-8000-9bf2-011c48011c48_2093255"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2718966"/>
+    </history>
+</contentHaul>

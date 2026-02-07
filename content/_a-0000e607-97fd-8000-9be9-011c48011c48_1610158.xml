@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2490847</versionUuid>
+    <rule>
+        <name>AS_FS_ConstructUserSettingsCDTFromConstant</name>
+        <uuid>_a-0000e607-97fd-8000-9be9-011c48011c48_1610158</uuid>
+        <description>constructor of one time run process model</description>
+        <parentUuid>_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_968428</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  local!allUserSettings: #"_a-0000e5d6-d648-8000-9bde-011c48011c48_1501904"(triggerRefresh: null),
+  local!previousToggleConstants: {
+    {
+      constant: "zzzDEPRECATED_AS_FS_BOOL_ENABLE_IDP",
+      userSettingCode: #"_a-0000e5fd-0ed3-8000-9be6-011c48011c48_1579702"
+    },
+    {
+      constant: "zzzDEPRECATED_AS_EI_NORTHROW_TOGGLE",
+      userSettingCode: #"_a-0000e5fd-0ed3-8000-9be6-011c48011c48_1579749"
+    },
+    {
+      constant: "zzzDEPRECATED_AS_IO_BOOL_ENABLE_OFAC",
+      userSettingCode: #"_a-0000e5fd-0ed3-8000-9be6-011c48011c48_1579692"
+    },
+    {
+      constant: "zzzDEPRECATED_AS_EI_DOCUSIGN_TOGGLE",
+      userSettingCode: #"_a-0000e5fd-0ed3-8000-9be6-011c48011c48_1579686"
+    },
+    {
+      constant: "zzzDEPRECATED_AS_EI_CHS_TOGGLE",
+      userSettingCode: #"_a-0000e5fd-0ed3-8000-9be6-011c48011c48_1579647"
+    },
+    {
+      constant: "zzzDEPRECATED_AS_EI_DNB_TOGGLE",
+      userSettingCode: #"_a-0000e5fd-0ed3-8000-9be6-011c48011c48_1579609"
+    },
+    {
+      constant: "zzzDEPRECATED_AS_FS_IDP_DOC_PREFERENCES_CLASSIFICATION_CONFIDENCE_THRESHOLD",
+      userSettingCode: #"_a-0000e607-97fd-8000-9be9-011c48011c48_1627716"
+    },
+    {
+      constant: "zzzDEPRECATED_AS_FS_IDP_DOC_PREFERENCES_DOCUMENTS_FOR_RETRAINING",
+      userSettingCode: #"_a-0000e607-97fd-8000-9be9-011c48011c48_1627774"
+    }
+  },
+  /*for each toggle, if previous constant exists, update userSettingValue*/
+  #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_76367"(
+    array: #"SYSTEM_SYSRULES_forEach"(
+      local!previousToggleConstants,
+      a!localVariables(
+        local!matchingUserSetting: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+          cdt: local!allUserSettings,
+          field: "userSettingCode",
+          value: fv!item.userSettingCode
+        ),
+        local!settingConstantValue: #"_a-0000e571-774f-8000-b919-01ef9001ef90_28790"(ruleName: fv!item.constant),
+        /*only update if constant exists*/
+        if(
+          typeof(local!settingConstantValue) &lt;&gt; typeof(#"_a-0000e571-774f-8000-b919-01ef9001ef90_28790"),
+          /*modifiedby and modifiedDateTime updates are handled in process*/
+          #"_a-0000e40a-de32-8000-9ba8-011c48011c48_260165"(
+            cdt: local!matchingUserSetting,
+            fields: { "userSettingValue" },
+            newValues: { local!settingConstantValue }
+          ),
+          null
+        )
+      )
+    )
+  )
+)</definition>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name>Sample test case</a:name>
+                <a:assertions>
+                    <a:expectedOutput xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                    <a:resultAssertions>true</a:resultAssertions>
+                </a:assertions>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e607-97fd-8000-9be9-011c48011c48_1630885"/>
+        <historyInfo versionUuid="_a-0000e62c-74fe-8000-9bba-011c48011c48_341664"/>
+        <historyInfo versionUuid="_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2490847"/>
+    </history>
+</contentHaul>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema targetNamespace="urn:com:appian:types:FS"
+  xmlns:tns="urn:com:appian:types:FS" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <xsd:complexType name="AS_FS_UNMAPPED_PendingFieldUpdateDisplayMetadata">
+    <xsd:annotation>
+      <xsd:appinfo source="http://www.appian.com/ae/types/2009">
+        <ns2:Metadata xmlns:ns2="http://www.appian.com/ae/types/2009">
+          <ns2:versionUuid>0000e70a-de1d-8000-5034-7f0000014e7a</ns2:versionUuid>
+          <ns2:history>
+            <ns2:historyInfo versionUuid="0000e6ff-8627-8000-4ef2-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0000e70a-de1d-8000-5034-7f0000014e7a"/>
+          </ns2:history>
+        </ns2:Metadata>
+      </xsd:appinfo>
+      <xsd:documentation><![CDATA[CDT for tracking metadata about any updated fields to be displayed, such as the field reference, the identifier of the record (service request, onboarding, etc.) that is updating/creating it, etc.  If the field being updated is a complex field, use the nestedObjectindex and nestedPendingFieldUpdateDisplayMetadata to track individual field changes.]]></xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="field" nillable="true" type="xsd:anyType"/>
+      <xsd:element maxOccurs="unbounded" minOccurs="0"
+        name="relevantUniqueRecordIdentifiersForTextDisplay"
+        nillable="true" type="xsd:string"/>
+      <xsd:element maxOccurs="unbounded" minOccurs="0"
+        name="relevantRecordLinks" type="xsd:anyType"/>
+      <xsd:element name="relevantRecordTypeCode" nillable="true" type="xsd:string">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@Column(length=255)</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="nestedObjectIndex" nillable="true" type="xsd:int"/>
+      <xsd:element maxOccurs="unbounded" minOccurs="0"
+        name="nestedPendingFieldUpdateDisplayMetadata" type="tns:AS_FS_UNMAPPED_PendingFieldUpdateDisplayMetadata">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@OneToMany(cascade=CascadeType.ALL, indexed=false)</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+</xsd:schema>

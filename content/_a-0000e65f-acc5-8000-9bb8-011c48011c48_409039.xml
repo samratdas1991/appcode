@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e7c7-bc72-8000-9c0e-011c48011c48_3102414</versionUuid>
+    <rule>
+        <name>AS_FRM_parseColorSchemeBrandingConfig</name>
+        <uuid>_a-0000e65f-acc5-8000-9bb8-011c48011c48_409039</uuid>
+        <description>Pass a branding config of type `COLOR_SCHEME` to this rule and it will return the value used by charts in the `colorScheme` parameter</description>
+        <parentUuid>_a-0000e5d4-2024-8000-9baf-011c48011c48_320771</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>if(
+  or(
+    isnull(ri!colorSchemeValue),
+    contains(#"_a-0000e65f-acc5-8000-9bb8-011c48011c48_409027"().key, ri!colorSchemeValue)
+  ),
+  
+  /*Is a standard color scheme (e.g. MIDNIGHT)*/
+  if(
+    ri!returnRawHexCodes,
+    a!flatten(displayvalue(
+      ri!colorSchemeValue,
+      #"_a-0000e65f-acc5-8000-9bb8-011c48011c48_409027"().key,
+      #"_a-0000e65f-acc5-8000-9bb8-011c48011c48_409027"().hexCodes,
+      {}
+    )),
+    ri!colorSchemeValue
+  ),
+  
+  /*Is a custom color scheme*/
+  if(
+    ri!returnRawHexCodes,
+    split(ri!colorSchemeValue, ","),
+    #"SYSTEM_SYSRULES_colorSchemeCustom"(colors: split(ri!colorSchemeValue, ","))
+  )
+)</definition>
+        <namedTypedValue>
+            <name>colorSchemeValue</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>returnRawHexCodes</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name>valid case</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">""</a:value>
+                    <a:nameRef>colorSchemeValue</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:boolean">false</a:value>
+                    <a:nameRef>returnRawHexCodes</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+            <el>
+                <a:name>TestCase#2</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">"MIDNIGHT"</a:value>
+                    <a:nameRef>colorSchemeValue</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:boolean">true</a:value>
+                    <a:nameRef>returnRawHexCodes</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e65f-acc5-8000-9bb8-011c48011c48_409050"/>
+        <historyInfo versionUuid="_a-0000e65f-acc5-8000-9bb8-011c48011c48_410151"/>
+        <historyInfo versionUuid="_a-0000e65f-acc5-8000-9bb8-011c48011c48_412567"/>
+        <historyInfo versionUuid="_a-0000e673-a4a7-8000-9bef-011c48011c48_2016769"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2675940"/>
+        <historyInfo versionUuid="_a-0000e7c7-bc72-8000-9c0e-011c48011c48_3102414"/>
+    </history>
+</contentHaul>

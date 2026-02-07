@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e70f-2824-8000-9c01-011c48011c48_2800080</versionUuid>
+    <rule>
+        <name>AS_IO_ENTRYPOINT_ENTITY_DATA_OnboardingCustomerDocument</name>
+        <uuid>_a-0000e70f-2824-8000-9c01-011c48011c48_2793916</uuid>
+        <description>returns entityData that would be used to delete IO document that depend on customer documents</description>
+        <parentUuid>_a-0000e586-af6f-8000-9bd2-011c48011c48_1321233</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>if(
+  #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(ri!customerDocumentId),
+  {},
+  {
+    #"SYSTEM_SYSRULES_entityData"(
+      entity: #"_a-0000e41f-788a-8000-9ba9-011c48011c48_54797",
+      data: #"_a-0000e41f-788a-8000-9ba9-011c48011c48_59560"(
+        returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290163",
+        customerDocumentId: ri!customerDocumentId
+      )
+    ),
+    #"SYSTEM_SYSRULES_entityData"(
+      entity: #"_a-0000e41f-788a-8000-9ba9-011c48011c48_54803",
+      data: #"607eb6d4-1f23-4d78-a712-ceb43f1ccd2a"(
+        returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290163",
+        customerDocumentId: ri!customerDocumentId,
+        isDeleted: false()
+      )
+    )
+  }
+)</definition>
+        <namedTypedValue>
+            <name>customerDocumentId</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <history>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2794030"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2800080"/>
+    </history>
+</contentHaul>

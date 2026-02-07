@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e825-b425-8000-9c1c-011c48011c48_3648023</versionUuid>
+    <interface>
+        <name>AS_FS_ALT_FM_CreateOrUpdateAlertConfiguration</name>
+        <uuid>_a-0000e70f-2824-8000-9c01-011c48011c48_2528661</uuid>
+        <description>new alert configuration form</description>
+        <parentUuid>_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_968428</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  local!i18nData: #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_975720"(triggerRefresh: null),
+  /*local variable defined to default isActive to true and this handles configuration update scenario also*/
+  local!alertConfiguration: a!refreshVariable(
+    value: a!defaultValue(
+      value: ri!alertConfiguration,
+      default: 'type!{urn:com:appian:types:AS:FS}AS_FS_ALT_CONF_AlertConfiguration'(
+        /*Default to active on creation*/
+        isActive: true,
+        /*Default to "or" operator for triggerset*/
+        triggerSet: 'type!{urn:com:appian:types:AS:FS}AS_FS_ALT_CONF_AlertConfigurationTriggerSet'(
+          operator: #"AS_FS_ALT_OPERATOR_CODE_OR",
+          triggerConditions: {
+            'type!{urn:com:appian:types:AS:FS}AS_FS_ALT_CONF_AlertConfigurationTriggerCondition'()
+          }
+        )
+      )
+    ),
+    refreshOnReferencedVarChange: false()
+  ),
+  #"SYSTEM_SYSRULES_formLayout_v1"(
+    label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+      i18nData: local!i18nData,
+      bundleKey: if(
+        #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(ri!alertConfiguration),
+        "AS.FS.AllBundles.lbl_CreateAlertConfiguration",
+        "AS.FS.AllBundles.lbl_UpdateAlertConfiguration"
+      )
+    ),
+    contents: {
+      #"_a-0000e7e5-dad4-8000-9c14-011c48011c48_3312448"(
+        "AS_FS_ALT_FM_CreateOrUpdateAlertConfiguration"
+      ),
+      #"SYSTEM_SYSRULES_sectionLayout_v1"(
+        contents: {
+          #"SYSTEM_SYSRULES_columnsLayout"(),
+          #"SYSTEM_SYSRULES_columnsLayout"(
+            columns: {
+              /*padding*/
+              #"SYSTEM_SYSRULES_columnLayout"(width: "EXTRA_NARROW", ),
+              #"SYSTEM_SYSRULES_columnLayout"(
+                contents: {
+                  /*Name and active status*/
+                  #"SYSTEM_SYSRULES_sideBySideLayout"(
+                    items: {
+                      /*Name*/
+                      #"SYSTEM_SYSRULES_sideBySideItem"(
+                        item: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73562"(
+                          label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                            i18nData: local!i18nData,
+                            bundleKey: "AS.FS.AllBundles.lbl_Name"
+                          ),
+                          required: true(),
+                          value: local!alertConfiguration.alertConfigurationName,
+                          saveInto: local!alertConfiguration.alertConfigurationName,
+                          showCharacterCount: true(),
+                          maxLength: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73500",
+                          /*duplicate name*/
+                          validations: if(
+                            #"_a-0000e70f-2824-8000-9c01-011c48011c48_2531699"(
+                              alertConfiguration: local!alertConfiguration
+                            ),
+                            #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                              i18nData: local!i18nData,
+                              bundleKey: "AS.FS.AllBundles.vld_DuplicateAlertName"
+                            ),
+                            ""
+                          )
+                        )
+                      ),
+                      /*isActive*/
+                      #"SYSTEM_SYSRULES_sideBySideItem"(
+                        item: #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_982370"(
+                          label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                            i18nData: local!i18nData,
+                            bundleKey: "AS.FS.AllBundles.lbl_SetActiveOnCreation"
+                          ),
+                          required: true(),
+                          choiceLayout: "COMPACT",
+                          helpTooltip: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                            i18nData: local!i18nData,
+                            bundleKey: "AS.FS.AllBundles.hlp_AlertDefaultActiveOrInactive"
+                          ),
+                          value: local!alertConfiguration.isActive
+                        )
+                      )
+                    }
+                  ),
+                  /*Triggers*/
+                  #"_a-0000e70f-2824-8000-9c01-011c48011c48_2556045"(
+                    i18nData: local!i18nData,
+                    alertConfiguration: local!alertConfiguration
+                  ),
+                  /*Customer Filters*/
+                  #"_a-0000e70f-2824-8000-9c01-011c48011c48_2540133"(
+                    alertConfiguration: local!alertConfiguration,
+                    i18nData: local!i18nData
+                  ),
+                  /*Events*/
+                  #"_a-0000e70f-2824-8000-9c01-011c48011c48_2543430"(
+                    i18nData: local!i18nData,
+                    alertConfiguration: local!alertConfiguration
+                  ),
+                  /*Message*/
+                  #"_a-0000e70f-2824-8000-9c01-011c48011c48_2607580"(
+                    i18nData: local!i18nData,
+                    alertConfiguration: local!alertConfiguration
+                  )
+                },
+                width: "WIDE_PLUS"
+              ),
+              /*info card*/
+              #"SYSTEM_SYSRULES_columnLayout"(
+                contents: #"_a-0000e70f-2824-8000-9c01-011c48011c48_2556095"(i18nData: local!i18nData),
+                width: "MEDIUM"
+              ),
+              /*padding*/
+              #"SYSTEM_SYSRULES_columnLayout"(width: "EXTRA_NARROW", ),
+              
+            }
+          )
+        }
+      ),
+      #"SYSTEM_SYSRULES_columnsLayout"()
+    },
+    buttons: #"_a-0000e3d1-f4dc-8000-9ba4-011c48011c48_134344"(
+      confirmLabel: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+        i18nData: local!i18nData,
+        bundleKey: "AS.FS.AllBundles.btn_Save"
+      ),
+      confirmSaveInto: {
+        a!save(
+          ri!userAction,
+          #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73305"
+        ),
+        a!save(
+          ri!alertConfiguration,
+          local!alertConfiguration
+        ),
+        /*metrics*/
+        #"_a-0000e825-b425-8000-9c1c-011c48011c48_3642799"()
+      },
+      confirmSubmit: true,
+      cancelLabel: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+        i18nData: local!i18nData,
+        bundleKey: "AS.FS.AllBundles.btn_Cancel"
+      ),
+      cancelSaveInto: {
+        a!save(
+          ri!userAction,
+          #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73173"
+        )
+      },
+      cancelSubmit: true
+    )
+  )
+)</definition>
+        <namedTypedValue>
+            <name>alertConfiguration</name>
+            <type>
+                <name>AS_FS_ALT_CONF_AlertConfiguration</name>
+                <namespace>urn:com:appian:types:AS:FS</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>userAction</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+        <isCustom>false</isCustom>
+    </interface>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name/>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:n1="urn:com:appian:types:AS:FS" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="n1:AS_FS_ALT_CONF_AlertConfiguration"/>
+                    <a:nameRef>alertConfiguration</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:string"/>
+                    <a:nameRef>userAction</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2534278"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2538050"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2543341"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2551940"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2557494"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2560591"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2572682"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2607710"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2624358"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2633893"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2709078"/>
+        <historyInfo versionUuid="_a-0000e825-b425-8000-9c1c-011c48011c48_3648023"/>
+    </history>
+</contentHaul>

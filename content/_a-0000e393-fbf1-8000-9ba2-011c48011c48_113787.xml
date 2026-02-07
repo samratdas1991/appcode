@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e7e5-dad4-8000-9c14-011c48011c48_3326252</versionUuid>
+    <interface>
+        <name>AS_IO_GRD_referenceTaskGrid</name>
+        <uuid>_a-0000e393-fbf1-8000-9ba2-011c48011c48_113787</uuid>
+        <description></description>
+        <parentUuid>_a-0000e2bb-4188-8000-9ba2-011c48011c48_25469</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  local!taskSubtypeCodesToExclue: #"_a-0000e673-a4a7-8000-9bef-011c48011c48_1980853"(),
+  {
+    #"SYSTEM_SYSRULES_gridField_v1"(
+      labelPosition: "COLLAPSED",
+      data: #"_a-0000e393-fbf1-8000-9ba2-011c48011c48_113793"(
+        taskRefIdsToHide: ri!taskRefIdsToHide,
+        taskCategoryIds: a!flatten(ri!taskCategoryFilter).taskCategoryId,
+        searchText: ri!searchText,
+        configurationLevelCode: ri!configurationLevelCode,
+        pagingInfo: fv!pagingInfo,
+        triggerRefresh: ri!triggerRefresh,
+        returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290131",
+        taskBehaviourSubTypeToReject: {
+          local!taskSubtypeCodesToExclue,
+          #"_a-0000e673-a4a7-8000-9bef-011c48011c48_1989086"(),
+          #"_a-0000e393-fbf1-8000-9ba2-011c48011c48_99647",
+          #"_a-0000e79b-0335-8000-9c0c-011c48011c48_3040883"
+        }
+      ),
+      columns: {
+        #"SYSTEM_SYSRULES_gridColumn"(
+          label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+            i18nData: ri!i18nData,
+            bundleKey: "AS.CO.AllBundles.lbl_Name"
+          ),
+          sortField: "taskName",
+          helpTooltip: if(
+            ri!allowLinkSelection,
+            #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+              i18nData: ri!i18nData,
+              bundleKey: "AS.CO.AllBundles.ins_ClickTaskNameToEdit"
+            ),
+            ""
+          ),
+          value: if(
+            ri!allowLinkSelection,
+            #"SYSTEM_SYSRULES_recordActionField"(
+              actions: #"SYSTEM_SYSRULES_recordActionItem"(
+                action: #"urn:appian:record-action:v1:5565edd8-d65a-4823-8479-4154befe7a2d/ec9f27d1-2b75-40b5-944e-619c4f96b4a5",
+                identifier: fv!row.taskRefId
+              ),
+              display: "LABEL",
+              style: "LINKS"
+            ),
+            fv!row.taskName
+          )
+        ),
+        #"SYSTEM_SYSRULES_gridColumn"(
+          label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+            i18nData: ri!i18nData,
+            bundleKey: "AS.CO.AllBundles.lbl_Type"
+          ),
+          sortField: "taskBehaviorType.behaviorDisplayName",
+          value: #"_a-0000e438-fdf5-8000-9ba8-011c48011c48_21856"(
+            singleData: fv!row.taskBehaviorType,
+            labelField: "behaviorDisplayName",
+            i18nData: ri!i18nData
+          )
+        ),
+        #"SYSTEM_SYSRULES_gridColumn"(
+          label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+            i18nData: ri!i18nData,
+            bundleKey: "AS.CO.AllBundles.lbl_Category"
+          ),
+          sortField: "taskCategory.categoryName",
+          value: fv!row.taskCategory.categoryName
+        ),
+        #"SYSTEM_SYSRULES_gridColumn"(
+          label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+            i18nData: ri!i18nData,
+            bundleKey: "AS.CO.AllBundles.lbl_DocumentType"
+          ),
+          value: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_252387"(task: fv!row, refData: ri!refData)
+        ),
+        #"SYSTEM_SYSRULES_gridColumn"(
+          label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+            i18nData: ri!i18nData,
+            bundleKey: "AS.CO.AllBundles.lbl_AssignedGroup"
+          ),
+          value: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73726"(
+            groupOrUser: fv!row.defaultGroupAssignee
+          )
+        ),
+        #"SYSTEM_SYSRULES_gridColumn"(
+          label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+            i18nData: ri!i18nData,
+            bundleKey: "AS.CO.AllBundles.lbl_LastModified"
+          ),
+          sortField: "modifiedDatetime",
+          value: #"_a-0000e3c8-6861-8000-9ba2-011c48011c48_120056"(
+            user: fv!row.modifiedBy,
+            dateTime: fv!row.modifiedDatetime
+          )
+        )
+      },
+      emptyGridMessage: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+        i18nData: ri!i18nData,
+        bundleKey: "AS.CO.AllBundles.plc_NoTasks"
+      ),
+      selectable: ri!allowCheckboxSelection,
+      selectionValue: a!flatten(ri!selectedTaskRefs).taskRefId,
+      selectionSaveInto: #"_a-0000e3e6-fb42-8000-9ba5-011c48011c48_186770"(target: ri!selectedTaskRefs),
+      pageSize: 30,
+      initialSorts: {
+        #"SYSTEM_SYSRULES_sortInfo"(field: "taskName", ascending: true)
+      },
+      secondarySorts: {
+        #"SYSTEM_SYSRULES_sortInfo"(field: "taskName", ascending: true)
+      }
+    )
+  }
+)</definition>
+        <namedTypedValue>
+            <name>allowLinkSelection</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>selectedTaskRefs</name>
+            <type>
+                <name>AS_IO_R_TaskRef?list</name>
+                <namespace>urn:com:appian:types:AS:IO</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>i18nData</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>refData</name>
+            <type>
+                <name>AS_IO_R_Data?list</name>
+                <namespace>urn:com:appian:types:AS:IO</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>allowCheckboxSelection</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>taskCategoryFilter</name>
+            <type>
+                <name>AS_IO_R_TaskCategory?list</name>
+                <namespace>urn:com:appian:types:AS:IO</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>taskRefIdsToHide</name>
+            <type>
+                <name>Integer?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>triggerRefresh</name>
+            <type>
+                <name>dateTime</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>searchText</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>configurationLevelCode</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+        <isCustom>false</isCustom>
+    </interface>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name/>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:boolean">true</a:value>
+                    <a:nameRef>allowLinkSelection</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">{}</a:value>
+                    <a:nameRef>selectedTaskRefs</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81834"(triggerRefresh: null)</a:value>
+                    <a:nameRef>i18nData</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_39864"( typeList: {})</a:value>
+                    <a:nameRef>refData</a:nameRef>
+                    <a:id>4</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:boolean">true</a:value>
+                    <a:nameRef>allowCheckboxSelection</a:nameRef>
+                    <a:id>5</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                    <a:nameRef>taskCategoryFilter</a:nameRef>
+                    <a:id>6</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                    <a:nameRef>taskRefIdsToHide</a:nameRef>
+                    <a:id>7</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:dateTime"/>
+                    <a:nameRef>triggerRefresh</a:nameRef>
+                    <a:id>8</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:string"/>
+                    <a:nameRef>searchText</a:nameRef>
+                    <a:id>9</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:string"/>
+                    <a:nameRef>configurationLevelCode</a:nameRef>
+                    <a:id>10</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e3c8-6861-8000-9ba2-011c48011c48_124784"/>
+        <historyInfo versionUuid="_a-0000e3d1-f4dc-8000-9ba4-011c48011c48_154144"/>
+        <historyInfo versionUuid="_a-0000e3d1-f4dc-8000-9ba4-011c48011c48_155417"/>
+        <historyInfo versionUuid="_a-0000e3e6-fb42-8000-9ba5-011c48011c48_184130"/>
+        <historyInfo versionUuid="_a-0000e3e6-fb42-8000-9ba5-011c48011c48_195466"/>
+        <historyInfo versionUuid="_a-0000e3e6-fb42-8000-9ba5-011c48011c48_197778"/>
+        <historyInfo versionUuid="_a-0000e3e6-fb42-8000-9ba5-011c48011c48_213937"/>
+        <historyInfo versionUuid="_a-0000e3e6-fb42-8000-9ba5-011c48011c48_237822"/>
+        <historyInfo versionUuid="_a-0000e40a-de32-8000-9ba8-011c48011c48_271538"/>
+        <historyInfo versionUuid="_a-0000e3ff-a5bc-8000-9ba8-011c48011c48_40652"/>
+        <historyInfo versionUuid="_a-0000e41f-788a-8000-9ba9-011c48011c48_59987"/>
+        <historyInfo versionUuid="_a-0000e438-fd8a-8000-9bbe-011c48011c48_380972"/>
+        <historyInfo versionUuid="_a-0000e447-91f4-8000-9bc0-011c48011c48_437778"/>
+        <historyInfo versionUuid="_a-0000e460-9d93-8000-9bc1-011c48011c48_606671"/>
+        <historyInfo versionUuid="_a-0000e460-9d93-8000-9bc1-011c48011c48_615252"/>
+        <historyInfo versionUuid="_a-0000e471-623a-8000-9bc3-011c48011c48_687277"/>
+        <historyInfo versionUuid="_a-0000e539-6d59-8000-9bd0-011c48011c48_1298749"/>
+        <historyInfo versionUuid="_a-0000e586-af6f-8000-9bd2-011c48011c48_1363325"/>
+        <historyInfo versionUuid="_a-0000e5a0-53e9-8000-9bd8-011c48011c48_1415342"/>
+        <historyInfo versionUuid="_a-0000e5fd-0ed3-8000-9be6-011c48011c48_1585640"/>
+        <historyInfo versionUuid="_a-0000e607-97fd-8000-9be9-011c48011c48_1612619"/>
+        <historyInfo versionUuid="_a-0000e62c-7375-8000-9bec-011c48011c48_1849473"/>
+        <historyInfo versionUuid="_a-0000e673-a4a7-8000-9bef-011c48011c48_1989242"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2671799"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2712787"/>
+        <historyInfo versionUuid="_a-0000e7e5-dad4-8000-9c14-011c48011c48_3326252"/>
+    </history>
+</contentHaul>

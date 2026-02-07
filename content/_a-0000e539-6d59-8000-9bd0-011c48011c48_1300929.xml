@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e6ba-d6dd-8000-9bf5-011c48011c48_2184728</versionUuid>
+    <rule>
+        <name>AS_FS_DNB_UT_parseDnbUltimateBeneficialOwnershipIntegrationResponse</name>
+        <uuid>_a-0000e539-6d59-8000-9bd0-011c48011c48_1300929</uuid>
+        <description>Rule to get list of ultimate beneficial owners from the DNB UBO Integration Response.</description>
+        <parentUuid>_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_968428</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  local!beneficialOwnerValues: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_76433"(
+    cdt: #"SYSTEM_SYSRULES_fromJson_v1"(ri!responseBody),
+    field: "organization.beneficialOwnership.beneficialOwners",
+    indexDefault: null
+  ),
+  local!beneficialOwners: #"SYSTEM_SYSRULES_forEach"(
+    items: #"_a-0000e40a-de32-8000-9ba8-011c48011c48_271202"(
+      cdt: local!beneficialOwnerValues,
+      field: "beneficialOwnershipPercentage",
+      value: null
+    ),
+    expression: 'type!{urn:com:appian:types:AS:FS}AS_FS_BeneficialOwner'(
+      customerId: ri!customerId,
+      isFromDnB: true,
+      name: fv!item.name,
+      beneficialOwnershipTypeCode: displayvalue(
+        #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_76433"(
+          cdt: fv!item,
+          field: "beneficiaryType.description",
+          indexDefault: null
+        ),
+        {
+          #"_a-0000e586-af6f-8000-9bd2-011c48011c48_1304767",
+          #"_a-0000e586-af6f-8000-9bd2-011c48011c48_1304773"
+        },
+        {
+          #"_a-0000e586-af6f-8000-9bd2-011c48011c48_1315155",
+          #"_a-0000e586-af6f-8000-9bd2-011c48011c48_1315161"
+        },
+        {}
+      ),
+      beneficialOwnershipPercent: fv!item.beneficialOwnershipPercentage
+    )
+  ),
+  local!beneficialOwners
+)</definition>
+        <namedTypedValue>
+            <name>responseBody</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>customerId</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name>basic</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">"{""transactionDetail"":{""inLanguage"":""en-US"",""productID"":""cmpbol"",""productVersion"":""v1""},""inquiryDetail"":{""duns"":""878504856"",""productID"":""cmpbol"",""productVersion"":""v1"",""ownershipType"":""BENF_OWRP""},""organization"":{""duns"":""878504856"",""primaryName"":""A Corporation"",""beneficialOwnership"":{""beneficialOwners"":[{""isBeneficiary"":true,""memberID"":272469298,""name"":""Jim Kramer"",""duns"":null,""personId"":null,""beneficiaryType"":{""description"":""Individual"",""dnbCode"":119},""businessEntityType"":null,""nationality"":null,""birthDate"":null,""residenceCountryName"":null,""legalAuthority"":null,""legalForm"":null,""natureOfControlStartDate"":null,""isPSC"":null,""directOwnershipPercentage"":3.4,""indirectOwnershipPercentage"":null,""beneficialOwnershipPercentage"":3.4,""isOutofBusiness"":null,""controlOwnershipType"":null,""degreeOfSeparation"":1,""isUndisclosed"":null,""impliedDirectOwnershipPercentage"":null,""impliedIndirectOwnershipPercentage"":null,""impliedBeneficialOwnershipPercentage"":null},{""isBeneficiary"":true,""memberID"":561695196,""name"":""John Doe"",""duns"":null,""personId"":null,""beneficiaryType"":{""description"":""Individual"",""dnbCode"":119},""businessEntityType"":null,""nationality"":null,""birthDate"":null,""residenceCountryName"":null,""legalAuthority"":null,""legalForm"":null,""natureOfControlStartDate"":null,""isPSC"":null,""directOwnershipPercentage"":40.2,""indirectOwnershipPercentage"":null,""beneficialOwnershipPercentage"":40.2,""isOutofBusiness"":null,""controlOwnershipType"":null,""degreeOfSeparation"":1,""isUndisclosed"":null,""impliedDirectOwnershipPercentage"":null,""impliedIndirectOwnershipPercentage"":null,""impliedBeneficialOwnershipPercentage"":null}]}}}"</a:value>
+                    <a:nameRef>responseBody</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">1</a:value>
+                    <a:nameRef>customerId</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e586-af6f-8000-9bd2-011c48011c48_1323466"/>
+        <historyInfo versionUuid="_a-0000e62c-7375-8000-9bec-011c48011c48_1885473"/>
+        <historyInfo versionUuid="_a-0000e673-a4a7-8000-9bef-011c48011c48_2053195"/>
+        <historyInfo versionUuid="_a-0000e6ba-d6dd-8000-9bf5-011c48011c48_2184728"/>
+    </history>
+</contentHaul>

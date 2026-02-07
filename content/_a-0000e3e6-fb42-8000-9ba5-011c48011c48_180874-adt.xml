@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e70f-2824-8000-9c01-011c48011c48_2551773</versionUuid>
+    <rule>
+        <name>AS_ADT_UT_buildObjectToWrite</name>
+        <uuid>_a-0000e3e6-fb42-8000-9ba5-011c48011c48_180874-adt</uuid>
+        <description>Calculates the entity data to write for the live table</description>
+        <parentUuid>_a-0000e42d-ffef-8000-9ba6-011c48011c48_7213-adt</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>#"_a-0000e586-af6f-8000-9bd2-011c48011c48_1348231"(
+  value: #"SYSTEM_SYSRULES_forEach"(
+    items: ri!auditParams.newObjects,
+    expression: #"_a-0000e447-933d-8000-9baa-011c48011c48_211995"(
+      newObject: fv!item,
+      oldObject: index(
+        #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+          cdt: ri!auditParams.originalObjects,
+          field: ri!auditParams.auditConfig.idField,
+          value: fv!item[ri!auditParams.auditConfig.idField]
+        ),
+        1,
+        null
+      ),
+      auditConfig: ri!auditParams.auditConfig,
+      modifiedBy: ri!auditParams.username
+    )
+  )
+)</definition>
+        <namedTypedValue>
+            <name>auditParams</name>
+            <type>
+                <name>AS_ADT_P_AuditProcessParameters</name>
+                <namespace>urn:com:appian:types:AS:ADT</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name>Sample Test Case</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">'type!{urn:com:appian:types:AS:ADT}AS_ADT_P_AuditProcessParameters'(
+  originalObjects: #"_a-0000e447-933d-8000-9baa-011c48011c48_212009"(),
+  newObjects: #"_a-0000e447-933d-8000-9baa-011c48011c48_212047"(),
+  username: "appian.administrator",
+  auditConfig: #"_a-0000e3ff-79a3-8000-7714-45ef9045ef90_8682-adt"(),
+  objectTypeNumber: typeof('type!{urn:com:appian:types:AS:ADT}AS_ADT_SAMPLE_Parent'()),
+  namespace: "urn:com:appian:types:AS:ADT"
+)</a:value>
+                    <a:nameRef>auditParams</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e3e6-fb42-8000-9ba5-011c48011c48_185661-fs"/>
+        <historyInfo versionUuid="_a-0000e41a-e649-8000-9ba5-011c48011c48_17636"/>
+        <historyInfo versionUuid="_a-0000e3ff-a5bc-8000-9ba8-011c48011c48_40060"/>
+        <historyInfo versionUuid="_a-0000e3ff-a5bc-8000-9ba8-011c48011c48_52933"/>
+        <historyInfo versionUuid="_a-0000e430-f270-8000-9bbc-011c48011c48_370956"/>
+        <historyInfo versionUuid="_a-0000e467-127b-8000-0fb7-43ef9043ef90_9042-adt"/>
+        <historyInfo versionUuid="_a-0000e471-623a-8000-9bc3-011c48011c48_706250"/>
+        <historyInfo versionUuid="_a-0000e447-933d-8000-9baa-011c48011c48_111336"/>
+        <historyInfo versionUuid="_a-0000e447-933d-8000-9baa-011c48011c48_212141"/>
+        <historyInfo versionUuid="_a-0000e528-bc07-8000-9bcf-011c48011c48_1039626"/>
+        <historyInfo versionUuid="_a-0000e5d4-2024-8000-9baf-011c48011c48_320477"/>
+        <historyInfo versionUuid="_a-0000e5d4-20a7-8000-9bdb-011c48011c48_1476087"/>
+        <historyInfo versionUuid="_a-0000e5d4-2024-8000-9baf-011c48011c48_323104"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2551773"/>
+    </history>
+</contentHaul>

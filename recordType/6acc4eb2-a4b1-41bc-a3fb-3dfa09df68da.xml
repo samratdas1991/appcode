@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<recordTypeHaul xmlns:a="http://www.appian.com/ae/types/2009" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <versionUuid>613aeff9-cd6f-4099-901f-2fc648f0b1a8</versionUuid>
+  <recordType a:uuid="6acc4eb2-a4b1-41bc-a3fb-3dfa09df68da" name="AS_QNM_T_Questionnaire_RecordType">
+    <a:pluralName>Questionnaire Templates</a:pluralName>
+    <a:description>List of available questionnaire templates</a:description>
+    <a:urlStub>Q6SNPg</a:urlStub>
+    <a:source
+      a:uuid="3bdbb944-d0e6-4472-aace-0f40e0b0f537@_a-0000e447-933d-8000-9baa-011c48011c48_39511" xsi:type="a:DataStoreEntity"/>
+    <a:listViewTemplateExpr>#"SYSTEM_SYSRULES_recordGridField"(
+  columns: {
+    #"SYSTEM_SYSRULES_gridColumn"(
+      label: "Questionnaire Name",
+      sortField: #"urn:appian:record-field:v1:6acc4eb2-a4b1-41bc-a3fb-3dfa09df68da/name",
+      value: #"SYSTEM_SYSRULES_linkField"(
+        links: #"SYSTEM_SYSRULES_recordLink"(
+          label: fv!row[#"urn:appian:record-field:v1:6acc4eb2-a4b1-41bc-a3fb-3dfa09df68da/name"],
+          recordType: #"urn:appian:record-type:v1:6acc4eb2-a4b1-41bc-a3fb-3dfa09df68da",
+          identifier: fv!identifier
+        )
+      ),
+      width: "1X"
+    ),
+    #"SYSTEM_SYSRULES_gridColumn"(
+      label: "Questionnaire Description",
+      sortField: #"urn:appian:record-field:v1:6acc4eb2-a4b1-41bc-a3fb-3dfa09df68da/description",
+      value: fv!row[#"urn:appian:record-field:v1:6acc4eb2-a4b1-41bc-a3fb-3dfa09df68da/description"],
+      width: "1X"
+    ),
+    #"SYSTEM_SYSRULES_gridColumn"(
+      label: "Created By",
+      sortField: #"urn:appian:record-field:v1:6acc4eb2-a4b1-41bc-a3fb-3dfa09df68da/createdBy",
+      value: fv!row[#"urn:appian:record-field:v1:6acc4eb2-a4b1-41bc-a3fb-3dfa09df68da/createdBy"],
+      width: "1X"
+    ),
+    #"SYSTEM_SYSRULES_gridColumn"(
+      label: "Questionnaire Template Id",
+      sortField: #"urn:appian:record-field:v1:6acc4eb2-a4b1-41bc-a3fb-3dfa09df68da/questionnaireTemplateId",
+      value: tointeger(
+        fv!row[#"urn:appian:record-field:v1:6acc4eb2-a4b1-41bc-a3fb-3dfa09df68da/questionnaireTemplateId"]
+      ),
+      align: "END",
+      width: "1X"
+    )
+  },
+  pageSize: 50,
+  initialSorts: {},
+  shadeAlternateRows: true
+)</a:listViewTemplateExpr>
+    <a:detailViewCfg>
+      <a:nameExpr>#"SYSTEM_SYSRULES_rtd_getDefaultSummaryViewName"()</a:nameExpr>
+      <a:uiExpr/>
+      <a:visibilityExpr>=true()</a:visibilityExpr>
+      <a:urlStub>summary</a:urlStub>
+      <a:headerExpr/>
+      <a:recordActionLaunchType>DIALOG</a:recordActionLaunchType>
+      <a:recordUiSecurityType>EXPRESSION</a:recordUiSecurityType>
+    </a:detailViewCfg>
+    <a:relatedActionCfg a:uuid="3a372f3b-ccb4-4eaf-bbd2-b03a7d998d62">
+      <a:target a:uuid="0002e44d-8a5f-8000-fac0-7f0000014e7a" xsi:type="a:ProcessModel"/>
+      <a:contextExpr>{
+  questionnaire_template: #"_a-0000e447-933d-8000-9baa-011c48011c48_39379"(
+    questionnaireTemplateId: rv!identifier,
+    returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290157"
+  ), /* AS_QNM_T_Questionnaire */
+  userAction: null /* Text */
+}</a:contextExpr>
+      <a:visibilityExpr>=true()</a:visibilityExpr>
+      <a:iconId>f0e7</a:iconId>
+      <a:refId>refId-3a372f3b-ccb4-4eaf-bbd2-b03a7d998d62</a:refId>
+      <a:titleExpr>/*TOBEDONE this should just be update -- create would be a separate process defined in the record list tab here */
+"AS.QNM.QuestionnaireTemplate.lbl_CreateOrUpdate"</a:titleExpr>
+      <a:descriptionExpr>"AS.QNM.QuestionnaireTemplate.txt_CreateOrUpdateDescription"</a:descriptionExpr>
+      <a:referenceKey>createOrUpdate</a:referenceKey>
+      <a:dialogSize>FIT$FIT</a:dialogSize>
+      <a:showInRecordList>false</a:showInRecordList>
+      <a:recordUiSecurityType>EXPRESSION</a:recordUiSecurityType>
+      <a:dialogWidth>FIT</a:dialogWidth>
+      <a:dialogHeight>FIT</a:dialogHeight>
+    </a:relatedActionCfg>
+    <a:relatedActionCfg a:uuid="cabb6796-9e59-49d0-aef4-9eed7f6c5b77">
+      <a:target a:uuid="0002e4ce-c67e-8000-1182-7f0000014e7a" xsi:type="a:ProcessModel"/>
+      <a:contextExpr>{
+  questionnaireTemplate: #"_a-0000e447-933d-8000-9baa-011c48011c48_39379"(
+    questionnaireTemplateId: rv!identifier,
+    returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290157"
+  )
+}</a:contextExpr>
+      <a:visibilityExpr>=true()</a:visibilityExpr>
+      <a:iconId>f067</a:iconId>
+      <a:refId>refId-cabb6796-9e59-49d0-aef4-9eed7f6c5b77</a:refId>
+      <a:titleExpr>#"_a-0000e447-933d-8000-9baa-011c48011c48_42943"(
+  bundleKey: "AS.QNM.QuestionnaireSettings.lbl_AddCategory"
+)</a:titleExpr>
+      <a:staticDescriptionString/>
+      <a:referenceKey>addCategory</a:referenceKey>
+      <a:dialogSize>FIT$FIT</a:dialogSize>
+      <a:showInRecordList>false</a:showInRecordList>
+      <a:recordUiSecurityType>EXPRESSION</a:recordUiSecurityType>
+      <a:dialogWidth>FIT</a:dialogWidth>
+      <a:dialogHeight>FIT</a:dialogHeight>
+    </a:relatedActionCfg>
+    <a:relatedActionCfg a:uuid="6e694cd3-b324-4b70-9242-83300435ba59">
+      <a:target a:uuid="0005e4d2-940a-8000-11b4-7f0000014e7a" xsi:type="a:ProcessModel"/>
+      <a:contextExpr>{
+  questionnaireTemplateId: rv!identifier,
+  questionnaireName: rv!record[#"urn:appian:record-field:v1:6acc4eb2-a4b1-41bc-a3fb-3dfa09df68da/name"],
+  userAction: null
+}</a:contextExpr>
+      <a:visibilityExpr>=true()</a:visibilityExpr>
+      <a:iconId>f005</a:iconId>
+      <a:refId>refId-6e694cd3-b324-4b70-9242-83300435ba59</a:refId>
+      <a:titleExpr>#"_a-0000e447-933d-8000-9baa-011c48011c48_42943"(
+  bundleKey: "AS.QNM.QuestionnaireSettings.lbl_SetDefault"
+)</a:titleExpr>
+      <a:staticDescriptionString/>
+      <a:referenceKey>setAsDefault</a:referenceKey>
+      <a:dialogSize>FIT$FIT</a:dialogSize>
+      <a:showInRecordList>false</a:showInRecordList>
+      <a:recordUiSecurityType>EXPRESSION</a:recordUiSecurityType>
+      <a:dialogWidth>FIT</a:dialogWidth>
+      <a:dialogHeight>FIT</a:dialogHeight>
+    </a:relatedActionCfg>
+    <a:relatedActionCfg a:uuid="11b1ecac-1ba5-4c95-8523-1b81b02a6943">
+      <a:target a:uuid="0002e4e0-a47b-8000-1339-7f0000014e7a" xsi:type="a:ProcessModel"/>
+      <a:contextExpr>{
+  questionnaireTemplate: #"_a-0000e447-933d-8000-9baa-011c48011c48_39379"(
+    questionnaireTemplateId: rv!identifier,
+    returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290157"
+  )
+}</a:contextExpr>
+      <a:visibilityExpr>=true()</a:visibilityExpr>
+      <a:iconId>f06e</a:iconId>
+      <a:refId>refId-11b1ecac-1ba5-4c95-8523-1b81b02a6943</a:refId>
+      <a:titleExpr>#"_a-0000e447-933d-8000-9baa-011c48011c48_42943"(
+  bundleKey: "AS.QNM.QuestionnaireSettings.lbl_Preview"
+)</a:titleExpr>
+      <a:staticDescriptionString/>
+      <a:referenceKey>preview</a:referenceKey>
+      <a:dialogSize>FIT$FIT</a:dialogSize>
+      <a:showInRecordList>false</a:showInRecordList>
+      <a:recordUiSecurityType>EXPRESSION</a:recordUiSecurityType>
+      <a:dialogWidth>FIT</a:dialogWidth>
+      <a:dialogHeight>FIT</a:dialogHeight>
+    </a:relatedActionCfg>
+    <a:relatedActionCfg a:uuid="02d72f0d-ec66-4f51-937f-76c33e654d61">
+      <a:target a:uuid="0002e4d2-ba0c-8000-11bf-7f0000014e7a" xsi:type="a:ProcessModel"/>
+      <a:contextExpr>{
+  questionnaireTemplate: #"_a-0000e447-933d-8000-9baa-011c48011c48_39379"(
+    questionnaireTemplateId: rv!identifier,
+    returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290157"
+  ),
+  userAction: null /* Text */
+}</a:contextExpr>
+      <a:visibilityExpr>=true()</a:visibilityExpr>
+      <a:iconId>f014</a:iconId>
+      <a:refId>refId-02d72f0d-ec66-4f51-937f-76c33e654d61</a:refId>
+      <a:titleExpr>#"_a-0000e447-933d-8000-9baa-011c48011c48_42943"(
+  bundleKey: "AS.QNM.QuestionnaireSettings.lbl_DeleteQuestionnaire"
+)</a:titleExpr>
+      <a:staticDescriptionString/>
+      <a:referenceKey>deleteQuestionnaire</a:referenceKey>
+      <a:dialogSize>FIT$FIT</a:dialogSize>
+      <a:showInRecordList>false</a:showInRecordList>
+      <a:recordUiSecurityType>EXPRESSION</a:recordUiSecurityType>
+      <a:dialogWidth>FIT</a:dialogWidth>
+      <a:dialogHeight>FIT</a:dialogHeight>
+    </a:relatedActionCfg>
+    <a:relatedActionCfg a:uuid="e60f6687-453e-4a8f-aa48-5adaa68f9871">
+      <a:target a:uuid="0002e4f3-a6c8-8000-164b-7f0000014e7a" xsi:type="a:ProcessModel"/>
+      <a:contextExpr>{
+  clonedQuestionnaireTemplate: #"_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_894812"(
+    templateToClone: #"_a-0000e447-933d-8000-9baa-011c48011c48_39379"(
+      questionnaireTemplateId: rv!identifier,
+      returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290157"
+    )
+  ),
+  userAction: null
+}</a:contextExpr>
+      <a:visibilityExpr>=true()</a:visibilityExpr>
+      <a:iconId>f0c5</a:iconId>
+      <a:refId>refId-e60f6687-453e-4a8f-aa48-5adaa68f9871</a:refId>
+      <a:titleExpr>#"_a-0000e447-933d-8000-9baa-011c48011c48_42943"(
+  bundleKey: "AS.QNM.QuestionnaireSettings.btn_CloneQuestionnaire"
+)</a:titleExpr>
+      <a:staticDescriptionString/>
+      <a:referenceKey>cloneQuestionnaire</a:referenceKey>
+      <a:dialogSize>FIT$FIT</a:dialogSize>
+      <a:showInRecordList>false</a:showInRecordList>
+      <a:recordUiSecurityType>EXPRESSION</a:recordUiSecurityType>
+      <a:dialogWidth>FIT</a:dialogWidth>
+      <a:dialogHeight>FIT</a:dialogHeight>
+    </a:relatedActionCfg>
+    <a:isSystem>false</a:isSystem>
+    <a:dataSrcExpr/>
+    <a:facetsListExpr/>
+    <a:titleExpr/>
+    <a:defaultFiltersExpr>if(
+  #"_a-0000e69f-3688-8000-9bf2-011c48011c48_2143846"(),
+  {},
+  #"SYSTEM_SYSRULES_queryFilter"(
+    field: #"urn:appian:record-field:v1:6acc4eb2-a4b1-41bc-a3fb-3dfa09df68da/questionnaireTemplateId",
+    operator: "is null"
+  )
+)</a:defaultFiltersExpr>
+    <a:layoutType>GRID</a:layoutType>
+    <a:security>16383</a:security>
+    <a:hideLatestNews>false</a:hideLatestNews>
+    <a:hideNewsView>false</a:hideNewsView>
+    <a:hideRelatedActionsView>false</a:hideRelatedActionsView>
+    <a:isExportable>false</a:isExportable>
+    <a:listViewSrcExpr/>
+    <a:recordViewSrcExpr/>
+    <a:recordTypeSearchCfg>
+      <searchFieldsSrc>DEFAULT</searchFieldsSrc>
+      <placeholderSrc>DEFAULT</placeholderSrc>
+      <placeholder/>
+    </a:recordTypeSearchCfg>
+    <a:iconId/>
+    <a:listAutoRefreshInterval>0.0</a:listAutoRefreshInterval>
+    <a:enabledFeatures>63</a:enabledFeatures>
+    <a:isVisibleInRecordTypeList>false</a:isVisibleInRecordTypeList>
+    <a:recordActionLaunchType>DIALOG</a:recordActionLaunchType>
+    <a:showSearchBox>true</a:showSearchBox>
+    <a:isVisibleInDataFabric>false</a:isVisibleInDataFabric>
+    <a:usesRollingSyncLimit>false</a:usesRollingSyncLimit>
+    <a:usesRecoverySync>false</a:usesRecoverySync>
+    <a:isScheduledIndexingEnabled>false</a:isScheduledIndexingEnabled>
+    <a:smartSearchAcceptableFailureRate>0.0</a:smartSearchAcceptableFailureRate>
+    <a:skipFailedSmartServicesSync>false</a:skipFailedSmartServicesSync>
+  </recordType>
+  <roleMap>
+    <role name="record_type_administrator">
+      <users/>
+      <groups>
+        <groupUuid>_e-0000e42d-ffef-8000-9af3-01075c01075c_19-qnm</groupUuid>
+      </groups>
+    </role>
+    <role name="record_type_viewer">
+      <users/>
+      <groups>
+        <groupUuid>_e-0000e42d-ffef-8000-9af3-01075c01075c_26-qnm</groupUuid>
+      </groups>
+    </role>
+  </roleMap>
+  <history>
+    <historyInfo versionUuid="3fb02f23-2b1c-4ccc-9c4e-ae4025ef1e97"/>
+    <historyInfo versionUuid="baacfebe-b3a6-459b-9a98-0eb7ce7820a5"/>
+    <historyInfo versionUuid="3cf55845-0cb2-49df-9973-e781649fc5d2"/>
+    <historyInfo versionUuid="df8f9aae-8069-4a4e-9231-143048f553aa"/>
+    <historyInfo versionUuid="8496559b-5a46-44ad-92bd-14c6c6009ef0"/>
+    <historyInfo versionUuid="89443fd7-b542-4447-819a-8132b2602e81"/>
+    <historyInfo versionUuid="4e90b30a-dea9-4f36-b8cc-73841454cb36"/>
+    <historyInfo versionUuid="1d3d7bd9-ce64-47c0-8dc5-696975f22ada"/>
+    <historyInfo versionUuid="613aeff9-cd6f-4099-901f-2fc648f0b1a8"/>
+  </history>
+  <migrationVersion>1</migrationVersion>
+</recordTypeHaul>

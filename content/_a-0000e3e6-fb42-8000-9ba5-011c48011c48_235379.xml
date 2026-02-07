@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e62c-7375-8000-9bec-011c48011c48_1865883</versionUuid>
+    <rule>
+        <name>AS_IO_UT_filterRefDataForSelection</name>
+        <uuid>_a-0000e3e6-fb42-8000-9ba5-011c48011c48_235379</uuid>
+        <description>rule to filter out the ref data</description>
+        <parentUuid>_a-0000e2bb-4188-8000-9ba2-011c48011c48_25469</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  local!refDataFiltered: #"_a-0000e40a-de32-8000-9ba8-011c48011c48_265298"(
+    data: ri!refData,
+    currentValue: ri!currentValue,
+    valueField: "code",
+    additionalFilterValue: ri!type,
+    additionalFilterField: "type",
+    labelField: "label"
+  ),
+  local!results: #"SYSTEM_SYSRULES_forEach"(
+    items: local!refDataFiltered,
+    expression: #"_a-0000e40a-de32-8000-9ba8-011c48011c48_260165"(
+      cdt: fv!item,
+      fields: "label",
+      newValues: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_32654"(
+        code: fv!item.code,
+        refData: local!refDataFiltered
+      )
+    )
+  ),
+  local!results
+)</definition>
+        <namedTypedValue>
+            <name>refData</name>
+            <type>
+                <name>AS_IO_R_Data?list</name>
+                <namespace>urn:com:appian:types:AS:IO</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>currentValue</name>
+            <type>
+                <name>Text?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>type</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name>No Selection</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">{
+  'type!{urn:com:appian:types:AS:IO}AS_IO_R_Data'(
+    label: "A",
+    code: "A",
+    type: "1",
+    isActive: true
+  ),
+  'type!{urn:com:appian:types:AS:IO}AS_IO_R_Data'(
+    label: "B",
+    code: "B",
+    type: "1",
+    isActive: false
+  ),
+  'type!{urn:com:appian:types:AS:IO}AS_IO_R_Data'(
+    label: "C",
+    code: "C",
+    type: "2",
+    isActive: true
+  )
+}</a:value>
+                    <a:nameRef>refData</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                    <a:nameRef>currentValue</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">"1"</a:value>
+                    <a:nameRef>type</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions>
+                    <a:expectedOutput>
+                        <a:type a:uuid="{http://www.appian.com/ae/types/2009}Variant"/>
+                        <a:runtimeType a:uuid="{http://www.appian.com/ae/types/2009}Variant"/>
+                        <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">{
+  'type!{urn:com:appian:types:AS:IO}AS_IO_R_Data'(
+    label: "A",
+    code: "A",
+    type: "1",
+    isActive: true
+  )
+}</a:value>
+                    </a:expectedOutput>
+                </a:assertions>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e3e6-fb42-8000-9ba5-011c48011c48_251167"/>
+        <historyInfo versionUuid="_a-0000e40a-de32-8000-9ba8-011c48011c48_266847"/>
+        <historyInfo versionUuid="_a-0000e430-f270-8000-9bbc-011c48011c48_332155"/>
+        <historyInfo versionUuid="_a-0000e430-f270-8000-9bbc-011c48011c48_370657"/>
+        <historyInfo versionUuid="_a-0000e438-fd8a-8000-9bbe-011c48011c48_424264"/>
+        <historyInfo versionUuid="_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_816863"/>
+        <historyInfo versionUuid="_a-0000e528-bc07-8000-9bcf-011c48011c48_1034116"/>
+        <historyInfo versionUuid="_a-0000e539-6d59-8000-9bd0-011c48011c48_1240875"/>
+        <historyInfo versionUuid="_a-0000e5f9-18eb-8000-9be1-011c48011c48_1545483"/>
+        <historyInfo versionUuid="_a-0000e62c-7375-8000-9bec-011c48011c48_1865883"/>
+    </history>
+</contentHaul>

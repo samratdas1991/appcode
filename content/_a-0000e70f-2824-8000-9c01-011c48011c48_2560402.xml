@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e70f-2824-8000-9c01-011c48011c48_2709364</versionUuid>
+    <interface>
+        <name>AS_FS_ALT_CPS_DomicileTriggerConfigurationSpecificComponents</name>
+        <uuid>_a-0000e70f-2824-8000-9c01-011c48011c48_2560402</uuid>
+        <description>UI to configure Trigger with specific components for Domicile.</description>
+        <parentUuid>_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_968428</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  local!allCountries: #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_976936"(
+    i18nData: #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_975720"(triggerRefresh: now()),
+    returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290163"
+  ),
+  local!selectedOperator: #"_a-0000e70f-2824-8000-9c01-011c48011c48_2539235"(
+    json: ri!triggerCondition.configurationTriggerSettings,
+    field: "operator"
+  ),
+  local!selectedDomicile: a!defaultValue(
+    value: #"_a-0000e70f-2824-8000-9c01-011c48011c48_2539235"(
+      json: ri!triggerCondition.configurationTriggerSettings,
+      field: "countryCodes",
+      indexDefault: {}
+    ),
+    /* Need to prevent "null" return */
+    default: {}
+  ),
+  local!operatorOptionsMetadata: #"_a-0000e70f-2824-8000-9c01-011c48011c48_2552563"(
+    i18nData: ri!i18nData,
+    operators: #"_a-0000e70f-2824-8000-9c01-011c48011c48_2572080"()
+  ),
+  #"SYSTEM_SYSRULES_columnsLayout"(
+    columns: {
+      #"SYSTEM_SYSRULES_columnLayout"(
+        width: "NARROW",
+        contents: #"_a-0000e528-bc07-8000-9bcf-011c48011c48_1027802"(
+          label: "Domicile Operator",
+          labelPosition: "COLLAPSED",
+          required: true(),
+          value: local!selectedOperator,
+          readOnly: ri!readOnly,
+          choiceLabels: #"SYSTEM_SYSRULES_forEach"(
+            items: local!operatorOptionsMetadata.label,
+            expression: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(i18nData: ri!i18nData, bundleKey: fv!item)
+          ),
+          choiceValues: local!operatorOptionsMetadata.code,
+          saveInto: {
+            a!save(
+              ri!triggerCondition.configurationTriggerSettings,
+              #"_a-0000e70f-2824-8000-9c01-011c48011c48_2539223"(
+                json: ri!triggerCondition.configurationTriggerSettings,
+                field: "operator",
+                value: save!value
+              )
+            )
+          },
+          placeholderLabel: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+            i18nData: ri!i18nData,
+            bundleKey: "AS.FS.AllBundles.plc_Operator"
+          )
+        )
+      ),
+      #"SYSTEM_SYSRULES_columnLayout"(
+        contents: #"_a-0000e69f-3688-8000-9bf2-011c48011c48_2119960"(
+          alternateLabel: "Domicile Value",
+          labelPosition: "COLLAPSED",
+          readOnly: ri!readOnly,
+          required: true,
+          selectedCountryCodes: local!selectedDomicile,
+          countries: local!allCountries,
+          alternatePlaceholderLabel: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+            i18nData: ri!i18nData,
+            bundleKey: "AS.FS.AllBundles.txt_Domicile"
+          ),
+          additionalSaveInto: a!save(
+            ri!triggerCondition.configurationTriggerSettings,
+            #"_a-0000e70f-2824-8000-9c01-011c48011c48_2539223"(
+              json: ri!triggerCondition.configurationTriggerSettings,
+              field: "countryCodes",
+              value: save!value
+            )
+          )
+        )
+      )
+    }
+  )
+)</definition>
+        <namedTypedValue>
+            <name>readOnly</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>i18nData</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>triggerCondition</name>
+            <type>
+                <name>AS_FS_ALT_CONF_AlertConfigurationTriggerCondition</name>
+                <namespace>urn:com:appian:types:AS:FS</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+        <isCustom>false</isCustom>
+    </interface>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name/>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:boolean">false</a:value>
+                    <a:nameRef>readOnly</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression"> #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_975720"(triggerRefresh: null)</a:value>
+                    <a:nameRef>i18nData</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:n1="urn:com:appian:types:AS:FS" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="n1:AS_FS_ALT_CONF_AlertConfigurationTriggerCondition"/>
+                    <a:nameRef>triggerCondition</a:nameRef>
+                    <a:id>5</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2566367"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2573255"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2709364"/>
+    </history>
+</contentHaul>

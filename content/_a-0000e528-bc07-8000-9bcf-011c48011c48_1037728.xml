@@ -1,0 +1,452 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e70f-2824-8000-9c01-011c48011c48_2703939</versionUuid>
+    <interface>
+        <name>AS_FS_CPS_Products_TermsSection</name>
+        <uuid>_a-0000e528-bc07-8000-9bcf-011c48011c48_1037728</uuid>
+        <description>Terms section for a single product view</description>
+        <parentUuid>_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_968428</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  local!visibleTermsFields: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+    cdt: ri!fieldData,
+    field: "fieldKey",
+    value: #"_a-0000e528-bc07-8000-9bcf-011c48011c48_1035269"(isInternationalizedForAdminSetup: false).fieldKey
+  ),
+  if(
+    #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(local!visibleTermsFields),
+    {},
+    {
+      #"_a-0000e528-bc07-8000-9bcf-011c48011c48_1037497"(
+        icon: "folder-open",
+        label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+          i18nData: ri!i18nData,
+          bundleKey: "AS.FS.AllBundles.lbl_TermsSection"
+        ),
+        size: "SMALL"
+      ),
+      #"_a-0000e539-6d59-8000-9bd0-011c48011c48_1177073"(
+        numberOfColumns: if(ri!readOnly, 4, 2),
+        allFields: {
+          a!localVariables(
+            local!performanceReturnTermFieldData: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+              cdt: local!visibleTermsFields,
+              field: "fieldKey",
+              value: #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_1021209"
+            ),
+            {
+              span: 1,
+              components: {
+                #"_a-0000e69f-3688-8000-9bf2-011c48011c48_2111069"(
+                  label: "AS.FS.AllBundles.lbl_PerformanceReturnTerm",
+                  i18nData: ri!i18nData,
+                  isEdited: contains(
+                    ri!updatedFieldKeys,
+                    #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_1021209"
+                  ),
+                  showWhen: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(local!performanceReturnTermFieldData),
+                  isRequired: local!performanceReturnTermFieldData.required,
+                  
+                ),
+                #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_74362"(
+                  label: "Performance Return Term",
+                  labelPosition: "COLLAPSED",
+                  showWhen: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(local!performanceReturnTermFieldData),
+                  required: local!performanceReturnTermFieldData.required,
+                  readOnly: ri!readOnly,
+                  minSize: 0,
+                  value: index(
+                    ri!product.term,
+                    "performanceReturnTerm",
+                    null
+                  ),
+                  saveInto: {
+                    if(
+                      #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(value: ri!product.term),
+                      a!save(
+                        ri!product.term,
+                        a!map("performanceReturnTerm": save!value)
+                      ),
+                      ri!product.term.performanceReturnTerm
+                    )
+                  },
+                  placeholder: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                    i18nData: ri!i18nData,
+                    bundleKey: "AS.FS.AllBundles.plc_Days"
+                  ),
+                  formattedInput: index(
+                    ri!product.term,
+                    "performanceReturnTerm",
+                    null
+                  )
+                )
+              }
+            }
+          ),
+          a!localVariables(
+            local!performanceStartDateFieldData: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+              cdt: local!visibleTermsFields,
+              field: "fieldKey",
+              value: #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_1021215"
+            ),
+            {
+              span: 1,
+              components: {
+                #"_a-0000e69f-3688-8000-9bf2-011c48011c48_2111069"(
+                  label: "AS.FS.AllBundles.lbl_PerformanceStartDate",
+                  i18nData: ri!i18nData,
+                  isEdited: contains(
+                    ri!updatedFieldKeys,
+                    #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_1021215"
+                  ),
+                  showWhen: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(local!performanceStartDateFieldData),
+                  isRequired: local!performanceStartDateFieldData.required,
+                  
+                ),
+                #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_74175"(
+                  label: "Performance Start Date",
+                  labelPosition: "COLLAPSED",
+                  showWhen: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(local!performanceStartDateFieldData),
+                  required: local!performanceStartDateFieldData.required,
+                  readOnly: ri!readOnly,
+                  value: index(
+                    ri!product.term,
+                    "performanceStartDate",
+                    null
+                  ),
+                  saveInto: {
+                    if(
+                      #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(value: ri!product.term),
+                      a!save(
+                        ri!product.term,
+                        a!map("performanceStartDate": save!value)
+                      ),
+                      ri!product.term.performanceStartDate
+                    )
+                  }
+                )
+              }
+            }
+          ),
+          a!localVariables(
+            local!shortLockFieldData: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+              cdt: local!visibleTermsFields,
+              field: "fieldKey",
+              value: #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_1021233"
+            ),
+            {
+              span: 1,
+              components: {
+                #"_a-0000e69f-3688-8000-9bf2-011c48011c48_2111069"(
+                  label: "AS.FS.AllBundles.lbl_ShortLock",
+                  i18nData: ri!i18nData,
+                  isEdited: contains(
+                    ri!updatedFieldKeys,
+                    #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_1021233"
+                  ),
+                  showWhen: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(local!shortLockFieldData),
+                  isRequired: local!shortLockFieldData.required,
+                  
+                ),
+                #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_74362"(
+                  label: "Short Lock",
+                  labelPosition: "COLLAPSED",
+                  showWhen: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(local!shortLockFieldData),
+                  required: local!shortLockFieldData.required,
+                  readOnly: ri!readOnly,
+                  minSize: 0,
+                  value: index(ri!product.term, "shortLock", null),
+                  saveInto: {
+                    if(
+                      #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(value: ri!product.term),
+                      a!save(
+                        ri!product.term,
+                        a!map("shortLock": save!value)
+                      ),
+                      ri!product.term.shortLock
+                    )
+                  },
+                  placeholder: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                    i18nData: ri!i18nData,
+                    bundleKey: "AS.FS.AllBundles.plc_Days"
+                  ),
+                  formattedInput: index(ri!product.term, "shortLock", null),
+                  
+                )
+              }
+            }
+          ),
+          a!localVariables(
+            local!rateLockFieldData: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+              cdt: local!visibleTermsFields,
+              field: "fieldKey",
+              value: #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_1021221"
+            ),
+            {
+              span: 1,
+              components: {
+                #"_a-0000e69f-3688-8000-9bf2-011c48011c48_2111069"(
+                  label: "AS.FS.AllBundles.lbl_RateLock",
+                  i18nData: ri!i18nData,
+                  isEdited: contains(
+                    ri!updatedFieldKeys,
+                    #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_1021221"
+                  ),
+                  showWhen: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(local!rateLockFieldData),
+                  isRequired: local!rateLockFieldData.required,
+                  
+                ),
+                #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_74362"(
+                  label: "Rate Lock",
+                  labelPosition: "COLLAPSED",
+                  showWhen: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(local!rateLockFieldData),
+                  required: local!rateLockFieldData.required,
+                  readOnly: ri!readOnly,
+                  minSize: 0,
+                  value: index(ri!product.term, "rateLock", null),
+                  saveInto: {
+                    if(
+                      #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(value: ri!product.term),
+                      a!save(
+                        ri!product.term,
+                        a!map("rateLock": save!value)
+                      ),
+                      ri!product.term.rateLock
+                    )
+                  },
+                  placeholder: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                    i18nData: ri!i18nData,
+                    bundleKey: "AS.FS.AllBundles.plc_Days"
+                  ),
+                  formattedInput: index(ri!product.term, "rateLock", null)
+                )
+              }
+            }
+          ),
+          a!localVariables(
+            local!committedMarginFieldData: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+              cdt: local!visibleTermsFields,
+              field: "fieldKey",
+              value: #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_1021227"
+            ),
+            {
+              span: 1,
+              components: {
+                #"_a-0000e69f-3688-8000-9bf2-011c48011c48_2111069"(
+                  label: "AS.FS.AllBundles.lbl_CommittedMargin",
+                  i18nData: ri!i18nData,
+                  isEdited: contains(
+                    ri!updatedFieldKeys,
+                    #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_1021227"
+                  ),
+                  showWhen: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(local!committedMarginFieldData),
+                  isRequired: local!committedMarginFieldData.required,
+                  
+                ),
+                #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_74362"(
+                  label: "Committed Margin",
+                  labelPosition: "COLLAPSED",
+                  showWhen: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(local!committedMarginFieldData),
+                  required: local!committedMarginFieldData.required,
+                  readOnly: ri!readOnly,
+                  minSize: 0,
+                  value: index(ri!product.term, "committedMargin", null),
+                  saveInto: {
+                    if(
+                      #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(value: ri!product.term),
+                      a!save(
+                        ri!product.term,
+                        a!map("committedMargin": save!value)
+                      ),
+                      ri!product.term.committedMargin
+                    )
+                  },
+                  placeholder: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                    i18nData: ri!i18nData,
+                    bundleKey: "AS.FS.AllBundles.plc_Days"
+                  ),
+                  formattedInput: index(ri!product.term, "committedMargin", null)
+                )
+              }
+            }
+          ),
+          a!localVariables(
+            local!otherFieldData: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+              cdt: local!visibleTermsFields,
+              field: "fieldKey",
+              value: #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_1021253"
+            ),
+            {
+              span: 1,
+              components: {
+                #"_a-0000e69f-3688-8000-9bf2-011c48011c48_2111069"(
+                  label: "AS.FS.AllBundles.lbl_Other",
+                  i18nData: ri!i18nData,
+                  isEdited: contains(
+                    ri!updatedFieldKeys,
+                    #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_1021253"
+                  ),
+                  showWhen: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(local!otherFieldData),
+                  isRequired: local!otherFieldData.required,
+                  
+                ),
+                #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73562"(
+                  label: "Other",
+                  labelPosition: "COLLAPSED",
+                  showWhen: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(local!otherFieldData),
+                  required: local!otherFieldData.required,
+                  readOnly: ri!readOnly,
+                  value: index(ri!product.term, "otherTerm", null),
+                  maxLength: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73500",
+                  saveInto: {
+                    if(
+                      #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(value: ri!product.term),
+                      a!save(
+                        ri!product.term,
+                        a!map("otherTerm": save!value)
+                      ),
+                      ri!product.term.otherTerm
+                    )
+                  }
+                )
+              }
+            }
+          )
+        }
+      )
+    }
+  )
+)</definition>
+        <namedTypedValue>
+            <name>i18nData</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>fieldData</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>product</name>
+            <type>
+                <name>Map</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>readOnly</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>updatedFieldKeys</name>
+            <type>
+                <name>Text?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+        <isCustom>false</isCustom>
+    </interface>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name/>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_975720"(triggerRefresh: null())</a:value>
+                    <a:nameRef>i18nData</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"SYSTEM_SYSRULES_fromJson_v1"(#"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_1021459"(
+  returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290157"
+).fieldData)</a:value>
+                    <a:nameRef>fieldData</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">'type!{urn:com:appian:types:AS:FS}AS_FS_Product'(
+  productTypeCode: "PRODUCT_TYPE_COMMITTED_LINE_OF_CREDIT"
+)</a:value>
+                    <a:nameRef>product</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:boolean">true</a:value>
+                    <a:nameRef>readOnly</a:nameRef>
+                    <a:id>4</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                    <a:nameRef>updatedFieldKeys</a:nameRef>
+                    <a:id>5</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e528-bc07-8000-9bcf-011c48011c48_1038439"/>
+        <historyInfo versionUuid="_a-0000e539-6d59-8000-9bd0-011c48011c48_1138234"/>
+        <historyInfo versionUuid="_a-0000e539-6d59-8000-9bd0-011c48011c48_1177162"/>
+        <historyInfo versionUuid="_a-0000e586-af6f-8000-9bd2-011c48011c48_1349179"/>
+        <historyInfo versionUuid="_a-0000e5a0-53e9-8000-9bd8-011c48011c48_1398092"/>
+        <historyInfo versionUuid="_a-0000e5fd-0ed3-8000-9be6-011c48011c48_1563956"/>
+        <historyInfo versionUuid="_a-0000e5fd-0ed3-8000-9be6-011c48011c48_1575711"/>
+        <historyInfo versionUuid="_a-0000e607-97fd-8000-9be9-011c48011c48_1613525"/>
+        <historyInfo versionUuid="_a-0000e607-97fd-8000-9be9-011c48011c48_1678339"/>
+        <historyInfo versionUuid="_a-0000e62c-7375-8000-9bec-011c48011c48_1794397"/>
+        <historyInfo versionUuid="_a-0000e673-a4a7-8000-9bef-011c48011c48_2024085"/>
+        <historyInfo versionUuid="_a-0000e69f-3688-8000-9bf2-011c48011c48_2116180"/>
+        <historyInfo versionUuid="_a-0000e69f-3688-8000-9bf2-011c48011c48_2128524"/>
+        <historyInfo versionUuid="_a-0000e69f-3688-8000-9bf2-011c48011c48_2165913"/>
+        <historyInfo versionUuid="_a-0000e69f-3688-8000-9bf2-011c48011c48_2174528"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2703939"/>
+    </history>
+</contentHaul>

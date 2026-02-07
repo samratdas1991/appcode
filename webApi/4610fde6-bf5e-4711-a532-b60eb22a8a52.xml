@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<webApiHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>d5245abf-04d5-4fea-83f4-d4575fe9d056</versionUuid>
+    <webApi a:uuid="4610fde6-bf5e-4711-a532-b60eb22a8a52" name="AS IO WA POST Onboardings">
+        <a:description>Web API used by Third Party (TP) systems to create a new Onboarding Request.</a:description>
+        <a:expression>choose(
+  #"_a-0000e329-3415-8000-9ba2-011c48011c48_366894"(
+    request: http!request,
+    validVersions: 2
+  ), 
+  
+  /*Error - Invalid Version*/
+  #"_a-0000e329-3415-8000-9ba2-011c48011c48_381043"(),
+  
+  /*Version 1*/
+  #"_a-0000e329-3415-8000-9ba2-011c48011c48_385627"(request: http!request),
+  
+  /*Version 2*/
+  #"_a-0000e5a0-53e9-8000-9bd8-011c48011c48_1461998"(request: http!request)
+)</a:expression>
+        <a:urlAlias>io-onboardings</a:urlAlias>
+        <a:httpMethod>POST</a:httpMethod>
+        <a:system>false</a:system>
+        <a:requestBodyType></a:requestBodyType>
+        <a:loggingEnabled>false</a:loggingEnabled>
+    </webApi>
+    <roleMap>
+        <role name="web_api_administrator">
+            <users/>
+            <groups>
+                <groupUuid>_e-0000e2bb-4188-8000-9aee-01075c01075c_41</groupUuid>
+            </groups>
+        </role>
+        <role name="web_api_viewer">
+            <users/>
+            <groups>
+                <groupUuid>_e-0000e329-3415-8000-9aee-01075c01075c_5503</groupUuid>
+            </groups>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>WebApiRequest?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:path>v2</a:path>
+                <a:body>{
+      "priorityCode":"",
+      "actualValueCurrencyCode":"",
+      "actualFundingValue":null,
+      "actualFundingDate":null,
+      "estValueCurrencyCode":"DOP",
+      "estFundingValue":1000,
+      "estFundingDate":"2021-10-06Z",
+      "description":"",
+      "type":"ONBOARDING_TYPE_CAPITAL_MARKETS_BUY_SIDE",
+      "customer":{
+            "customerId":"1"
+      },
+     "product":{
+           "productTypeCode":"PRODUCT_TYPE_SECURED_LOANS"
+      }
+}</a:body>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="b5133c88-4990-47dc-907d-8822273e8020"/>
+        <historyInfo versionUuid="a5428302-6990-4259-9e58-3e39a3f2cf9b"/>
+        <historyInfo versionUuid="40fe8c4a-ebd6-47cb-a0c4-b5e6ab3c04d0"/>
+        <historyInfo versionUuid="17ff3b4e-e41a-4d74-8835-e7b8e53aca40"/>
+        <historyInfo versionUuid="d8348f9b-7e47-4d2d-86a0-1949e32184f0"/>
+        <historyInfo versionUuid="32dadd9d-1425-407c-85e0-5c27a8e89a09"/>
+        <historyInfo versionUuid="7b60f810-b0ae-4855-882f-417f99b16bc6"/>
+        <historyInfo versionUuid="d5245abf-04d5-4fea-83f4-d4575fe9d056"/>
+    </history>
+</webApiHaul>

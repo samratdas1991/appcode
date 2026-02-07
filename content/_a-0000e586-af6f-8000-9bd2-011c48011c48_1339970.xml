@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e811-1167-8000-9c18-011c48011c48_3497425</versionUuid>
+    <rule>
+        <name>AS_IO_QE_getOnboardingTasksForCustomer</name>
+        <uuid>_a-0000e586-af6f-8000-9bd2-011c48011c48_1339970</uuid>
+        <description>AS IO GETDATA entry-point to get onboarding tasks for a customer</description>
+        <parentUuid>_a-0000e586-af6f-8000-9bd2-011c48011c48_1321233</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>#"_a-0000e393-fbf1-8000-9ba2-011c48011c48_104148"(
+  triggerRefresh: ri!triggerRefresh,
+  taskStatusIds: if(
+    ri!onlyOpenTasks,
+    #"_a-0000e460-9d93-8000-9bc1-011c48011c48_603236",
+    {
+      #"_a-0000e460-9d93-8000-9bc1-011c48011c48_603236",
+      #"_a-0000e460-9d93-8000-9bc1-011c48011c48_603248"
+    }
+  ),
+  requestId: ri!requestId,
+  customerName: ri!customer.name,
+  customerId: ri!customer.customerId,
+  additionalFilters: {
+    #"SYSTEM_SYSRULES_queryFilter"(
+      field: "taskBehaviorType.behaviorTypeCode",
+      operator: "&lt;&gt;",
+      value: #"_a-0000e393-fbf1-8000-9ba2-011c48011c48_99629"
+    )
+  },
+  additionalLogicalExpressions: {
+    #"SYSTEM_SYSRULES_queryLogicalExpression"(
+      operator: "OR",
+      filters: {
+        #"SYSTEM_SYSRULES_queryFilter"(
+          field: "userAssignee",
+          operator: "=",
+          value: loggedInUser()
+        ),
+        #"SYSTEM_SYSRULES_queryFilter"(
+          field: "groupAssignee",
+          operator: "=",
+          value: ri!customer.groupId
+        )
+      }
+    ),
+    /*  If required document task and document has been uploaded then get non internal documents only  */
+    #"SYSTEM_SYSRULES_queryLogicalExpression"(
+      operator: "OR",
+      filters: {
+        #"SYSTEM_SYSRULES_queryFilter"(
+          field: "requiredDocument.onboardingDocument.customerDocument.isInternal",
+          operator: "=",
+          value: false()
+        ),
+        #"SYSTEM_SYSRULES_queryFilter"(
+          field: "requiredDocument.onboardingDocument.onboardingDocumentId",
+          operator: "is null"
+        ),
+        #"SYSTEM_SYSRULES_queryFilter"(
+          field: "requiredDocument.requiredOnboardingDocumentId",
+          operator: "is null"
+        )
+      }
+    )
+  },
+  sort: { ri!pagingInfo.sort },
+  returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290163"
+)</definition>
+        <namedTypedValue>
+            <name>requestId</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>pagingInfo</name>
+            <type>
+                <name>PagingInfo</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>triggerRefresh</name>
+            <type>
+                <name>dateTime</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>customer</name>
+            <type>
+                <name>AS_FS_Customer</name>
+                <namespace>urn:com:appian:types:AS:FS</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>onlyOpenTasks</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name>Null Test Case</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:int"/>
+                    <a:nameRef>requestId</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="a:PagingInfo"/>
+                    <a:nameRef>pagingInfo</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:dateTime"/>
+                    <a:nameRef>triggerRefresh</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">'type!{urn:com:appian:types:AS:FS}AS_FS_Customer'(
+  groupId: 1234
+)</a:value>
+                    <a:nameRef>customer</a:nameRef>
+                    <a:id>4</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:boolean"/>
+                    <a:nameRef>onlyOpenTasks</a:nameRef>
+                    <a:id>5</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e586-af6f-8000-9bd2-011c48011c48_1349440"/>
+        <historyInfo versionUuid="_a-0000e5a0-53e9-8000-9bd8-011c48011c48_1400649"/>
+        <historyInfo versionUuid="_a-0000e5a0-53e9-8000-9bd8-011c48011c48_1466876"/>
+        <historyInfo versionUuid="_a-0000e607-97fd-8000-9be9-011c48011c48_1666274"/>
+        <historyInfo versionUuid="_a-0000e607-97fd-8000-9be9-011c48011c48_1684569"/>
+        <historyInfo versionUuid="_a-0000e607-97fd-8000-9be9-011c48011c48_1686472"/>
+        <historyInfo versionUuid="_a-0000e62c-7375-8000-9bec-011c48011c48_1885411"/>
+        <historyInfo versionUuid="_a-0000e811-1167-8000-9c18-011c48011c48_3497428"/>
+        <historyInfo versionUuid="_a-0000e811-1167-8000-9c18-011c48011c48_3497425"/>
+    </history>
+</contentHaul>

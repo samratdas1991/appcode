@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e825-b425-8000-9c1c-011c48011c48_3577456</versionUuid>
+    <interface>
+        <name>AS_IO_CRD_onboardingComments</name>
+        <uuid>_a-0000e5a0-53e9-8000-9bd8-011c48011c48_1400736</uuid>
+        <description>To display discussion on customer portal</description>
+        <parentUuid>_a-0000e2bb-4188-8000-9ba2-011c48011c48_25469</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  local!i18nData: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81834"(null),
+  local!paginginfo: a!refreshVariable(
+    value: #"SYSTEM_SYSRULES_pagingInfo"(
+      startIndex: 1,
+      batchSize: 5,
+      sort: #"SYSTEM_SYSRULES_sortInfo"(
+        field: "createdDatetime",
+        ascending: false
+      )
+    ),
+    refreshOnVarChange: { ri!commentType, ri!requestId }
+  ),
+  local!discussionComments: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_76299-io"(
+    recordTypeId: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_76924"(
+      recordType: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_33188"
+    ),
+    recordId: ri!requestId,
+    commentType: ri!commentType,
+    triggerRefresh: ri!triggerRefresh,
+    returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290131",
+    pagingInfo: local!paginginfo
+  ),
+  local!requestDetails: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_33091"(
+    requestId: ri!requestId,
+    includeNestedCdts: true,
+    returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290157"
+  ),
+  {
+    #"_a-0000e7e5-dad4-8000-9c14-011c48011c48_3312448"("AS_IO_CRD_onboardingComments"),
+    #"SYSTEM_SYSRULES_cardLayout"(
+      contents: {
+        if(
+          or(
+            local!requestDetails.status = #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_49494",
+            local!requestDetails.status = #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_49488"
+          ),
+          {},
+          #"_a-0000e5a0-53e9-8000-9bd8-011c48011c48_1403371"(
+            requestId: ri!requestId,
+            commentType: ri!commentType,
+            triggerRefresh: ri!triggerRefresh,
+            requestDetails: local!requestDetails,
+            i18nData: local!i18nData
+          )
+        ),
+        if(
+          #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(local!discussionComments.data),
+          #"SYSTEM_SYSRULES_cardLayout"(
+            contents: {
+              #"_a-0000e607-97fd-8000-9be9-011c48011c48_1671902"(
+                icon: "comments",
+                iconSize: "TINY",
+                align: "CENTER",
+                text: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                  i18nData: local!i18nData,
+                  bundleKey: "AS.CO.AllBundles.txt_NoOpenDiscussions"
+                ),
+                backgroundColor: "SECONDARY",
+                textColor: "SECONDARY"
+              )
+            },
+            accessibilityText: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+              i18nData: local!i18nData,
+              bundleKey: "AS.CO.AllBundles.txt_NoOpenDiscussions"
+            ),
+            height: "AUTO",
+            style: "NONE",
+            marginBelow: "STANDARD",
+            showBorder: false
+          ),
+          {
+            #"_a-0000e5a0-53e9-8000-9bd8-011c48011c48_1408220"(
+              discussionComments: local!discussionComments
+            ),
+            #"_a-0000e539-6d59-8000-9bd0-011c48011c48_1207543"(
+              align: "RIGHT",
+              pagingInfo: local!paginginfo,
+              totalCount: local!discussionComments.totalCount
+            )
+          }
+        )
+      },
+      marginBelow: "NONE",
+      showBorder: false
+    )
+  }
+)</definition>
+        <namedTypedValue>
+            <name>requestId</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>commentType</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>triggerRefresh</name>
+            <type>
+                <name>dateTime</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+        <isCustom>false</isCustom>
+    </interface>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name/>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">1</a:value>
+                    <a:nameRef>requestId</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e5a0-53e9-8000-9bd8-011c48011c48_1403061"</a:value>
+                    <a:nameRef>commentType</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:dateTime"/>
+                    <a:nameRef>triggerRefresh</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e5a0-53e9-8000-9bd8-011c48011c48_1408258"/>
+        <historyInfo versionUuid="_a-0000e5a0-53e9-8000-9bd8-011c48011c48_1412373"/>
+        <historyInfo versionUuid="_a-0000e607-97fd-8000-9be9-011c48011c48_1673489"/>
+        <historyInfo versionUuid="_a-0000e607-97fd-8000-9be9-011c48011c48_1702484"/>
+        <historyInfo versionUuid="_a-0000e607-97fd-8000-9be9-011c48011c48_1707174"/>
+        <historyInfo versionUuid="_a-0000e62c-7375-8000-9bec-011c48011c48_1870639"/>
+        <historyInfo versionUuid="_a-0000e6ca-7e19-8000-9bfb-011c48011c48_2347117"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2720780"/>
+        <historyInfo versionUuid="_a-0000e825-b425-8000-9c1c-011c48011c48_3577456"/>
+    </history>
+</contentHaul>

@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e825-b425-8000-9c1c-011c48011c48_3644475</versionUuid>
+    <interface>
+        <name>AS_FS_FM_ConnectedFsSettingsLandingPage</name>
+        <uuid>_a-0000e70f-2824-8000-9c01-011c48011c48_2510124</uuid>
+        <description>Landing page for the connected financial services business administration center</description>
+        <parentUuid>_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_968428</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  local!triggerRefresh: a!refreshVariable(
+    value: now(),
+    refreshAfter: "RECORD_ACTION"
+  ),
+  local!i18nData: #"_a-0000e69f-3688-8000-9bf2-011c48011c48_2172179"(triggerRefresh: local!triggerRefresh),
+  /*retrieve all tab options*/
+  local!settingsPages: #"_a-0000e70f-2824-8000-9c01-011c48011c48_2511810"(i18nData: local!i18nData),
+  /*show tabs that have at least one visible subsection*/
+  local!visibleSettingsPages: filter(
+    #"_a-0000e70f-2824-8000-9c01-011c48011c48_2660363"(
+      settingsPageConfiguration: _,
+      user: loggedInUser()
+    ),
+    local!settingsPages
+  ),
+  /*show first tab by default*/
+  local!selectedSettingsPage: local!visibleSettingsPages[1],
+  {
+    #"_a-0000e7e5-dad4-8000-9c14-011c48011c48_3312632"(),
+    #"_a-0000e7e5-dad4-8000-9c14-011c48011c48_3312448"(
+      "AS_FS_FM_ConnectedFsSettingsLandingPage"
+    ),
+    #"SYSTEM_SYSRULES_columnsLayout"(
+      spacing: "NONE",
+      stackWhen: { "NEVER" },
+      columns: {
+        #"SYSTEM_SYSRULES_columnLayout"(
+          contents: {
+            /*filler card*/
+            #"SYSTEM_SYSRULES_cardLayout"(
+              height: "AUTO",
+              style: #"_a-0000e62c-7375-8000-9bec-011c48011c48_1924695"(brandingKey: "NavigationBarColor"),
+              showBorder: false
+            ),
+            /*selection cards*/
+            #"SYSTEM_SYSRULES_cardLayout"(
+              contents: {
+                #"_a-0000e3e6-fb42-8000-9ba5-011c48011c48_226948"(
+                  choiceIcons: local!visibleSettingsPages.icon,
+                  iconSize: "MEDIUM_PLUS",
+                  alignLabels: "CENTER",
+                  choiceHovertexts: local!visibleSettingsPages.label,
+                  choiceLabels: #"SYSTEM_SYSRULES_forEach"(
+                    items: local!visibleSettingsPages,
+                    /* No labels, just icons */
+                    expression: ""
+                  ),
+                  choiceValues: local!visibleSettingsPages,
+                  value: local!selectedSettingsPage,
+                  saveInto: local!selectedSettingsPage,
+                  cardStyle: #"_a-0000e62c-7375-8000-9bec-011c48011c48_1924695"(brandingKey: "NavigationBarColor")
+                ),
+                
+              },
+              height: "EXTRA_TALL",
+              style: #"_a-0000e62c-7375-8000-9bec-011c48011c48_1924695"(brandingKey: "NavigationBarColor"),
+              padding: "NONE",
+              marginBelow: "NONE",
+              showBorder: false,
+              
+            ),
+            /*filler cards*/
+            #"SYSTEM_SYSRULES_cardLayout"(
+              height: "EXTRA_TALL",
+              style: #"_a-0000e62c-7375-8000-9bec-011c48011c48_1924695"(brandingKey: "NavigationBarColor"),
+              showBorder: false
+            ),
+            #"SYSTEM_SYSRULES_cardLayout"(
+              height: "EXTRA_SHORT",
+              style: #"_a-0000e62c-7375-8000-9bec-011c48011c48_1924695"(brandingKey: "NavigationBarColor"),
+              showBorder: false
+            ),
+            #"SYSTEM_SYSRULES_cardLayout"(
+              height: "MEDIUM",
+              style: #"_a-0000e62c-7375-8000-9bec-011c48011c48_1924695"(brandingKey: "NavigationBarColor"),
+              showBorder: false
+            )
+          },
+          width: "EXTRA_NARROW"
+        ),
+        /*display selected tab*/
+        #"SYSTEM_SYSRULES_columnLayout"(
+          contents: a!localVariables(
+            local!selectedSettingsPageInterface: a!refreshVariable(
+              value: local!selectedSettingsPage.displayRule,
+              refreshAlways: true
+            ),
+            #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_76367"(
+              array: {
+                local!selectedSettingsPageInterface(
+                  i18nData: local!i18nData,
+                  /* Some data type settings need to refresh i18n via direct save instead of record action */
+                  triggerRefresh: local!triggerRefresh
+                ),
+                #"SYSTEM_SYSRULES_sideBySideLayout"(),
+                #"_a-0000e460-9d93-8000-9bc1-011c48011c48_622927"(
+                  version: #"_a-0000e62c-7375-8000-9bec-011c48011c48_1883209"(),
+                  align: "CENTER"
+                )
+              }
+            )
+          )
+        )
+      }
+    )
+  }
+)</definition>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+        <isCustom>false</isCustom>
+    </interface>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <history>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2515479"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2526340"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2529210"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2529265"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2654959"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2661829"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2667622"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2668880"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2672370"/>
+        <historyInfo versionUuid="_a-0000e7d2-6286-8000-9c11-011c48011c48_3195235"/>
+        <historyInfo versionUuid="_a-0000e7fa-f829-8000-9c17-011c48011c48_3377576"/>
+        <historyInfo versionUuid="_a-0000e825-b425-8000-9c1c-011c48011c48_3644475"/>
+    </history>
+</contentHaul>

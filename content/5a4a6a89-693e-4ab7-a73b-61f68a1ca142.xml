@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e825-b425-8000-9c1c-011c48011c48_3633745</versionUuid>
+    <interface>
+        <name>AS_IO_FM_updateTaskDueDate</name>
+        <uuid>5a4a6a89-693e-4ab7-a73b-61f68a1ca142</uuid>
+        <description>Form to update the task due date</description>
+        <parentUuid>_a-0000e2bb-4188-8000-9ba2-011c48011c48_25469</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  local!i18nData: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81834"(triggerRefresh: null),
+  local!dueDate: ri!task.dueDate,
+  local!reasons: #"_a-0000e471-623a-8000-9bc3-011c48011c48_705261"(i18nData: local!i18nData),
+  #"_a-0000e3e6-fb42-8000-9ba5-011c48011c48_189668"(
+    task: ri!task,
+    i18nData: local!i18nData,
+    userAction: ri!userAction,
+    taskContents: {
+      #"SYSTEM_SYSRULES_columnsLayout"(
+        columns: {
+          #"SYSTEM_SYSRULES_columnLayout"(
+            contents: {
+              #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_74175"(
+                label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                  i18nData: local!i18nData,
+                  bundleKey: "AS.CO.AllBundles.lbl_DueDate"
+                ),
+                required: true,
+                value: ri!task.dueDate,
+                validations: if(
+                  ri!task.dueDate &lt; today(),
+                  #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                    i18nData: local!i18nData,
+                    bundleKey: "AS.CO.AllBundles.vld_PastDueDates"
+                  ),
+                  ""
+                ),
+                saveInto: {
+                  ri!task.dueDate,
+                  a!save(ri!oldDueDate, local!dueDate)
+                },
+                labelPosition: "ABOVE"
+              ),
+              #"_a-0000e528-bc07-8000-9bcf-011c48011c48_1027802"(
+                label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                  i18nData: local!i18nData,
+                  bundleKey: "AS.CO.AllBundles.lbl_ReasonForChange"
+                ),
+                labelPosition: "ABOVE",
+                required: true,
+                choiceLabels: local!reasons.label,
+                choiceValues: local!reasons.code,
+                placeholderLabel: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                  i18nData: local!i18nData,
+                  bundleKey: "AS.CO.AllBundles.lbl_Reason"
+                ),
+                value: ri!comment,
+                validations: {},
+                saveInto: ri!comment
+              )
+            }
+          ),
+          #"SYSTEM_SYSRULES_columnLayout"(contents: {})
+        }
+      )
+    },
+    headerText: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+      i18nData: local!i18nData,
+      bundleKey: "AS.CO.AllBundles.lbl_UpdateTaskDueDate"
+    ),
+    bodyText: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+      i18nData: local!i18nData,
+      bundleKey: "AS.CO.AllBundles.ins_UpdatingDueDates"
+    ),
+    textAlignment: "LEFT",
+    taskStatusId: ri!task.taskStatus.taskStatusId,
+    confirmSaveInto: { a!save(ri!startTime, now()) },
+    validateWhen: local!dueDate = ri!oldDueDate,
+    validation: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+      i18nData: local!i18nData,
+      bundleKey: "AS.CO.AllBundles.vld_TaskDueDateValidation"
+    ),
+    /*Inputs for Debug Framework*/
+    isFromCompleteTask: false(),
+    ruleNameForDebugFw: "AS_IO_FM_updateTaskDueDate"
+  )
+)</definition>
+        <namedTypedValue>
+            <name>task</name>
+            <type>
+                <name>AS_IO_Task</name>
+                <namespace>urn:com:appian:types:AS:IO</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>userAction</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>comment</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>oldDueDate</name>
+            <type>
+                <name>date</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>startTime</name>
+            <type>
+                <name>dateTime</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+        <isCustom>false</isCustom>
+    </interface>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name/>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e393-fbf1-8000-9ba2-011c48011c48_104148"(taskId: 50,returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290157")</a:value>
+                    <a:nameRef>task</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:string"/>
+                    <a:nameRef>userAction</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:string"/>
+                    <a:nameRef>comment</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:date"/>
+                    <a:nameRef>oldDueDate</a:nameRef>
+                    <a:id>4</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:dateTime"/>
+                    <a:nameRef>startTime</a:nameRef>
+                    <a:id>5</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e471-623a-8000-9bc3-011c48011c48_705757"/>
+        <historyInfo versionUuid="_a-0000e471-623a-8000-9bc3-011c48011c48_715810"/>
+        <historyInfo versionUuid="_a-0000e4ae-1ed6-8000-9bc5-011c48011c48_799391"/>
+        <historyInfo versionUuid="_a-0000e528-bc07-8000-9bcf-011c48011c48_1029920"/>
+        <historyInfo versionUuid="_a-0000e539-6d59-8000-9bd0-011c48011c48_1156926"/>
+        <historyInfo versionUuid="_a-0000e62c-7375-8000-9bec-011c48011c48_1815992"/>
+        <historyInfo versionUuid="_a-0000e673-a4a7-8000-9bef-011c48011c48_1965991"/>
+        <historyInfo versionUuid="_a-0000e6ca-7e19-8000-9bfb-011c48011c48_2224247"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2710686"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2793964"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2803747"/>
+        <historyInfo versionUuid="_a-0000e825-b425-8000-9c1c-011c48011c48_3633745"/>
+    </history>
+</contentHaul>

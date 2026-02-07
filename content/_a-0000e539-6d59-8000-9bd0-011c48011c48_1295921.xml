@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e69f-3688-8000-9bf2-011c48011c48_2076168</versionUuid>
+    <interface>
+        <name>AS_CO_CP_booleanCheckBoxOnRichTextFieldMulti</name>
+        <uuid>_a-0000e539-6d59-8000-9bd0-011c48011c48_1295921</uuid>
+        <description>Generic boolean checkbox from the rich text field to handle read-only logic dynamically. This should only have one value for the choiceLabel and choiceValue (e.g. the true label/value).</description>
+        <parentUuid>_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73105</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  local!i18nData: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81720"(
+    bundleFolder: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_104931",
+    bundleNames: "AS.CO.CommonObjects"
+  ),
+  #"SYSTEM_SYSRULES_columnsLayout"(
+    columns: {
+      #"SYSTEM_SYSRULES_columnLayout"(contents: {}),
+      #"SYSTEM_SYSRULES_columnLayout"(
+        contents: {
+          #"SYSTEM_SYSRULES_cardLayout"(
+            contents: #"SYSTEM_SYSRULES_sideBySideLayout"(
+              items: {
+                #"SYSTEM_SYSRULES_sideBySideItem"(width: "AUTO"),
+                #"SYSTEM_SYSRULES_sideBySideItem"(
+                  item: #"SYSTEM_SYSRULES_richTextDisplayField"(
+                    labelPosition: "COLLAPSED",
+                    value: {
+                      #"SYSTEM_SYSRULES_richTextIcon"(
+                        icon: if(ri!value, "check-square-o", "square-o"),
+                        color: #"_a-0000e62c-7375-8000-9bec-011c48011c48_1924695"(
+                          brandingKey: "AccentColor"
+                        ),
+                        size: "LARGE"
+                      )
+                    }
+                  ),
+                  width: "MINIMIZE"
+                ),
+                #"SYSTEM_SYSRULES_sideBySideItem"(
+                  item: #"SYSTEM_SYSRULES_richTextDisplayField"(
+                    labelPosition: "COLLAPSED",
+                    value: {
+                      #"SYSTEM_SYSRULES_richTextItem_v1"(text: ri!choiceLabel1, size: "MEDIUM")
+                    }
+                  ),
+                  width: "MINIMIZE"
+                ),
+                #"SYSTEM_SYSRULES_sideBySideItem"(width: "AUTO")
+              },
+              alignVertical: "MIDDLE"
+            ),
+            link: #"SYSTEM_SYSRULES_dynamicLink"(
+              label: ri!choiceLabel1,
+              saveInto: { a!save(ri!value, true) },
+              showWhen: ri!disabled &lt;&gt; true
+            ),
+            showWhen: ri!showWhen,
+            /*TODO: Internationalize accessibility text and come up with a standard pattern*/
+            accessibilityText: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+              i18nData: local!i18nData,
+              bundleKey: if(
+                ri!value,
+                "AS.CO.CommonObjects.acs_CardAsCheckboxSelected",
+                "AS.CO.CommonObjects.acs_CardAsCheckboxUnselected"
+              )
+            )
+          )
+        },
+        width: "MEDIUM"
+      ),
+      #"SYSTEM_SYSRULES_columnLayout"(
+        contents: {
+          #"SYSTEM_SYSRULES_cardLayout"(
+            contents: #"SYSTEM_SYSRULES_sideBySideLayout"(
+              items: {
+                #"SYSTEM_SYSRULES_sideBySideItem"(width: "AUTO"),
+                #"SYSTEM_SYSRULES_sideBySideItem"(
+                  item: #"SYSTEM_SYSRULES_richTextDisplayField"(
+                    labelPosition: "COLLAPSED",
+                    value: {
+                      #"SYSTEM_SYSRULES_richTextIcon"(
+                        icon: if(
+                          #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75636"(ri!value),
+                          "check-square-o",
+                          "square-o"
+                        ),
+                        color: #"_a-0000e62c-7375-8000-9bec-011c48011c48_1924695"(
+                          brandingKey: "AccentColor"
+                        ),
+                        size: "LARGE"
+                      )
+                    }
+                  ),
+                  width: "MINIMIZE"
+                ),
+                #"SYSTEM_SYSRULES_sideBySideItem"(
+                  item: #"SYSTEM_SYSRULES_richTextDisplayField"(
+                    labelPosition: "COLLAPSED",
+                    value: {
+                      #"SYSTEM_SYSRULES_richTextItem_v1"(text: ri!choiceLabel2, size: "MEDIUM")
+                    }
+                  ),
+                  width: "MINIMIZE"
+                ),
+                #"SYSTEM_SYSRULES_sideBySideItem"(width: "AUTO")
+              },
+              alignVertical: "MIDDLE"
+            ),
+            link: #"SYSTEM_SYSRULES_dynamicLink"(
+              label: ri!choiceLabel2,
+              saveInto: { a!save(ri!value, false) },
+              showWhen: ri!disabled &lt;&gt; true
+            ),
+            showWhen: ri!showWhen,
+            /*TODO: Internationalize accessibility text and come up with a standard pattern*/
+            accessibilityText: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+              i18nData: local!i18nData,
+              bundleKey: if(
+                #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75636"(ri!value),
+                "AS.CO.CommonObjects.acs_CardAsCheckboxSelected",
+                "AS.CO.CommonObjects.acs_CardAsCheckboxUnselected"
+              )
+            )
+          )
+        },
+        width: "MEDIUM"
+      ),
+      #"SYSTEM_SYSRULES_columnLayout"(contents: {})
+    }
+  )
+)</definition>
+        <namedTypedValue>
+            <name>disabled</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>choiceLabel1</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>value</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>showWhen</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>choiceLabel2</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+        <isCustom>false</isCustom>
+    </interface>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <history>
+        <historyInfo versionUuid="_a-0000e539-6d59-8000-9bd0-011c48011c48_1298093"/>
+        <historyInfo versionUuid="_a-0000e673-a4a7-8000-9bef-011c48011c48_1964798"/>
+        <historyInfo versionUuid="_a-0000e69f-3688-8000-9bf2-011c48011c48_2076168"/>
+    </history>
+</contentHaul>

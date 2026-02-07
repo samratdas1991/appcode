@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e81d-5ddb-8000-9c1b-011c48011c48_3565129</versionUuid>
+    <interface>
+        <name>AS_FS_GRD_customerDocsList</name>
+        <uuid>_a-0000e50d-bf1d-8000-9bcd-011c48011c48_976983</uuid>
+        <description>Grid to display customer documents </description>
+        <parentUuid>_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_968428</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  local!refreshAfterRecordAction: a!refreshVariable(
+    value: now(),
+    refreshAfter: "RECORD_ACTION"
+  ),
+  {
+    #"_a-0000e7e5-dad4-8000-9c14-011c48011c48_3312448"("AS_FS_GRD_customerDocsList"),
+    #"SYSTEM_SYSRULES_gridField_v1"(
+      label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+        i18nData: ri!i18nData,
+        bundleKey: "AS.FS.AllBundles.lbl_Documents"
+      ),
+      labelPosition: "COLLAPSED",
+      emptyGridMessage: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+        i18nData: ri!i18nData,
+        bundleKey: "AS.FS.AllBundles.ins_NoDocsAvailable"
+      ),
+      data: #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_971481"(
+        /* Don't filter for internal users */
+        isInternal: if(
+          #"_a-0000e79b-0335-8000-9c0c-011c48011c48_3017773"(user: loggedInUser()),
+          null,
+          false
+        ),
+        pagingInfo: fv!pagingInfo,
+        returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290131",
+        triggerRefresh: local!refreshAfterRecordAction,
+        searchText: ri!searchText,
+        docTypeCodes: a!flatten(ri!selectedDocTypes).code,
+        customerId: ri!customerId
+      ),
+      columns: {
+        /*Icon*/
+        #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_976990"(docExtensionFieldName: "fileType"),
+        /*Name*/
+        #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_976996"(
+          selectedDocumentId: ri!selectedDocumentId,
+          docIdFieldName: "appianDocId",
+          docNameFieldName: "documentName",
+          documentIdFieldName: "customerDocumentId",
+          i18nData: ri!i18nData
+        ),
+        /*Document Type*/
+        #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_977002"(
+          refData: ri!refData,
+          i18nData: ri!i18nData,
+          docTypeFieldName: "docTypeCode"
+        ),
+        /*Uploaded*/
+        #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_977008"(
+          i18nData: ri!i18nData,
+          docUploadedByFieldName: "createdBy",
+          docUploadedOnFieldName: "createdDatetime",
+          docSortField: "createdDatetime"
+        ),
+        /*Use/Security*/
+        #"_a-0000e62c-7375-8000-9bec-011c48011c48_1735784"(
+          i18nData: ri!i18nData,
+          isInternalFieldName: "isInternal",
+          showWhen: ri!showSecurityColumn
+        ),
+        /*Download*/
+        #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_977014"(
+          i18nData: ri!i18nData,
+          docIdFieldName: "appianDocId"
+        )
+      },
+      pageSize: #"_a-0000e3c8-6861-8000-9ba2-011c48011c48_124717",
+      initialSorts: #"SYSTEM_SYSRULES_sortInfo"(field: "createdDatetime"),
+      borderStyle: "STANDARD",
+      shadeAlternateRows: true
+    )
+  }
+)</definition>
+        <namedTypedValue>
+            <name>selectedDocumentId</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>i18nData</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>refData</name>
+            <type>
+                <name>AS_FS_R_Data?list</name>
+                <namespace>urn:com:appian:types:AS:FS</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>searchText</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>selectedDocTypes</name>
+            <type>
+                <name>AS_FS_R_Data?list</name>
+                <namespace>urn:com:appian:types:AS:FS</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>customerId</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>showSecurityColumn</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+        <isCustom>false</isCustom>
+    </interface>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name/>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:int"/>
+                    <a:nameRef>selectedDocumentId</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_975720"(triggerRefresh: now())</a:value>
+                    <a:nameRef>i18nData</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_975294"(
+
+  typeList: {})</a:value>
+                    <a:nameRef>refData</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:string"/>
+                    <a:nameRef>searchText</a:nameRef>
+                    <a:id>4</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                    <a:nameRef>selectedDocTypes</a:nameRef>
+                    <a:id>5</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_33079"(
+  returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290157"
+).customerId</a:value>
+                    <a:nameRef>customerId</a:nameRef>
+                    <a:id>6</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:boolean">true</a:value>
+                    <a:nameRef>showSecurityColumn</a:nameRef>
+                    <a:id>7</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e50d-bf1d-8000-9bcd-011c48011c48_977541"/>
+        <historyInfo versionUuid="_a-0000e528-bc07-8000-9bcf-011c48011c48_1026277"/>
+        <historyInfo versionUuid="_a-0000e62c-7375-8000-9bec-011c48011c48_1734745"/>
+        <historyInfo versionUuid="_a-0000e62c-7375-8000-9bec-011c48011c48_1773515"/>
+        <historyInfo versionUuid="_a-0000e62c-7375-8000-9bec-011c48011c48_1774609"/>
+        <historyInfo versionUuid="_a-0000e62c-7375-8000-9bec-011c48011c48_1774846"/>
+        <historyInfo versionUuid="_a-0000e62c-7375-8000-9bec-011c48011c48_1776796"/>
+        <historyInfo versionUuid="_a-0000e62c-7375-8000-9bec-011c48011c48_1824913"/>
+        <historyInfo versionUuid="_a-0000e62c-7375-8000-9bec-011c48011c48_1833591"/>
+        <historyInfo versionUuid="_a-0000e62c-7375-8000-9bec-011c48011c48_1903991"/>
+        <historyInfo versionUuid="_a-0000e69f-3688-8000-9bf2-011c48011c48_2098619"/>
+        <historyInfo versionUuid="_a-0000e69f-3688-8000-9bf2-011c48011c48_2176710"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2702122"/>
+        <historyInfo versionUuid="_a-0000e7e5-dad4-8000-9c14-011c48011c48_3239085"/>
+        <historyInfo versionUuid="_a-0000e81d-5ddb-8000-9c1b-011c48011c48_3565129"/>
+    </history>
+</contentHaul>

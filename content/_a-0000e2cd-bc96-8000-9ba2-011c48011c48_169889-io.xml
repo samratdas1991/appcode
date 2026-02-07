@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e6ba-d6dd-8000-9bf5-011c48011c48_2181907</versionUuid>
+    <rule>
+        <name>AS_GM_generateAuditHistory</name>
+        <uuid>_a-0000e2cd-bc96-8000-9ba2-011c48011c48_169889-io</uuid>
+        <description>Creates a CDT of Audit History for write to datastore</description>
+        <parentUuid>_a-0000e471-623a-8000-9bc3-011c48011c48_750565</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>if(
+  #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(
+    ri!action
+  ),
+  {},
+  #"SYSTEM_SYSRULES_forEach"(
+    items: ri!users,
+    expression: 'type!{urn:com:appian:types:AS:GM}AS_GM_GroupMgmtAuditAction'(
+      datetime: fn!now(),
+      member: if(
+        runtimetypeof(
+          fv!item
+        ) = #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_166426-io",
+        group(
+          togroup(
+            fv!item
+          ),
+          "groupName"
+        ),
+        fv!item
+      ),
+      memberType: if(
+        runtimetypeof(
+          fv!item
+        ) = #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_166426-io",
+        #"_a-0000e419-f401-8000-9ba4-011c48011c48_16743-io",
+        #"_a-0000e419-f401-8000-9ba4-011c48011c48_16749-io"
+      ),
+      action: ri!action,
+      groupId: ri!selectedGroupId,
+      initiator: ri!initiator
+    )
+  )
+)</definition>
+        <namedTypedValue>
+            <name>users</name>
+            <type>
+                <name>UserOrGroup?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>selectedGroupId</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>initiator</name>
+            <type>
+                <name>User</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>action</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name>Unnamed Test Case</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                    <a:nameRef>users</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:int"/>
+                    <a:nameRef>selectedGroupId</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="a:User"/>
+                    <a:nameRef>initiator</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:string"/>
+                    <a:nameRef>action</a:nameRef>
+                    <a:id>4</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e2cd-bc96-8000-9ba2-011c48011c48_255543-io"/>
+        <historyInfo versionUuid="_a-0000e430-f270-8000-9bbc-011c48011c48_370791"/>
+        <historyInfo versionUuid="_a-0000e471-623a-8000-9bc3-011c48011c48_750685"/>
+        <historyInfo versionUuid="_a-0000e539-6d59-8000-9bd0-011c48011c48_1241902"/>
+        <historyInfo versionUuid="_a-0000e586-af6f-8000-9bd2-011c48011c48_1323427"/>
+        <historyInfo versionUuid="_a-0000e6ba-d6dd-8000-9bf5-011c48011c48_2181907"/>
+    </history>
+</contentHaul>

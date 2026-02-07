@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e7e5-dad4-8000-9c14-011c48011c48_3321471</versionUuid>
+    <interface>
+        <name>AS_FS_CRD_alertsForCustomerSummary</name>
+        <uuid>_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2380871</uuid>
+        <description>displays active alerts for customer</description>
+        <parentUuid>_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_968428</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  local!triggerRefresh: a!refreshVariable(
+    value: now(),
+    refreshAfter: "RECORD_ACTION"
+  ),
+  local!alertTypes: #"_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2394197"(
+    i18nData: ri!i18nData,
+    /*Get list of created by users (not system and integrations)*/
+    userInitatorValues: #"_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2387037"(
+      triggerRefresh: local!triggerRefresh,
+      returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290169",
+      aggregationFields: #"SYSTEM_SYSRULES_aggregationFields"(
+        groupings: #"SYSTEM_SYSRULES_grouping"(
+          field: #"urn:appian:record-field:v1:b68a6595-9eaf-4ecc-bde6-452db35bfc42/7bbbef15-9dd2-4a57-8839-c509b3758191",
+          alias: "user"
+        )
+      ),
+      alertSetId: ri!customer.alertSetId,
+      type: #"_a-0000e6ca-7e19-8000-9bfb-011c48011c48_2349273"
+    ).user
+  ),
+  local!alertSourceInitiatorValues: a!flatten(local!alertTypes.initiatorValues),
+  local!selectedSources: a!refreshVariable(
+    value: null(),
+    refreshAfter: "RECORD_ACTION"
+  ),
+  local!selectedTypes,
+  local!pagingInfo: a!refreshVariable(
+    value: #"SYSTEM_SYSRULES_pagingInfo"(
+      startIndex: 1,
+      batchSize: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73148",
+      sort: #"SYSTEM_SYSRULES_sortInfo"(
+        field: #"urn:appian:record-field:v1:b68a6595-9eaf-4ecc-bde6-452db35bfc42/75d22155-9212-49bd-8d41-f3663b93ae2a",
+        ascending: false
+      )
+    ),
+    refreshOnVarChange: {
+      local!selectedSources,
+      local!selectedTypes
+    }
+  ),
+  local!alerts: #"_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2387037"(
+    returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290131",
+    pagingInfo: local!pagingInfo,
+    triggerRefresh: local!triggerRefresh,
+    alertSetId: ri!customer.alertSetId,
+    source: local!selectedSources,
+    type: local!selectedTypes,
+    fields: {
+      #"urn:appian:record-relationship:v1:b68a6595-9eaf-4ecc-bde6-452db35bfc42/69477411-623b-4361-a7ae-6efaef445892",
+      #"urn:appian:record-relationship:v1:b68a6595-9eaf-4ecc-bde6-452db35bfc42/69477411-623b-4361-a7ae-6efaef445892/1c246674-646a-42cf-b03b-88fb94d33ce5",
+      #"urn:appian:record-relationship:v1:b68a6595-9eaf-4ecc-bde6-452db35bfc42/69477411-623b-4361-a7ae-6efaef445892/1c246674-646a-42cf-b03b-88fb94d33ce5/1c246674-646a-42cf-b03b-88fb94d33ce5",
+      #"urn:appian:record-relationship:v1:b68a6595-9eaf-4ecc-bde6-452db35bfc42/88617967-71fd-42e0-b70a-411716344124",
+      #"urn:appian:record-field:v1:b68a6595-9eaf-4ecc-bde6-452db35bfc42/358dbf2c-c441-4d89-9529-1a3afb193d6f/82717263-d098-48ae-ad24-1591d57c5a00"
+    }
+  ),
+  {
+    #"_a-0000e7e5-dad4-8000-9c14-011c48011c48_3312448"("AS_FS_CRD_alertsForCustomerSummary"),
+    /*  Section Header*/
+    #"SYSTEM_SYSRULES_sideBySideLayout"(
+      alignVertical: "MIDDLE",
+      items: {
+        #"SYSTEM_SYSRULES_sideBySideItem"(
+          item: #"SYSTEM_SYSRULES_richTextDisplayField"(
+            labelPosition: "COLLAPSED",
+            value: {
+              #"SYSTEM_SYSRULES_richTextHeader"(
+                text: {
+                  #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                    i18nData: ri!i18nData,
+                    bundleKey: "AS.ALT.Alerts.lbl_ActiveAlerts"
+                  )
+                },
+                size: "MEDIUM"
+              )
+            }
+          ),
+          width: "AUTO"
+        ),
+        #"SYSTEM_SYSRULES_sideBySideItem"(
+          item: #"SYSTEM_SYSRULES_recordActionField"(
+            align: "END",
+            actions: {
+              #"SYSTEM_SYSRULES_recordActionItem"(
+                action: #"urn:appian:record-action:v1:15ec9ef8-96dd-41ff-a034-7863526026d4/8f379f2e-abc1-4e0e-bbcb-f10e2da49919",
+                identifier: ri!customer.customerId
+              )
+            }
+          ),
+          width: "MINIMIZE"
+        )
+      }
+    ),
+    /*Filter Options*/
+    #"SYSTEM_SYSRULES_sideBySideLayout"(
+      alignVertical: "MIDDLE",
+      items: {
+        /*Type*/
+        #"SYSTEM_SYSRULES_sideBySideItem"(
+          item: #"_a-0000e528-bc07-8000-9bcf-011c48011c48_1032072"(
+            label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+              i18nData: ri!i18nData,
+              bundleKey: "AS.FS.AllBundles.lbl_AlertType"
+            ),
+            labelPosition: "COLLAPSED",
+            disabled: and(
+              #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(local!selectedSources),
+              #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(local!selectedTypes)
+            ),
+            placeholderOverride: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+              i18nData: ri!i18nData,
+              bundleKey: "AS.FS.AllBundles.lbl_AnyType"
+            ),
+            wrapInMarkers: false(),
+            choiceLabels: local!alertTypes.label,
+            choiceValues: local!alertTypes.value,
+            saveInto: {
+              local!selectedTypes,
+              if(
+                #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(local!selectedTypes),
+                /*if no type is selected, display all source options*/
+                a!save(
+                  local!alertSourceInitiatorValues,
+                  a!flatten(local!alertTypes.initiatorValues)
+                ),
+                /*otherwise filter source options to the selected type(s)*/
+                a!save(
+                  local!alertSourceInitiatorValues,
+                  a!flatten(
+                    #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+                      cdt: local!alertTypes,
+                      field: "value",
+                      value: local!selectedTypes
+                    ).initiatorValues
+                  )
+                )
+              ),
+              a!save(local!selectedSources, null)
+            },
+            value: local!selectedTypes
+          ),
+          width: "AUTO"
+        ),
+        /*Source*/
+        #"SYSTEM_SYSRULES_sideBySideItem"(
+          item: #"_a-0000e528-bc07-8000-9bcf-011c48011c48_1032072"(
+            label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+              i18nData: ri!i18nData,
+              bundleKey: "AS.FS.AllBundles.lbl_AlertSource"
+            ),
+            labelPosition: "COLLAPSED",
+            placeholderOverride: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+              i18nData: ri!i18nData,
+              bundleKey: "AS.FS.AllBundles.lbl_AnySource"
+            ),
+            wrapInMarkers: false(),
+            choiceLabels: #"SYSTEM_SYSRULES_forEach"(
+              items: local!alertSourceInitiatorValues,
+              expression: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73660"(user: fv!item, i18nData: ri!i18nData)
+            ),
+            choiceValues: local!alertSourceInitiatorValues,
+            saveInto: local!selectedSources,
+            value: local!selectedSources
+          ),
+          width: "AUTO"
+        ),
+        
+      }
+    ),
+    /* Alert Details*/
+    #"_a-0000e447-933d-8000-9baa-011c48011c48_102785"(
+      i18nData: ri!i18nData,
+      alertDataSubset: local!alerts,
+      pagingInfo: local!pagingInfo,
+      alertStyle: #"_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2387746",
+      allowDismissals: #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_998895"(),
+      alertWrapperComponentStyle: #"_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2387378",
+      shortenAlertMessagesToLength: #"_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2446585",
+      integrationCodes: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+        cdt: local!alertTypes,
+        field: "value",
+        value: #"_a-0000e6ca-7e19-8000-9bfb-011c48011c48_2349267"
+      ).initiatorValues,
+      showCustomer: false(),
+      showCreatedBy: true(),
+      showCreatedOn: true()
+    )
+  }
+)</definition>
+        <namedTypedValue>
+            <name>customer</name>
+            <type>
+                <name>AS_FS_Customer</name>
+                <namespace>urn:com:appian:types:AS:FS</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>i18nData</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+        <isCustom>false</isCustom>
+    </interface>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name/>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_33079"(
+  customerId: 1,
+  returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290157"
+),</a:value>
+                    <a:nameRef>customer</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_975720"(triggerRefresh: null),</a:value>
+                    <a:nameRef>i18nData</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2381670"/>
+        <historyInfo versionUuid="_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2394614"/>
+        <historyInfo versionUuid="_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2409449"/>
+        <historyInfo versionUuid="_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2420049"/>
+        <historyInfo versionUuid="_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2420262"/>
+        <historyInfo versionUuid="_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2420344"/>
+        <historyInfo versionUuid="_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2422636"/>
+        <historyInfo versionUuid="_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2442475"/>
+        <historyInfo versionUuid="_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2444509"/>
+        <historyInfo versionUuid="_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2447503"/>
+        <historyInfo versionUuid="_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2455468"/>
+        <historyInfo versionUuid="_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2456707"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2708868"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2769149"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2773631"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2777687"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2781993"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2793146"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2803964"/>
+        <historyInfo versionUuid="_a-0000e777-b9f8-8000-9c06-011c48011c48_2833295"/>
+        <historyInfo versionUuid="_a-0000e77e-5277-8000-9c09-011c48011c48_2842135"/>
+        <historyInfo versionUuid="_a-0000e79b-0335-8000-9c0c-011c48011c48_2942620"/>
+        <historyInfo versionUuid="_a-0000e79b-0335-8000-9c0c-011c48011c48_2982529"/>
+        <historyInfo versionUuid="_a-0000e7e5-dad4-8000-9c14-011c48011c48_3321471"/>
+    </history>
+</contentHaul>

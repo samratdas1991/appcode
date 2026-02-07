@@ -1,0 +1,476 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e825-b425-8000-9c1c-011c48011c48_3643729</versionUuid>
+    <interface>
+        <name>AS_IO_BTN_manageOnboardingTemplate_Buttons</name>
+        <uuid>_a-0000e7e5-dad4-8000-9c14-011c48011c48_3247542</uuid>
+        <description>Rule consists of Button layouts in manage reference template buttons</description>
+        <parentUuid>_a-0000e2bb-4188-8000-9ba2-011c48011c48_25469</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  local!newRequiredDocs: #"_a-0000e3d1-f4dc-8000-9ba4-011c48011c48_143475"(
+    type: 'type!{urn:com:appian:types:AS:IO}AS_IO_T_RequiredDocument'
+  ),
+  local!requiredDocsToBeAdded,
+  local!requiredDocsToBeDeleted,
+  local!attachReqDocsTasks,
+  local!reviewReqDocsTasks,
+  #"_a-0000e3d1-f4dc-8000-9ba4-011c48011c48_134344"(
+    additionalSecondaryButtons: #"SYSTEM_SYSRULES_ButtonWidget"(
+      label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+        i18nData: ri!i18nData,
+        bundleKey: "AS.CO.AllBundles.btn_Back"
+      ),
+      saveInto: {
+        a!save(ri!activeStep, ri!activeStep - 1),
+        a!save(
+          ri!userAction,
+          #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_1014889"
+        )
+      },
+      showWhen: ri!activeStep &lt;&gt; #"_a-0000e7e5-dad4-8000-9c14-011c48011c48_3247325",
+      disabled: ri!isBackDisabled
+    ),
+    confirmLabel: if(
+      ri!activeStep = #"_a-0000e7e5-dad4-8000-9c14-011c48011c48_3247351",
+      if(
+        ri!readOnly,
+        #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+          i18nData: ri!i18nData,
+          bundleKey: "AS.CO.AllBundles.btn_Close"
+        ),
+        if(
+          #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(ri!editedTemplate.templateId),
+          #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+            i18nData: ri!i18nData,
+            bundleKey: "AS.CO.AllBundles.btn_Submit"
+          ),
+          #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+            i18nData: ri!i18nData,
+            bundleKey: "AS.CO.AllBundles.btn_Create"
+          )
+        )
+      ),
+      #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+        i18nData: ri!i18nData,
+        bundleKey: "AS.CO.AllBundles.btn_Next"
+      )
+    ),
+    cancelLabel: if(
+      ri!readOnly,
+      #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+        i18nData: ri!i18nData,
+        bundleKey: "AS.CO.AllBundles.btn_Close"
+      ),
+      #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+        i18nData: ri!i18nData,
+        bundleKey: "AS.CO.AllBundles.btn_Cancel"
+      )
+    ),
+    confirmSaveInto: {
+      if(
+        ri!activeStep = #"_a-0000e7e5-dad4-8000-9c14-011c48011c48_3247325",
+        {
+          if(
+            ri!previousOnboardingTypeCode = ri!editedTemplate.onboardingTypeCode,
+            {},
+            /*if the type code has changed, update the products*/
+            {
+              a!save(
+                ri!editedTemplate.onboardingProductTemplates,
+                #"_a-0000e7e5-dad4-8000-9c14-011c48011c48_3295423"(
+                  onboardingTypeCode: ri!editedTemplate.onboardingTypeCode,
+                  templateId: ri!editedTemplate.templateId
+                )
+              ),
+              /*update the "previous" type code*/
+              a!save(
+                ri!previousOnboardingTypeCode,
+                ri!editedTemplate.onboardingTypeCode
+              )
+            }
+          ),
+          /*update isNewDefaultTemplate to tell the PM that a new default has been established*/
+          a!save(
+            ri!isNewDefaultTemplate,
+            and(
+              ri!editedTemplate.isDefault,
+              #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75636"(ri!oldTemplate.isDefault)
+            )
+          )
+        },
+        if(
+          ri!activeStep = #"_a-0000e7e5-dad4-8000-9c14-011c48011c48_3247343",
+          {
+            a!save(
+              local!newRequiredDocs,
+              #"_a-0000e7e5-dad4-8000-9c14-011c48011c48_3288118"(
+                oldRequiredDocumentTemplates: ri!editedTemplate.requiredDocumentTemplates,
+                newRequiredDocTemplateMap: ri!currentRequiredDocTemplateMap,
+                templateId: ri!editedTemplate.templateId
+              )
+            ),
+            {
+              /*Required Docs added newly in this flow to construct tasks*/
+              a!save(
+                local!requiredDocsToBeAdded,
+                difference(
+                  local!newRequiredDocs,
+                  ri!editedTemplate.requiredDocumentTemplates
+                )
+              ),
+              /*Required Docs removed in this flow to remove tasks*/
+              a!save(
+                local!requiredDocsToBeDeleted,
+                difference(
+                  ri!editedTemplate.requiredDocumentTemplates,
+                  local!newRequiredDocs
+                )
+              ),
+              a!save(
+                ri!editedTemplate.requiredDocumentTemplates,
+                reject(
+                  #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536",
+                  { local!newRequiredDocs }
+                )
+              ),
+              /*Constructing tasks only for the newly added required docs*/
+              a!save(
+                local!attachReqDocsTasks,
+                #"_a-0000e7e5-dad4-8000-9c14-011c48011c48_3326661"(
+                  newRequiredDocuments: reject(
+                    #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536",
+                    { local!requiredDocsToBeAdded }
+                  ),
+                  i18ndata: ri!i18nData,
+                  allRequiredDocs: ri!editedTemplate.requiredDocumentTemplates,
+                  /*existingTemplateTasks: ri!editedTemplate.templateTasks*/
+                  
+                )
+              ),
+              a!save(
+                local!reviewReqDocsTasks,
+                #"_a-0000e7e5-dad4-8000-9c14-011c48011c48_3326815"(
+                  newRequiredDocuments: reject(
+                    #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536",
+                    { local!requiredDocsToBeAdded }
+                  ),
+                  i18ndata: ri!i18nData,
+                  attachRequiredDocsTasks: local!attachReqDocsTasks,
+                  allRequiredDocs: ri!editedTemplate.requiredDocumentTemplates
+                )
+              ),
+              /*save attach and review tasks for new required docs*/
+              a!save(
+                ri!editedTemplate.templateTasks,
+                append(
+                  ri!editedTemplate.templateTasks,
+                  /*Sorts the tasks based on requiredDocumentTemplateUUID so that the each attach and review task are next to each other */
+                  #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75708"(
+                    cdt: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_76367"(
+                      {
+                        local!attachReqDocsTasks,
+                        local!reviewReqDocsTasks
+                      }
+                    ),
+                    field: "requiredDocumentTemplateUUID",
+                    array: ri!editedTemplate.requiredDocumentTemplates.requiredDocumentTemplateUUID
+                  )
+                )
+              ),
+              /*Removing attach and review tasks of removed Required documents*/
+              #"_a-0000e3d1-f4dc-8000-9ba4-011c48011c48_143273"(
+                selectedTemplateTasks: ri!editedTemplate.templateTasks,
+                taskUUIDsToRemove: index(
+                  index(
+                    ri!editedTemplate.templateTasks,
+                    wherecontains(
+                      touniformstring(
+                        index(
+                          local!requiredDocsToBeDeleted,
+                          "requiredDocumentTemplateUUID",
+                          null
+                        )
+                      ),
+                      touniformstring(
+                        ri!editedTemplate.templateTasks.requiredDocumentTemplateUUID
+                      )
+                    ),
+                    null
+                  ),
+                  "templateTaskUUID",
+                  null
+                )
+              )
+            }
+          },
+          if(
+            ri!activeStep = #"_a-0000e7e5-dad4-8000-9c14-011c48011c48_3247351",
+            {
+              a!save(ri!finalTemplate, ri!editedTemplate),
+              a!save(
+                ri!userAction,
+                #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73305"
+              ),
+              #"_a-0000e825-b425-8000-9c1c-011c48011c48_3643407"()
+            },
+            {}
+          )
+        )
+      ),
+      a!save(ri!activeStep, ri!activeStep + 1)
+    },
+    cancelSaveInto: a!save(
+      ri!userAction,
+      #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73173"
+    ),
+    includeDivider: true,
+    confirmSubmit: ri!activeStep = #"_a-0000e7e5-dad4-8000-9c14-011c48011c48_3247351",
+    confirmDisabled: ri!confirmDisabled,
+    cancelDisabled: ri!cancelDisabled,
+    cancelStyle: "LINK",
+    cancelSubmit: true,
+    validate: true,
+    hideCancel: and(
+      ri!readOnly,
+      ri!activeStep = #"_a-0000e7e5-dad4-8000-9c14-011c48011c48_3247351"
+    ),
+    showWhen: ri!showWhen
+  )
+)</definition>
+        <namedTypedValue>
+            <name>i18nData</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>activeStep</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>userAction</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>editedTemplate</name>
+            <type>
+                <name>AS_IO_R_Template</name>
+                <namespace>urn:com:appian:types:AS:IO</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>isNewDefaultTemplate</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>confirmDisabled</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>finalTemplate</name>
+            <type>
+                <name>AS_IO_R_Template</name>
+                <namespace>urn:com:appian:types:AS:IO</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>cancelDisabled</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>readOnly</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>isBackDisabled</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>currentRequiredDocTemplateMap</name>
+            <type>
+                <name>Map?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>oldTemplate</name>
+            <type>
+                <name>AS_IO_R_Template</name>
+                <namespace>urn:com:appian:types:AS:IO</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>showWhen</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>previousOnboardingTypeCode</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+        <isCustom>false</isCustom>
+    </interface>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name/>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81834"(triggerRefresh: null)</a:value>
+                    <a:nameRef>i18nData</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:int"/>
+                    <a:nameRef>activeStep</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:string"/>
+                    <a:nameRef>userAction</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:n1="urn:com:appian:types:AS:IO" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="n1:AS_IO_R_Template"/>
+                    <a:nameRef>editedTemplate</a:nameRef>
+                    <a:id>4</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:boolean"/>
+                    <a:nameRef>isNewDefaultTemplate</a:nameRef>
+                    <a:id>5</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:boolean"/>
+                    <a:nameRef>confirmDisabled</a:nameRef>
+                    <a:id>6</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:n1="urn:com:appian:types:AS:IO" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="n1:AS_IO_R_Template"/>
+                    <a:nameRef>finalTemplate</a:nameRef>
+                    <a:id>7</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:boolean"/>
+                    <a:nameRef>cancelDisabled</a:nameRef>
+                    <a:id>8</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:boolean"/>
+                    <a:nameRef>readOnly</a:nameRef>
+                    <a:id>9</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:boolean"/>
+                    <a:nameRef>isBackDisabled</a:nameRef>
+                    <a:id>10</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                    <a:nameRef>currentRequiredDocTemplateMap</a:nameRef>
+                    <a:id>11</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:n1="urn:com:appian:types:AS:IO" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="n1:AS_IO_R_Template"/>
+                    <a:nameRef>oldTemplate</a:nameRef>
+                    <a:id>12</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:boolean"/>
+                    <a:nameRef>showWhen</a:nameRef>
+                    <a:id>13</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:string"/>
+                    <a:nameRef>previousOnboardingTypeCode</a:nameRef>
+                    <a:id>14</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e7e5-dad4-8000-9c14-011c48011c48_3273239"/>
+        <historyInfo versionUuid="_a-0000e7e5-dad4-8000-9c14-011c48011c48_3274337"/>
+        <historyInfo versionUuid="_a-0000e7e5-dad4-8000-9c14-011c48011c48_3297184"/>
+        <historyInfo versionUuid="_a-0000e7e5-dad4-8000-9c14-011c48011c48_3297798"/>
+        <historyInfo versionUuid="_a-0000e7e5-dad4-8000-9c14-011c48011c48_3335400"/>
+        <historyInfo versionUuid="_a-0000e7e5-dad4-8000-9c14-011c48011c48_3338357"/>
+        <historyInfo versionUuid="_a-0000e7fa-f829-8000-9c17-011c48011c48_3374100"/>
+        <historyInfo versionUuid="_a-0000e7fa-f829-8000-9c17-011c48011c48_3385712"/>
+        <historyInfo versionUuid="_a-0000e7fa-f829-8000-9c17-011c48011c48_3391619"/>
+        <historyInfo versionUuid="_a-0000e7fa-f829-8000-9c17-011c48011c48_3399552"/>
+        <historyInfo versionUuid="_a-0000e7fa-f829-8000-9c17-011c48011c48_3402666"/>
+        <historyInfo versionUuid="_a-0000e811-1167-8000-9c18-011c48011c48_3531650"/>
+        <historyInfo versionUuid="_a-0000e825-b425-8000-9c1c-011c48011c48_3643729"/>
+    </history>
+</contentHaul>

@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e7d2-6286-8000-9c11-011c48011c48_3123101</versionUuid>
+    <rule>
+        <name>AS_ADT_BL_buildAuditActionCodeDisplayDict</name>
+        <uuid>_a-0000e3e6-fb42-8000-9ba5-011c48011c48_248820-adt</uuid>
+        <description>Holds the list of possible audit action codes used by the ADT field-level application</description>
+        <parentUuid>_a-0000e42d-ffef-8000-9ba6-011c48011c48_7213-adt</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  local!i18nData: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81720"(
+    bundleFolder: #"_a-0000e467-127b-8000-0fb7-43ef9043ef90_9065-adt",
+    bundleNames: "AS.ADT.AuditFieldLevel"
+  ),
+  #"SYSTEM_SYSRULES_forEach"(
+    items: {
+      a!map(
+        code: #"_a-0000e3e6-fb42-8000-9ba5-011c48011c48_181584-adt",
+        /*green*/
+        color: #"_a-0000e62c-7375-8000-9bec-011c48011c48_1924695"(brandingKey: "AuditActionAdd"),
+        bundleKey: "AS.ADT.AuditFieldLevel.lbl_Added"
+      ),
+      a!map(
+        code: #"_a-0000e3e6-fb42-8000-9ba5-011c48011c48_181590-adt",
+        /*red*/
+        color: #"_a-0000e62c-7375-8000-9bec-011c48011c48_1924695"(brandingKey: "AuditActionDelete"),
+        bundleKey: "AS.ADT.AuditFieldLevel.lbl_Deleted"
+      ),
+      a!map(
+        code: #"_a-0000e3e6-fb42-8000-9ba5-011c48011c48_181596-adt",
+        /*purple*/
+        color: #"_a-0000e62c-7375-8000-9bec-011c48011c48_1924695"(brandingKey: "AuditActionModify"),
+        bundleKey: "AS.ADT.AuditFieldLevel.lbl_Modified"
+      ),
+      a!map(
+        code: #"_a-0000e3e6-fb42-8000-9ba5-011c48011c48_181602-adt",
+        /*orange*/
+        color: #"_a-0000e62c-7375-8000-9bec-011c48011c48_1924695"(brandingKey: "AuditActionDeactivate"),
+        bundleKey: "AS.ADT.AuditFieldLevel.lbl_Deactivated"
+      ),
+      a!map(
+        code: #"_a-0000e3e6-fb42-8000-9ba5-011c48011c48_181608-adt",
+        /*blue*/
+        color: #"_a-0000e62c-7375-8000-9bec-011c48011c48_1924695"(brandingKey: "AuditActionReactivate"),
+        bundleKey: "AS.ADT.AuditFieldLevel.lbl_Reactivated"
+      ),
+      a!map(
+        code: #"_a-0000e3e6-fb42-8000-9ba5-011c48011c48_232728-adt",
+        /*gray*/
+        color: #"_a-0000e62c-7375-8000-9bec-011c48011c48_1924695"(brandingKey: "AuditActionUnchanged"),
+        bundleKey: "AS.ADT.AuditFieldLevel.lbl_EditedButMadeNoChangesTo"
+      )
+    },
+    expression: a!map(
+      code: tostring(fv!item.code),
+      color: fv!item.color,
+      label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+        i18nData: local!i18nData,
+        bundleKey: fv!item.bundleKey
+      )
+    )
+  )
+)</definition>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name>sample test case</a:name>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e3e6-fb42-8000-9ba5-011c48011c48_253832"/>
+        <historyInfo versionUuid="_a-0000e40a-de32-8000-9ba8-011c48011c48_279806"/>
+        <historyInfo versionUuid="_a-0000e430-f270-8000-9bbc-011c48011c48_369550"/>
+        <historyInfo versionUuid="_a-0000e460-9d93-8000-9bc1-011c48011c48_611835"/>
+        <historyInfo versionUuid="_a-0000e467-127b-8000-0fb7-43ef9043ef90_9110"/>
+        <historyInfo versionUuid="_a-0000e465-3942-8000-3664-a8ef90a8ef90_14127-adt"/>
+        <historyInfo versionUuid="_a-0000e447-9390-8000-9baa-011c48011c48_65012"/>
+        <historyInfo versionUuid="_a-0000e5d6-d648-8000-9bde-011c48011c48_1484741"/>
+        <historyInfo versionUuid="_a-0000e69f-3688-8000-9bf2-011c48011c48_2092539"/>
+        <historyInfo versionUuid="_a-0000e69f-3688-8000-9bf2-011c48011c48_2145686"/>
+        <historyInfo versionUuid="_a-0000e7d2-6286-8000-9c11-011c48011c48_3123101"/>
+    </history>
+</contentHaul>

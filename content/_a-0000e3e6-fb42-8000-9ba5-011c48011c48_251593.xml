@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e430-f270-8000-9bbc-011c48011c48_369894</versionUuid>
+    <rule>
+        <name>AS_IO_UT_buildProcessSetUpAggregatedTrendsFromTaskAndTemplateChanges</name>
+        <uuid>_a-0000e3e6-fb42-8000-9ba5-011c48011c48_251593</uuid>
+        <description>Builds process setup trends from task and template changes </description>
+        <parentUuid>_a-0000e2bb-4188-8000-9ba2-011c48011c48_25469</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  /*Gather all aggregated data from the two sources*/
+  local!aggregatedData: {
+    taskChanges: #"_a-0000e3e6-fb42-8000-9ba5-011c48011c48_248759"(
+      dateFilter: ri!dateFilter
+    ),
+    templateChanges: #"f2a7d2f9-e3e6-4a11-a629-350daf8adfc4"(
+      dateFilter: ri!dateFilter
+    )
+  },
+  
+  /*Get all distinct templateIds from the result set*/
+  local!distinctTemplateIds: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73758"({
+    tointeger(local!aggregatedData.taskChanges.templateId),
+    tointeger(local!aggregatedData.templateChanges.templateId),
+  }),
+  
+  /*Calcuate the series data for each template ID*/
+  local!calculatedSeriesData: #"SYSTEM_SYSRULES_forEach"(
+    items: local!distinctTemplateIds,
+    expression: a!localVariables(
+      local!templateId: fv!item,
+      /*Within each templateId, calculate the series data for each config*/
+      local!seriesData: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73856"(
+        fieldValuePairs: #"SYSTEM_SYSRULES_forEach"(
+          items: #"_a-0000e40a-961e-8000-9ba7-011c48011c48_258082"(),
+          expression: {
+            field: fv!item.key,
+            value: #"_a-0000e3e6-fb42-8000-9ba5-011c48011c48_251642"(
+              templateId: local!templateId,
+              seriesConfig: fv!item,
+              aggregatedData: local!aggregatedData
+            )
+          }
+        )
+      ),
+      {
+        templateId: local!templateId,
+        seriesData: local!seriesData,
+        /*Sum the total count for sorting of the templates*/
+        totalCount: sum(#"SYSTEM_SYSRULES_forEach"(
+          items: #"_a-0000e40a-961e-8000-9ba7-011c48011c48_258082"(),
+          expression: local!seriesData[fv!item.key].count
+        )),
+      }
+    )
+  ),
+  
+  /*Sort the templates by total count*/
+  #"_a-0000e415-3035-8000-9bb2-011c48011c48_292117"(
+    value: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75720"(
+      cdt: local!calculatedSeriesData,
+      field: "totalCount",
+      ascending: false
+    )
+  )
+)
+</definition>
+        <namedTypedValue>
+            <name>dateFilter</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name>Sample Test Case</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:date"/>
+                    <a:nameRef>dateFilter</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+            <el>
+                <a:name>pass in dateFilter</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e40a-de32-8000-9ba8-011c48011c48_276298"()[2]</a:value>
+                    <a:nameRef>dateFilter</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e3e6-fb42-8000-9ba5-011c48011c48_252791"/>
+        <historyInfo versionUuid="_a-0000e40a-de32-8000-9ba8-011c48011c48_276906"/>
+        <historyInfo versionUuid="_a-0000e40a-de32-8000-9ba8-011c48011c48_282763"/>
+        <historyInfo versionUuid="_a-0000e415-3035-8000-9bb2-011c48011c48_292244"/>
+        <historyInfo versionUuid="_a-0000e430-f270-8000-9bbc-011c48011c48_369894"/>
+    </history>
+</contentHaul>

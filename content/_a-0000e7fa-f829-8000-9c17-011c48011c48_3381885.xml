@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e7fa-f829-8000-9c17-011c48011c48_3409871</versionUuid>
+    <rule>
+        <name>AS_IO_getOriginalAndNewTemplatesWithUpdatedTProductsBasedOnRefProductUpdates</name>
+        <uuid>_a-0000e7fa-f829-8000-9c17-011c48011c48_3381885</uuid>
+        <description>Returns a map of original and new templates with the updated T_OnboardingProduct Based On Ref Product Update</description>
+        <parentUuid>_a-0000e2bb-4188-8000-9ba2-011c48011c48_25469</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>/*Products are queried, constructed and updated for Audit Purposes*/
+/*For teh account Types added and deleted, accounts are written and deleted from DB*/
+if(
+  and(
+    #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(ri!accountTypesAdded),
+    #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(ri!accountTypesDeleted)
+  ),
+  {},
+  a!localVariables(
+    /*Query AS_IO_T_OnboardingProduct of the same product type */
+    local!TProductsOfTheType: #"_a-0000e7fa-f829-8000-9c17-011c48011c48_3364087"(
+      productTypeCode: ri!productTypeCode,
+      executeWhen: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(ri!productTypeCode),
+      returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290163"
+    ),
+    /* This is queried because we want to know how many non deleted templates we have for the T_OnboardingProduct */
+    local!templatesOfProductType: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_155202"(
+      excludeNestedCdts: true(),
+      templateId: local!TProductsOfTheType.templateId,
+      isDeleted: false(),
+      executeWhen: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(local!TProductsOfTheType.templateId),
+      returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290163",
+      isActive: { true(), false() }
+    ),
+    /*Updating templates with the AS_IO_T_OnboardingProduct*/
+    local!originalTemplates: #"SYSTEM_SYSRULES_forEach"(
+      items: local!templatesOfProductType,
+      expression: #"_a-0000e40a-de32-8000-9ba8-011c48011c48_260165"(
+        cdt: fv!item,
+        fields: "onboardingProductTemplates",
+        newValues: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+          cdt: local!TProductsOfTheType,
+          field: "templateId",
+          value: fv!item.templateId
+        )
+      )
+    ),
+    /*Updating products with the new account types*/
+    local!updatedProductsWithNewAccs: if(
+      #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(ri!accountTypesAdded),
+      #"SYSTEM_SYSRULES_forEach"(
+        items: local!TProductsOfTheType,
+        expression: a!localVariables(
+          local!currentProduct: fv!item,
+          /*the constructed accountType is added to the existing account types of the product*/
+          #"_a-0000e40a-de32-8000-9ba8-011c48011c48_269170"(
+            cdt: local!currentProduct,
+            fieldValuePairs: {
+              field: "accountTypeProductTypeMappings",
+              value: a!flatten(
+                append(
+                  local!currentProduct.accountTypeProductTypeMappings,
+                  #"SYSTEM_SYSRULES_forEach"(
+                    items: ri!accountTypesAdded,
+                    expression: if(
+                      /*Checks if the account type is already present for the product*/
+                      contains(
+                        touniformstring(
+                          index(
+                            local!currentProduct.accountTypeProductTypeMappings,
+                            "accountTypeCode",
+                            null
+                          )
+                        ),
+                        touniformstring(fv!item)
+                      ),
+                      /*If present, no changes*/
+                      {},
+                      /*If not, the accountType is constructed*/
+                      'type!{urn:com:appian:types:AS:IO}AS_IO_T_OnboardingAccountTypeProductTypeMapping'(
+                        accountTypeCode: fv!item,
+                        onboardingProductTemplateId: local!currentProduct.onboardingProductTemplateId
+                      )
+                    )
+                  )
+                )
+              )
+            }
+          )
+        )
+      ),
+      local!TProductsOfTheType
+    ),
+    /*Removing the deleted account types and updating the updated product list*/
+    local!updatedProductsWithNewAndDelAccs: if(
+      #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(ri!accountTypesDeleted),
+      #"SYSTEM_SYSRULES_forEach"(
+        items: local!updatedProductsWithNewAccs,
+        expression: #"_a-0000e40a-de32-8000-9ba8-011c48011c48_269170"(
+          cdt: fv!item,
+          fieldValuePairs: {
+            field: "accountTypeProductTypeMappings",
+            value: a!flatten(
+              #"_a-0000e40a-de32-8000-9ba8-011c48011c48_271202"(
+                cdt: fv!item.accountTypeProductTypeMappings,
+                field: "accountTypeCode",
+                value: ri!accountTypesDeleted
+              )
+            )
+          }
+        )
+      ),
+      local!updatedProductsWithNewAccs
+    ),
+    /*Updating templates with the updated products AS_IO_T_OnboardingProduct*/
+    local!newTemplates: #"SYSTEM_SYSRULES_forEach"(
+      items: local!templatesOfProductType,
+      expression: #"_a-0000e40a-de32-8000-9ba8-011c48011c48_260165"(
+        cdt: fv!item,
+        fields: "onboardingProductTemplates",
+        newValues: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+          cdt: local!updatedProductsWithNewAndDelAccs,
+          field: "templateId",
+          value: fv!item.templateId
+        )
+      )
+    ),
+    /*Indexing out the all the accounts from products that are updated with newly added accounts*/
+    local!accountTemplates: a!flatten(
+      #"SYSTEM_SYSRULES_forEach"(
+        items: local!updatedProductsWithNewAccs,
+        expression: fv!item.accountTypeProductTypeMappings
+      )
+    ),
+    /*need only newly added accounts, so filtering out using pk*/
+    local!accountTemplatesToWrite: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+      cdt: local!accountTemplates,
+      field: "onboardingAccountTypeProductTypeMappingId",
+      value: null
+    ),
+    /*using account templates local itself as it contains all accounts before deletion.*/
+    local!accountTemplateIdsToDelete: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+      cdt: local!accountTemplates,
+      field: "accountTypeCode",
+      value: ri!accountTypesDeleted
+    ).onboardingAccountTypeProductTypeMappingId,
+    a!map(
+      originalOnboardingTemplates: local!originalTemplates,
+      newOnboardingTemplates: local!newTemplates,
+      accountTemplatesToWrite: local!accountTemplatesToWrite,
+      accountTemplateIdsToDelete: local!accountTemplateIdsToDelete
+    )
+  )
+)</definition>
+        <namedTypedValue>
+            <name>productTypeCode</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>accountTypesAdded</name>
+            <type>
+                <name>Text?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>accountTypesDeleted</name>
+            <type>
+                <name>Text?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name>Sample Testcase</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">"PRODUCT_TYPE_ABC"</a:value>
+                    <a:nameRef>productTypeCode</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">{"ACCOUNT_TYPE_CASH",
+"ACCOUNT_TYPE_DEMO"}</a:value>
+                    <a:nameRef>accountTypesAdded</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">{"ACCOUNT_TYPE_CUSTODY",
+"ACCOUNT_TYPE_AAA_NEW"
+}</a:value>
+                    <a:nameRef>accountTypesDeleted</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+            <el>
+                <a:name>sample test case 2</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">"PRODUCT_TYPE_ABC"</a:value>
+                    <a:nameRef>productTypeCode</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">"ACCOUNT_TYPE_AABBCC"</a:value>
+                    <a:nameRef>accountTypesAdded</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">{"ACCOUNT_TYPE_CASH",
+"ACCOUNT_TYPE_DEMO"}</a:value>
+                    <a:nameRef>accountTypesDeleted</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e7fa-f829-8000-9c17-011c48011c48_3383460"/>
+        <historyInfo versionUuid="_a-0000e7fa-f829-8000-9c17-011c48011c48_3409871"/>
+    </history>
+</contentHaul>

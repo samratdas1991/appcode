@@ -1,0 +1,511 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2500747</versionUuid>
+    <rule>
+        <name>AS_FS_DSP_returnExpressionsBasedOnCustomerFieldNames</name>
+        <uuid>_a-0000e528-bc07-8000-9bcf-011c48011c48_1106519</uuid>
+        <description>Returns proper expressions based on the field names of customer</description>
+        <parentUuid>_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_968428</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>choose(
+  #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73980"(
+    nullableValue: intersection(
+      wherecontains(
+        ri!cdt,
+        touniformstring(
+          #"_a-0000e528-bc07-8000-9bcf-011c48011c48_1106329"().cdt
+        )
+      ),
+      wherecontains(
+        ri!fieldName,
+        touniformstring(
+          #"_a-0000e528-bc07-8000-9bcf-011c48011c48_1106329"().field
+        )
+      )
+    ),
+    replacementValue: 1
+  ),
+  /*Customer Name*/
+  ri!value,
+  /*Customer Acronym*/
+  ri!value,
+  /*Is International*/
+  if(
+    #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(ri!value),
+    ri!value,
+    #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73713"(bool: ri!value)
+  ),
+  /*Domicile*/
+  ri!value,
+  /*Customer Type*/
+  #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+    cdt: ri!refData,
+    field: "code",
+    value: ri!value
+  ).label,
+  /*Risk Score*/
+  #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_979015"(
+    riskScore: ri!value,
+    i18nData: ri!i18nData
+  ).text,
+  /*GMEI*/
+  ri!value,
+  /*Tax Id*/
+  ri!value,
+  /*Is QIB*/
+  if(
+    #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(ri!value),
+    ri!value,
+    #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73713"(bool: ri!value)
+  ),
+  /*Is ERISA*/
+  if(
+    #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(ri!value),
+    ri!value,
+    #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73713"(bool: ri!value)
+  ),
+  /*Industry Classification Code*/
+  #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+    cdt: ri!industryClassificationCodes,
+    field: "classCode",
+    value: ri!value
+  ).className,
+  /*Class Type*/
+  #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81482"(
+    cdt: ri!companyDetailsRefData,
+    fields: { "type", "code" },
+    values: {
+      #"_a-0000e5a0-53e9-8000-9bd8-011c48011c48_1440484",
+      ri!value
+    }
+  ).label,
+  /*Class Sub-Type*/
+  #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81482"(
+    cdt: ri!companyDetailsRefData,
+    fields: { "type", "code" },
+    values: {
+      #"_a-0000e5a0-53e9-8000-9bd8-011c48011c48_1440496",
+      ri!value
+    }
+  ).label,
+  /*Jurisdiction*/
+  #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81482"(
+    cdt: ri!companyDetailsRefData,
+    fields: { "type", "code" },
+    values: {
+      #"_a-0000e5a0-53e9-8000-9bd8-011c48011c48_1435817",
+      ri!value
+    }
+  ).label,
+  /*Company Status */
+  #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81482"(
+    cdt: ri!companyDetailsRefData,
+    fields: { "type", "code" },
+    values: {
+      #"_a-0000e5a0-53e9-8000-9bd8-011c48011c48_1459736",
+      ri!value
+    }
+  ).label,
+  /*Date Of Creation*/
+  #"_a-0000e447-933d-8000-9baa-011c48011c48_31679"(date: ri!value),
+  /*External Registration Number */
+  ri!value,
+  /*Status Details*/
+  #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81482"(
+    cdt: ri!companyDetailsRefData,
+    fields: { "type", "code" },
+    values: {
+      #"_a-0000e5a0-53e9-8000-9bd8-011c48011c48_1440490",
+      ri!value
+    }
+  ).label,
+  /*Companies House Address fields*/
+  /*streetAddress*/
+  ri!value,
+  /*addressLine2*/
+  ri!value,
+  /*city*/
+  ri!value,
+  /*stateRegion*/
+  #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73980"(
+    nullableValue: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+      cdt: ri!states,
+      field: "stateCode",
+      value: ri!value
+    ).stateName,
+    replacementValue: ri!value
+  ),
+  /*countryCode*/
+  #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73980"(
+    nullableValue: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+      cdt: ri!countries,
+      field: "countryCode",
+      value: ri!value
+    ).countryName,
+    replacementValue: ri!value
+  ),
+  /*postalCode*/
+  ri!value,
+  /*Foriegn Company Details  */
+  /*ForeignAccountType ref*/
+  #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81482"(
+    cdt: ri!companyDetailsRefData,
+    fields: { "type", "code" },
+    values: {
+      #"_a-0000e5a0-53e9-8000-9bd8-011c48011c48_1440503",
+      ri!value
+    }
+  ).label,
+  /*TermsOfAccountPublication ref*/
+  #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81482"(
+    cdt: ri!companyDetailsRefData,
+    fields: { "type", "code" },
+    values: {
+      #"_a-0000e5a0-53e9-8000-9bd8-011c48011c48_1440510",
+      ri!value
+    }
+  ).label,
+  /*AccountPeriodFromDay*/
+  ri!value,
+  /*AccountPeriodFromMonth*/
+  ri!value,
+  /*AccountPeriodToDay*/
+  ri!value,
+  /*AccountPeriodToMonth*/
+  ri!value,
+  /*MustFileWithinMonths*/
+  ri!value,
+  /*BusinessActivity*/
+  ri!value,
+  /*CompanyType*/
+  ri!value,
+  /*GovernedBy*/
+  ri!value,
+  /*IsCreditFinanceInstitution*/
+  ri!value,
+  /*OriginatingRegistryCountry*/
+  ri!value,
+  /*OriginatingRegistryName*/
+  ri!value,
+  /*RegistrationNumber*/
+  ri!value,
+  /*charges*/
+  ri!value,
+  /*fillingHistory*/
+  ri!value,
+  /*insolvency*/
+  ri!value,
+  /*officers*/
+  ri!value,
+  /*overseas*/
+  ri!value,
+  /*personsWithSignificantControl*/
+  ri!value,
+  /*personsWithSignificantControlStatements*/
+  ri!value,
+  /*registers*/
+  ri!value,
+  /*selfLink*/
+  ri!value,
+  /*ukEstablishments*/
+  ri!value,
+  /*ceasedOn*/
+  ri!value,
+  /*effectiveFrom*/
+  ri!value,
+  /*previousCompanyName*/
+  ri!value,
+  /*Title*/
+  #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_977034"(code: ri!value, refData: ri!refData),
+  /*First Name*/
+  ri!value,
+  /*Last Name*/
+  ri!value,
+  /*Position*/
+  ri!value,
+  /*email*/
+  ri!value,
+  /*Contact Type*/
+  #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_977034"(code: ri!value, refData: ri!refData),
+  /*Contact Relationship Type*/
+  #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_977034"(code: ri!value, refData: ri!refData),
+  /* Contact address */
+  /* n/a */
+  null,
+  /* Contact phone */
+  /* n/a */
+  null,
+  /* Address type */
+  #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_977034"(code: ri!value, refData: ri!refData),
+  /* Street Address */
+  ri!value,
+  /* Line 2 */
+  ri!value,
+  /* City */
+  ri!value,
+  /* State/Region */
+  /* Need to support both state codes and free text */
+  #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73980"(
+    nullableValue: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+      cdt: ri!states,
+      field: "stateCode",
+      value: ri!value
+    ).stateName,
+    replacementValue: ri!value
+  ),
+  /* Country */
+  #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+    cdt: ri!countries,
+    field: "countryCode",
+    value: ri!value
+  ).countryName,
+  /* Postal Code */
+  ri!value,
+  /* Phone Type */
+  #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_977034"(code: ri!value, refData: ri!refData),
+  /* Phone Country Code */
+  #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+    cdt: ri!countries,
+    field: "countryCode",
+    value: ri!value
+  ).countryName,
+  /* Phone Number */
+  ri!value,
+  /* Phone Extension */
+  ri!value,
+  /*Beneficial Owner Name*/
+  ri!value,
+  /*Beneficial Owner Type*/
+  #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_977034"(code: ri!value, refData: ri!refData),
+  /* Beneficial Owner Percent Ownership */
+  ri!value &amp; "%",
+  /* Beneficial Owner Ein */
+  ri!value
+)</definition>
+        <namedTypedValue>
+            <name>cdt</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>fieldName</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>value</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>refData</name>
+            <type>
+                <name>AS_FS_R_Data?list</name>
+                <namespace>urn:com:appian:types:AS:FS</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>industryClassificationCodes</name>
+            <type>
+                <name>AS_FS_R_GlobalIndustryClass?list</name>
+                <namespace>urn:com:appian:types:AS:FS</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>companyDetailsRefData</name>
+            <type>
+                <name>AS_FS_CHS_R_Data?list</name>
+                <namespace>urn:com:appian:types:AS:FS</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>states</name>
+            <type>
+                <name>AS_FS_R_State?list</name>
+                <namespace>urn:com:appian:types:AS:FS</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>countries</name>
+            <type>
+                <name>AS_FS_R_Country?list</name>
+                <namespace>urn:com:appian:types:AS:FS</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>i18nData</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name>Industry Classification Code</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:string"/>
+                    <a:nameRef>cdt</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">"industryClassificationCode"</a:value>
+                    <a:nameRef>fieldName</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">"Aluminum"</a:value>
+                    <a:nameRef>value</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_975294"(typeList: {})</a:value>
+                    <a:nameRef>refData</a:nameRef>
+                    <a:id>4</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                    <a:nameRef>industryClassificationCodes</a:nameRef>
+                    <a:id>5</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                    <a:nameRef>companyDetailsRefData</a:nameRef>
+                    <a:id>6</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                    <a:nameRef>states</a:nameRef>
+                    <a:id>7</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                    <a:nameRef>countries</a:nameRef>
+                    <a:id>8</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                    <a:nameRef>i18nData</a:nameRef>
+                    <a:id>9</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+            <el>
+                <a:name>Group</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:string"/>
+                    <a:nameRef>cdt</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">"groupAssignee"</a:value>
+                    <a:nameRef>fieldName</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">124</a:value>
+                    <a:nameRef>value</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_975294"(typeList: {})</a:value>
+                    <a:nameRef>refData</a:nameRef>
+                    <a:id>4</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                    <a:nameRef>industryClassificationCodes</a:nameRef>
+                    <a:id>5</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                    <a:nameRef>companyDetailsRefData</a:nameRef>
+                    <a:id>6</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                    <a:nameRef>states</a:nameRef>
+                    <a:id>7</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                    <a:nameRef>countries</a:nameRef>
+                    <a:id>8</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                    <a:nameRef>i18nData</a:nameRef>
+                    <a:id>9</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e539-6d59-8000-9bd0-011c48011c48_1131970"/>
+        <historyInfo versionUuid="_a-0000e539-6d59-8000-9bd0-011c48011c48_1165659"/>
+        <historyInfo versionUuid="_a-0000e5a0-53e9-8000-9bd8-011c48011c48_1438997"/>
+        <historyInfo versionUuid="_a-0000e5a0-53e9-8000-9bd8-011c48011c48_1451356"/>
+        <historyInfo versionUuid="_a-0000e5a0-53e9-8000-9bd8-011c48011c48_1457506"/>
+        <historyInfo versionUuid="_a-0000e5a0-53e9-8000-9bd8-011c48011c48_1461337"/>
+        <historyInfo versionUuid="_a-0000e607-97fd-8000-9be9-011c48011c48_1628244"/>
+        <historyInfo versionUuid="_a-0000e607-97fd-8000-9be9-011c48011c48_1628418"/>
+        <historyInfo versionUuid="_a-0000e607-97fd-8000-9be9-011c48011c48_1629217"/>
+        <historyInfo versionUuid="_a-0000e62c-7375-8000-9bec-011c48011c48_1747044"/>
+        <historyInfo versionUuid="_a-0000e62c-7375-8000-9bec-011c48011c48_1747698"/>
+        <historyInfo versionUuid="_a-0000e62c-7375-8000-9bec-011c48011c48_1748571"/>
+        <historyInfo versionUuid="_a-0000e62c-7375-8000-9bec-011c48011c48_1766654"/>
+        <historyInfo versionUuid="_a-0000e62c-7375-8000-9bec-011c48011c48_1769729"/>
+        <historyInfo versionUuid="_a-0000e62c-7375-8000-9bec-011c48011c48_1782168"/>
+        <historyInfo versionUuid="_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2500747"/>
+    </history>
+</contentHaul>

@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e62c-7375-8000-9bec-011c48011c48_1859924</versionUuid>
+    <interface>
+        <name>AS_QNM_CPS_displayQuestion_DOCUMENT_UPLOAD</name>
+        <uuid>_a-0000e447-91f4-8000-9bc0-011c48011c48_573839</uuid>
+        <description>Interface holds for the Single Document Upload field</description>
+        <parentUuid>_a-0000e42d-ffef-8000-9ba6-011c48011c48_7213-qnm</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>#"_a-0000e447-91f4-8000-9bc0-011c48011c48_573845"(
+  question: ri!question,
+  fieldKey: "appianDocId",
+  required: ri!questionMetadata.required,
+  target: #"_a-0000e447-91f4-8000-9bc0-011c48011c48_574014",
+  maxSelections: #"_a-0000e460-9d93-8000-9bc1-011c48011c48_597476"(
+    question: ri!question,
+    fieldKey: null,
+    requirementTypeCode: #"_a-0000e460-9d93-8000-9bc1-011c48011c48_597312"
+  ),
+  validations: #"_a-0000e460-9d93-8000-9bc1-011c48011c48_599918"(
+    question: ri!question,
+    questionMetadata: ri!questionMetadata,
+    fieldKey: "appianDocId",
+    returnValidationMessage: true
+  ),
+  allUploadedDocs: ri!allUploadedDocs
+)</definition>
+        <namedTypedValue>
+            <name>questionMetadata</name>
+            <type>
+                <name>AS_QNM_QuestionMetadata</name>
+                <namespace>urn:com:appian:types:AS:QNM</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>question</name>
+            <type>
+                <name>AS_QNM_Question</name>
+                <namespace>urn:com:appian:types:AS:QNM</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>allUploadedDocs</name>
+            <type>
+                <name>CollaborationDocument?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+        <isCustom>false</isCustom>
+    </interface>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name/>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">'type!{urn:com:appian:types:AS:QNM}AS_QNM_QuestionMetadata'(
+  showWhen: true,
+  required: true,
+  fieldMetadata: 'type!{urn:com:appian:types:AS:QNM}AS_QNM_FieldMetadata'(
+    showWhen: true,
+    required: true
+  )
+)</a:value>
+                    <a:nameRef>questionMetadata</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">'type!{urn:com:appian:types:AS:QNM}AS_QNM_Question'(
+  questionId: 23,
+  responseRequirements: 'type!{urn:com:appian:types:AS:QNM}AS_QNM_ResponseRequirement'(
+    requirementTypeCode: #"_a-0000e460-9d93-8000-9bc1-011c48011c48_597312",
+    requirementValue: 2
+  )
+)</a:value>
+                    <a:nameRef>question</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                    <a:nameRef>allUploadedDocs</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e447-91f4-8000-9bc0-011c48011c48_574511"/>
+        <historyInfo versionUuid="_a-0000e447-91f4-8000-9bc0-011c48011c48_579406"/>
+        <historyInfo versionUuid="_a-0000e460-9d93-8000-9bc1-011c48011c48_597552"/>
+        <historyInfo versionUuid="_a-0000e460-9d93-8000-9bc1-011c48011c48_600457"/>
+        <historyInfo versionUuid="_a-0000e460-9d93-8000-9bc1-011c48011c48_608758"/>
+        <historyInfo versionUuid="_a-0000e471-623a-8000-9bc3-011c48011c48_666764"/>
+        <historyInfo versionUuid="_a-0000e471-623a-8000-9bc3-011c48011c48_772885"/>
+        <historyInfo versionUuid="_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_856125"/>
+        <historyInfo versionUuid="_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_904367"/>
+        <historyInfo versionUuid="_a-0000e59e-fc58-8000-9bd3-011c48011c48_1388302"/>
+        <historyInfo versionUuid="_a-0000e62c-7375-8000-9bec-011c48011c48_1859924"/>
+    </history>
+</contentHaul>

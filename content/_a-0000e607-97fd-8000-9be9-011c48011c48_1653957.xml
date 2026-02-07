@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e79b-0335-8000-9c0c-011c48011c48_3002866</versionUuid>
+    <interface>
+        <name>AS_FS_CRD_serviceRequestSummaryCardInCustomerPortal</name>
+        <uuid>_a-0000e607-97fd-8000-9be9-011c48011c48_1653957</uuid>
+        <description>Summary card in service request page of customer portal.</description>
+        <parentUuid>_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_968428</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>{
+  #"_a-0000e607-97fd-8000-9be9-011c48011c48_1653990"(
+    showWhen: true(),
+    headerText: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+      i18nData: ri!i18nData,
+      bundleKey: "AS.FS.AllBundles.lbl_Summary",
+      arguments: ri!selectedServiceRequest.name
+    )
+  ),
+  #"SYSTEM_SYSRULES_cardLayout"(
+    contents: {
+      #"SYSTEM_SYSRULES_columnsLayout"(
+        columns: {
+          #"SYSTEM_SYSRULES_columnLayout"(
+            contents: {
+              #"_a-0000e607-97fd-8000-9be9-011c48011c48_1654066"(
+                header: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                  i18nData: ri!i18nData,
+                  bundleKey: "AS.FS.AllBundles.lbl_Status"
+                ),
+                value: ri!selectedServiceRequest.statusLabel,
+                icon: "clock-o"
+              )
+            },
+            width: "NARROW"
+          ),
+          #"SYSTEM_SYSRULES_columnLayout"(
+            contents: {
+              #"_a-0000e607-97fd-8000-9be9-011c48011c48_1654066"(
+                header: ri!selectedServiceRequest.dateField.label,
+                value: #"_a-0000e447-933d-8000-9baa-011c48011c48_31679"(
+                  date: ri!selectedServiceRequest.dateField.value,
+                  user: loggedInUser()
+                ),
+                icon: "calendar-o",
+                additionalIcon: ri!selectedServiceRequest.dateField.icon,
+                additionalIconColor: ri!selectedServiceRequest.dateField.color,
+                additionalText: ri!selectedServiceRequest.dateField.countDownValue,
+                showAdditionalContext: or(
+                  ri!selectedServiceRequest.statusCode = "SERVICE_REQUEST_STATUS_ACTIVE",
+                  ri!selectedServiceRequest.statusCode = "SERVICE_REQUEST_STATUS_PENDING"
+                )
+              )
+            },
+            width: "NARROW_PLUS"
+          ),
+          #"SYSTEM_SYSRULES_columnLayout"(
+            contents: {
+              #"_a-0000e607-97fd-8000-9be9-011c48011c48_1654066"(
+                header: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                  i18nData: ri!i18nData,
+                  bundleKey: "AS.FS.AllBundles.lbl_RequestType"
+                ),
+                value: ri!selectedServiceRequest.serviceRequestType,
+                icon: "life-saver"
+              )
+            },
+            width: "NARROW_PLUS"
+          ),
+          #"SYSTEM_SYSRULES_columnLayout"(
+            contents: {
+              #"_a-0000e607-97fd-8000-9be9-011c48011c48_1654066"(
+                header: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                  i18nData: ri!i18nData,
+                  bundleKey: "AS.FS.AllBundles.lbl_SubType"
+                ),
+                value: ri!selectedServiceRequest.serviceRequestSubtype,
+                icon: "th-list"
+              )
+            },
+            width: "NARROW_PLUS"
+          ),
+          #"SYSTEM_SYSRULES_columnLayout"(
+            contents: {
+              #"_a-0000e607-97fd-8000-9be9-011c48011c48_1654066"(
+                header: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                  i18nData: ri!i18nData,
+                  bundleKey: "AS.FS.AllBundles.lbl_PrimaryOwner"
+                ),
+                value: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73660"(
+                  user: ri!selectedServiceRequest.primaryOwner.owner
+                ),
+                icon: "user"
+              )
+            },
+            width: "NARROW_PLUS"
+          )
+        },
+        marginBelow: "STANDARD",
+        showDividers: true
+      )
+    },
+    height: "AUTO",
+    style: "NONE",
+    padding: "LESS",
+    marginBelow: "STANDARD",
+    showBorder: false
+  )
+}</definition>
+        <namedTypedValue>
+            <name>selectedServiceRequest</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>i18nData</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+        <isCustom>false</isCustom>
+    </interface>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name/>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">a!map(
+  recordId: 19,
+  recordUrl: "https://eng-test-fso-dev1.appiancloud.com/suite/sites/connected-servicing/page/servicing-requests/record/lMBjh2J12GqpY-QrjluVMD7sBlTISmUr6pCVBqGRVT3ejsB7K9dxUjfZp-Iox_DLTbBJCtfyN5D46BTHy7a0LxnV56PQnhTYmzv3UyIaS62VbXJ6w/view/summary",
+  eventType: "SRQ",
+  name: "PFF-SRQ-0001",
+  statusLabel: "Active",
+  serviceRequestType: "Customer Information Change",
+  noOfAlerts: null,
+  primaryOwner: a!map(
+    'ownerId': 21,
+    'serviceRequestId': 19,
+    'owner': "mason.ma",
+    'ownerGroup': 110,
+    'createdBy': "mason.ma",
+    'createdDatetime': fn!datetime(2021, 3, 23, 5, 45, 8, 0),
+    'modifiedBy': "mason.ma",
+    'modifiedDatetime': fn!datetime(2021, 3, 23, 5, 45, 8, 0),
+    'isDeleted': false,
+   
+  ),
+  isOpen: true,
+  createdDateTime: fn!datetime(2021, 3, 23, 5, 45, 9, 0),
+  dateField: {
+    label: "Target Completion Date",
+    value: fn!date(2021, 4, 6)
+  },
+  serviceRequestSubtype: "SERVICE_REQUEST_SUBTYPE_DOMICILE_CHANGE"
+)</a:value>
+                    <a:nameRef>selectedServiceRequest</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_975720"(
+  triggerRefresh: null
+)</a:value>
+                    <a:nameRef>i18nData</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e607-97fd-8000-9be9-011c48011c48_1680103"/>
+        <historyInfo versionUuid="_a-0000e607-97fd-8000-9be9-011c48011c48_1686080"/>
+        <historyInfo versionUuid="_a-0000e607-97fd-8000-9be9-011c48011c48_1687571"/>
+        <historyInfo versionUuid="_a-0000e607-97fd-8000-9be9-011c48011c48_1688912"/>
+        <historyInfo versionUuid="_a-0000e607-97fd-8000-9be9-011c48011c48_1690758"/>
+        <historyInfo versionUuid="_a-0000e607-97fd-8000-9be9-011c48011c48_1695035"/>
+        <historyInfo versionUuid="_a-0000e607-97fd-8000-9be9-011c48011c48_1697650"/>
+        <historyInfo versionUuid="_a-0000e607-97fd-8000-9be9-011c48011c48_1701244"/>
+        <historyInfo versionUuid="_a-0000e607-97fd-8000-9be9-011c48011c48_1701899"/>
+        <historyInfo versionUuid="_a-0000e607-97fd-8000-9be9-011c48011c48_1706956"/>
+        <historyInfo versionUuid="_a-0000e62c-7375-8000-9bec-011c48011c48_1768852"/>
+        <historyInfo versionUuid="_a-0000e62c-7375-8000-9bec-011c48011c48_1806984"/>
+        <historyInfo versionUuid="_a-0000e62c-7375-8000-9bec-011c48011c48_1851296"/>
+        <historyInfo versionUuid="_a-0000e62c-7375-8000-9bec-011c48011c48_1851767"/>
+        <historyInfo versionUuid="_a-0000e69f-3688-8000-9bf2-011c48011c48_2145730"/>
+        <historyInfo versionUuid="_a-0000e6c5-6536-8000-9bf8-011c48011c48_2206589"/>
+        <historyInfo versionUuid="_a-0000e6ca-7e19-8000-9bfb-011c48011c48_2347022"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2707653"/>
+        <historyInfo versionUuid="_a-0000e79b-0335-8000-9c0c-011c48011c48_3002866"/>
+    </history>
+</contentHaul>

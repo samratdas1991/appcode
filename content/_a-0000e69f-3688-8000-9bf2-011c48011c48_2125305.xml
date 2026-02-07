@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e825-b425-8000-9c1c-011c48011c48_3634319</versionUuid>
+    <interface>
+        <name>AS_FS_FM_customerRiskScoreRefreshSettings</name>
+        <uuid>_a-0000e69f-3688-8000-9bf2-011c48011c48_2125305</uuid>
+        <description>Interface to update risk score settings</description>
+        <parentUuid>SYSTEM_RULE_FOLDER_QUICK_APPS</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  local!i18nData: #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_975720"(null),
+  local!defaultRiskScoreRefreshSettingsValue: #"_a-0000e5d6-d648-8000-9bde-011c48011c48_1501904"(
+    settingsCode: #"_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2368612"
+  ).userSettingValue,
+  local!companySpecificRiskScoreRefreshSettings: #"_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2368585"(
+    customerId: ri!customer.customerId,
+    applyDefaulting: false
+  ),
+  /* Used to revert to the custom specific setting, when toggling defaulting behavior */
+  local!companySpecificRiskScoreRefreshSettingsValue: a!refreshVariable(
+    value: local!companySpecificRiskScoreRefreshSettings.refreshIntervalDays,
+    refreshOnReferencedVarChange: false
+  ),
+  local!defaultRefresh: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(
+    local!companySpecificRiskScoreRefreshSettings.refreshIntervalDays
+  ),
+  #"SYSTEM_SYSRULES_formLayout_v1"(
+    label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+      i18nData: local!i18nData,
+      bundleKey: "AS.EI.NORTHROW.Integrations.lbl_UpdateRiskScoreSettings"
+    ),
+    contents: {
+      #"_a-0000e7e5-dad4-8000-9c14-011c48011c48_3312448"(
+        "AS_FS_FM_customerRiskScoreRefreshSettings"
+      ),
+      #"SYSTEM_SYSRULES_columnsLayout"(
+        columns: {
+          #"SYSTEM_SYSRULES_columnLayout"(
+            contents: {
+              #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_982370"(
+                label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                  i18nData: local!i18nData,
+                  bundleKey: "AS.EI.NORTHROW.Integrations.lbl_RefreshNorthrowCompanyCheck"
+                ),
+                value: local!companySpecificRiskScoreRefreshSettings.isActive,
+                ifNullDefault: false,
+                validations: {},
+                choiceLayout: "COMPACT",
+                labelPosition: "ABOVE",
+                additionalSaveInto: {
+                  local!companySpecificRiskScoreRefreshSettings.isActive
+                }
+              )
+            }
+          ),
+          #"SYSTEM_SYSRULES_columnLayout"(
+            contents: {
+              #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_982370"(
+                label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                  i18nData: local!i18nData,
+                  bundleKey: "AS.EI.NORTHROW.Integrations.lbl_DefaultFrequency",
+                  arguments: local!defaultRiskScoreRefreshSettingsValue
+                ),
+                value: local!defaultRefresh,
+                validations: {},
+                choiceLayout: "COMPACT",
+                labelPosition: "ABOVE",
+                showWhen: local!companySpecificRiskScoreRefreshSettings.isActive = true,
+                additionalSaveInto: {
+                  local!defaultRefresh,
+                  if(
+                    local!defaultRefresh,
+                    a!save(
+                      local!companySpecificRiskScoreRefreshSettings.refreshIntervalDays,
+                      null
+                    ),
+                    a!save(
+                      local!companySpecificRiskScoreRefreshSettings.refreshIntervalDays,
+                      local!companySpecificRiskScoreRefreshSettingsValue
+                    )
+                  )
+                }
+              )
+            }
+          ),
+          #"SYSTEM_SYSRULES_columnLayout"(
+            contents: {
+              #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_74362"(
+                label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                  i18nData: local!i18nData,
+                  bundleKey: "AS.EI.NORTHROW.Integrations.lbl_FrequencyInterval"
+                ),
+                required: true,
+                value: local!companySpecificRiskScoreRefreshSettings.refreshIntervalDays,
+                validations: {},
+                saveInto: {
+                  local!companySpecificRiskScoreRefreshSettings.refreshIntervalDays,
+                  local!companySpecificRiskScoreRefreshSettingsValue
+                },
+                labelPosition: "ABOVE",
+                refreshAfter: "UNFOCUS",
+                showWhen: and(
+                  local!companySpecificRiskScoreRefreshSettings.isActive,
+                  #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75636"(local!defaultRefresh)
+                ),
+                minSize: 1,
+                maxSize: 1825
+              )
+            },
+            width: "NARROW_PLUS"
+          ),
+          #"SYSTEM_SYSRULES_columnLayout"(contents: {}, width: "NARROW")
+        }
+      )
+    },
+    buttons: #"_a-0000e3d1-f4dc-8000-9ba4-011c48011c48_134344"(
+      confirmLabel: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+        i18nData: local!i18nData,
+        bundleKey: "AS.EI.NORTHROW.Integrations.btn_Submit"
+      ),
+      confirmSaveInto: {
+        a!save(
+          ri!riskScoreSetting,
+          local!companySpecificRiskScoreRefreshSettings
+        )
+      },
+      cancelSaveInto: { a!save(ri!isCancel, true) },
+      confirmSubmit: true,
+      cancelSubmit: true,
+      confirmStyle: "PRIMARY",
+      cancelStyle: "NORMAL",
+      confirmLoadingIndicator: true
+    )
+  )
+)</definition>
+        <namedTypedValue>
+            <name>customer</name>
+            <type>
+                <name>AS_FS_Customer</name>
+                <namespace>urn:com:appian:types:AS:FS</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>riskScoreSetting</name>
+            <type>
+                <name>AS_EI_NORTHROW_COMPANY_CHECK_REFRESH_INTERVAL</name>
+                <namespace>urn:com:appian:types:AS:EI</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>isCancel</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+        <isCustom>false</isCustom>
+    </interface>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name/>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">'type!{urn:com:appian:types:AS:FS}AS_FS_Customer'(
+  customerId: 1
+)</a:value>
+                    <a:nameRef>customer</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:n1="urn:com:appian:types:AS:EI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="n1:AS_EI_NORTHROW_COMPANY_CHECK_REFRESH_INTERVAL"/>
+                    <a:nameRef>riskScoreSetting</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:boolean"/>
+                    <a:nameRef>isCancel</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e69f-3688-8000-9bf2-011c48011c48_2126051"/>
+        <historyInfo versionUuid="_a-0000e69f-3688-8000-9bf2-011c48011c48_2134576"/>
+        <historyInfo versionUuid="_a-0000e69f-3688-8000-9bf2-011c48011c48_2144487"/>
+        <historyInfo versionUuid="_a-0000e69f-3688-8000-9bf2-011c48011c48_2156941"/>
+        <historyInfo versionUuid="_a-0000e69f-3688-8000-9bf2-011c48011c48_2161407"/>
+        <historyInfo versionUuid="_a-0000e69f-3688-8000-9bf2-011c48011c48_2161836"/>
+        <historyInfo versionUuid="_a-0000e69f-3688-8000-9bf2-011c48011c48_2162646"/>
+        <historyInfo versionUuid="_a-0000e69f-3688-8000-9bf2-011c48011c48_2163198"/>
+        <historyInfo versionUuid="_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2368663"/>
+        <historyInfo versionUuid="_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2487576"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2746754"/>
+        <historyInfo versionUuid="_a-0000e825-b425-8000-9c1c-011c48011c48_3634319"/>
+    </history>
+</contentHaul>

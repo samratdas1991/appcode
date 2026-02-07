@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e7fa-f829-8000-9c17-011c48011c48_3395356</versionUuid>
+    <rule>
+        <name>AS_IO_BL_getNew_T_RequiredDocument</name>
+        <uuid>_a-0000e7e5-dad4-8000-9c14-011c48011c48_3288118</uuid>
+        <description>Rule to get new required doc template from old template and its changes</description>
+        <parentUuid>_a-0000e2bb-4188-8000-9ba2-011c48011c48_25469</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>if(
+  #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(ri!newRequiredDocTemplateMap),
+  #"_a-0000e3d1-f4dc-8000-9ba4-011c48011c48_143475"(
+    type: 'type!{urn:com:appian:types:AS:IO}AS_IO_T_RequiredDocument'
+  ),
+  a!localVariables(
+    /*Sorting the current templates such that the latest ones are at the end so they can be removed first*/
+    local!sortedTemplates: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75720"(
+      cdt: ri!oldRequiredDocumentTemplates,
+      field: "requiredDocumentTemplateId",
+      ascending: false()
+    ),
+    a!flatten(
+      #"SYSTEM_SYSRULES_forEach"(
+        items: ri!newRequiredDocTemplateMap,
+        expression: a!localVariables(
+          local!currentTemplates: index(
+            local!sortedTemplates,
+            wherecontains(
+              tostring(fv!item.docTypeCode),
+              touniformstring({ local!sortedTemplates.docTypeCode })
+            ),
+            null
+          ),
+          if(
+            #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(fv!item.docTypeCode),
+            local!currentTemplates,
+            if(
+              /*If there's no chnage in quantity, then the existing list of AS_IO_T_RequiredDocument remains*/
+              fv!item.quantity = length({ local!currentTemplates }),
+              local!currentTemplates,
+              /*If the new quantity is more than the existing, then for each extra new quantity, a row of AS_IO_T_RequiredDocument is appended to the existing*/
+              fv!item.quantity &gt; length({ local!currentTemplates }),
+              a!localVariables(
+                local!docTypeCode: fv!item.docTypeCode,
+                append(
+                  local!currentTemplates,
+                  #"SYSTEM_SYSRULES_forEach"(
+                    items: enumerate(
+                      fv!item.quantity - length({ local!currentTemplates })
+                    ),
+                    expression: 'type!{urn:com:appian:types:AS:IO}AS_IO_T_RequiredDocument'(
+                      docTypeCode: local!docTypeCode,
+                      templateId: ri!templateId,
+                      requiredDocumentTemplateUUID: #"_a-0000e7e5-dad4-8000-9c14-011c48011c48_3308181"()
+                    )
+                  )
+                )
+              ),
+              /*If the new quantity is less than the existing, then for each extra old quantity, the latest row of AS_IO_T_RequiredDocument is removed*/
+              remove(
+                local!currentTemplates,
+                {
+                  enumerate(
+                    length({ local!currentTemplates }) - fv!item.quantity
+                  ) + 1
+                }
+              )
+            )
+          )
+        )
+      )
+    )
+  )
+)</definition>
+        <namedTypedValue>
+            <name>oldRequiredDocumentTemplates</name>
+            <type>
+                <name>AS_IO_T_RequiredDocument?list</name>
+                <namespace>urn:com:appian:types:AS:IO</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>newRequiredDocTemplateMap</name>
+            <type>
+                <name>Map?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>templateId</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name>New Values Null</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                    <a:nameRef>oldRequiredDocumentTemplates</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                    <a:nameRef>newRequiredDocTemplateMap</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">1</a:value>
+                    <a:nameRef>templateId</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+            <el>
+                <a:name>All Possible Combinations</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">{
+  {templateId:2,
+docTypeCode:"y"
+},
+  {templateId:2,
+    docTypeCode:"a",
+    requiredDocumentTemplateId:10},
+    
+    
+  {templateId:2,
+    docTypeCode:"b"
+  },
+  {
+    requiredDocumentTemplateId:2,
+    templateId:2,
+    docTypeCode:"z"
+  },
+  {requiredDocumentTemplateId:1,
+    templateId:2,
+    docTypeCode:"z"
+  },
+  {requiredDocumentTemplateId:3,
+    templateId:2,
+    docTypeCode:"z"
+  }
+}</a:value>
+                    <a:nameRef>oldRequiredDocumentTemplates</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">{
+  {quantity:1,
+  docTypeCode:"y"
+  },
+  {
+    docTypeCode:"a",
+    quantity:2
+  },
+  {
+    docTypeCode:"c",
+    quantity:3
+  },
+  {
+    docTypeCode:"z",
+    quantity:1
+  }
+}</a:value>
+                    <a:nameRef>newRequiredDocTemplateMap</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">2</a:value>
+                    <a:nameRef>templateId</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e7e5-dad4-8000-9c14-011c48011c48_3296955"/>
+        <historyInfo versionUuid="_a-0000e7e5-dad4-8000-9c14-011c48011c48_3326620"/>
+        <historyInfo versionUuid="_a-0000e7fa-f829-8000-9c17-011c48011c48_3391379"/>
+        <historyInfo versionUuid="_a-0000e7fa-f829-8000-9c17-011c48011c48_3395356"/>
+    </history>
+</contentHaul>

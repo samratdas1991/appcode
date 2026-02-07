@@ -1,0 +1,469 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e825-af79-8000-9bec-011c48011c48_1290495</versionUuid>
+    <rule>
+        <name>AS_CO_UT_queryRecord</name>
+        <uuid>_a-0000e6c8-d132-8000-9bbe-011c48011c48_469266</uuid>
+        <description>Helper rule to execute record queries with minimal overhead, pass `returnType` based on the query purpose</description>
+        <parentUuid>_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73105</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>/*
+
+PLEASE REFER TO THE BOTTOM OF THIS RULE FOR INSTRUCTIONS ON HOW TO USE
+
+Please DO NOT auto-format this rule
+
+*/
+
+
+/*Error handling*/
+if(
+  #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(ri!returnType),
+  fn!error(concat("Null `returnType` passed to AS_CO_UT_queryRecord for recordType `", ri!recordType, "`.  See documentation in AS_CO_UT_queryRecord for further information on how to use this parameter.")),
+  not(contains(#"_a-0000e415-3035-8000-9bb2-011c48011c48_290200"(), ri!returnType)),
+  fn!error(concat("Unknown `returnType` passed to AS_CO_UT_queryRecord for recordType `", ri!recordType, "`.  See documentation in AS_CO_UT_queryRecord for further information on how to use this parameter.")),
+  #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(ri!recordType),
+  fn!error(concat("Null `recordType` passed to AS_CO_UT_queryRecord.  See documentation in AS_CO_UT_queryRecord for further information on how to use this parameter.")),
+  and(
+    ri!returnType = #"_a-0000e415-3035-8000-9bb2-011c48011c48_290131",
+    #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(ri!pagingInfo)
+  ),
+  fn!error(concat("`pagingInfo` is required (cannot be null) for `returnType` DATA_SUBSET")),
+  and(
+    ri!returnType &lt;&gt; #"_a-0000e415-3035-8000-9bb2-011c48011c48_290131",
+    #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(ri!pagingInfo)
+  ),
+  fn!error(concat("`pagingInfo` must be null when the `returnType` is not DATA_SUBSET, instead use `sort` to pass custom-sorting and `startIndex` &amp; `batchSize` will be automatically calculated for you")),
+  and(
+    not(isnull(ri!pagingInfo)),
+    #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(ri!sort)
+  ),
+  fn!error(concat("`sort` parameter must be null when `pagingInfo` is provided.  Use the sort field of the provided `pagingInfo` instead.")),
+  and(
+    ri!returnType = #"_a-0000e415-3035-8000-9bb2-011c48011c48_290169",
+    #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(ri!aggregationFields)
+  ),
+  fn!error("You must provide an input for `aggregationFields` when `returnType` is AGGREGATION"),
+  and(
+    ri!returnType = #"_a-0000e415-3035-8000-9bb2-011c48011c48_290169",
+    #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(ri!fields)
+  ),
+  fn!error("You cannot provide an input for `fields` when `returnType` is AGGREGATION.  Use `aggregationFields` instead."),
+  and(
+    ri!returnType &lt;&gt; #"_a-0000e415-3035-8000-9bb2-011c48011c48_290169",
+    #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(ri!aggregationFields)
+  ),
+  fn!error("You cannot provide an input for `aggregationFields` when `returnType` is not AGGREGATION.  Use `fields` instead."),
+  and(
+    #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(ri!castToCdtType),
+    not(contains(
+      {#"_a-0000e415-3035-8000-9bb2-011c48011c48_290163", #"_a-0000e415-3035-8000-9bb2-011c48011c48_290157", #"_a-0000e415-3035-8000-9bb2-011c48011c48_290131"},
+      ri!returnType
+    )),
+  ),
+  fn!error("'castToCdtType' is only supported for SINGLE_OBJECT, OBJECT_ARRAY, and DATA_SUBSET return types"),
+
+  a!localVariables(
+
+    /*Determine the castResultToType*/
+    local!castResultToType: #"_a-0000e3e6-fb42-8000-9ba5-011c48011c48_187421"(
+      value: ri!returnType,
+      inArray: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290200"(),
+      replacement: {
+        /*DATA_SUBSET*/   'type!{http://www.appian.com/ae/types/2009}Map',
+        /*SINGLE_OBJECT*/ a!defaultValue(ri!castToCdtType, ri!recordType),
+        /*OBJECT_ARRAY*/  #"_a-0000e3ff-a5bc-8000-9ba8-011c48011c48_39610"(type: a!defaultValue(ri!castToCdtType, ri!recordType)),
+        /*AGGREGATION*/   'type!{http://www.appian.com/ae/types/2009}Map?list',
+        /*TOTAL_COUNT*/   'type!{http://www.appian.com/ae/types/2009}Integer',
+      }
+    ),
+
+    /*Determine the batchSize*/
+    local!batchSize: #"_a-0000e3e6-fb42-8000-9ba5-011c48011c48_187421"(
+      value: ri!returnType,
+      inArray: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290200"(),
+      replacement: {
+        /*DATA_SUBSET*/   ri!pagingInfo.batchSize,
+        /*SINGLE_OBJECT*/ 1,
+        /*OBJECT_ARRAY*/  a!defaultValue(ri!pagingInfo.batchSize, #"_a-0000e3e6-fb42-8000-9ba5-011c48011c48_225990"),
+        /*AGGREGATION*/   #"_a-0000e3e6-fb42-8000-9ba5-011c48011c48_225990",
+        /*TOTAL_COUNT*/   1,
+      }
+    ),
+
+    /*Determine the pagingInfo*/
+    local!pagingInfo: if(
+      ri!returnType = #"_a-0000e415-3035-8000-9bb2-011c48011c48_290131",
+      /*Use specific pagingInfo for DATA_SUBSET*/
+      ri!pagingInfo,
+      /*Otherwise calculate pagingInfo for all other returnTypes*/
+      #"SYSTEM_SYSRULES_pagingInfo"(
+        startIndex: 1,
+        batchSize: local!batchSize,
+        sort: ri!sort
+      )
+    ),
+
+    /*Determine the fetchTotalCount*/
+    local!fetchTotalCount: #"_a-0000e3e6-fb42-8000-9ba5-011c48011c48_187421"(
+      value: ri!returnType,
+      inArray: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290200"(),
+      replacement: {
+        /*DATA_SUBSET*/   true,
+        /*SINGLE_OBJECT*/ false,
+        /*OBJECT_ARRAY*/  false,
+        /*AGGREGATION*/   false,
+        /*TOTAL_COUNT*/   true,
+      }
+    ),
+
+    /*Execute the query*/
+    local!queryResult: a!refreshVariable(
+      value: if(
+        ri!executeWhen = false,
+        null(
+          if(
+            ri!returnType = #"_a-0000e415-3035-8000-9bb2-011c48011c48_290169",
+            #"_a-0000e40a-de32-8000-9ba8-011c48011c48_283314"(),
+            ri!recordType
+          )
+        ),
+        #"SYSTEM_SYSRULES_queryRecordType_v1"(
+          recordType: ri!recordType,
+          fields: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73980"(
+            nullableValue: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_76367"(ri!fields),
+            replacementValue: ri!aggregationFields
+          ),
+          filters: #"SYSTEM_SYSRULES_queryLogicalExpression"(
+            operator: "AND",
+            logicalExpressions: {
+              #"SYSTEM_SYSRULES_queryLogicalExpression"(
+                operator: "AND",
+                ignoreFiltersWithEmptyValues: true,
+                filters: a!defaultValue(ri!filters, {})
+              ),
+              a!defaultValue(ri!logicalExpression, {})
+            }
+          ),
+          pagingInfo: local!pagingInfo,
+          fetchTotalCount: local!fetchTotalCount,
+          relatedRecordData: ri!relatedRecordData
+        )
+      ),
+      refreshOnVarChange: ri!triggerRefresh,
+      refreshAfter: {"RECORD_ACTION"}
+    ),
+
+    /*Parse the queryResult*/
+    local!queryResultParse: choose(
+      #"_a-0000e40a-de32-8000-9ba8-011c48011c48_280802"(
+        value: ri!returnType,
+        inArray: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290200"()
+      ),
+      /*Default, required value based on how AS_CO_UT_chooseWherecontainsHelper operates*/ "",
+      /*DATA_SUBSET*/   if(
+        #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(ri!castToCdtType),
+        /*Note that for a data subset, the parent is a map, but we allow casting the child 'data' field as well*/
+        #"_a-0000e40a-de32-8000-9ba8-011c48011c48_269170"(
+          cdt: local!queryResult,
+          fieldValuePairs: {
+            field: "data",
+            value: cast(
+              #"_a-0000e3ff-a5bc-8000-9ba8-011c48011c48_39610"(type: ri!castToCdtType),
+              local!queryResult.data
+            )
+          }
+        ),
+        local!queryResult
+      ),
+      /*SINGLE_OBJECT*/ local!queryResult.data,
+      /*OBJECT_ARRAY*/  local!queryResult.data,
+      /*AGGREGATION*/   local!queryResult.data,
+      /*TOTAL_COUNT*/   local!queryResult.totalCount,
+    ),
+
+    #"_a-0000e3e6-fb42-8000-9ba5-011c48011c48_157603"(
+      type: local!castResultToType,
+      value: local!queryResultParse
+    )
+  )
+)
+
+/*
+
+DOCUMENTATION
+
+This rule is designed to minimize the overhead with querying data and then casting the result
+
+
+Required Inputs:
+
+1. recordType
+- This is a recordtype! input of the data type to be queried against
+
+2. returnType
+- This depends on the purpose for the query, and should be one of the returnTypes in rule!AS_CO_CONS_QE_RETURN_TYPES
+-- DATA_SUBSET - This will return a DataSubset; pagingInfo is required
+-- SINGLE_OBJECT - This will return a single record whose type is the recordType; pagingInfo must be null
+-- ARRAY_OBJECT - This will return an array of records whose type is an array of the recordType; pagingInfo must be null
+-- AGGREGATION - This will return an array of Dictionaries; pagingInfo must be null
+---- NOTE: If you need Aggregation with paging controls, such as for a grid, use returnType DATA_SUBSET
+-- TOTAL_COUNT - This will return an Integer of the total count; pagingInfo must be null
+
+
+Optional Inputs:
+
+3. executeWhen
+- The query will not execute if this is false, the query will execute if this is true or null
+-- This is meant to operate in a similar manner to the showWhen parameter of components
+- Use this to skip execution of a query without needing to wrap if() statements around the rule
+-- Examples of this would be to skip querying if your filter value is a null ID
+- If the query does not execute, this will return a null value whose type is based on the returnType input
+
+4. triggerRefresh
+- By default, the query will always re-execute whenever any inputs change
+- However, by updating the value of triggerRefresh, you can also trigger a re-execution even if none of the other inputs change (e.g. after a record action)
+
+5. filters
+- Array of filters to apply to the query, built with a!queryFilter()
+- These filters will be applied with an AND operator
+- These filters will apply in addition to the logicalExpression input, combining both with an AND operator
+
+6. logicalExpression
+- A logical expression to apply to the query, built with a!queryLogicalExpression()
+- This logical expression will apply in addition to the filters input, combining both with an AND operator
+
+7. aggregationFields
+- Aggregation to apply to the query, built with a!aggregationField()
+
+8. fields
+- List of recordFields and relatedRecordFields to return.  When querying a record, any relatedRecordFields are not returned
+by default, and must be specifically requested.
+
+9. pagingInfo
+- Paging info to apply to the query, built with a!pagingInfo() or derived from fv!pagingInfo in grids
+- This is required if passing returnType DATA_SUBSET, otherwise it must be null
+- For returnTypes that are not DATA_SUBSET, the batch size will be automatically calculated depending on the returnType
+-- For example, passing SINGLE_OBJECT will automatically apply a batch size of 1, whereas ARRAY_OBJECT and AGGREGATION will automatically apply a batch size of the defined query batch size maximum
+
+10. sort
+- Array of sort to apply to the query, built with a!sortInfo()
+- This is meant to be used with returnType ARRAY_OBJECT and AGGREGATION, since pagingInfo is not required for these, but a specified sort may be used
+- Cannot be used in conjunction with pagingInfo.sort
+
+11. castToCdtType
+- Any cdt type to the cast the result set. 
+- This is meant to be used with only returnType OBJECT_ARRAY and SINGLE_OBJECT.
+
+*/</definition>
+        <namedTypedValue>
+            <name>recordType</name>
+            <type>
+                <name>RecordType2</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>returnType</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>executeWhen</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>triggerRefresh</name>
+            <type>
+                <name>dateTime</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>filters</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>logicalExpression</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>aggregationFields</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>fields</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>pagingInfo</name>
+            <type>
+                <name>PagingInfo</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>sort</name>
+            <type>
+                <name>SortInfo?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>castToCdtType</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>relatedRecordData</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name>valid case</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"urn:appian:record-type:v1:b68a6595-9eaf-4ecc-bde6-452db35bfc42"</a:value>
+                    <a:nameRef>recordType</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e415-3035-8000-9bb2-011c48011c48_290163"</a:value>
+                    <a:nameRef>returnType</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:boolean"/>
+                    <a:nameRef>executeWhen</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:dateTime"/>
+                    <a:nameRef>triggerRefresh</a:nameRef>
+                    <a:id>4</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                    <a:nameRef>filters</a:nameRef>
+                    <a:id>5</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                    <a:nameRef>logicalExpression</a:nameRef>
+                    <a:id>6</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                    <a:nameRef>aggregationFields</a:nameRef>
+                    <a:id>7</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                    <a:nameRef>fields</a:nameRef>
+                    <a:id>8</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="a:PagingInfo"/>
+                    <a:nameRef>pagingInfo</a:nameRef>
+                    <a:id>9</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                    <a:nameRef>sort</a:nameRef>
+                    <a:id>10</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                    <a:nameRef>castToCdtType</a:nameRef>
+                    <a:id>11</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                    <a:nameRef>relatedRecordData</a:nameRef>
+                    <a:id>12</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e6c8-d132-8000-9bbe-011c48011c48_469571"/>
+        <historyInfo versionUuid="_a-0000e6c8-d132-8000-9bbe-011c48011c48_472710"/>
+        <historyInfo versionUuid="_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2364832"/>
+        <historyInfo versionUuid="_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2366454"/>
+        <historyInfo versionUuid="_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2387060"/>
+        <historyInfo versionUuid="_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2461171"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2572640"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2664237"/>
+        <historyInfo versionUuid="_a-0000e79b-0335-8000-9c0c-011c48011c48_3011806"/>
+        <historyInfo versionUuid="_a-0000e7c7-bc72-8000-9c0e-011c48011c48_3083076"/>
+        <historyInfo versionUuid="_a-0000e7d2-6286-8000-9c11-011c48011c48_3116652"/>
+        <historyInfo versionUuid="_a-0000e81d-5ddb-8000-9c1b-011c48011c48_3566412"/>
+        <historyInfo versionUuid="_a-0000e81d-5ddb-8000-9c1b-011c48011c48_3567390"/>
+        <historyInfo versionUuid="_a-0000e825-af79-8000-9bec-011c48011c48_1290495"/>
+    </history>
+</contentHaul>

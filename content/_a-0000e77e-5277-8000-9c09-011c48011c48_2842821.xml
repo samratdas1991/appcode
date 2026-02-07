@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e81d-5ddb-8000-9c1b-011c48011c48_3563066</versionUuid>
+    <interface>
+        <name>AS_IO_CPS_taskTypes</name>
+        <uuid>_a-0000e77e-5277-8000-9c09-011c48011c48_2842821</uuid>
+        <description>displays task type bar chat and grid view with toggle</description>
+        <parentUuid>_a-0000e2bb-4188-8000-9ba2-011c48011c48_25469</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  local!showGrid: false(),
+  local!triggerRefresh: a!refreshVariable(
+    value: now(),
+    refreshAfter: "RECORD_ACTION"
+  ),
+  local!dateFilter: #"_a-0000e539-6d59-8000-9bd0-011c48011c48_1209521"(i18nData: ri!i18nData)[1].endDate,
+  local!typeRefData: #"_a-0000e774-a792-8000-9c04-011c48011c48_2822005"(
+    returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290163",
+    i18nData: ri!i18nData,
+    
+  ),
+  local!statusRefData: #"_a-0000e539-6d59-8000-9bd0-011c48011c48_1207675"(),
+  local!aggregatedTasks: #"_a-0000e77e-5277-8000-9c09-011c48011c48_2842625"(
+    returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290169",
+    triggerRefresh: local!triggerRefresh,
+    aggregationFields: #"SYSTEM_SYSRULES_aggregationFields"(
+      groupings: {
+        #"SYSTEM_SYSRULES_grouping"(
+          field: #"urn:appian:record-field:v1:31b77cbe-8b51-41ba-927f-f11ee2d7fd33/e5531196-36b9-4763-8c0b-023acf6fe853",
+          alias: "type"
+        ),
+        #"SYSTEM_SYSRULES_grouping"(
+          field: #"urn:appian:record-field:v1:31b77cbe-8b51-41ba-927f-f11ee2d7fd33/41d6e4c9-61dc-49d1-b5e0-df8ff406b6b4",
+          alias: "status"
+        )
+      },
+      measures: #"SYSTEM_SYSRULES_measure"(
+        field: #"urn:appian:record-field:v1:31b77cbe-8b51-41ba-927f-f11ee2d7fd33/9628d90f-e047-41dd-a8f7-8c90ef76e2ca",
+        function: "COUNT",
+        alias: "count"
+      )
+    ),
+    taskStatusIds: {
+      #"_a-0000e460-9d93-8000-9bc1-011c48011c48_603236",
+      #"_a-0000e460-9d93-8000-9bc1-011c48011c48_603230",
+      #"_a-0000e460-9d93-8000-9bc1-011c48011c48_603242",
+      #"_a-0000e673-a4a7-8000-9bef-011c48011c48_1952244"
+    },
+    additionalLogicalExpressions: #"SYSTEM_SYSRULES_queryLogicalExpression"(
+      operator: "AND",
+      filters: {
+        #"SYSTEM_SYSRULES_queryFilter"(
+          field: #"urn:appian:record-field:v1:31b77cbe-8b51-41ba-927f-f11ee2d7fd33/58a8f13e-7f46-49da-b15a-beed1f794261",
+          operator: "&gt;=",
+          value: today()
+        ),
+        #"SYSTEM_SYSRULES_queryFilter"(
+          field: #"urn:appian:record-field:v1:31b77cbe-8b51-41ba-927f-f11ee2d7fd33/58a8f13e-7f46-49da-b15a-beed1f794261",
+          operator: "&lt;",
+          value: local!dateFilter
+        )
+      }
+    ),
+    
+  ),
+  local!aggregatedTasksWithLabel: #"SYSTEM_SYSRULES_forEach"(
+    items: local!aggregatedTasks,
+    expression: {
+      type: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+        i18nData: ri!i18nData,
+        bundleKey: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+          cdt: local!typeRefData,
+          field: "taskBehaviorTypeId",
+          value: fv!item.type
+        ).behaviorDisplayName
+      ),
+      status: fv!item.status,
+      count: fv!item.count
+    }
+  ),
+  local!tasksByType: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75720"(
+    cdt: #"SYSTEM_SYSRULES_forEach"(
+      items: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73758"(
+        value: local!aggregatedTasksWithLabel.type
+      ),
+      expression: {
+        type: fv!item,
+        totalCount: sum(
+          #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+            cdt: local!aggregatedTasksWithLabel,
+            field: "type",
+            value: fv!item
+          ).count
+        )
+      }
+    ),
+    field: "totalCount",
+    ascending: false
+  ),
+  local!topNIndex: min(
+    5,
+    #"_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_880586"(local!tasksByType)
+  ),
+  local!topTaskTypes: todatasubset(
+    arrayToPage: local!tasksByType,
+    pagingConfiguration: #"SYSTEM_SYSRULES_pagingInfo"(
+      startIndex: 1,
+      batchSize: local!topNIndex,
+      sort: {
+        #"SYSTEM_SYSRULES_sortInfo"(field: "totalCount"),
+        #"SYSTEM_SYSRULES_sortInfo"(field: "type", ascending: true())
+      }
+    )
+  ).data,
+  local!statuses: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73758"(
+    index(
+      #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+        cdt: local!aggregatedTasksWithLabel,
+        field: "type",
+        value: index(local!topTaskTypes, "type", {})
+      ),
+      "status",
+      {}
+    )
+  ),
+  local!seriesData: #"SYSTEM_SYSRULES_forEach"(
+    items: local!statuses,
+    expression: a!localVariables(
+      local!status: fv!item,
+      local!seriesData: #"SYSTEM_SYSRULES_forEach"(
+        items: local!topTaskTypes.type,
+        expression: a!defaultValue(
+          value: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81482"(
+            cdt: local!aggregatedTasksWithLabel,
+            fields: { "type", "status" },
+            values: { fv!item, local!status }
+          ).count,
+          /*replace null values with 0*/
+          default: 0
+        )
+      ),
+      #"SYSTEM_SYSRULES_chartSeries"(
+        label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+          i18nData: ri!i18nData,
+          bundleKey: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+            cdt: local!statusRefData,
+            field: "taskStatusId",
+            value: local!status
+          ).statusDisplayName,
+          
+        ),
+        data: local!seriesData
+      )
+    )
+  ),
+  local!categories: index(local!topTaskTypes, "type", {}),
+  {
+    #"_a-0000e7e5-dad4-8000-9c14-011c48011c48_3312448"("AS_IO_CPS_taskTypes"),
+    #"_a-0000e77d-004e-8000-9c08-011c48011c48_2838871"(
+      header: #"SYSTEM_SYSRULES_sideBySideLayout"(
+        items: {
+          /*Label*/
+          #"SYSTEM_SYSRULES_sideBySideItem"(
+            item: #"SYSTEM_SYSRULES_richTextDisplayField"(
+              labelPosition: "COLLAPSED",
+              value: {
+                #"SYSTEM_SYSRULES_richTextHeader"(
+                  text: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                    i18nData: ri!i18nData,
+                    bundleKey: "AS.CO.AllBundles.lbl_TopTaskTypes"
+                  ),
+                  size: "MEDIUM"
+                )
+              }
+            )
+          ),
+          /*Date Filter*/
+          #"SYSTEM_SYSRULES_sideBySideItem"(
+            item: #"_a-0000e77d-004e-8000-9c08-011c48011c48_2834839"(
+              label: "OnboardingType",
+              i18nData: ri!i18nData,
+              date: local!dateFilter
+            ),
+            width: "MINIMIZE"
+          ),
+          /*Toggle report View*/
+          #"SYSTEM_SYSRULES_sideBySideItem"(
+            item: #"_a-0000e77d-004e-8000-9c08-011c48011c48_2835419"(
+              i18nData: ri!i18nData,
+              showGrid: local!showGrid
+            ),
+            width: "MINIMIZE"
+          )
+        },
+        alignVertical: "MIDDLE"
+      ),
+      contents: {
+        #"_a-0000e776-697a-8000-9c05-011c48011c48_2826556"(
+          categories: local!categories,
+          chartSeries: local!seriesData,
+          columnHeading: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+            i18nData: ri!i18nData,
+            bundleKey: "AS.CO.AllBundles.lbl_OnboardingType"
+          ),
+          showWhen: local!showGrid
+        ),
+        #"_a-0000e777-b9f8-8000-9c06-011c48011c48_2828210"(
+          i18nData: ri!i18nData,
+          label: "AS.CO.AllBundles.lbl_TopTaskTypes",
+          categories: local!categories,
+          chartSeries: local!seriesData,
+          showWhen: not(local!showGrid)
+        )
+      }
+    )
+  }
+)</definition>
+        <namedTypedValue>
+            <name>i18nData</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+        <isCustom>false</isCustom>
+    </interface>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name/>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81834"(null),</a:value>
+                    <a:nameRef>i18nData</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e77e-5277-8000-9c09-011c48011c48_2846479"/>
+        <historyInfo versionUuid="_a-0000e77e-5277-8000-9c09-011c48011c48_2862491"/>
+        <historyInfo versionUuid="_a-0000e77e-5277-8000-9c09-011c48011c48_2868013"/>
+        <historyInfo versionUuid="_a-0000e79b-0335-8000-9c0c-011c48011c48_2999070"/>
+        <historyInfo versionUuid="_a-0000e81d-5ddb-8000-9c1b-011c48011c48_3563066"/>
+    </history>
+</contentHaul>

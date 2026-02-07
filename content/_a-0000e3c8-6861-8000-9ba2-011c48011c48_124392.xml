@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e62c-7375-8000-9bec-011c48011c48_1886223</versionUuid>
+    <rule>
+        <name>AS_IO_UT_isDuplicateTaskReferenceName</name>
+        <uuid>_a-0000e3c8-6861-8000-9ba2-011c48011c48_124392</uuid>
+        <description>Returns a list of booleans that is the same length of the list of reference tasks provided.  If a reference task in ri!taskRefs has the same name as a different reference task (i.e. one without the same taskRefId) found in the database, returns true at its position in the list, otherwise false.</description>
+        <parentUuid>_a-0000e2bb-4188-8000-9ba2-011c48011c48_25469</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>if(
+  #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(ri!taskRefs),
+  toboolean({}),
+  #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(ri!taskRefs.taskName),
+  repeat(length(ri!taskRefs), false),
+  a!localVariables(
+    local!existingRefTasksWithTheseNames: #"_a-0000e393-fbf1-8000-9ba2-011c48011c48_113793"(
+      returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290163",
+      taskName: ri!taskRefs.taskName
+    ),
+    #"SYSTEM_SYSRULES_forEach"(
+      items: ri!taskRefs,
+      expression: length(
+        #"_a-0000e40a-de32-8000-9ba8-011c48011c48_271202"(
+          cdt: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+            cdt: local!existingRefTasksWithTheseNames,
+            field: "taskName",
+            value: fv!item.taskName
+          ),
+          field: "taskRefId",
+          value: fv!item.taskRefId
+        )
+      ) &gt; 0
+    )
+  )
+)</definition>
+        <namedTypedValue>
+            <name>taskRefs</name>
+            <type>
+                <name>AS_IO_R_TaskRef?list</name>
+                <namespace>urn:com:appian:types:AS:IO</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name>Not Duplicate</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e393-fbf1-8000-9ba2-011c48011c48_113793"(returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290157")</a:value>
+                    <a:nameRef>taskRefs</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions>
+                    <a:expectedOutput>
+                        <a:type a:uuid="{http://www.appian.com/ae/types/2009}Boolean?list"/>
+                        <a:runtimeType a:uuid="{http://www.appian.com/ae/types/2009}Boolean?list"/>
+                        <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">{false}</a:value>
+                    </a:expectedOutput>
+                </a:assertions>
+            </el>
+            <el>
+                <a:name>Duplicate</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e40a-de32-8000-9ba8-011c48011c48_260165"(
+  cdt: #"_a-0000e393-fbf1-8000-9ba2-011c48011c48_113793"(
+    returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290157"
+  ),
+  fields: "taskName",
+  newValues: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_76433"(
+    cdt: #"_a-0000e393-fbf1-8000-9ba2-011c48011c48_113793"(
+      returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290131",
+      pagingInfo: #"SYSTEM_SYSRULES_pagingInfo"(1, 3)
+    ).data,
+    field: "taskName.[3]",
+    indexDefault: {}
+  )
+)</a:value>
+                    <a:nameRef>taskRefs</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions>
+                    <a:expectedOutput>
+                        <a:type a:uuid="{http://www.appian.com/ae/types/2009}Boolean?list"/>
+                        <a:runtimeType a:uuid="{http://www.appian.com/ae/types/2009}Boolean?list"/>
+                        <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">{true}</a:value>
+                    </a:expectedOutput>
+                </a:assertions>
+            </el>
+            <el>
+                <a:name>Null Name</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">'type!{urn:com:appian:types:AS:IO}AS_IO_R_TaskRef'()</a:value>
+                    <a:nameRef>taskRefs</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions>
+                    <a:expectedOutput>
+                        <a:type a:uuid="{http://www.appian.com/ae/types/2009}Boolean?list"/>
+                        <a:runtimeType a:uuid="{http://www.appian.com/ae/types/2009}Boolean?list"/>
+                        <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">{false}</a:value>
+                    </a:expectedOutput>
+                </a:assertions>
+            </el>
+            <el>
+                <a:name>Not duplicate and duplicate</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">a!localVariables(
+  local!task: 
+    #"_a-0000e393-fbf1-8000-9ba2-011c48011c48_113793"(
+  returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290157"
+),
+{
+  local!task,
+  #"_a-0000e40a-de32-8000-9ba8-011c48011c48_260165"(
+    cdt: local!task,
+    fields: "taskRefId",
+    newValues: -1
+  )
+}
+)</a:value>
+                    <a:nameRef>taskRefs</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions>
+                    <a:expectedOutput>
+                        <a:type a:uuid="{http://www.appian.com/ae/types/2009}Boolean?list"/>
+                        <a:runtimeType a:uuid="{http://www.appian.com/ae/types/2009}Boolean?list"/>
+                        <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">{false, true}</a:value>
+                    </a:expectedOutput>
+                </a:assertions>
+            </el>
+            <el>
+                <a:name>No task refs</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                    <a:nameRef>taskRefs</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions>
+                    <a:expectedOutput>
+                        <a:type a:uuid="{http://www.appian.com/ae/types/2009}Boolean?list"/>
+                        <a:runtimeType a:uuid="{http://www.appian.com/ae/types/2009}Boolean?list"/>
+                        <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">{}</a:value>
+                    </a:expectedOutput>
+                </a:assertions>
+            </el>
+            <el>
+                <a:name>Existing task ref</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e393-fbf1-8000-9ba2-011c48011c48_113793"(returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290157")</a:value>
+                    <a:nameRef>taskRefs</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions>
+                    <a:expectedOutput>
+                        <a:type a:uuid="{http://www.appian.com/ae/types/2009}Boolean?list"/>
+                        <a:runtimeType a:uuid="{http://www.appian.com/ae/types/2009}Boolean?list"/>
+                        <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">{false}</a:value>
+                    </a:expectedOutput>
+                </a:assertions>
+            </el>
+            <el>
+                <a:name>Multiple existing task refs</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e393-fbf1-8000-9ba2-011c48011c48_113793"(returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290163")</a:value>
+                    <a:nameRef>taskRefs</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e3c8-6861-8000-9ba2-011c48011c48_126270"/>
+        <historyInfo versionUuid="_a-0000e3e6-fb42-8000-9ba5-011c48011c48_254367"/>
+        <historyInfo versionUuid="_a-0000e3e6-fb42-8000-9ba5-011c48011c48_254669"/>
+        <historyInfo versionUuid="_a-0000e40a-de32-8000-9ba8-011c48011c48_281373"/>
+        <historyInfo versionUuid="_a-0000e430-f270-8000-9bbc-011c48011c48_370019"/>
+        <historyInfo versionUuid="_a-0000e460-9d93-8000-9bc1-011c48011c48_607017"/>
+        <historyInfo versionUuid="_a-0000e460-9d93-8000-9bc1-011c48011c48_618299"/>
+        <historyInfo versionUuid="_a-0000e62c-7375-8000-9bec-011c48011c48_1886223"/>
+    </history>
+</contentHaul>

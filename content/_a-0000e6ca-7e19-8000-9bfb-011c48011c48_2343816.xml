@@ -1,0 +1,374 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e70f-2824-8000-9c01-011c48011c48_2674545</versionUuid>
+    <interface>
+        <name>AS_FS_GRD_customerAlerts</name>
+        <uuid>_a-0000e6ca-7e19-8000-9bfb-011c48011c48_2343816</uuid>
+        <description>Show customer alerts</description>
+        <parentUuid>_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_968428</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  local!selection: a!refreshVariable(
+    value: {},
+    /*Reset selection on dismissal and other actions*/
+    refreshAfter: "RECORD_ACTION"
+  ),
+  local!refData: #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_975301"(
+    typeList: {
+      #"_a-0000e6ca-7e19-8000-9bfb-011c48011c48_2259912",
+      #"_a-0000e6ca-7e19-8000-9bfb-011c48011c48_2259899"
+    },
+    returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290163"
+  ),
+  local!integrationDetails: #"_a-0000e6ca-7e19-8000-9bfb-011c48011c48_2234155"(i18nData: ri!i18nData),
+  #"SYSTEM_SYSRULES_gridField_v1"(
+    labelPosition: "COLLAPSED",
+    data: #"SYSTEM_SYSRULES_recordData"(
+      recordType: #"urn:appian:record-type:v1:b68a6595-9eaf-4ecc-bde6-452db35bfc42",
+      filters: {
+        #"SYSTEM_SYSRULES_queryFilter"(
+          field: #"urn:appian:record-field:v1:b68a6595-9eaf-4ecc-bde6-452db35bfc42/3577c8a5-a5d4-4ded-b192-0df9bc398aa6",
+          operator: "=",
+          value: ri!alertSetId
+        )
+      }
+    ),
+    emptyGridMessage: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+      i18nData: ri!i18nData,
+      bundleKey: "AS.ALT.Alerts.txt_NoAlertsAvailable"
+    ),
+    columns: {
+      /*Alert Message*/
+      #"SYSTEM_SYSRULES_gridColumn"(
+        label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+          i18nData: ri!i18nData,
+          bundleKey: "AS.ALT.Alerts.lbl_AlertMessage"
+        ),
+        value: a!localVariables(
+          local!alertMessage: #"_a-0000e447-933d-8000-9baa-011c48011c48_103604"(
+            i18nData: ri!i18nData,
+            alert: fv!row,
+            displayPlainText: false()
+          ),
+          #"SYSTEM_SYSRULES_richTextDisplayField"(value: local!alertMessage)
+        ),
+        width: "MEDIUM_PLUS"
+      ),
+      /*Status*/
+      #"SYSTEM_SYSRULES_gridColumn"(
+        label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+          i18nData: ri!i18nData,
+          bundleKey: "AS.ALT.Alerts.lbl_Status"
+        ),
+        sortField: #"urn:appian:record-field:v1:b68a6595-9eaf-4ecc-bde6-452db35bfc42/0fc5c613-091d-4c1c-a3a0-eadd10af076d",
+        value: a!localVariables(
+          local!alertDismissalId: fv!row[#"urn:appian:record-field:v1:b68a6595-9eaf-4ecc-bde6-452db35bfc42/88617967-71fd-42e0-b70a-411716344124/93adab28-2a5b-4b76-8a22-36beed886eb3"],
+          #"SYSTEM_SYSRULES_richTextDisplayField"(
+            value: {
+              #"SYSTEM_SYSRULES_richTextIcon"(
+                icon: if(
+                  #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(local!alertDismissalId),
+                  "bell",
+                  "bell-slash"
+                ),
+                size: "SMALL"
+              ),
+              " ",
+              #"SYSTEM_SYSRULES_richTextItem_v1"(
+                text: if(
+                  #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(local!alertDismissalId),
+                  #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                    i18nData: ri!i18nData,
+                    bundleKey: "AS.ALT.Alerts.lbl_Active"
+                  ),
+                  #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                    i18nData: ri!i18nData,
+                    bundleKey: "AS.ALT.Alerts.lbl_Dismissed"
+                  )
+                )
+              )
+            }
+          )
+        ),
+        width: "NARROW_PLUS"
+      ),
+      /*Source*/
+      #"SYSTEM_SYSRULES_gridColumn"(
+        label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+          i18nData: ri!i18nData,
+          bundleKey: "AS.ALT.Alerts.lbl_Source"
+        ),
+        sortField: #"urn:appian:record-field:v1:b68a6595-9eaf-4ecc-bde6-452db35bfc42/7bbbef15-9dd2-4a57-8839-c509b3758191",
+        value: #"SYSTEM_SYSRULES_richTextDisplayField"(
+          value: {
+            #"SYSTEM_SYSRULES_richTextIcon"(
+              icon: #"_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2355700"(
+                createdBy: fv!row[#"urn:appian:record-field:v1:b68a6595-9eaf-4ecc-bde6-452db35bfc42/7bbbef15-9dd2-4a57-8839-c509b3758191"],
+                integrationDetails: local!integrationDetails
+              )
+            ),
+            " ",
+            #"SYSTEM_SYSRULES_richTextItem_v1"(
+              text: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73660"(
+                i18nData: ri!i18nData,
+                user: fv!row[#"urn:appian:record-field:v1:b68a6595-9eaf-4ecc-bde6-452db35bfc42/7bbbef15-9dd2-4a57-8839-c509b3758191"],
+                showHyphenIfValueNull: false()
+              ),
+              color: "STANDARD",
+              size: "STANDARD",
+              style: "PLAIN"
+            )
+          }
+        )
+      ),
+      /*Created On*/
+      #"SYSTEM_SYSRULES_gridColumn"(
+        label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+          i18nData: ri!i18nData,
+          bundleKey: "AS.ALT.Alerts.lbl_CreatedOn"
+        ),
+        sortField: #"urn:appian:record-field:v1:b68a6595-9eaf-4ecc-bde6-452db35bfc42/75d22155-9212-49bd-8d41-f3663b93ae2a",
+        value: #"SYSTEM_SYSRULES_richTextDisplayField"(
+          value: {
+            #"SYSTEM_SYSRULES_richTextItem_v1"(
+              text: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_74227"(
+                fv!row[#"urn:appian:record-field:v1:b68a6595-9eaf-4ecc-bde6-452db35bfc42/75d22155-9212-49bd-8d41-f3663b93ae2a"]
+              ),
+              color: "STANDARD",
+              size: "STANDARD",
+              style: "PLAIN"
+            )
+          }
+        )
+      ),
+      /*Dismissed By*/
+      #"SYSTEM_SYSRULES_gridColumn"(
+        label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+          i18nData: ri!i18nData,
+          bundleKey: "AS.ALT.Alerts.lbl_DismissedBy"
+        ),
+        /*sortField: 'recordType!{b68a6595-9eaf-4ecc-bde6-452db35bfc42}AS_ALT_Alert_SyncedRecordType.fields.{94bdada0-823f-4aac-bd2b-a8bc6c21f9d6}dismissedByDistinctCount',*/
+        value: #"SYSTEM_SYSRULES_richTextDisplayField"(
+          value: {
+            #"SYSTEM_SYSRULES_richTextIcon"(
+              icon: "user-circle-o",
+              showWhen: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(
+                fv!row[#"urn:appian:record-field:v1:b68a6595-9eaf-4ecc-bde6-452db35bfc42/88617967-71fd-42e0-b70a-411716344124/8ed9deec-1cd5-4e78-a0cb-28edc0b79bdb"]
+              )
+            ),
+            " ",
+            #"SYSTEM_SYSRULES_richTextItem_v1"(
+              text: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73660"(
+                user: fv!row[#"urn:appian:record-field:v1:b68a6595-9eaf-4ecc-bde6-452db35bfc42/88617967-71fd-42e0-b70a-411716344124/8ed9deec-1cd5-4e78-a0cb-28edc0b79bdb"],
+                showHyphenIfValueNull: false()
+              ),
+              color: "STANDARD",
+              size: "STANDARD",
+              style: "PLAIN",
+              showWhen: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(
+                fv!row[#"urn:appian:record-field:v1:b68a6595-9eaf-4ecc-bde6-452db35bfc42/88617967-71fd-42e0-b70a-411716344124/8ed9deec-1cd5-4e78-a0cb-28edc0b79bdb"]
+              )
+            )
+          }
+        )
+      ),
+      /*Dismissed On*/
+      #"SYSTEM_SYSRULES_gridColumn"(
+        label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+          i18nData: ri!i18nData,
+          bundleKey: "AS.ALT.Alerts.lbl_DismissedOn"
+        ),
+        sortField: #"urn:appian:record-field:v1:b68a6595-9eaf-4ecc-bde6-452db35bfc42/3998cac6-4bff-4a65-9146-b7586939e65e",
+        value: #"SYSTEM_SYSRULES_richTextDisplayField"(
+          value: {
+            #"SYSTEM_SYSRULES_richTextItem_v1"(
+              text: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_74227"(
+                fv!row[#"urn:appian:record-field:v1:b68a6595-9eaf-4ecc-bde6-452db35bfc42/88617967-71fd-42e0-b70a-411716344124/c4418026-d24a-47ad-9124-783699d96717"]
+              ),
+              color: "STANDARD",
+              size: "STANDARD",
+              style: "PLAIN"
+            )
+          }
+        )
+      ),
+      /*Dismissal Reason*/
+      #"SYSTEM_SYSRULES_gridColumn"(
+        label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+          i18nData: ri!i18nData,
+          bundleKey: "AS.ALT.Alerts.lbl_DismissalReason"
+        ),
+        sortField: #"urn:appian:record-field:v1:b68a6595-9eaf-4ecc-bde6-452db35bfc42/ee04cdeb-a88c-4caa-a7e3-c27e2d7bc1fe",
+        value: #"SYSTEM_SYSRULES_richTextDisplayField"(
+          value: {
+            #"SYSTEM_SYSRULES_richTextItem_v1"(
+              text: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                i18nData: ri!i18nData,
+                bundleKey: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+                  cdt: local!refData,
+                  field: "rDataId",
+                  value: fv!row[#"urn:appian:record-field:v1:b68a6595-9eaf-4ecc-bde6-452db35bfc42/88617967-71fd-42e0-b70a-411716344124/18632fa4-a963-44b1-9722-0cbc0f97f588"]
+                ).label
+              ),
+              color: "STANDARD",
+              size: "STANDARD",
+              style: "PLAIN"
+            )
+          }
+        )
+      ),
+      /*Dismissal Comment*/
+      #"SYSTEM_SYSRULES_gridColumn"(
+        label: proper(
+          #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+            i18nData: ri!i18nData,
+            bundleKey: "AS.ALT.Alerts.lbl_DismissalComment"
+          )
+        ),
+        value: a!localVariables(
+          local!description: fv!row[#"urn:appian:record-field:v1:b68a6595-9eaf-4ecc-bde6-452db35bfc42/88617967-71fd-42e0-b70a-411716344124/ea380fa3-c1c0-4aed-9b8c-c639476744f5"],
+          #"_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2361491"(
+            text: local!description,
+            initialCharLimit: 200
+          )
+        )
+      )
+    },
+    userFilters: {
+      #"urn:appian:user-filter:v1:b68a6595-9eaf-4ecc-bde6-452db35bfc42/47ce29bd-eb2d-45b4-b234-372ec67fff98",
+      #"urn:appian:user-filter:v1:b68a6595-9eaf-4ecc-bde6-452db35bfc42/c1d661be-65ef-43bf-85f8-26a8a6c2d0fe"
+    },
+    pageSize: 25,
+    initialSorts: {
+      #"SYSTEM_SYSRULES_sortInfo"(
+        field: #"urn:appian:record-field:v1:b68a6595-9eaf-4ecc-bde6-452db35bfc42/3998cac6-4bff-4a65-9146-b7586939e65e",
+        ascending: true()
+      )
+    },
+    recordActions: {
+      #"SYSTEM_SYSRULES_recordActionItem"(
+        action: #"urn:appian:record-action:v1:15ec9ef8-96dd-41ff-a034-7863526026d4/8f379f2e-abc1-4e0e-bbcb-f10e2da49919",
+        identifier: ri!customerId
+      ),
+      #"SYSTEM_SYSRULES_recordActionItem"(
+        action: #"urn:appian:record-action:v1:d1b4a5a4-aeae-4e56-b46a-fe1c2bf46222/61ebee65-01ae-49da-8c2f-1b990240b4d3",
+        identifier: externalize(local!selection)
+      )
+    },
+    shadeAlternateRows: true,
+    rowHeader: 1,
+    refreshAfter: "RECORD_ACTION",
+    selectable: true,
+    selectionValue: local!selection,
+    selectionSaveInto: local!selection
+  )
+)</definition>
+        <namedTypedValue>
+            <name>i18nData</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>customerId</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>alertSetId</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+        <isCustom>false</isCustom>
+    </interface>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name/>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_975720"(triggerRefresh: null),</a:value>
+                    <a:nameRef>i18nData</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_33079"(
+  returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290157"
+).customerId</a:value>
+                    <a:nameRef>customerId</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_33079"(
+  returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290157"
+).alertSetId</a:value>
+                    <a:nameRef>alertSetId</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e6ca-7e19-8000-9bfb-011c48011c48_2349266"/>
+        <historyInfo versionUuid="_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2355353"/>
+        <historyInfo versionUuid="_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2355843"/>
+        <historyInfo versionUuid="_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2359526"/>
+        <historyInfo versionUuid="_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2362494"/>
+        <historyInfo versionUuid="_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2363307"/>
+        <historyInfo versionUuid="_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2365149"/>
+        <historyInfo versionUuid="_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2378828"/>
+        <historyInfo versionUuid="_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2386479"/>
+        <historyInfo versionUuid="_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2445791"/>
+        <historyInfo versionUuid="_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2451105"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2541650"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2551341"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2673894"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2674177"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2674545"/>
+    </history>
+</contentHaul>

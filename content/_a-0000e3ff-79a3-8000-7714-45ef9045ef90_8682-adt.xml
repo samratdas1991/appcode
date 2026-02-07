@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e70f-2824-8000-9c01-011c48011c48_2626702</versionUuid>
+    <rule>
+        <name>z_AS_ADT_TST_auditConfig_SAMPLE_Parent</name>
+        <uuid>_a-0000e3ff-79a3-8000-7714-45ef9045ef90_8682-adt</uuid>
+        <description>Audit config for the AS_ADT_SAMPLE_Parent CDT</description>
+        <parentUuid>_a-0000e42d-ffef-8000-9ba6-011c48011c48_7213-adt</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>/*
+Audit config for 'type!{urn:com:appian:types:AS:ADT}AS_ADT_SAMPLE_Parent'
+*/
+'type!{urn:com:appian:types:AS:ADT}AS_ADT_AuditConfig'(
+  /*if this is true, entries will be made at this level for unchanged objects*/
+  /*unchanged nested children will not be automatically captured unless theirs are set to true as well*/
+  captureUnchanged: true,
+  /* These two fields are not needed for the top level auditConfig */
+  fieldName: null,
+  auditFieldName: null,
+  /*objectDse: cons!AS_ADT_TST_ENT_PARENT,*/
+  idField: "parentId",
+  /*add fields here that you want to track regardless of whether they are modified*/
+  additionalFields: {
+    a!map(
+      field: "auditDisplayName",
+      path: "name"
+    )
+  },
+  simpleFields: {
+    "name",
+    "text",
+    "date",
+    "referenceChild.childId",
+    "complexChildSingle.text",
+    "complexChildSingle.date",
+    "complexChildSingle.referenceChild.childId",
+    "isActive",
+    /* This pattern is used to audit simple fields for related CDTs that are not truly nested */
+    #"_a-0000e607-97fd-8000-9be9-011c48011c48_1605450"()
+  },
+  complexFields: {
+    'type!{urn:com:appian:types:AS:ADT}AS_ADT_AuditConfig'(
+      fieldName: "complexChildMultiple",
+      auditFieldName: "complexChildMultipleChanges",
+      idField: "childId",
+      simpleFields: {
+        "text",
+        "date",
+        "referenceChild.childId"
+      },
+      complexFields: {}
+    ),
+    /* TOBEDONE implement external complex fields */
+    /* This pattern (including the DSE) is used to audit changes to complex CDTs tht are not truly nested */
+    /* We use the same CDT as above that is truly nested, but that is just for convenience */
+    /*'type!{urn:com:appian:types:AS:ADT}AS_ADT_AuditConfig'(*/
+      /*fieldName: "externalComplexChildMultiple",*/
+      /*auditFieldName: "externalComplexChildMultipleChanges",*/
+      /*idField: "childId",*/
+      /* The objectDse field is generally optional and should only be populated when the complex CDT is not truly nested */
+      /*objectDse: cons!AS_ADT_TST_ENT_COMPLEX_CHILD,*/
+      /*simpleFields: {*/
+        /*"text",*/
+        /*"date",*/
+        /*"referenceChild.childId"*/
+      /*},*/
+      /*complexFields: {}*/
+    /*)*/
+  },
+  /* This rule is executed between requerying for the new objects and generating the audit.
+  Can be used to include fields that are not part of the table/children of the table being audited */
+  getNewObjectsPostProcessingRule: #"_a-0000e607-97fd-8000-9be9-011c48011c48_1605285",
+)</definition>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name>Sample Test Case</a:name>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e3ff-79a3-8000-7714-45ef9045ef90_8771"/>
+        <historyInfo versionUuid="_a-0000e3ff-79a3-8000-7714-45ef9045ef90_8890-fs"/>
+        <historyInfo versionUuid="_a-0000e430-f270-8000-9bbc-011c48011c48_370915"/>
+        <historyInfo versionUuid="_a-0000e467-127b-8000-0fb7-43ef9043ef90_9036-adt"/>
+        <historyInfo versionUuid="_a-0000e447-9390-8000-9baa-011c48011c48_64974"/>
+        <historyInfo versionUuid="_a-0000e447-933d-8000-9baa-011c48011c48_85224"/>
+        <historyInfo versionUuid="_a-0000e607-97fd-8000-9be9-011c48011c48_1605493"/>
+        <historyInfo versionUuid="_a-0000e607-97fd-8000-9be9-011c48011c48_1681750"/>
+        <historyInfo versionUuid="_a-0000e607-97fd-8000-9be9-011c48011c48_1703447"/>
+        <historyInfo versionUuid="_a-0000e673-a4a7-8000-9bef-011c48011c48_1983213"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2626702"/>
+    </history>
+</contentHaul>

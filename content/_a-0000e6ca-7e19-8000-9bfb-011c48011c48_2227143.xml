@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e6ca-7e19-8000-9bfb-011c48011c48_2235005</versionUuid>
+    <rule>
+        <name>AS_IO_UI_HomePageActions_v1_default</name>
+        <uuid>_a-0000e6ca-7e19-8000-9bfb-011c48011c48_2227143</uuid>
+        <description>A list of record actions that are displayed in the top right of the Connected Onboarding Home page. Returns the "Create New Onboarding" action by default.
+
+@customizable:1.0
+@category:USER_INTERFACE
+@app:FS.IO</description>
+        <parentUuid>_a-0000e2bb-4188-8000-9ba2-011c48011c48_25469</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>/*
+
+DESCRIPTION
+  A list of record actions that are displayed in the top right of the Connected Onboarding home page.
+
+DEFAULT BEHAVIOR
+  Displays the Create New Onboarding record action.
+
+Customization Steps: 
+  Add, remove, and rearrange record list actions in this rule.  These can be OOTB actions or new custom actions.
+    Visibility/group security of existing actions can be configured here via conditional logic using loggedInUser() or other contextual functions.
+    Visibility/group security of new custom actions should be configured in Record→ actions→ visibility or in the process security
+
+    NOTE: We assume these actions will NOT modify ref data, and these queries are not refreshed after record action, but all
+    other data on the home page is refreshed after record action.
+    Actions modifying refData should be restricted to the Connected FS Settings site.
+    If these actions modify ref data, the page will need to be refreshed for the changes to take effect.
+
+PARAMETERS: 
+  N/A
+
+Return/Output:
+  Expected Return Type: List of a!recordActionItem().
+  Output Usage: Used in displaying actions on Connected Onboarding home page.
+
+*/
+
+{
+  #"SYSTEM_SYSRULES_recordActionItem"(
+    action: #"urn:appian:record-action:v1:11785fba-fdff-40a6-801c-4a34bb011a4e/04a8d840-98f6-431d-a20e-f988e3333012"
+  )
+}</definition>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <history>
+        <historyInfo versionUuid="_a-0000e6ca-7e19-8000-9bfb-011c48011c48_2227611"/>
+        <historyInfo versionUuid="_a-0000e6ca-7e19-8000-9bfb-011c48011c48_2235005"/>
+    </history>
+</contentHaul>

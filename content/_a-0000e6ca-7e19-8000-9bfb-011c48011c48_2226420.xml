@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e79b-0335-8000-9c0c-011c48011c48_2938324</versionUuid>
+    <rule>
+        <name>AS_FS_BL_AdditionalSystemAdminCenterIntegrations_v1_default</name>
+        <uuid>_a-0000e6ca-7e19-8000-9bfb-011c48011c48_2226420</uuid>
+        <description>This rule provides the configurations for each additional integration that is shown in the System Administration Center.
+
+
+@customizable:1.0
+@category:USER_INTERFACE
+@app:FS</description>
+        <parentUuid>_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_968428</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>/*
+
+DESCRIPTION: This rule provides the configurations for custom integrations that are shown in the System Administration Center.
+
+
+DEFAULT BEHAVIOR: 
+There is nothing in here by default, but this list is merged with the objects in `AS_FS_BL_ootbSystemAdminCenterIntegrations`
+which are shipped OOTB.
+
+
+CUSTOMIZATION STEPS:
+When adding a new integration to your application, add an instance of AS_FS_P_IntegrationSetting each here to view and configure
+the integration in the System Administration Center.
+
+The implementation in AS_FS_BL_ootbSystemAdminCenterIntegrations should be emulated closely.
+
+Each Integration should have the following fields:
+  integrationCode: This is the backend code associated with your integration.  It serves as the "primary key" corresponding to the integration.
+  integrationLabel: This is the label attributed to your integration in the System Administration Center
+  integrationIcon: This is the Appian icon attributed to your integration in the System Administration Center
+  integrationUserImage: This is the image that will be displayed if the integration is referenced as a user in the application
+    e.g. The Northrow integration generated an alert, and we show the Northrow user image in that context.
+  integrationDescription: This is the text description of your integration shown in the System Administration Center
+  isEnabledSettingCode: This is the code of the row in the AS_FS_ALL_USER_SETTINGS table that is used to determine whether the integration is active
+  integrationMethods (optional): This list of methods is used for display purposes only in the System Administration Center
+  apiVersion (optional): This text is used for display purposes only in the System Administration Center
+  recordActionOverride (optional): By default, al custom integrations will use the "AS FS Integration Update Properties" process to update
+    the integration status toggle and any other relevant settings provided in integrationSpecificSettings.
+    If your integration has any more complex properties that need to be updated and do not fit neatly into the above process,
+    make a custom record action and reference it here.
+  testIntegrationAction (optional): We recommend building a process that can test the connectivity of the integration and referencing it here.
+  additionalIntegrationProperties (optional): This is a rule reference to an interface containing a list of components that will appear in the
+    third column of AS_EI_SCT_integrationDetails. This is how the third column of integration properties are added for the out of the box IDP 
+    and Northrow integrations. This interface should only accept the following rule input:
+      i18nData (anyType)
+      readOnly (boolean)
+      allUserSettings (list of AS_FS_AllUserSettings)
+  additionalReadOnlyContents (optional): This is a rule reference to a read-only interface that will appear below the integration summary. 
+    This is how the "Execution Details" section of the RPA integration is added to the summary page. This interface should only accept the following
+    rule input:
+      i18nData (anyType)
+  
+  
+Note: Just adding methods or integrations in this rule will not automatically make them work in the app.
+You must manually set them up in Appian and add them here to ensure that the System Administration Center can accurately display and update them.
+
+
+PARAMETERS: 
+None
+
+
+EXPECTED RETURN TYPE: List of AS_FS_P_IntegrationSetting cdts
+
+*/
+
+{
+  /*Add custom integrations here*/
+  
+  /*Sample custom integration template to follow: */
+  
+  /*'type!{urn:com:appian:types:AS:FS}AS_FS_P_IntegrationSetting'(*/
+    /*integrationCode: "cons!MY_INTEGRATION_CODE",*/
+        /*We strongly recommend using a constant for the integration code so you can refer to it elsewhere in the app*/
+    /*integrationLabel: "My Integration",*/
+    /*integrationIcon: "icon",*/
+    /*integrationUserImage: cons!DOC_MY_INTEGRATION_USER_IMAGE,*/
+    /*integrationDescription: "This is a new integration we are setting up",*/
+    /*integrationMethods: {"Get Foo", "Post Bar"},*/
+    /*apiVersion: "1.0.0",*/
+    /*isEnabledSettingCode: "cons!MY_INTEGRATION_TOGGLE",*/
+        /*We strongly recommend using a constant for the toggle so you can refer to it elsewhere in the app*/
+    /*recordActionOverride: recordType!MyIntegration.actions.setProperties,*/
+    /*testIntegrationAction: recordType!MyIntegration.actions.testIntegration,*/
+    /*additionalIntegrationProperties: rule!MyCustomSpecificSettingsInterface,*/
+    /*additionalReadOnlyContents: rule!MyCustomOtherComponentsInterface,*/
+  /*)*/
+}</definition>
+        <namedTypedValue>
+            <name>i18nData</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name>Unnamed Test Case</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_975720"(null)</a:value>
+                    <a:nameRef>i18nData</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e6ca-7e19-8000-9bfb-011c48011c48_2246712"/>
+        <historyInfo versionUuid="_a-0000e6ca-7e19-8000-9bfb-011c48011c48_2272762"/>
+        <historyInfo versionUuid="_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2363956"/>
+        <historyInfo versionUuid="_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2365897"/>
+        <historyInfo versionUuid="_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2366353"/>
+        <historyInfo versionUuid="_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2371856"/>
+        <historyInfo versionUuid="_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2373579"/>
+        <historyInfo versionUuid="_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2382383"/>
+        <historyInfo versionUuid="_a-0000e77e-5277-8000-9c09-011c48011c48_2871924"/>
+        <historyInfo versionUuid="_a-0000e79b-0335-8000-9c0c-011c48011c48_2938324"/>
+    </history>
+</contentHaul>

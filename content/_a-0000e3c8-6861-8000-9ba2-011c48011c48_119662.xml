@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e7fa-f829-8000-9c17-011c48011c48_3378547</versionUuid>
+    <interface>
+        <name>AS_IO_CPS_viewReferenceTasks</name>
+        <uuid>_a-0000e3c8-6861-8000-9ba2-011c48011c48_119662</uuid>
+        <description>Reuseable interface for displaying/searching for reference tasks.</description>
+        <parentUuid>_a-0000e2bb-4188-8000-9ba2-011c48011c48_25469</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  local!triggerRefresh: a!refreshVariable(
+    value: now(),
+    refreshAfter: "RECORD_ACTION"
+  ),
+  local!refData: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_39864"(
+    typeList: {
+      #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_975334",
+      #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_40302"
+    },
+    i18nData: ri!i18nData
+  ),
+  local!searchText: #"_a-0000e3d1-f4dc-8000-9ba4-011c48011c48_143475"(
+    type: 'type!{http://www.appian.com/ae/types/2009}Text'
+  ),
+  local!taskCategories: #"_a-0000e393-fbf1-8000-9ba2-011c48011c48_100474"(
+    triggerRefresh: local!triggerRefresh,
+    returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290163",
+    taskCategoryIdToExclude: #"_a-0000e7d2-6286-8000-9c11-011c48011c48_3119705"
+  ),
+  local!taskCategoryFilter: #"_a-0000e3d1-f4dc-8000-9ba4-011c48011c48_143475"(
+    type: 'type!{http://www.appian.com/ae/types/2009}Integer'
+  ),
+  {
+    #"_a-0000e7e5-dad4-8000-9c14-011c48011c48_3312448"("AS_IO_CPS_viewReferenceTasks"),
+    #"SYSTEM_SYSRULES_columnsLayout"(
+      columns: {
+        #"SYSTEM_SYSRULES_columnLayout"(
+          contents: {
+            #"_a-0000e393-fbf1-8000-9ba2-011c48011c48_111777"(
+              headerText: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                i18nData: ri!i18nData,
+                bundleKey: "AS.CO.AllBundles.lbl_Tasks"
+              )
+            )
+          },
+          width: "NARROW_PLUS"
+        ),
+        #"SYSTEM_SYSRULES_columnLayout"(
+          contents: {
+            #"_a-0000e528-bc07-8000-9bcf-011c48011c48_1032072"(
+              labelPosition: "COLLAPSED",
+              choiceLabels: local!taskCategories.categoryName,
+              choiceValues: local!taskCategories.taskCategoryId,
+              placeholderLabel: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                i18nData: ri!i18nData,
+                bundleKey: "AS.CO.AllBundles.plc_Categories"
+              ),
+              value: local!taskCategoryFilter,
+              saveInto: local!taskCategoryFilter
+            )
+          }
+        ),
+        #"SYSTEM_SYSRULES_columnLayout"(
+          contents: {
+            #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_233094"(
+              value: local!searchText,
+              saveInto: local!searchText,
+              placeholder: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_152826"(
+                i18nData: ri!i18nData,
+                bundleKey: "AS.CO.AllBundles.lbl_Tasks"
+              )
+            )
+          }
+        ),
+        #"SYSTEM_SYSRULES_columnLayout"(
+          contents: {
+            #"SYSTEM_SYSRULES_recordActionField"(
+              actions: {
+                #"SYSTEM_SYSRULES_recordActionItem"(
+                  action: #"urn:appian:record-action:v1:5565edd8-d65a-4823-8479-4154befe7a2d/74a7dcd2-df2b-4f1a-b78e-5b04cc5e993f"
+                ),
+                #"SYSTEM_SYSRULES_recordActionItem"(
+                  action: #"urn:appian:record-action:v1:5565edd8-d65a-4823-8479-4154befe7a2d/9548309b-167c-4865-8fa9-ab0abb2ae502"
+                )
+              },
+              align: "END"
+            )
+          }
+        )
+      }
+    ),
+    #"SYSTEM_SYSRULES_cardLayout"(
+      padding: "NONE",
+      showBorder: false,
+      contents: #"_a-0000e393-fbf1-8000-9ba2-011c48011c48_113787"(
+        allowLinkSelection: true,
+        i18nData: ri!i18nData,
+        refData: local!refData,
+        allowCheckboxSelection: false,
+        taskCategoryFilter: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+          cdt: local!taskCategories,
+          field: "taskCategoryId",
+          value: local!taskCategoryFilter
+        ),
+        triggerRefresh: local!triggerRefresh,
+        searchText: local!searchText,
+        configurationLevelCode: #"_a-0000e393-fbf1-8000-9ba2-011c48011c48_99886"
+      )
+    )
+  }
+)</definition>
+        <namedTypedValue>
+            <name>i18nData</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+        <isCustom>false</isCustom>
+    </interface>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name/>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81834"(triggerRefresh: null)</a:value>
+                    <a:nameRef>i18nData</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e3d1-f4dc-8000-9ba4-011c48011c48_133674"/>
+        <historyInfo versionUuid="_a-0000e3d1-f4dc-8000-9ba4-011c48011c48_147298"/>
+        <historyInfo versionUuid="_a-0000e3e6-fb42-8000-9ba5-011c48011c48_192118"/>
+        <historyInfo versionUuid="_a-0000e3e6-fb42-8000-9ba5-011c48011c48_196192"/>
+        <historyInfo versionUuid="_a-0000e3e6-fb42-8000-9ba5-011c48011c48_197348"/>
+        <historyInfo versionUuid="_a-0000e3e6-fb42-8000-9ba5-011c48011c48_216107"/>
+        <historyInfo versionUuid="_a-0000e3e6-fb42-8000-9ba5-011c48011c48_249665"/>
+        <historyInfo versionUuid="_a-0000e40a-de32-8000-9ba8-011c48011c48_262433"/>
+        <historyInfo versionUuid="_a-0000e3ff-a5bc-8000-9ba8-011c48011c48_40690"/>
+        <historyInfo versionUuid="_a-0000e430-f270-8000-9bbc-011c48011c48_365739"/>
+        <historyInfo versionUuid="_a-0000e447-91f4-8000-9bc0-011c48011c48_583363"/>
+        <historyInfo versionUuid="_a-0000e471-623a-8000-9bc3-011c48011c48_679850"/>
+        <historyInfo versionUuid="_a-0000e528-bc07-8000-9bcf-011c48011c48_1032649"/>
+        <historyInfo versionUuid="_a-0000e586-af6f-8000-9bd2-011c48011c48_1365059"/>
+        <historyInfo versionUuid="_a-0000e5a0-53e9-8000-9bd8-011c48011c48_1456481"/>
+        <historyInfo versionUuid="_a-0000e607-97fd-8000-9be9-011c48011c48_1599563"/>
+        <historyInfo versionUuid="_a-0000e62c-7375-8000-9bec-011c48011c48_1849984"/>
+        <historyInfo versionUuid="_a-0000e673-a4a7-8000-9bef-011c48011c48_1957824"/>
+        <historyInfo versionUuid="_a-0000e69f-3688-8000-9bf2-011c48011c48_2148842"/>
+        <historyInfo versionUuid="_a-0000e6ba-d6dd-8000-9bf5-011c48011c48_2193359"/>
+        <historyInfo versionUuid="_a-0000e6ca-7e19-8000-9bfb-011c48011c48_2224604"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2658035"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2663680"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2668190"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2669917"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2671324"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2713012"/>
+        <historyInfo versionUuid="_a-0000e7e5-dad4-8000-9c14-011c48011c48_3326344"/>
+        <historyInfo versionUuid="_a-0000e7fa-f829-8000-9c17-011c48011c48_3378547"/>
+    </history>
+</contentHaul>

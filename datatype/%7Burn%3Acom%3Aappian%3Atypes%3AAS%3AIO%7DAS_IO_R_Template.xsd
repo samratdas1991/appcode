@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema targetNamespace="urn:com:appian:types:AS:IO"
+  xmlns:fs1="urn:com:appian:types:AS:FS"
+  xmlns:tns="urn:com:appian:types:AS:IO" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <xsd:include schemaLocation="%7Burn%3Acom%3Aappian%3Atypes%3AAS%3AIO%7DAS_IO_R_TemplateTask.xsd"/>
+  <xsd:include schemaLocation="%7Burn%3Acom%3Aappian%3Atypes%3AAS%3AIO%7DAS_IO_R_Template_CustomFields.xsd"/>
+  <xsd:include schemaLocation="%7Burn%3Acom%3Aappian%3Atypes%3AAS%3AIO%7DAS_IO_T_OnboardingProduct.xsd"/>
+  <xsd:include schemaLocation="%7Burn%3Acom%3Aappian%3Atypes%3AAS%3AIO%7DAS_IO_T_RequiredDocument.xsd"/>
+  <xsd:complexType name="AS_IO_R_Template">
+    <xsd:annotation>
+      <xsd:appinfo source="appian.jpa">@Table(name="AS_IO_R_TEMPLATE")</xsd:appinfo>
+      <xsd:appinfo source="http://www.appian.com/ae/types/2009">
+        <ns2:Metadata xmlns:ns2="http://www.appian.com/ae/types/2009">
+          <ns2:versionUuid>0001e7ff-89ac-8000-6f19-7f0000014e7a</ns2:versionUuid>
+          <ns2:history>
+            <ns2:historyInfo versionUuid="0003e3b5-ce02-8000-f92f-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0001e3db-6a9d-8000-f968-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0001e3f1-1e8a-8000-f9e3-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0008e3f8-7d9e-8000-faee-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0006e3fa-9cb1-8000-fb8a-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0003e400-40b6-8000-fbd0-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0000e44a-e333-8000-0168-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0000e46c-902e-8000-06b4-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0001e525-287f-8000-1a93-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0003e597-2535-8000-2829-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0000e64f-112d-8000-3ec2-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0007e6aa-4cb5-8000-4722-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0001e6d0-adbe-8000-4914-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0001e6e3-7ea7-8000-4ce4-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0000e7e7-04d6-8000-67d0-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0000e7e8-5846-8000-67ff-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0002e7fa-5672-8000-6df8-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0001e7ff-89ac-8000-6f19-7f0000014e7a"/>
+          </ns2:history>
+        </ns2:Metadata>
+      </xsd:appinfo>
+      <xsd:documentation><![CDATA[Reference templates that are used to define the default task flow for different types of onboarding requests]]></xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="templateId" nillable="true" type="xsd:int">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@Id @GeneratedValue @Column(name="TEMPLATE_ID", nullable=false, unique=true)</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="templateName" nillable="true" type="xsd:string">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@Column(name="TEMPLATE_NAME", nullable=false)</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="templateDesc" nillable="true" type="xsd:string">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@Column(name="TEMPLATE_DESC", nullable=true)</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element maxOccurs="unbounded" minOccurs="0"
+        name="templateTasks" type="tns:AS_IO_R_TemplateTask">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@OneToMany(cascade=CascadeType.ALL, indexed=false) @JoinColumn(name="TEMPLATE_ID")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="onboardingTypeCode" nillable="true" type="xsd:string">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@Column(name="ONBOARDING_TYPE_CODE", nullable=true)</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="regionCode" nillable="true" type="xsd:string">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@Column(name="REGION_CODE", nullable=true)</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="slaDayType" nillable="true" type="xsd:string">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@Column(name="SLA_DAY_TYPE", nullable=false)</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="isDefault" nillable="true" type="xsd:boolean">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@Column(name="IS_DEFAULT", columnDefinition="BIT")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="isActive" nillable="true" type="xsd:boolean">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@Column(name="IS_ACTIVE", columnDefinition="BIT")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="isDeleted" nillable="true" type="xsd:boolean">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@Column(name="IS_DELETED", columnDefinition="BIT")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element maxOccurs="unbounded" minOccurs="0"
+        name="onboardingProductTemplates" type="tns:AS_IO_T_OnboardingProduct">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@OneToMany(cascade=CascadeType.ALL, indexed=false) @JoinColumn(name="TEMPLATE_ID")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element maxOccurs="unbounded" minOccurs="0"
+        name="requiredDocumentTemplates" type="tns:AS_IO_T_RequiredDocument">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@OneToMany(cascade=CascadeType.ALL, indexed=false) @JoinColumn(name="TEMPLATE_ID")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="customFields" nillable="true" type="tns:AS_IO_R_Template_CustomFields">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@OneToOne(cascade=CascadeType.ALL) @JoinColumn(name="TEMPLATE_CUSTOM_FIELDS_ID")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="createdBy" nillable="true" type="xsd:string">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@Column(name="CREATED_BY", nullable=false)</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="createdDatetime" nillable="true" type="xsd:dateTime">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@Column(name="CREATED_DATETIME", nullable=false)</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="modifiedBy" nillable="true" type="xsd:string">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@Column(name="MODIFIED_BY", nullable=false)</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="modifiedDatetime" nillable="true" type="xsd:dateTime">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@Column(name="MODIFIED_DATETIME", nullable=false)</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+</xsd:schema>

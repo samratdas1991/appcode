@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_948899</versionUuid>
+    <rule>
+        <name>AS_CO_UT_swapFieldInList</name>
+        <uuid>_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_948589</uuid>
+        <description>Given a list, a field, and two indices to update, swaps the value of the field at index one with that of index two.</description>
+        <parentUuid>_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73105</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>if(
+  or(
+    max(
+      ri!indexOne,
+      ri!indexTwo
+    ) &gt; count(
+      ri!list
+    ),
+    min(
+      ri!indexOne,
+      ri!indexTwo
+    ) &lt; 1
+  ),
+  error(
+    "Both indices must be within the bounds of the list"
+  ),
+  a!localVariables(
+    local!valueOne: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_76433"(
+      cdt: ri!list[ri!indexOne],
+      field: ri!field
+    ),
+    local!valueTwo: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_76433"(
+      cdt: ri!list[ri!indexTwo],
+      field: ri!field
+    ),
+    #"_a-0000e40a-de32-8000-9ba8-011c48011c48_260165"(
+      cdt: #"_a-0000e40a-de32-8000-9ba8-011c48011c48_260165"(
+        cdt: ri!list,
+        fields: ri!field,
+        indices: ri!indexOne,
+        newValues: local!valueTwo
+      ),
+      fields: ri!field,
+      indices: ri!indexTwo,
+      newValues: local!valueOne
+    )
+  )
+)</definition>
+        <namedTypedValue>
+            <name>list</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>indexOne</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>indexTwo</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>field</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name>Simple field, small list</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">{
+  'type!{urn:com:appian:types:AS:CO}AS_CO_ApplicationVersion'(
+    major: 1
+  ),
+  'type!{urn:com:appian:types:AS:CO}AS_CO_ApplicationVersion'(
+    major: 2
+  )
+}</a:value>
+                    <a:nameRef>list</a:nameRef>
+                    <a:id>5</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">1</a:value>
+                    <a:nameRef>indexOne</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">2</a:value>
+                    <a:nameRef>indexTwo</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">"major"</a:value>
+                    <a:nameRef>field</a:nameRef>
+                    <a:id>4</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions>
+                    <a:expectedOutput>
+                        <a:type a:uuid="{http://www.appian.com/ae/types/2009}Variant"/>
+                        <a:runtimeType a:uuid="{http://www.appian.com/ae/types/2009}Variant"/>
+                        <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">{
+  'type!{urn:com:appian:types:AS:CO}AS_CO_ApplicationVersion'(
+    major: 2
+  ),
+  'type!{urn:com:appian:types:AS:CO}AS_CO_ApplicationVersion'(
+    major: 1
+  )
+}</a:value>
+                    </a:expectedOutput>
+                </a:assertions>
+            </el>
+            <el>
+                <a:name>Simple field, larger list</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">{
+  'type!{urn:com:appian:types:AS:CO}AS_CO_ApplicationVersion'(
+    major: 1
+  ),
+  'type!{urn:com:appian:types:AS:CO}AS_CO_ApplicationVersion'(
+    major: 2
+  ),
+  'type!{urn:com:appian:types:AS:CO}AS_CO_ApplicationVersion'(
+    major: 3
+  ),
+  'type!{urn:com:appian:types:AS:CO}AS_CO_ApplicationVersion'(
+    major: 4
+  ),
+  'type!{urn:com:appian:types:AS:CO}AS_CO_ApplicationVersion'(
+    major: 5
+  )
+}</a:value>
+                    <a:nameRef>list</a:nameRef>
+                    <a:id>5</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">2</a:value>
+                    <a:nameRef>indexOne</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">4</a:value>
+                    <a:nameRef>indexTwo</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">"major"</a:value>
+                    <a:nameRef>field</a:nameRef>
+                    <a:id>4</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions>
+                    <a:expectedOutput>
+                        <a:type a:uuid="{http://www.appian.com/ae/types/2009}Variant"/>
+                        <a:runtimeType a:uuid="{http://www.appian.com/ae/types/2009}Variant"/>
+                        <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">{
+  'type!{urn:com:appian:types:AS:CO}AS_CO_ApplicationVersion'(
+    major: 1
+  ),
+  'type!{urn:com:appian:types:AS:CO}AS_CO_ApplicationVersion'(
+    major: 4
+  ),
+  'type!{urn:com:appian:types:AS:CO}AS_CO_ApplicationVersion'(
+    major: 3
+  ),
+  'type!{urn:com:appian:types:AS:CO}AS_CO_ApplicationVersion'(
+    major: 2
+  ),
+  'type!{urn:com:appian:types:AS:CO}AS_CO_ApplicationVersion'(
+    major: 5
+  )
+}</a:value>
+                    </a:expectedOutput>
+                </a:assertions>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_948899"/>
+    </history>
+</contentHaul>

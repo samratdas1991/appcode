@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e673-a4a7-8000-9bef-011c48011c48_2022213</versionUuid>
+    <rule>
+        <name>AS_QNM_UI_documentDownloadLink</name>
+        <uuid>_a-0000e447-91f4-8000-9bc0-011c48011c48_585818</uuid>
+        <description>Generic document download link component that handles read-only logic dynamically. </description>
+        <parentUuid>_a-0000e42d-ffef-8000-9ba6-011c48011c48_7213-qnm</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>/* TOBEDONE Can this be easily replaced with AS_CO_LNK_documentDownloadLink?  */
+#"SYSTEM_SYSRULES_richTextItem_v1"(
+  text: {
+    if(
+      ri!displayDocTypeIcon,
+      #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_145598"(
+        extension: fn!document(
+          ri!document,
+          "extension"
+        ),
+        size: "MEDIUM",
+        link: #"SYSTEM_SYSRULES_documentDownloadLink"(
+          document: ri!document,
+          label: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73556"(
+            label: ri!label
+          ),
+          showWhen: and(
+            #"_a-0000e3ff-a5bc-8000-9ba8-011c48011c48_39082"(
+              ri!showWhen
+            ),
+            #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(
+              ri!document
+            )
+          )
+        )
+      ),
+      ""
+    ),
+    " ",
+    ri!label,
+    ".",
+    fn!document(
+      ri!document,
+      "extension"
+    ),
+    " ",
+    #"SYSTEM_SYSRULES_richTextIcon"(
+      icon: "download",
+      link: #"SYSTEM_SYSRULES_documentDownloadLink"(
+        document: ri!document,
+        label: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73556"(
+          label: ri!label
+        ),
+        showWhen: and(
+          #"_a-0000e3ff-a5bc-8000-9ba8-011c48011c48_39082"(
+            ri!showWhen
+          ),
+          #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(
+            ri!document
+          )
+        )
+      ),
+      linkStyle: "STANDALONE",
+      showWhen: ri!displayDownloadIcon
+    )
+  },
+  link: #"SYSTEM_SYSRULES_documentDownloadLink"(
+    document: ri!document,
+    label: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73556"(
+      label: ri!label
+    ),
+    showWhen: and(
+      #"_a-0000e3ff-a5bc-8000-9ba8-011c48011c48_39082"(
+        ri!showWhen
+      ),
+      #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(
+        ri!document
+      )
+    )
+  ),
+  linkStyle: "STANDALONE",
+  style: "STRONG"
+)</definition>
+        <namedTypedValue>
+            <name>document</name>
+            <type>
+                <name>CollaborationDocument</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>label</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>showWhen</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>displayDocTypeIcon</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>displayDownloadIcon</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name>Unnamed Test Case</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:CollaborationDocument">_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_885844</a:value>
+                    <a:nameRef>document</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:string"/>
+                    <a:nameRef>label</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:boolean"/>
+                    <a:nameRef>showWhen</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:boolean"/>
+                    <a:nameRef>displayDocTypeIcon</a:nameRef>
+                    <a:id>4</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:boolean"/>
+                    <a:nameRef>displayDownloadIcon</a:nameRef>
+                    <a:id>5</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e447-91f4-8000-9bc0-011c48011c48_587473"/>
+        <historyInfo versionUuid="_a-0000e460-9d93-8000-9bc1-011c48011c48_601273"/>
+        <historyInfo versionUuid="_a-0000e460-9d93-8000-9bc1-011c48011c48_601346"/>
+        <historyInfo versionUuid="_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_852870"/>
+        <historyInfo versionUuid="_a-0000e673-a4a7-8000-9bef-011c48011c48_1962545"/>
+        <historyInfo versionUuid="_a-0000e673-a4a7-8000-9bef-011c48011c48_2022213"/>
+    </history>
+</contentHaul>

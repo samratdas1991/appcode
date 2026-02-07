@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e7d2-6286-8000-9c11-011c48011c48_3216822</versionUuid>
+    <interface>
+        <name>AS_ALT_CPS_displayAlerts_Single</name>
+        <uuid>_a-0000e447-933d-8000-9baa-011c48011c48_103563</uuid>
+        <description>Interface for displaying a single alert</description>
+        <parentUuid>_a-0000e447-933d-8000-9baa-011c48011c48_102720</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  local!alert: if(
+    /*ri!alertStyle = cons!AS_ALT_ENUM_ALERT_STYLE_FLAG,*/
+    /*rule!AS_ALT_CPS_displayAlerts_Single_FlagStyle(i18nData: ri!i18nData, alert: ri!alert),*/
+    /*ri!alertStyle = cons!AS_ALT_ENUM_ALERT_STYLE_WARNING,*/
+    /*rule!AS_ALT_CPS_displayAlerts_Single_WarningStyle(i18nData: ri!i18nData, alert: ri!alert),*/
+    ri!alertStyle = #"_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2387746",
+    #"_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2387432"(
+      i18nData: ri!i18nData,
+      alert: ri!alert,
+      showCustomer: ri!showCustomer,
+      showCreatedBy: ri!showCreatedBy,
+      showCreatedOn: ri!showCreatedOn,
+      shortenAlertMessagesToLength: ri!shortenAlertMessagesToLength,
+      integrationCodes: ri!integrationCodes
+    ),
+    error(
+      concat(
+        "Display rule not defined for alert style ",
+        ri!alertStyle
+      )
+    )
+  ),
+  #"SYSTEM_SYSRULES_sideBySideLayout"(
+    alignVertical: "MIDDLE",
+    spacing: "STANDARD",
+    items: {
+      local!alert,
+      #"SYSTEM_SYSRULES_sideBySideItem"(
+        item: #"SYSTEM_SYSRULES_recordActionField"(
+          actions: #"SYSTEM_SYSRULES_recordActionItem"(
+            action: #"urn:appian:record-action:v1:b68a6595-9eaf-4ecc-bde6-452db35bfc42/f4837d74-f454-420c-b374-598b2772d5f3",
+            identifier: ri!alert[#"urn:appian:record-field:v1:b68a6595-9eaf-4ecc-bde6-452db35bfc42/3b459e3a-ad3a-49ba-b3c6-620b36c61ada"]
+          ),
+          style: "LINKS",
+          display: "LABEL_AND_ICON",
+          showWhen: ri!allowDismissals
+        ),
+        width: "MINIMIZE"
+      )
+    }
+  )
+)</definition>
+        <namedTypedValue>
+            <name>alert</name>
+            <type>
+                <name>b68a6595-9eaf-4ecc-bde6-452db35bfc42</name>
+                <namespace>urn:com:appian:recordtype:datatype</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>alertStyle</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>allowDismissals</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>i18nData</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>shortenAlertMessagesToLength</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>showCustomer</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>showCreatedOn</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>showCreatedBy</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>integrationCodes</name>
+            <type>
+                <name>Text?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+        <isCustom>false</isCustom>
+    </interface>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name/>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e447-933d-8000-9baa-011c48011c48_110589"()[1]</a:value>
+                    <a:nameRef>alert</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2387746"</a:value>
+                    <a:nameRef>alertStyle</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:boolean">true</a:value>
+                    <a:nameRef>allowDismissals</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e607-97fd-8000-9be9-011c48011c48_1606284"(
+  triggerRefresh: null
+)</a:value>
+                    <a:nameRef>i18nData</a:nameRef>
+                    <a:id>4</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:int"/>
+                    <a:nameRef>shortenAlertMessagesToLength</a:nameRef>
+                    <a:id>5</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:boolean"/>
+                    <a:nameRef>showCustomer</a:nameRef>
+                    <a:id>6</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:boolean">true</a:value>
+                    <a:nameRef>showCreatedOn</a:nameRef>
+                    <a:id>7</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:boolean">true</a:value>
+                    <a:nameRef>showCreatedBy</a:nameRef>
+                    <a:id>8</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                    <a:nameRef>integrationCodes</a:nameRef>
+                    <a:id>9</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e447-933d-8000-9baa-011c48011c48_103663"/>
+        <historyInfo versionUuid="_a-0000e447-933d-8000-9baa-011c48011c48_103984"/>
+        <historyInfo versionUuid="_a-0000e471-623a-8000-9bc3-011c48011c48_716582"/>
+        <historyInfo versionUuid="_a-0000e447-933d-8000-9baa-011c48011c48_104172"/>
+        <historyInfo versionUuid="_a-0000e471-623a-8000-9bc3-011c48011c48_734518"/>
+        <historyInfo versionUuid="_a-0000e471-623a-8000-9bc3-011c48011c48_736941"/>
+        <historyInfo versionUuid="_a-0000e447-933d-8000-9baa-011c48011c48_110995"/>
+        <historyInfo versionUuid="_a-0000e50d-bf1d-8000-9bcd-011c48011c48_1004692"/>
+        <historyInfo versionUuid="_a-0000e6ca-7e19-8000-9bfb-011c48011c48_2273898"/>
+        <historyInfo versionUuid="_a-0000e6ca-7e19-8000-9bfb-011c48011c48_2348165"/>
+        <historyInfo versionUuid="_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2394404"/>
+        <historyInfo versionUuid="_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2419888"/>
+        <historyInfo versionUuid="_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2420418"/>
+        <historyInfo versionUuid="_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2443482"/>
+        <historyInfo versionUuid="_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2444462"/>
+        <historyInfo versionUuid="_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2445157"/>
+        <historyInfo versionUuid="_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2447420"/>
+        <historyInfo versionUuid="_a-0000e774-a792-8000-9c04-011c48011c48_2819286"/>
+        <historyInfo versionUuid="_a-0000e777-b9f8-8000-9c06-011c48011c48_2829727"/>
+        <historyInfo versionUuid="_a-0000e777-b9f8-8000-9c06-011c48011c48_2833368"/>
+        <historyInfo versionUuid="_a-0000e77d-004e-8000-9c08-011c48011c48_2838740"/>
+        <historyInfo versionUuid="_a-0000e77e-5277-8000-9c09-011c48011c48_2841685"/>
+        <historyInfo versionUuid="_a-0000e7d2-6286-8000-9c11-011c48011c48_3216822"/>
+    </history>
+</contentHaul>

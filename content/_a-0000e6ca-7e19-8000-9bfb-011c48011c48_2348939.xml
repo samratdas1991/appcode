@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e79b-0335-8000-9c0c-011c48011c48_2988371</versionUuid>
+    <interface>
+        <name>AS_FS_FM_updateIntegrationSettings</name>
+        <uuid>_a-0000e6ca-7e19-8000-9bfb-011c48011c48_2348939</uuid>
+        <description>interface to display integration settings for update</description>
+        <parentUuid>_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_968428</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  local!i18nData: #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_975720"(triggerRefresh: null),
+  local!selectedIntegrationSettings: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+    cdt: #"_a-0000e6ca-7e19-8000-9bfb-011c48011c48_2234155"(i18nData: local!i18nData),
+    field: "integrationCode",
+    value: ri!integrationCode
+  ),
+  local!allUserSettings: #"_a-0000e5d6-d648-8000-9bde-011c48011c48_1501904"(triggerRefresh: null),
+  local!defaultNorthrowProfile: #"_a-0000e79b-0335-8000-9c0c-011c48011c48_2987859",
+  #"SYSTEM_SYSRULES_formLayout_v1"(
+    label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+      i18nData: local!i18nData,
+      bundleKey: "AS.EI.CHS.AdminCenter.lbl_UpdateProperties"
+    ),
+    contents: #"_a-0000e539-6d59-8000-9bd0-011c48011c48_1256867"(
+      i18nData: local!i18nData,
+      readOnly: false,
+      integrationSettings: local!selectedIntegrationSettings,
+      allUserSettings: local!allUserSettings,
+      defaultNorthrowProfile: local!defaultNorthrowProfile
+    ),
+    buttons: #"_a-0000e3d1-f4dc-8000-9ba4-011c48011c48_134344"(
+      confirmLabel: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+        i18nData: local!i18nData,
+        bundleKey: "AS.CO.CommonObjects.btn_Save"
+      ),
+      confirmSaveInto: {
+        a!save(ri!cancel, false),
+        a!save(
+          ri!defaultNorthrowProfile,
+          local!defaultNorthrowProfile
+        ),
+        a!save(
+          ri!allUserSettings,
+          local!allUserSettings
+        )
+      },
+      cancelSaveInto: { a!save(ri!cancel, true) },
+      confirmSubmit: true,
+      cancelSubmit: true
+    )
+  )
+)</definition>
+        <namedTypedValue>
+            <name>allUserSettings</name>
+            <type>
+                <name>AS_FS_AllUserSettings?list</name>
+                <namespace>urn:com:appian:types:AS:FS</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>cancel</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>integrationCode</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>defaultNorthrowProfile</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+        <isCustom>false</isCustom>
+    </interface>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <history>
+        <historyInfo versionUuid="_a-0000e6ca-7e19-8000-9bfb-011c48011c48_2349007"/>
+        <historyInfo versionUuid="_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2356364"/>
+        <historyInfo versionUuid="_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2357516"/>
+        <historyInfo versionUuid="_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2371058"/>
+        <historyInfo versionUuid="_a-0000e79b-0335-8000-9c0c-011c48011c48_2988371"/>
+    </history>
+</contentHaul>

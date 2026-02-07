@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e70f-2824-8000-9c01-011c48011c48_2605527</versionUuid>
+    <rule>
+        <name>AS_FS_ALT_BL_EvaluateDomicileTrigger</name>
+        <uuid>_a-0000e70f-2824-8000-9c01-011c48011c48_2567973</uuid>
+        <description>Expression rule that evaluates whether a domicile trigger condition has been met</description>
+        <parentUuid>_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_968428</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  local!operator: #"_a-0000e70f-2824-8000-9c01-011c48011c48_2539235"(
+    json: ri!configurationTriggerSettings,
+    field: "operator",
+    indexDefault: 1
+  ),
+  local!countryCodes: split(
+    #"_a-0000e70f-2824-8000-9c01-011c48011c48_2539235"(
+      json: ri!configurationTriggerSettings,
+      field: "countryCodes",
+      indexDefault: 1
+    ),
+    ","
+  ),
+  local!customer: if(
+    ri!isOriginalObjectEvaluation,
+    ri!auditParameters.originalObjects,
+    ri!auditParameters.newObjects
+  ),
+  local!isCustomerDomicileInListOfCountryCodes: contains(
+    local!countryCodes,
+    local!customer.domicile.countryCode
+  ),
+  if(
+    local!operator = #"AS_FS_ALT_OPERATOR_CODE_IN",
+    local!isCustomerDomicileInListOfCountryCodes,
+    local!operator = #"AS_FS_ALT_OPERATOR_CODE_NOT_IN",
+    not(local!isCustomerDomicileInListOfCountryCodes),
+    error("Invalid domicile operator in triggerConditionId: " &amp; ri!triggerConditionId)
+  )
+)</definition>
+        <namedTypedValue>
+            <name>configurationTriggerSettings</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>isOriginalObjectEvaluation</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>triggerConditionId</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>auditParameters</name>
+            <type>
+                <name>AS_ADT_P_AuditProcessParameters</name>
+                <namespace>urn:com:appian:types:AS:ADT</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name>original domicile not in GB,IE,NO</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"SYSTEM_SYSRULES_toJson_v1"(
+  {
+    operator: "IN",
+    countryCodes: {
+      "GB",
+      "IE",
+      "NO"
+    }
+  }
+)</a:value>
+                    <a:nameRef>configurationTriggerSettings</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:boolean">true</a:value>
+                    <a:nameRef>isOriginalObjectEvaluation</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                    <a:nameRef>triggerConditionId</a:nameRef>
+                    <a:id>4</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">'type!{urn:com:appian:types:AS:ADT}AS_ADT_P_AuditProcessParameters'(
+  originalObjects: 'type!{urn:com:appian:types:AS:FS}AS_FS_Customer'(
+    domicile: 'type!{urn:com:appian:types:AS:FS}AS_FS_R_Country'(
+      countryCode: "US",
+      regionCode: "AMERICAS"
+    )
+  ),
+  newObjects: 'type!{urn:com:appian:types:AS:FS}AS_FS_Customer'(
+    domicile: 'type!{urn:com:appian:types:AS:FS}AS_FS_R_Country'(
+      countryCode: "GB",
+      regionCode: "EMEA"
+    )
+  )
+)</a:value>
+                    <a:nameRef>auditParameters</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions>
+                    <a:expectedOutput>
+                        <a:type a:uuid="{http://www.appian.com/ae/types/2009}Boolean"/>
+                        <a:runtimeType a:uuid="{http://www.appian.com/ae/types/2009}Boolean"/>
+                        <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:boolean">false</a:value>
+                    </a:expectedOutput>
+                </a:assertions>
+            </el>
+            <el>
+                <a:name>new domicile in GB,IE,NO</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"SYSTEM_SYSRULES_toJson_v1"(
+  {
+    operator: "IN",
+    countryCodes: {
+      "GB",
+      "IE",
+      "NO"
+    }
+  }
+)</a:value>
+                    <a:nameRef>configurationTriggerSettings</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:boolean">false</a:value>
+                    <a:nameRef>isOriginalObjectEvaluation</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                    <a:nameRef>triggerConditionId</a:nameRef>
+                    <a:id>4</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">'type!{urn:com:appian:types:AS:ADT}AS_ADT_P_AuditProcessParameters'(
+  originalObjects: 'type!{urn:com:appian:types:AS:FS}AS_FS_Customer'(
+    domicile: 'type!{urn:com:appian:types:AS:FS}AS_FS_R_Country'(
+      countryCode: "US",
+      regionCode: "AMERICAS"
+    )
+  ),
+  newObjects: 'type!{urn:com:appian:types:AS:FS}AS_FS_Customer'(
+    domicile: 'type!{urn:com:appian:types:AS:FS}AS_FS_R_Country'(
+      countryCode: "GB",
+      regionCode: "EMEA"
+    )
+  )
+)</a:value>
+                    <a:nameRef>auditParameters</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions>
+                    <a:expectedOutput>
+                        <a:type a:uuid="{http://www.appian.com/ae/types/2009}Boolean"/>
+                        <a:runtimeType a:uuid="{http://www.appian.com/ae/types/2009}Boolean"/>
+                        <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:boolean">true</a:value>
+                    </a:expectedOutput>
+                </a:assertions>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2572837"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2573635"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2605527"/>
+    </history>
+</contentHaul>

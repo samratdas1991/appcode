@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema targetNamespace="urn:com:appian:types:AS:QNM"
+  xmlns:tns="urn:com:appian:types:AS:QNM" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <xsd:include schemaLocation="%7Burn%3Acom%3Aappian%3Atypes%3AAS%3AQNM%7DAS_QNM_QuestionPrecedentSet.xsd"/>
+  <xsd:include schemaLocation="%7Burn%3Acom%3Aappian%3Atypes%3AAS%3AQNM%7DAS_QNM_Response.xsd"/>
+  <xsd:include schemaLocation="%7Burn%3Acom%3Aappian%3Atypes%3AAS%3AQNM%7DAS_QNM_ResponseRequirement.xsd"/>
+  <xsd:complexType name="AS_QNM_Question">
+    <xsd:annotation>
+      <xsd:appinfo source="appian.jpa">@Table(name="AS_QNM_QUESTION")</xsd:appinfo>
+      <xsd:appinfo source="http://www.appian.com/ae/types/2009">
+        <ns2:Metadata xmlns:ns2="http://www.appian.com/ae/types/2009">
+          <ns2:versionUuid>0000e4fc-e2ac-8000-171e-7f0000014e7a</ns2:versionUuid>
+          <ns2:history>
+            <ns2:historyInfo versionUuid="0002e448-675f-8000-fa31-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0000e44c-33d0-8000-fa9b-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0000e452-ab09-8000-fae1-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0000e454-448e-8000-fb15-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0001e456-fd65-8000-fb59-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0000e45d-6ed2-8000-fb8c-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0000e464-3dae-8000-0598-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0000e466-bc76-8000-0623-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0001e476-7203-8000-077b-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0001e480-d754-8000-0890-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0000e484-2d1b-8000-0962-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0000e48c-0951-8000-0ac3-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0002e4cd-4a39-8000-1145-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0000e4fc-e2ac-8000-171e-7f0000014e7a"/>
+          </ns2:history>
+        </ns2:Metadata>
+      </xsd:appinfo>
+      <xsd:documentation><![CDATA[Datatype for representing questions]]></xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="questionId" nillable="true" type="xsd:int">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@Id @GeneratedValue @Column(name="QUESTION_ID")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="questionReferenceId" nillable="true" type="xsd:int">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@Column(name="QUESTION_REFERENCE_ID")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="questionTemplateId" nillable="true" type="xsd:int">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@Column(name="QUESTION_TEMPLATE_ID")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="label" nillable="true" type="xsd:string">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@Column(name="LABEL", length=1000)</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="instructions" nillable="true" type="xsd:string">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@Column(name="INSTRUCTIONS", length=1000)</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="pageNumber" nillable="true" type="xsd:int">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@Column(name="PAGE_NUMBER")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="groupNumber" nillable="true" type="xsd:int">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@Column(name="GROUP_NUMBER")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="orderNumber" nillable="true" type="xsd:int">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@Column(name="ORDER_NUMBER")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element maxOccurs="unbounded" minOccurs="0"
+        name="responseOptions" type="tns:AS_QNM_Response">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@OneToMany(cascade=CascadeType.ALL, indexed=false) @JoinColumn(name="QSTION_ID_RESPONSE_OPTIONS")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element maxOccurs="unbounded" minOccurs="0"
+        name="responseRequirements" type="tns:AS_QNM_ResponseRequirement">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@OneToMany(cascade=CascadeType.ALL, indexed=false) @JoinColumn(name="QUESTION_ID")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="responses" type="tns:AS_QNM_Response">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@OneToMany(cascade=CascadeType.ALL, indexed=false) @JoinColumn(name="QUESTION_ID_RESPONSE")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="isExternalUserFacing" nillable="true" type="xsd:boolean">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@Column(name="IS_EXTERNAL_USER_FACING")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element maxOccurs="unbounded" minOccurs="0"
+        name="isDisplayedPrecedentSets" type="tns:AS_QNM_QuestionPrecedentSet">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@OneToMany(cascade=CascadeType.ALL, indexed=false) @JoinColumn(name="QUESTION_ID_IS_DSPLAYED")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element maxOccurs="unbounded" minOccurs="0"
+        name="isRequiredPrecedentSets" type="tns:AS_QNM_QuestionPrecedentSet">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@OneToMany(cascade=CascadeType.ALL, indexed=false) @JoinColumn(name="QUESTION_ID_IS_REQUIRED")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="questionCategoryId" nillable="true" type="xsd:int">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@Column(name="QUESTION_CATEGORY_ID")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="questionTypeCode" nillable="true" type="xsd:string">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@Column(name="QUESTION_TYPE_CODE")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+</xsd:schema>

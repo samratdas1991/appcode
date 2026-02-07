@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e70f-2824-8000-9c01-011c48011c48_2633903</versionUuid>
+    <rule>
+        <name>AS_FS_ALT_UT_prepareAlertConfigurationForWrite</name>
+        <uuid>_a-0000e70f-2824-8000-9c01-011c48011c48_2633245</uuid>
+        <description>Performs any necessary pre-write activities for alert configurations, such as clearing out empty trigger or filter sets.</description>
+        <parentUuid>_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_968428</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>#"_a-0000e40a-de32-8000-9ba8-011c48011c48_269170"(
+  cdt: ri!alertConfiguration,
+  /*There should always be at least one trigger, so this code is likely never used now,*/
+  /*but I am keeping it here because in the case that we nest triggers for more complex behavior*/
+  /*we do not want to forget to do this*/
+  fieldValuePairs: {
+    a!map(
+      field: "triggerSet",
+      value: if(
+        #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(
+          #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_76433"(
+            cdt: ri!alertConfiguration,
+            field: "triggerSet.triggerConditions",
+            indexDefault: {}
+          )
+        ),
+        null,
+        ri!alertConfiguration.triggerSet
+      )
+    ),
+    a!map(
+      field: "filterSet",
+      value: if(
+        #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(
+          #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_76433"(
+            cdt: ri!alertConfiguration,
+            field: "filterSet.filterConditions",
+            indexDefault: {}
+          )
+        ),
+        null,
+        ri!alertConfiguration.filterSet
+      )
+    )
+  }
+)</definition>
+        <namedTypedValue>
+            <name>alertConfiguration</name>
+            <type>
+                <name>AS_FS_ALT_CONF_AlertConfiguration</name>
+                <namespace>urn:com:appian:types:AS:FS</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name>Basic test case</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">'type!{urn:com:appian:types:AS:FS}AS_FS_ALT_CONF_AlertConfiguration'(
+  
+)</a:value>
+                    <a:nameRef>alertConfiguration</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions>
+                    <a:expectedOutput>
+                        <a:type a:uuid="{http://www.appian.com/ae/types/2009}Variant"/>
+                        <a:runtimeType a:uuid="{http://www.appian.com/ae/types/2009}Variant"/>
+                        <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">'type!{urn:com:appian:types:AS:FS}AS_FS_ALT_CONF_AlertConfiguration'(
+
+)</a:value>
+                    </a:expectedOutput>
+                </a:assertions>
+            </el>
+            <el>
+                <a:name>Empty trigger set</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">'type!{urn:com:appian:types:AS:FS}AS_FS_ALT_CONF_AlertConfiguration'(
+  triggerSet: 'type!{urn:com:appian:types:AS:FS}AS_FS_ALT_CONF_AlertConfigurationTriggerSet'(
+    
+  )
+)</a:value>
+                    <a:nameRef>alertConfiguration</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions>
+                    <a:expectedOutput>
+                        <a:type a:uuid="{http://www.appian.com/ae/types/2009}Variant"/>
+                        <a:runtimeType a:uuid="{http://www.appian.com/ae/types/2009}Variant"/>
+                        <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">'type!{urn:com:appian:types:AS:FS}AS_FS_ALT_CONF_AlertConfiguration'(
+
+)</a:value>
+                    </a:expectedOutput>
+                </a:assertions>
+            </el>
+            <el>
+                <a:name>Empty filter set</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">'type!{urn:com:appian:types:AS:FS}AS_FS_ALT_CONF_AlertConfiguration'(
+  filterSet: 'type!{urn:com:appian:types:AS:FS}AS_FS_ALT_CONF_AlertConfigurationFilterSet'(
+    
+  )
+)</a:value>
+                    <a:nameRef>alertConfiguration</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions>
+                    <a:expectedOutput>
+                        <a:type a:uuid="{http://www.appian.com/ae/types/2009}Variant"/>
+                        <a:runtimeType a:uuid="{http://www.appian.com/ae/types/2009}Variant"/>
+                        <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">'type!{urn:com:appian:types:AS:FS}AS_FS_ALT_CONF_AlertConfiguration'(
+
+)</a:value>
+                    </a:expectedOutput>
+                </a:assertions>
+            </el>
+            <el>
+                <a:name>Empty filter set and trigger set with conditions</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">'type!{urn:com:appian:types:AS:FS}AS_FS_ALT_CONF_AlertConfiguration'(
+  filterSet: 'type!{urn:com:appian:types:AS:FS}AS_FS_ALT_CONF_AlertConfigurationFilterSet'(
+    
+  ),
+  triggerSet: 'type!{urn:com:appian:types:AS:FS}AS_FS_ALT_CONF_AlertConfigurationTriggerSet'(
+    triggerConditions: {
+      'type!{urn:com:appian:types:AS:FS}AS_FS_ALT_CONF_AlertConfigurationTriggerCondition'()
+    }
+  )
+)</a:value>
+                    <a:nameRef>alertConfiguration</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions>
+                    <a:expectedOutput>
+                        <a:type a:uuid="{http://www.appian.com/ae/types/2009}Variant"/>
+                        <a:runtimeType a:uuid="{http://www.appian.com/ae/types/2009}Variant"/>
+                        <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">'type!{urn:com:appian:types:AS:FS}AS_FS_ALT_CONF_AlertConfiguration'(
+  triggerSet: 'type!{urn:com:appian:types:AS:FS}AS_FS_ALT_CONF_AlertConfigurationTriggerSet'(
+    triggerConditions: {
+      'type!{urn:com:appian:types:AS:FS}AS_FS_ALT_CONF_AlertConfigurationTriggerCondition'()
+    }
+  )
+)</a:value>
+                    </a:expectedOutput>
+                </a:assertions>
+            </el>
+            <el>
+                <a:name>Empty trigger set and filter set with conditions</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">'type!{urn:com:appian:types:AS:FS}AS_FS_ALT_CONF_AlertConfiguration'(
+  filterSet: 'type!{urn:com:appian:types:AS:FS}AS_FS_ALT_CONF_AlertConfigurationFilterSet'(
+    filterConditions: {
+      'type!{urn:com:appian:types:AS:FS}AS_FS_ALT_CONF_AlertConfigurationFilterCondition'()
+    }
+  ),
+  triggerSet: 'type!{urn:com:appian:types:AS:FS}AS_FS_ALT_CONF_AlertConfigurationTriggerSet'()
+)</a:value>
+                    <a:nameRef>alertConfiguration</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions>
+                    <a:expectedOutput>
+                        <a:type a:uuid="{http://www.appian.com/ae/types/2009}Variant"/>
+                        <a:runtimeType a:uuid="{http://www.appian.com/ae/types/2009}Variant"/>
+                        <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">'type!{urn:com:appian:types:AS:FS}AS_FS_ALT_CONF_AlertConfiguration'(
+  filterSet: 'type!{urn:com:appian:types:AS:FS}AS_FS_ALT_CONF_AlertConfigurationFilterSet'(
+    filterConditions: {
+      'type!{urn:com:appian:types:AS:FS}AS_FS_ALT_CONF_AlertConfigurationFilterCondition'()
+    }
+  )
+)</a:value>
+                    </a:expectedOutput>
+                </a:assertions>
+            </el>
+            <el>
+                <a:name>Trigger set and filter set with conditions</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">'type!{urn:com:appian:types:AS:FS}AS_FS_ALT_CONF_AlertConfiguration'(
+  filterSet: 'type!{urn:com:appian:types:AS:FS}AS_FS_ALT_CONF_AlertConfigurationFilterSet'(
+    filterConditions: {
+      'type!{urn:com:appian:types:AS:FS}AS_FS_ALT_CONF_AlertConfigurationFilterCondition'()
+    }
+  ),
+  triggerSet: 'type!{urn:com:appian:types:AS:FS}AS_FS_ALT_CONF_AlertConfigurationTriggerSet'(
+    triggerConditions: {
+      'type!{urn:com:appian:types:AS:FS}AS_FS_ALT_CONF_AlertConfigurationTriggerCondition'()
+    }
+  )
+)</a:value>
+                    <a:nameRef>alertConfiguration</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions>
+                    <a:expectedOutput>
+                        <a:type a:uuid="{http://www.appian.com/ae/types/2009}Variant"/>
+                        <a:runtimeType a:uuid="{http://www.appian.com/ae/types/2009}Variant"/>
+                        <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">'type!{urn:com:appian:types:AS:FS}AS_FS_ALT_CONF_AlertConfiguration'(
+  filterSet: 'type!{urn:com:appian:types:AS:FS}AS_FS_ALT_CONF_AlertConfigurationFilterSet'(
+    filterConditions: {
+      'type!{urn:com:appian:types:AS:FS}AS_FS_ALT_CONF_AlertConfigurationFilterCondition'()
+    }
+  ),
+  triggerSet: 'type!{urn:com:appian:types:AS:FS}AS_FS_ALT_CONF_AlertConfigurationTriggerSet'(
+    triggerConditions: {
+      'type!{urn:com:appian:types:AS:FS}AS_FS_ALT_CONF_AlertConfigurationTriggerCondition'()
+    }
+  )
+)</a:value>
+                    </a:expectedOutput>
+                </a:assertions>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2633903"/>
+    </history>
+</contentHaul>

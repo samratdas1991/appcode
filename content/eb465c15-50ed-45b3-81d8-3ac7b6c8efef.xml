@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2452159</versionUuid>
+    <rule>
+        <name>AS_IO_QE_getProductDetailsByCustomerId</name>
+        <uuid>eb465c15-50ed-45b3-81d8-3ac7b6c8efef</uuid>
+        <description>Queries IO product details by customer Id.  Only returns products from incomplete onboardings, as the source of truth for onboarded products is the FS products table.</description>
+        <parentUuid>_a-0000e2bb-4188-8000-9ba2-011c48011c48_25469</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  local!requestIds: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_33091"(
+    /*FS products are the source of truth for onboarded products*/
+    /*and so should be queried from FS tables*/
+    statusCodes: #"_a-0000e539-6d59-8000-9bd0-011c48011c48_1209491"(),
+    customerId: ri!customerId,
+    executeWhen: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(ri!customerId),
+    includeNestedCdts: false,
+    returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290163"
+  ).requestId,
+  local!products: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_114847"(
+    requestId: local!requestIds,
+    executeWhen: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(local!requestIds),
+    returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290163",
+    sort: #"SYSTEM_SYSRULES_sortInfo"(
+      field: "createdDatetime",
+      ascending: true
+    )
+  ),
+  local!products
+)</definition>
+        <namedTypedValue>
+            <name>customerId</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <history>
+        <historyInfo versionUuid="_a-0000e607-97fd-8000-9be9-011c48011c48_1672021"/>
+        <historyInfo versionUuid="_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2452159"/>
+    </history>
+</contentHaul>

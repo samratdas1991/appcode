@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e79b-0335-8000-9c0c-011c48011c48_3036903</versionUuid>
+    <rule>
+        <name>AS_IO_constructTasksForRequiredDocuments</name>
+        <uuid>_a-0000e539-6d59-8000-9bd0-011c48011c48_1301346</uuid>
+        <description>To construct CDT for task for a required document</description>
+        <parentUuid>_a-0000e2bb-4188-8000-9ba2-011c48011c48_25469</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>if(
+  #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(
+    value: ri!requiredDocument.onboardingDocument.customerDocument.appianDocId
+  ),
+  #"_a-0000e3e6-fb42-8000-9ba5-011c48011c48_157603"(
+    type: 'type!{urn:com:appian:types:AS:IO}AS_IO_Task',
+    value: {
+      taskId: null,
+      taskName: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+        i18nData: ri!i18nData,
+        bundleKey: "AS.CO.AllBundles.lbl_Upload",
+        arguments: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+          i18nData: ri!i18nData,
+          bundleKey: #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_976921"(
+            codeList: ri!requiredDocument.docTypeCode
+          ).label
+        )
+      ),
+      taskBehaviorType: #"_a-0000e393-fbf1-8000-9ba2-011c48011c48_108080"(
+        behaviorSubtypeCode: #"_a-0000e393-fbf1-8000-9ba2-011c48011c48_99647"
+      ),
+      taskCategory: #"_a-0000e393-fbf1-8000-9ba2-011c48011c48_100474"(
+        returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290157",
+        taskCategoryId: #"_a-0000e539-6d59-8000-9bd0-011c48011c48_1301898"
+      ),
+      dueDate: ri!fundingDate - 10,
+      slaDays: 10,
+      slaRule: #"_a-0000e460-9d93-8000-9bc1-011c48011c48_620337",
+      groupAssignee: #"_a-0000e438-fd8a-8000-9bbe-011c48011c48_411694",
+      requiredDocument: ri!requiredDocument,
+      /*docUploadContext: rule!AS_CO_UT_cast(*/
+      /*type: 'type!{urn:com:appian:types:AS:IO}AS_IO_Task_DocUploadContext',*/
+      /*value: {*/
+      /*docTypeCode: ri!requiredDocument.docTypeCode,*/
+      /*Currently only used to identify and filter out document upload tasks for required documents in the process setup audit*/
+      /*requiredDocumentId: ri!requiredDocument.requiredOnboardingDocumentId*/
+      /*}*/
+      /*)*/
+      
+    }
+  ),
+  {}
+)</definition>
+        <namedTypedValue>
+            <name>requiredDocument</name>
+            <type>
+                <name>AS_IO_RequiredOnboardingDocument</name>
+                <namespace>urn:com:appian:types:AS:IO</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>i18nData</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>fundingDate</name>
+            <type>
+                <name>dateTime</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name>Null Test Case</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:n1="urn:com:appian:types:AS:IO" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="n1:AS_IO_RequiredOnboardingDocument"/>
+                    <a:nameRef>requiredDocument</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                    <a:nameRef>i18nData</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:dateTime"/>
+                    <a:nameRef>fundingDate</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e586-af6f-8000-9bd2-011c48011c48_1305758"/>
+        <historyInfo versionUuid="_a-0000e5a0-53e9-8000-9bd8-011c48011c48_1400184"/>
+        <historyInfo versionUuid="_a-0000e5a0-53e9-8000-9bd8-011c48011c48_1470222"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2720416"/>
+        <historyInfo versionUuid="_a-0000e79b-0335-8000-9c0c-011c48011c48_3036903"/>
+    </history>
+</contentHaul>

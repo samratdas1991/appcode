@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<recordTypeHaul xmlns:a="http://www.appian.com/ae/types/2009" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <versionUuid>c5277e92-4ae3-4a50-9165-4d39a1f2aa1b</versionUuid>
+  <recordType a:uuid="eb5e211e-3e8f-470e-9e79-1b668ce74fc9" name="AS_QNM_R_Question_RecordType">
+    <a:pluralName>AS_QNM_R_Question_RecordTypes</a:pluralName>
+    <a:description>List of available reference questions that can be used to populate templates</a:description>
+    <a:urlStub>3-l8PQ</a:urlStub>
+    <a:source
+      a:uuid="529120ff-bd34-4527-9234-bbe7a227b83f@_a-0000e447-933d-8000-9baa-011c48011c48_39511" xsi:type="a:DataStoreEntity"/>
+    <a:listViewTemplateExpr>#"SYSTEM_SYSRULES_recordGridField"(
+  columns: #"SYSTEM_SYSRULES_gridColumn"(
+    value: fv!row[#"urn:appian:record-field:v1:eb5e211e-3e8f-470e-9e79-1b668ce74fc9/questionTypeCode"]
+    
+  ),
+  pageSize: 50,
+  shadeAlternateRows: true
+)</a:listViewTemplateExpr>
+    <a:detailViewCfg>
+      <a:nameExpr>#"SYSTEM_SYSRULES_rtd_getDefaultSummaryViewName"()</a:nameExpr>
+      <a:uiExpr/>
+      <a:visibilityExpr>=true()</a:visibilityExpr>
+      <a:urlStub>summary</a:urlStub>
+      <a:headerExpr/>
+      <a:recordActionLaunchType>DIALOG</a:recordActionLaunchType>
+      <a:recordUiSecurityType>EXPRESSION</a:recordUiSecurityType>
+    </a:detailViewCfg>
+    <a:relatedActionCfg a:uuid="03bd28bd-db86-4ec9-9daa-1c21c5f7a55c">
+      <a:target a:uuid="0000e4f4-5576-8000-1656-7f0000014e7a" xsi:type="a:ProcessModel"/>
+      <a:contextExpr>{
+  question: #"_a-0000e447-933d-8000-9baa-011c48011c48_39392"(
+    returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290157",
+    questionReferenceId: rv!record[#"urn:appian:record-field:v1:eb5e211e-3e8f-470e-9e79-1b668ce74fc9/questionReferenceId"]
+  ), /* AS_QNM_R_Question */
+  userAction: null /* Text */
+}</a:contextExpr>
+      <a:visibilityExpr>=true()</a:visibilityExpr>
+      <a:iconId>f040</a:iconId>
+      <a:refId>refId-03bd28bd-db86-4ec9-9daa-1c21c5f7a55c</a:refId>
+      <a:titleExpr>/*rule!AS_QNM_UT_loadBundleAndDisplayLabel(*/
+  /*bundleKey: "AS.QNM.QuestionnaireSettings.lbl_UpdateQuestion"*/
+/*)*/
+rv!record[#"urn:appian:record-field:v1:eb5e211e-3e8f-470e-9e79-1b668ce74fc9/defaultLabel"]</a:titleExpr>
+      <a:staticDescriptionString/>
+      <a:referenceKey>updateQuestion</a:referenceKey>
+      <a:dialogSize>FIT$FIT</a:dialogSize>
+      <a:showInRecordList>false</a:showInRecordList>
+      <a:recordUiSecurityType>EXPRESSION</a:recordUiSecurityType>
+      <a:dialogWidth>FIT</a:dialogWidth>
+      <a:dialogHeight>FIT</a:dialogHeight>
+    </a:relatedActionCfg>
+    <a:isSystem>false</a:isSystem>
+    <a:dataSrcExpr/>
+    <a:facetsListExpr/>
+    <a:titleExpr/>
+    <a:defaultFiltersExpr>if(
+  #"_a-0000e69f-3688-8000-9bf2-011c48011c48_2143846"(),
+  {},
+  #"SYSTEM_SYSRULES_queryFilter"(
+    field: #"urn:appian:record-field:v1:eb5e211e-3e8f-470e-9e79-1b668ce74fc9/questionReferenceId",
+    operator: "is null"
+  )
+)</a:defaultFiltersExpr>
+    <a:layoutType>GRID</a:layoutType>
+    <a:security>16383</a:security>
+    <a:hideLatestNews>false</a:hideLatestNews>
+    <a:hideNewsView>false</a:hideNewsView>
+    <a:hideRelatedActionsView>false</a:hideRelatedActionsView>
+    <a:isExportable>false</a:isExportable>
+    <a:listViewSrcExpr/>
+    <a:recordViewSrcExpr/>
+    <a:recordListActionCfg a:uuid="209ff280-2cd3-4667-baf5-59adf73fc875">
+      <a:titleExpr>#"_a-0000e447-933d-8000-9baa-011c48011c48_42943"(
+  bundleKey: "AS.QNM.QuestionnaireSettings.lbl_NewQuestion"
+)</a:titleExpr>
+      <a:staticDescription/>
+      <a:iconId>f067</a:iconId>
+      <a:target a:uuid="0002e4de-184c-8000-12e9-7f0000014e7a" xsi:type="a:ProcessModel"/>
+      <a:visibilityExpr>#"_a-0000e69f-3688-8000-9bf2-011c48011c48_2143846"()</a:visibilityExpr>
+      <a:referenceKey>newQuestion</a:referenceKey>
+      <a:dialogSize>FIT$FIT</a:dialogSize>
+      <a:showInRecordList>true</a:showInRecordList>
+      <a:recordUiSecurityType>EXPRESSION</a:recordUiSecurityType>
+      <a:dialogWidth>FIT</a:dialogWidth>
+      <a:dialogHeight>FIT</a:dialogHeight>
+    </a:recordListActionCfg>
+    <a:recordListActionCfg a:uuid="4681d490-aed9-4fac-9762-2ba057b34b59">
+      <a:titleExpr>#"_a-0000e447-933d-8000-9baa-011c48011c48_42943"(
+  bundleKey: "AS.QNM.QuestionnaireSettings.lbl_ImportQuestions"
+)</a:titleExpr>
+      <a:descriptionExpr/>
+      <a:iconId>f093</a:iconId>
+      <a:target a:uuid="0002e4df-734b-8000-12f9-7f0000014e7a" xsi:type="a:ProcessModel"/>
+      <a:visibilityExpr>#"_a-0000e69f-3688-8000-9bf2-011c48011c48_2143846"()</a:visibilityExpr>
+      <a:referenceKey>importQuestion</a:referenceKey>
+      <a:dialogSize>FIT$FIT</a:dialogSize>
+      <a:showInRecordList>true</a:showInRecordList>
+      <a:recordUiSecurityType>EXPRESSION</a:recordUiSecurityType>
+      <a:dialogWidth>FIT</a:dialogWidth>
+      <a:dialogHeight>FIT</a:dialogHeight>
+    </a:recordListActionCfg>
+    <a:recordTypeSearchCfg>
+      <searchFieldsSrc>DEFAULT</searchFieldsSrc>
+      <placeholderSrc>DEFAULT</placeholderSrc>
+      <placeholder/>
+    </a:recordTypeSearchCfg>
+    <a:iconId/>
+    <a:listAutoRefreshInterval>0.0</a:listAutoRefreshInterval>
+    <a:enabledFeatures>63</a:enabledFeatures>
+    <a:isVisibleInRecordTypeList>false</a:isVisibleInRecordTypeList>
+    <a:recordActionLaunchType>DIALOG</a:recordActionLaunchType>
+    <a:showSearchBox>true</a:showSearchBox>
+    <a:isVisibleInDataFabric>false</a:isVisibleInDataFabric>
+    <a:usesRollingSyncLimit>false</a:usesRollingSyncLimit>
+    <a:usesRecoverySync>false</a:usesRecoverySync>
+    <a:isScheduledIndexingEnabled>false</a:isScheduledIndexingEnabled>
+    <a:smartSearchAcceptableFailureRate>0.0</a:smartSearchAcceptableFailureRate>
+    <a:skipFailedSmartServicesSync>false</a:skipFailedSmartServicesSync>
+  </recordType>
+  <roleMap>
+    <role name="record_type_administrator">
+      <users/>
+      <groups>
+        <groupUuid>_e-0000e42d-ffef-8000-9af3-01075c01075c_19-qnm</groupUuid>
+      </groups>
+    </role>
+    <role name="record_type_viewer">
+      <users/>
+      <groups>
+        <groupUuid>_e-0000e42d-ffef-8000-9af3-01075c01075c_26-qnm</groupUuid>
+      </groups>
+    </role>
+  </roleMap>
+  <history>
+    <historyInfo versionUuid="7cf04a10-0ed1-4852-a60b-a0f35d30dc61"/>
+    <historyInfo versionUuid="4887cff5-9a3d-4910-9303-425c287f59dd"/>
+    <historyInfo versionUuid="24ef46f4-d04f-468d-94ff-f9c2b564601f"/>
+    <historyInfo versionUuid="f2dce367-e4f9-4d9e-a41a-ca3e7ef2d7ff"/>
+    <historyInfo versionUuid="b5d860e1-265f-4c07-b3ea-3c2f6df83932"/>
+    <historyInfo versionUuid="896dfff5-0349-45a7-a664-f57dd4811892"/>
+    <historyInfo versionUuid="c217e95a-545f-4b4e-a279-f72a78837039"/>
+    <historyInfo versionUuid="597d8196-619b-41c1-a6f4-ad9f730bd8c4"/>
+    <historyInfo versionUuid="1c970a67-dc88-4734-8b56-425795d871b6"/>
+    <historyInfo versionUuid="c5277e92-4ae3-4a50-9165-4d39a1f2aa1b"/>
+  </history>
+  <migrationVersion>1</migrationVersion>
+</recordTypeHaul>

@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e673-a4a7-8000-9bef-011c48011c48_1979896</versionUuid>
+    <rule>
+        <name>z_AS_ADT_TST_getNewObjectsAfterWriting_SampleParent_PostProcessingRule</name>
+        <uuid>_a-0000e607-97fd-8000-9be9-011c48011c48_1605285</uuid>
+        <description>Sample post processing rule for setting required object values</description>
+        <parentUuid>_a-0000e42d-ffef-8000-9ba6-011c48011c48_7213-adt</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>/*
+Sometimes we may want to capture audits to fields that do not exist directly in the CDT or its nested CDTs.
+To do this, we use a combination of post processing on requeried objects and
+modification in the startAuditProcess_Parameters rule for the object (e.g. z_AS_ADT_TST_startAuditProcess_Parameters_SampleParent).
+
+For example, let's say that we wanted to capture changes to a mapping table that is not nested in our sample Parent CDT.
+
+In this example, we assume that the parent CDT is saved one at a time for simplicity.
+If it could be saved as a list, a rule would need to be made to determine which originalNewObject's fields to remap into which requeried object.
+(e.g. a strong comparison on all value based fields of the CDT)
+We cannot simply use the PKs as they will not have been set in the originalNewObject yet during the creation flow.
+
+The second case shown here is relating to auditing complex fields that are not truly nested.
+This could be done for performance reasons or general application structure.
+Again, the external CDT needs to be remapped into the object so that the proper audit can be executed
+
+/* TOBEDONE implement external complex fields */
+a!localVariables(
+  local!externalFields: #"_a-0000e607-97fd-8000-9be9-011c48011c48_1605450"(),
+  #"_a-0000e40a-de32-8000-9ba8-011c48011c48_269170"(
+    cdt: #"_a-0000e3e6-fb42-8000-9ba5-011c48011c48_157603"(
+      type: #"_a-0000e607-97fd-8000-9be9-011c48011c48_1594253"(),
+      value: ri!requeriedNewObject
+    ),
+    fieldValuePairs: a!flatten(
+      {
+        #"SYSTEM_SYSRULES_forEach"(
+          items: local!externalFields,
+          expression: a!map(
+            field: fv!item,
+            value: index(ri!originalNewObject, fv!item, {})
+          )
+        )
+      }
+    )
+  )
+)</definition>
+        <namedTypedValue>
+            <name>originalNewObject</name>
+            <type>
+                <name>Map</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>requeriedNewObject</name>
+            <type>
+                <name>AS_ADT_SAMPLE_Parent</name>
+                <namespace>urn:com:appian:types:AS:ADT</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <history>
+        <historyInfo versionUuid="_a-0000e607-97fd-8000-9be9-011c48011c48_1605472"/>
+        <historyInfo versionUuid="_a-0000e673-a4a7-8000-9bef-011c48011c48_1979896"/>
+    </history>
+</contentHaul>

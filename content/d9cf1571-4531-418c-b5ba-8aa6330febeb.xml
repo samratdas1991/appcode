@@ -1,0 +1,858 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e825-b425-8000-9c1c-011c48011c48_3632799</versionUuid>
+    <interface>
+        <name>AS_FS_SCT_customerDetails_BasicInfo</name>
+        <uuid>d9cf1571-4531-418c-b5ba-8aa6330febeb</uuid>
+        <description></description>
+        <parentUuid>_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_968428</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  local!originalRiskScore: a!refreshVariable(
+    value: ri!customer.riskScore,
+    refreshOnReferencedVarChange: false
+  ),
+  local!anticipatedSrqCustomerDomicile: #"_a-0000e69f-3688-8000-9bf2-011c48011c48_2096087"(
+    customerOpenServiceRequests: ri!customerOpenServiceRequests
+  ),
+  local!northrowToggleValue: #"_a-0000e5d6-d648-8000-9bde-011c48011c48_1501904"(
+    settingsCode: #"_a-0000e5fd-0ed3-8000-9be6-011c48011c48_1579749"
+  ).userSettingValue,
+  local!customerNorthrowRefreshSetting: #"_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2368585"(
+    customerId: ri!customer.customerId,
+    applyDefaulting: true,
+    executeWhen: local!northrowToggleValue
+  ),
+  local!isRiskScoreRefreshed: #"_a-0000e3ff-a5bc-8000-9ba8-011c48011c48_39070"(
+    local!customerNorthrowRefreshSetting.isActive
+  ),
+  {
+    #"_a-0000e7e5-dad4-8000-9c14-011c48011c48_3312448"("AS_FS_SCT_customerDetails_BasicInfo"),
+    #"SYSTEM_SYSRULES_sectionLayout_v1"(
+      contents: {
+        #"SYSTEM_SYSRULES_sideBySideLayout"(
+          items: {
+            #"SYSTEM_SYSRULES_sideBySideItem"(
+              item: #"SYSTEM_SYSRULES_richTextDisplayField"(
+                labelPosition: "COLLAPSED",
+                value: {
+                  #"SYSTEM_SYSRULES_richTextHeader"(
+                    text: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                      i18nData: ri!i18nData,
+                      bundleKey: "AS.FS.AllBundles.lbl_CustomerDetails"
+                    )
+                  )
+                }
+              ),
+              width: "MINIMIZE"
+            )
+          },
+          showWhen: ri!showHeader
+        ),
+        /*1*/
+        #"SYSTEM_SYSRULES_columnsLayout"(
+          columns: {
+            /*Name*/
+            #"SYSTEM_SYSRULES_columnLayout"(
+              contents: #"SYSTEM_SYSRULES_columnsLayout"(
+                columns: {
+                  #"SYSTEM_SYSRULES_columnLayout"(
+                    contents: {
+                      #"_a-0000e69f-3688-8000-9bf2-011c48011c48_2111069"(
+                        label: "AS.FS.AllBundles.lbl_Name",
+                        i18nData: ri!i18nData,
+                        isEdited: contains(
+                          ri!updatedFieldKeys,
+                          #"_a-0000e673-a4a7-8000-9bef-011c48011c48_1977112"
+                        ),
+                        isRequired: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75636"(
+                          if(
+                            #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(ri!editableFieldKeys),
+                            ri!readOnly,
+                            #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(
+                              intersection(
+                                ri!editableFieldKeys,
+                                #"_a-0000e673-a4a7-8000-9bef-011c48011c48_1977112"
+                              )
+                            )
+                          )
+                        )
+                      ),
+                      #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73562"(
+                        labelPosition: "COLLAPSED",
+                        required: true,
+                        readOnly: if(
+                          #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(ri!editableFieldKeys),
+                          ri!readOnly,
+                          #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(
+                            intersection(
+                              ri!editableFieldKeys,
+                              #"_a-0000e673-a4a7-8000-9bef-011c48011c48_1977112"
+                            )
+                          )
+                        ),
+                        value: ri!customer.name,
+                        validations: #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_996458"(
+                          customer: ri!customer,
+                          i18nData: ri!i18nData
+                        ),
+                        saveInto: {
+                          ri!customer.name,
+                          ri!customerNameAdditionalSaves
+                        },
+                        maxLength: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73500",
+                        showCharacterCount: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(ri!customerNameAdjacentComponent)
+                      )
+                    }
+                  ),
+                  #"SYSTEM_SYSRULES_columnLayout"(
+                    contents: ri!customerNameAdjacentComponent,
+                    showWhen: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(ri!customerNameAdjacentComponent)
+                  )
+                }
+              )
+            ),
+            /*Acronym*/
+            #"SYSTEM_SYSRULES_columnLayout"(
+              contents: {
+                #"_a-0000e69f-3688-8000-9bf2-011c48011c48_2111069"(
+                  label: "AS.FS.AllBundles.lbl_Acronym",
+                  i18nData: ri!i18nData,
+                  isEdited: contains(
+                    ri!updatedFieldKeys,
+                    #"_a-0000e673-a4a7-8000-9bef-011c48011c48_1977120"
+                  ),
+                  isRequired: #"_a-0000e3ff-a5bc-8000-9ba8-011c48011c48_39070"(ri!isCreate)
+                ),
+                #"_a-0000e471-623a-8000-9bc3-011c48011c48_703527"(
+                  i18nData: ri!i18nData,
+                  readOnly: if(
+                    #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(ri!editableFieldKeys),
+                    ri!readOnly,
+                    /*Acryonym is not currently editable via service request, */
+                    /*but the readOnly logic is consistent with other fields for futureproofing*/
+                    #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(
+                      intersection(
+                        ri!editableFieldKeys,
+                        #"_a-0000e673-a4a7-8000-9bef-011c48011c48_1977120"
+                      )
+                    )
+                  ),
+                  customer: ri!customer,
+                  labelPosition: "COLLAPSED",
+                  disabled: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75636"(
+                    #"_a-0000e3ff-a5bc-8000-9ba8-011c48011c48_39070"(ri!isCreate)
+                  )
+                )
+              }
+            ),
+            /*GMEI*/
+            #"SYSTEM_SYSRULES_columnLayout"(
+              contents: {
+                #"_a-0000e69f-3688-8000-9bf2-011c48011c48_2111069"(
+                  label: "AS.FS.AllBundles.lbl_Gmei",
+                  i18nData: ri!i18nData,
+                  isEdited: contains(
+                    ri!updatedFieldKeys,
+                    #"_a-0000e673-a4a7-8000-9bef-011c48011c48_1977134"
+                  ),
+                  helpTooltip: "AS.FS.AllBundles.hlp_GlobalMarketEntityIdentifier"
+                ),
+                #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73562"(
+                  readOnly: if(
+                    #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(ri!editableFieldKeys),
+                    ri!readOnly,
+                    #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(
+                      intersection(
+                        ri!editableFieldKeys,
+                        #"_a-0000e673-a4a7-8000-9bef-011c48011c48_1977134"
+                      )
+                    )
+                  ),
+                  value: ri!customer.gmei,
+                  saveInto: ri!customer.gmei,
+                  labelPosition: "COLLAPSED",
+                  placeholder: "xxx-xx-xxxx",
+                  helpTooltip: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                    i18nData: ri!i18nData,
+                    bundleKey: "AS.FS.AllBundles.hlp_GlobalMarketEntityIdentifier"
+                  ),
+                  maxLength: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73500"
+                )
+              }
+            ),
+            /*International Entity*/
+            #"SYSTEM_SYSRULES_columnLayout"(
+              contents: {
+                #"_a-0000e69f-3688-8000-9bf2-011c48011c48_2111069"(
+                  label: "AS.FS.AllBundles.lbl_InternationalEntity",
+                  i18nData: ri!i18nData,
+                  isEdited: contains(
+                    ri!updatedFieldKeys,
+                    #"_a-0000e673-a4a7-8000-9bef-011c48011c48_1977170"
+                  )
+                ),
+                #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_982370"(
+                  readOnly: if(
+                    #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(ri!editableFieldKeys),
+                    ri!readOnly,
+                    #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(
+                      intersection(
+                        ri!editableFieldKeys,
+                        #"_a-0000e673-a4a7-8000-9bef-011c48011c48_1977170"
+                      )
+                    )
+                  ),
+                  value: ri!customer.isInternational,
+                  choiceLayout: "COMPACT",
+                  labelPosition: "COLLAPSED"
+                )
+              }
+            )
+          },
+          stackWhen: {
+            "PHONE",
+            "TABLET_PORTRAIT",
+            "TABLET_LANDSCAPE",
+            "DESKTOP_NARROW"
+          }
+        ),
+        /*2*/
+        #"SYSTEM_SYSRULES_columnsLayout"(
+          columns: {
+            /*Type*/
+            #"SYSTEM_SYSRULES_columnLayout"(
+              contents: a!localVariables(
+                local!customerTypeReadOnly: if(
+                  #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(ri!editableFieldKeys),
+                  ri!readOnly,
+                  #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(
+                    intersection(
+                      ri!editableFieldKeys,
+                      #"_a-0000e673-a4a7-8000-9bef-011c48011c48_1977146"
+                    )
+                  )
+                ),
+                {
+                  #"_a-0000e69f-3688-8000-9bf2-011c48011c48_2111069"(
+                    label: "AS.FS.AllBundles.lbl_Type",
+                    i18nData: ri!i18nData,
+                    isEdited: contains(
+                      ri!updatedFieldKeys,
+                      #"_a-0000e673-a4a7-8000-9bef-011c48011c48_1977146"
+                    ),
+                    isRequired: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75636"(local!customerTypeReadOnly)
+                  ),
+                  #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_982511"(
+                    readOnly: local!customerTypeReadOnly,
+                    customerTypeCodes: ri!customer.customerTypeCode,
+                    i18nData: ri!i18nData,
+                    refData: ri!refData,
+                    labelPosition: "COLLAPSED"
+                  )
+                }
+              )
+            ),
+            /*Risk Score*/
+            #"SYSTEM_SYSRULES_columnLayout"(
+              contents: {
+                if(
+                  if(
+                    #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(ri!editableFieldKeys),
+                    ri!readOnly,
+                    #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(
+                      intersection(
+                        ri!editableFieldKeys,
+                        #"_a-0000e673-a4a7-8000-9bef-011c48011c48_1977152"
+                      )
+                    )
+                  ),
+                  /*read only Riskscore*/
+                  {
+                    #"_a-0000e69f-3688-8000-9bf2-011c48011c48_2111069"(
+                      label: if(
+                        local!isRiskScoreRefreshed,
+                        "AS.FS.AllBundles.lbl_RiskScoreRefreshed",
+                        "AS.FS.AllBundles.lbl_RiskScore"
+                      ),
+                      labelArguments: if(
+                        #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(
+                          local!customerNorthrowRefreshSetting.refreshIntervalDays
+                        ),
+                        0,
+                        local!customerNorthrowRefreshSetting.refreshIntervalDays
+                      ),
+                      i18nData: ri!i18nData,
+                      isEdited: contains(
+                        ri!updatedFieldKeys,
+                        #"_a-0000e673-a4a7-8000-9bef-011c48011c48_1977152"
+                      )
+                    ),
+                    #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73562"(
+                      readOnly: true,
+                      value: #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_979015"(
+                        i18nData: ri!i18nData,
+                        riskScore: ri!customer.riskScore
+                      ).text,
+                      labelPosition: "COLLAPSED"
+                    )
+                  },
+                  /*Editable Riskscore*/
+                  {
+                    #"_a-0000e69f-3688-8000-9bf2-011c48011c48_2111069"(
+                      label: if(
+                        local!isRiskScoreRefreshed,
+                        "AS.FS.AllBundles.lbl_RiskScoreRefreshed",
+                        "AS.FS.AllBundles.lbl_RiskScore"
+                      ),
+                      labelArguments: if(
+                        #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(
+                          local!customerNorthrowRefreshSetting.refreshIntervalDays
+                        ),
+                        0,
+                        local!customerNorthrowRefreshSetting.refreshIntervalDays
+                      ),
+                      i18nData: ri!i18nData,
+                      isEdited: contains(
+                        ri!updatedFieldKeys,
+                        #"_a-0000e673-a4a7-8000-9bef-011c48011c48_1977152"
+                      ),
+                      isRequired: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(input: local!originalRiskScore),
+                      
+                    ),
+                    /* Once a risk score is defined, cannot return to null */
+                    #"_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2479658"(
+                      i18nData: ri!i18nData,
+                      customer: ri!customer,
+                      labelPosition: "COLLAPSED",
+                      required: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(input: local!originalRiskScore)
+                    )
+                  }
+                )
+              }
+            ),
+            /*Industry Classification Code*/
+            #"SYSTEM_SYSRULES_columnLayout"(
+              contents: {
+                #"_a-0000e69f-3688-8000-9bf2-011c48011c48_2111069"(
+                  label: "AS.FS.AllBundles.lbl_IndustryClassificationCode",
+                  i18nData: ri!i18nData,
+                  isEdited: contains(
+                    ri!updatedFieldKeys,
+                    #"_a-0000e673-a4a7-8000-9bef-011c48011c48_1977158"
+                  )
+                ),
+                #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_982443"(
+                  readOnly: if(
+                    #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(ri!editableFieldKeys),
+                    ri!readOnly,
+                    #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(
+                      intersection(
+                        ri!editableFieldKeys,
+                        #"_a-0000e673-a4a7-8000-9bef-011c48011c48_1977158"
+                      )
+                    )
+                  ),
+                  industryClassificationCodes: ri!customer.industryClassificationCode,
+                  i18nData: ri!i18nData,
+                  labelPosition: "COLLAPSED"
+                )
+              }
+            ),
+            /*Qualified Institutional Buyer*/
+            #"SYSTEM_SYSRULES_columnLayout"(
+              contents: {
+                #"_a-0000e69f-3688-8000-9bf2-011c48011c48_2111069"(
+                  label: "AS.FS.AllBundles.lbl_QualifiedInstitutionalBuyer",
+                  i18nData: ri!i18nData,
+                  isEdited: contains(
+                    ri!updatedFieldKeys,
+                    #"_a-0000e673-a4a7-8000-9bef-011c48011c48_1977176"
+                  )
+                ),
+                #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_982370"(
+                  readOnly: if(
+                    #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(ri!editableFieldKeys),
+                    ri!readOnly,
+                    #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(
+                      intersection(
+                        ri!editableFieldKeys,
+                        #"_a-0000e673-a4a7-8000-9bef-011c48011c48_1977176"
+                      )
+                    )
+                  ),
+                  value: ri!customer.isQIB,
+                  choiceLayout: "COMPACT",
+                  labelPosition: "COLLAPSED"
+                )
+              }
+            )
+          },
+          stackWhen: {
+            "PHONE",
+            "TABLET_PORTRAIT",
+            "TABLET_LANDSCAPE",
+            "DESKTOP_NARROW"
+          }
+        ),
+        /*3*/
+        #"SYSTEM_SYSRULES_columnsLayout"(
+          columns: {
+            /*domicile*/
+            #"SYSTEM_SYSRULES_columnLayout"(
+              contents: a!localVariables(
+                local!domicileReadOnly: if(
+                  #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(ri!editableFieldKeys),
+                  ri!readOnly,
+                  #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(
+                    intersection(
+                      ri!editableFieldKeys,
+                      #"_a-0000e673-a4a7-8000-9bef-011c48011c48_1977164"
+                    )
+                  )
+                ),
+                {
+                  if(
+                    #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(local!anticipatedSrqCustomerDomicile),
+                    /* Need to separate this dropdown from below dropdown for appropriate save behavior */
+                    {
+                      #"_a-0000e69f-3688-8000-9bf2-011c48011c48_2111069"(
+                        label: "AS.FS.AllBundles.lbl_Domicile",
+                        i18nData: ri!i18nData,
+                        isEdited: contains(
+                          ri!updatedFieldKeys,
+                          #"_a-0000e673-a4a7-8000-9bef-011c48011c48_1977164"
+                        ),
+                        isRequired: not(local!domicileReadOnly)
+                      ),
+                      #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_982262"(
+                        readOnly: local!domicileReadOnly,
+                        selectedCountry: ri!customer.domicile,
+                        required: true,
+                        i18nData: ri!i18nData,
+                        countries: ri!countries,
+                        labelPosition: "COLLAPSED"
+                      )
+                    },
+                    {
+                      #"_a-0000e69f-3688-8000-9bf2-011c48011c48_2111069"(
+                        label: "AS.FS.AllBundles.lbl_Domicile",
+                        i18nData: ri!i18nData,
+                        isEdited: contains(
+                          ri!updatedFieldKeys,
+                          #"_a-0000e673-a4a7-8000-9bef-011c48011c48_1977164"
+                        ),
+                        isRequired: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75636"(
+                          if(
+                            #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(ri!editableFieldKeys),
+                            ri!readOnly,
+                            #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(
+                              intersection(
+                                ri!editableFieldKeys,
+                                #"_a-0000e673-a4a7-8000-9bef-011c48011c48_1977164"
+                              )
+                            )
+                          )
+                        )
+                      ),
+                      #"SYSTEM_SYSRULES_sideBySideLayout"(
+                        items: {
+                          #"SYSTEM_SYSRULES_sideBySideItem"(
+                            item: #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_982262"(
+                              labelPosition: "COLLAPSED",
+                              readOnly: local!domicileReadOnly,
+                              selectedCountryCode: local!anticipatedSrqCustomerDomicile.domicile.countryCode,
+                              required: true,
+                              i18nData: ri!i18nData,
+                              countries: ri!countries,
+                              disabled: true
+                            )
+                          ),
+                          #"SYSTEM_SYSRULES_sideBySideItem"(
+                            item: #"_a-0000e607-97fd-8000-9be9-011c48011c48_1713562"(
+                              tooltip: local!anticipatedSrqCustomerDomicile.srqUniqueIdentifier,
+                              tagText: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                                i18nData: ri!i18nData,
+                                bundleKey: "AS.FS.AllBundles.lbl_PendingTag"
+                              )
+                            )
+                          )
+                        },
+                        alignVertical: "MIDDLE"
+                      )
+                    }
+                  )
+                }
+              )
+            ),
+            /*ERISA*/
+            #"SYSTEM_SYSRULES_columnLayout"(
+              contents: {
+                #"_a-0000e69f-3688-8000-9bf2-011c48011c48_2111069"(
+                  label: "AS.FS.AllBundles.lbl_ERISA",
+                  i18nData: ri!i18nData,
+                  isEdited: contains(
+                    ri!updatedFieldKeys,
+                    #"_a-0000e69f-3688-8000-9bf2-011c48011c48_2074265"
+                  ),
+                  showWhen: ri!customer.domicile.countryCode = #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_981494",
+                  helpTooltip: "AS.FS.AllBundles.hlp_ERISA"
+                ),
+                #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_982370"(
+                  readOnly: if(
+                    #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(ri!editableFieldKeys),
+                    ri!readOnly,
+                    #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(
+                      intersection(
+                        ri!editableFieldKeys,
+                        #"_a-0000e69f-3688-8000-9bf2-011c48011c48_2074265"
+                      )
+                    )
+                  ),
+                  value: ri!customer.isERISA,
+                  choiceLayout: "COMPACT",
+                  labelPosition: "COLLAPSED",
+                  helpTooltip: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                    i18nData: ri!i18nData,
+                    bundleKey: "AS.FS.AllBundles.hlp_ERISA"
+                  ),
+                  showWhen: ri!customer.domicile.countryCode = #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_981494"
+                )
+              }
+            ),
+            /*Tax Id*/
+            #"SYSTEM_SYSRULES_columnLayout"(
+              contents: {
+                #"_a-0000e69f-3688-8000-9bf2-011c48011c48_2111069"(
+                  label: "AS.FS.AllBundles.lbl_TaxId",
+                  i18nData: ri!i18nData,
+                  isEdited: contains(
+                    ri!updatedFieldKeys,
+                    #"_a-0000e69f-3688-8000-9bf2-011c48011c48_2074256"
+                  ),
+                  showWhen: ri!customer.domicile.countryCode = #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_981494"
+                ),
+                #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73562"(
+                  readOnly: if(
+                    #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(ri!editableFieldKeys),
+                    ri!readOnly,
+                    #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(
+                      intersection(
+                        ri!editableFieldKeys,
+                        #"_a-0000e69f-3688-8000-9bf2-011c48011c48_2074256"
+                      )
+                    )
+                  ),
+                  value: ri!customer.taxId,
+                  validations: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_74104"(
+                    value: ri!customer.taxId,
+                    maxLength: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73500"
+                  ),
+                  saveInto: ri!customer.taxId,
+                  labelPosition: "COLLAPSED",
+                  showWhen: ri!customer.domicile.countryCode = #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_981494"
+                )
+              }
+            ),
+            #"SYSTEM_SYSRULES_columnLayout"()
+          },
+          stackWhen: {
+            "PHONE",
+            "TABLET_PORTRAIT",
+            "TABLET_LANDSCAPE",
+            "DESKTOP_NARROW"
+          }
+        )
+      }
+    )
+  }
+)</definition>
+        <namedTypedValue>
+            <name>customer</name>
+            <type>
+                <name>AS_FS_Customer</name>
+                <namespace>urn:com:appian:types:AS:FS</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>i18nData</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>refData</name>
+            <type>
+                <name>AS_FS_R_Data?list</name>
+                <namespace>urn:com:appian:types:AS:FS</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>readOnly</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>showHeader</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>customerOpenServiceRequests</name>
+            <type>
+                <name>Map?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>countries</name>
+            <type>
+                <name>AS_FS_R_Country?list</name>
+                <namespace>urn:com:appian:types:AS:FS</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>editableFieldKeys</name>
+            <type>
+                <name>Text?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>isCreate</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>customerNameAdjacentComponent</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>customerNameAdditionalSaves</name>
+            <type>
+                <name>Save?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>updatedFieldKeys</name>
+            <type>
+                <name>Text?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+        <isCustom>false</isCustom>
+    </interface>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name/>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_33079"(
+  returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290157"
+)</a:value>
+                    <a:nameRef>customer</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression"> #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_975720"(
+   triggerRefresh: null
+ )</a:value>
+                    <a:nameRef>i18nData</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_975294"(
+  typeList:{}
+)</a:value>
+                    <a:nameRef>refData</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:boolean">false</a:value>
+                    <a:nameRef>readOnly</a:nameRef>
+                    <a:id>4</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:boolean"/>
+                    <a:nameRef>showHeader</a:nameRef>
+                    <a:id>5</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e62c-7375-8000-9bec-011c48011c48_1775427"(
+  customerId: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_33079"(
+    returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290157"
+  ).customerId,
+  isActive: true(),
+  excludeNestedCdts: true,
+  /* Sort so that the SRQs that are expected to be completed last are first in the list, as this should be the pending value in below rules */
+  sort: #"SYSTEM_SYSRULES_sortInfo"(
+    field: "targetCompletionDate",
+    ascending: false
+  )
+)</a:value>
+                    <a:nameRef>customerOpenServiceRequests</a:nameRef>
+                    <a:id>6</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_976936"(
+  i18nData: #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_975720"(
+    triggerRefresh: null
+  ),
+  returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290163"
+)</a:value>
+                    <a:nameRef>countries</a:nameRef>
+                    <a:id>7</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                    <a:nameRef>editableFieldKeys</a:nameRef>
+                    <a:id>8</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:boolean"/>
+                    <a:nameRef>isCreate</a:nameRef>
+                    <a:id>9</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:string"/>
+                    <a:nameRef>customerNameAdjacentComponent</a:nameRef>
+                    <a:id>10</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                    <a:nameRef>customerNameAdditionalSaves</a:nameRef>
+                    <a:id>11</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                    <a:nameRef>updatedFieldKeys</a:nameRef>
+                    <a:id>12</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e50d-bf1d-8000-9bcd-011c48011c48_1003442"/>
+        <historyInfo versionUuid="_a-0000e50d-bf1d-8000-9bcd-011c48011c48_1006541"/>
+        <historyInfo versionUuid="_a-0000e528-bc07-8000-9bcf-011c48011c48_1028407"/>
+        <historyInfo versionUuid="_a-0000e586-af6f-8000-9bd2-011c48011c48_1334604"/>
+        <historyInfo versionUuid="_a-0000e586-af6f-8000-9bd2-011c48011c48_1340723"/>
+        <historyInfo versionUuid="_a-0000e586-af6f-8000-9bd2-011c48011c48_1376688"/>
+        <historyInfo versionUuid="_a-0000e59e-fc58-8000-9bd3-011c48011c48_1388517"/>
+        <historyInfo versionUuid="_a-0000e5a0-53e9-8000-9bd8-011c48011c48_1407679"/>
+        <historyInfo versionUuid="_a-0000e5a0-53e9-8000-9bd8-011c48011c48_1439590"/>
+        <historyInfo versionUuid="_a-0000e5a0-53e9-8000-9bd8-011c48011c48_1447046"/>
+        <historyInfo versionUuid="_a-0000e5a0-53e9-8000-9bd8-011c48011c48_1453557"/>
+        <historyInfo versionUuid="_a-0000e5a0-53e9-8000-9bd8-011c48011c48_1453778"/>
+        <historyInfo versionUuid="_a-0000e5a0-53e9-8000-9bd8-011c48011c48_1454085"/>
+        <historyInfo versionUuid="_a-0000e5a0-53e9-8000-9bd8-011c48011c48_1454279"/>
+        <historyInfo versionUuid="_a-0000e5a0-53e9-8000-9bd8-011c48011c48_1454704"/>
+        <historyInfo versionUuid="_a-0000e5a0-53e9-8000-9bd8-011c48011c48_1457848"/>
+        <historyInfo versionUuid="_a-0000e5a0-53e9-8000-9bd8-011c48011c48_1458767"/>
+        <historyInfo versionUuid="_a-0000e5a0-53e9-8000-9bd8-011c48011c48_1460203"/>
+        <historyInfo versionUuid="_a-0000e5a0-53e9-8000-9bd8-011c48011c48_1473890"/>
+        <historyInfo versionUuid="_a-0000e5cd-8e8f-8000-9ba4-011c48011c48_29029"/>
+        <historyInfo versionUuid="_a-0000e4d3-08f0-8000-9ba9-011c48011c48_155017"/>
+        <historyInfo versionUuid="_a-0000e5a0-53e9-8000-9bd8-011c48011c48_1474066"/>
+        <historyInfo versionUuid="_a-0000e5fd-0ed3-8000-9be6-011c48011c48_1567332"/>
+        <historyInfo versionUuid="_a-0000e5fd-0ed3-8000-9be6-011c48011c48_1579024"/>
+        <historyInfo versionUuid="_a-0000e5fd-0ed3-8000-9be6-011c48011c48_1584944"/>
+        <historyInfo versionUuid="_a-0000e607-97fd-8000-9be9-011c48011c48_1589211"/>
+        <historyInfo versionUuid="_a-0000e607-97fd-8000-9be9-011c48011c48_1607836"/>
+        <historyInfo versionUuid="_a-0000e607-97fd-8000-9be9-011c48011c48_1619420"/>
+        <historyInfo versionUuid="_a-0000e607-97fd-8000-9be9-011c48011c48_1630355"/>
+        <historyInfo versionUuid="_a-0000e607-97fd-8000-9be9-011c48011c48_1708646"/>
+        <historyInfo versionUuid="_a-0000e62c-7375-8000-9bec-011c48011c48_1797747"/>
+        <historyInfo versionUuid="_a-0000e62c-7375-8000-9bec-011c48011c48_1806503"/>
+        <historyInfo versionUuid="_a-0000e62c-7375-8000-9bec-011c48011c48_1811506"/>
+        <historyInfo versionUuid="_a-0000e62c-7375-8000-9bec-011c48011c48_1826545"/>
+        <historyInfo versionUuid="_a-0000e62c-7375-8000-9bec-011c48011c48_1829571"/>
+        <historyInfo versionUuid="_a-0000e673-a4a7-8000-9bef-011c48011c48_2018445"/>
+        <historyInfo versionUuid="_a-0000e673-a4a7-8000-9bef-011c48011c48_2051401"/>
+        <historyInfo versionUuid="_a-0000e673-a4a7-8000-9bef-011c48011c48_2056385"/>
+        <historyInfo versionUuid="_a-0000e673-a4a7-8000-9bef-011c48011c48_2065264"/>
+        <historyInfo versionUuid="_a-0000e69f-3688-8000-9bf2-011c48011c48_2073771"/>
+        <historyInfo versionUuid="_a-0000e69f-3688-8000-9bf2-011c48011c48_2076078"/>
+        <historyInfo versionUuid="_a-0000e69f-3688-8000-9bf2-011c48011c48_2085680"/>
+        <historyInfo versionUuid="_a-0000e69f-3688-8000-9bf2-011c48011c48_2102607"/>
+        <historyInfo versionUuid="_a-0000e69f-3688-8000-9bf2-011c48011c48_2103160"/>
+        <historyInfo versionUuid="_a-0000e69f-3688-8000-9bf2-011c48011c48_2103556"/>
+        <historyInfo versionUuid="_a-0000e69f-3688-8000-9bf2-011c48011c48_2108698"/>
+        <historyInfo versionUuid="_a-0000e69f-3688-8000-9bf2-011c48011c48_2110043"/>
+        <historyInfo versionUuid="_a-0000e69f-3688-8000-9bf2-011c48011c48_2113767"/>
+        <historyInfo versionUuid="_a-0000e69f-3688-8000-9bf2-011c48011c48_2123931"/>
+        <historyInfo versionUuid="_a-0000e69f-3688-8000-9bf2-011c48011c48_2128492"/>
+        <historyInfo versionUuid="_a-0000e69f-3688-8000-9bf2-011c48011c48_2131791"/>
+        <historyInfo versionUuid="_a-0000e69f-3688-8000-9bf2-011c48011c48_2132675"/>
+        <historyInfo versionUuid="_a-0000e69f-3688-8000-9bf2-011c48011c48_2143845"/>
+        <historyInfo versionUuid="_a-0000e69f-3688-8000-9bf2-011c48011c48_2162077"/>
+        <historyInfo versionUuid="_a-0000e69f-3688-8000-9bf2-011c48011c48_2162327"/>
+        <historyInfo versionUuid="_a-0000e69f-3688-8000-9bf2-011c48011c48_2162618"/>
+        <historyInfo versionUuid="_a-0000e69f-3688-8000-9bf2-011c48011c48_2163160"/>
+        <historyInfo versionUuid="_a-0000e69f-3688-8000-9bf2-011c48011c48_2174493"/>
+        <historyInfo versionUuid="_a-0000e6ba-d6dd-8000-9bf5-011c48011c48_2185129"/>
+        <historyInfo versionUuid="_a-0000e6c5-6536-8000-9bf8-011c48011c48_2207201"/>
+        <historyInfo versionUuid="_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2368944"/>
+        <historyInfo versionUuid="_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2459825"/>
+        <historyInfo versionUuid="_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2490356"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2511404"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2710141"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2710518"/>
+        <historyInfo versionUuid="_a-0000e79b-0335-8000-9c0c-011c48011c48_2940916"/>
+        <historyInfo versionUuid="_a-0000e7e5-dad4-8000-9c14-011c48011c48_3334225"/>
+        <historyInfo versionUuid="_a-0000e7e5-dad4-8000-9c14-011c48011c48_3334870"/>
+        <historyInfo versionUuid="_a-0000e825-b425-8000-9c1c-011c48011c48_3632799"/>
+    </history>
+</contentHaul>

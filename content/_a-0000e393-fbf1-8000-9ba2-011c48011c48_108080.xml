@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e528-bc07-8000-9bcf-011c48011c48_1045691</versionUuid>
+    <rule>
+        <name>AS_IO_QE_getTaskBehaviorTypes</name>
+        <uuid>_a-0000e393-fbf1-8000-9ba2-011c48011c48_108080</uuid>
+        <description>Returns the list of task behavior types from the database</description>
+        <parentUuid>_a-0000e2bb-4188-8000-9ba2-011c48011c48_25469</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>#"_a-0000e3e6-fb42-8000-9ba5-011c48011c48_157870"(
+  entity: #"_a-0000e393-fbf1-8000-9ba2-011c48011c48_99408",
+  entityType: 'type!{urn:com:appian:types:AS:IO}AS_IO_R_TaskBehaviorType',
+  returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290163",
+  filters: {
+    #"SYSTEM_SYSRULES_queryFilter"(
+      field: "configurationLevelCode",
+      operator: "in",
+      value: #"_a-0000e3c8-6861-8000-9ba2-011c48011c48_117094"(
+        configurationLevelCode: ri!configurationLevelCode
+      )
+    ),
+    #"SYSTEM_SYSRULES_queryFilter"(
+      field: "behaviorSubtypeCode",
+      operator: "=",
+      value: ri!behaviorSubtypeCode
+    ),
+    #"SYSTEM_SYSRULES_queryFilter"(
+      field: "behaviorSubtypeCode",
+      operator: "&lt;&gt;",
+      value: #"_a-0000e528-bc07-8000-9bcf-011c48011c48_1023225",
+      applyWhen: ri!behaviorSubtypeCode &lt;&gt; #"_a-0000e528-bc07-8000-9bcf-011c48011c48_1023225"
+    )
+  },
+  sort: #"SYSTEM_SYSRULES_sortInfo"(
+    field: "behaviorDisplayName",
+    ascending: true
+  )
+)</definition>
+        <namedTypedValue>
+            <name>configurationLevelCode</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>behaviorSubtypeCode</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name>No inputs except pagingInfo</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:string"/>
+                    <a:nameRef>configurationLevelCode</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:string"/>
+                    <a:nameRef>behaviorSubtypeCode</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e3c8-6861-8000-9ba2-011c48011c48_122292"/>
+        <historyInfo versionUuid="_a-0000e3e6-fb42-8000-9ba5-011c48011c48_226122"/>
+        <historyInfo versionUuid="_a-0000e430-f270-8000-9bbc-011c48011c48_368683"/>
+        <historyInfo versionUuid="_a-0000e460-9d93-8000-9bc1-011c48011c48_606172"/>
+        <historyInfo versionUuid="_a-0000e460-9d93-8000-9bc1-011c48011c48_617307"/>
+        <historyInfo versionUuid="_a-0000e528-bc07-8000-9bcf-011c48011c48_1045691"/>
+    </history>
+</contentHaul>

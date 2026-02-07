@@ -1,0 +1,426 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e70f-2824-8000-9c01-011c48011c48_2624306</versionUuid>
+    <rule>
+        <name>AS_FS_ALT_UT_evaluateAlertConfiguration_Single</name>
+        <uuid>_a-0000e70f-2824-8000-9c01-011c48011c48_2568047</uuid>
+        <description>Given audit parameters and an alertConfiguration, returns the alertConfiguration if it is triggered by the audit parameters</description>
+        <parentUuid>_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_968428</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>if(
+  and(
+    /* Trigger evaluation for values after the update */
+    #"_a-0000e70f-2824-8000-9c01-011c48011c48_2568075"(
+      customerAuditParameters: ri!customerAuditParameters,
+      beneficialOwnerAuditParameters: ri!beneficialOwnerAuditParameters,
+      entityRelationsAuditParameters: ri!entityRelationsAuditParameters,
+      triggerSet: ri!alertConfiguration[#"urn:appian:record-relationship:v1:af6da350-d001-4fce-b3ab-90c06e269df9/7d5e0869-87df-4ef8-93c3-b6504f12f8d4"],
+      isOriginalObjectEvaluation: false
+    ),
+    not(
+      /* Trigger evaluation for values before the update */
+      #"_a-0000e70f-2824-8000-9c01-011c48011c48_2568075"(
+        customerAuditParameters: ri!customerAuditParameters,
+        beneficialOwnerAuditParameters: ri!beneficialOwnerAuditParameters,
+        entityRelationsAuditParameters: ri!entityRelationsAuditParameters,
+        triggerSet: ri!alertConfiguration[#"urn:appian:record-relationship:v1:af6da350-d001-4fce-b3ab-90c06e269df9/7d5e0869-87df-4ef8-93c3-b6504f12f8d4"],
+        isOriginalObjectEvaluation: true
+      )
+    )
+  ),
+  cast(
+    typeof('type!{urn:com:appian:types:AS:FS}AS_FS_ALT_CONF_AlertConfiguration'()),
+    ri!alertConfiguration
+  ),
+  null
+)</definition>
+        <namedTypedValue>
+            <name>customerAuditParameters</name>
+            <type>
+                <name>AS_ADT_P_AuditProcessParameters</name>
+                <namespace>urn:com:appian:types:AS:ADT</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>beneficialOwnerAuditParameters</name>
+            <type>
+                <name>AS_ADT_P_AuditProcessParameters</name>
+                <namespace>urn:com:appian:types:AS:ADT</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>entityRelationsAuditParameters</name>
+            <type>
+                <name>AS_ADT_P_AuditProcessParameters</name>
+                <namespace>urn:com:appian:types:AS:ADT</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>alertConfiguration</name>
+            <type>
+                <name>af6da350-d001-4fce-b3ab-90c06e269df9</name>
+                <namespace>urn:com:appian:recordtype:datatype</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name>trigger alert</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">'type!{urn:com:appian:types:AS:ADT}AS_ADT_P_AuditProcessParameters'(
+  originalObjects: 'type!{urn:com:appian:types:AS:FS}AS_FS_Customer'(
+    riskScore: 33,
+    domicile: 'type!{urn:com:appian:types:AS:FS}AS_FS_R_Country'(
+      countryCode: "US",
+      regionCode: "AMERICAS"
+    )
+  ),
+  newObjects: 'type!{urn:com:appian:types:AS:FS}AS_FS_Customer'(
+    riskScore: 67,
+    domicile: 'type!{urn:com:appian:types:AS:FS}AS_FS_R_Country'(
+      countryCode: "GB",
+      regionCode: "EMEA"
+    )
+  )
+)</a:value>
+                    <a:nameRef>customerAuditParameters</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">'type!{urn:com:appian:types:AS:ADT}AS_ADT_P_AuditProcessParameters'(
+  originalObjects: {
+    'type!{urn:com:appian:types:AS:FS}AS_FS_BeneficialOwner'(
+      beneficialOwnerId: 1,
+      isActive: true
+    ),
+    'type!{urn:com:appian:types:AS:FS}AS_FS_BeneficialOwner'(
+      beneficialOwnerId: 2,
+      isActive: true
+    ),
+    'type!{urn:com:appian:types:AS:FS}AS_FS_BeneficialOwner'(
+      beneficialOwnerId: 3,
+      isActive: true
+    )
+  },
+  newObjects: {
+    'type!{urn:com:appian:types:AS:FS}AS_FS_BeneficialOwner'(
+      beneficialOwnerId: 1,
+      isActive: true
+    ),
+    'type!{urn:com:appian:types:AS:FS}AS_FS_BeneficialOwner'(
+      beneficialOwnerId: 2,
+      isActive: false
+    ),
+    'type!{urn:com:appian:types:AS:FS}AS_FS_BeneficialOwner'(
+      beneficialOwnerId: 3,
+      isActive: false
+    ),
+    'type!{urn:com:appian:types:AS:FS}AS_FS_BeneficialOwner'(
+      beneficialOwnerId: 4,
+      isActive: true
+    )
+  }
+)</a:value>
+                    <a:nameRef>beneficialOwnerAuditParameters</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">'type!{urn:com:appian:types:AS:ADT}AS_ADT_P_AuditProcessParameters'(
+  originalObjects: {
+    'type!{urn:com:appian:types:AS:FS}AS_FS_CustomerRelation'(
+      customerRelationId: 1,
+      isActive: true
+    ),
+    'type!{urn:com:appian:types:AS:FS}AS_FS_CustomerRelation'(
+      customerRelationId: 2,
+      isActive: true
+    ),
+    'type!{urn:com:appian:types:AS:FS}AS_FS_CustomerRelation'(
+      customerRelationId: 3,
+      isActive: true
+    )
+  },
+  newObjects: {
+    'type!{urn:com:appian:types:AS:FS}AS_FS_CustomerRelation'(
+      customerRelationId: 1,
+      isActive: true
+    ),
+    'type!{urn:com:appian:types:AS:FS}AS_FS_CustomerRelation'(
+      customerRelationId: 2,
+      isActive: true
+    ),
+    'type!{urn:com:appian:types:AS:FS}AS_FS_CustomerRelation'(
+      customerRelationId: 3,
+      isActive: true
+    ),
+    'type!{urn:com:appian:types:AS:FS}AS_FS_CustomerRelation'(
+      customerRelationId: 4,
+      isActive: true
+    )
+  }
+)</a:value>
+                    <a:nameRef>entityRelationsAuditParameters</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"urn:appian:record-type:v1:af6da350-d001-4fce-b3ab-90c06e269df9"(
+  #"urn:appian:record-relationship:v1:af6da350-d001-4fce-b3ab-90c06e269df9/7d5e0869-87df-4ef8-93c3-b6504f12f8d4": #"urn:appian:record-type:v1:d3b72367-335b-4a58-b28d-fc4b9c29c011"(
+    #"urn:appian:record-field:v1:d3b72367-335b-4a58-b28d-fc4b9c29c011/42e23b92-8494-4028-af06-080e8ab13974": "AND",
+    #"urn:appian:record-relationship:v1:d3b72367-335b-4a58-b28d-fc4b9c29c011/a0b8c5ea-afed-44be-8db5-0ed2585deca4": {
+      #"urn:appian:record-type:v1:949f2787-0ff4-4431-884b-8cb98899776a"(
+        #"urn:appian:record-field:v1:949f2787-0ff4-4431-884b-8cb98899776a/0691e262-f507-41d5-a846-ca2ffa6fd4f3": #"_a-0000e70f-2824-8000-9c01-011c48011c48_2555828",
+        #"urn:appian:record-field:v1:949f2787-0ff4-4431-884b-8cb98899776a/96ef3355-e542-47eb-9f56-033c8170d1aa": #"SYSTEM_SYSRULES_toJson_v1"(
+          {
+            operator: "&gt;",
+            riskScoreLowerBound: 50,
+            riskScoreUpperBound: null
+          }
+        )
+      ),
+      #"urn:appian:record-type:v1:949f2787-0ff4-4431-884b-8cb98899776a"(
+        #"urn:appian:record-field:v1:949f2787-0ff4-4431-884b-8cb98899776a/0691e262-f507-41d5-a846-ca2ffa6fd4f3": #"_a-0000e70f-2824-8000-9c01-011c48011c48_2555834",
+        #"urn:appian:record-field:v1:949f2787-0ff4-4431-884b-8cb98899776a/96ef3355-e542-47eb-9f56-033c8170d1aa": #"SYSTEM_SYSRULES_toJson_v1"(
+          {
+            operator: "IN",
+            countryCodes: { "GB", "IE", "NO" }
+          }
+        )
+      ),
+      #"urn:appian:record-type:v1:949f2787-0ff4-4431-884b-8cb98899776a"(
+        #"urn:appian:record-field:v1:949f2787-0ff4-4431-884b-8cb98899776a/0691e262-f507-41d5-a846-ca2ffa6fd4f3": #"_a-0000e70f-2824-8000-9c01-011c48011c48_2555841",
+        #"urn:appian:record-field:v1:949f2787-0ff4-4431-884b-8cb98899776a/96ef3355-e542-47eb-9f56-033c8170d1aa": #"SYSTEM_SYSRULES_toJson_v1"({ action: "ADD"})
+      ),
+      #"urn:appian:record-type:v1:949f2787-0ff4-4431-884b-8cb98899776a"(
+        #"urn:appian:record-field:v1:949f2787-0ff4-4431-884b-8cb98899776a/0691e262-f507-41d5-a846-ca2ffa6fd4f3": #"_a-0000e70f-2824-8000-9c01-011c48011c48_2555848",
+        #"urn:appian:record-field:v1:949f2787-0ff4-4431-884b-8cb98899776a/96ef3355-e542-47eb-9f56-033c8170d1aa": #"SYSTEM_SYSRULES_toJson_v1"({ action: "ADD"})
+      )
+    }
+  )
+)</a:value>
+                    <a:nameRef>alertConfiguration</a:nameRef>
+                    <a:id>4</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions>
+                    <a:expectedOutput>
+                        <a:type a:uuid="{http://www.appian.com/ae/types/2009}Variant"/>
+                        <a:runtimeType a:uuid="{http://www.appian.com/ae/types/2009}Variant"/>
+                        <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">cast(
+  typeof(
+    'type!{urn:com:appian:types:AS:FS}AS_FS_ALT_CONF_AlertConfiguration'()
+  ),
+  #"urn:appian:record-type:v1:af6da350-d001-4fce-b3ab-90c06e269df9"(
+    #"urn:appian:record-relationship:v1:af6da350-d001-4fce-b3ab-90c06e269df9/7d5e0869-87df-4ef8-93c3-b6504f12f8d4": #"urn:appian:record-type:v1:d3b72367-335b-4a58-b28d-fc4b9c29c011"(
+      #"urn:appian:record-field:v1:d3b72367-335b-4a58-b28d-fc4b9c29c011/42e23b92-8494-4028-af06-080e8ab13974": "AND",
+      #"urn:appian:record-relationship:v1:d3b72367-335b-4a58-b28d-fc4b9c29c011/a0b8c5ea-afed-44be-8db5-0ed2585deca4": {
+        #"urn:appian:record-type:v1:949f2787-0ff4-4431-884b-8cb98899776a"(
+          #"urn:appian:record-field:v1:949f2787-0ff4-4431-884b-8cb98899776a/0691e262-f507-41d5-a846-ca2ffa6fd4f3": #"_a-0000e70f-2824-8000-9c01-011c48011c48_2555828",
+          #"urn:appian:record-field:v1:949f2787-0ff4-4431-884b-8cb98899776a/96ef3355-e542-47eb-9f56-033c8170d1aa": #"SYSTEM_SYSRULES_toJson_v1"(
+            {
+              operator: "&gt;",
+              riskScoreLowerBound: 50,
+              riskScoreUpperBound: null
+            }
+          )
+        ),
+        #"urn:appian:record-type:v1:949f2787-0ff4-4431-884b-8cb98899776a"(
+          #"urn:appian:record-field:v1:949f2787-0ff4-4431-884b-8cb98899776a/0691e262-f507-41d5-a846-ca2ffa6fd4f3": #"_a-0000e70f-2824-8000-9c01-011c48011c48_2555834",
+          #"urn:appian:record-field:v1:949f2787-0ff4-4431-884b-8cb98899776a/96ef3355-e542-47eb-9f56-033c8170d1aa": #"SYSTEM_SYSRULES_toJson_v1"(
+            {
+              operator: "IN",
+              countryCodes: { "GB", "IE", "NO" }
+            }
+          )
+        ),
+        #"urn:appian:record-type:v1:949f2787-0ff4-4431-884b-8cb98899776a"(
+          #"urn:appian:record-field:v1:949f2787-0ff4-4431-884b-8cb98899776a/0691e262-f507-41d5-a846-ca2ffa6fd4f3": #"_a-0000e70f-2824-8000-9c01-011c48011c48_2555841",
+          #"urn:appian:record-field:v1:949f2787-0ff4-4431-884b-8cb98899776a/96ef3355-e542-47eb-9f56-033c8170d1aa": #"SYSTEM_SYSRULES_toJson_v1"({ action: "ADD" })
+        ),
+        #"urn:appian:record-type:v1:949f2787-0ff4-4431-884b-8cb98899776a"(
+          #"urn:appian:record-field:v1:949f2787-0ff4-4431-884b-8cb98899776a/0691e262-f507-41d5-a846-ca2ffa6fd4f3": #"_a-0000e70f-2824-8000-9c01-011c48011c48_2555848",
+          #"urn:appian:record-field:v1:949f2787-0ff4-4431-884b-8cb98899776a/96ef3355-e542-47eb-9f56-033c8170d1aa": #"SYSTEM_SYSRULES_toJson_v1"({ action: "ADD" })
+        )
+      }
+    )
+  )
+)</a:value>
+                    </a:expectedOutput>
+                </a:assertions>
+            </el>
+            <el>
+                <a:name>does not trigger alert</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">'type!{urn:com:appian:types:AS:ADT}AS_ADT_P_AuditProcessParameters'(
+  originalObjects: 'type!{urn:com:appian:types:AS:FS}AS_FS_Customer'(
+    riskScore: 33,
+    domicile: 'type!{urn:com:appian:types:AS:FS}AS_FS_R_Country'(
+      countryCode: "US",
+      regionCode: "AMERICAS"
+    )
+  ),
+  newObjects: 'type!{urn:com:appian:types:AS:FS}AS_FS_Customer'(
+    riskScore: 67,
+    domicile: 'type!{urn:com:appian:types:AS:FS}AS_FS_R_Country'(
+      countryCode: "GB",
+      regionCode: "EMEA"
+    )
+  )
+)</a:value>
+                    <a:nameRef>customerAuditParameters</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">'type!{urn:com:appian:types:AS:ADT}AS_ADT_P_AuditProcessParameters'(
+  originalObjects: {
+    'type!{urn:com:appian:types:AS:FS}AS_FS_BeneficialOwner'(
+      beneficialOwnerId: 1
+    ),
+    'type!{urn:com:appian:types:AS:FS}AS_FS_BeneficialOwner'(
+      beneficialOwnerId: 2
+    ),
+    'type!{urn:com:appian:types:AS:FS}AS_FS_BeneficialOwner'(
+      beneficialOwnerId: 3
+    )
+  },
+  newObjects: {
+    'type!{urn:com:appian:types:AS:FS}AS_FS_BeneficialOwner'(
+      beneficialOwnerId: 1
+    ),
+    'type!{urn:com:appian:types:AS:FS}AS_FS_BeneficialOwner'(
+      beneficialOwnerId: 2
+    ),
+    'type!{urn:com:appian:types:AS:FS}AS_FS_BeneficialOwner'(
+      beneficialOwnerId: 3
+    )
+  }
+)</a:value>
+                    <a:nameRef>beneficialOwnerAuditParameters</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">'type!{urn:com:appian:types:AS:ADT}AS_ADT_P_AuditProcessParameters'(
+  originalObjects: {
+    'type!{urn:com:appian:types:AS:FS}AS_FS_CustomerRelation'(
+      customerRelationId: 1
+    ),
+    'type!{urn:com:appian:types:AS:FS}AS_FS_CustomerRelation'(
+      customerRelationId: 2
+    ),
+    'type!{urn:com:appian:types:AS:FS}AS_FS_CustomerRelation'(
+      customerRelationId: 3
+    )
+  },
+  newObjects: {
+    'type!{urn:com:appian:types:AS:FS}AS_FS_CustomerRelation'(
+      customerRelationId: 1
+    ),
+    'type!{urn:com:appian:types:AS:FS}AS_FS_CustomerRelation'(
+      customerRelationId: 2
+    ),
+    'type!{urn:com:appian:types:AS:FS}AS_FS_CustomerRelation'(
+      customerRelationId: 3
+    ),
+    'type!{urn:com:appian:types:AS:FS}AS_FS_CustomerRelation'(
+      customerRelationId: 4
+    )
+  }
+)</a:value>
+                    <a:nameRef>entityRelationsAuditParameters</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">'type!{urn:com:appian:types:AS:FS}AS_FS_ALT_CONF_AlertConfiguration'(
+  triggerSet: 'type!{urn:com:appian:types:AS:FS}AS_FS_ALT_CONF_AlertConfigurationTriggerSet'(
+    operator: "AND",
+    triggerConditions: {
+      'type!{urn:com:appian:types:AS:FS}AS_FS_ALT_CONF_AlertConfigurationTriggerCondition'(
+        alertConfigurationTriggerTypeCode: #"_a-0000e70f-2824-8000-9c01-011c48011c48_2555828",
+        configurationTriggerSettings: #"SYSTEM_SYSRULES_toJson_v1"(
+          {
+            operator: "&gt;",
+            riskScoreLowerBound: 50,
+            riskScoreUpperBound: null
+          }
+        )
+      ),
+      'type!{urn:com:appian:types:AS:FS}AS_FS_ALT_CONF_AlertConfigurationTriggerCondition'(
+        alertConfigurationTriggerTypeCode: #"_a-0000e70f-2824-8000-9c01-011c48011c48_2555834",
+        configurationTriggerSettings: #"SYSTEM_SYSRULES_toJson_v1"(
+          {
+            operator: "IN",
+            countryCodes: { "GB", "IE", "NO" }
+          }
+        )
+      ),
+      'type!{urn:com:appian:types:AS:FS}AS_FS_ALT_CONF_AlertConfigurationTriggerCondition'(
+        alertConfigurationTriggerTypeCode: #"_a-0000e70f-2824-8000-9c01-011c48011c48_2555841",
+        configurationTriggerSettings: #"SYSTEM_SYSRULES_toJson_v1"({ action: "ADD",  })
+      ),
+      'type!{urn:com:appian:types:AS:FS}AS_FS_ALT_CONF_AlertConfigurationTriggerCondition'(
+        alertConfigurationTriggerTypeCode: #"_a-0000e70f-2824-8000-9c01-011c48011c48_2555848",
+        configurationTriggerSettings: #"SYSTEM_SYSRULES_toJson_v1"({ action: "ADD",  })
+      )
+    }
+  )
+)</a:value>
+                    <a:nameRef>alertConfiguration</a:nameRef>
+                    <a:id>4</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions>
+                    <a:expectedOutput>
+                        <a:type a:uuid="{http://www.appian.com/ae/types/2009}Variant"/>
+                        <a:runtimeType a:uuid="{http://www.appian.com/ae/types/2009}Variant"/>
+                        <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">null</a:value>
+                    </a:expectedOutput>
+                </a:assertions>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2568067"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2573856"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2605014"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2619045"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2624306"/>
+    </history>
+</contentHaul>

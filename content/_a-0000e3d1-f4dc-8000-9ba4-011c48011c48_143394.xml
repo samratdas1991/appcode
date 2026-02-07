@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e7e5-dad4-8000-9c14-011c48011c48_3297836</versionUuid>
+    <rule>
+        <name>AS_IO_UT_getDuplicateTemplateByMappingFields</name>
+        <uuid>_a-0000e3d1-f4dc-8000-9ba4-011c48011c48_143394</uuid>
+        <description>Check if there is a template with the given template mapping fields: Region and Onboarding type
+
+Documentation is available for this design object.</description>
+        <parentUuid>_a-0000e2bb-4188-8000-9ba2-011c48011c48_25469</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>if(
+  any(
+    #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(_),
+    apply(
+      #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_76433"(
+        cdt: ri!selectedTemplate,
+        field: _,
+        indexDefault: null
+      ),
+      ri!templateMappingFields
+    )
+  ),
+  {},
+  #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_155202"(
+    excludeNestedCdts: true,
+    templateIdToExclude: ri!selectedTemplate.templateId,
+    additionalFilters: #"SYSTEM_SYSRULES_forEach"(
+      items: ri!templateMappingFields,
+      expression: #"SYSTEM_SYSRULES_queryFilter"(
+        field: fv!item,
+        operator: "=",
+        value: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_76433"(
+          cdt: ri!selectedTemplate,
+          field: fv!item,
+          indexDefault: null
+        )
+      )
+    ),
+    returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290157"
+  )
+)</definition>
+        <namedTypedValue>
+            <name>selectedTemplate</name>
+            <type>
+                <name>AS_IO_R_Template</name>
+                <namespace>urn:com:appian:types:AS:IO</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>templateMappingFields</name>
+            <type>
+                <name>Text?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name>Null Value</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:n1="urn:com:appian:types:AS:IO" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="n1:AS_IO_R_Template"/>
+                    <a:nameRef>selectedTemplate</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e6c5-6536-8000-9bf8-011c48011c48_2203265"(
+  queryDropdownValues: false
+).templateField</a:value>
+                    <a:nameRef>templateMappingFields</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions>
+                    <a:expectedOutput>
+                        <a:type a:uuid="{http://www.appian.com/ae/types/2009}Variant"/>
+                        <a:runtimeType a:uuid="{http://www.appian.com/ae/types/2009}Variant"/>
+                        <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">{}</a:value>
+                    </a:expectedOutput>
+                </a:assertions>
+            </el>
+            <el>
+                <a:name>New Template which Duplicates Existing</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e40a-de32-8000-9ba8-011c48011c48_260165"(
+  cdt: cast(
+    'type!{urn:com:appian:types:AS:IO}AS_IO_R_Template',
+    #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_155202"(
+      templateId: null,
+      returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290163"
+    )
+  ),
+  fields: "templateId",
+  newValues: null
+)</a:value>
+                    <a:nameRef>selectedTemplate</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e6c5-6536-8000-9bf8-011c48011c48_2203265"(
+  queryDropdownValues: false
+).templateField</a:value>
+                    <a:nameRef>templateMappingFields</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions>
+                    <a:expectedOutput xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                    <a:resultAssertions>#"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(test!output)</a:resultAssertions>
+                </a:assertions>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e3d1-f4dc-8000-9ba4-011c48011c48_150728"/>
+        <historyInfo versionUuid="_a-0000e40a-de32-8000-9ba8-011c48011c48_271742"/>
+        <historyInfo versionUuid="_a-0000e41b-1752-8000-9ba6-011c48011c48_17725"/>
+        <historyInfo versionUuid="_a-0000e3ff-a5bc-8000-9ba8-011c48011c48_39405"/>
+        <historyInfo versionUuid="_a-0000e430-f270-8000-9bbc-011c48011c48_370007"/>
+        <historyInfo versionUuid="_a-0000e447-91f4-8000-9bc0-011c48011c48_447328"/>
+        <historyInfo versionUuid="_a-0000e44c-6248-8000-9bc1-011c48011c48_448458"/>
+        <historyInfo versionUuid="_a-0000e62c-7375-8000-9bec-011c48011c48_1866707"/>
+        <historyInfo versionUuid="_a-0000e6c5-6536-8000-9bf8-011c48011c48_2203669"/>
+        <historyInfo versionUuid="_a-0000e6ca-7e19-8000-9bfb-011c48011c48_2253998"/>
+        <historyInfo versionUuid="_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2360420"/>
+        <historyInfo versionUuid="_a-0000e7e5-dad4-8000-9c14-011c48011c48_3297836"/>
+    </history>
+</contentHaul>

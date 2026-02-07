@@ -1,0 +1,365 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<recordTypeHaul xmlns:a="http://www.appian.com/ae/types/2009" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <versionUuid>2976c54f-3c18-4d61-8a98-862a2f639ca0</versionUuid>
+  <recordType a:uuid="62cc31dc-c4d6-4842-af82-c592741ddbfb" name="AS_QNM_T_QuestionCategory_RecordType">
+    <a:pluralName>AS_QNM_T_QuestionCategory_RecordTypes</a:pluralName>
+    <a:description/>
+    <a:urlStub>sBylDA</a:urlStub>
+    <a:source xsi:type="a:RecordsReplica"/>
+    <a:listViewTemplateExpr>#"SYSTEM_SYSRULES_recordGridField"(
+  columns: {
+    #"SYSTEM_SYSRULES_gridColumn"(
+      label: "Question Category Name",
+      sortField: #"urn:appian:record-field:v1:62cc31dc-c4d6-4842-af82-c592741ddbfb/a233ac14-58e3-4521-ba49-8f666559f362",
+      value: #"SYSTEM_SYSRULES_linkField"(
+        links: #"SYSTEM_SYSRULES_recordLink"(
+          label: fv!row[#"urn:appian:record-field:v1:62cc31dc-c4d6-4842-af82-c592741ddbfb/a233ac14-58e3-4521-ba49-8f666559f362"],
+          recordType: #"urn:appian:record-type:v1:62cc31dc-c4d6-4842-af82-c592741ddbfb",
+          identifier: fv!identifier
+        )
+      ),
+      width: "1X"
+    ),
+    #"SYSTEM_SYSRULES_gridColumn"(
+      label: "Question Category Description",
+      sortField: #"urn:appian:record-field:v1:62cc31dc-c4d6-4842-af82-c592741ddbfb/a5c195ac-5ac0-4e79-a343-36725622af2c",
+      value: fv!row[#"urn:appian:record-field:v1:62cc31dc-c4d6-4842-af82-c592741ddbfb/a5c195ac-5ac0-4e79-a343-36725622af2c"],
+      width: "1X"
+    ),
+    #"SYSTEM_SYSRULES_gridColumn"(
+      label: "Display Order",
+      sortField: #"urn:appian:record-field:v1:62cc31dc-c4d6-4842-af82-c592741ddbfb/60aa37cd-dae9-4800-b414-5c2260875a74",
+      value: tointeger(
+        fv!row[#"urn:appian:record-field:v1:62cc31dc-c4d6-4842-af82-c592741ddbfb/60aa37cd-dae9-4800-b414-5c2260875a74"]
+      ),
+      align: "END",
+      width: "1X"
+    ),
+    #"SYSTEM_SYSRULES_gridColumn"(
+      label: "Questionnaire Template Id",
+      sortField: #"urn:appian:record-field:v1:62cc31dc-c4d6-4842-af82-c592741ddbfb/dc784594-e685-442e-a65d-1b7541f21ec2",
+      value: tointeger(
+        fv!row[#"urn:appian:record-field:v1:62cc31dc-c4d6-4842-af82-c592741ddbfb/dc784594-e685-442e-a65d-1b7541f21ec2"]
+      ),
+      align: "END",
+      width: "1X"
+    ),
+    #"SYSTEM_SYSRULES_gridColumn"(
+      label: "Question Category Template Id",
+      sortField: #"urn:appian:record-field:v1:62cc31dc-c4d6-4842-af82-c592741ddbfb/e1585c3c-9eee-41d9-97e3-64596d84988e",
+      value: tointeger(
+        fv!row[#"urn:appian:record-field:v1:62cc31dc-c4d6-4842-af82-c592741ddbfb/e1585c3c-9eee-41d9-97e3-64596d84988e"]
+      ),
+      align: "END",
+      width: "1X"
+    )
+  },
+  pageSize: 50,
+  initialSorts: {
+    #"SYSTEM_SYSRULES_sortInfo"(
+      field:#"urn:appian:record-field:v1:62cc31dc-c4d6-4842-af82-c592741ddbfb/a233ac14-58e3-4521-ba49-8f666559f362",
+      ascending: fn!true()
+    )
+  },
+  shadeAlternateRows: true
+)</a:listViewTemplateExpr>
+    <a:detailViewCfg>
+      <a:nameExpr>#"SYSTEM_SYSRULES_rtd_getDefaultSummaryViewName"()</a:nameExpr>
+      <a:uiExpr/>
+      <a:visibilityExpr>=true()</a:visibilityExpr>
+      <a:urlStub>summary</a:urlStub>
+      <a:headerExpr/>
+      <a:recordActionLaunchType>DIALOG</a:recordActionLaunchType>
+      <a:recordUiSecurityType>EXPRESSION</a:recordUiSecurityType>
+    </a:detailViewCfg>
+    <a:relatedActionCfg a:uuid="1027c761-8d50-4ac2-a278-b8a93480593b">
+      <a:target a:uuid="0002e4ce-2e9e-8000-1161-7f0000014e7a" xsi:type="a:ProcessModel"/>
+      <a:contextExpr>{
+  question: 'type!{urn:com:appian:types:AS:QNM}AS_QNM_T_Question'(
+    questionCategoryTemplateId: rv!identifier
+  ),
+  questionnaireTemplate: #"_a-0000e447-933d-8000-9baa-011c48011c48_39379"(
+    returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290157",
+    questionnaireTemplateId: rv!record[#"urn:appian:record-field:v1:62cc31dc-c4d6-4842-af82-c592741ddbfb/dc784594-e685-442e-a65d-1b7541f21ec2"]
+  ),
+  userAction: null
+}</a:contextExpr>
+      <a:visibilityExpr>=true()</a:visibilityExpr>
+      <a:iconId>f067</a:iconId>
+      <a:refId>refId-1027c761-8d50-4ac2-a278-b8a93480593b</a:refId>
+      <a:titleExpr>#"_a-0000e447-933d-8000-9baa-011c48011c48_42943"(
+  bundleKey: "AS.QNM.QuestionnaireSettings.lbl_AddQuestion"
+)</a:titleExpr>
+      <a:staticDescriptionString/>
+      <a:referenceKey>addQuestion</a:referenceKey>
+      <a:dialogSize>FIT$FIT</a:dialogSize>
+      <a:showInRecordList>false</a:showInRecordList>
+      <a:recordUiSecurityType>EXPRESSION</a:recordUiSecurityType>
+      <a:dialogWidth>FIT</a:dialogWidth>
+      <a:dialogHeight>FIT</a:dialogHeight>
+    </a:relatedActionCfg>
+    <a:relatedActionCfg a:uuid="1dd75976-ff4e-4a8b-bfd1-0a6f2eadf330">
+      <a:target a:uuid="0002e4d3-9455-8000-1219-7f0000014e7a" xsi:type="a:ProcessModel"/>
+      <a:contextExpr>{
+  questionCategory: #"_a-0000e447-933d-8000-9baa-011c48011c48_39367"(
+    questionCategoryTemplateId: rv!identifier
+  ),
+  /* AS_QNM_T_QuestionCategory */
+  questionnaireTemplate: #"_a-0000e447-933d-8000-9baa-011c48011c48_39379"(
+    questionnaireTemplateId: rv!record[#"urn:appian:record-field:v1:62cc31dc-c4d6-4842-af82-c592741ddbfb/dc784594-e685-442e-a65d-1b7541f21ec2"],
+    returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290157"
+  ),
+  /*AS_QNM_QE_getQuestionnaire_Template*/
+  userAction: null/* Text */
+  
+}</a:contextExpr>
+      <a:visibilityExpr>=true()</a:visibilityExpr>
+      <a:iconId>f0ad</a:iconId>
+      <a:refId>refId-1dd75976-ff4e-4a8b-bfd1-0a6f2eadf330</a:refId>
+      <a:titleExpr>#"_a-0000e447-933d-8000-9baa-011c48011c48_42943"(
+  bundleKey: "AS.QNM.QuestionnaireSettings.lbl_UpdateCategory"
+)</a:titleExpr>
+      <a:descriptionExpr/>
+      <a:referenceKey>updateCategory</a:referenceKey>
+      <a:dialogSize>FIT$FIT</a:dialogSize>
+      <a:showInRecordList>false</a:showInRecordList>
+      <a:recordUiSecurityType>EXPRESSION</a:recordUiSecurityType>
+      <a:dialogWidth>FIT</a:dialogWidth>
+      <a:dialogHeight>FIT</a:dialogHeight>
+    </a:relatedActionCfg>
+    <a:relatedActionCfg a:uuid="29dd62d0-ece9-462f-a8a9-c927d16a9888">
+      <a:target a:uuid="0002e4d4-c334-8000-1229-7f0000014e7a" xsi:type="a:ProcessModel"/>
+      <a:contextExpr>{
+  questionCategoryTemplateId: rv!identifier,
+  /* Number (Integer) */
+  questionnaireTemplate: #"_a-0000e447-933d-8000-9baa-011c48011c48_39379"(
+    returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290157",
+    questionnaireTemplateId: rv!record[#"urn:appian:record-field:v1:62cc31dc-c4d6-4842-af82-c592741ddbfb/dc784594-e685-442e-a65d-1b7541f21ec2"]
+  ),
+  /* AS_QNM_T_Questionnaire */
+  userAction: null/* Text */
+  
+}</a:contextExpr>
+      <a:visibilityExpr>= if(
+  #"_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_880586"(
+    value: #"_a-0000e447-933d-8000-9baa-011c48011c48_39379"(
+      returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290157",
+      questionnaireTemplateId: rv!record[#"urn:appian:record-field:v1:62cc31dc-c4d6-4842-af82-c592741ddbfb/dc784594-e685-442e-a65d-1b7541f21ec2"]
+    ).questionCategories
+  ) &lt; 2,
+  false(),
+  true()
+)</a:visibilityExpr>
+      <a:iconId>f014</a:iconId>
+      <a:refId>refId-29dd62d0-ece9-462f-a8a9-c927d16a9888</a:refId>
+      <a:titleExpr>#"_a-0000e447-933d-8000-9baa-011c48011c48_42943"(
+  bundleKey: "AS.QNM.QuestionnaireSettings.lbl_DeleteCategory"
+)</a:titleExpr>
+      <a:descriptionExpr>#"_a-0000e447-933d-8000-9baa-011c48011c48_42943"(
+  bundleKey: "AS.QNM.QuestionnaireSettings.ins_DeleteCategoryWarning"
+)</a:descriptionExpr>
+      <a:referenceKey>deleteCategory</a:referenceKey>
+      <a:dialogSize>FIT$FIT</a:dialogSize>
+      <a:showInRecordList>false</a:showInRecordList>
+      <a:recordUiSecurityType>EXPRESSION</a:recordUiSecurityType>
+      <a:dialogWidth>FIT</a:dialogWidth>
+      <a:dialogHeight>FIT</a:dialogHeight>
+    </a:relatedActionCfg>
+    <a:isSystem>false</a:isSystem>
+    <a:dataSrcExpr/>
+    <a:facetsListExpr/>
+    <a:titleExpr>rv!record[#"urn:appian:record-field:v1:62cc31dc-c4d6-4842-af82-c592741ddbfb/a233ac14-58e3-4521-ba49-8f666559f362"]</a:titleExpr>
+    <a:defaultFiltersExpr>if(
+  #"_a-0000e69f-3688-8000-9bf2-011c48011c48_2143846"(),
+  {},
+  #"SYSTEM_SYSRULES_queryFilter"(
+    field: #"urn:appian:record-field:v1:62cc31dc-c4d6-4842-af82-c592741ddbfb/e1585c3c-9eee-41d9-97e3-64596d84988e",
+    operator: "is null"
+  )
+)</a:defaultFiltersExpr>
+    <a:layoutType>GRID</a:layoutType>
+    <a:security>16383</a:security>
+    <a:hideLatestNews>false</a:hideLatestNews>
+    <a:hideNewsView>false</a:hideNewsView>
+    <a:hideRelatedActionsView>false</a:hideRelatedActionsView>
+    <a:isExportable>true</a:isExportable>
+    <a:listViewSrcExpr/>
+    <a:recordViewSrcExpr/>
+    <a:recordTypeSearchCfg>
+      <searchFieldsSrc>DEFAULT</searchFieldsSrc>
+      <placeholderSrc>DEFAULT</placeholderSrc>
+      <placeholder/>
+    </a:recordTypeSearchCfg>
+    <a:iconId/>
+    <a:listAutoRefreshInterval>0.0</a:listAutoRefreshInterval>
+    <a:sourceConfiguration>
+      <sourceUuid>AS_QNM_T_QUESTION_CATEGORY@jdbc/Appian</sourceUuid>
+      <sourceType>RDBMS_TABLE</sourceType>
+      <sourceSubType>NONE</sourceSubType>
+      <friendlyName>AS_QNM_T_QUESTION_CATEGORY</friendlyName>
+      <sourceFilterExpr/>
+      <field>
+        <uuid>e1585c3c-9eee-41d9-97e3-64596d84988e</uuid>
+        <type>{http://www.appian.com/ae/types/2009}Integer</type>
+        <sourceFieldName>QUESTION_CATEGORY_TEMPLATE_ID</sourceFieldName>
+        <sourceFieldType>INTEGER</sourceFieldType>
+        <fieldName>questionCategoryTemplateId</fieldName>
+        <isRecordId>true</isRecordId>
+        <isUnique>true</isUnique>
+        <isCustomField>false</isCustomField>
+        <customFieldExpr/>
+        <customFieldDefaultValueStr>null</customFieldDefaultValueStr>
+        <fieldCalculationType>NA</fieldCalculationType>
+        <fieldTemplateType>NA</fieldTemplateType>
+        <isIndexable>false</isIndexable>
+        <subType>NA</subType>
+        <displayNameSource>STATIC</displayNameSource>
+        <descriptionSource>STATIC</descriptionSource>
+        <isHidden>false</isHidden>
+      </field>
+      <field>
+        <uuid>60aa37cd-dae9-4800-b414-5c2260875a74</uuid>
+        <type>{http://www.appian.com/ae/types/2009}Integer</type>
+        <sourceFieldName>DISPLAY_ORDER</sourceFieldName>
+        <sourceFieldType>INTEGER</sourceFieldType>
+        <fieldName>displayOrder</fieldName>
+        <isRecordId>false</isRecordId>
+        <isUnique>false</isUnique>
+        <isCustomField>false</isCustomField>
+        <customFieldExpr/>
+        <customFieldDefaultValueStr>null</customFieldDefaultValueStr>
+        <fieldCalculationType>NA</fieldCalculationType>
+        <fieldTemplateType>NA</fieldTemplateType>
+        <isIndexable>false</isIndexable>
+        <subType>NA</subType>
+        <displayNameSource>STATIC</displayNameSource>
+        <descriptionSource>STATIC</descriptionSource>
+        <isHidden>false</isHidden>
+      </field>
+      <field>
+        <uuid>a683e964-5bc5-4597-957e-3e13c1136dc1</uuid>
+        <type>{http://www.appian.com/ae/types/2009}Boolean</type>
+        <sourceFieldName>IS_ACTIVE</sourceFieldName>
+        <sourceFieldType>BIT</sourceFieldType>
+        <fieldName>isActive</fieldName>
+        <isRecordId>false</isRecordId>
+        <isUnique>false</isUnique>
+        <isCustomField>false</isCustomField>
+        <customFieldExpr/>
+        <customFieldDefaultValueStr>null</customFieldDefaultValueStr>
+        <fieldCalculationType>NA</fieldCalculationType>
+        <fieldTemplateType>NA</fieldTemplateType>
+        <isIndexable>false</isIndexable>
+        <subType>NA</subType>
+        <displayNameSource>STATIC</displayNameSource>
+        <descriptionSource>STATIC</descriptionSource>
+        <isHidden>false</isHidden>
+      </field>
+      <field>
+        <uuid>a233ac14-58e3-4521-ba49-8f666559f362</uuid>
+        <type>{http://www.appian.com/ae/types/2009}Text</type>
+        <sourceFieldName>QUESTION_CATEGORY_NAME</sourceFieldName>
+        <sourceFieldType>VARCHAR(255)</sourceFieldType>
+        <fieldName>questionCategoryName</fieldName>
+        <isRecordId>false</isRecordId>
+        <isUnique>false</isUnique>
+        <isCustomField>false</isCustomField>
+        <customFieldExpr/>
+        <customFieldDefaultValueStr>null</customFieldDefaultValueStr>
+        <fieldCalculationType>NA</fieldCalculationType>
+        <fieldTemplateType>NA</fieldTemplateType>
+        <isIndexable>false</isIndexable>
+        <subType>NA</subType>
+        <displayNameSource>STATIC</displayNameSource>
+        <descriptionSource>STATIC</descriptionSource>
+        <isHidden>false</isHidden>
+      </field>
+      <field>
+        <uuid>a5c195ac-5ac0-4e79-a343-36725622af2c</uuid>
+        <type>{http://www.appian.com/ae/types/2009}Text</type>
+        <sourceFieldName>QSTION_CATEGORY_DESCRIPTION</sourceFieldName>
+        <sourceFieldType>VARCHAR(255)</sourceFieldType>
+        <fieldName>qstionCategoryDescription</fieldName>
+        <isRecordId>false</isRecordId>
+        <isUnique>false</isUnique>
+        <isCustomField>false</isCustomField>
+        <customFieldExpr/>
+        <customFieldDefaultValueStr>null</customFieldDefaultValueStr>
+        <fieldCalculationType>NA</fieldCalculationType>
+        <fieldTemplateType>NA</fieldTemplateType>
+        <isIndexable>false</isIndexable>
+        <subType>NA</subType>
+        <displayNameSource>STATIC</displayNameSource>
+        <descriptionSource>STATIC</descriptionSource>
+        <isHidden>false</isHidden>
+      </field>
+      <field>
+        <uuid>dc784594-e685-442e-a65d-1b7541f21ec2</uuid>
+        <type>{http://www.appian.com/ae/types/2009}Integer</type>
+        <sourceFieldName>QUESTIONNAIRE_TEMPLATE_ID</sourceFieldName>
+        <sourceFieldType>INTEGER</sourceFieldType>
+        <fieldName>questionnaireTemplateId</fieldName>
+        <isRecordId>false</isRecordId>
+        <isUnique>false</isUnique>
+        <isCustomField>false</isCustomField>
+        <customFieldExpr/>
+        <customFieldDefaultValueStr>null</customFieldDefaultValueStr>
+        <fieldCalculationType>NA</fieldCalculationType>
+        <fieldTemplateType>NA</fieldTemplateType>
+        <isIndexable>false</isIndexable>
+        <subType>NA</subType>
+        <displayNameSource>STATIC</displayNameSource>
+        <descriptionSource>STATIC</descriptionSource>
+        <isHidden>false</isHidden>
+      </field>
+      <uuid>3c0b106f-eeba-45ea-8f33-ed57158ed497</uuid>
+      <refreshSchedule>
+        <frequency>DAILY</frequency>
+        <value>{"hour":1,"minute":"00","amPM":"AM","timeZone":"America/New_York"}</value>
+        <activated>true</activated>
+      </refreshSchedule>
+      <skipFailureEnabled>false</skipFailureEnabled>
+    </a:sourceConfiguration>
+    <a:enabledFeatures>63</a:enabledFeatures>
+    <a:isVisibleInRecordTypeList>false</a:isVisibleInRecordTypeList>
+    <a:recordActionLaunchType>DIALOG</a:recordActionLaunchType>
+    <a:showSearchBox>true</a:showSearchBox>
+    <a:isVisibleInDataFabric>false</a:isVisibleInDataFabric>
+    <a:usesRollingSyncLimit>false</a:usesRollingSyncLimit>
+    <a:usesRecoverySync>false</a:usesRecoverySync>
+    <a:isScheduledIndexingEnabled>false</a:isScheduledIndexingEnabled>
+    <a:smartSearchAcceptableFailureRate>0.0</a:smartSearchAcceptableFailureRate>
+    <a:skipFailedSmartServicesSync>false</a:skipFailedSmartServicesSync>
+  </recordType>
+  <roleMap>
+    <role name="record_type_administrator">
+      <users/>
+      <groups>
+        <groupUuid>_e-0000e42d-ffef-8000-9af3-01075c01075c_19-qnm</groupUuid>
+      </groups>
+    </role>
+    <role name="record_type_viewer">
+      <users/>
+      <groups>
+        <groupUuid>_e-0000e42d-ffef-8000-9af3-01075c01075c_26-qnm</groupUuid>
+      </groups>
+    </role>
+  </roleMap>
+  <history>
+    <historyInfo versionUuid="f95818b2-0ee0-462c-87ed-69928db79614"/>
+    <historyInfo versionUuid="32cef65a-8539-42f7-86b4-800592fbf74d"/>
+    <historyInfo versionUuid="02c3db76-f5d1-4948-b536-d1fedeb0365d"/>
+    <historyInfo versionUuid="1c69e6d6-8734-4ac8-9b9b-9a9ac4f68b6f"/>
+    <historyInfo versionUuid="69d5f0c9-3905-4b43-85b7-0de20930f3b1"/>
+    <historyInfo versionUuid="594320b9-ec5a-4adf-9a43-229f22921ac1"/>
+    <historyInfo versionUuid="efec4084-cf56-4db9-8b77-505d09c33065"/>
+    <historyInfo versionUuid="82fbdccf-e689-469f-b002-164b21c9b79d"/>
+    <historyInfo versionUuid="09efc494-1c56-4bac-9f97-683e96c276ae"/>
+    <historyInfo versionUuid="6d67f958-8492-4146-9a7b-0bba759cdcfe"/>
+    <historyInfo versionUuid="e9b20de3-8ffe-42b3-b7ca-0c0f8c24b366"/>
+    <historyInfo versionUuid="507e8660-51fb-4a6b-9f93-83db38ab4f60"/>
+    <historyInfo versionUuid="7a26f5d0-7a52-4e4c-a0c7-b9c0e0cdf7a9"/>
+    <historyInfo versionUuid="2976c54f-3c18-4d61-8a98-862a2f639ca0"/>
+  </history>
+  <migrationVersion>1</migrationVersion>
+</recordTypeHaul>

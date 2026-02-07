@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e7d2-6286-8000-9c11-011c48011c48_3204927</versionUuid>
+    <rule>
+        <name>AS_IO_UI_taskRecordGrid_colTaskName</name>
+        <uuid>_a-0000e79b-0335-8000-9c0c-011c48011c48_3001810</uuid>
+        <description>Contains the column Tasks name for the tasks record grid 
+
+Documentation is available for this design object.</description>
+        <parentUuid>_a-0000e2bb-4188-8000-9ba2-011c48011c48_25469</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>{
+  #"SYSTEM_SYSRULES_gridColumn"(
+    label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+      i18nData: ri!i18nData,
+      bundleKey: "AS.CO.AllBundles.lbl_TaskName"
+    ),
+    sortfield: #"urn:appian:record-field:v1:31b77cbe-8b51-41ba-927f-f11ee2d7fd33/350bead3-9c32-4611-af50-09b5fe7b5fc3",
+    value: a!localVariables(
+      /*casting into as_io_task as the record data can't be passed directly to process models and other rules*/
+      local!taskCdt: #"_a-0000e393-fbf1-8000-9ba2-011c48011c48_104148"(
+        returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290157",
+        taskId: fv!row[#"urn:appian:record-field:v1:31b77cbe-8b51-41ba-927f-f11ee2d7fd33/9628d90f-e047-41dd-a8f7-8c90ef76e2ca"],
+        triggerRefresh: ri!triggerRefresh
+      ),
+      #"SYSTEM_SYSRULES_richTextDisplayField"(
+        value: #"SYSTEM_SYSRULES_richTextItem_v1"(
+          text: fv!row[#"urn:appian:record-field:v1:31b77cbe-8b51-41ba-927f-f11ee2d7fd33/350bead3-9c32-4611-af50-09b5fe7b5fc3"],
+          size: "STANDARD",
+          link: #"SYSTEM_SYSRULES_startProcessLink"(
+            processModel: displayvalue(
+              fv!row[#"urn:appian:record-field:v1:31b77cbe-8b51-41ba-927f-f11ee2d7fd33/4900b610-ce00-4747-9fca-41269c2136da/737a6dd7-06a4-48f8-8d26-755c5c4c0b44"],
+              {
+                #"_a-0000e393-fbf1-8000-9ba2-011c48011c48_99653",
+                #"_a-0000e393-fbf1-8000-9ba2-011c48011c48_99647",
+                #"_a-0000e393-fbf1-8000-9ba2-011c48011c48_99641",
+                #"_a-0000e393-fbf1-8000-9ba2-011c48011c48_99665",
+                #"_a-0000e3e6-fb42-8000-9ba5-011c48011c48_170260",
+                #"_a-0000e471-623a-8000-9bc3-011c48011c48_708464",
+                #"_a-0000e528-bc07-8000-9bcf-011c48011c48_1023225",
+                #"_a-0000e539-6d59-8000-9bd0-011c48011c48_1286205",
+                #"_a-0000e539-6d59-8000-9bd0-011c48011c48_1273105",
+                #"_a-0000e586-af6f-8000-9bd2-011c48011c48_1347796",
+                #"_a-0000e586-af6f-8000-9bd2-011c48011c48_1374056",
+                #"_a-0000e5a0-53e9-8000-9bd8-011c48011c48_1408404",
+                #"_a-0000e5d6-d648-8000-9bde-011c48011c48_1498749",
+                #"_a-0000e5d6-d648-8000-9bde-011c48011c48_1507542",
+                #"_a-0000e673-a4a7-8000-9bef-011c48011c48_1951726",
+                #"_a-0000e673-a4a7-8000-9bef-011c48011c48_1988959",
+                #"_a-0000e79b-0335-8000-9c0c-011c48011c48_3040883"
+              },
+              {
+                #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_38993",
+                #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_157699",
+                #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_119545",
+                #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_241344",
+                #"_a-0000e3e6-fb42-8000-9ba5-011c48011c48_172110",
+                #"_a-0000e471-623a-8000-9bc3-011c48011c48_708959",
+                #"_a-0000e528-bc07-8000-9bcf-011c48011c48_1029643",
+                #"_a-0000e539-6d59-8000-9bd0-011c48011c48_1286211",
+                #"_a-0000e539-6d59-8000-9bd0-011c48011c48_1287573",
+                #"_a-0000e586-af6f-8000-9bd2-011c48011c48_1348961",
+                #"_a-0000e586-af6f-8000-9bd2-011c48011c48_1374124",
+                #"_a-0000e5a0-53e9-8000-9bd8-011c48011c48_1408398",
+                #"_a-0000e5d6-d648-8000-9bde-011c48011c48_1498763",
+                #"_a-0000e5d6-d648-8000-9bde-011c48011c48_1507549",
+                #"_a-0000e673-a4a7-8000-9bef-011c48011c48_1952110",
+                #"_a-0000e69f-3688-8000-9bf2-011c48011c48_2098973",
+                #"_a-0000e7d2-6286-8000-9c11-011c48011c48_3121684"
+              },
+              {}
+            ),
+            processParameters: if(
+              or(
+                fv!row[#"urn:appian:record-field:v1:31b77cbe-8b51-41ba-927f-f11ee2d7fd33/4900b610-ce00-4747-9fca-41269c2136da/737a6dd7-06a4-48f8-8d26-755c5c4c0b44"] = #"_a-0000e471-623a-8000-9bc3-011c48011c48_708464",
+                fv!row[#"urn:appian:record-field:v1:31b77cbe-8b51-41ba-927f-f11ee2d7fd33/4900b610-ce00-4747-9fca-41269c2136da/737a6dd7-06a4-48f8-8d26-755c5c4c0b44"] = #"_a-0000e528-bc07-8000-9bcf-011c48011c48_1023225",
+                fv!row[#"urn:appian:record-field:v1:31b77cbe-8b51-41ba-927f-f11ee2d7fd33/4900b610-ce00-4747-9fca-41269c2136da/737a6dd7-06a4-48f8-8d26-755c5c4c0b44"] = #"_a-0000e539-6d59-8000-9bd0-011c48011c48_1273105"
+              ),
+              {
+                task: local!taskCdt,
+                request: #"_a-0000e40a-de32-8000-9ba8-011c48011c48_260165"(
+                  cdt: ri!request,
+                  fields: {
+                    "fundingDetails.actualFundingDate",
+                    "fundingDetails.actualFundingValue",
+                    "fundingDetails.actualValueCurrencyCode"
+                  },
+                  newValues: {
+                    ri!request.fundingDetails.estFundingDate,
+                    ri!request.fundingDetails.estFundingValue,
+                    ri!request.fundingDetails.estValueCurrencyCode
+                  }
+                )
+              },
+              if(
+                /* upload/review document task*/
+                fv!row[#"urn:appian:record-field:v1:31b77cbe-8b51-41ba-927f-f11ee2d7fd33/af0868d9-ccee-4791-b9f7-f9a561b56c19/b90ef0df-b46b-495b-b40d-6c6cf117032a"] = #"_a-0000e7d2-6286-8000-9c11-011c48011c48_3119705",
+                {
+                  tasks: local!taskCdt,
+                  completeSubsequentTasks: true()
+                },
+                if(
+                  fv!row[#"urn:appian:record-field:v1:31b77cbe-8b51-41ba-927f-f11ee2d7fd33/4900b610-ce00-4747-9fca-41269c2136da/737a6dd7-06a4-48f8-8d26-755c5c4c0b44"] = #"_a-0000e5d6-d648-8000-9bde-011c48011c48_1498749",
+                  { task: local!taskCdt, request: ri!request },
+                  { task: local!taskCdt }
+                )
+              )
+            ),
+            showWhen: if(
+              or(
+                ri!disableLinks,
+                #"_a-0000e36c-7599-8000-9ba2-011c48011c48_64585"(tasks: local!taskCdt)
+              ),
+              false,
+              #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_150142"(
+                behaviorTypeCode: fv!row[#"urn:appian:record-field:v1:31b77cbe-8b51-41ba-927f-f11ee2d7fd33/4900b610-ce00-4747-9fca-41269c2136da/5811cf29-a621-4973-add0-5defdc586f85"]
+              )
+            )
+          ),
+          linkStyle: "STANDALONE",
+          style: "STRONG"
+        ),
+        preventWrapping: true()
+      )
+    )
+  )
+}</definition>
+        <namedTypedValue>
+            <name>i18nData</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>disableLinks</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>request</name>
+            <type>
+                <name>AS_IO_OnboardingRequest</name>
+                <namespace>urn:com:appian:types:AS:IO</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>triggerRefresh</name>
+            <type>
+                <name>dateTime</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <history>
+        <historyInfo versionUuid="_a-0000e79b-0335-8000-9c0c-011c48011c48_3014159"/>
+        <historyInfo versionUuid="_a-0000e79b-0335-8000-9c0c-011c48011c48_3037160"/>
+        <historyInfo versionUuid="_a-0000e7d2-6286-8000-9c11-011c48011c48_3110542"/>
+        <historyInfo versionUuid="_a-0000e7d2-6286-8000-9c11-011c48011c48_3121726"/>
+        <historyInfo versionUuid="_a-0000e7d2-6286-8000-9c11-011c48011c48_3190549"/>
+        <historyInfo versionUuid="_a-0000e7d2-6286-8000-9c11-011c48011c48_3191777"/>
+        <historyInfo versionUuid="_a-0000e7d2-6286-8000-9c11-011c48011c48_3204927"/>
+    </history>
+</contentHaul>

@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e69f-3688-8000-9bf2-011c48011c48_2146061</versionUuid>
+    <interface>
+        <name>AS_FS_DSP_dollarField</name>
+        <uuid>_a-0000e2cd-bc96-8000-9ba2-011c48011c48_125906</uuid>
+        <description>dollar field with currency and read only functionality </description>
+        <parentUuid>_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_968428</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>{
+  #"SYSTEM_SYSRULES_sideBySideLayout"(
+    items: {
+      #"SYSTEM_SYSRULES_sideBySideItem"(
+        item: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_74314"(
+          labelPosition: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73980"(
+            nullableValue: ri!labelPosition,
+            replacementValue: if(ri!readOnly, "ADJACENT", "ABOVE")
+          ),
+          label: ri!dollarLabel,
+          required: ri!required,
+          readOnly: ri!readOnly,
+          disabled: ri!disabled,
+          value: ri!dollarValue,
+          validations: ri!dollarValidations,
+          saveInto: {
+            a!save(
+              ri!dollarValue,
+              #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73998"(number: save!value, numDigits: 2)
+            ),
+            ri!additionalDollarSaves
+          },
+          align: "RIGHT",
+          minSize: ri!minValue
+        ),
+        width: a!defaultValue(
+          value: ri!dollarFieldWidth,
+          default: "AUTO"
+        )
+      ),
+      #"SYSTEM_SYSRULES_sideBySideItem"(
+        item: #"_a-0000e69f-3688-8000-9bf2-011c48011c48_2137905"(
+          label: ri!currencyLabel,
+          required: or(
+            ri!required,
+            #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(ri!dollarValue)
+          ),
+          labelPosition: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73980"(
+            nullableValue: ri!labelPosition,
+            replacementValue: if(ri!readOnly, "ADJACENT", "ABOVE")
+          ),
+          readOnly: ri!readOnly,
+          i18nData: ri!i18nData,
+          disabled: ri!disabled,
+          selectedCurrencyCode: ri!currencyCode,
+          additionalSaveInto: {}
+        ),
+        width: a!defaultValue(
+          value: ri!currencyFieldWidth,
+          default: "MINIMIZE"
+        )
+      )
+    },
+    alignVertical: "TOP",
+    showWhen: and(
+      #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75636"(ri!readOnly),
+      ri!showWhen
+    ),
+    spacing: "DENSE"
+  ),
+  #"SYSTEM_SYSRULES_richTextDisplayField"(
+    label: ri!dollarLabel,
+    labelPosition: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73980"(
+      nullableValue: ri!labelPosition,
+      replacementValue: if(ri!readOnly, "ADJACENT", "ABOVE")
+    ),
+    value: if(
+      #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(ri!dollarValue),
+      "-",
+      #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_126042"(
+        showDecimal: true,
+        currencyCode: ri!currencyCode,
+        currencyValue: ri!dollarValue,
+        showCurrencyCode: true
+      )
+    ),
+    showWhen: and(ri!readOnly, ri!showWhen)
+  )
+}</definition>
+        <namedTypedValue>
+            <name>readOnly</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>dollarValue</name>
+            <type>
+                <name>double</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>currencyCode</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>dollarLabel</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>dollarValidations</name>
+            <type>
+                <name>Text?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>disabled</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>showWhen</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>additionalDollarSaves</name>
+            <type>
+                <name>Save?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>required</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>currencyLabel</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>labelPosition</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>minValue</name>
+            <type>
+                <name>double</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>i18nData</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>currencyFieldWidth</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>dollarFieldWidth</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+        <isCustom>false</isCustom>
+    </interface>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <history>
+        <historyInfo versionUuid="_a-0000e2cd-bc96-8000-9ba2-011c48011c48_139490"/>
+        <historyInfo versionUuid="_a-0000e2cd-bc96-8000-9ba2-011c48011c48_178458"/>
+        <historyInfo versionUuid="_a-0000e329-3415-8000-9ba2-011c48011c48_367116"/>
+        <historyInfo versionUuid="_a-0000e36c-7599-8000-9ba2-011c48011c48_50419"/>
+        <historyInfo versionUuid="_a-0000e438-fd8a-8000-9bbe-011c48011c48_400184"/>
+        <historyInfo versionUuid="_a-0000e447-91f4-8000-9bc0-011c48011c48_444772"/>
+        <historyInfo versionUuid="_a-0000e447-91f4-8000-9bc0-011c48011c48_500543"/>
+        <historyInfo versionUuid="_a-0000e44c-6248-8000-9bc1-011c48011c48_448338"/>
+        <historyInfo versionUuid="_a-0000e447-91f4-8000-9bc0-011c48011c48_572495"/>
+        <historyInfo versionUuid="_a-0000e471-623a-8000-9bc3-011c48011c48_760102"/>
+        <historyInfo versionUuid="_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_837224"/>
+        <historyInfo versionUuid="_a-0000e528-bc07-8000-9bcf-011c48011c48_1055676"/>
+        <historyInfo versionUuid="_a-0000e586-af6f-8000-9bd2-011c48011c48_1352884"/>
+        <historyInfo versionUuid="_a-0000e5fd-0ed3-8000-9be6-011c48011c48_1566201"/>
+        <historyInfo versionUuid="_a-0000e62c-7375-8000-9bec-011c48011c48_1850181"/>
+        <historyInfo versionUuid="_a-0000e69f-3688-8000-9bf2-011c48011c48_2146061"/>
+    </history>
+</contentHaul>

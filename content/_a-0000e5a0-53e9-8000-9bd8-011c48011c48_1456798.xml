@@ -1,0 +1,333 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e70f-2824-8000-9c01-011c48011c48_2706962</versionUuid>
+    <rule>
+        <name>AS_FS_DSP_modificationCommentForCustomerAudit</name>
+        <uuid>_a-0000e5a0-53e9-8000-9bd8-011c48011c48_1456798</uuid>
+        <description>Returns the comment for Customer changes audit</description>
+        <parentUuid>_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_968428</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>{
+  #"_a-0000e528-bc07-8000-9bcf-011c48011c48_1106284"(
+    i18nData: ri!i18nData,
+    auditEntry: ri!auditEntry
+  ),
+  if(
+    ri!auditEntry.actionCode = #"_a-0000e3e6-fb42-8000-9ba5-011c48011c48_181596-adt",
+    /*Log changes if value was modified*/
+    {
+      #"SYSTEM_SYSRULES_richTextBulletedList"(
+        items: {
+          #"SYSTEM_SYSRULES_forEach"(
+            items: ri!auditEntry.fieldChanges,
+            expression: #"SYSTEM_SYSRULES_richTextItem_v1"(
+              size: "SMALL",
+              text: #"_a-0000e471-623a-8000-9bc3-011c48011c48_702641"(
+                i18nData: ri!i18nData,
+                bundleKey: "AS.FS.AllBundles.txt_ChangedFieldFromTo",
+                richTextArguments: {
+                  #"SYSTEM_SYSRULES_richTextItem_v1"(
+                    text: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                      i18nData: ri!i18nData,
+                      bundleKey: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81482"(
+                        cdt: #"_a-0000e528-bc07-8000-9bcf-011c48011c48_1106329"(),
+                        fields: { "cdt", "field" },
+                        values: { ri!auditEntry.cdt, fv!item.fieldName }
+                      ).label
+                    ),
+                    style: "STRONG"
+                  ),
+                  #"_a-0000e5a0-53e9-8000-9bd8-011c48011c48_1457522"(
+                    displayText: #"_a-0000e329-3415-8000-9ba2-011c48011c48_386641"(
+                      text: #"_a-0000e528-bc07-8000-9bcf-011c48011c48_1106519"(
+                        cdt: ri!auditEntry.cdt,
+                        fieldName: fv!item.fieldName,
+                        value: fv!item.oldValue,
+                        refData: ri!refData,
+                        industryClassificationCodes: ri!industryClassificationCodes,
+                        companyDetailsRefData: ri!companyDetailsRefData,
+                        states: ri!states,
+                        countries: ri!countries,
+                        i18nData: ri!i18nData
+                      )
+                    )
+                  ),
+                  #"_a-0000e5a0-53e9-8000-9bd8-011c48011c48_1457522"(
+                    displayText: #"_a-0000e329-3415-8000-9ba2-011c48011c48_386641"(
+                      text: #"_a-0000e528-bc07-8000-9bcf-011c48011c48_1106519"(
+                        cdt: ri!auditEntry.cdt,
+                        fieldName: fv!item.fieldName,
+                        value: fv!item.newValue,
+                        refData: ri!refData,
+                        industryClassificationCodes: ri!industryClassificationCodes,
+                        companyDetailsRefData: ri!companyDetailsRefData,
+                        states: ri!states,
+                        countries: ri!countries,
+                        i18nData: ri!i18nData
+                      )
+                    )
+                  )
+                }
+              )
+            )
+          ),
+          #"SYSTEM_SYSRULES_forEach"(
+            items: #"_a-0000e40a-de32-8000-9ba8-011c48011c48_271202"(
+              cdt: ri!auditEntry.complexChanges,
+              field: "actionCode",
+              value: #"_a-0000e3e6-fb42-8000-9ba5-011c48011c48_232728-adt"
+            ),
+            expression: #"SYSTEM_SYSRULES_richTextItem_v1"(
+              text: #"_a-0000e5a0-53e9-8000-9bd8-011c48011c48_1456798"(
+                i18nData: ri!i18nData,
+                refData: ri!refData,
+                auditEntry: fv!item,
+                industryClassificationCodes: ri!industryClassificationCodes,
+                companyDetailsRefData: ri!companyDetailsRefData,
+                states: ri!states,
+                countries: ri!countries
+              )
+            )
+          )
+        }
+      )
+    },
+    {}
+  )
+}</definition>
+        <namedTypedValue>
+            <name>i18nData</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>refData</name>
+            <type>
+                <name>AS_FS_R_Data?list</name>
+                <namespace>urn:com:appian:types:AS:FS</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>auditEntry</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>industryClassificationCodes</name>
+            <type>
+                <name>AS_FS_R_GlobalIndustryClass?list</name>
+                <namespace>urn:com:appian:types:AS:FS</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>companyDetailsRefData</name>
+            <type>
+                <name>AS_FS_CHS_R_Data?list</name>
+                <namespace>urn:com:appian:types:AS:FS</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>states</name>
+            <type>
+                <name>AS_FS_R_State?list</name>
+                <namespace>urn:com:appian:types:AS:FS</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>countries</name>
+            <type>
+                <name>AS_FS_R_Country?list</name>
+                <namespace>urn:com:appian:types:AS:FS</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name>Customer audit</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_975720"(
+  triggerRefresh: {}
+)</a:value>
+                    <a:nameRef>i18nData</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_975294"(
+  typeList: {}
+)</a:value>
+                    <a:nameRef>refData</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e528-bc07-8000-9bcf-011c48011c48_1105128"(
+  customerAudit: #"_a-0000e528-bc07-8000-9bcf-011c48011c48_1105072"(
+    returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290157",
+    auditActionCode: #"_a-0000e3e6-fb42-8000-9ba5-011c48011c48_181596-adt"
+  )
+)</a:value>
+                    <a:nameRef>auditEntry</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_977477"(
+  returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290163",
+  i18nData: #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_975720"(
+    triggerRefresh: {}
+  )
+)</a:value>
+                    <a:nameRef>industryClassificationCodes</a:nameRef>
+                    <a:id>4</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e5a0-53e9-8000-9bd8-011c48011c48_1439415"(
+  typeList: {},
+  returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290163"
+)</a:value>
+                    <a:nameRef>companyDetailsRefData</a:nameRef>
+                    <a:id>5</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_978878"(
+  i18nData:#"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_975720"(
+    triggerRefresh: {}
+  ),
+  returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290163"
+)</a:value>
+                    <a:nameRef>states</a:nameRef>
+                    <a:id>6</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_976936"( i18nData:#"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_975720"(
+  triggerRefresh: {}
+),
+  returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290163"
+)</a:value>
+                    <a:nameRef>countries</a:nameRef>
+                    <a:id>7</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+            <el>
+                <a:name>Beneficial Owners audit</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_975720"(
+  triggerRefresh: {}
+)</a:value>
+                    <a:nameRef>i18nData</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_975294"(
+  typeList: {}
+)</a:value>
+                    <a:nameRef>refData</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e528-bc07-8000-9bcf-011c48011c48_1115269"(
+  beneficialOwnerAudit: #"_a-0000e528-bc07-8000-9bcf-011c48011c48_1115381"(
+    returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290157"
+  )
+)</a:value>
+                    <a:nameRef>auditEntry</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_977477"(
+  returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290163",
+  i18nData: #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_975720"(
+    triggerRefresh: {}
+  )
+)</a:value>
+                    <a:nameRef>industryClassificationCodes</a:nameRef>
+                    <a:id>4</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e5a0-53e9-8000-9bd8-011c48011c48_1439415"(
+  typeList: {},
+  returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290163"
+)</a:value>
+                    <a:nameRef>companyDetailsRefData</a:nameRef>
+                    <a:id>5</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_978878"( i18nData:#"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_975720"(
+  triggerRefresh: {}
+),
+  returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290163"
+)</a:value>
+                    <a:nameRef>states</a:nameRef>
+                    <a:id>6</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_976936"( i18nData:#"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_975720"(
+  triggerRefresh: {}
+),
+  returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290163"
+)</a:value>
+                    <a:nameRef>countries</a:nameRef>
+                    <a:id>7</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e5a0-53e9-8000-9bd8-011c48011c48_1457549"/>
+        <historyInfo versionUuid="_a-0000e5a0-53e9-8000-9bd8-011c48011c48_1457570"/>
+        <historyInfo versionUuid="_a-0000e5fd-0d01-8000-9bb7-011c48011c48_265678"/>
+        <historyInfo versionUuid="_a-0000e5fd-0d01-8000-9bb7-011c48011c48_265726"/>
+        <historyInfo versionUuid="_a-0000e5fd-0d01-8000-9bb7-011c48011c48_267764"/>
+        <historyInfo versionUuid="_a-0000e62c-7375-8000-9bec-011c48011c48_1766763"/>
+        <historyInfo versionUuid="_a-0000e62c-7375-8000-9bec-011c48011c48_1775379"/>
+        <historyInfo versionUuid="_a-0000e69f-3688-8000-9bf2-011c48011c48_2137784"/>
+        <historyInfo versionUuid="_a-0000e6ca-7e19-8000-9bfb-011c48011c48_2224073"/>
+        <historyInfo versionUuid="_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2500784"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2706962"/>
+    </history>
+</contentHaul>

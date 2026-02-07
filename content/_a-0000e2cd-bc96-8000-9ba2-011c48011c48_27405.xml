@@ -1,0 +1,448 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e825-b425-8000-9c1c-011c48011c48_3640867</versionUuid>
+    <interface>
+        <name>AS_IO_SCT_onboardingRequestDetails</name>
+        <uuid>_a-0000e2cd-bc96-8000-9ba2-011c48011c48_27405</uuid>
+        <description>Request details interface</description>
+        <parentUuid>_a-0000e2bb-4188-8000-9ba2-011c48011c48_25469</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  local!isCreate: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(ri!onboardingRequest.requestId),
+  local!isChangeTemplate: false(),
+  local!isFunded: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(
+    ri!onboardingRequest.fundingDetails.actualFundingDate
+  ),
+  {
+    #"_a-0000e7e5-dad4-8000-9c14-011c48011c48_3312448"("AS_IO_SCT_onboardingRequestDetails"),
+    if(
+      ri!readOnly,
+      {
+        #"_a-0000e528-bc07-8000-9bcf-011c48011c48_1045876"(
+          onboardingRequest: ri!onboardingRequest,
+          i18nData: ri!i18nData,
+          refData: ri!refData,
+          isFunded: local!isFunded,
+          template: ri!template
+        )
+      },
+      {
+        #"SYSTEM_SYSRULES_sectionLayout_v1"(
+          label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+            i18nData: ri!i18nData,
+            bundleKey: "AS.CO.AllBundles.lbl_OnboardingDetails"
+          ),
+          contents: {
+            #"SYSTEM_SYSRULES_columnsLayout"(
+              columns: {
+                #"SYSTEM_SYSRULES_columnLayout"(
+                  contents: {
+                    #"_a-0000e447-933d-8000-9baa-011c48011c48_50686"(
+                      label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                        i18nData: ri!i18nData,
+                        bundleKey: if(
+                          local!isChangeTemplate,
+                          "AS.CO.AllBundles.ins_UpdateTemplate",
+                          if(
+                            local!isCreate,
+                            "",
+                            "AS.CO.AllBundles.ins_CannotChangeOnboardingType"
+                          )
+                        )
+                      ),
+                      showWhen: or(
+                        not(local!isCreate),
+                        local!isChangeTemplate
+                      )
+                    ),
+                    #"SYSTEM_SYSRULES_columnsLayout"(
+                      columns: {
+                        #"SYSTEM_SYSRULES_columnLayout"(
+                          contents: {
+                            a!localVariables(
+                              local!onboardingTypes: #"_a-0000e3e6-fb42-8000-9ba5-011c48011c48_235379"(
+                                refData: ri!refData,
+                                currentValue: ri!onboardingRequest.type,
+                                type: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_40302"
+                              ),
+                              #"_a-0000e528-bc07-8000-9bcf-011c48011c48_1027802"(
+                                required: true,
+                                label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                                  i18nData: ri!i18nData,
+                                  bundleKey: "AS.CO.AllBundles.lbl_Type"
+                                ),
+                                placeholderLabel: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                                  i18nData: ri!i18nData,
+                                  bundleKey: "AS.CO.AllBundles.lbl_Type"
+                                ),
+                                readOnly: not(local!isCreate),
+                                choiceLabels: local!onboardingTypes.label,
+                                choiceValues: local!onboardingTypes.code,
+                                value: ri!onboardingRequest.type,
+                                saveInto: {
+                                  ri!onboardingRequest.type,
+                                  /*Returns a single template based on teh onboarding type region combo*/
+                                  a!save(
+                                    ri!template,
+                                    #"_a-0000e3d1-f4dc-8000-9ba4-011c48011c48_151748"(
+                                      request: ri!onboardingRequest,
+                                      i18nData: ri!i18nData
+                                    )
+                                  ),
+                                  /*Saves the products &amp; required docs associated with the template*/
+                                  a!save(
+                                    ri!requiredOnboardingDocuments,
+                                    #"SYSTEM_SYSRULES_forEach"(
+                                      items: ri!template.requiredDocumentTemplates,
+                                      expression: 'type!{urn:com:appian:types:AS:IO}AS_IO_RequiredOnboardingDocument'(
+                                        docTypeCode: fv!item.docTypeCode,
+                                        isDeleted: false(),
+                                        requirementName: #"_a-0000e79b-0335-8000-9c0c-011c48011c48_3039557"(
+                                          i18nData: ri!i18nData,
+                                          documentTypes: ri!documentTypes,
+                                          currentDocRequirement: 'type!{urn:com:appian:types:AS:IO}AS_IO_RequiredOnboardingDocument'(docTypeCode: fv!item.docTypeCode),
+                                          activeDocumentRequirements: rdrop(
+                                            ri!template.requiredDocumentTemplates,
+                                            (fv!itemCount - fv!index) + 1
+                                          )
+                                        )
+                                      )
+                                    )
+                                  ),
+                                  a!save(
+                                    ri!products,
+                                    #"_a-0000e811-1167-8000-9c18-011c48011c48_3495822"(
+                                      onboardingProductTemplates: ri!template.onboardingProductTemplates,
+                                      refData: ri!refData
+                                    )
+                                  ),
+                                  a!save(local!isChangeTemplate, true)
+                                },
+                                labelPosition: "ABOVE"
+                              )
+                            )
+                          }
+                        ),
+                        #"SYSTEM_SYSRULES_columnLayout"(contents: {}),
+                        #"SYSTEM_SYSRULES_columnLayout"(contents: {})
+                      }
+                    ),
+                    #"SYSTEM_SYSRULES_columnsLayout"(
+                      columns: {
+                        #"SYSTEM_SYSRULES_columnLayout"(
+                          contents: {
+                            a!localVariables(
+                              local!template: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_155202"(
+                                returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290163"
+                              ),
+                              #"_a-0000e528-bc07-8000-9bcf-011c48011c48_1027802"(
+                                required: true,
+                                label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                                  i18nData: ri!i18nData,
+                                  bundleKey: "AS.CO.AllBundles.lbl_Template"
+                                ),
+                                placeholderLabel: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                                  i18nData: ri!i18nData,
+                                  bundleKey: "AS.CO.AllBundles.lbl_Template"
+                                ),
+                                readOnly: not(local!isCreate),
+                                choiceLabels: local!template.templateName,
+                                choiceValues: local!template,
+                                value: ri!template,
+                                saveInto: {
+                                  ri!template,
+                                  a!save(local!isChangeTemplate, true),
+                                  /*Saves the products &amp; required docs associated with the template*/
+                                  a!save(
+                                    ri!requiredOnboardingDocuments,
+                                    #"SYSTEM_SYSRULES_forEach"(
+                                      items: ri!template.requiredDocumentTemplates,
+                                      expression: 'type!{urn:com:appian:types:AS:IO}AS_IO_RequiredOnboardingDocument'(
+                                        docTypeCode: fv!item.docTypeCode,
+                                        isDeleted: false(),
+                                        requirementName: #"_a-0000e79b-0335-8000-9c0c-011c48011c48_3039557"(
+                                          i18nData: ri!i18nData,
+                                          documentTypes: ri!documentTypes,
+                                          currentDocRequirement: 'type!{urn:com:appian:types:AS:IO}AS_IO_RequiredOnboardingDocument'(docTypeCode: fv!item.docTypeCode),
+                                          activeDocumentRequirements: rdrop(
+                                            ri!template.requiredDocumentTemplates,
+                                            (fv!itemCount - fv!index) + 1
+                                          )
+                                        )
+                                      )
+                                    )
+                                  ),
+                                  a!save(
+                                    ri!products,
+                                    #"_a-0000e811-1167-8000-9c18-011c48011c48_3495822"(
+                                      onboardingProductTemplates: ri!template.onboardingProductTemplates,
+                                      refData: ri!refData
+                                    )
+                                  )
+                                },
+                                labelPosition: "ABOVE"
+                              )
+                            )
+                          }
+                        ),
+                        #"SYSTEM_SYSRULES_columnLayout"(contents: {}),
+                        #"SYSTEM_SYSRULES_columnLayout"(contents: {})
+                      }
+                    ),
+                    #"SYSTEM_SYSRULES_columnsLayout"(
+                      columns: {
+                        #"SYSTEM_SYSRULES_columnLayout"(
+                          contents: {
+                            #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_74400"(
+                              label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                                i18nData: ri!i18nData,
+                                bundleKey: "AS.CO.AllBundles.lbl_Description"
+                              ),
+                              readOnly: ri!readOnly,
+                              value: ri!onboardingRequest.description,
+                              maxLength: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_27447",
+                              saveInto: ri!onboardingRequest.description,
+                              placeholder: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                                i18nData: ri!i18nData,
+                                bundleKey: "AS.CO.AllBundles.plc_EnterOnboardingDesc"
+                              )
+                            )
+                          }
+                        )
+                      }
+                    ),
+                    #"_a-0000e539-6d59-8000-9bd0-011c48011c48_1163526"(
+                      onboardingRequest: ri!onboardingRequest,
+                      i18nData: ri!i18nData
+                    )
+                  }
+                ),
+                #"SYSTEM_SYSRULES_columnLayout"(
+                  contents: {
+                    #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_1009337"(
+                      customer: ri!onboardingRequest.customer,
+                      i18nData: ri!i18nData,
+                      refData: ri!refData,
+                      linksOpenInNewTab: true
+                    )
+                  },
+                  width: "NARROW_PLUS"
+                )
+              }
+            )
+          },
+          showWhen: ri!showWhen,
+          marginBelow: "STANDARD"
+        )
+      }
+    )
+  }
+)</definition>
+        <namedTypedValue>
+            <name>onboardingRequest</name>
+            <type>
+                <name>AS_IO_OnboardingRequest</name>
+                <namespace>urn:com:appian:types:AS:IO</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>readOnly</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>showWhen</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>i18nData</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>refData</name>
+            <type>
+                <name>AS_IO_R_Data?list</name>
+                <namespace>urn:com:appian:types:AS:IO</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>products</name>
+            <type>
+                <name>AS_IO_Product_P?list</name>
+                <namespace>urn:com:appian:types:AS:IO</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>requiredOnboardingDocuments</name>
+            <type>
+                <name>AS_IO_RequiredOnboardingDocument?list</name>
+                <namespace>urn:com:appian:types:AS:IO</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>template</name>
+            <type>
+                <name>AS_IO_R_Template</name>
+                <namespace>urn:com:appian:types:AS:IO</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>documentTypes</name>
+            <type>
+                <name>AS_FS_R_Data?list</name>
+                <namespace>urn:com:appian:types:AS:FS</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+        <isCustom>false</isCustom>
+    </interface>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name/>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_33091"(
+  requestId: 30,
+  includeNestedCdts: true,
+  returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290157"
+)</a:value>
+                    <a:nameRef>onboardingRequest</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:boolean">false</a:value>
+                    <a:nameRef>readOnly</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:boolean"/>
+                    <a:nameRef>showWhen</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81834"(
+  triggerRefresh: now()
+),</a:value>
+                    <a:nameRef>i18nData</a:nameRef>
+                    <a:id>4</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_39864"(
+  typeList: {}
+ 
+)</a:value>
+                    <a:nameRef>refData</a:nameRef>
+                    <a:id>5</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                    <a:nameRef>products</a:nameRef>
+                    <a:id>6</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                    <a:nameRef>requiredOnboardingDocuments</a:nameRef>
+                    <a:id>7</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:n1="urn:com:appian:types:AS:IO" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="n1:AS_IO_R_Template"/>
+                    <a:nameRef>template</a:nameRef>
+                    <a:id>8</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                    <a:nameRef>documentTypes</a:nameRef>
+                    <a:id>9</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e2cd-bc96-8000-9ba2-011c48011c48_44776"/>
+        <historyInfo versionUuid="_a-0000e2cd-bc96-8000-9ba2-011c48011c48_75915"/>
+        <historyInfo versionUuid="_a-0000e2cd-bc96-8000-9ba2-011c48011c48_139967"/>
+        <historyInfo versionUuid="_a-0000e35c-7b7b-8000-9ba2-011c48011c48_40931"/>
+        <historyInfo versionUuid="_a-0000e36c-7599-8000-9ba2-011c48011c48_45953"/>
+        <historyInfo versionUuid="_a-0000e36c-7599-8000-9ba2-011c48011c48_48452"/>
+        <historyInfo versionUuid="_a-0000e40a-de32-8000-9ba8-011c48011c48_265941"/>
+        <historyInfo versionUuid="_a-0000e438-fd8a-8000-9bbe-011c48011c48_400287"/>
+        <historyInfo versionUuid="_a-0000e471-623a-8000-9bc3-011c48011c48_685979"/>
+        <historyInfo versionUuid="_a-0000e471-623a-8000-9bc3-011c48011c48_710329"/>
+        <historyInfo versionUuid="_a-0000e471-623a-8000-9bc3-011c48011c48_728314"/>
+        <historyInfo versionUuid="_a-0000e471-623a-8000-9bc3-011c48011c48_747603"/>
+        <historyInfo versionUuid="_a-0000e471-623a-8000-9bc3-011c48011c48_760927"/>
+        <historyInfo versionUuid="_a-0000e471-623a-8000-9bc3-011c48011c48_785358"/>
+        <historyInfo versionUuid="_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_837879"/>
+        <historyInfo versionUuid="_a-0000e528-bc07-8000-9bcf-011c48011c48_1046742"/>
+        <historyInfo versionUuid="_a-0000e528-bc07-8000-9bcf-011c48011c48_1047348"/>
+        <historyInfo versionUuid="_a-0000e539-6d59-8000-9bd0-011c48011c48_1164170"/>
+        <historyInfo versionUuid="_a-0000e539-6d59-8000-9bd0-011c48011c48_1199958"/>
+        <historyInfo versionUuid="_a-0000e59f-bdcf-8000-9bd4-011c48011c48_1392517"/>
+        <historyInfo versionUuid="_a-0000e5a0-53e9-8000-9bd8-011c48011c48_1405635"/>
+        <historyInfo versionUuid="_a-0000e5a0-53e9-8000-9bd8-011c48011c48_1447948"/>
+        <historyInfo versionUuid="_a-0000e62c-7375-8000-9bec-011c48011c48_1773939"/>
+        <historyInfo versionUuid="_a-0000e62c-7375-8000-9bec-011c48011c48_1825360"/>
+        <historyInfo versionUuid="_a-0000e62c-7375-8000-9bec-011c48011c48_1858174"/>
+        <historyInfo versionUuid="_a-0000e62c-7375-8000-9bec-011c48011c48_1868529"/>
+        <historyInfo versionUuid="_a-0000e69f-3688-8000-9bf2-011c48011c48_2124217"/>
+        <historyInfo versionUuid="_a-0000e69f-3688-8000-9bf2-011c48011c48_2160293"/>
+        <historyInfo versionUuid="_a-0000e69f-3688-8000-9bf2-011c48011c48_2178754"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2711381"/>
+        <historyInfo versionUuid="_a-0000e7fa-f829-8000-9c17-011c48011c48_3421625"/>
+        <historyInfo versionUuid="_a-0000e7fa-f829-8000-9c17-011c48011c48_3460524"/>
+        <historyInfo versionUuid="_a-0000e7fa-f829-8000-9c17-011c48011c48_3460522"/>
+        <historyInfo versionUuid="_a-0000e7fa-f829-8000-9c17-011c48011c48_3463705"/>
+        <historyInfo versionUuid="_a-0000e7fa-f829-8000-9c17-011c48011c48_3467297"/>
+        <historyInfo versionUuid="_a-0000e811-1167-8000-9c18-011c48011c48_3522113"/>
+        <historyInfo versionUuid="_a-0000e825-b425-8000-9c1c-011c48011c48_3580118"/>
+        <historyInfo versionUuid="_a-0000e825-b425-8000-9c1c-011c48011c48_3640867"/>
+    </history>
+</contentHaul>

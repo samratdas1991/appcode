@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<recordTypeHaul xmlns:a="http://www.appian.com/ae/types/2009" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <versionUuid>cbf87e17-e6bc-40b8-9734-06eccb7a41cc</versionUuid>
+  <recordType a:uuid="cc803b8a-a9fe-4c8a-b030-d06e1f6923e9" name="AS_EI_CHS_PreviousCompany_RecordType">
+    <a:pluralName>AS_EI_CHS_PreviousCompany_RecordTypes</a:pluralName>
+    <a:description>Record for Previous Company details fetched through Company house.</a:description>
+    <a:urlStub>ae1fMg</a:urlStub>
+    <a:source
+      a:uuid="942ff8cd-ac36-4056-b353-113ac16a9694@_a-0000e5a0-53e9-8000-9bd8-011c48011c48_1408940" xsi:type="a:DataStoreEntity"/>
+    <a:listViewTemplateExpr>#"SYSTEM_SYSRULES_recordGridField"(
+  pageSize: 50,
+  shadeAlternateRows: true
+)</a:listViewTemplateExpr>
+    <a:detailViewCfg>
+      <a:nameExpr>#"SYSTEM_SYSRULES_rtd_getDefaultSummaryViewName"()</a:nameExpr>
+      <a:uiExpr/>
+      <a:visibilityExpr>=true()</a:visibilityExpr>
+      <a:urlStub>summary</a:urlStub>
+      <a:headerExpr/>
+      <a:recordActionLaunchType>DIALOG</a:recordActionLaunchType>
+      <a:recordUiSecurityType>EXPRESSION</a:recordUiSecurityType>
+    </a:detailViewCfg>
+    <a:relatedActionCfg a:uuid="b0d53812-30ab-46a0-9d5b-ffad41f8474c">
+      <a:target a:uuid="0000e5c1-e755-8000-2bfe-7f0000014e7a" xsi:type="a:ProcessModel"/>
+      <a:contextExpr>{
+  modifiedByOverride: null, /* Text */
+  previousCompanyDetail: #"_a-0000e5a0-53e9-8000-9bd8-011c48011c48_1430726"(
+    previousComapnyDetailsId:rv!identifier,
+    returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290157"
+  ), /* AS_FS_CHS_PreviousCompanyDetails */
+  userAction: null /* Text */
+}</a:contextExpr>
+      <a:visibilityExpr>=true()</a:visibilityExpr>
+      <a:iconId>f040</a:iconId>
+      <a:refId>refId-b0d53812-30ab-46a0-9d5b-ffad41f8474c</a:refId>
+      <a:titleExpr>#"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_976788"( bundleKey: "AS.FS.AllBundles.lbl_EditPreviousCustomerName" )</a:titleExpr>
+      <a:staticDescriptionString/>
+      <a:referenceKey>UpdatePreviousCustomerName</a:referenceKey>
+      <a:dialogSize>FIT$FIT</a:dialogSize>
+      <a:showInRecordList>false</a:showInRecordList>
+      <a:recordUiSecurityType>EXPRESSION</a:recordUiSecurityType>
+      <a:dialogWidth>FIT</a:dialogWidth>
+      <a:dialogHeight>FIT</a:dialogHeight>
+    </a:relatedActionCfg>
+    <a:relatedActionCfg a:uuid="7ea793c3-4ed4-4891-9b7e-78fb125fcaab">
+      <a:target a:uuid="0000e5c1-ee26-8000-2c05-7f0000014e7a" xsi:type="a:ProcessModel"/>
+      <a:contextExpr>{
+  modifiedByOverride: null, /* Text */
+  previousCompanyDetail: #"_a-0000e5a0-53e9-8000-9bd8-011c48011c48_1430726"(
+    previousComapnyDetailsId: rv!identifier,
+    returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290157"
+  ), /* AS_FS_CHS_PreviousCompanyDetails */
+  userAction: null /* Text */
+}</a:contextExpr>
+      <a:visibilityExpr>=true()</a:visibilityExpr>
+      <a:iconId>f1f8</a:iconId>
+      <a:refId>refId-7ea793c3-4ed4-4891-9b7e-78fb125fcaab</a:refId>
+      <a:titleExpr> #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_976788"( bundleKey: "AS.FS.AllBundles.lbl_DeletePreviousCustomerName" )</a:titleExpr>
+      <a:staticDescriptionString/>
+      <a:referenceKey>DeactivatePreviousCustomerName</a:referenceKey>
+      <a:dialogSize>FIT$FIT</a:dialogSize>
+      <a:showInRecordList>false</a:showInRecordList>
+      <a:recordUiSecurityType>EXPRESSION</a:recordUiSecurityType>
+      <a:dialogWidth>FIT</a:dialogWidth>
+      <a:dialogHeight>FIT</a:dialogHeight>
+    </a:relatedActionCfg>
+    <a:isSystem>false</a:isSystem>
+    <a:dataSrcExpr/>
+    <a:facetsListExpr/>
+    <a:titleExpr/>
+    <a:defaultFiltersExpr>if(
+  #"_a-0000e69f-3688-8000-9bf2-011c48011c48_2143846"(),
+  {},
+  a!localVariables(
+    local!userCustomerGroup: #"_a-0000e5da-4dac-8000-9ba5-011c48011c48_23439"(),
+    #"SYSTEM_SYSRULES_queryFilter"(
+      field: #"urn:appian:record-field:v1:cc803b8a-a9fe-4c8a-b030-d06e1f6923e9/customerId",
+      operator: "=",
+      value: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_33079"(
+        groupIds: local!userCustomerGroup,
+        returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290157",
+        executeWhen: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(input: local!userCustomerGroup)
+      ).customerId
+    )
+  )
+)</a:defaultFiltersExpr>
+    <a:layoutType>GRID</a:layoutType>
+    <a:security>16383</a:security>
+    <a:hideLatestNews>false</a:hideLatestNews>
+    <a:hideNewsView>false</a:hideNewsView>
+    <a:hideRelatedActionsView>false</a:hideRelatedActionsView>
+    <a:isExportable>true</a:isExportable>
+    <a:listViewSrcExpr/>
+    <a:recordViewSrcExpr/>
+    <a:recordTypeSearchCfg>
+      <searchFieldsSrc>DEFAULT</searchFieldsSrc>
+      <placeholderSrc>DEFAULT</placeholderSrc>
+      <placeholder/>
+    </a:recordTypeSearchCfg>
+    <a:iconId/>
+    <a:listAutoRefreshInterval>0.0</a:listAutoRefreshInterval>
+    <a:enabledFeatures>63</a:enabledFeatures>
+    <a:isVisibleInRecordTypeList>false</a:isVisibleInRecordTypeList>
+    <a:recordActionLaunchType>DIALOG</a:recordActionLaunchType>
+    <a:showSearchBox>true</a:showSearchBox>
+    <a:isVisibleInDataFabric>false</a:isVisibleInDataFabric>
+    <a:usesRollingSyncLimit>false</a:usesRollingSyncLimit>
+    <a:usesRecoverySync>false</a:usesRecoverySync>
+    <a:isScheduledIndexingEnabled>false</a:isScheduledIndexingEnabled>
+    <a:smartSearchAcceptableFailureRate>0.0</a:smartSearchAcceptableFailureRate>
+    <a:skipFailedSmartServicesSync>false</a:skipFailedSmartServicesSync>
+  </recordType>
+  <roleMap>
+    <role name="record_type_administrator">
+      <users/>
+      <groups>
+        <groupUuid>_e-0000e5a0-53e9-8000-9b24-01075c01075c_10770</groupUuid>
+      </groups>
+    </role>
+    <role name="record_type_viewer">
+      <users/>
+      <groups>
+        <groupUuid>_e-0000e5a0-53e9-8000-9b24-01075c01075c_10768</groupUuid>
+      </groups>
+    </role>
+  </roleMap>
+  <history>
+    <historyInfo versionUuid="6331e85d-68b9-4367-86f4-65643c60d6d1"/>
+    <historyInfo versionUuid="894e55aa-ab53-4305-82df-68e2269bf23e"/>
+    <historyInfo versionUuid="2fe19a1f-481e-4932-ba47-76b5e040470d"/>
+    <historyInfo versionUuid="b245fa3c-0da7-4dc9-ab7f-0da5079fe11e"/>
+    <historyInfo versionUuid="38475a22-e1ae-4976-bbbf-d621c8d192a7"/>
+    <historyInfo versionUuid="cbf87e17-e6bc-40b8-9734-06eccb7a41cc"/>
+  </history>
+  <migrationVersion>1</migrationVersion>
+</recordTypeHaul>

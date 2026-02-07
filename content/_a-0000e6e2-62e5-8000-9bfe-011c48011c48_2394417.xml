@@ -1,0 +1,661 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e811-1167-8000-9c18-011c48011c48_3499685</versionUuid>
+    <interface>
+        <name>AS_FS_CRD_basicDetailsForCustomerSummary</name>
+        <uuid>_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2394417</uuid>
+        <description>Contains card displayed on the customer summary</description>
+        <parentUuid>_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_968428</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  local!customerForDisplay: ri!pendingCustomerDisplay.objectForDisplay,
+  {
+    #"_a-0000e7e5-dad4-8000-9c14-011c48011c48_3312448"(
+      "AS_FS_CRD_basicDetailsForCustomerSummary"
+    ),
+    #"_a-0000e77d-004e-8000-9c08-011c48011c48_2837928"(
+      header: #"SYSTEM_SYSRULES_richTextDisplayField"(
+        labelPosition: "COLLAPSED",
+        value: {
+          #"SYSTEM_SYSRULES_richTextHeader"(
+            text: {
+              #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                i18nData: ri!i18nData,
+                bundleKey: "AS.FS.AllBundles.lbl_CustomerDetails"
+              )
+            },
+            size: "MEDIUM"
+          )
+        }
+      ),
+      contents: {
+        /*Since*/
+        #"_a-0000e77d-004e-8000-9c08-011c48011c48_2837892"(
+          marginAbove: "NONE",
+          contents: #"SYSTEM_SYSRULES_sideBySideLayout"(
+            items: {
+              #"SYSTEM_SYSRULES_sideBySideItem"(
+                item: #"SYSTEM_SYSRULES_richTextDisplayField"(
+                  labelPosition: "COLLAPSED",
+                  value: #"SYSTEM_SYSRULES_richTextItem_v1"(
+                    text: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                      i18nData: ri!i18nData,
+                      bundleKey: "AS.FS.AllBundles.txt_Since"
+                    ),
+                    color: "SECONDARY"
+                  )
+                )
+              ),
+              #"SYSTEM_SYSRULES_sideBySideItem"(
+                item: #"SYSTEM_SYSRULES_richTextDisplayField"(
+                  label: "Customer Since",
+                  labelPosition: "COLLAPSED",
+                  value: #"SYSTEM_SYSRULES_richTextItem_v1"(
+                    text: {
+                      text(
+                        local!customerForDisplay.createdDatetime,
+                        "mmmm YYYY"
+                      )
+                    }
+                  ),
+                  align: "RIGHT"
+                )
+              )
+            },
+            alignVertical: "MIDDLE"
+          )
+        ),
+        /*Type*/
+        #"_a-0000e77d-004e-8000-9c08-011c48011c48_2837892"(
+          marginAbove: "NONE",
+          contents: #"SYSTEM_SYSRULES_sideBySideLayout"(
+            items: {
+              #"SYSTEM_SYSRULES_sideBySideItem"(
+                item: #"SYSTEM_SYSRULES_richTextDisplayField"(
+                  labelPosition: "COLLAPSED",
+                  value: #"SYSTEM_SYSRULES_richTextItem_v1"(
+                    text: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                      i18nData: ri!i18nData,
+                      bundleKey: "AS.FS.AllBundles.lbl_Type"
+                    ),
+                    color: "SECONDARY"
+                  )
+                )
+              ),
+              a!localVariables(
+                local!openEventsTag: #"_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2470049"(
+                  i18nData: ri!i18nData,
+                  pendingObjectDisplays: ri!pendingCustomerDisplay,
+                  field: "customerTypeCode",
+                  applyFieldFilter: true
+                ),
+                #"SYSTEM_SYSRULES_sideBySideItem"(
+                  item: local!openEventsTag,
+                  width: "MINIMIZE",
+                  showWhen: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(local!openEventsTag)
+                )
+              ),
+              #"SYSTEM_SYSRULES_sideBySideItem"(
+                item: #"SYSTEM_SYSRULES_richTextDisplayField"(
+                  label: "Customer Type",
+                  labelPosition: "COLLAPSED",
+                  value: #"SYSTEM_SYSRULES_richTextItem_v1"(
+                    text: #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_977034"(
+                      code: local!customerForDisplay.customerTypeCode,
+                      refData: ri!refData
+                    )
+                  ),
+                  align: "RIGHT"
+                )
+              )
+            },
+            alignVertical: "MIDDLE"
+          )
+        ),
+        /*Risk Score*/
+        #"_a-0000e77d-004e-8000-9c08-011c48011c48_2837892"(
+          marginAbove: "NONE",
+          contents: {
+            #"SYSTEM_SYSRULES_sideBySideLayout"(
+              items: {
+                #"SYSTEM_SYSRULES_sideBySideItem"(
+                  item: #"SYSTEM_SYSRULES_richTextDisplayField"(
+                    labelPosition: "COLLAPSED",
+                    value: #"SYSTEM_SYSRULES_richTextItem_v1"(
+                      text: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                        i18nData: ri!i18nData,
+                        bundleKey: "AS.FS.AllBundles.lbl_RiskScore"
+                      ),
+                      color: "SECONDARY"
+                    )
+                  )
+                ),
+                a!localVariables(
+                  local!triggerRefresh: a!refreshVariable(
+                    value: now(),
+                    refreshAfter: "RECORD_ACTION"
+                  ),
+                  local!lastRiskScoreModifiedBy: #"ffa789de-00df-4002-b35f-d2633edf4b25"(
+                    customerId: local!customerForDisplay.customerId,
+                    sort: #"SYSTEM_SYSRULES_sortInfo"(field: "timeStamp", ascending: false),
+                    triggerRefresh: local!triggerRefresh,
+                    returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290157"
+                  ).modifiedBy,
+                  local!lastModifiedByIntegration: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+                    cdt: #"_a-0000e6ca-7e19-8000-9bfb-011c48011c48_2234155"(i18nData: ri!i18nData),
+                    field: "integrationCode",
+                    value: local!lastRiskScoreModifiedBy
+                  ),
+                  {
+                    a!localVariables(
+                      local!openEventsForRiskScoreTag: #"_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2470049"(
+                        i18nData: ri!i18nData,
+                        pendingObjectDisplays: ri!pendingCustomerDisplay,
+                        field: "riskScore",
+                        applyFieldFilter: true
+                      ),
+                      #"SYSTEM_SYSRULES_sideBySideItem"(
+                        item: local!openEventsForRiskScoreTag,
+                        width: "MINIMIZE",
+                        showWhen: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(local!openEventsForRiskScoreTag)
+                      )
+                    ),
+                    #"SYSTEM_SYSRULES_sideBySideItem"(
+                      item: #"SYSTEM_SYSRULES_richTextDisplayField"(
+                        label: "Risk Score",
+                        labelPosition: "COLLAPSED",
+                        value: a!localVariables(
+                          local!riskScoreDisplay: #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_979015"(
+                            i18nData: ri!i18nData,
+                            riskScore: local!customerForDisplay.riskScore,
+                            
+                          ),
+                          {
+                            #"SYSTEM_SYSRULES_richTextItem_v1"(
+                              text: #"SYSTEM_SYSRULES_richTextIcon"(
+                                icon: "circle",
+                                altText: local!riskScoreDisplay.scoreLabel
+                              ),
+                              color: local!riskScoreDisplay.color
+                            ),
+                            " ",
+                            #"SYSTEM_SYSRULES_richTextItem_v1"(text: local!riskScoreDisplay.text ),
+                            char(10),
+                            #"SYSTEM_SYSRULES_richTextItem_v1"(
+                              text: {
+                                #"SYSTEM_SYSRULES_richTextIcon"(icon: "link"),
+                                " ",
+                                local!lastModifiedByIntegration.integrationLabel,
+                                char(10)
+                              },
+                              color: "SECONDARY",
+                              size: "SMALL",
+                              showWhen: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(local!lastModifiedByIntegration)
+                            )
+                          }
+                        ),
+                        align: "RIGHT"
+                      )
+                    )
+                  }
+                )
+              },
+              alignVertical: "MIDDLE"
+            ),
+            #"SYSTEM_SYSRULES_sideBySideLayout"(
+              items: {
+                /*for horizontal spacing*/
+                #"SYSTEM_SYSRULES_sideBySideItem"(item: {}),
+                #"SYSTEM_SYSRULES_sideBySideItem"(
+                  item: #"SYSTEM_SYSRULES_recordActionField"(
+                    actions: {
+                      #"SYSTEM_SYSRULES_recordActionItem"(
+                        action: #"urn:appian:record-action:v1:15ec9ef8-96dd-41ff-a034-7863526026d4/fef5a036-cc9a-43ef-a0bc-ef8992ef1eff",
+                        identifier: local!customerForDisplay.customerId
+                      )
+                    },
+                    style: "LINKS",
+                    align: "END"
+                  ),
+                  width: "MINIMIZE"
+                ),
+                #"SYSTEM_SYSRULES_sideBySideItem"(
+                  item: #"SYSTEM_SYSRULES_recordActionField"(
+                    actions: {
+                      /*we can put both items in one field since their visibility is mutually exclusive*/
+                      #"SYSTEM_SYSRULES_recordActionItem"(
+                        action: #"urn:appian:record-action:v1:15ec9ef8-96dd-41ff-a034-7863526026d4/24ba995b-ce6c-4f6e-b200-82b1fbda8bbc",
+                        identifier: local!customerForDisplay.customerId
+                      ),
+                      /*manually update risk score*/
+                      #"SYSTEM_SYSRULES_recordActionItem"(
+                        action: #"urn:appian:record-action:v1:15ec9ef8-96dd-41ff-a034-7863526026d4/7d4c2d64-8a19-42c9-ab90-7d77820ca95f",
+                        identifier: local!customerForDisplay.customerId
+                      )
+                    },
+                    style: "LINKS"
+                  ),
+                  width: "MINIMIZE"
+                )
+              },
+              alignVertical: "MIDDLE"
+            )
+          }
+        ),
+        /*DUNS*/
+        a!localVariables(
+          local!isDnbEnabled: #"_a-0000e5d6-d648-8000-9bde-011c48011c48_1501904"(
+            settingsCode: #"_a-0000e5fd-0ed3-8000-9be6-011c48011c48_1579609"
+          ).userSettingValue,
+          if(
+            local!isDnbEnabled,
+            #"_a-0000e77d-004e-8000-9c08-011c48011c48_2837892"(
+              marginAbove: "NONE",
+              contents: {
+                #"SYSTEM_SYSRULES_sideBySideLayout"(
+                  items: {
+                    #"SYSTEM_SYSRULES_sideBySideItem"(
+                      item: #"SYSTEM_SYSRULES_richTextDisplayField"(
+                        labelPosition: "COLLAPSED",
+                        value: {
+                          #"SYSTEM_SYSRULES_richTextItem_v1"(
+                            text: {
+                              #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                                i18nData: ri!i18nData,
+                                bundleKey: "AS.FS.AllBundles.lbl_DUNS"
+                              )
+                            },
+                            color: "SECONDARY",
+                            size: "STANDARD"
+                          )
+                        }
+                      )
+                    ),
+                    #"SYSTEM_SYSRULES_sideBySideItem"(
+                      item: #"SYSTEM_SYSRULES_richTextDisplayField"(
+                        labelPosition: "COLLAPSED",
+                        value: {
+                          #"SYSTEM_SYSRULES_richTextItem_v1"(
+                            text: {
+                              a!defaultValue(
+                                value: local!customerForDisplay.duns,
+                                default: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                                  i18nData: ri!i18nData,
+                                  bundleKey: "AS.FS.AllBundles.lbl_None"
+                                )
+                              )
+                            },
+                            size: "STANDARD"
+                          )
+                        }
+                      ),
+                      width: "MINIMIZE"
+                    )
+                  },
+                  alignVertical: "MIDDLE",
+                  marginBelow: "STANDARD"
+                ),
+                /*actions*/
+                #"SYSTEM_SYSRULES_sideBySideLayout"(
+                  items: {
+                    #"SYSTEM_SYSRULES_sideBySideItem"(),
+                    #"SYSTEM_SYSRULES_sideBySideItem"(
+                      item: #"SYSTEM_SYSRULES_recordActionField"(
+                        actions: {
+                          /*retrieve*/
+                          #"SYSTEM_SYSRULES_recordActionItem"(
+                            action: #"urn:appian:record-action:v1:15ec9ef8-96dd-41ff-a034-7863526026d4/615ebc0f-b556-496e-9fb1-80c8bef61b31",
+                            identifier: local!customerForDisplay.customerId
+                          ),
+                          /*edit*/
+                          #"SYSTEM_SYSRULES_recordActionItem"(
+                            action: #"urn:appian:record-action:v1:15ec9ef8-96dd-41ff-a034-7863526026d4/38410e2d-4881-469f-96b2-c70169e73cfa",
+                            identifier: local!customerForDisplay.customerId
+                          )
+                        },
+                        style: "LINKS"
+                      ),
+                      width: "MINIMIZE"
+                    )
+                  },
+                  marginBelow: "NONE"
+                )
+              }
+            ),
+            {}
+          )
+        ),
+        /*Domicile*/
+        #"_a-0000e77d-004e-8000-9c08-011c48011c48_2837892"(
+          marginAbove: "NONE",
+          contents: #"SYSTEM_SYSRULES_sideBySideLayout"(
+            items: {
+              #"SYSTEM_SYSRULES_sideBySideItem"(
+                item: #"SYSTEM_SYSRULES_richTextDisplayField"(
+                  labelPosition: "COLLAPSED",
+                  value: #"SYSTEM_SYSRULES_richTextItem_v1"(
+                    text: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                      i18nData: ri!i18nData,
+                      bundleKey: "AS.FS.AllBundles.lbl_Domicile"
+                    ),
+                    color: "SECONDARY"
+                  )
+                )
+              ),
+              a!localVariables(
+                local!openEventsForDomicileTag: #"_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2470049"(
+                  i18nData: ri!i18nData,
+                  pendingObjectDisplays: ri!pendingCustomerDisplay,
+                  field: "domicile",
+                  applyFieldFilter: true
+                ),
+                #"SYSTEM_SYSRULES_sideBySideItem"(
+                  item: local!openEventsForDomicileTag,
+                  width: "MINIMIZE",
+                  showWhen: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(local!openEventsForDomicileTag)
+                )
+              ),
+              #"SYSTEM_SYSRULES_sideBySideItem"(
+                item: #"SYSTEM_SYSRULES_richTextDisplayField"(
+                  label: "Domicile",
+                  labelPosition: "COLLAPSED",
+                  value: #"SYSTEM_SYSRULES_richTextItem_v1"(
+                    text: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                      i18nData: ri!i18nData,
+                      bundleKey: local!customerForDisplay.domicile.countryName
+                    )
+                  ),
+                  align: "RIGHT"
+                )
+              )
+            },
+            alignVertical: "MIDDLE"
+          )
+        ),
+        /*previous company names*/
+        #"_a-0000e77d-004e-8000-9c08-011c48011c48_2837892"(
+          marginAbove: "NONE",
+          contents: #"SYSTEM_SYSRULES_sideBySideLayout"(
+            items: {
+              #"SYSTEM_SYSRULES_sideBySideItem"(
+                item: #"SYSTEM_SYSRULES_richTextDisplayField"(
+                  labelPosition: "COLLAPSED",
+                  value: #"SYSTEM_SYSRULES_richTextItem_v1"(
+                    text: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                      i18nData: ri!i18nData,
+                      bundleKey: "AS.FS.AllBundles.txt_PreviousNames"
+                    ),
+                    color: "SECONDARY"
+                  )
+                )
+              ),
+              a!localVariables(
+                local!previousCompanyDetails: #"_a-0000e5a0-53e9-8000-9bd8-011c48011c48_1430726"(
+                  customerId: local!customerForDisplay.customerId,
+                  returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290163",
+                  sort: #"SYSTEM_SYSRULES_sortInfo"(
+                    field: "previousCompanyName",
+                    ascending: true
+                  ),
+                  triggerRefresh: ri!triggerRefresh
+                ),
+                local!pendingPreviousCompanyDetailsDisplay: #"_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2470511"(
+                  customerId: local!customerForDisplay.customerId,
+                  previousCompanyDetails: local!previousCompanyDetails,
+                  triggerRefresh: ri!triggerRefresh
+                ),
+                /*Cast necessary in case of empty list of PendingObjectDisplay,*/
+                /*in which case objectForDisplay would not be the appropraite type*/
+                local!previousCompanyDetailsForDisplay: cast(
+                  'type!{urn:com:appian:types:AS:FS}AS_FS_CHS_PreviousCompanyDetails?list',
+                  local!pendingPreviousCompanyDetailsDisplay.objectForDisplay
+                ),
+                local!previousCompanyDetailsCount: #"_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_880586"(local!previousCompanyDetailsForDisplay),
+                local!showMorePreviousCompanyDetails: if(
+                  local!previousCompanyDetailsCount &gt; 5,
+                  false,
+                  null
+                ),
+                {
+                  a!localVariables(
+                    local!openEventsForPreviousCompanyDetailsTag: #"_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2470049"(
+                      i18nData: ri!i18nData,
+                      pendingObjectDisplays: local!pendingPreviousCompanyDetailsDisplay,
+                      /*Display for any change to any field*/
+                      applyFieldFilter: false
+                    ),
+                    #"SYSTEM_SYSRULES_sideBySideItem"(
+                      item: local!openEventsForPreviousCompanyDetailsTag,
+                      showWhen: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(
+                        local!openEventsForPreviousCompanyDetailsTag
+                      )
+                    )
+                  ),
+                  #"SYSTEM_SYSRULES_sideBySideItem"(
+                    width: "MINIMIZE",
+                    item: #"SYSTEM_SYSRULES_richTextDisplayField"(
+                      label: "Previous Names",
+                      labelPosition: "COLLAPSED",
+                      value: #"SYSTEM_SYSRULES_richTextItem_v1"(
+                        text: {
+                          if(
+                            #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(
+                              local!previousCompanyDetailsForDisplay.previousCompanyName
+                            ),
+                            "-",
+                            #"SYSTEM_SYSRULES_richTextBulletedList"(
+                              items: todatasubset(
+                                arrayToPage: local!previousCompanyDetailsForDisplay.previousCompanyName,
+                                pagingConfiguration: #"SYSTEM_SYSRULES_pagingInfo"(
+                                  1,
+                                  if(
+                                    local!showMorePreviousCompanyDetails,
+                                    - 1,
+                                    5
+                                  )
+                                )
+                              ).data
+                            )
+                          ),
+                          #"_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2447682"(
+                            i18nData: ri!i18nData,
+                            isShowMore: local!showMorePreviousCompanyDetails,
+                            showMoreLabel: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                              i18nData: ri!i18nData,
+                              bundleKey: "AS.CO.CommonObjects.txt_ShowAllWithLength",
+                              arguments: local!previousCompanyDetailsCount
+                            )
+                          )
+                        }
+                      ),
+                      align: "RIGHT"
+                    )
+                  )
+                }
+              )
+            },
+            alignVertical: "MIDDLE"
+          )
+        ),
+        /* KYC Valid through date*/
+        #"_a-0000e77d-004e-8000-9c08-011c48011c48_2837892"(
+          marginAbove: "NONE",
+          contents: #"SYSTEM_SYSRULES_sideBySideLayout"(
+            items: {
+              #"SYSTEM_SYSRULES_sideBySideItem"(
+                item: #"SYSTEM_SYSRULES_richTextDisplayField"(
+                  labelPosition: "COLLAPSED",
+                  value: #"SYSTEM_SYSRULES_richTextItem_v1"(
+                    text: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                      i18nData: ri!i18nData,
+                      bundleKey: "AS.FS.AllBundles.lbl_KycValidThrough"
+                    ),
+                    color: "SECONDARY"
+                  )
+                )
+              ),
+              #"SYSTEM_SYSRULES_sideBySideItem"(
+                item: #"SYSTEM_SYSRULES_richTextDisplayField"(
+                  label: "",
+                  labelPosition: "COLLAPSED",
+                  value: #"SYSTEM_SYSRULES_richTextItem_v1"(
+                    text: if(
+                      #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(
+                        local!customerForDisplay.validThroughDate
+                      ),
+                      #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                        i18nData: ri!i18nData,
+                        bundleKey: "AS.FS.AllBundles.txt_NA"
+                      ),
+                      local!customerForDisplay.validThroughDate
+                    )
+                  ),
+                  align: "RIGHT"
+                )
+              )
+            },
+            alignVertical: "MIDDLE"
+          ),
+          showWhen: #"_a-0000e62c-7375-8000-9bec-011c48011c48_1881364"()
+        ),
+        
+      }
+    )
+  }
+)</definition>
+        <namedTypedValue>
+            <name>i18nData</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>pendingCustomerDisplay</name>
+            <type>
+                <name>AS_FS_UNMAPPED_PendingObjectDisplay</name>
+                <namespace>urn:com:appian:types:FS</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>refData</name>
+            <type>
+                <name>AS_FS_R_Data?list</name>
+                <namespace>urn:com:appian:types:AS:FS</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>triggerRefresh</name>
+            <type>
+                <name>dateTime</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+        <isCustom>false</isCustom>
+    </interface>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name/>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_975720"(
+  triggerRefresh: null()
+)</a:value>
+                    <a:nameRef>i18nData</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2466057"(
+  i18nData: #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_975720"(triggerRefresh: null),
+  customer: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_33079"(
+    returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290157"
+  )
+)</a:value>
+                    <a:nameRef>pendingCustomerDisplay</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_975301"(
+  returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290163"
+)</a:value>
+                    <a:nameRef>refData</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:dateTime"/>
+                    <a:nameRef>triggerRefresh</a:nameRef>
+                    <a:id>4</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2395884"/>
+        <historyInfo versionUuid="_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2409378"/>
+        <historyInfo versionUuid="_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2442492"/>
+        <historyInfo versionUuid="_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2446419"/>
+        <historyInfo versionUuid="_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2447757"/>
+        <historyInfo versionUuid="_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2456467"/>
+        <historyInfo versionUuid="_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2471407"/>
+        <historyInfo versionUuid="_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2482565"/>
+        <historyInfo versionUuid="_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2482658"/>
+        <historyInfo versionUuid="_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2483420"/>
+        <historyInfo versionUuid="_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2484265"/>
+        <historyInfo versionUuid="_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2484313"/>
+        <historyInfo versionUuid="_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2484386"/>
+        <historyInfo versionUuid="_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2489214"/>
+        <historyInfo versionUuid="_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2492827"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2708742"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2746474"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2753477"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2757307"/>
+        <historyInfo versionUuid="_a-0000e79b-0335-8000-9c0c-011c48011c48_2949724"/>
+        <historyInfo versionUuid="_a-0000e79b-0335-8000-9c0c-011c48011c48_2961489"/>
+        <historyInfo versionUuid="_a-0000e79b-0335-8000-9c0c-011c48011c48_2980904"/>
+        <historyInfo versionUuid="_a-0000e7d2-6286-8000-9c11-011c48011c48_3123568"/>
+        <historyInfo versionUuid="_a-0000e7d2-6286-8000-9c11-011c48011c48_3127054"/>
+        <historyInfo versionUuid="_a-0000e7fa-f829-8000-9c17-011c48011c48_3377310"/>
+        <historyInfo versionUuid="_a-0000e811-1167-8000-9c18-011c48011c48_3499685"/>
+    </history>
+</contentHaul>

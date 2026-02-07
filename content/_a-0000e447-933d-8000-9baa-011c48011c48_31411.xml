@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e471-623a-8000-9bc3-011c48011c48_666365</versionUuid>
+    <rule>
+        <name>AS_QNM_UT_required</name>
+        <uuid>_a-0000e447-933d-8000-9baa-011c48011c48_31411</uuid>
+        <description>Given a question, the field to be required or not, and the questions that are potentially relevant to the determination, determines if the field should be required.  If fieldKey is null, the determination applies to the question as a whole.
+
+A question as a whole can only be required or not based upon responses to other questions in its group.
+An individual field within a question can only be required or not based upon the responses to other fields within that question.</description>
+        <parentUuid>_a-0000e42d-ffef-8000-9ba6-011c48011c48_7213-qnm</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>#"_a-0000e447-933d-8000-9baa-011c48011c48_31064"(
+  /* There must be at most one top level precedent set per field key */
+  questionPrecedentSet: if(
+    isnull(
+      ri!question.isRequiredPrecedentSets
+    ),
+    null,
+    index(
+      index(
+        ri!question.isRequiredPrecedentSets,
+        wherecontains(
+          ri!fieldKey,
+          ri!question.isRequiredPrecedentSets.fieldKey
+        ),
+        {}
+      ),
+      1,
+      null
+    )
+  ),
+  applicableQuestions: ri!applicableQuestions,
+  applicableQuestionsMetadata: ri!applicableQuestionsMetadata
+)</definition>
+        <namedTypedValue>
+            <name>question</name>
+            <type>
+                <name>AS_QNM_Question</name>
+                <namespace>urn:com:appian:types:AS:QNM</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>applicableQuestions</name>
+            <type>
+                <name>AS_QNM_Question?list</name>
+                <namespace>urn:com:appian:types:AS:QNM</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>applicableQuestionsMetadata</name>
+            <type>
+                <name>AS_QNM_QuestionMetadata?list</name>
+                <namespace>urn:com:appian:types:AS:QNM</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>fieldKey</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <history>
+        <historyInfo versionUuid="_a-0000e447-933d-8000-9baa-011c48011c48_31635"/>
+        <historyInfo versionUuid="_a-0000e447-933d-8000-9baa-011c48011c48_62645"/>
+        <historyInfo versionUuid="_a-0000e447-933d-8000-9baa-011c48011c48_66007"/>
+        <historyInfo versionUuid="_a-0000e447-933d-8000-9baa-011c48011c48_66363"/>
+        <historyInfo versionUuid="_a-0000e447-933d-8000-9baa-011c48011c48_66630"/>
+        <historyInfo versionUuid="_a-0000e460-9d93-8000-9bc1-011c48011c48_596004"/>
+        <historyInfo versionUuid="_a-0000e460-9d93-8000-9bc1-011c48011c48_652121"/>
+        <historyInfo versionUuid="_a-0000e471-623a-8000-9bc3-011c48011c48_666365"/>
+    </history>
+</contentHaul>

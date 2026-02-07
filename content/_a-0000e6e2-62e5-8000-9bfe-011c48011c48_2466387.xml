@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2466401</versionUuid>
+    <rule>
+        <name>AS_IO_REC_userFiterForOnboardingType</name>
+        <uuid>_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2466387</uuid>
+        <description>Contains the record user filter for onboarding status</description>
+        <parentUuid>_a-0000e2bb-4188-8000-9ba2-011c48011c48_25469</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  local!i18nData: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81834"(triggerRefresh: null),
+  local!onboardingTypes: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_39864"(
+    typeList: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_40302",
+    i18nData: local!i18nData
+  ),
+  #"SYSTEM_SYSRULES_recordFilterList"(
+    name: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+      i18nData: local!i18nData,
+      bundleKey: "AS.CO.AllBundles.lbl_Type"
+    ),
+    isVisible: true,
+    allowMultipleSelections: true,
+    options: #"SYSTEM_SYSRULES_forEach"(
+      items: local!onboardingTypes,
+      expression: #"SYSTEM_SYSRULES_recordFilterListOption"(
+        id: fv!index,
+        name: fv!item.label,
+        filter: #"SYSTEM_SYSRULES_queryFilter"(
+          field: ri!queryRecordField,
+          operator: "=",
+          value: fv!item.code
+        )
+      )
+    )
+  )
+)</definition>
+        <namedTypedValue>
+            <name>queryRecordField</name>
+            <type>
+                <name>RecordField</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name>Generic Test Case</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"urn:appian:record-field:v1:11785fba-fdff-40a6-801c-4a34bb011a4e/type"</a:value>
+                    <a:nameRef>queryRecordField</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2466401"/>
+    </history>
+</contentHaul>

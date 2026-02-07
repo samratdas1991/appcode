@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<webApiHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>a86872c9-b38f-4eed-abea-56138c788a45</versionUuid>
+    <webApi a:uuid="6e6ed9c9-dac6-4703-b884-8c06a0c8cdd4" name="AS IO Complete Task From Id">
+        <a:description>Given an onbWorkId, a task will be completed</a:description>
+        <a:expression>a!localVariables(
+  local!taskIds: a!flatten(
+    index(
+      #"SYSTEM_SYSRULES_fromJson_v1"(
+        http!request.body
+      ),
+      "taskIds",
+      {}
+    )
+  ),
+  if(
+    #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(
+      local!taskIds
+    ),
+    #"SYSTEM_SYSRULES_httpResponse_v1"(
+      statusCode: 400,
+      headers: {
+        #"SYSTEM_SYSRULES_httpHeader"(
+          name: "Content-Type",
+          value: "application/json"
+        )
+      },
+      body: #"SYSTEM_SYSRULES_toJson_v1"(
+        {
+          error: "A task ID was not provided"
+        }
+      )
+    ),
+    #"SYSTEM_SYSRULES_startProcess"(
+      processModel: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_38752",
+      processParameters: {
+        currentTasks: #"_a-0000e393-fbf1-8000-9ba2-011c48011c48_104148"(
+          returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290131",
+          taskId: local!taskIds,
+          pagingInfo: #"SYSTEM_SYSRULES_pagingInfo"(
+            startIndex: 1,
+            batchSize: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73962"(
+              local!taskIds
+            )
+          )
+        ).data,
+        startTime: now()
+      },
+      onSuccess: #"SYSTEM_SYSRULES_httpResponse_v1"(
+        statusCode: 200,
+        headers: {
+          #"SYSTEM_SYSRULES_httpHeader"(
+            name: "Content-Type",
+            value: "application/json"
+          )
+        },
+        body: #"SYSTEM_SYSRULES_toJson_v1"(
+          fv!processInfo
+        )
+      ),
+      onError: #"SYSTEM_SYSRULES_httpResponse_v1"(
+        statusCode: 500,
+        headers: {
+          #"SYSTEM_SYSRULES_httpHeader"(
+            name: "Content-Type",
+            value: "application/json"
+          )
+        },
+        body: #"SYSTEM_SYSRULES_toJson_v1"(
+          {
+            error: "There was an error starting the process"
+          }
+        )
+      )
+    )
+  )
+)</a:expression>
+        <a:urlAlias>complete-task</a:urlAlias>
+        <a:httpMethod>POST</a:httpMethod>
+        <a:system>false</a:system>
+        <a:requestBodyType></a:requestBodyType>
+        <a:loggingEnabled>false</a:loggingEnabled>
+    </webApi>
+    <roleMap>
+        <role name="web_api_administrator">
+            <users/>
+            <groups>
+                <groupUuid>_e-0000e2bb-4188-8000-9aee-01075c01075c_41</groupUuid>
+            </groups>
+        </role>
+        <role name="web_api_viewer">
+            <users/>
+            <groups>
+                <groupUuid>_e-0000e329-3415-8000-9aee-01075c01075c_5488</groupUuid>
+            </groups>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>WebApiRequest?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:path/>
+                <a:headers>
+                    <a:name>Content-Type</a:name>
+                    <a:value>application/json</a:value>
+                </a:headers>
+                <a:body>{"taskIds":[1,2]}</a:body>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="6ba0e97b-9248-43ff-ab14-d6893c7c6e70"/>
+        <historyInfo versionUuid="52cf2dfb-a1d9-4abf-92ca-01cf3712c10f"/>
+        <historyInfo versionUuid="6c827aa2-b9d9-4d4e-87fd-d4e53009ecac"/>
+        <historyInfo versionUuid="dd0ee2ae-8bae-495a-86a1-ca93aaf1c1b1"/>
+        <historyInfo versionUuid="b7ce06bf-b76b-4ef7-b200-1e0e49c655dd"/>
+        <historyInfo versionUuid="3f560cc6-030b-46d8-ab4e-2e52f846d8dc"/>
+        <historyInfo versionUuid="46907c4a-7e6e-4ad8-9f60-2327d67f6e35"/>
+        <historyInfo versionUuid="50fc538a-7f81-4f19-a6ad-b03282e682d0"/>
+        <historyInfo versionUuid="6ce9842e-8392-4726-92f0-faf05932b1f5"/>
+        <historyInfo versionUuid="a86872c9-b38f-4eed-abea-56138c788a45"/>
+    </history>
+</webApiHaul>

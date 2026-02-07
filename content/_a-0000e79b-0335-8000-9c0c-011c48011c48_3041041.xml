@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e7c7-bc72-8000-9c0e-011c48011c48_3086477</versionUuid>
+    <rule>
+        <name>AS_IO_VLD_requiredFieldsForRequiredDocuments</name>
+        <uuid>_a-0000e79b-0335-8000-9c0c-011c48011c48_3041041</uuid>
+        <description>Rule to get if all the requiredFields are added for document requirement</description>
+        <parentUuid>_a-0000e2bb-4188-8000-9ba2-011c48011c48_25469</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>#"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_76367"(
+  array: #"SYSTEM_SYSRULES_forEach"(
+    items: ri!newDocumentRequirements,
+    expression: if(
+      #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(
+        index(
+          ri!documentRequirements,
+          wherecontains(
+            touniformstring(fv!item.requirementName),
+            touniformstring(
+              index(
+                ri!documentRequirements,
+                "requirementName",
+                null
+              )
+            )
+          ),
+          null
+        ).onboardingDocument
+      ),
+      a!localVariables(
+        local!relatedDocUploadTask: index(ri!docUploadTasks, fv!index, null),
+        local!relatedReviewTask: index(ri!reviewTasks, fv!index, null),
+        local!validation: a!refreshVariable(
+          value: or(
+            #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(local!relatedDocUploadTask.dueDate),
+            local!relatedDocUploadTask.dueDate &lt; today(),
+            #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(
+              local!relatedDocUploadTask.groupAssignee
+            ),
+            #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(local!relatedReviewTask.groupAssignee)
+          ),
+          refreshOnVarChange: ri!triggerRefresh
+        ),
+        if(
+          local!validation,
+          fv!item.requirementName,
+          null
+        )
+      ),
+      if(
+        #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(
+          index(
+            ri!documentRequirements,
+            wherecontains(
+              touniformstring(fv!item.requirementName),
+              touniformstring(
+                index(
+                  ri!documentRequirements,
+                  "requirementName",
+                  null
+                )
+              )
+            ),
+            null
+          ).onboardingDocument.customerDocument
+        ),
+        fv!item.requirementName,
+        null
+      )
+    )
+  )
+)</definition>
+        <namedTypedValue>
+            <name>newDocumentRequirements</name>
+            <type>
+                <name>AS_IO_RequiredOnboardingDocument?list</name>
+                <namespace>urn:com:appian:types:AS:IO</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>reviewTasks</name>
+            <type>
+                <name>AS_IO_Task?list</name>
+                <namespace>urn:com:appian:types:AS:IO</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>docUploadTasks</name>
+            <type>
+                <name>AS_IO_Task?list</name>
+                <namespace>urn:com:appian:types:AS:IO</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>triggerRefresh</name>
+            <type>
+                <name>dateTime</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>documentRequirements</name>
+            <type>
+                <name>AS_IO_RequiredOnboardingDocument?list</name>
+                <namespace>urn:com:appian:types:AS:IO</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name>Valid Case</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e79b-0335-8000-9c0c-011c48011c48_3029015"(
+ 
+  returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290157"
+)</a:value>
+                    <a:nameRef>newDocumentRequirements</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                    <a:nameRef>reviewTasks</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                    <a:nameRef>docUploadTasks</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:dateTime"/>
+                    <a:nameRef>triggerRefresh</a:nameRef>
+                    <a:id>4</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                    <a:nameRef>documentRequirements</a:nameRef>
+                    <a:id>5</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e79b-0335-8000-9c0c-011c48011c48_3049989"/>
+        <historyInfo versionUuid="_a-0000e7c7-bc72-8000-9c0e-011c48011c48_3073350"/>
+        <historyInfo versionUuid="_a-0000e7c7-bc72-8000-9c0e-011c48011c48_3086477"/>
+    </history>
+</contentHaul>

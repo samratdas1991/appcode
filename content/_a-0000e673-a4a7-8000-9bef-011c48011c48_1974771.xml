@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e70f-2824-8000-9c01-011c48011c48_2721345</versionUuid>
+    <interface>
+        <name>AS_IO_CPS_viewIntegrationErrorTask</name>
+        <uuid>_a-0000e673-a4a7-8000-9bef-011c48011c48_1974771</uuid>
+        <description>Interface to view completed Integration Error Task</description>
+        <parentUuid>_a-0000e2bb-4188-8000-9ba2-011c48011c48_25469</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  local!decision: ri!task.review.decisionCode = #"_a-0000e673-a4a7-8000-9bef-011c48011c48_1959524",
+  {
+    #"_a-0000e3e6-fb42-8000-9ba5-011c48011c48_235251"(
+      prominentText: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+        i18nData: ri!i18nData,
+        bundleKey: choose(
+          #"_a-0000e40a-de32-8000-9ba8-011c48011c48_280802"(
+            value: ri!task.taskBehaviorType.behaviorSubtypeCode,
+            inArray: {
+              #"_a-0000e539-6d59-8000-9bd0-011c48011c48_1286205",
+              #"_a-0000e673-a4a7-8000-9bef-011c48011c48_1951726"
+            }
+          ),
+          {},
+          "AS.CO.AllBundles.lbl_RetryNorthrowCheck",
+          "AS.CO.AllBundles.lbl_RetryDocusignTask"
+        )
+      ),
+      secondaryText: ri!instruction,
+      componentBetweenText: #"_a-0000e3e6-fb42-8000-9ba5-011c48011c48_212429"(
+        label: ri!errorBannerMessage,
+        showWhen: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(ri!errorBannerMessage)
+      ),
+      align: "CENTER"
+    ),
+    #"SYSTEM_SYSRULES_textField"(
+      readOnly: true,
+      showWhen: and(
+        #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(ri!errorBannerMessage),
+        #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(ri!instruction)
+      )
+    ),
+    #"_a-0000e3e6-fb42-8000-9ba5-011c48011c48_247656"(
+      disabled: true,
+      choiceLabel: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+        i18nData: ri!i18nData,
+        bundleKey: if(
+          local!decision,
+          "AS.CO.AllBundles.lbl_Retry",
+          "AS.CO.AllBundles.lbl_DoNotRetry"
+        )
+      ),
+      value: local!decision,
+      background: "STANDARD",
+      showTimesIcon: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75636"(local!decision)
+    )
+  }
+)</definition>
+        <namedTypedValue>
+            <name>i18nData</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>task</name>
+            <type>
+                <name>AS_IO_Task</name>
+                <namespace>urn:com:appian:types:AS:IO</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>errorBannerMessage</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>instruction</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+        <isCustom>false</isCustom>
+    </interface>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name/>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81834"(null)</a:value>
+                    <a:nameRef>i18nData</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">'type!{urn:com:appian:types:AS:IO}AS_IO_Task'(
+  taskRefId: 63,
+  taskName: "Review Northrow Errors",
+  taskBehaviorType: 'type!{urn:com:appian:types:AS:IO}AS_IO_R_TaskBehaviorType'(
+    taskBehaviorTypeId: 21,
+  ),
+  taskCategory: 'type!{urn:com:appian:types:AS:IO}AS_IO_R_TaskCategory'(
+    taskCategoryId: 32
+  ),
+  groupAssignee: 584,
+  taskStatus: 'type!{urn:com:appian:types:AS:IO}AS_IO_R_TaskStatus'(
+    taskStatusId: #"_a-0000e460-9d93-8000-9bc1-011c48011c48_603248"
+  ),
+  review: 'type!{urn:com:appian:types:AS:IO}AS_IO_Task_Review'(
+    decisionCode: #"_a-0000e673-a4a7-8000-9bef-011c48011c48_1959524"
+  )
+)</a:value>
+                    <a:nameRef>task</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:string"/>
+                    <a:nameRef>errorBannerMessage</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:string"/>
+                    <a:nameRef>instruction</a:nameRef>
+                    <a:id>4</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e673-a4a7-8000-9bef-011c48011c48_1974788"/>
+        <historyInfo versionUuid="_a-0000e673-a4a7-8000-9bef-011c48011c48_2016962"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2721345"/>
+    </history>
+</contentHaul>

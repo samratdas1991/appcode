@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e825-b425-8000-9c1c-011c48011c48_3577501</versionUuid>
+    <interface>
+        <name>AS_IO_FM_discussionWrapper</name>
+        <uuid>_a-0000e2cd-bc96-8000-9ba2-011c48011c48_102728</uuid>
+        <description>Wrapper specific to FS for the Record Comment Interface</description>
+        <parentUuid>_a-0000e2bb-4188-8000-9ba2-011c48011c48_25469</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  local!i18nData: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81834"(triggerRefresh: now()),
+  local!commentTypes: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75720"(
+    cdt: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_39864"(
+      typeList: #"_a-0000e5a0-53e9-8000-9bd8-011c48011c48_1403293",
+      i18nData: local!i18nData
+    ),
+    field: "sortOrder",
+    ascending: true
+  ),
+  local!commentType: #"_a-0000e5a0-53e9-8000-9bd8-011c48011c48_1403061",
+  local!triggerRefresh: now(),
+  {
+    #"_a-0000e7e5-dad4-8000-9c14-011c48011c48_3312632"(),
+    #"_a-0000e7e5-dad4-8000-9c14-011c48011c48_3312448"("AS_IO_FM_discussionWrapper"),
+    #"SYSTEM_SYSRULES_columnsLayout"(
+      columns: {
+        #"SYSTEM_SYSRULES_columnLayout"(
+          contents: {
+            #"SYSTEM_SYSRULES_columnsLayout"(
+              columns: {
+                #"SYSTEM_SYSRULES_columnLayout"(
+                  contents: {
+                    #"_a-0000e3e6-fb42-8000-9ba5-011c48011c48_226948"(
+                      value: local!commentType,
+                      choiceValues: local!commentTypes.code,
+                      choiceLabels: local!commentTypes.label,
+                      saveInto: local!commentType,
+                      disabled: false,
+                      selectedItemLabelStyle: "STRONG",
+                      labelColor: "ACCENT"
+                    ),
+                    #"SYSTEM_SYSRULES_cardLayout"(
+                      height: "TALL",
+                      showWhen: not(#"SYSTEM_SYSRULES_isNativePhone"()),
+                      showBorder: false
+                    )
+                  },
+                  width: "NARROW"
+                ),
+                #"SYSTEM_SYSRULES_columnLayout"(
+                  contents: {
+                    #"_a-0000e5a0-53e9-8000-9bd8-011c48011c48_1400736"(
+                      requestId: ri!requestId,
+                      commentType: local!commentType,
+                      triggerRefresh: local!triggerRefresh
+                    )
+                  }
+                )
+              },
+              spacing: "SPARSE",
+              showDividers: true
+            )
+          }
+        ),
+        #"SYSTEM_SYSRULES_columnLayout"(contents: {})
+      }
+    )
+  }
+)</definition>
+        <namedTypedValue>
+            <name>requestId</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+        <isCustom>false</isCustom>
+    </interface>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <history>
+        <historyInfo versionUuid="_a-0000e2cd-bc96-8000-9ba2-011c48011c48_146640"/>
+        <historyInfo versionUuid="_a-0000e329-3415-8000-9ba2-011c48011c48_374823"/>
+        <historyInfo versionUuid="_a-0000e36c-7599-8000-9ba2-011c48011c48_70925"/>
+        <historyInfo versionUuid="_a-0000e3ff-a5bc-8000-9ba8-011c48011c48_52564"/>
+        <historyInfo versionUuid="_a-0000e430-f270-8000-9bbc-011c48011c48_364697"/>
+        <historyInfo versionUuid="_a-0000e438-fd8a-8000-9bbe-011c48011c48_411444"/>
+        <historyInfo versionUuid="_a-0000e471-623a-8000-9bc3-011c48011c48_727820"/>
+        <historyInfo versionUuid="_a-0000e5a0-53e9-8000-9bd8-011c48011c48_1408060"/>
+        <historyInfo versionUuid="_a-0000e607-97fd-8000-9be9-011c48011c48_1705236"/>
+        <historyInfo versionUuid="_a-0000e69f-3688-8000-9bf2-011c48011c48_2149280"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2510607"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2723270"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2727123"/>
+        <historyInfo versionUuid="_a-0000e81d-5ddb-8000-9c1b-011c48011c48_3564746"/>
+        <historyInfo versionUuid="_a-0000e825-b425-8000-9c1c-011c48011c48_3577501"/>
+    </history>
+</contentHaul>

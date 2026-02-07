@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e811-1167-8000-9c18-011c48011c48_3534420</versionUuid>
+    <interface>
+        <name>AS_IO_CHT_processSetupTrendsByTemplate</name>
+        <uuid>_a-0000e3e6-fb42-8000-9ba5-011c48011c48_251568</uuid>
+        <description>Shows process setup modification by template </description>
+        <parentUuid>_a-0000e2bb-4188-8000-9ba2-011c48011c48_25469</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  local!processSetupTrends: #"_a-0000e3e6-fb42-8000-9ba5-011c48011c48_251593"(dateFilter: ri!dateFilter),
+  local!distinctTemplateIds: local!processSetupTrends.templateId,
+  local!templates: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_155202"(
+    templateId: local!distinctTemplateIds,
+    excludeNestedCdts: true,
+    returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290163"
+  ),
+  local!chartColorScheme: #"_a-0000e62c-7375-8000-9bec-011c48011c48_1924695"(brandingKey: "ChartColorScheme"),
+  {
+    #"SYSTEM_SYSRULES_barChartField_v1"(
+      label: "Onboarding Setup Modifications by Template",
+      labelPosition: "COLLAPSED",
+      /*"Select a bar to drill into an individual template"*/
+      instructions: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+        i18nData: ri!i18nData,
+        bundleKey: "AS.CO.AllBundles.ins_SelectBarToDrill"
+      ),
+      categories: #"SYSTEM_SYSRULES_forEach"(
+        items: local!processSetupTrends.templateId,
+        expression: displayvalue(
+          fv!item,
+          local!templates.templateId,
+          local!templates.templateName,
+          null
+        )
+      ),
+      series: #"SYSTEM_SYSRULES_forEach"(
+        items: #"_a-0000e40a-961e-8000-9ba7-011c48011c48_258082"(),
+        expression: a!localVariables(
+          local!seriesConfig: fv!item,
+          #"SYSTEM_SYSRULES_chartSeries"(
+            label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+              i18nData: ri!i18nData,
+              bundleKey: fv!item.seriesBundleKey
+            ),
+            data: #"SYSTEM_SYSRULES_forEach"(
+              items: local!processSetupTrends,
+              expression: fv!item.seriesData[local!seriesConfig.key].count,
+              
+            ),
+            links: #"SYSTEM_SYSRULES_forEach"(
+              items: local!processSetupTrends,
+              expression: #"SYSTEM_SYSRULES_dynamicLink"(
+                saveInto: a!save(
+                  ri!drilldownSelection,
+                  {
+                    templateId: fv!item.templateId,
+                    /*Currently not auto-drilling to the specific audit type*/
+                    /*seriesConfig: local!seriesConfig*/
+                    
+                  }
+                )
+              )
+            )
+          )
+        )
+      ),
+      colorScheme: #"_a-0000e65f-acc5-8000-9bb8-011c48011c48_409039"(
+        colorSchemeValue: local!chartColorScheme,
+        returnRawHexCodes: false
+      ),
+      /*"Onboarding Setup Modifications"*/
+      yAxisTitle: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+        i18nData: ri!i18nData,
+        bundleKey: "AS.CO.AllBundles.lbl_OnboardingSetupModification"
+      ),
+      stacking: "NORMAL",
+      showLegend: true
+    )
+  }
+)</definition>
+        <namedTypedValue>
+            <name>i18nData</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>drilldownSelection</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>dateFilter</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+        <isCustom>false</isCustom>
+    </interface>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name/>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81834"(triggerRefresh: null)</a:value>
+                    <a:nameRef>i18nData</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:string"/>
+                    <a:nameRef>drilldownSelection</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e40a-de32-8000-9ba8-011c48011c48_276298"()[2]</a:value>
+                    <a:nameRef>dateFilter</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e3e6-fb42-8000-9ba5-011c48011c48_253478"/>
+        <historyInfo versionUuid="_a-0000e40a-de32-8000-9ba8-011c48011c48_278822"/>
+        <historyInfo versionUuid="_a-0000e419-f401-8000-9ba4-011c48011c48_17390"/>
+        <historyInfo versionUuid="_a-0000e3ff-a5bc-8000-9ba8-011c48011c48_39267"/>
+        <historyInfo versionUuid="_a-0000e430-f270-8000-9bbc-011c48011c48_363705"/>
+        <historyInfo versionUuid="_a-0000e62c-7375-8000-9bec-011c48011c48_1866202"/>
+        <historyInfo versionUuid="_a-0000e69f-3688-8000-9bf2-011c48011c48_2109779"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2715547"/>
+        <historyInfo versionUuid="_a-0000e811-1167-8000-9c18-011c48011c48_3534420"/>
+    </history>
+</contentHaul>

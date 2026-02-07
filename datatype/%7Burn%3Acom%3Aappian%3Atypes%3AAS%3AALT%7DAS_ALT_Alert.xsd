@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema targetNamespace="urn:com:appian:types:AS:ALT"
+  xmlns:fs2="urn:com:appian:types:AS:FS"
+  xmlns:tns="urn:com:appian:types:AS:ALT" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <xsd:include schemaLocation="%7Burn%3Acom%3Aappian%3Atypes%3AAS%3AALT%7DAS_ALT_AlertArgument.xsd"/>
+  <xsd:include schemaLocation="%7Burn%3Acom%3Aappian%3Atypes%3AAS%3AALT%7DAS_ALT_AlertDismissal.xsd"/>
+  <xsd:complexType name="AS_ALT_Alert">
+    <xsd:annotation>
+      <xsd:appinfo source="appian.jpa">@Table(name="AS_ALT_ALERT")</xsd:appinfo>
+      <xsd:appinfo source="http://www.appian.com/ae/types/2009">
+        <ns2:Metadata xmlns:ns2="http://www.appian.com/ae/types/2009">
+          <ns2:versionUuid>0000e725-16bd-8000-5509-7f0000014e7a</ns2:versionUuid>
+          <ns2:history>
+            <ns2:historyInfo versionUuid="0001e485-179e-8000-fcdd-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0000e48a-3b15-8000-fcf1-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0001e48c-0b80-8000-0acb-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0001e49e-0733-8000-fdaa-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0000e57a-6114-8000-224a-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0001e6db-1245-8000-4ac2-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0001e6db-6f48-8000-4b35-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0000e6e1-d3e2-8000-4c7f-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0000e6e4-262d-8000-4ce8-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0000e6e4-2887-8000-4cec-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0000e6e9-61c6-8000-4d69-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0000e6e9-6277-8000-4d6d-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0000e6ec-b567-8000-4dd9-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0000e711-7789-8000-506d-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0000e725-16bd-8000-5509-7f0000014e7a"/>
+          </ns2:history>
+        </ns2:Metadata>
+      </xsd:appinfo>
+      <xsd:documentation><![CDATA[Alert datatype for the ALT application.  Supports internationalization.]]></xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="alertId" nillable="true" type="xsd:int">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@Id @Column(name="ALERT_ID") @GeneratedValue</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="alertSetId" nillable="true" type="xsd:int">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@Column(name="ALERT_SET_ID")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="alertConfigurationId" nillable="true" type="xsd:int">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@Column(name="ALERT_CONFIGURATION_ID")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="message" nillable="true" type="xsd:string">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@Column(name="MESSAGE")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="arguments" type="tns:AS_ALT_AlertArgument">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@OneToMany(cascade=CascadeType.ALL, indexed=false) @JoinColumn(name="ALERT_ID")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element maxOccurs="unbounded" minOccurs="0"
+        name="alertDismissals" type="tns:AS_ALT_AlertDismissal">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@OneToMany(cascade=CascadeType.ALL, indexed=false) @JoinColumn(name="ALERT_ID")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="createdBy" nillable="true" type="xsd:string">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@Column(name="CREATED_BY")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="createdDatetime" nillable="true" type="xsd:dateTime">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@Column(name="CREATED_DATETIME")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+</xsd:schema>

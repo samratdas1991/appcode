@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<recordTypeHaul xmlns:a="http://www.appian.com/ae/types/2009" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <versionUuid>008a3178-8c23-484b-b552-bfd6b46b0adb</versionUuid>
+  <recordType a:uuid="705e7cc8-e94b-4bb2-9dad-424b245a6f9b" name="AS_EI_Northrow_CheckSummaryIntegration_RecordType">
+    <a:pluralName>AS_EI_Northrow_CheckSummaryIntegration_RecordTypes</a:pluralName>
+    <a:description>Record type to show the Northrow check summary integration test UI</a:description>
+    <a:urlStub>uXOAIA</a:urlStub>
+    <a:source a:uuid="0002e589-7612-8000-2580-7f0000014e7a" xsi:type="a:ProcessModel"/>
+    <a:listViewTemplateExpr>#"SYSTEM_SYSRULES_recordGridField"(
+  columns: {
+    #"SYSTEM_SYSRULES_gridColumn"(
+      label: "Pm",
+      sortField: #"urn:appian:record-field:v1:705e7cc8-e94b-4bb2-9dad-424b245a6f9b/pm",
+      value: fv!row[#"urn:appian:record-field:v1:705e7cc8-e94b-4bb2-9dad-424b245a6f9b/pm"]
+    ),
+    #"SYSTEM_SYSRULES_gridColumn"(
+      label: "Pp",
+      sortField: #"urn:appian:record-field:v1:705e7cc8-e94b-4bb2-9dad-424b245a6f9b/pp",
+      value: #"SYSTEM_SYSRULES_linkField"(
+        links: {
+          #"SYSTEM_SYSRULES_recordLink"(
+            label: fv!row[#"urn:appian:record-field:v1:705e7cc8-e94b-4bb2-9dad-424b245a6f9b/pp"],
+            recordType: #"urn:appian:record-type:v1:705e7cc8-e94b-4bb2-9dad-424b245a6f9b",
+            identifier: fv!identifier
+          )
+        }
+      )
+    )
+  },
+  pageSize: 50,
+  shadeAlternateRows: true
+)</a:listViewTemplateExpr>
+    <a:detailViewCfg>
+      <a:nameExpr>#"SYSTEM_SYSRULES_rtd_getDefaultSummaryViewName"()</a:nameExpr>
+      <a:uiExpr/>
+      <a:visibilityExpr>=true()</a:visibilityExpr>
+      <a:urlStub>summary</a:urlStub>
+      <a:headerExpr/>
+      <a:recordActionLaunchType>DIALOG</a:recordActionLaunchType>
+      <a:recordUiSecurityType>EXPRESSION</a:recordUiSecurityType>
+    </a:detailViewCfg>
+    <a:isSystem>false</a:isSystem>
+    <a:dataSrcExpr/>
+    <a:facetsListExpr/>
+    <a:titleExpr/>
+    <a:defaultFiltersExpr>if(
+  #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_114114"(
+    user: loggedInUser(),
+    groups: #"_a-0000e62c-7375-8000-9bec-011c48011c48_1839635"
+  ),
+  {},
+  #"SYSTEM_SYSRULES_queryFilter"(
+    field: #"urn:appian:record-field:v1:705e7cc8-e94b-4bb2-9dad-424b245a6f9b/pm%40id",
+    operator: "is null"
+  )
+)</a:defaultFiltersExpr>
+    <a:layoutType>GRID</a:layoutType>
+    <a:security>16383</a:security>
+    <a:hideLatestNews>false</a:hideLatestNews>
+    <a:hideNewsView>false</a:hideNewsView>
+    <a:hideRelatedActionsView>false</a:hideRelatedActionsView>
+    <a:isExportable>true</a:isExportable>
+    <a:listViewSrcExpr/>
+    <a:recordViewSrcExpr/>
+    <a:recordListActionCfg a:uuid="70f8bd7c-15ed-44b7-8dfe-c6e681238f86">
+      <a:titleExpr>#"_a-0000e539-6d59-8000-9bd0-011c48011c48_1259913"(
+  bundleKey: "AS.EI.NORTHROW.AdminCenter.lbl_TestIntegration"
+)</a:titleExpr>
+      <a:staticDescription/>
+      <a:iconId>f0ad</a:iconId>
+      <a:target a:uuid="0002e589-7612-8000-2580-7f0000014e7a" xsi:type="a:ProcessModel"/>
+      <a:visibilityExpr>#"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_114114"(
+  user: loggedInUser(),
+  groups: #"_a-0000e62c-7375-8000-9bec-011c48011c48_1839635"
+)</a:visibilityExpr>
+      <a:referenceKey>testIntegration</a:referenceKey>
+      <a:dialogSize>FIT$FIT</a:dialogSize>
+      <a:showInRecordList>true</a:showInRecordList>
+      <a:recordUiSecurityType>EXPRESSION</a:recordUiSecurityType>
+      <a:dialogWidth>FIT</a:dialogWidth>
+      <a:dialogHeight>FIT</a:dialogHeight>
+    </a:recordListActionCfg>
+    <a:recordTypeSearchCfg>
+      <searchFieldsSrc>DEFAULT</searchFieldsSrc>
+      <placeholderSrc>DEFAULT</placeholderSrc>
+      <placeholder/>
+    </a:recordTypeSearchCfg>
+    <a:iconId/>
+    <a:listAutoRefreshInterval>0.0</a:listAutoRefreshInterval>
+    <a:enabledFeatures>63</a:enabledFeatures>
+    <a:isVisibleInRecordTypeList>false</a:isVisibleInRecordTypeList>
+    <a:recordActionLaunchType>DIALOG</a:recordActionLaunchType>
+    <a:showSearchBox>true</a:showSearchBox>
+    <a:isVisibleInDataFabric>false</a:isVisibleInDataFabric>
+    <a:usesRollingSyncLimit>false</a:usesRollingSyncLimit>
+    <a:usesRecoverySync>false</a:usesRecoverySync>
+    <a:isScheduledIndexingEnabled>false</a:isScheduledIndexingEnabled>
+    <a:smartSearchAcceptableFailureRate>0.0</a:smartSearchAcceptableFailureRate>
+    <a:skipFailedSmartServicesSync>false</a:skipFailedSmartServicesSync>
+  </recordType>
+  <roleMap>
+    <role name="record_type_administrator">
+      <users/>
+      <groups>
+        <groupUuid>_e-0000e539-6d59-8000-9b1c-01075c01075c_10140</groupUuid>
+      </groups>
+    </role>
+    <role name="record_type_viewer">
+      <users/>
+      <groups>
+        <groupUuid>_e-0000e539-6d59-8000-9b1c-01075c01075c_10142</groupUuid>
+      </groups>
+    </role>
+  </roleMap>
+  <history>
+    <historyInfo versionUuid="8033d499-a8af-4db9-8b10-0f726cae713d"/>
+    <historyInfo versionUuid="5cd2e372-9d20-48cb-91ea-da8cb38be4cb"/>
+    <historyInfo versionUuid="2053ed65-8fd2-4231-9ad4-bf7a8bbf3dfd"/>
+    <historyInfo versionUuid="69d78a3a-6ae2-49d4-86f2-b72599b30be3"/>
+    <historyInfo versionUuid="0d46d208-b437-487a-8f1b-5ef6828f133c"/>
+    <historyInfo versionUuid="b3e9188e-18e9-4da7-8367-63b02714f72a"/>
+    <historyInfo versionUuid="008a3178-8c23-484b-b552-bfd6b46b0adb"/>
+  </history>
+  <migrationVersion>1</migrationVersion>
+</recordTypeHaul>

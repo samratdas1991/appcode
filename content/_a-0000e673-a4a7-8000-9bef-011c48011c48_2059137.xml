@@ -1,0 +1,609 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e825-b425-8000-9c1c-011c48011c48_3633015</versionUuid>
+    <interface>
+        <name>AS_FS_CPS_reviewCustomerDetails</name>
+        <uuid>_a-0000e673-a4a7-8000-9bef-011c48011c48_2059137</uuid>
+        <description>Displays the contents of customer details form</description>
+        <parentUuid>_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_968428</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  local!numberOfColumns: #"_a-0000e539-6d59-8000-9bd0-011c48011c48_1291535",
+  local!parentEntities: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+    cdt: ri!customerRelations,
+    field: "toCustomerId",
+    value: ri!customer.customerId
+  ),
+  local!childEntities: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+    cdt: ri!customerRelations,
+    field: "fromCustomerId",
+    value: ri!customer.customerId
+  ),
+  local!linkArray: #"_a-0000e40a-de32-8000-9ba8-011c48011c48_271202"(
+    cdt: #"3d49abfd-7bb0-4df8-9cd2-bda66d7aeb3f"(
+      CompanyLinks: ri!chsCompanyDetails.companyLink,
+      i18nData: ri!i18nData
+    ),
+    field: "url",
+    value: null
+  ),
+  {
+    #"_a-0000e7e5-dad4-8000-9c14-011c48011c48_3312448"("AS_FS_CPS_reviewCustomerDetails"),
+    /*Customer Information Section*/
+    #"_a-0000e69f-3688-8000-9bf2-011c48011c48_2079896"(
+      label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+        i18nData: ri!i18nData,
+        bundleKey: "AS.FS.AllBundles.lbl_CustomerInformation"
+      )
+    ),
+    #"d9cf1571-4531-418c-b5ba-8aa6330febeb"(
+      customer: ri!customer,
+      i18nData: ri!i18nData,
+      refData: ri!refData,
+      readOnly: true(),
+      showHeader: false,
+      customerOpenServiceRequests: ri!customerOpenServiceRequests,
+      countries: ri!countries
+    ),
+    /*Additional Details Section*/
+    #"_a-0000e69f-3688-8000-9bf2-011c48011c48_2079896"(
+      label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+        i18nData: ri!i18nData,
+        bundleKey: "AS.FS.AllBundles.lbl_AdditionalDetails"
+      )
+    ),
+    #"_a-0000e5fd-0ed3-8000-9be6-011c48011c48_1573084"(
+      customer: ri!customer,
+      i18nData: ri!i18nData,
+      readOnly: true(),
+      chsCompanyDetails: ri!chsCompanyDetails,
+      showHeader: false()
+    ),
+    /*Previous Customer Names*/
+    if(
+      #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(
+        ri!chsCompanyDetails.previousCompanyDetails
+      ),
+      {
+        #"_a-0000e69f-3688-8000-9bf2-011c48011c48_2079896"(
+          label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+            i18nData: ri!i18nData,
+            bundleKey: "AS.FS.AllBundles.lbl_PreviousCustomerNames"
+          )
+        ),
+        #"_a-0000e447-933d-8000-9baa-011c48011c48_68668"(
+          cardLayouts: #"SYSTEM_SYSRULES_forEach"(
+            items: ri!chsCompanyDetails.previousCompanyDetails,
+            expression: #"_a-0000e5a0-53e9-8000-9bd8-011c48011c48_1430680"(
+              i18nData: ri!i18nData,
+              showBorder: true,
+              iconField: #"SYSTEM_SYSRULES_richTextDisplayField"(
+                labelPosition: "COLLAPSED",
+                value: {
+                  #"SYSTEM_SYSRULES_richTextIcon"(
+                    icon: "hourglass-end",
+                    color: "SECONDARY",
+                    size: "LARGE"
+                  )
+                }
+              ),
+              previousComapnyDetails: fv!item
+            )
+          ),
+          maxPerRow: local!numberOfColumns,
+          minPerRow: local!numberOfColumns,
+          columnWidth: "AUTO",
+          marginBelow: "NONE",
+          stackWhen: {
+            "PHONE",
+            "TABLET_PORTRAIT",
+            "TABLET_LANDSCAPE",
+            "DESKTOP_NARROW"
+          }
+        )
+      },
+      {}
+    ),
+    /*Customer Links*/
+    if(
+      #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(local!linkArray),
+      {
+        #"_a-0000e69f-3688-8000-9bf2-011c48011c48_2079896"(
+          label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+            i18nData: ri!i18nData,
+            bundleKey: "AS.FS.AllBundles.lbl_CustomerLinks"
+          )
+        ),
+        #"_a-0000e447-933d-8000-9baa-011c48011c48_68668"(
+          cardLayouts: #"SYSTEM_SYSRULES_forEach"(
+            items: local!linkArray,
+            expression: #"_a-0000e5a0-53e9-8000-9bd8-011c48011c48_1441747"(
+              showBorder: true,
+              iconField: #"SYSTEM_SYSRULES_richTextDisplayField"(
+                labelPosition: "COLLAPSED",
+                value: {
+                  #"SYSTEM_SYSRULES_richTextIcon"(
+                    icon: "link",
+                    color: "SECONDARY",
+                    size: "LARGE"
+                  )
+                }
+              ),
+              link: fv!item,
+              showExternalLink: true()
+            )
+          ),
+          maxPerRow: local!numberOfColumns,
+          minPerRow: local!numberOfColumns,
+          columnWidth: "AUTO",
+          marginBelow: "NONE",
+          stackWhen: {
+            "PHONE",
+            "TABLET_PORTRAIT",
+            "TABLET_LANDSCAPE",
+            "DESKTOP_NARROW"
+          }
+        )
+      },
+      {}
+    ),
+    /*Beneficial Owners*/
+    if(
+      #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(ri!beneficialOwners),
+      {
+        #"_a-0000e69f-3688-8000-9bf2-011c48011c48_2079896"(
+          label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+            i18nData: ri!i18nData,
+            bundleKey: "AS.FS.AllBundles.lbl_BeneficialOwners"
+          )
+        ),
+        #"_a-0000e447-933d-8000-9baa-011c48011c48_68668"(
+          cardLayouts: #"SYSTEM_SYSRULES_forEach"(
+            items: ri!beneficialOwners,
+            expression: #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_985821"(
+              beneficialOwner: fv!item,
+              i18nData: ri!i18nData,
+              refData: ri!refData,
+              showBorder: true,
+              iconField: a!defaultValue(
+                value: #"_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2373717"(
+                  i18nData: ri!i18nData,
+                  beneficialOwner: fv!item,
+                  size: "ICON"
+                ),
+                default: #"SYSTEM_SYSRULES_richTextDisplayField"(
+                  labelPosition: "COLLAPSED",
+                  value: {
+                    #"SYSTEM_SYSRULES_richTextIcon"(
+                      icon: "user",
+                      color: "SECONDARY",
+                      size: "LARGE"
+                    )
+                  }
+                )
+              )
+            )
+          ),
+          maxPerRow: local!numberOfColumns,
+          minPerRow: local!numberOfColumns,
+          columnWidth: "AUTO",
+          marginBelow: "NONE",
+          stackWhen: {
+            "PHONE",
+            "TABLET_PORTRAIT",
+            "TABLET_LANDSCAPE",
+            "DESKTOP_NARROW"
+          }
+        )
+      },
+      {}
+    ),
+    /*Entity Relationship Section*/
+    #"_a-0000e69f-3688-8000-9bf2-011c48011c48_2079896"(
+      label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+        i18nData: ri!i18nData,
+        bundleKey: "AS.FS.AllBundles.lbl_EntityRelationships"
+      ),
+      showWhen: or(
+        #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(local!parentEntities),
+        #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(local!childEntities)
+      )
+    ),
+    /*Parent Entity*/
+    if(
+      #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(local!parentEntities),
+      {
+        #"_a-0000e69f-3688-8000-9bf2-011c48011c48_2079896"(
+          label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+            i18nData: ri!i18nData,
+            bundleKey: "AS.FS.AllBundles.lbl_CapitalParents"
+          ),
+          size: "STANDARD"
+        ),
+        #"_a-0000e447-933d-8000-9baa-011c48011c48_68668"(
+          cardLayouts: #"SYSTEM_SYSRULES_forEach"(
+            items: local!parentEntities,
+            expression: #"589ffdfb-6e5a-4ad7-add7-1d911f311609"(
+              customerRelations: fv!item,
+              i18nData: ri!i18nData,
+              showBorder: true(),
+              showHeading: false()
+            )
+          ),
+          maxPerRow: local!numberOfColumns,
+          minPerRow: local!numberOfColumns,
+          columnWidth: "AUTO",
+          stackWhen: {
+            "PHONE",
+            "TABLET_PORTRAIT",
+            "TABLET_LANDSCAPE",
+            "DESKTOP_NARROW"
+          }
+        )
+      },
+      {}
+    ),
+    /*Child Entity*/
+    if(
+      #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(local!childEntities),
+      {
+        #"_a-0000e69f-3688-8000-9bf2-011c48011c48_2079896"(
+          label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+            i18nData: ri!i18nData,
+            bundleKey: "AS.FS.AllBundles.lbl_CapitalChildren"
+          ),
+          size: "STANDARD"
+        ),
+        #"_a-0000e447-933d-8000-9baa-011c48011c48_68668"(
+          cardLayouts: #"SYSTEM_SYSRULES_forEach"(
+            items: local!childEntities,
+            expression: #"589ffdfb-6e5a-4ad7-add7-1d911f311609"(
+              customerRelations: fv!item,
+              i18nData: ri!i18nData,
+              isCustomerParent: true(),
+              showBorder: true(),
+              showHeading: false()
+            )
+          ),
+          maxPerRow: local!numberOfColumns,
+          minPerRow: local!numberOfColumns,
+          columnWidth: "AUTO",
+          stackWhen: {
+            "PHONE",
+            "TABLET_PORTRAIT",
+            "TABLET_LANDSCAPE",
+            "DESKTOP_NARROW"
+          }
+        )
+      },
+      {}
+    ),
+    /*Address Section*/
+    if(
+      #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(ri!addresses),
+      {
+        #"_a-0000e69f-3688-8000-9bf2-011c48011c48_2079896"(
+          label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+            i18nData: ri!i18nData,
+            bundleKey: "AS.FS.AllBundles.lbl_Addresses"
+          )
+        ),
+        #"_a-0000e447-933d-8000-9baa-011c48011c48_68668"(
+          cardLayouts: #"SYSTEM_SYSRULES_forEach"(
+            items: ri!addresses,
+            expression: #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_981618"(
+              address: fv!item,
+              refData: ri!refData,
+              showWhen: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(ri!addresses),
+              showBorder: true()
+            )
+          ),
+          maxPerRow: local!numberOfColumns,
+          minPerRow: local!numberOfColumns,
+          columnWidth: "AUTO",
+          stackWhen: {
+            "PHONE",
+            "TABLET_PORTRAIT",
+            "TABLET_LANDSCAPE",
+            "DESKTOP_NARROW"
+          }
+        )
+      },
+      {}
+    ),
+    /*Contacts Section*/
+    if(
+      #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(ri!contacts),
+      {
+        #"_a-0000e69f-3688-8000-9bf2-011c48011c48_2079896"(
+          label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+            i18nData: ri!i18nData,
+            bundleKey: "AS.FS.AllBundles.lbl_Contacts"
+          )
+        ),
+        #"_a-0000e447-933d-8000-9baa-011c48011c48_68668"(
+          cardLayouts: #"SYSTEM_SYSRULES_forEach"(
+            items: ri!contacts,
+            expression: #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_981879"(
+              i18nData: ri!i18nData,
+              contact: fv!item,
+              refData: ri!refData,
+              showWhen: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(ri!contacts),
+              icon: #"SYSTEM_SYSRULES_richTextDisplayField"(
+                label: "",
+                labelPosition: "COLLAPSED",
+                value: {
+                  #"SYSTEM_SYSRULES_richTextIcon"(
+                    icon: "address-card-o",
+                    color: "SECONDARY",
+                    size: "LARGE"
+                  )
+                }
+              ),
+              showBorder: true,
+              allowContactUpdate: false()
+            )
+          ),
+          maxPerRow: local!numberOfColumns,
+          minPerRow: local!numberOfColumns,
+          columnWidth: "AUTO",
+          marginBelow: "NONE",
+          stackWhen: {
+            "PHONE",
+            "TABLET_PORTRAIT",
+            "TABLET_LANDSCAPE",
+            "DESKTOP_NARROW"
+          }
+        )
+      },
+      {}
+    )
+  }
+)</definition>
+        <namedTypedValue>
+            <name>i18nData</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>addresses</name>
+            <type>
+                <name>AS_FS_Address?list</name>
+                <namespace>urn:com:appian:types:AS:FS</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>refData</name>
+            <type>
+                <name>AS_FS_R_Data?list</name>
+                <namespace>urn:com:appian:types:AS:FS</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>contacts</name>
+            <type>
+                <name>AS_FS_Contact?list</name>
+                <namespace>urn:com:appian:types:AS:FS</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>customer</name>
+            <type>
+                <name>AS_FS_Customer</name>
+                <namespace>urn:com:appian:types:AS:FS</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>chsCompanyDetails</name>
+            <type>
+                <name>AS_FS_CHS_CompanyDetails</name>
+                <namespace>urn:com:appian:types:AS:FS</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>customerOpenServiceRequests</name>
+            <type>
+                <name>Map?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>countries</name>
+            <type>
+                <name>AS_FS_R_Country?list</name>
+                <namespace>urn:com:appian:types:AS:FS</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>beneficialOwners</name>
+            <type>
+                <name>AS_FS_BeneficialOwner?list</name>
+                <namespace>urn:com:appian:types:AS:FS</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>customerRelations</name>
+            <type>
+                <name>AS_FS_CustomerRelation?list</name>
+                <namespace>urn:com:appian:types:AS:FS</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+        <isCustom>false</isCustom>
+    </interface>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name/>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_975720"(
+  triggerRefresh: null
+)</a:value>
+                    <a:nameRef>i18nData</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">{
+  'type!{urn:com:appian:types:AS:FS}AS_FS_Address'(
+    'customerId': 1,
+    'addressType': "ADDRESS_TYPE_HEADQUARTERS",
+    'streetAddress': "Street",
+    'addressLine2': "Line",
+    'city': "City",
+    'stateRegion': "Region",
+    'countryCode': "AF",
+    'postalCode': "Postal Code"
+  )
+}</a:value>
+                    <a:nameRef>addresses</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_975294"(
+  typeList: {
+    #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_979240",
+    #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_978922",
+    #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_979836",
+    #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_979842"
+  }
+)</a:value>
+                    <a:nameRef>refData</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">{
+  'type!{urn:com:appian:types:AS:FS}AS_FS_Contact'(
+    'customerId': 1,
+    'title': "CONTACT_TITLE_ MISS",
+    'firstName': "First",
+    'lastName': "Last",
+    'position': "Position",
+    'email': "abd@email.com"
+  )
+}</a:value>
+                    <a:nameRef>contacts</a:nameRef>
+                    <a:id>4</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_33079"(
+  returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290157"
+)</a:value>
+                    <a:nameRef>customer</a:nameRef>
+                    <a:id>5</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">'type!{urn:com:appian:types:AS:FS}AS_FS_CHS_CompanyDetails'(
+  'dateOfCreation': fn!date(2021, 7, 1),
+  'previousCompanyDetails': {
+    'type!{urn:com:appian:types:AS:FS}AS_FS_CHS_PreviousCompanyDetails'(
+      'ceasedOn': fn!date(2021, 7, 30),
+      'effectiveFrom': fn!date(2021, 7, 1),
+      'previousCompanyName': "Old Company"
+    )
+  },
+  'companyLink': 'type!{urn:com:appian:types:AS:FS}AS_FS_CHS_CompanyLink'(
+    'personsWithSignificantControlStatements': "www.google.com"
+  )
+)</a:value>
+                    <a:nameRef>chsCompanyDetails</a:nameRef>
+                    <a:id>6</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">{
+  recordId:null
+}</a:value>
+                    <a:nameRef>customerOpenServiceRequests</a:nameRef>
+                    <a:id>7</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_976936"(
+  returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290163"
+)</a:value>
+                    <a:nameRef>countries</a:nameRef>
+                    <a:id>8</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">{
+  'type!{urn:com:appian:types:AS:FS}AS_FS_BeneficialOwner'(
+    'name': "Name",
+    'beneficialOwnershipTypeCode': "BENEFICIAL_OWNERSHIP_TYPE_ENTITY",
+    'beneficialOwnershipPercent': 23.0,
+    'isFromDnB': false
+  )
+}</a:value>
+                    <a:nameRef>beneficialOwners</a:nameRef>
+                    <a:id>9</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">{
+  'type!{urn:com:appian:types:AS:FS}AS_FS_CustomerRelation'(
+    'fromCustomerId': 6,
+    'percentOwned': 12.0,
+    'isActive': true
+  ),
+  'type!{urn:com:appian:types:AS:FS}AS_FS_CustomerRelation'(
+    'toCustomerId': 7,
+    'percentOwned': 23.0,
+    'isActive': true
+  )
+}</a:value>
+                    <a:nameRef>customerRelations</a:nameRef>
+                    <a:id>10</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e69f-3688-8000-9bf2-011c48011c48_2077244"/>
+        <historyInfo versionUuid="_a-0000e69f-3688-8000-9bf2-011c48011c48_2083658"/>
+        <historyInfo versionUuid="_a-0000e69f-3688-8000-9bf2-011c48011c48_2085301"/>
+        <historyInfo versionUuid="_a-0000e69f-3688-8000-9bf2-011c48011c48_2086257"/>
+        <historyInfo versionUuid="_a-0000e6c5-6536-8000-9bf8-011c48011c48_2204846"/>
+        <historyInfo versionUuid="_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2373895"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2514079"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2708614"/>
+        <historyInfo versionUuid="_a-0000e825-b425-8000-9c1c-011c48011c48_3633015"/>
+    </history>
+</contentHaul>

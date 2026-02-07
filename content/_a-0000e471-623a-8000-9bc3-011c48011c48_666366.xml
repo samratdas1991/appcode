@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e50d-bf1d-8000-9bcd-011c48011c48_1006579</versionUuid>
+    <rule>
+        <name>AS_QNM_UT_calculateQuestionShowWhenMetadata</name>
+        <uuid>_a-0000e471-623a-8000-9bc3-011c48011c48_666366</uuid>
+        <description>Rule used to calculate the showWhen metadata for a question and its fields</description>
+        <parentUuid>_a-0000e42d-ffef-8000-9ba6-011c48011c48_7213-qnm</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>append(
+  ri!applicableQuestionsMetadata,
+  with(
+    local!fields: #"_a-0000e460-9d93-8000-9bc1-011c48011c48_595621"(
+      questionTypeCode: ri!question.questionTypeCode
+    ).fieldKey,
+    local!questionMetadata: 'type!{urn:com:appian:types:AS:QNM}AS_QNM_QuestionMetadata'(
+      questionId: ri!question.questionId,
+      showWhen: #"_a-0000e447-933d-8000-9baa-011c48011c48_31049"(
+        question: ri!question,
+        applicableQuestions: ri!applicableQuestions,
+        applicableQuestionsMetadata: ri!applicableQuestionsMetadata,
+        fieldKey: null
+      )
+    ),
+    reduce(
+      #"_a-0000e471-623a-8000-9bc3-011c48011c48_666372"(
+        questionMetadata: _,
+        fieldKey: _,
+        question: ri!question,
+        applicableQuestions: ri!applicableQuestions,
+        applicableQuestionsMetadata: ri!applicableQuestionsMetadata
+      ),
+      local!questionMetadata,
+      local!fields
+    )
+  )
+)</definition>
+        <namedTypedValue>
+            <name>applicableQuestionsMetadata</name>
+            <type>
+                <name>AS_QNM_QuestionMetadata?list</name>
+                <namespace>urn:com:appian:types:AS:QNM</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>question</name>
+            <type>
+                <name>AS_QNM_Question</name>
+                <namespace>urn:com:appian:types:AS:QNM</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>applicableQuestions</name>
+            <type>
+                <name>AS_QNM_Question?list</name>
+                <namespace>urn:com:appian:types:AS:QNM</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name>Iteration 1</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">{}</a:value>
+                    <a:nameRef>applicableQuestionsMetadata</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e471-623a-8000-9bc3-011c48011c48_662569"().questions[1]</a:value>
+                    <a:nameRef>question</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                    <a:nameRef>applicableQuestions</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions>
+                    <a:expectedOutput>
+                        <a:type a:uuid="{http://www.appian.com/ae/types/2009}Variant"/>
+                        <a:runtimeType a:uuid="{http://www.appian.com/ae/types/2009}Variant"/>
+                        <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">{
+  'type!{urn:com:appian:types:AS:QNM}AS_QNM_QuestionMetadata'(
+    questionId: 1,
+    showWhen: true,
+    fieldMetadata: {
+      'type!{urn:com:appian:types:AS:QNM}AS_QNM_FieldMetadata'(
+        showWhen: true,
+        fieldKey: "appianDocId"
+      ),
+      'type!{urn:com:appian:types:AS:QNM}AS_QNM_FieldMetadata'(
+        showWhen: true,
+        fieldKey: "documentTypeCode"
+      )
+    }
+  )
+}</a:value>
+                    </a:expectedOutput>
+                </a:assertions>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e471-623a-8000-9bc3-011c48011c48_670768"/>
+        <historyInfo versionUuid="_a-0000e471-623a-8000-9bc3-011c48011c48_722012"/>
+        <historyInfo versionUuid="_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_890225"/>
+        <historyInfo versionUuid="_a-0000e50d-bf1d-8000-9bcd-011c48011c48_1006579"/>
+    </history>
+</contentHaul>

@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e539-6d59-8000-9bd0-011c48011c48_1161633</versionUuid>
+    <rule>
+        <name>AS_CO_UT_retrieveSubFolderByName</name>
+        <uuid>_a-0000e447-933d-8000-9baa-011c48011c48_98630</uuid>
+        <description>Returns direct sub folder of given name</description>
+        <parentUuid>_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73105</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>/*
+Note: this rules does not safely check whether the rootFolder exists or the user
+has permission to access it.
+*/
+a!localVariables(
+  local!folders: if(
+    isnull(
+      ri!rootFolder
+    ),
+    "",
+    folder(
+      ri!rootFolder,
+      "folderChildren"
+    )
+  ),
+  local!folderNames: if(
+    #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(
+      local!folders
+    ),
+    "",
+    #"SYSTEM_SYSRULES_forEach"(
+      items: local!folders,
+      expression: folder(
+        fv!item,
+        "name"
+      )
+    )
+  ),
+  cast(
+    typeof(
+      ri!rootFolder
+    ),
+    index(
+      index(
+        local!folders,
+        wherecontains(
+          ri!subFolderName,
+          local!folderNames
+        ),
+        {}
+      ),
+      1,
+      {}
+    )
+  )
+)</definition>
+        <namedTypedValue>
+            <name>rootFolder</name>
+            <type>
+                <name>CollaborationFolder</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>subFolderName</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name>No subfolder</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:CollaborationFolder">_a-0000e329-3415-8000-9ba2-011c48011c48_326553</a:value>
+                    <a:nameRef>rootFolder</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">"does not exist"</a:value>
+                    <a:nameRef>subFolderName</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions>
+                    <a:expectedOutput>
+                        <a:type a:uuid="{http://www.appian.com/ae/types/2009}CollaborationFolder"/>
+                        <a:runtimeType a:uuid="{http://www.appian.com/ae/types/2009}CollaborationFolder"/>
+                        <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="a:CollaborationFolder"/>
+                    </a:expectedOutput>
+                </a:assertions>
+            </el>
+            <el>
+                <a:name>Subfolder exists</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:CollaborationFolder">_a-0000e329-3415-8000-9ba2-011c48011c48_326553</a:value>
+                    <a:nameRef>rootFolder</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">"AS CO Test Folder"</a:value>
+                    <a:nameRef>subFolderName</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions>
+                    <a:expectedOutput>
+                        <a:type a:uuid="{http://www.appian.com/ae/types/2009}CollaborationFolder"/>
+                        <a:runtimeType a:uuid="{http://www.appian.com/ae/types/2009}CollaborationFolder"/>
+                        <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:CollaborationFolder">_a-0000e471-623a-8000-9bc3-011c48011c48_701730</a:value>
+                    </a:expectedOutput>
+                </a:assertions>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e447-933d-8000-9baa-011c48011c48_98641"/>
+        <historyInfo versionUuid="_a-0000e447-933d-8000-9baa-011c48011c48_98677"/>
+        <historyInfo versionUuid="_a-0000e471-623a-8000-9bc3-011c48011c48_701741"/>
+        <historyInfo versionUuid="_a-0000e539-6d59-8000-9bd0-011c48011c48_1161613"/>
+        <historyInfo versionUuid="_a-0000e539-6d59-8000-9bd0-011c48011c48_1161633"/>
+    </history>
+</contentHaul>

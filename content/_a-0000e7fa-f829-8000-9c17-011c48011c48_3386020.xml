@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e7fa-f829-8000-9c17-011c48011c48_3411890</versionUuid>
+    <rule>
+        <name>AS_IO_getOriginalAndNewTemplatesWithUpdatedOnboardingTypeRef</name>
+        <uuid>_a-0000e7fa-f829-8000-9c17-011c48011c48_3386020</uuid>
+        <description>Returns a map of original and new templates with the updated onboarding type code</description>
+        <parentUuid>_a-0000e2bb-4188-8000-9ba2-011c48011c48_25469</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>if(
+  and(
+    #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(ri!productTypesAdded),
+    #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(ri!productTypesDeleted)
+  ),
+  {},
+  a!localVariables(
+    /*Query AS_IO_R_template of the same onboarding type */
+    local!templatesOfOnboardingType: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_155202"(
+      excludeNestedCdts: true(),
+      onboardingTypeCode: ri!onboardingTypeCode,
+      isDeleted: false(),
+      executeWhen: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(ri!onboardingTypeCode),
+      returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290163",
+      isActive: { true(), false() }
+    ),
+    local!templateIdList: local!templatesOfOnboardingType.templateId,
+    /*All Existing Products of the templates. Queried again because the templates queried doesn't contain nested cdts*/
+    local!allProductsofTemplates: #"_a-0000e7fa-f829-8000-9c17-011c48011c48_3364087"(
+      templateId: local!templateIdList,
+      executeWhen: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(local!templateIdList),
+      returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290163"
+    ),
+    /*updating original templates with products that will be removed*/
+    local!updatedTemplatesWithOriginalProducts: if(
+      #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(ri!productTypesDeleted),
+      #"SYSTEM_SYSRULES_forEach"(
+        items: local!templatesOfOnboardingType,
+        expression: a!localVariables(
+          local!currentTemplate: fv!item,
+          /*find all products currently associated to the template*/
+          local!productTemplatesForCurrentOnboardingTemplate: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+            cdt: local!allProductsofTemplates,
+            field: "templateId",
+            value: local!currentTemplate.templateId
+          ),
+          /*add any products that should be removed and are associated to the original template*/
+          #"_a-0000e40a-de32-8000-9ba8-011c48011c48_269170"(
+            cdt: local!currentTemplate,
+            fieldValuePairs: {
+              field: "onboardingProductTemplates",
+              value: a!flatten(
+                append(
+                  local!currentTemplate.onboardingProductTemplates,
+                  #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+                    cdt: local!productTemplatesForCurrentOnboardingTemplate,
+                    field: "productTypeCode",
+                    value: touniformstring(ri!productTypesDeleted)
+                  )
+                )
+              )
+            }
+          )
+        )
+      ),
+      local!templatesOfOnboardingType
+    ),
+    /*Updating Templates with the new products*/
+    local!updatedTemplatesWithNewProducts: if(
+      #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(ri!productTypesAdded),
+      #"SYSTEM_SYSRULES_forEach"(
+        items: local!templatesOfOnboardingType,
+        expression: a!localVariables(
+          local!currentTemplate: fv!item,
+          /*find all products currently associated to the template*/
+          local!productTemplatesForCurrentOnboardingTemplate: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+            cdt: local!allProductsofTemplates,
+            field: "templateId",
+            value: local!currentTemplate.templateId
+          ),
+          /*the constructed product is added to the existing products of the template*/
+          #"_a-0000e40a-de32-8000-9ba8-011c48011c48_269170"(
+            cdt: local!currentTemplate,
+            fieldValuePairs: {
+              field: "onboardingProductTemplates",
+              value: a!flatten(
+                append(
+                  local!currentTemplate.onboardingProductTemplates,
+                  #"SYSTEM_SYSRULES_forEach"(
+                    /*for each added product type that is not already on the template*/
+                    items: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_165064"(
+                      array: ri!productTypesAdded,
+                      values: index(local!productTemplatesForCurrentOnboardingTemplate, "productTypeCode")
+                    ),
+                    expression: /*construct a productType*/
+                    'type!{urn:com:appian:types:AS:IO}AS_IO_T_OnboardingProduct'(
+                      productTypeCode: fv!item,
+                      accountTypeProductTypeMappings: #"_a-0000e5fd-0ed3-8000-9be6-011c48011c48_1577746"(
+                        productTypeCode: fv!item,
+                        returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290163"
+                      ),
+                      templateId: local!currentTemplate.templateId
+                    )
+                  )
+                )
+              )
+            }
+          )
+        )
+      ),
+      local!templatesOfOnboardingType
+    ),
+    /*Taking a list of products to delete before updating the template*/
+    local!productsToDelete: if(
+      #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(ri!productTypesDeleted),
+      #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+        cdt: local!allProductsofTemplates,
+        field: "productTypeCode",
+        value: ri!productTypesDeleted
+      ),
+      {}
+    ),
+    /*Taking a list of accounts associate with the products to delete*/
+    local!accountsToDelete: if(
+      #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(local!productsToDelete),
+      #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_111264"(
+        cdt: #"SYSTEM_SYSRULES_forEach"(
+          items: local!productsToDelete,
+          expression: fv!item.accountTypeProductTypeMappings
+        ),
+        fields: "accountTypeCode"
+      ),
+      {}
+    ),
+    /*Indexing out the products from new templates*/
+    local!products: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_76367"(
+      #"SYSTEM_SYSRULES_forEach"(
+        items: local!updatedTemplatesWithNewProducts,
+        expression: fv!item.onboardingProductTemplates
+      )
+    ),
+    a!map(
+      originalOnboardingTemplates: local!updatedTemplatesWithOriginalProducts,
+      newOnboardingTemplates: local!updatedTemplatesWithNewProducts,
+      productTemplates: local!products,
+      productTemplateIdsToDelete: index(
+        local!productsToDelete,
+        "onboardingProductTemplateId",
+        null
+      ),
+      accountTemplateIdsToDelete: index(
+        local!accountsToDelete,
+        "onboardingAccountTypeProductTypeMappingId",
+        null
+      )
+    )
+  )
+)</definition>
+        <namedTypedValue>
+            <name>onboardingTypeCode</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>productTypesAdded</name>
+            <type>
+                <name>Text?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>productTypesDeleted</name>
+            <type>
+                <name>Text?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name>Sample Testcase</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">"ONBOARDING_TYPE_ABC"</a:value>
+                    <a:nameRef>onboardingTypeCode</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">{
+"PRODUCT_TYPE_ALTERNATIVES",
+"PRODUCT_TYPE_COMMODITIES"}</a:value>
+                    <a:nameRef>productTypesAdded</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">{"PRODUCT_TYPE_CREDIT_CARDS",
+"PRODUCT_TYPE_ABC"
+}</a:value>
+                    <a:nameRef>productTypesDeleted</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e7fa-f829-8000-9c17-011c48011c48_3411890"/>
+    </history>
+</contentHaul>

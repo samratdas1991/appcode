@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e6ca-7e19-8000-9bfb-011c48011c48_2260068</versionUuid>
+    <rule>
+        <name>AS_QNM_VD_importReferenceQuestions</name>
+        <uuid>_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_886124</uuid>
+        <description>Validations to run when adding questions</description>
+        <parentUuid>_a-0000e42d-ffef-8000-9ba6-011c48011c48_7213-qnm</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  local!newQuestions: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+    cdt: ri!questionsToAdd,
+    field: "questionReferenceId",
+    value: null
+  ),
+  if(
+    /*Check there is at least one task*/
+    #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(
+      local!newQuestions
+    ),
+    #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+      i18nData: ri!i18nData,
+      bundleKey: "AS.QNM.Question.vld_AddAtleastOneQuestion"
+    ),
+    #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73758"(
+      reject(
+        #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(
+          _
+        ),
+        {
+          touniformstring(
+            /*Check required fields*/
+            a!localVariables(
+              local!requiredFields: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+                cdt: #"_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_885430"(),
+                field: "required",
+                value: true
+              ),
+              if(
+                any(
+                  #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(
+                    _
+                  ),
+                  a!flatten(
+                    #"SYSTEM_SYSRULES_forEach"(
+                      items: local!requiredFields.field,
+                      expression: if(
+                        fv!item = "defaultResponseOptions.label",
+                        #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_76367"(
+                          #"SYSTEM_SYSRULES_forEach"(
+                            items: local!newQuestions,
+                            expression: if(
+                              #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(
+                                #"_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_928264"(
+                                  questionTypeCode: fv!item.questionTypeCode
+                                )
+                              ),
+                              fv!item,
+                              null
+                            )
+                          )
+                        ),
+                        #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_76433"(
+                          cdt: local!newQuestions,
+                          field: fv!item
+                        )
+                      )
+                    )
+                  )
+                ),
+                #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                  i18nData: ri!i18nData,
+                  bundleKey: "AS.QNM.Question.vld_RequiredFields",
+                  arguments: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_55491"(
+                    list: local!requiredFields.label,
+                    finalSeparator: lower(
+                      #"_a-0000e447-933d-8000-9baa-011c48011c48_42943"(
+                        bundleKey: "AS.QNM.Question.lbl_And"
+                      )
+                    )
+                  )
+                ),
+                ""
+              )
+            ),
+            /*Check name length*/
+            #"SYSTEM_SYSRULES_forEach"(
+              items: local!newQuestions,
+              expression: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_74104"(
+                value: fv!item.defaultLabel,
+                maxLength: 1000,
+                maxLengthMessage: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                  i18nData: ri!i18nData,
+                  bundleKey: "AS.QNM.Question.vld_QuestionNameLength"
+                )
+              )
+            ),
+            /*Check name duplication*/
+            #"SYSTEM_SYSRULES_forEach"(
+              items: local!newQuestions,
+              expression: if(
+                #"_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_907642"(
+                  question: fv!item,
+                  additionalQuestionsToCheck: remove(
+                    local!newQuestions,
+                    fv!index
+                  ),
+                  returnDuplicate: false
+                ),
+                if(
+                  #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(
+                    #"_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_928264"(
+                      questionTypeCode: fv!item.questionTypeCode,
+                      internationalize: true
+                    )
+                  ),
+                  #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                    i18nData: ri!i18nData,
+                    bundleKey: "AS.QNM.Question.vld_DuplicateSelectionQuestion"
+                  ),
+                  #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                    i18nData: ri!i18nData,
+                    bundleKey: "AS.QNM.Question.vld_DuplicateQuestionName"
+                  )
+                ),
+                ""
+              )
+            )
+          )
+        }
+      )
+    )
+  )
+)</definition>
+        <namedTypedValue>
+            <name>i18nData</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>questionsToAdd</name>
+            <type>
+                <name>AS_QNM_R_Question?list</name>
+                <namespace>urn:com:appian:types:AS:QNM</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name>Blank task (missing required fields)</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e447-933d-8000-9baa-011c48011c48_43088"(triggerRefresh: {})</a:value>
+                    <a:nameRef>i18nData</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">'type!{urn:com:appian:types:AS:QNM}AS_QNM_R_Question'()</a:value>
+                    <a:nameRef>questionsToAdd</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+            <el>
+                <a:name>Null task</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e447-933d-8000-9baa-011c48011c48_43088"(triggerRefresh: {})</a:value>
+                    <a:nameRef>i18nData</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                    <a:nameRef>questionsToAdd</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions>
+                    <a:expectedOutput>
+                        <a:type a:uuid="{http://www.appian.com/ae/types/2009}Text"/>
+                        <a:runtimeType a:uuid="{http://www.appian.com/ae/types/2009}Text"/>
+                        <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:string">You must add at least one question</a:value>
+                    </a:expectedOutput>
+                </a:assertions>
+            </el>
+            <el>
+                <a:name>Task with missing doc type code</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e447-933d-8000-9baa-011c48011c48_43088"(triggerRefresh: {})</a:value>
+                    <a:nameRef>i18nData</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">'type!{urn:com:appian:types:AS:QNM}AS_QNM_R_Question'(
+  defaultLabel: "Add a new question"
+)</a:value>
+                    <a:nameRef>questionsToAdd</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions>
+                    <a:expectedOutput>
+                        <a:type a:uuid="{http://www.appian.com/ae/types/2009}Text?list"/>
+                        <a:runtimeType a:uuid="{http://www.appian.com/ae/types/2009}Text?list"/>
+                        <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">{"The following fields are required for each question: Question, Type, and Response"}</a:value>
+                    </a:expectedOutput>
+                </a:assertions>
+            </el>
+            <el>
+                <a:name>Same long task name x 3</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e447-933d-8000-9baa-011c48011c48_43088"(triggerRefresh: {})</a:value>
+                    <a:nameRef>i18nData</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">repeat(
+  3,
+'type!{urn:com:appian:types:AS:QNM}AS_QNM_R_Question'(
+  defaultLabel:  repeat(10, "this is a very long name"),
+  questionTypeCode: #"_a-0000e447-91f4-8000-9bc0-011c48011c48_569158",
+ )
+ )</a:value>
+                    <a:nameRef>questionsToAdd</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions>
+                    <a:expectedOutput>
+                        <a:type a:uuid="{http://www.appian.com/ae/types/2009}Text?list"/>
+                        <a:runtimeType a:uuid="{http://www.appian.com/ae/types/2009}Text?list"/>
+                        <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">{"You cannot have two questions with the same name"}</a:value>
+                    </a:expectedOutput>
+                </a:assertions>
+            </el>
+            <el>
+                <a:name>Only existing questions</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e447-933d-8000-9baa-011c48011c48_43088"(triggerRefresh: {})</a:value>
+                    <a:nameRef>i18nData</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e447-933d-8000-9baa-011c48011c48_39392"(returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290163")</a:value>
+                    <a:nameRef>questionsToAdd</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_908771"/>
+        <historyInfo versionUuid="_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_923268"/>
+        <historyInfo versionUuid="_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_932489"/>
+        <historyInfo versionUuid="_a-0000e539-6d59-8000-9bd0-011c48011c48_1241671"/>
+        <historyInfo versionUuid="_a-0000e62c-7375-8000-9bec-011c48011c48_1815868"/>
+        <historyInfo versionUuid="_a-0000e6ca-7e19-8000-9bfb-011c48011c48_2242019"/>
+        <historyInfo versionUuid="_a-0000e6ca-7e19-8000-9bfb-011c48011c48_2260068"/>
+    </history>
+</contentHaul>

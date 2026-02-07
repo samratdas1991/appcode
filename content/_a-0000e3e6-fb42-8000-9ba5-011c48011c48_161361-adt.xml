@@ -1,0 +1,493 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e70f-2824-8000-9c01-011c48011c48_2588124</versionUuid>
+    <rule>
+        <name>AS_ADT_UT_buildAudit</name>
+        <uuid>_a-0000e3e6-fb42-8000-9ba5-011c48011c48_161361-adt</uuid>
+        <description>Primary rule to calculate audits between old and new objects (handles arrays or single objects)</description>
+        <parentUuid>_a-0000e42d-ffef-8000-9ba6-011c48011c48_7213-adt</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>#"_a-0000e3e6-fb42-8000-9ba5-011c48011c48_165782-adt"(
+  originalObjects: ri!originalObjects,
+  newObjects: ri!newObjects,
+  auditConfig: ri!auditConfig,
+  username: ri!username
+)</definition>
+        <namedTypedValue>
+            <name>originalObjects</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>newObjects</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>username</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>auditConfig</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name>Delete and Add</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">{'type!{urn:com:appian:types:AS:ADT}AS_ADT_SAMPLE_Parent'(
+  parentId: 1
+)}</a:value>
+                    <a:nameRef>originalObjects</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">{'type!{urn:com:appian:types:AS:ADT}AS_ADT_SAMPLE_Parent'(
+  parentId: 2
+)}</a:value>
+                    <a:nameRef>newObjects</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">loggedInUser()</a:value>
+                    <a:nameRef>username</a:nameRef>
+                    <a:id>5</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e3ff-79a3-8000-7714-45ef9045ef90_8682-adt"()</a:value>
+                    <a:nameRef>auditConfig</a:nameRef>
+                    <a:id>6</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions>
+                    <a:expectedOutput xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                    <a:resultAssertions>tostring(
+  test!output
+) = tostring(
+  {
+    {
+      parentId: 1,
+      recordId: "",
+      username: loggedInUser(),
+      timestamp: now(),
+      auditActionCode: "DELETE",
+      auditDisplayName: "",
+      simpleFieldChanges: {},
+      complexChildMultipleChanges: {}
+    },
+    {
+      parentId: 2,
+      recordId: "",
+      username: loggedInUser(),
+      timestamp: now(),
+      auditActionCode: "ADD",
+      auditDisplayName: "",
+      simpleFieldChanges: {},
+      complexChildMultipleChanges: {}
+    }
+  }
+)</a:resultAssertions>
+                </a:assertions>
+            </el>
+            <el>
+                <a:name>Delete and Add (Array and Non Array)</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">{'type!{urn:com:appian:types:AS:ADT}AS_ADT_SAMPLE_Parent'(
+  parentId: 1
+)}</a:value>
+                    <a:nameRef>originalObjects</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">{'type!{urn:com:appian:types:AS:ADT}AS_ADT_SAMPLE_Parent'(
+  parentId: 2
+)}</a:value>
+                    <a:nameRef>newObjects</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">loggedInUser()</a:value>
+                    <a:nameRef>username</a:nameRef>
+                    <a:id>5</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e3ff-79a3-8000-7714-45ef9045ef90_8682-adt"()</a:value>
+                    <a:nameRef>auditConfig</a:nameRef>
+                    <a:id>6</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions>
+                    <a:expectedOutput xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                    <a:resultAssertions>tostring(
+  test!output
+) = tostring(
+  {
+    {
+      parentId: 1,
+      recordId: "",
+      username: loggedInUser(),
+      timestamp: now(),
+      auditActionCode: "DELETE",
+      auditDisplayName: "",
+      simpleFieldChanges: {},
+      complexChildMultipleChanges: {}
+    },
+    {
+      parentId: 2,
+      recordId: "",
+      username: loggedInUser(),
+      timestamp: now(),
+      auditActionCode: "ADD",
+      auditDisplayName: "",
+      simpleFieldChanges: {},
+      complexChildMultipleChanges: {}
+    }
+  }
+)</a:resultAssertions>
+                </a:assertions>
+            </el>
+            <el>
+                <a:name>No Change</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">{'type!{urn:com:appian:types:AS:ADT}AS_ADT_SAMPLE_Parent'(
+  parentId: 1,
+  text: "",
+  date: today(),
+  referenceChild: 'type!{urn:com:appian:types:AS:ADT}AS_ADT_SAMPLE_ReferenceChildSingle'(
+    childId: 2,
+    text: "",
+    date: today()
+  ),
+  complexChildSingle: 'type!{urn:com:appian:types:AS:ADT}AS_ADT_SAMPLE_ComplexChildSingle'(
+    childId: 3,
+    text: "",
+    date: today(),
+    referenceChild: 'type!{urn:com:appian:types:AS:ADT}AS_ADT_SAMPLE_ReferenceChildSingle'(
+      childId: 4,
+      text: "",
+      date: today()
+    ),
+  ),
+  complexChildMultiple: {
+    'type!{urn:com:appian:types:AS:ADT}AS_ADT_SAMPLE_ComplexChildMultiple'(
+      parentId: 1,
+      childId: 5,
+      text: "",
+      date: today(),
+      referenceChild: 'type!{urn:com:appian:types:AS:ADT}AS_ADT_SAMPLE_ReferenceChildSingle'(
+        childId: 6,
+        text: "",
+        date: today()
+      ),
+    )
+  }
+)}</a:value>
+                    <a:nameRef>originalObjects</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">{'type!{urn:com:appian:types:AS:ADT}AS_ADT_SAMPLE_Parent'(
+  parentId: 1,
+  text: "",
+  date: today(),
+  referenceChild: 'type!{urn:com:appian:types:AS:ADT}AS_ADT_SAMPLE_ReferenceChildSingle'(
+    childId: 2,
+    text: "",
+    date: today()
+  ),
+  complexChildSingle: 'type!{urn:com:appian:types:AS:ADT}AS_ADT_SAMPLE_ComplexChildSingle'(
+    childId: 3,
+    text: "",
+    date: today(),
+    referenceChild: 'type!{urn:com:appian:types:AS:ADT}AS_ADT_SAMPLE_ReferenceChildSingle'(
+      childId: 4,
+      text: "",
+      date: today()
+    ),
+  ),
+  complexChildMultiple: {
+    'type!{urn:com:appian:types:AS:ADT}AS_ADT_SAMPLE_ComplexChildMultiple'(
+      parentId: 1,
+      childId: 5,
+      text: "",
+      date: today(),
+      referenceChild: 'type!{urn:com:appian:types:AS:ADT}AS_ADT_SAMPLE_ReferenceChildSingle'(
+        childId: 6,
+        text: "",
+        date: today()
+      ),
+    )
+  }
+)}</a:value>
+                    <a:nameRef>newObjects</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">loggedInUser()</a:value>
+                    <a:nameRef>username</a:nameRef>
+                    <a:id>5</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e3ff-79a3-8000-7714-45ef9045ef90_8682-adt"()</a:value>
+                    <a:nameRef>auditConfig</a:nameRef>
+                    <a:id>6</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions>
+                    <a:expectedOutput xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                    <a:resultAssertions>tostring(test!output) = tostring(
+  {
+    {
+      parentId: 1,
+      recordId: "",
+      username: loggedInUser(),
+      timestamp: now(),
+      auditActionCode: "UNCHANGED",
+      auditDisplayName: ""
+    }
+  }
+)</a:resultAssertions>
+                </a:assertions>
+            </el>
+            <el>
+                <a:name>Large Modification</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">{'type!{urn:com:appian:types:AS:ADT}AS_ADT_SAMPLE_Parent'(
+  parentId: 1,
+  text: "",
+  date: today(),
+  referenceChild: 'type!{urn:com:appian:types:AS:ADT}AS_ADT_SAMPLE_ReferenceChildSingle'(
+    childId: 2,
+    text: "",
+    date: today()
+  ),
+  complexChildSingle: 'type!{urn:com:appian:types:AS:ADT}AS_ADT_SAMPLE_ComplexChildSingle'(
+    childId: 3,
+    text: "",
+    date: today(),
+    referenceChild: 'type!{urn:com:appian:types:AS:ADT}AS_ADT_SAMPLE_ReferenceChildSingle'(
+      childId: 4,
+      text: "",
+      date: today()
+    ),
+  ),
+  complexChildMultiple: {
+    'type!{urn:com:appian:types:AS:ADT}AS_ADT_SAMPLE_ComplexChildMultiple'(
+      parentId: 1,
+      childId: 5,
+      text: "",
+      date: today(),
+      referenceChild: 'type!{urn:com:appian:types:AS:ADT}AS_ADT_SAMPLE_ReferenceChildSingle'(
+        childId: 6,
+        text: "",
+        date: today()
+      ),
+    )
+  }
+)}</a:value>
+                    <a:nameRef>originalObjects</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">{'type!{urn:com:appian:types:AS:ADT}AS_ADT_SAMPLE_Parent'(
+  parentId: 1,
+  text: "New Text",
+  date: today(),
+  referenceChild: 'type!{urn:com:appian:types:AS:ADT}AS_ADT_SAMPLE_ReferenceChildSingle'(
+    childId: 2,
+    text: "New Text",
+    date: today()
+  ),
+  complexChildSingle: 'type!{urn:com:appian:types:AS:ADT}AS_ADT_SAMPLE_ComplexChildSingle'(
+    childId: 3,
+    text: "New Text",
+    date: today(),
+    referenceChild: 'type!{urn:com:appian:types:AS:ADT}AS_ADT_SAMPLE_ReferenceChildSingle'(
+      childId: 9,
+      text: "New Text",
+      date: today()
+    ),
+  ),
+  complexChildMultiple: {
+    'type!{urn:com:appian:types:AS:ADT}AS_ADT_SAMPLE_ComplexChildMultiple'(
+      parentId: 1,
+      childId: 5,
+      text: "New Text",
+      date: today(),
+      referenceChild: 'type!{urn:com:appian:types:AS:ADT}AS_ADT_SAMPLE_ReferenceChildSingle'(
+        childId: 6,
+        text: "",
+        date: today()
+      ),
+    ),
+    'type!{urn:com:appian:types:AS:ADT}AS_ADT_SAMPLE_ComplexChildMultiple'(
+      parentId: 1,
+      childId: 7,
+      text: "New Text",
+      date: today(),
+      referenceChild: 'type!{urn:com:appian:types:AS:ADT}AS_ADT_SAMPLE_ReferenceChildSingle'(
+        childId: 8,
+        text: "New Text",
+        date: today()
+      ),
+    )
+  }
+)}</a:value>
+                    <a:nameRef>newObjects</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">loggedInUser()</a:value>
+                    <a:nameRef>username</a:nameRef>
+                    <a:id>5</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e3ff-79a3-8000-7714-45ef9045ef90_8682-adt"()</a:value>
+                    <a:nameRef>auditConfig</a:nameRef>
+                    <a:id>6</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions>
+                    <a:expectedOutput xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                    <a:resultAssertions>tostring(
+  test!output
+) = tostring(
+  {
+    {
+      parentId: 1,
+      recordId: "",
+      username: loggedInUser(),
+      timestamp: now(),
+      auditActionCode: "MODIFY",
+      auditDisplayName: "",
+      simpleFieldChanges: {
+        {
+          fieldName: "text",
+          oldValue: "",
+          newValue: "New Text"
+        },
+        {
+          fieldName: "complexChildSingle.text",
+          oldValue: "",
+          newValue: "New Text"
+        },
+        {
+          fieldName: "complexChildSingle.referenceChild.childId",
+          oldValue: 4,
+          newValue: 9
+        }
+      },
+      complexChildMultipleChanges: {
+        {
+          childId: 5,
+          recordId: "",
+          username: loggedInUser(),
+          timestamp: now(),
+          auditActionCode: "MODIFY",
+          simpleFieldChanges: {
+            {
+              fieldName: "text",
+              oldValue: "",
+              newValue: "New Text"
+            }
+          }
+        },
+        {
+          childId: 7,
+          recordId: "",
+          username: loggedInUser(),
+          timestamp: now(),
+          auditActionCode: "ADD",
+          simpleFieldChanges: {
+            {
+              fieldName: "text",
+              oldValue: "",
+              newValue: "New Text"
+            },
+            {
+              fieldName: "date",
+              oldValue: "",
+              newValue: today()
+            },
+            {
+              fieldName: "referenceChild.childId",
+              oldValue: "",
+              newValue: 8
+            }
+          }
+        }
+      }
+    }
+  }
+)</a:resultAssertions>
+                </a:assertions>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e3e6-fb42-8000-9ba5-011c48011c48_181353"/>
+        <historyInfo versionUuid="_a-0000e3ff-79a3-8000-7714-45ef9045ef90_8810-fs"/>
+        <historyInfo versionUuid="_a-0000e3ff-79a3-8000-7714-45ef9045ef90_8810"/>
+        <historyInfo versionUuid="_a-0000e3ff-79a3-8000-7714-45ef9045ef90_8920-fs"/>
+        <historyInfo versionUuid="_a-0000e430-f270-8000-9bbc-011c48011c48_371033"/>
+        <historyInfo versionUuid="_a-0000e467-127b-8000-0fb7-43ef9043ef90_9028"/>
+        <historyInfo versionUuid="_a-0000e465-3942-8000-3664-a8ef90a8ef90_15609-adt"/>
+        <historyInfo versionUuid="_a-0000e447-933d-8000-9baa-011c48011c48_85231"/>
+        <historyInfo versionUuid="_a-0000e5d4-2024-8000-9baf-011c48011c48_320565"/>
+        <historyInfo versionUuid="_a-0000e5d4-20a7-8000-9bdb-011c48011c48_1477789"/>
+        <historyInfo versionUuid="_a-0000e5d4-2024-8000-9baf-011c48011c48_323102"/>
+        <historyInfo versionUuid="_a-0000e5d4-20a7-8000-9bdb-011c48011c48_1478534"/>
+        <historyInfo versionUuid="_a-0000e607-97fd-8000-9be9-011c48011c48_1707637"/>
+        <historyInfo versionUuid="_a-0000e62c-7375-8000-9bec-011c48011c48_1848878"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2588124"/>
+    </history>
+</contentHaul>

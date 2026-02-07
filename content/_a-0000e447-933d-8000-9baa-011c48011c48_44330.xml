@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_855493</versionUuid>
+    <rule>
+        <name>AS_QNM_UT_buildQuestionPrecedentSets_RuntimeFromTemplate</name>
+        <uuid>_a-0000e447-933d-8000-9baa-011c48011c48_44330</uuid>
+        <description>Given a list of QuestionPrecedentsSet_Template types, returns a list of QuestionPrecedentSets.  QuestionId_precedent in the QuestinPrecedents are populated based upon the order of the question provided, as this is how they are set in process upon questionnaire creation after the initial question saves.</description>
+        <parentUuid>_a-0000e42d-ffef-8000-9ba6-011c48011c48_7213-qnm</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>#"SYSTEM_SYSRULES_forEach"(
+  items: ri!questionPrecedentSets_Template,
+  expression: 'type!{urn:com:appian:types:AS:QNM}AS_QNM_QuestionPrecedentSet'(
+    operator: fv!item.operator,
+    fieldKey: fv!item.fieldKey,
+    questionPrecedentSets: #"_a-0000e447-933d-8000-9baa-011c48011c48_44330"(
+      questions_Template: ri!questions_Template,
+      questionPrecedentSets_Template: fv!item.questionPrecedentSets
+    ),
+    questionPrecedents: #"SYSTEM_SYSRULES_forEach"(
+      items: fv!item.questionPrecedents,
+      expression: 'type!{urn:com:appian:types:AS:QNM}AS_QNM_QuestionPrecedent'(
+        questionId_precedent: wherecontains(
+          fv!item.questionTemplateId_Precedent,
+          ri!questions_Template.questionTemplateId
+        ),
+        responseRequirement: #"_a-0000e460-9d93-8000-9bc1-011c48011c48_597567"(
+          responseRequirements_Template: fv!item.responseRequirement
+        )
+      )
+    )
+  )
+)</definition>
+        <namedTypedValue>
+            <name>questions_Template</name>
+            <type>
+                <name>AS_QNM_T_Question?list</name>
+                <namespace>urn:com:appian:types:AS:QNM</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>questionPrecedentSets_Template</name>
+            <type>
+                <name>AS_QNM_T_QuestionPrecedentSet?list</name>
+                <namespace>urn:com:appian:types:AS:QNM</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <history>
+        <historyInfo versionUuid="_a-0000e447-933d-8000-9baa-011c48011c48_44382"/>
+        <historyInfo versionUuid="_a-0000e447-933d-8000-9baa-011c48011c48_66190"/>
+        <historyInfo versionUuid="_a-0000e471-623a-8000-9bc3-011c48011c48_722393"/>
+        <historyInfo versionUuid="_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_855493"/>
+    </history>
+</contentHaul>

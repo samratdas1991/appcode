@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e70f-2824-8000-9c01-011c48011c48_2716047</versionUuid>
+    <interface>
+        <name>AS_IO_GRD_processSetupTrendsDrilldownGrid</name>
+        <uuid>_a-0000e40a-de32-8000-9ba8-011c48011c48_276828</uuid>
+        <description>Shows process setup modification drilldown-down</description>
+        <parentUuid>_a-0000e2bb-4188-8000-9ba2-011c48011c48_25469</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>{
+  #"SYSTEM_SYSRULES_gridField_v1"(
+    labelPosition: "COLLAPSED",
+    data: #"_a-0000e40a-de32-8000-9ba8-011c48011c48_276907"(
+      dateFilter: ri!dateFilter,
+      drilldownSelection: ri!drilldownSelection,
+      pagingInfo: fv!pagingInfo
+    ),
+    columns: {
+      /*Modification*/
+      #"SYSTEM_SYSRULES_gridColumn"(
+        label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+          i18nData: ri!i18nData,
+          bundleKey: "AS.CO.AllBundles.lbl_Modification"
+        ),
+        value: #"_a-0000e40a-de32-8000-9ba8-011c48011c48_278664"(i18nData: ri!i18nData, auditRow: fv!row),
+        width: "WIDE"
+      ),
+      /*Time*/
+      #"SYSTEM_SYSRULES_gridColumn"(
+        label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+          i18nData: ri!i18nData,
+          bundleKey: "AS.CO.AllBundles.lbl_Time"
+        ),
+        align: "START",
+        value: #"_a-0000e3c8-6861-8000-9ba2-011c48011c48_120056"(
+          user: fv!row.username,
+          dateTime: fv!row.timestamp
+        ),
+        sortField: "timestamp"
+      )
+    },
+    initialSorts: #"SYSTEM_SYSRULES_sortInfo"(field: "timestamp", ascending: false),
+    borderStyle: "LIGHT",
+    pageSize: #"_a-0000e3c8-6861-8000-9ba2-011c48011c48_124717",
+    accessibilityText: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+      i18nData: ri!i18nData,
+      bundleKey: "AS.CO.AllBundles.lbl_OnboardingSetupModification"
+    )
+  )
+}</definition>
+        <namedTypedValue>
+            <name>i18nData</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>drilldownSelection</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>dateFilter</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+        <isCustom>false</isCustom>
+    </interface>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name/>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81834"(triggerRefresh: null)</a:value>
+                    <a:nameRef>i18nData</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">{
+  templateId: 3
+}</a:value>
+                    <a:nameRef>drilldownSelection</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e40a-de32-8000-9ba8-011c48011c48_276298"()[2]</a:value>
+                    <a:nameRef>dateFilter</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e40a-de32-8000-9ba8-011c48011c48_279018"/>
+        <historyInfo versionUuid="_a-0000e40a-de32-8000-9ba8-011c48011c48_282662"/>
+        <historyInfo versionUuid="_a-0000e40a-de32-8000-9ba8-011c48011c48_285466"/>
+        <historyInfo versionUuid="_a-0000e430-f270-8000-9bbc-011c48011c48_335268"/>
+        <historyInfo versionUuid="_a-0000e430-f270-8000-9bbc-011c48011c48_366971"/>
+        <historyInfo versionUuid="_a-0000e447-91f4-8000-9bc0-011c48011c48_437940"/>
+        <historyInfo versionUuid="_a-0000e471-623a-8000-9bc3-011c48011c48_687315"/>
+        <historyInfo versionUuid="_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_807705"/>
+        <historyInfo versionUuid="_a-0000e62c-7375-8000-9bec-011c48011c48_1816562"/>
+        <historyInfo versionUuid="_a-0000e62c-7375-8000-9bec-011c48011c48_1847184"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2716047"/>
+    </history>
+</contentHaul>

@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e7d2-6286-8000-9c11-011c48011c48_3112264</versionUuid>
+    <rule>
+        <name>AS_IO_VLD_checkIfRequiredFields_AttachDocuments</name>
+        <uuid>_a-0000e7d2-6286-8000-9c11-011c48011c48_3112181</uuid>
+        <description>Rule to get if all the requiredFields are added for attach documents</description>
+        <parentUuid>_a-0000e2bb-4188-8000-9ba2-011c48011c48_25469</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>joinarray(
+  #"_a-0000e447-933d-8000-9baa-011c48011c48_42922"(
+    array: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_76367"(
+      #"SYSTEM_SYSRULES_forEach"(
+        items: ri!onboardingDocuments,
+        expression: if(
+          fv!item.documentStatusCode = #"_a-0000e70f-2824-8000-9c01-011c48011c48_2774613",
+          if(
+            contains(
+              ri!documentRequirements.onboardingDocument.customerDocument.appianDocId,
+              fv!item.customerDocument.appianDocId
+            ),
+            null,
+            #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+              i18nData: ri!i18nData,
+              bundleKey: "AS.CO.AllBundles.lbl_DocumentWithArugument",
+              arguments: fv!index
+            )
+          ),
+          if(
+            or(
+              #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(fv!item.documentStatusCode),
+              #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(fv!item.customerDocument.docTypeCode)
+            ),
+            #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+              i18nData: ri!i18nData,
+              bundleKey: "AS.CO.AllBundles.lbl_DocumentWithArugument",
+              arguments: fv!index
+            ),
+            null
+          )
+        )
+      ),
+      
+    ),
+    ascending: true
+  ),
+  " , "
+)</definition>
+        <namedTypedValue>
+            <name>documentRequirements</name>
+            <type>
+                <name>AS_IO_RequiredOnboardingDocument?list</name>
+                <namespace>urn:com:appian:types:AS:IO</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>onboardingDocuments</name>
+            <type>
+                <name>AS_IO_OnboardingDocument?list</name>
+                <namespace>urn:com:appian:types:AS:IO</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>i18nData</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name>Valid Case</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e79b-0335-8000-9c0c-011c48011c48_3029015"(
+  castToCdtType: true(),
+ returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290157"
+)</a:value>
+                    <a:nameRef>documentRequirements</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e41f-788a-8000-9ba9-011c48011c48_59560"(
+  
+  returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290157"
+)</a:value>
+                    <a:nameRef>onboardingDocuments</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81834"(
+  now()
+)</a:value>
+                    <a:nameRef>i18nData</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e7d2-6286-8000-9c11-011c48011c48_3112264"/>
+    </history>
+</contentHaul>

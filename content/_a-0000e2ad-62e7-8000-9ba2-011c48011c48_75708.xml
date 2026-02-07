@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e7d2-6286-8000-9c11-011c48011c48_3150964</versionUuid>
+    <rule>
+        <name>AS_CO_UT_sortCdtBySecondaryArray</name>
+        <uuid>_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75708</uuid>
+        <description>Returns a CDT so that one of its fields matches the sort of the array</description>
+        <parentUuid>_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73105</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>cast(
+  typeof(ri!cdt),
+  reduce(
+    #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75714"(
+      previous: _,
+      cdt: ri!cdt,
+      field: ri!field,
+      value: _
+    ),
+    #"_a-0000e3d1-f4dc-8000-9ba4-011c48011c48_143475"(
+      typeOf: ri!cdt
+    ),
+    ri!array
+  )
+)</definition>
+        <namedTypedValue>
+            <name>cdt</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>field</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>array</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name>Sample Test Case</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">{
+  {a: 1},
+  {a: 2},
+  {a: 3}
+}</a:value>
+                    <a:nameRef>cdt</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">"a"</a:value>
+                    <a:nameRef>field</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">{3, 1, 2}</a:value>
+                    <a:nameRef>array</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions>
+                    <a:expectedOutput>
+                        <a:type a:uuid="{http://www.appian.com/ae/types/2009}Variant"/>
+                        <a:runtimeType a:uuid="{http://www.appian.com/ae/types/2009}Variant"/>
+                        <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">{
+  {a: 3},
+  {a: 1},
+  {a: 2}
+  
+}</a:value>
+                    </a:expectedOutput>
+                </a:assertions>
+            </el>
+            <el>
+                <a:name>Empty Input</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">{}</a:value>
+                    <a:nameRef>cdt</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">"a"</a:value>
+                    <a:nameRef>field</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">{3, 1, 2}</a:value>
+                    <a:nameRef>array</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions>
+                    <a:expectedOutput>
+                        <a:type a:uuid="{http://www.appian.com/ae/types/2009}Variant"/>
+                        <a:runtimeType a:uuid="{http://www.appian.com/ae/types/2009}Variant"/>
+                        <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">{}</a:value>
+                    </a:expectedOutput>
+                </a:assertions>
+            </el>
+            <el>
+                <a:name>record type integer field</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">{
+  #"urn:appian:record-type:v1:382dda7d-5334-4c9b-a96f-b02ae5c6848a"(
+    #"urn:appian:record-field:v1:382dda7d-5334-4c9b-a96f-b02ae5c6848a/integer": 4,
+    #"urn:appian:record-field:v1:382dda7d-5334-4c9b-a96f-b02ae5c6848a/text": "first"
+  ),
+  #"urn:appian:record-type:v1:382dda7d-5334-4c9b-a96f-b02ae5c6848a"(
+    #"urn:appian:record-field:v1:382dda7d-5334-4c9b-a96f-b02ae5c6848a/integer": 2,
+    #"urn:appian:record-field:v1:382dda7d-5334-4c9b-a96f-b02ae5c6848a/text": "second"
+  ),
+  #"urn:appian:record-type:v1:382dda7d-5334-4c9b-a96f-b02ae5c6848a"(
+    #"urn:appian:record-field:v1:382dda7d-5334-4c9b-a96f-b02ae5c6848a/integer": 2,
+    #"urn:appian:record-field:v1:382dda7d-5334-4c9b-a96f-b02ae5c6848a/text": "third"
+  ),
+  #"urn:appian:record-type:v1:382dda7d-5334-4c9b-a96f-b02ae5c6848a"(
+    #"urn:appian:record-field:v1:382dda7d-5334-4c9b-a96f-b02ae5c6848a/integer": 3,
+    #"urn:appian:record-field:v1:382dda7d-5334-4c9b-a96f-b02ae5c6848a/text": "fourth"
+  ),
+  #"urn:appian:record-type:v1:382dda7d-5334-4c9b-a96f-b02ae5c6848a"(
+    #"urn:appian:record-field:v1:382dda7d-5334-4c9b-a96f-b02ae5c6848a/integer": 0,
+    #"urn:appian:record-field:v1:382dda7d-5334-4c9b-a96f-b02ae5c6848a/text": "fifth"
+  )
+}</a:value>
+                    <a:nameRef>cdt</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"urn:appian:record-field:v1:382dda7d-5334-4c9b-a96f-b02ae5c6848a/integer"</a:value>
+                    <a:nameRef>field</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">{
+  0,
+  1,
+  2,
+  3,
+  4,
+  5
+}</a:value>
+                    <a:nameRef>array</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions>
+                    <a:expectedOutput>
+                        <a:type a:uuid="{http://www.appian.com/ae/types/2009}Variant"/>
+                        <a:runtimeType a:uuid="{http://www.appian.com/ae/types/2009}Variant"/>
+                        <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">{
+  #"urn:appian:record-type:v1:382dda7d-5334-4c9b-a96f-b02ae5c6848a"(
+    #"urn:appian:record-field:v1:382dda7d-5334-4c9b-a96f-b02ae5c6848a/integer": 0,
+    #"urn:appian:record-field:v1:382dda7d-5334-4c9b-a96f-b02ae5c6848a/text": "fifth"
+  ),
+  #"urn:appian:record-type:v1:382dda7d-5334-4c9b-a96f-b02ae5c6848a"(
+    #"urn:appian:record-field:v1:382dda7d-5334-4c9b-a96f-b02ae5c6848a/integer": 2,
+    #"urn:appian:record-field:v1:382dda7d-5334-4c9b-a96f-b02ae5c6848a/text": "second"
+  ),
+  #"urn:appian:record-type:v1:382dda7d-5334-4c9b-a96f-b02ae5c6848a"(
+    #"urn:appian:record-field:v1:382dda7d-5334-4c9b-a96f-b02ae5c6848a/integer": 2,
+    #"urn:appian:record-field:v1:382dda7d-5334-4c9b-a96f-b02ae5c6848a/text": "third"
+  ),
+  #"urn:appian:record-type:v1:382dda7d-5334-4c9b-a96f-b02ae5c6848a"(
+    #"urn:appian:record-field:v1:382dda7d-5334-4c9b-a96f-b02ae5c6848a/integer": 3,
+    #"urn:appian:record-field:v1:382dda7d-5334-4c9b-a96f-b02ae5c6848a/text": "fourth"
+  ),
+  #"urn:appian:record-type:v1:382dda7d-5334-4c9b-a96f-b02ae5c6848a"(
+    #"urn:appian:record-field:v1:382dda7d-5334-4c9b-a96f-b02ae5c6848a/integer": 4,
+    #"urn:appian:record-field:v1:382dda7d-5334-4c9b-a96f-b02ae5c6848a/text": "first"
+  )
+}</a:value>
+                    </a:expectedOutput>
+                </a:assertions>
+            </el>
+            <el>
+                <a:name>record type text field</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">{
+  #"urn:appian:record-type:v1:382dda7d-5334-4c9b-a96f-b02ae5c6848a"(
+    #"urn:appian:record-field:v1:382dda7d-5334-4c9b-a96f-b02ae5c6848a/integer": 1,
+    #"urn:appian:record-field:v1:382dda7d-5334-4c9b-a96f-b02ae5c6848a/text": "second"
+  ),
+  #"urn:appian:record-type:v1:382dda7d-5334-4c9b-a96f-b02ae5c6848a"(
+    #"urn:appian:record-field:v1:382dda7d-5334-4c9b-a96f-b02ae5c6848a/integer": 2,
+    #"urn:appian:record-field:v1:382dda7d-5334-4c9b-a96f-b02ae5c6848a/text": "fourth"
+  ),
+  #"urn:appian:record-type:v1:382dda7d-5334-4c9b-a96f-b02ae5c6848a"(
+    #"urn:appian:record-field:v1:382dda7d-5334-4c9b-a96f-b02ae5c6848a/integer": 3,
+    #"urn:appian:record-field:v1:382dda7d-5334-4c9b-a96f-b02ae5c6848a/text": "first"
+  ),
+  #"urn:appian:record-type:v1:382dda7d-5334-4c9b-a96f-b02ae5c6848a"(
+    #"urn:appian:record-field:v1:382dda7d-5334-4c9b-a96f-b02ae5c6848a/integer": 4,
+    #"urn:appian:record-field:v1:382dda7d-5334-4c9b-a96f-b02ae5c6848a/text": "fifth"
+  ),
+  #"urn:appian:record-type:v1:382dda7d-5334-4c9b-a96f-b02ae5c6848a"(
+    #"urn:appian:record-field:v1:382dda7d-5334-4c9b-a96f-b02ae5c6848a/integer": 5,
+    #"urn:appian:record-field:v1:382dda7d-5334-4c9b-a96f-b02ae5c6848a/text": "third"
+  ),
+
+}</a:value>
+                    <a:nameRef>cdt</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"urn:appian:record-field:v1:382dda7d-5334-4c9b-a96f-b02ae5c6848a/text"</a:value>
+                    <a:nameRef>field</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">{
+  "first",
+  "second",
+  "third",
+  "fourth",
+  "fifth"
+}</a:value>
+                    <a:nameRef>array</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions>
+                    <a:expectedOutput>
+                        <a:type a:uuid="{http://www.appian.com/ae/types/2009}Variant"/>
+                        <a:runtimeType a:uuid="{http://www.appian.com/ae/types/2009}Variant"/>
+                        <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">{
+  #"urn:appian:record-type:v1:382dda7d-5334-4c9b-a96f-b02ae5c6848a"(
+    #"urn:appian:record-field:v1:382dda7d-5334-4c9b-a96f-b02ae5c6848a/integer": 3,
+    #"urn:appian:record-field:v1:382dda7d-5334-4c9b-a96f-b02ae5c6848a/text": "first"
+  ),
+  #"urn:appian:record-type:v1:382dda7d-5334-4c9b-a96f-b02ae5c6848a"(
+    #"urn:appian:record-field:v1:382dda7d-5334-4c9b-a96f-b02ae5c6848a/integer": 1,
+    #"urn:appian:record-field:v1:382dda7d-5334-4c9b-a96f-b02ae5c6848a/text": "second"
+  ),
+  #"urn:appian:record-type:v1:382dda7d-5334-4c9b-a96f-b02ae5c6848a"(
+    #"urn:appian:record-field:v1:382dda7d-5334-4c9b-a96f-b02ae5c6848a/integer": 5,
+    #"urn:appian:record-field:v1:382dda7d-5334-4c9b-a96f-b02ae5c6848a/text": "third"
+  ),
+  #"urn:appian:record-type:v1:382dda7d-5334-4c9b-a96f-b02ae5c6848a"(
+    #"urn:appian:record-field:v1:382dda7d-5334-4c9b-a96f-b02ae5c6848a/integer": 2,
+    #"urn:appian:record-field:v1:382dda7d-5334-4c9b-a96f-b02ae5c6848a/text": "fourth"
+  ),
+  #"urn:appian:record-type:v1:382dda7d-5334-4c9b-a96f-b02ae5c6848a"(
+    #"urn:appian:record-field:v1:382dda7d-5334-4c9b-a96f-b02ae5c6848a/integer": 4,
+    #"urn:appian:record-field:v1:382dda7d-5334-4c9b-a96f-b02ae5c6848a/text": "fifth"
+  )
+}</a:value>
+                    </a:expectedOutput>
+                </a:assertions>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e2ad-62e7-8000-9ba2-011c48011c48_76414"/>
+        <historyInfo versionUuid="_a-0000e430-f270-8000-9bbc-011c48011c48_372427"/>
+        <historyInfo versionUuid="_a-0000e447-91f4-8000-9bc0-011c48011c48_572991"/>
+        <historyInfo versionUuid="_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2465754"/>
+        <historyInfo versionUuid="_a-0000e7d2-6286-8000-9c11-011c48011c48_3150964"/>
+    </history>
+</contentHaul>

@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e7fa-f829-8000-9c17-011c48011c48_3425544</versionUuid>
+    <rule>
+        <name>AS_IO_UI_displayTemplateTaskSimpleChangesAuditModifications</name>
+        <uuid>_a-0000e7fa-f829-8000-9c17-011c48011c48_3367929</uuid>
+        <description>Loops over the simpleFields audits and displays the modifications for a template tasks</description>
+        <parentUuid>_a-0000e2bb-4188-8000-9ba2-011c48011c48_25469</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>#"SYSTEM_SYSRULES_forEach"(
+  items: ri!templateTaskAuditEntry.simpleFieldChanges,
+  expression: #"SYSTEM_SYSRULES_richTextItem_v1"(
+    size: "SMALL",
+    text: #"_a-0000e471-623a-8000-9bc3-011c48011c48_702641"(
+      i18nData: ri!i18nData,
+      bundleKey: "AS.CO.AllBundles.txt_ChangedFieldNameFromTo",
+      richTextArguments: {
+        #"_a-0000e40a-de32-8000-9ba8-011c48011c48_280511-adt"(
+          displayText: #"_a-0000e7fa-f829-8000-9c17-011c48011c48_3367576"(
+            fieldName: fv!item.fieldName,
+            i18nData: ri!i18nData
+          )
+        ),
+        #"_a-0000e40a-de32-8000-9ba8-011c48011c48_280511-adt"(
+          displayText: #"_a-0000e7fa-f829-8000-9c17-011c48011c48_3367999"(
+            fieldName: fv!item.fieldName,
+            value: fv!item.oldValue
+          )
+        ),
+        #"_a-0000e40a-de32-8000-9ba8-011c48011c48_280511-adt"(
+          displayText: #"_a-0000e7fa-f829-8000-9c17-011c48011c48_3367999"(
+            fieldName: fv!item.fieldName,
+            value: fv!item.newValue
+          )
+        )
+      }
+    )
+  )
+)</definition>
+        <namedTypedValue>
+            <name>i18nData</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>templateTaskAuditEntry</name>
+            <type>
+                <name>AS_IO_A_R_TemplateTask</name>
+                <namespace>urn:com:appian:types:AS:IO</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name>Sample test case</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81834"(
+  triggerRefresh: null
+)</a:value>
+                    <a:nameRef>i18nData</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"a3284a41-31d5-4d7a-858a-84d17c3c74e9"(
+  returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290157"
+).templateTasksChanges</a:value>
+                    <a:nameRef>templateTaskAuditEntry</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e7fa-f829-8000-9c17-011c48011c48_3422425"/>
+        <historyInfo versionUuid="_a-0000e7fa-f829-8000-9c17-011c48011c48_3425544"/>
+    </history>
+</contentHaul>

@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e70f-2824-8000-9c01-011c48011c48_2677993</versionUuid>
+    <rule>
+        <name>AS_FS_ALT_UT_BuildAuditParamsForOtherEntityRelationshipCustomers</name>
+        <uuid>_a-0000e70f-2824-8000-9c01-011c48011c48_2586655</uuid>
+        <description>Given entityRelationsAuditParameters, returns a list of map with each unique customerId that was affected by the entity relationship changes and their respective entityRelationsAuditParameters</description>
+        <parentUuid>_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_968428</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  local!relevantCustomerRelationIds: index(
+    ri!entityRelationsAuditParameters.auditObject,
+    "customerRelationId"
+  ),
+  local!updatedCustomerRelations: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+    cdt: {
+      ri!entityRelationsAuditParameters.newObjects,
+      ri!entityRelationsAuditParameters.originalObjects
+    },
+    field: "customerRelationId",
+    value: local!relevantCustomerRelationIds
+  ),
+  local!uniqueCustomerIdsAffectedByUpdatedRelations: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_165064"(
+    array: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73758"(
+      value: a!flatten(
+        {
+          local!updatedCustomerRelations.fromCustomerId,
+          local!updatedCustomerRelations.toCustomerId
+        }
+      )
+    ),
+    /*reject the original customer since we should not rebuild their audit params*/
+    values: ri!customerId
+  ),
+  #"SYSTEM_SYSRULES_forEach"(
+    items: local!uniqueCustomerIdsAffectedByUpdatedRelations,
+    expression: a!map(
+      customerId: fv!item,
+      /*build audit params with all objects that relate to each customerId*/
+      entityRelationsAuditParameters: a!localVariables(
+        local!originalObjectsForCustomer: #"_a-0000e70f-2824-8000-9c01-011c48011c48_2594908"(
+          cdt: ri!entityRelationsAuditParameters.originalObjects,
+          fields: { "toCustomerId", "fromCustomerId" },
+          values: fv!item
+        ),
+        local!newObjectsForCustomer: #"_a-0000e70f-2824-8000-9c01-011c48011c48_2594908"(
+          cdt: ri!entityRelationsAuditParameters.newObjects,
+          fields: { "toCustomerId", "fromCustomerId" },
+          values: fv!item
+        ),
+        local!auditObjectsForCustomer: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+          cdt: ri!entityRelationsAuditParameters.auditObject,
+          field: "customerRelationId",
+          value: union(
+            local!newObjectsForCustomer.customerRelationId,
+            local!originalObjectsForCustomer.customerRelationId
+          )
+        ),
+        'type!{urn:com:appian:types:AS:ADT}AS_ADT_P_AuditProcessParameters'(
+          originalObjects: local!originalObjectsForCustomer,
+          newObjects: local!newObjectsForCustomer,
+          auditConfig: ri!entityRelationsAuditParameters.auditConfig,
+          auditObject: local!auditObjectsForCustomer
+        )
+      )
+    )
+  )
+)</definition>
+        <namedTypedValue>
+            <name>entityRelationsAuditParameters</name>
+            <type>
+                <name>AS_ADT_P_AuditProcessParameters</name>
+                <namespace>urn:com:appian:types:AS:ADT</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>customerId</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name>sample test case</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">'type!{urn:com:appian:types:AS:ADT}AS_ADT_P_AuditProcessParameters'(
+  originalObjects: {
+    /*deactivated*/
+    'type!{urn:com:appian:types:AS:FS}AS_FS_CustomerRelation'(
+      customerRelationId: 10,
+      fromCustomerId: 2,
+      toCustomerId: 1
+    ),
+    /*modified toCustomerId*/
+    'type!{urn:com:appian:types:AS:FS}AS_FS_CustomerRelation'(
+      customerRelationId: 15,
+      fromCustomerId: 1,
+      toCustomerId: 5
+    ),
+    /*modified percent owned*/
+    'type!{urn:com:appian:types:AS:FS}AS_FS_CustomerRelation'(
+      customerRelationId: 20,
+      fromCustomerId: 1,
+      toCustomerId: 3,
+      percentOwned: 25
+    ),
+    /*unchanged*/
+    'type!{urn:com:appian:types:AS:FS}AS_FS_CustomerRelation'(
+      customerRelationId: 25,
+      fromCustomerId: 1,
+      toCustomerId: 12
+    )
+  },
+  newObjects: {
+    /*modified toCustomerId*/
+    'type!{urn:com:appian:types:AS:FS}AS_FS_CustomerRelation'(
+      customerRelationId: 15,
+      fromCustomerId: 1,
+      toCustomerId: 7
+    ),
+    /*modified percent owned*/
+    'type!{urn:com:appian:types:AS:FS}AS_FS_CustomerRelation'(
+      customerRelationId: 20,
+      fromCustomerId: 1,
+      toCustomerId: 3,
+      percentOwned: 50
+    ),
+    /*unchanged*/
+    'type!{urn:com:appian:types:AS:FS}AS_FS_CustomerRelation'(
+      customerRelationId: 25,
+      fromCustomerId: 1,
+      toCustomerId: 12
+    ),
+    /*added*/
+    'type!{urn:com:appian:types:AS:FS}AS_FS_CustomerRelation'(
+      customerRelationId: 10,
+      fromCustomerId: 15,
+      toCustomerId: 1
+    ),
+  },
+  auditObject: {
+    'type!{urn:com:appian:types:AS:FS}AS_FS_A_CustomerRelation'(
+      customerRelationAuditId: 1,
+      customerRelationId: 30,
+      auditActionCode: "ADD",
+      simpleFieldChanges: {
+        'type!{urn:com:appian:types:AS:FS}AS_FS_A_CustomerRelation_Field'(
+          customerRelationAuditFieldId: 1,
+          customerRelationAuditId: 1,
+          fieldName: "toCustomerId",
+          oldValue: null,
+          newValue: 1
+        ),
+        'type!{urn:com:appian:types:AS:FS}AS_FS_A_CustomerRelation_Field'(
+          customerRelationAuditFieldId: 2,
+          customerRelationAuditId: 1,
+          fieldName: "fromCustomerId",
+          oldValue: null,
+          newValue: 15
+        )
+      }
+    ),
+    'type!{urn:com:appian:types:AS:FS}AS_FS_A_CustomerRelation'(
+      customerRelationAuditId: 2,
+      customerRelationId: 10,
+      auditActionCode: "DEACTIVATE"
+    ),
+    'type!{urn:com:appian:types:AS:FS}AS_FS_A_CustomerRelation'(
+      customerRelationAuditId: 3,
+      customerRelationId: 15,
+      auditActionCode: "MODIFY",
+      simpleFieldChanges: {
+        'type!{urn:com:appian:types:AS:FS}AS_FS_A_CustomerRelation_Field'(
+          customerRelationAuditFieldId: 3,
+          customerRelationAuditId: 2,
+          fieldName: "toCustomerId",
+          oldValue: 5,
+          newValue: 7
+        )
+      }
+    ),
+    'type!{urn:com:appian:types:AS:FS}AS_FS_A_CustomerRelation'(
+      customerRelationAuditId: 4,
+      customerRelationId: 20,
+      auditActionCode: "MODIFY",
+      simpleFieldChanges: {
+        'type!{urn:com:appian:types:AS:FS}AS_FS_A_CustomerRelation_Field'(
+          customerRelationAuditFieldId: 4,
+          customerRelationAuditId: 4,
+          fieldName: "percentOwned",
+          oldValue: 25,
+          newValue: 50
+        )
+      }
+    )
+  }
+)</a:value>
+                    <a:nameRef>entityRelationsAuditParameters</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:int">1</a:value>
+                    <a:nameRef>customerId</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2586884"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2594996"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2646922"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2675121"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2677993"/>
+    </history>
+</contentHaul>

@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e62c-7375-8000-9bec-011c48011c48_1888310</versionUuid>
+    <rule>
+        <name>AS_CO_I18N_UT_replaceArgument_RichText_InsertArgumentCdt</name>
+        <uuid>_a-0000e471-623a-8000-9bc3-011c48011c48_702695</uuid>
+        <description>Inserts the given argument as a richTextItem where applicable for the provided text type</description>
+        <parentUuid>_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73105</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>if(
+  #"_a-0000e3e6-fb42-8000-9ba5-011c48011c48_162769"(value1: ri!item, value2: ""),
+  with(
+    local!splitText: cast(
+      #"_a-0000e40a-de32-8000-9ba8-011c48011c48_283420"(),
+      split(ri!item, concat("[%", ri!index, "]"))
+    ),
+    if(
+      count(local!splitText) &lt; 2,
+      local!splitText,
+      insert(
+        local!splitText,
+        a!flatten(ri!richTextArguments)[ri!index],
+        enumerate(length(local!splitText) - 1) + 2
+      )
+    )
+  ),
+  /* Replacing arguments inside the text of a richTextTtem is not supported by this rule */
+  ri!item
+)</definition>
+        <namedTypedValue>
+            <name>item</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>index</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>richTextArguments</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name>Multiple replacements</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">"This [%1] is [%1] a test [%1]."</a:value>
+                    <a:nameRef>item</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">1</a:value>
+                    <a:nameRef>index</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">{
+  #"SYSTEM_SYSRULES_richTextItem_v1"(
+    text: "ARG1",
+    style: "STRONG",
+    color: "POSITIVE"
+  )
+}</a:value>
+                    <a:nameRef>richTextArguments</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions>
+                    <a:expectedOutput xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                    <a:resultAssertions>#"_a-0000e3e6-fb42-8000-9ba5-011c48011c48_243040"(
+  /* Direct comparison with test!output does not work, likely because of component specific rendering attributes */
+  value1: #"_a-0000e471-623a-8000-9bc3-011c48011c48_702695"(
+    item: "This [%1] is [%1] a test [%1].",
+    index: 1,
+    richTextArguments: {
+      #"SYSTEM_SYSRULES_richTextItem_v1"(
+        text: "ARG1",
+        style: "STRONG",
+        color: "POSITIVE"
+      )
+    }
+  ),
+  value2: {
+    "This ",
+    #"SYSTEM_SYSRULES_richTextItem_v1"(
+      text: "ARG1",
+      style: "STRONG",
+      color: "POSITIVE"
+    ),
+    " is ",
+    #"SYSTEM_SYSRULES_richTextItem_v1"(
+      text: "ARG1",
+      style: "STRONG",
+      color: "POSITIVE"
+    ),
+    " a test ",
+    #"SYSTEM_SYSRULES_richTextItem_v1"(
+      text: "ARG1",
+      style: "STRONG",
+      color: "POSITIVE"
+    ),
+    "."
+  }
+)</a:resultAssertions>
+                </a:assertions>
+            </el>
+            <el>
+                <a:name>No replacements</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">"This is a test."</a:value>
+                    <a:nameRef>item</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">1</a:value>
+                    <a:nameRef>index</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">  #"SYSTEM_SYSRULES_richTextItem_v1"(
+    text: "ARG1",
+    style: "STRONG",
+    color: "POSITIVE"
+  )</a:value>
+                    <a:nameRef>richTextArguments</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions>
+                    <a:expectedOutput>
+                        <a:type a:uuid="{http://www.appian.com/ae/types/2009}Variant"/>
+                        <a:runtimeType a:uuid="{http://www.appian.com/ae/types/2009}Variant"/>
+                        <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">cast(
+  #"_a-0000e40a-de32-8000-9ba8-011c48011c48_283420"(),
+  {
+    "This is a test."
+  }
+)</a:value>
+                    </a:expectedOutput>
+                </a:assertions>
+            </el>
+            <el>
+                <a:name>Single replacement at the very start</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">"[%1] This is a test."</a:value>
+                    <a:nameRef>item</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">1</a:value>
+                    <a:nameRef>index</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">{
+  #"SYSTEM_SYSRULES_richTextItem_v1"(
+    text: "ARG1",
+    style: "STRONG",
+    color: "POSITIVE"
+  )
+}</a:value>
+                    <a:nameRef>richTextArguments</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions>
+                    <a:expectedOutput xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                    <a:resultAssertions>#"_a-0000e3e6-fb42-8000-9ba5-011c48011c48_243040"(
+  /* Direct comparison with test!output does not work, likely because of component specific rendering attributes */
+  value1: #"_a-0000e471-623a-8000-9bc3-011c48011c48_702695"(
+    item: "[%1] This is a test.",
+    index: 1,
+    richTextArguments: {
+      #"SYSTEM_SYSRULES_richTextItem_v1"(
+        text: "ARG1",
+        style: "STRONG",
+        color: "POSITIVE"
+      )
+    }
+  ),
+  value2: {
+    "",
+    #"SYSTEM_SYSRULES_richTextItem_v1"(
+      text: "ARG1",
+      style: "STRONG",
+      color: "POSITIVE"
+    ),
+    " This is a test."
+  }
+)</a:resultAssertions>
+                </a:assertions>
+            </el>
+            <el>
+                <a:name>Single replacement at the very end</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">"This is a test.[%1]"</a:value>
+                    <a:nameRef>item</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">1</a:value>
+                    <a:nameRef>index</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">{
+  #"SYSTEM_SYSRULES_richTextItem_v1"(
+    text: "ARG1",
+    style: "STRONG",
+    color: "POSITIVE"
+  )
+}</a:value>
+                    <a:nameRef>richTextArguments</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions>
+                    <a:expectedOutput xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                    <a:resultAssertions>#"_a-0000e3e6-fb42-8000-9ba5-011c48011c48_243040"(
+  /* Direct comparison with test!output does not work, likely because of component specific rendering attributes */
+  value1: #"_a-0000e471-623a-8000-9bc3-011c48011c48_702695"(
+    item: "This is a test.[%1]",
+    index: 1,
+    richTextArguments: {
+      #"SYSTEM_SYSRULES_richTextItem_v1"(
+        text: "ARG1",
+        style: "STRONG",
+        color: "POSITIVE"
+      )
+    }
+  ),
+  value2: {
+    "This is a test.",
+    #"SYSTEM_SYSRULES_richTextItem_v1"(
+      text: "ARG1",
+      style: "STRONG",
+      color: "POSITIVE"
+    ),
+    ""
+  }
+)</a:resultAssertions>
+                </a:assertions>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e471-623a-8000-9bc3-011c48011c48_703262"/>
+        <historyInfo versionUuid="_a-0000e447-933d-8000-9baa-011c48011c48_110468"/>
+        <historyInfo versionUuid="_a-0000e62c-7375-8000-9bec-011c48011c48_1865411"/>
+        <historyInfo versionUuid="_a-0000e62c-7375-8000-9bec-011c48011c48_1888310"/>
+    </history>
+</contentHaul>

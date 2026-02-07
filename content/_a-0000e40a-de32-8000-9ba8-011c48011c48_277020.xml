@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e471-623a-8000-9bc3-011c48011c48_683230</versionUuid>
+    <rule>
+        <name>AS_IO_QE_getDataForTemplateChanges_ProcessSetupAudits</name>
+        <uuid>_a-0000e40a-de32-8000-9ba8-011c48011c48_277020</uuid>
+        <description>Get data for template changes during process setup </description>
+        <parentUuid>_a-0000e2bb-4188-8000-9ba2-011c48011c48_25469</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>#"_a-0000e3e6-fb42-8000-9ba5-011c48011c48_157603"(
+  type: 'type!{urn:com:appian:types:AS:IO}AS_IO_A_TemplateProcessSetup?list',
+  value: #"_a-0000e3e6-fb42-8000-9ba5-011c48011c48_157870"(
+    entity: #"_a-0000e3e6-fb42-8000-9ba5-011c48011c48_232636",
+    entityType: 'type!{urn:com:appian:types:AS:IO}AS_IO_A_TemplateProcessSetup',
+    returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290131",
+    excludeNestedCdts: true,
+    filters: {
+      #"SYSTEM_SYSRULES_queryFilter"(
+        field: "originalTemplateId",
+        operator: "=",
+        value: ri!drilldownSelection.templateId
+      ),
+      #"SYSTEM_SYSRULES_queryFilter"(
+        field: "templateAuditActionCode",
+        operator: "=",
+        value: ri!drilldownSelection.seriesConfig.auditActionCode
+      ),
+      #"SYSTEM_SYSRULES_queryFilter"(
+        field: "templateAuditActionCode",
+        operator: "&lt;&gt;",
+        value: #"_a-0000e3e6-fb42-8000-9ba5-011c48011c48_232728-adt"
+      ),
+      #"SYSTEM_SYSRULES_queryFilter"(
+        field: "timestamp",
+        operator: "between",
+        value: #"_a-0000e40a-961e-8000-9ba7-011c48011c48_257043"(
+          startDate: ri!dateFilter.startDate,
+          endDate: ri!dateFilter.endDate
+        )
+      )
+    },
+      /*
+  Because we are flatting the nested structure, 
+  we have to always start at index 1 to ensure we have the results,
+  and then rely on todatasubset() to actually cast the results
+
+  e.g. If batchsize is 3, and we are on page 2, and the data is:
+  {
+    {
+      parent: {
+        {
+          child: {},
+          child: {},
+          child: {},
+          child: {},
+        }
+      },
+      parent: {
+        {
+          child: {},
+          child: {},
+        }
+      }
+    }
+  }
+  Then we would still to return parent 1, because child 4 is part of parent 1, 
+  and starting above index 1 would exclude parent 1
+*/
+    pagingInfo: #"SYSTEM_SYSRULES_pagingInfo"(
+      startIndex: 1,
+      batchSize: ri!pagingInfo.startIndex + ri!pagingInfo.batchSize,
+      sort: ri!pagingInfo.sort
+    )
+  ).data
+)</definition>
+        <namedTypedValue>
+            <name>dateFilter</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>drilldownSelection</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>pagingInfo</name>
+            <type>
+                <name>PagingInfo</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name>Return 100 items</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:string"/>
+                    <a:nameRef>dateFilter</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">/*{*/
+  /*templateId: 1,*/
+  /*seriesConfigKey: rule!AS_IO_BL_processSetupTrendsSeriesConfigs()[4].key*/
+/*}*/</a:value>
+                    <a:nameRef>drilldownSelection</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"SYSTEM_SYSRULES_pagingInfo"(
+  startIndex: 1,
+  batchSize: 100
+)</a:value>
+                    <a:nameRef>pagingInfo</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e40a-de32-8000-9ba8-011c48011c48_279426"/>
+        <historyInfo versionUuid="_a-0000e415-3035-8000-9bb2-011c48011c48_291420"/>
+        <historyInfo versionUuid="_a-0000e430-f270-8000-9bbc-011c48011c48_369703"/>
+        <historyInfo versionUuid="_a-0000e460-9d93-8000-9bc1-011c48011c48_606399"/>
+        <historyInfo versionUuid="_a-0000e460-9d93-8000-9bc1-011c48011c48_617503"/>
+        <historyInfo versionUuid="_a-0000e471-623a-8000-9bc3-011c48011c48_683230"/>
+    </history>
+</contentHaul>

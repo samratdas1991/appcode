@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e70f-2824-8000-9c01-011c48011c48_2644922</versionUuid>
+    <rule>
+        <name>AS_FS_IDP_transformTrainingZipDocsToUnderstandingArray</name>
+        <uuid>_a-0000e539-6d59-8000-9bd0-011c48011c48_1260326</uuid>
+        <description></description>
+        <parentUuid>_a-0000e539-6d59-8000-9bd0-011c48011c48_1261631</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>reject(
+  isnull(_),
+  #"SYSTEM_SYSRULES_forEach"(
+    items: ri!documents,
+    expression: if(
+      #"_a-0000e539-6d59-8000-9bd0-011c48011c48_1260312"(
+        document: fv!item,
+        isTraining: true
+      ),
+      null,
+      'type!{urn:com:appian:types:AS:FS}AS_FS_IDP_DocUnderstanding'(
+        documentId: tointeger(fv!item),
+        documentName: document(fv!item, "name"),
+        receivedOn: ri!uploadedOn,
+        understandingStatus: #"_a-0000e539-6d59-8000-9bd0-011c48011c48_1260258",
+        isPreClassified: true,
+        docTypeId: ri!docTypeZip.docTypeId,
+        isClassificationVerified: true
+      )
+    )
+  )
+)</definition>
+        <namedTypedValue>
+            <name>documents</name>
+            <type>
+                <name>CollaborationDocument?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>docTypeZip</name>
+            <type>
+                <name>AS_FS_IDP_DocTypeZip</name>
+                <namespace>urn:com:appian:types:AS:FS</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>uploadedOn</name>
+            <type>
+                <name>dateTime</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name>Example</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:CollaborationDocument?list">_a-0000e539-6d59-8000-9bd0-011c48011c48_1266836</a:value>
+                    <a:value>_a-0000e539-6d59-8000-9bd0-011c48011c48_1271287</a:value>
+                    <a:value>_a-0000e539-6d59-8000-9bd0-011c48011c48_1271374</a:value>
+                    <a:nameRef>documents</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">'type!{urn:com:appian:types:AS:FS}AS_FS_IDP_DocTypeZip'(
+  docTypeId: 1
+)</a:value>
+                    <a:nameRef>docTypeZip</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:dateTime"/>
+                    <a:nameRef>uploadedOn</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e539-6d59-8000-9bd0-011c48011c48_1271395"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2644922"/>
+    </history>
+</contentHaul>

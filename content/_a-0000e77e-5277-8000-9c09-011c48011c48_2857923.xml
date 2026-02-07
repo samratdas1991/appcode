@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e79b-0335-8000-9c0c-011c48011c48_2914947</versionUuid>
+    <rule>
+        <name>AS_IO_BL_ColumnsForRecordTypeHomePageOnboardingsGrid_v1_default</name>
+        <uuid>_a-0000e77e-5277-8000-9c09-011c48011c48_2857923</uuid>
+        <description>Contains definitions of the columns to be displayed in the Onboarding grid on the Connected Onboarding home page. It can be used to add, remove, modify, and rearrange columns.
+
+@customizable:1.0
+@category:USER_INTERFACE
+@app:FS.IO</description>
+        <parentUuid>_a-0000e2bb-4188-8000-9ba2-011c48011c48_25469</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>/*
+
+DESCRIPTION: Contains definitions of the columns to be displayed in the Onboarding grid on the Connected Onboarding home page. 
+It can be used to add, remove, modify, and rearrange columns.
+
+
+DEFAULT BEHAVIOR: Returns a list of grid columns:
+  Onboarding
+  Status Icon - Funded, Active, etc
+  Customer
+  Owner 
+
+
+
+CUSTOMIZATION STEPS: 
+Add, remove, modify, or rearrange grid columns using a!gridColumn(). We recommend that you do not have any 
+heavy rule executions like queries in the "value" section of an a!gridColumn(), as they evaluate once per row. 
+For additional reference data, pass the type into the local variable local!refData query.
+Note: fv!row is of type AS_IO_OnboardingRequest_SyncedRecordType called in AS_IO_CPS_myOnboardingsGrid.
+Note: The estimated funding date and actual funding date columns are not customizable and are not included in this rule
+
+
+PARAMETERS: 
+i18nData: internationalization column labels
+
+
+EXPECTED RETURN TYPE: List of a!gridColumn()
+
+*/
+a!localVariables(
+  local!refData: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_39864"(
+    typeList: {
+      #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_130955",
+      #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_40302",
+      #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_48775"
+    },
+    i18nData: ri!i18nData
+  ),
+  {
+    /*Onboarding*/
+    #"SYSTEM_SYSRULES_gridColumn"(
+      label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+        i18nData: ri!i18nData,
+        bundleKey: "AS.CO.AllBundles.lbl_Name"
+      ),
+      sortField: #"urn:appian:record-field:v1:04c66223-4089-4d5e-8ed8-6a853822f478/f78f903c-e72b-4574-ba40-98fcc9ef231e",
+      value: #"SYSTEM_SYSRULES_richTextDisplayField"(
+        value: {
+          /*For usability reasons, it is recommended that this column retains the identifier and record link*/
+          #"SYSTEM_SYSRULES_richTextItem_v1"(
+            text: fv!row[#"urn:appian:record-field:v1:04c66223-4089-4d5e-8ed8-6a853822f478/f78f903c-e72b-4574-ba40-98fcc9ef231e"],
+            link: #"SYSTEM_SYSRULES_recordLink"(
+              recordType: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_33188",
+              identifier: fv!row[#"urn:appian:record-field:v1:04c66223-4089-4d5e-8ed8-6a853822f478/9e449e60-b0c4-497f-9284-80ec663f2e7e"]
+            ),
+            linkStyle: "STANDALONE",
+            color: "ACCENT",
+            style: "STRONG",
+            size: "STANDARD"
+          ),
+          /*     uncomment the following rows to display assigned user and customer in this column     */
+          /*char(10),*/
+          /*a!richTextIcon(*/
+            /*icon: "building",*/
+            /*color: "SECONDARY",*/
+            /*size: "SMALL"*/
+          /*),*/
+          /*a!richTextItem(*/
+            /*text: char(32) &amp; fv!row['recordType!{04c66223-4089-4d5e-8ed8-6a853822f478}AS_IO_OnboardingRequest_SyncedRecordType.relationships.{f0617580-5e23-4819-bcca-603b48ae4897}customer.fields.{82717263-d098-48ae-ad24-1591d57c5a00}name'] &amp; char(32) &amp; char(32),*/
+            /*color: "SECONDARY",*/
+            /*size: "SMALL",*/
+            /*link: a!recordLink(*/
+              /*recordType: 'recordType!{ac016353-2977-4ef1-b643-fed621e7b701}AS_FS_Customer_SyncedRecordType',*/
+              /*identifier: fv!row['recordType!{04c66223-4089-4d5e-8ed8-6a853822f478}AS_IO_OnboardingRequest_SyncedRecordType.relationships.{f0617580-5e23-4819-bcca-603b48ae4897}customer.fields.{5bcf4368-762b-4e2d-9c38-b9673be9a76c}customerId']*/
+            /*)*/
+          /*),*/
+          /*a!richTextItem(*/
+            /*text: {*/
+              /*a!richTextIcon(icon: "user-circle"),*/
+              /*char(32) &amp; rule!AS_CO_UT_displayUser(*/
+                /*user: fv!row['recordType!{04c66223-4089-4d5e-8ed8-6a853822f478}AS_IO_OnboardingRequest_SyncedRecordType.relationships.{6ce2159e-c78e-4bc7-95f4-a37e221b9812}primaryOwner.fields.{ef27eabb-7afc-400f-acd7-824ff3c0693d}owner']*/
+              /*)*/
+            /*},*/
+            /*color: "SECONDARY",*/
+            /*size: "SMALL",*/
+            /*showWhen: rule!AS_CO_UT_isNotBlank(*/
+              /*fv!row['recordType!{04c66223-4089-4d5e-8ed8-6a853822f478}AS_IO_OnboardingRequest_SyncedRecordType.relationships.{6ce2159e-c78e-4bc7-95f4-a37e221b9812}primaryOwner.fields.{ef27eabb-7afc-400f-acd7-824ff3c0693d}owner']*/
+            /*)*/
+          /*)*/
+        }
+      ),
+      width: "AUTO"
+    ),
+    /*Status Icon - Funded, Active, etc*/
+    #"SYSTEM_SYSRULES_gridColumn"(
+      label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+        i18nData: ri!i18nData,
+        bundleKey: "AS.CO.AllBundles.lbl_Status"
+      ),
+      value: a!localVariables(
+        local!status: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_138931"(
+          refData: local!refData,
+          status: fv!row[#"urn:appian:record-field:v1:04c66223-4089-4d5e-8ed8-6a853822f478/c0423faa-e9c8-49a9-a393-1b1562782280"],
+          i18nData: ri!i18nData
+        ),
+        #"SYSTEM_SYSRULES_richTextDisplayField"(
+          value: {
+            #"SYSTEM_SYSRULES_richTextIcon"(
+              icon: local!status.icon,
+              caption: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                i18nData: ri!i18nData,
+                bundleKey: #"_a-0000e586-af6f-8000-9bd2-011c48011c48_1320404"(
+                  statusCode: fv!row[#"urn:appian:record-field:v1:04c66223-4089-4d5e-8ed8-6a853822f478/c0423faa-e9c8-49a9-a393-1b1562782280"]
+                )
+              ),
+              color: local!status.color,
+              size: "STANDARD"
+            )
+          },
+          align: "CENTER"
+        )
+      ),
+      align: "CENTER",
+      width: "NARROW"
+    ),
+    /*  Customer  */
+    #"SYSTEM_SYSRULES_gridColumn"(
+      label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+        i18nData: ri!i18nData,
+        bundleKey: "AS.CO.AllBundles.lbl_Customer"
+      ),
+      sortField: #"urn:appian:record-field:v1:04c66223-4089-4d5e-8ed8-6a853822f478/f0617580-5e23-4819-bcca-603b48ae4897/82717263-d098-48ae-ad24-1591d57c5a00",
+      value: #"SYSTEM_SYSRULES_richTextDisplayField"(
+        value: {
+          #"SYSTEM_SYSRULES_richTextItem_v1"(
+            text: fv!row[#"urn:appian:record-field:v1:04c66223-4089-4d5e-8ed8-6a853822f478/f0617580-5e23-4819-bcca-603b48ae4897/82717263-d098-48ae-ad24-1591d57c5a00"],
+            link: #"SYSTEM_SYSRULES_recordLink"(
+              recordType: #"urn:appian:record-type:v1:15ec9ef8-96dd-41ff-a034-7863526026d4",
+              identifier: fv!row[#"urn:appian:record-field:v1:04c66223-4089-4d5e-8ed8-6a853822f478/f0617580-5e23-4819-bcca-603b48ae4897/5bcf4368-762b-4e2d-9c38-b9673be9a76c"]
+            ),
+            linkStyle: "STANDALONE"
+          )
+        }
+      ),
+      width: "AUTO"
+    ),
+    /*  Owner  */
+    #"SYSTEM_SYSRULES_gridColumn"(
+      label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+        i18nData: ri!i18nData,
+        bundleKey: "AS.CO.AllBundles.lbl_Owner"
+      ),
+      value: #"SYSTEM_SYSRULES_richTextDisplayField"(
+        value: {
+          #"SYSTEM_SYSRULES_richTextItem_v1"(
+            text: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73660"(
+              user: fv!row[#"urn:appian:record-field:v1:04c66223-4089-4d5e-8ed8-6a853822f478/6ce2159e-c78e-4bc7-95f4-a37e221b9812/ef27eabb-7afc-400f-acd7-824ff3c0693d"],
+              showHyphenIfValueNull: true,
+              i18nData: ri!i18nData
+            ),
+            linkStyle: "STANDALONE",
+            color: "STANDARD",
+            style: "PLAIN",
+            size: "STANDARD"
+          )
+        }
+      ),
+      width: "AUTO"
+    )
+  }
+)</definition>
+        <namedTypedValue>
+            <name>i18nData</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <history>
+        <historyInfo versionUuid="_a-0000e77e-5277-8000-9c09-011c48011c48_2890678"/>
+        <historyInfo versionUuid="_a-0000e79b-0335-8000-9c0c-011c48011c48_2914947"/>
+    </history>
+</contentHaul>

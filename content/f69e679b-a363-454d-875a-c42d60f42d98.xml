@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e774-a792-8000-9c04-011c48011c48_2821546</versionUuid>
+    <rule>
+        <name>AS_CO_UT_getKeysFromJson</name>
+        <uuid>f69e679b-a363-454d-875a-c42d60f42d98</uuid>
+        <description>returns keys from a Json text</description>
+        <parentUuid>_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73105</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>touniformstring(
+  if(
+    #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(ri!jsonText),
+    {},
+    a!localVariables(
+      local!dictionary: #"SYSTEM_SYSRULES_fromJson_v1"(jsonText: ri!jsonText),
+      local!allKeys: #"_a-0000e774-a792-8000-9c04-011c48011c48_2821463"(local!dictionary),
+      #"SYSTEM_SYSRULES_forEach"(
+        items: local!allKeys,
+        expression: if(
+          typeof(
+            #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_76433"(
+              cdt: local!dictionary,
+              field: fv!item,
+              indexDefault: {}
+            )
+          ) = #"_a-0000e40a-de32-8000-9ba8-011c48011c48_283314"(),
+          a!localVariables(
+            local!item: fv!item,
+            #"SYSTEM_SYSRULES_forEach"(
+              items: #"f69e679b-a363-454d-875a-c42d60f42d98"(
+                jsonText: #"SYSTEM_SYSRULES_toJson_v1"(
+                  #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_76433"(
+                    cdt: local!dictionary,
+                    field: local!item,
+                    indexDefault: {}
+                  )
+                )
+              ),
+              expression: local!item &amp; "." &amp; fv!item
+            )
+          ),
+          fv!item
+        )
+      )
+    )
+  )
+)</definition>
+        <namedTypedValue>
+            <name>jsonText</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name>Unnamed Test Case</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"SYSTEM_SYSRULES_toJson_v1"({"action":"MODIFY","modificationTriggerCriteria":{"field":"beneficialOwnershipPercent","operator":"&gt;=","threshold":50.0}})</a:value>
+                    <a:nameRef>jsonText</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+            <el>
+                <a:name>Empty test case</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:string"/>
+                    <a:nameRef>jsonText</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2624941"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2652588"/>
+        <historyInfo versionUuid="_a-0000e774-a792-8000-9c04-011c48011c48_2820845"/>
+        <historyInfo versionUuid="_a-0000e774-a792-8000-9c04-011c48011c48_2821546"/>
+    </history>
+</contentHaul>

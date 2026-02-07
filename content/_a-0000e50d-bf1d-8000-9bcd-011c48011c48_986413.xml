@@ -1,0 +1,454 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e70f-2824-8000-9c01-011c48011c48_2703522</versionUuid>
+    <interface>
+        <name>AS_FS_SCT_addOrUpdateContactAddress</name>
+        <uuid>_a-0000e50d-bf1d-8000-9bcd-011c48011c48_986413</uuid>
+        <description>Rule holds the section to add or edit address for an contact</description>
+        <parentUuid>_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_968428</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>#"SYSTEM_SYSRULES_sectionLayout_v1"(
+  label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+    i18nData: ri!i18nData,
+    bundleKey: "AS.FS.AllBundles.lbl_NewAddress"
+  ),
+  contents: {
+    #"SYSTEM_SYSRULES_richTextDisplayField"(
+      value: #"SYSTEM_SYSRULES_richTextItem_v1"(
+        text: {
+          #"SYSTEM_SYSRULES_richTextIcon"(
+            icon: "plus-circle",
+            linkStyle: "STANDALONE"
+          ),
+          " ",
+          #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+            i18nData: ri!i18nData,
+            bundleKey: "AS.FS.AllBundles.lbl_AddAddress"
+          )
+        },
+        linkStyle: "STANDALONE",
+        link: #"_a-0000e438-fdf5-8000-9ba8-011c48011c48_23008"(
+          gridItems: ri!contactAddress,
+          itemToAdd: 'type!{urn:com:appian:types:AS:FS}AS_FS_Address'(addressId: null, isActive: true)
+        )
+      ),
+      showWhen: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(ri!contactAddress)
+    ),
+    #"SYSTEM_SYSRULES_gridLayout"(
+      labelPosition: "COLLAPSED",
+      headerCells: {
+        #"SYSTEM_SYSRULES_gridLayoutHeaderCell"(
+          label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+            i18nData: ri!i18nData,
+            bundleKey: "AS.FS.AllBundles.lbl_StreetAddress"
+          ) &amp; " *"
+        ),
+        #"SYSTEM_SYSRULES_gridLayoutHeaderCell"(
+          label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+            i18nData: ri!i18nData,
+            bundleKey: "AS.FS.AllBundles.lbl_Line2"
+          )
+        ),
+        #"SYSTEM_SYSRULES_gridLayoutHeaderCell"(
+          label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+            i18nData: ri!i18nData,
+            bundleKey: "AS.FS.AllBundles.lbl_City"
+          ) &amp; " *"
+        ),
+        #"SYSTEM_SYSRULES_gridLayoutHeaderCell"(
+          label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+            i18nData: ri!i18nData,
+            bundleKey: "AS.FS.AllBundles.lbl_Country"
+          ) &amp; " *"
+        ),
+        #"SYSTEM_SYSRULES_gridLayoutHeaderCell"(
+          label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+            i18nData: ri!i18nData,
+            bundleKey: "AS.FS.AllBundles.lbl_RegionState"
+          ) &amp; " *"
+        ),
+        #"SYSTEM_SYSRULES_gridLayoutHeaderCell"(
+          label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+            i18nData: ri!i18nData,
+            bundleKey: "AS.FS.AllBundles.lbl_PostalCodeZipCode"
+          ) &amp; " *"
+        ),
+        #"SYSTEM_SYSRULES_gridLayoutHeaderCell"(
+          label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+            i18nData: ri!i18nData,
+            bundleKey: "AS.FS.AllBundles.lbl_AddressType"
+          ) &amp; " *"
+        ),
+        #"SYSTEM_SYSRULES_gridLayoutHeaderCell"(
+          label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(i18nData: ri!i18nData, bundleKey: "")
+        )
+      },
+      columnConfigs: {
+        repeat(
+          7,
+          #"SYSTEM_SYSRULES_gridLayoutColumnConfig"(width: "DISTRIBUTE")
+        ),
+        #"SYSTEM_SYSRULES_gridLayoutColumnConfig"(width: "ICON")
+      },
+      rows: {
+        #"SYSTEM_SYSRULES_forEach"(
+          items: ri!contactAddress,
+          expression: #"SYSTEM_SYSRULES_gridRowLayout"(
+            contents: {
+              #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73562"(
+                label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                  i18nData: ri!i18nData,
+                  bundleKey: "AS.FS.AllBundles.lbl_StreetAddress"
+                ),
+                value: fv!item.streetAddress,
+                maxLength: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73500",
+                saveInto: {
+                  fv!item.streetAddress,
+                  a!save(fv!item.modifiedBy, loggedInUser())
+                },
+                validationGroup: if(
+                  #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(ri!validationGroup),
+                  #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_981659",
+                  ri!validationGroup
+                ),
+                required: true
+              ),
+              #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73562"(
+                label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                  i18nData: ri!i18nData,
+                  bundleKey: "AS.FS.AllBundles.lbl_Line2"
+                ),
+                value: fv!item.addressLine2,
+                maxLength: 150,
+                saveInto: {
+                  fv!item.addressLine2,
+                  a!save(fv!item.modifiedBy, loggedInUser())
+                },
+                validationGroup: #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_981659"
+              ),
+              #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73562"(
+                label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                  i18nData: ri!i18nData,
+                  bundleKey: "AS.FS.AllBundles.lbl_City"
+                ),
+                value: fv!item.city,
+                maxLength: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73500",
+                saveInto: {
+                  fv!item.city,
+                  a!save(fv!item.modifiedBy, loggedInUser())
+                },
+                validationGroup: if(
+                  #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(ri!validationGroup),
+                  #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_981659",
+                  ri!validationGroup
+                ),
+                required: true
+              ),
+              #"_a-0000e528-bc07-8000-9bcf-011c48011c48_1027802"(
+                label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                  i18nData: ri!i18nData,
+                  bundleKey: "AS.FS.AllBundles.lbl_Country"
+                ),
+                placeholderLabel: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                  i18nData: ri!i18nData,
+                  bundleKey: "AS.FS.AllBundles.lbl_Country"
+                ),
+                choiceValues: ri!countries.countryCode,
+                choiceLabels: ri!countries.countryName,
+                value: fv!item.countryCode,
+                saveInto: {
+                  fv!item.countryCode,
+                  a!save(fv!item.stateRegion, null),
+                  a!save(fv!item.modifiedBy, loggedInUser())
+                },
+                validationGroup: if(
+                  #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(ri!validationGroup),
+                  #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_981659",
+                  ri!validationGroup
+                ),
+                required: true
+              ),
+              if(
+                fv!item.countryCode = #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_981494",
+                #"_a-0000e62c-7375-8000-9bec-011c48011c48_1765456"(
+                  selectedStateCode: fv!item.stateRegion,
+                  required: true(),
+                  i18nData: ri!i18nData,
+                  states: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+                    cdt: ri!states,
+                    field: "isActive",
+                    value: true
+                  ),
+                  validationGroup: #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_986493"
+                ),
+                #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73562"(
+                  label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                    i18nData: ri!i18nData,
+                    bundleKey: "AS.FS.AllBundles.lbl_Region"
+                  ),
+                  value: fv!item.stateRegion,
+                  maxLength: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73500",
+                  saveInto: {
+                    fv!item.stateRegion,
+                    a!save(fv!item.modifiedBy, loggedInUser())
+                  },
+                  validationGroup: if(
+                    #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(ri!validationGroup),
+                    #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_981659",
+                    ri!validationGroup
+                  ),
+                  required: true
+                )
+              ),
+              #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73562"(
+                label: if(
+                  fv!item.countryCode = #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_981494",
+                  #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                    i18nData: ri!i18nData,
+                    bundleKey: "AS.FS.AllBundles.lbl_ZipCode"
+                  ),
+                  #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                    i18nData: ri!i18nData,
+                    bundleKey: "AS.FS.AllBundles.lbl_PostalCode"
+                  )
+                ),
+                value: fv!item.postalCode,
+                maxLength: 15,
+                saveInto: {
+                  fv!item.postalCode,
+                  a!save(fv!item.modifiedBy, loggedInUser())
+                },
+                validationGroup: if(
+                  #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(ri!validationGroup),
+                  #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_981659",
+                  ri!validationGroup
+                ),
+                required: true
+              ),
+              a!localVariables(
+                local!addressTypes: #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_976967"(
+                  refData: ri!refData,
+                  currentValue: fv!item.addressType,
+                  type: #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_978922"
+                ),
+                #"_a-0000e528-bc07-8000-9bcf-011c48011c48_1027802"(
+                  label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                    i18nData: ri!i18nData,
+                    bundleKey: "AS.FS.AllBundles.lbl_Type"
+                  ),
+                  placeholderLabel: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                    i18nData: ri!i18nData,
+                    bundleKey: "AS.FS.AllBundles.lbl_Type"
+                  ),
+                  choiceLabels: local!addressTypes.label,
+                  choiceValues: local!addressTypes.code,
+                  value: fv!item.addressType,
+                  saveInto: {
+                    fv!item.addressType,
+                    a!save(fv!item.modifiedBy, loggedInUser())
+                  },
+                  validationGroup: if(
+                    #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(ri!validationGroup),
+                    #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_981659",
+                    ri!validationGroup
+                  ),
+                  required: true
+                )
+              ),
+              #"SYSTEM_SYSRULES_richTextDisplayField"(
+                value: #"SYSTEM_SYSRULES_richTextIcon"(
+                  icon: "REMOVE",
+                  color: "NEGATIVE",
+                  linkStyle: "STANDALONE",
+                  link: #"SYSTEM_SYSRULES_dynamicLink"(
+                    saveInto: a!save(
+                      ri!contactAddress,
+                      remove(ri!contactAddress, fv!index)
+                    )
+                  ),
+                  caption: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                    i18nData: ri!i18nData,
+                    bundleKey: "AS.FS.AllBundles.lbl_Remove"
+                  )
+                )
+              )
+            }
+          )
+        )
+      },
+      addRowLink: #"_a-0000e438-fdf5-8000-9ba8-011c48011c48_23008"(
+        label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+          i18nData: ri!i18nData,
+          bundleKey: "AS.FS.AllBundles.lbl_AddAddress"
+        ),
+        gridItems: ri!contactAddress,
+        itemToAdd: 'type!{urn:com:appian:types:AS:FS}AS_FS_Address'(addressId: null, isActive: true)
+      ),
+      shadeAlternateRows: true,
+      showWhen: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(ri!contactAddress)
+    )
+  }
+)</definition>
+        <namedTypedValue>
+            <name>i18nData</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>refData</name>
+            <type>
+                <name>AS_FS_R_Data?list</name>
+                <namespace>urn:com:appian:types:AS:FS</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>contactAddress</name>
+            <type>
+                <name>AS_FS_Address?list</name>
+                <namespace>urn:com:appian:types:AS:FS</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>countries</name>
+            <type>
+                <name>AS_FS_R_Country?list</name>
+                <namespace>urn:com:appian:types:AS:FS</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>states</name>
+            <type>
+                <name>AS_FS_R_State?list</name>
+                <namespace>urn:com:appian:types:AS:FS</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>validationGroup</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+        <isCustom>false</isCustom>
+    </interface>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name/>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_975720"(
+  triggerRefresh: null
+
+)</a:value>
+                    <a:nameRef>i18nData</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_975294"(
+  typeList: {}
+)</a:value>
+                    <a:nameRef>refData</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">'type!{urn:com:appian:types:AS:FS}AS_FS_Address'(
+  addressId: null ,
+  contactId: null ,
+  customerId: null ,
+  addressType: null,
+  streetAddress: null ,
+  addressLine2: null ,
+  city: null ,
+  stateRegion: null ,
+  countryCode: null ,
+  postalCode: null ,
+  isActive: null ,
+  createdBy: null,
+  createdDatetime: null,
+  modifiedBy: null,
+  modifiedDatetime: null )
+</a:value>
+                    <a:nameRef>contactAddress</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression"> #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_976936"(
+   returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290163"
+
+ )</a:value>
+                    <a:nameRef>countries</a:nameRef>
+                    <a:id>4</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_978878"(
+  i18nData: #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_975720"(
+    triggerRefresh: now()
+  ),
+  returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290163"
+)</a:value>
+                    <a:nameRef>states</a:nameRef>
+                    <a:id>5</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:string"/>
+                    <a:nameRef>validationGroup</a:nameRef>
+                    <a:id>6</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e50d-bf1d-8000-9bcd-011c48011c48_1006002"/>
+        <historyInfo versionUuid="_a-0000e528-bc07-8000-9bcf-011c48011c48_1028302"/>
+        <historyInfo versionUuid="_a-0000e5f9-18eb-8000-9be1-011c48011c48_1552033"/>
+        <historyInfo versionUuid="_a-0000e62c-7375-8000-9bec-011c48011c48_1850226"/>
+        <historyInfo versionUuid="_a-0000e69f-3688-8000-9bf2-011c48011c48_2074107"/>
+        <historyInfo versionUuid="_a-0000e69f-3688-8000-9bf2-011c48011c48_2122410"/>
+        <historyInfo versionUuid="_a-0000e69f-3688-8000-9bf2-011c48011c48_2137385"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2703522"/>
+    </history>
+</contentHaul>

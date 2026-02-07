@@ -1,0 +1,514 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e79b-0335-8000-9c0c-011c48011c48_2959605</versionUuid>
+    <interface>
+        <name>AS_GM_COL_addUsersToGroup</name>
+        <uuid>f55ef55b-854d-44f5-bdc6-cec31bce739c</uuid>
+        <description></description>
+        <parentUuid>_a-0000e471-623a-8000-9bc3-011c48011c48_750565</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>#"SYSTEM_SYSRULES_columnsLayout"(
+  columns: {
+    #"SYSTEM_SYSRULES_columnLayout"(
+      contents: {
+        #"SYSTEM_SYSRULES_cardLayout"(
+          contents: {
+            #"SYSTEM_SYSRULES_columnsLayout"(marginBelow: "NONE"),
+            #"SYSTEM_SYSRULES_sideBySideLayout"(
+              items: {
+                /*    Member Type is ALL                */
+                #"SYSTEM_SYSRULES_sideBySideItem"(
+                  item: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_74476"(
+                    maxSelections: if(
+                      contains(
+                        ri!parentGroupsToValidate,
+                        ri!parentGroup
+                      ),
+                      1,
+                      null
+                    ),
+                    labelPosition: "COLLAPSED",
+                    placeholder: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                      i18nData: ri!i18nData,
+                      bundleKey: "AS.GM.GroupManagement.lbl_SearchUserOrGroupAdd"
+                    ),
+                    saveInto: ri!addUser,
+                    validations: #"_a-0000e329-3415-8000-9ba2-011c48011c48_382839-io"(
+                      addUser: ri!addUser,
+                      parentGroupsToValidate: ri!parentGroupsToValidate,
+                      selectedParentGroup: ri!parentGroup,
+                      indirectUsers: ri!indirectUsers,
+                      i18nData: ri!i18nData
+                    )
+                  ),
+                  showWhen: and(
+                    ri!createNewMember &lt;&gt; true,
+                    ri!memberType = #"_a-0000e419-f401-8000-9ba4-011c48011c48_16737-io"
+                  )
+                ),
+                /*    Member Type is GROUP                */
+                #"SYSTEM_SYSRULES_sideBySideItem"(
+                  item: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_164619"(
+                    maxSelections: if(
+                      contains(
+                        ri!parentGroupsToValidate,
+                        ri!parentGroup
+                      ),
+                      1,
+                      null
+                    ),
+                    labelPosition: "COLLAPSED",
+                    placeholder: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                      i18nData: ri!i18nData,
+                      bundleKey: "AS.GM.GroupManagement.lbl_SearchForGroupsToAdd"
+                    ),
+                    value: ri!addUser,
+                    saveInto: ri!addUser,
+                    validations: #"_a-0000e329-3415-8000-9ba2-011c48011c48_382839-io"(
+                      parentGroupsToValidate: ri!parentGroupsToValidate,
+                      selectedParentGroup: ri!parentGroup,
+                      addUser: ri!addUser,
+                      indirectUsers: ri!indirectUsers,
+                      i18nData: ri!i18nData
+                    )
+                  ),
+                  showWhen: and(
+                    ri!createNewMember &lt;&gt; true,
+                    ri!memberType = #"_a-0000e419-f401-8000-9ba4-011c48011c48_16743-io"
+                  )
+                ),
+                /*    Member Type is USER                */
+                #"SYSTEM_SYSRULES_sideBySideItem"(
+                  item: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_74494"(
+                    maxSelections: if(
+                      contains(
+                        ri!parentGroupsToValidate,
+                        ri!parentGroup
+                      ),
+                      1,
+                      null
+                    ),
+                    labelPosition: "COLLAPSED",
+                    placeholder: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                      i18nData: ri!i18nData,
+                      bundleKey: "AS.GM.GroupManagement.lbl_SearchForUsersToAdd"
+                    ),
+                    value: ri!addUser,
+                    saveInto: ri!addUser,
+                    validations: #"_a-0000e329-3415-8000-9ba2-011c48011c48_382839-io"(
+                      parentGroupsToValidate: ri!parentGroupsToValidate,
+                      selectedParentGroup: ri!parentGroup,
+                      addUser: ri!addUser,
+                      indirectUsers: ri!indirectUsers,
+                      i18nData: ri!i18nData
+                    ),
+                    i18nData: ri!i18nData
+                  ),
+                  showWhen: and(
+                    ri!createNewMember &lt;&gt; true,
+                    ri!memberType = #"_a-0000e419-f401-8000-9ba4-011c48011c48_16749-io"
+                  ),
+                  
+                ),
+                #"SYSTEM_SYSRULES_sideBySideItem"(
+                  showWhen: ri!createNewMember,
+                  item: #"_a-0000e40a-961e-8000-9ba7-011c48011c48_258735"(
+                    label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                      i18nData: ri!i18nData,
+                      bundleKey: "AS.GM.GroupManagement.lbl_GoBack"
+                    ),
+                    saveInto: {
+                      a!save(
+                        ri!createNewMember,
+                        #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75636"(ri!createNewMember)
+                      ),
+                      a!save({ ri!addUser, ri!userDetails }, null)
+                    },
+                    showWhen: ri!createNewMember
+                  )
+                )
+              }
+            ),
+            #"bad5c50a-e9da-45db-a2fb-695a9bfdb1f8"(
+              showWhen: ri!createNewMember,
+              userDetails: ri!userDetails,
+              i18nData: ri!i18nData
+            ),
+            #"SYSTEM_SYSRULES_columnsLayout"(
+              columns: {
+                #"SYSTEM_SYSRULES_columnLayout"(
+                  contents: {
+                    #"SYSTEM_SYSRULES_ButtonArrayLayout"(
+                      align: "START",
+                      buttons: {
+                        #"SYSTEM_SYSRULES_ButtonWidget"(
+                          label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                            i18nData: ri!i18nData,
+                            bundleKey: "AS.GM.GroupManagement.lbl_Cancel"
+                          ),
+                          saveInto: {
+                            a!save(ri!showAddMember, null),
+                            a!save(ri!addUser, null),
+                            a!save(ri!createNewMember, false)
+                          },
+                          size: "SMALL",
+                          style: "NORMAL"
+                        )
+                      }
+                    )
+                  }
+                ),
+                #"SYSTEM_SYSRULES_columnLayout"(contents: {}),
+                #"SYSTEM_SYSRULES_columnLayout"(
+                  contents: {
+                    #"SYSTEM_SYSRULES_ButtonArrayLayout"(
+                      buttons: {
+                        #"SYSTEM_SYSRULES_ButtonWidget"(
+                          label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                            i18nData: ri!i18nData,
+                            bundleKey: "AS.GM.GroupManagement.lbl_CreateNewUser"
+                          ),
+                          validate: true,
+                          saveInto: {
+                            a!save(
+                              ri!createNewMember,
+                              #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75636"(ri!createNewMember)
+                            ),
+                            a!save({ ri!addUser, ri!userDetails }, null),
+                            
+                          },
+                          disabled: and(
+                            #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75636"(ri!createNewMember),
+                            #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(ri!addUser)
+                          ),
+                          showWhen: and(
+                            #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75636"(ri!createNewMember),
+                            ri!memberType &lt;&gt; #"_a-0000e419-f401-8000-9ba4-011c48011c48_16743-io"
+                          ),
+                          size: "SMALL"
+                        ),
+                        #"SYSTEM_SYSRULES_ButtonWidget"(
+                          label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                            i18nData: ri!i18nData,
+                            bundleKey: "AS.GM.GroupManagement.lbl_AddToGroup"
+                          ),
+                          confirmHeader: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                            i18nData: ri!i18nData,
+                            bundleKey: "AS.GM.GroupManagement.lbl_AddMembers"
+                          ),
+                          confirmMessage: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                            i18nData: ri!i18nData,
+                            bundleKey: "AS.GM.GroupManagement.lbl_ApplicationSecurity"
+                          ),
+                          confirmButtonLabel: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                            i18nData: ri!i18nData,
+                            bundleKey: "AS.GM.GroupManagement.lbl_YesAdd"
+                          ),
+                          cancelButtonLabel: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                            i18nData: ri!i18nData,
+                            bundleKey: "AS.GM.GroupManagement.lbl_NoGoback"
+                          ),
+                          validate: true,
+                          saveInto: {
+                            if(
+                              ri!createNewMember,
+                              #"SYSTEM_SYSRULES_startProcess"(
+                                processModel: #"_a-0000e539-6d59-8000-9bd0-011c48011c48_1301137",
+                                processParameters: {
+                                  userDetails: ri!userDetails,
+                                  selectedGroup: ri!groupSelected,
+                                  initiator: loggedInUser()
+                                },
+                                onSuccess: {
+                                  {
+                                    a!save({ ri!addUser, ri!userDetails }, null),
+                                    a!save(
+                                      { ri!createNewMember, ri!showAddMember },
+                                      false
+                                    )
+                                  }
+                                },
+                                
+                              ),
+                              #"SYSTEM_SYSRULES_startProcess"(
+                                processModel: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_160267-io",
+                                processParameters: {
+                                  userToAdd: ri!addUser,
+                                  selectedGroup: ri!groupSelected,
+                                  initiator: loggedInUser()
+                                },
+                                onSuccess: {
+                                  a!save({ ri!addUser, ri!userDetails }, null),
+                                  a!save(
+                                    { ri!createNewMember, ri!showAddMember },
+                                    false
+                                  )
+                                }
+                              )
+                            ),
+                            
+                          },
+                          size: "SMALL",
+                          style: "PRIMARY",
+                          disabled: or(
+                            and(
+                              ri!createNewMember &lt;&gt; true,
+                              #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(ri!addUser)
+                            ),
+                            and(
+                              not(
+                                #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(togroup(ri!addUser))
+                              ),
+                              contains(
+                                ri!indirectUsers.groupId,
+                                group(togroup(ri!addUser), "id")
+                              )
+                            ),
+                            and(
+                              contains(
+                                touser(
+                                  index(
+                                    index(
+                                      ri!indirectUsers,
+                                      wherecontains(
+                                        false,
+                                        toboolean(index(ri!indirectUsers, "isGroup", {}))
+                                      ),
+                                      {}
+                                    ),
+                                    "name",
+                                    {}
+                                  )
+                                ),
+                                touser(ri!addUser)
+                              ),
+                              not(
+                                #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(touser(ri!addUser))
+                              )
+                            ),
+                            and(
+                              contains(
+                                ri!parentGroupsToValidate,
+                                ri!parentGroup
+                              ),
+                              contains(
+                                touser(
+                                  a!groupMembers(
+                                    pagingInfo: #"SYSTEM_SYSRULES_pagingInfo"(
+                                      startIndex: 1,
+                                      /*current max for this function*/
+                                      batchSize: #"_a-0000e447-933d-8000-9baa-011c48011c48_43371"
+                                    ),
+                                    group: ri!parentGroup,
+                                    direct: false,
+                                    memberType: "USER"
+                                  ).data
+                                ),
+                                touser(index(ri!addUser, 1, ri!addUser))
+                              )
+                            )
+                          )
+                        ),
+                        
+                      },
+                      align: "END"
+                    )
+                  }
+                )
+              }
+            )
+          }
+        )
+      },
+      showWhen: and(
+        ri!showAddMember = true,
+        #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(ri!groupSelected)
+      )
+    )
+  }
+)</definition>
+        <namedTypedValue>
+            <name>parentGroupsToValidate</name>
+            <type>
+                <name>Group?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>createNewMember</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>i18nData</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>userDetails</name>
+            <type>
+                <name>AS_GM_userDetails</name>
+                <namespace>urn:com:appian:types:AS:GM</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>addUser</name>
+            <type>
+                <name>UserOrGroup?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>parentGroup</name>
+            <type>
+                <name>Group</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>memberType</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>showAddMember</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>groupSelected</name>
+            <type>
+                <name>Group</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>indirectUsers</name>
+            <type>
+                <name>AS_GM_P_UserInformation?list</name>
+                <namespace>urn:com:appian:types:AS:GM</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+        <isCustom>false</isCustom>
+    </interface>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name/>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e471-623a-8000-9bc3-011c48011c48_750834"</a:value>
+                    <a:nameRef>parentGroupsToValidate</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:boolean">false</a:value>
+                    <a:nameRef>createNewMember</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81720"(
+  bundleFolder: #"_a-0000e471-623a-8000-9bc3-011c48011c48_751055",
+  bundleNames: { "GroupManagement" }
+),</a:value>
+                    <a:nameRef>i18nData</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:n1="urn:com:appian:types:AS:GM" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="n1:AS_GM_userDetails"/>
+                    <a:nameRef>userDetails</a:nameRef>
+                    <a:id>4</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                    <a:nameRef>addUser</a:nameRef>
+                    <a:id>5</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e471-623a-8000-9bc3-011c48011c48_750834"</a:value>
+                    <a:nameRef>parentGroup</a:nameRef>
+                    <a:id>6</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">"USER"</a:value>
+                    <a:nameRef>memberType</a:nameRef>
+                    <a:id>7</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:boolean">true</a:value>
+                    <a:nameRef>showAddMember</a:nameRef>
+                    <a:id>8</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e471-623a-8000-9bc3-011c48011c48_750834"</a:value>
+                    <a:nameRef>groupSelected</a:nameRef>
+                    <a:id>9</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                    <a:nameRef>indirectUsers</a:nameRef>
+                    <a:id>10</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e586-af6f-8000-9bd2-011c48011c48_1334041"/>
+        <historyInfo versionUuid="_a-0000e586-af6f-8000-9bd2-011c48011c48_1336106"/>
+        <historyInfo versionUuid="_a-0000e586-af6f-8000-9bd2-011c48011c48_1357423"/>
+        <historyInfo versionUuid="_a-0000e586-af6f-8000-9bd2-011c48011c48_1361981"/>
+        <historyInfo versionUuid="_a-0000e5a0-53e9-8000-9bd8-011c48011c48_1456053"/>
+        <historyInfo versionUuid="_a-0000e62c-7375-8000-9bec-011c48011c48_1852330"/>
+        <historyInfo versionUuid="_a-0000e6ca-7e19-8000-9bfb-011c48011c48_2228232"/>
+        <historyInfo versionUuid="_a-0000e79b-0335-8000-9c0c-011c48011c48_2959605"/>
+    </history>
+</contentHaul>

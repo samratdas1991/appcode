@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e62c-7375-8000-9bec-011c48011c48_1811202</versionUuid>
+    <rule>
+        <name>AS_FS_RPA_getUniqueExecutionIdForRobotExecution</name>
+        <uuid>_a-0000e5fb-e360-8000-9be3-011c48011c48_1556722</uuid>
+        <description>returns execution id of RPA execution by execution number and bot</description>
+        <parentUuid>_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_968428</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  if(
+    #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(ri!executionId),
+    null,
+    a!localVariables(
+      local!executionId: split(ri!executionId, "#"),
+      local!allExecutions: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_76433"(
+        cdt: #"_a-0000e5d6-d648-8000-9bde-011c48011c48_1498952"(dateStart: today() - 1, dateEnd: today() + 1),
+        field: "result.body.result.executions",
+        indexDefault: {}
+      ),
+      index(
+        #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81482"(
+          cdt: local!allExecutions,
+          fields: { "robotName", "executionNumber" },
+          values: {
+            local!executionId[1],
+            local!executionId[2]
+          }
+        ),
+        "id",
+        {}
+      )
+    )
+  )
+)</definition>
+        <namedTypedValue>
+            <name>executionId</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name>Valid</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:string">601d03a1e4b0cacaf1873c4d#225</a:value>
+                    <a:nameRef>executionId</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e5fb-e360-8000-9be3-011c48011c48_1556798"/>
+        <historyInfo versionUuid="_a-0000e5fd-0ed3-8000-9be6-011c48011c48_1563150"/>
+        <historyInfo versionUuid="_a-0000e5fd-0ed3-8000-9be6-011c48011c48_1566202"/>
+        <historyInfo versionUuid="_a-0000e62c-7375-8000-9bec-011c48011c48_1811202"/>
+    </history>
+</contentHaul>

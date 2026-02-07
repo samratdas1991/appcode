@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2484986</versionUuid>
+    <interface>
+        <name>AS_IO_FM_customerBenchmarksDetails</name>
+        <uuid>_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2468489</uuid>
+        <description>Form capturing benchmark details for a customer</description>
+        <parentUuid>_a-0000e2bb-4188-8000-9ba2-011c48011c48_25469</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  local!i18nData: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81834"(triggerRefresh: null),
+
+  #"SYSTEM_SYSRULES_formLayout_v1"(
+    label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+      i18nData: local!i18nData,
+      bundleKey: if(
+        #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(ri!benchmark.benchmarkId),
+        "AS.CO.AllBundles.lbl_AddBenchmarkDetails",
+        "AS.CO.AllBundles.lbl_EditBenchmarkDetails"
+      )
+    ),
+    contents: #"_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2467849"(
+      i18nData: local!i18nData,
+      benchmark: ri!benchmark
+    ),
+    buttons: #"_a-0000e3d1-f4dc-8000-9ba4-011c48011c48_134344"(
+      confirmLabel: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+        i18nData: local!i18nData,
+        bundleKey: "AS.CO.AllBundles.btn_Submit"
+      ),
+      cancelLabel: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+        i18nData: local!i18nData,
+        bundleKey: "AS.CO.AllBundles.btn_Cancel"
+      ),
+      confirmSaveInto: {
+        a!save(
+          ri!userAction,
+          #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73305"
+        )
+      },
+      cancelSaveInto: {
+        a!save(
+          ri!userAction,
+          #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73173"
+        )
+      },
+      includeDivider: false,
+      confirmSubmit: true,
+      cancelSubmit: true,
+      confirmDisabled: false,
+      cancelDisabled: false
+    )
+  )
+)</definition>
+        <namedTypedValue>
+            <name>benchmark</name>
+            <type>
+                <name>AS_IO_CustomerBenchmark</name>
+                <namespace>urn:com:appian:types:IO</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>userAction</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+        <isCustom>false</isCustom>
+    </interface>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <history>
+        <historyInfo versionUuid="_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2468570"/>
+        <historyInfo versionUuid="_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2476915"/>
+        <historyInfo versionUuid="_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2484986"/>
+    </history>
+</contentHaul>

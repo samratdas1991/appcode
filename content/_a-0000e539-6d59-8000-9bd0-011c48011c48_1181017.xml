@@ -1,0 +1,435 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e825-b425-8000-9c1c-011c48011c48_3665799</versionUuid>
+    <interface>
+        <name>AS_FS_CPS_addOrUpdateProductType</name>
+        <uuid>_a-0000e539-6d59-8000-9bd0-011c48011c48_1181017</uuid>
+        <description>Update Ref Data - Product Type</description>
+        <parentUuid>_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_968428</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  local!isNewEntry: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(ri!productType.rDataId),
+  local!productTypeValue: a!refreshVariable(
+    value: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+      i18nData: ri!i18nData,
+      bundleKey: ri!productType.label
+    ),
+    refreshOnVarChange: { ri!productType }
+  ),
+  local!productTypeLabel: #"_a-0000e539-6d59-8000-9bd0-011c48011c48_1214347"(
+    text: local!productTypeValue,
+    bundleName: "AS.FS.AllBundles",
+    appendIterationValue: false
+  ),
+  local!allLinkedAccountMaps: #"_a-0000e5fd-0ed3-8000-9be6-011c48011c48_1577746"(
+    productTypeCode: ri!productType.code,
+    returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290163",
+    executeWhen: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(ri!productType.code),
+    triggerRefresh: ri!triggerRefresh
+  ),
+  /*Store objects as they are on form load for reversion on cancel */
+  local!originalAccountMapping: a!refreshVariable(
+    value: local!allLinkedAccountMaps,
+    refreshOnReferencedVarChange: false,
+    refreshOnVarChange: ri!cardTriggerRefresh
+  ),
+  local!accTypesToDeactivate: difference(
+    {
+      local!allLinkedAccountMaps.accountTypeCode
+    },
+    {
+      local!originalAccountMapping.accountTypeCode
+    }
+  ),
+  local!accTypesToReactivate: difference(
+    {
+      local!originalAccountMapping.accountTypeCode
+    },
+    {
+      local!allLinkedAccountMaps.accountTypeCode
+    },
+    
+  ),
+  local!inactiveProductTypesWithSameName,
+  /* Query AS_IO_R_Template of the same product */
+  local!IOtemplatesOfTheProduct: #"_a-0000e7fa-f829-8000-9c17-011c48011c48_3364303"(productTypeCode: ri!productType.code),
+  local!accountTypeAdded,
+  local!accountTypeDeleted,
+  #"SYSTEM_SYSRULES_sectionLayout_v1"(
+    contents: {
+      #"SYSTEM_SYSRULES_sideBySideLayout"(
+        items: {
+          #"SYSTEM_SYSRULES_sideBySideItem"(
+            item: #"SYSTEM_SYSRULES_richTextDisplayField"(
+              label: "Rich Text",
+              labelPosition: "COLLAPSED",
+              value: {
+                #"SYSTEM_SYSRULES_richTextItem_v1"(
+                  text: {
+                    #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                      i18nData: ri!i18nData,
+                      bundleKey: if(
+                        local!isNewEntry,
+                        "AS.FS.AllBundles.txt_CreateProductType",
+                        "AS.FS.AllBundles.txt_UpdateProductType"
+                      )
+                    )
+                  },
+                  color: "ACCENT",
+                  size: "MEDIUM_PLUS",
+                  style: { "STRONG" }
+                )
+              }
+            )
+          ),
+          #"SYSTEM_SYSRULES_sideBySideItem"(
+            item: #"SYSTEM_SYSRULES_ButtonArrayLayout"(
+              buttons: {
+                #"SYSTEM_SYSRULES_ButtonWidget"(
+                  label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                    i18nData: ri!i18nData,
+                    bundleKey: "AS.FS.AllBundles.btn_Delete"
+                  ),
+                  icon: "trash",
+                  saveInto: {
+                    if(
+                      #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(local!IOtemplatesOfTheProduct),
+                      #"SYSTEM_SYSRULES_startProcess"(
+                        processModel: #"_a-0000e62c-7375-8000-9bec-011c48011c48_1755267",
+                        processParameters: {
+                          refData: #"_a-0000e40a-de32-8000-9ba8-011c48011c48_260165"(
+                            cdt: ri!productType,
+                            fields: { "isActive" },
+                            newValues: { false }
+                          )
+                        },
+                        onSuccess: {
+                          #"_a-0000e3c8-6861-8000-9ba2-011c48011c48_124304"(ri!productType),
+                          #"_a-0000e3c8-6861-8000-9ba2-011c48011c48_124064"(ri!triggerRefresh)
+                        }
+                      ),
+                      {}
+                    )
+                  },
+                  size: "SMALL",
+                  style: "SECONDARY",
+                  confirmHeader: if(
+                    #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(local!IOtemplatesOfTheProduct),
+                    #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                      i18nData: ri!i18nData,
+                      bundleKey: "AS.FS.AllBundles.txt_DeleteProductType"
+                    ),
+                    #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                      i18nData: ri!i18nData,
+                      bundleKey: "AS.FS.AllBundles.txt_UnableToDeleteHeader"
+                    )
+                  ),
+                  confirmMessage: if(
+                    #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(local!IOtemplatesOfTheProduct),
+                    #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                      i18nData: ri!i18nData,
+                      bundleKey: "AS.FS.AllBundles.txt_CannotBeUndone"
+                    ),
+                    #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                      i18nData: ri!i18nData,
+                      bundleKey: "AS.FS.AllBundles.txt_UnableToDeleteMessage",
+                      arguments: joinarray(
+                        local!IOtemplatesOfTheProduct.templateName,
+                        ", "
+                      )
+                    )
+                  ),
+                  confirmButtonLabel: if(
+                    #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(local!IOtemplatesOfTheProduct),
+                    #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                      i18nData: ri!i18nData,
+                      bundleKey: "AS.FS.AllBundles.btn_Delete"
+                    ),
+                    #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                      i18nData: ri!i18nData,
+                      bundleKey: "AS.FS.AllBundles.btn_Ok"
+                    )
+                  ),
+                  cancelButtonLabel: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                    i18nData: ri!i18nData,
+                    bundleKey: "AS.FS.AllBundles.btn_Cancel"
+                  )
+                )
+              },
+              align: "END"
+            ),
+            showWhen: local!isNewEntry &lt;&gt; true
+          )
+        }
+      ),
+      #"_a-0000e447-933d-8000-9baa-011c48011c48_50686"(
+        showWhen: local!isNewEntry &lt;&gt; true,
+        label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+          i18nData: ri!i18nData,
+          bundleKey: "AS.FS.AllBundles.txt_EditingProductTypeInstruction"
+        )
+      ),
+      #"SYSTEM_SYSRULES_columnsLayout"(
+        columns: {
+          #"SYSTEM_SYSRULES_columnLayout"(
+            contents: {
+              #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73562"(
+                label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                  i18nData: ri!i18nData,
+                  bundleKey: "AS.FS.AllBundles.txt_Name"
+                ),
+                required: true,
+                value: local!productTypeValue,
+                validations: if(
+                  #"88d932cb-cfae-4aa6-827f-ec1e8f618a5f"(
+                    bundleName: "AS.FS.AllBundles",
+                    rDataId: ri!productType.rDataId,
+                    type: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_41722",
+                    newLabel: local!productTypeLabel,
+                    newValue: local!productTypeValue,
+                    i18nData: ri!i18nData,
+                    triggerRefresh: ri!triggerRefresh
+                  ),
+                  #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                    i18nData: ri!i18nData,
+                    bundleKey: "AS.FS.AllBundles.vld_EnterUniqueProductType"
+                  ),
+                  ""
+                ),
+                saveInto: { local!productTypeValue },
+                labelPosition: "ABOVE",
+                maxLength: #"_a-0000e539-6d59-8000-9bd0-011c48011c48_1184913"
+              )
+            }
+          ),
+          #"SYSTEM_SYSRULES_columnLayout"(contents: {}),
+          #"SYSTEM_SYSRULES_columnLayout"(contents: {})
+        }
+      ),
+      #"_a-0000e539-6d59-8000-9bd0-011c48011c48_1189097"(
+        i18ndata: ri!i18nData,
+        productType: ri!productType,
+        showWhen: local!isNewEntry &lt;&gt; true,
+        triggerRefresh: ri!triggerRefresh,
+        accountTypesAdded: local!accountTypeAdded,
+        accountTypesDeleted: local!accountTypeDeleted
+      ),
+      #"_a-0000e3d1-f4dc-8000-9ba4-011c48011c48_134344"(
+        confirmLabel: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+          i18nData: ri!i18nData,
+          bundleKey: if(
+            local!isNewEntry,
+            "AS.FS.AllBundles.btn_CreateProductType",
+            "AS.FS.AllBundles.btn_UpdateProductType"
+          )
+        ),
+        cancelLabel: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+          i18nData: ri!i18nData,
+          bundleKey: "AS.FS.AllBundles.btn_Cancel"
+        ),
+        confirmSaveInto: {
+          a!save(
+            local!inactiveProductTypesWithSameName,
+            #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_975301"(
+              returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290163",
+              labelsStartsWithText: "AS.FS.AllBundles" &amp; "." &amp; local!productTypeLabel,
+              typeList: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_41722",
+              isActive: false,
+              triggerRefresh: ri!triggerRefresh,
+              executeWhen: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(local!productTypeLabel)
+            )
+          ),
+          #"SYSTEM_SYSRULES_startProcess"(
+            processModel: #"_a-0000e7fa-f829-8000-9c17-011c48011c48_3385743",
+            processParameters: a!localVariables(
+              local!parameters: #"_a-0000e539-6d59-8000-9bd0-011c48011c48_1177201"(
+                bundleName: "AS.FS.AllBundles",
+                bundleFolder: #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_976833",
+                newValue: local!productTypeValue,
+                refData: ri!productType,
+                newLabel: #"_a-0000e539-6d59-8000-9bd0-011c48011c48_1214347"(
+                  label: local!productTypeLabel,
+                  bundleName: "AS.FS.AllBundles",
+                  appendIterationValue: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(local!inactiveProductTypesWithSameName),
+                  iteration: length(
+                    { local!inactiveProductTypesWithSameName }
+                  )
+                ),
+                triggerRefresh: ri!triggerRefresh
+              ),
+              {
+                bundleDictionary: local!parameters.bundleDictionary,
+                bundleName: local!parameters.bundleName,
+                locale: local!parameters.locale,
+                refData: local!parameters.refData,
+                isNewProduct: local!isNewEntry,
+                productTypeCode: ri!productType.code,
+                accountTypesAdded: local!accountTypeAdded,
+                accountTypesDeleted: local!accountTypeDeleted
+              }
+            ),
+            onSuccess: {
+              #"_a-0000e3c8-6861-8000-9ba2-011c48011c48_124304"(ri!productType),
+              #"_a-0000e3c8-6861-8000-9ba2-011c48011c48_124304"(local!originalAccountMapping),
+              #"_a-0000e3c8-6861-8000-9ba2-011c48011c48_124064"(ri!triggerRefresh),
+              #"_a-0000e3c8-6861-8000-9ba2-011c48011c48_124304"(local!accountTypeAdded),
+              #"_a-0000e3c8-6861-8000-9ba2-011c48011c48_124304"(local!accountTypeDeleted)
+            }
+          )
+        },
+        cancelSaveInto: {
+            #"SYSTEM_SYSRULES_startProcess"(
+              processModel: #"_a-0000e539-6d59-8000-9bd0-011c48011c48_1220532",
+              processParameters:{
+                productType: ri!productType.code,
+                accTypesToDeactivate: local!accTypesToDeactivate,
+                accTypesToReactivate: local!accTypesToReactivate
+              }
+            ),
+          {
+            #"_a-0000e3c8-6861-8000-9ba2-011c48011c48_124304"(ri!productType),
+            #"_a-0000e3c8-6861-8000-9ba2-011c48011c48_124304"(local!originalAccountMapping),
+            #"_a-0000e3c8-6861-8000-9ba2-011c48011c48_124304"(local!accountTypeAdded),
+            #"_a-0000e3c8-6861-8000-9ba2-011c48011c48_124304"(local!accountTypeDeleted),
+            #"_a-0000e3c8-6861-8000-9ba2-011c48011c48_124064"(ri!triggerRefresh)
+          }
+        }
+      )
+    },
+    showWhen: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(ri!productType)
+  )
+)</definition>
+        <namedTypedValue>
+            <name>i18nData</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>productType</name>
+            <type>
+                <name>AS_FS_R_Data</name>
+                <namespace>urn:com:appian:types:AS:FS</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>triggerRefresh</name>
+            <type>
+                <name>dateTime</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>cardTriggerRefresh</name>
+            <type>
+                <name>dateTime</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+        <isCustom>false</isCustom>
+    </interface>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name/>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_975720"(null)</a:value>
+                    <a:nameRef>i18nData</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_975294"(
+  typeList: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_41722",
+)</a:value>
+                    <a:nameRef>productType</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:dateTime"/>
+                    <a:nameRef>triggerRefresh</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:dateTime"/>
+                    <a:nameRef>cardTriggerRefresh</a:nameRef>
+                    <a:id>4</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e539-6d59-8000-9bd0-011c48011c48_1200269"/>
+        <historyInfo versionUuid="_a-0000e539-6d59-8000-9bd0-011c48011c48_1231589"/>
+        <historyInfo versionUuid="_a-0000e539-6d59-8000-9bd0-011c48011c48_1238179"/>
+        <historyInfo versionUuid="_a-0000e539-6d59-8000-9bd0-011c48011c48_1238506"/>
+        <historyInfo versionUuid="_a-0000e586-af6f-8000-9bd2-011c48011c48_1368026"/>
+        <historyInfo versionUuid="_a-0000e607-97fd-8000-9be9-011c48011c48_1607923"/>
+        <historyInfo versionUuid="_a-0000e607-97fd-8000-9be9-011c48011c48_1634990"/>
+        <historyInfo versionUuid="_a-0000e62c-7375-8000-9bec-011c48011c48_1768038"/>
+        <historyInfo versionUuid="_a-0000e62c-7375-8000-9bec-011c48011c48_1769004"/>
+        <historyInfo versionUuid="_a-0000e62c-7375-8000-9bec-011c48011c48_1788816"/>
+        <historyInfo versionUuid="_a-0000e62c-7375-8000-9bec-011c48011c48_1827423"/>
+        <historyInfo versionUuid="_a-0000e62c-7375-8000-9bec-011c48011c48_1836690"/>
+        <historyInfo versionUuid="_a-0000e62c-7375-8000-9bec-011c48011c48_1840701"/>
+        <historyInfo versionUuid="_a-0000e62c-7375-8000-9bec-011c48011c48_1880622"/>
+        <historyInfo versionUuid="_a-0000e62c-7375-8000-9bec-011c48011c48_1884152"/>
+        <historyInfo versionUuid="_a-0000e62c-7375-8000-9bec-011c48011c48_1901475"/>
+        <historyInfo versionUuid="_a-0000e69f-3688-8000-9bf2-011c48011c48_2081777"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2705153"/>
+        <historyInfo versionUuid="_a-0000e7e5-dad4-8000-9c14-011c48011c48_3266488"/>
+        <historyInfo versionUuid="_a-0000e7e5-dad4-8000-9c14-011c48011c48_3285298"/>
+        <historyInfo versionUuid="_a-0000e7fa-f829-8000-9c17-011c48011c48_3364797"/>
+        <historyInfo versionUuid="_a-0000e7fa-f829-8000-9c17-011c48011c48_3385889"/>
+        <historyInfo versionUuid="_a-0000e7fa-f829-8000-9c17-011c48011c48_3403167"/>
+        <historyInfo versionUuid="_a-0000e7fa-f829-8000-9c17-011c48011c48_3412043"/>
+        <historyInfo versionUuid="_a-0000e811-1167-8000-9c18-011c48011c48_3523158"/>
+        <historyInfo versionUuid="_a-0000e825-af79-8000-9bec-011c48011c48_1312248"/>
+        <historyInfo versionUuid="_a-0000e825-b425-8000-9c1c-011c48011c48_3658455"/>
+        <historyInfo versionUuid="_a-0000e825-b425-8000-9c1c-011c48011c48_3662964"/>
+        <historyInfo versionUuid="_a-0000e825-b425-8000-9c1c-011c48011c48_3665425"/>
+        <historyInfo versionUuid="_a-0000e825-b425-8000-9c1c-011c48011c48_3665613"/>
+        <historyInfo versionUuid="_a-0000e825-b425-8000-9c1c-011c48011c48_3665799"/>
+    </history>
+</contentHaul>

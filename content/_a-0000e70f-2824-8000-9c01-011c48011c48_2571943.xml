@@ -1,0 +1,635 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e7fa-f829-8000-9c17-011c48011c48_3407166</versionUuid>
+    <rule>
+        <name>AS_CO_UT_filterCdtByFieldMathOperation</name>
+        <uuid>_a-0000e70f-2824-8000-9c01-011c48011c48_2571943</uuid>
+        <description>used to filter a cdt by where a value is greater than/less than/etc a value
+executes as cdt value (&gt;/&lt;/&gt;=/&lt;=/=/&lt;&gt;/between) value
+options available: "&lt;","&gt;","&lt;=", "&gt;=", "=", "&lt;&gt;", "between"
+Note that "=" and "&lt;&gt;" can be better served by other filter rules in most situations.
+Note that between is inclusive
+DO NOT USE FOR NESTED LISTS</description>
+        <parentUuid>_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_968428</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>/*Pass in a CDT to pull back all rows that fit the comparision*/
+if(
+  or(
+    #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(ri!cdt),
+    #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(ri!field),
+    #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(ri!operator),
+    #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(ri!value)
+  ),
+  null,
+  filter(
+    #"_a-0000e70f-2824-8000-9c01-011c48011c48_2571984"(
+      cdt: _,
+      field: ri!field,
+      operator: ri!operator,
+      value: ri!value
+    ),
+    ri!cdt
+  )
+)</definition>
+        <namedTypedValue>
+            <name>cdt</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>field</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>operator</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>value</name>
+            <type>
+                <name>Decimal?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name>null</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                    <a:nameRef>cdt</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:string"/>
+                    <a:nameRef>field</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:string"/>
+                    <a:nameRef>operator</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                    <a:nameRef>value</a:nameRef>
+                    <a:id>4</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions>
+                    <a:expectedOutput>
+                        <a:type a:uuid="{http://www.appian.com/ae/types/2009}Variant"/>
+                        <a:runtimeType a:uuid="{http://www.appian.com/ae/types/2009}Variant"/>
+                        <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">null</a:value>
+                    </a:expectedOutput>
+                </a:assertions>
+            </el>
+            <el>
+                <a:name>&gt;</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">{
+  a!map(
+    text: "a",
+    number: -30
+  ),
+  a!map(
+    text: "b",
+    number: 0
+  ),
+  a!map(
+    text: "c",
+    number: 0.1
+  ),
+  a!map(
+    text: "d",
+    number: 2
+  ),
+  a!map(
+    text: "e",
+    number: 10
+  ),
+  a!map(
+    text: "f",
+    number: 100
+  )
+}</a:value>
+                    <a:nameRef>cdt</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">"number"</a:value>
+                    <a:nameRef>field</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">"&gt;"</a:value>
+                    <a:nameRef>operator</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">0</a:value>
+                    <a:nameRef>value</a:nameRef>
+                    <a:id>4</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions>
+                    <a:expectedOutput>
+                        <a:type a:uuid="{http://www.appian.com/ae/types/2009}Variant"/>
+                        <a:runtimeType a:uuid="{http://www.appian.com/ae/types/2009}Variant"/>
+                        <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">{
+  a!map(
+    text: "c",
+    number: 0.1
+  ),
+  a!map(
+    text: "d",
+    number: 2
+  ),
+  a!map(
+    text: "e",
+    number: 10
+  ),
+  a!map(
+    text: "f",
+    number: 100
+  )
+}</a:value>
+                    </a:expectedOutput>
+                </a:assertions>
+            </el>
+            <el>
+                <a:name>&gt;=</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">{
+  a!map(
+    text: "a",
+    number: -30
+  ),
+  a!map(
+    text: "b",
+    number: 0
+  ),
+  a!map(
+    text: "c",
+    number: 0.1
+  ),
+  a!map(
+    text: "d",
+    number: 2
+  ),
+  a!map(
+    text: "e",
+    number: 10
+  ),
+  a!map(
+    text: "f",
+    number: 100
+  )
+}</a:value>
+                    <a:nameRef>cdt</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">"number"</a:value>
+                    <a:nameRef>field</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">"&gt;="</a:value>
+                    <a:nameRef>operator</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">0.1</a:value>
+                    <a:nameRef>value</a:nameRef>
+                    <a:id>4</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions>
+                    <a:expectedOutput>
+                        <a:type a:uuid="{http://www.appian.com/ae/types/2009}Variant"/>
+                        <a:runtimeType a:uuid="{http://www.appian.com/ae/types/2009}Variant"/>
+                        <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">{
+  a!map(
+    text: "c",
+    number: 0.1
+  ),
+  a!map(
+    text: "d",
+    number: 2
+  ),
+  a!map(
+    text: "e",
+    number: 10
+  ),
+  a!map(
+    text: "f",
+    number: 100
+  )
+}</a:value>
+                    </a:expectedOutput>
+                </a:assertions>
+            </el>
+            <el>
+                <a:name>&lt;</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">{
+  a!map(
+    text: "a",
+    number: -30
+  ),
+  a!map(
+    text: "b",
+    number: 0
+  ),
+  a!map(
+    text: "c",
+    number: 0.1
+  ),
+  a!map(
+    text: "d",
+    number: 2
+  ),
+  a!map(
+    text: "e",
+    number: 10
+  ),
+  a!map(
+    text: "f",
+    number: 100
+  )
+}</a:value>
+                    <a:nameRef>cdt</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">"number"</a:value>
+                    <a:nameRef>field</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">"&lt;"</a:value>
+                    <a:nameRef>operator</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">2</a:value>
+                    <a:nameRef>value</a:nameRef>
+                    <a:id>4</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions>
+                    <a:expectedOutput>
+                        <a:type a:uuid="{http://www.appian.com/ae/types/2009}Variant"/>
+                        <a:runtimeType a:uuid="{http://www.appian.com/ae/types/2009}Variant"/>
+                        <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">{
+  a!map(
+    text: "a",
+    number: -30
+  ),
+  a!map(
+    text: "b",
+    number: 0
+  ),
+  a!map(
+    text: "c",
+    number: 0.1
+  )
+}</a:value>
+                    </a:expectedOutput>
+                </a:assertions>
+            </el>
+            <el>
+                <a:name>&lt;=</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">{
+  a!map(
+    text: "a",
+    number: -30
+  ),
+  a!map(
+    text: "b",
+    number: 0
+  ),
+  a!map(
+    text: "c",
+    number: 0.1
+  ),
+  a!map(
+    text: "d",
+    number: 2
+  ),
+  a!map(
+    text: "e",
+    number: 10
+  ),
+  a!map(
+    text: "f",
+    number: 100
+  )
+}</a:value>
+                    <a:nameRef>cdt</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">"number"</a:value>
+                    <a:nameRef>field</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">"&lt;="</a:value>
+                    <a:nameRef>operator</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">2</a:value>
+                    <a:nameRef>value</a:nameRef>
+                    <a:id>4</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions>
+                    <a:expectedOutput>
+                        <a:type a:uuid="{http://www.appian.com/ae/types/2009}Variant"/>
+                        <a:runtimeType a:uuid="{http://www.appian.com/ae/types/2009}Variant"/>
+                        <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">{
+  a!map(
+    text: "a",
+    number: -30
+  ),
+  a!map(
+    text: "b",
+    number: 0
+  ),
+  a!map(
+    text: "c",
+    number: 0.1
+  ),
+  a!map(
+    text: "d",
+    number: 2
+  ),
+}</a:value>
+                    </a:expectedOutput>
+                </a:assertions>
+            </el>
+            <el>
+                <a:name>=</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">{
+  a!map(
+    text: "a",
+    number: -30
+  ),
+  a!map(
+    text: "b",
+    number: 0
+  ),
+  a!map(
+    text: "c",
+    number: 0.1
+  ),
+  a!map(
+    text: "d",
+    number: 2
+  ),
+  a!map(
+    text: "e",
+    number: 10
+  ),
+  a!map(
+    text: "f",
+    number: 100
+  )
+}</a:value>
+                    <a:nameRef>cdt</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">"number"</a:value>
+                    <a:nameRef>field</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">"="</a:value>
+                    <a:nameRef>operator</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">2</a:value>
+                    <a:nameRef>value</a:nameRef>
+                    <a:id>4</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions>
+                    <a:expectedOutput>
+                        <a:type a:uuid="{http://www.appian.com/ae/types/2009}Variant"/>
+                        <a:runtimeType a:uuid="{http://www.appian.com/ae/types/2009}Variant"/>
+                        <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">{
+  a!map(
+    text: "d",
+    number: 2
+  ),
+}</a:value>
+                    </a:expectedOutput>
+                </a:assertions>
+            </el>
+            <el>
+                <a:name>&lt;&gt;</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">{
+  a!map(
+    text: "a",
+    number: -30
+  ),
+  a!map(
+    text: "b",
+    number: 0
+  ),
+  a!map(
+    text: "c",
+    number: 0.1
+  ),
+  a!map(
+    text: "d",
+    number: 2
+  ),
+  a!map(
+    text: "e",
+    number: 10
+  ),
+  a!map(
+    text: "f",
+    number: 100
+  )
+}</a:value>
+                    <a:nameRef>cdt</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">"number"</a:value>
+                    <a:nameRef>field</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">"&lt;&gt;"</a:value>
+                    <a:nameRef>operator</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">2</a:value>
+                    <a:nameRef>value</a:nameRef>
+                    <a:id>4</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions>
+                    <a:expectedOutput>
+                        <a:type a:uuid="{http://www.appian.com/ae/types/2009}Variant"/>
+                        <a:runtimeType a:uuid="{http://www.appian.com/ae/types/2009}Variant"/>
+                        <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">{
+  a!map(
+    text: "a",
+    number: -30
+  ),
+  a!map(
+    text: "b",
+    number: 0
+  ),
+  a!map(
+    text: "c",
+    number: 0.1
+  ),
+  a!map(
+    text: "e",
+    number: 10
+  ),
+  a!map(
+    text: "f",
+    number: 100
+  )
+}</a:value>
+                    </a:expectedOutput>
+                </a:assertions>
+            </el>
+            <el>
+                <a:name>between</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">{
+  a!map(
+    text: "a",
+    number: -30
+  ),
+  a!map(
+    text: "b",
+    number: 0
+  ),
+  a!map(
+    text: "c",
+    number: 0.1
+  ),
+  a!map(
+    text: "d",
+    number: 2
+  ),
+  a!map(
+    text: "e",
+    number: 10
+  ),
+  a!map(
+    text: "f",
+    number: 100
+  )
+}</a:value>
+                    <a:nameRef>cdt</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">"number"</a:value>
+                    <a:nameRef>field</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">"between"</a:value>
+                    <a:nameRef>operator</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">{0,10}</a:value>
+                    <a:nameRef>value</a:nameRef>
+                    <a:id>4</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions>
+                    <a:expectedOutput>
+                        <a:type a:uuid="{http://www.appian.com/ae/types/2009}Variant"/>
+                        <a:runtimeType a:uuid="{http://www.appian.com/ae/types/2009}Variant"/>
+                        <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">{
+  a!map(
+    text: "b",
+    number: 0
+  ),
+  a!map(
+    text: "c",
+    number: 0.1
+  ),
+  a!map(
+    text: "d",
+    number: 2
+  ),
+  a!map(
+    text: "e",
+    number: 10
+  )
+}</a:value>
+                    </a:expectedOutput>
+                </a:assertions>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2572126"/>
+        <historyInfo versionUuid="_a-0000e7fa-f829-8000-9c17-011c48011c48_3407166"/>
+    </history>
+</contentHaul>

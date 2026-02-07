@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e673-a4a7-8000-9bef-011c48011c48_2008493</versionUuid>
+    <rule>
+        <name>AS_IO_UT_disableTaskActions</name>
+        <uuid>_a-0000e36c-7599-8000-9ba2-011c48011c48_64585</uuid>
+        <description>Returns true (implying disabled) if task is not assigned to the logged in user or a group the logged in user belongs to</description>
+        <parentUuid>_a-0000e2bb-4188-8000-9ba2-011c48011c48_25469</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>or(
+  /*Check if all tasks are blank*/
+  #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(ri!tasks),
+  #"SYSTEM_SYSRULES_forEach"(
+    items: ri!tasks,
+    expression: if(
+      /*First check that the task status is assigned*/
+      fv!item.taskStatus.taskStatusId &lt;&gt; #"_a-0000e460-9d93-8000-9bc1-011c48011c48_603236",
+      true,
+      if(
+        /*Then check if there is a default assignee on the task*/
+        #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(fv!item.groupAssignee),
+        /*Return false (not disabled) if EITHER the user is in the default assignee group OR the user is the individual assignee*/
+        and(
+          #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75636"(
+            #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_114114"(
+              user: loggedInUser(),
+              groups: fv!item.groupAssignee
+            )
+          ),
+          #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75636"(fv!item.userAssignee = loggedInUser()),
+          
+        ),
+        /*Return false (not disabled) if the user is the individual assignee*/
+        #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75636"(fv!item.userAssignee = loggedInUser())
+      )
+    )
+  )
+)</definition>
+        <namedTypedValue>
+            <name>tasks</name>
+            <type>
+                <name>AS_IO_Task?list</name>
+                <namespace>urn:com:appian:types:AS:IO</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name>Logged in User is Individual Assignee (1 task)</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">'type!{urn:com:appian:types:AS:IO}AS_IO_Task'(
+  userAssignee: loggedInUser(),
+  taskStatus: {taskStatusId: #"_a-0000e460-9d93-8000-9bc1-011c48011c48_603236"},
+)</a:value>
+                    <a:nameRef>tasks</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions>
+                    <a:expectedOutput>
+                        <a:type a:uuid="{http://www.appian.com/ae/types/2009}Boolean"/>
+                        <a:runtimeType a:uuid="{http://www.appian.com/ae/types/2009}Boolean"/>
+                        <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:boolean">false</a:value>
+                    </a:expectedOutput>
+                </a:assertions>
+            </el>
+            <el>
+                <a:name>Logged in User is not Individual Assignee (1 task)</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">'type!{urn:com:appian:types:AS:IO}AS_IO_Task'(
+  userAssignee:  null, 
+  taskStatus: {taskStatusId: #"_a-0000e460-9d93-8000-9bc1-011c48011c48_603236"},
+)</a:value>
+                    <a:nameRef>tasks</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions>
+                    <a:expectedOutput>
+                        <a:type a:uuid="{http://www.appian.com/ae/types/2009}Boolean"/>
+                        <a:runtimeType a:uuid="{http://www.appian.com/ae/types/2009}Boolean"/>
+                        <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:boolean">true</a:value>
+                    </a:expectedOutput>
+                </a:assertions>
+            </el>
+            <el>
+                <a:name>Logged in User is Individual Assignee for all tasks</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">{
+  'type!{urn:com:appian:types:AS:IO}AS_IO_Task'(
+    userAssignee: loggedInUser(),
+    taskStatus: {taskStatusId: #"_a-0000e460-9d93-8000-9bc1-011c48011c48_603236"},
+  ),
+  'type!{urn:com:appian:types:AS:IO}AS_IO_Task'(
+    userAssignee: loggedInUser(),
+    taskStatus: {taskStatusId: #"_a-0000e460-9d93-8000-9bc1-011c48011c48_603236"},
+  )
+}</a:value>
+                    <a:nameRef>tasks</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions>
+                    <a:expectedOutput>
+                        <a:type a:uuid="{http://www.appian.com/ae/types/2009}Boolean"/>
+                        <a:runtimeType a:uuid="{http://www.appian.com/ae/types/2009}Boolean"/>
+                        <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:boolean">false</a:value>
+                    </a:expectedOutput>
+                </a:assertions>
+            </el>
+            <el>
+                <a:name>Logged in User is Individual Assignee for some, but not all tasks</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">{
+  'type!{urn:com:appian:types:AS:IO}AS_IO_Task'(
+    userAssignee: loggedInUser(),
+    taskStatus: {taskStatusId: #"_a-0000e460-9d93-8000-9bc1-011c48011c48_603236"},
+  ),
+  'type!{urn:com:appian:types:AS:IO}AS_IO_Task'(
+    userAssignee: null,
+    taskStatus: {taskStatusId: #"_a-0000e460-9d93-8000-9bc1-011c48011c48_603236"},
+  )
+}</a:value>
+                    <a:nameRef>tasks</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions>
+                    <a:expectedOutput>
+                        <a:type a:uuid="{http://www.appian.com/ae/types/2009}Boolean"/>
+                        <a:runtimeType a:uuid="{http://www.appian.com/ae/types/2009}Boolean"/>
+                        <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:boolean">true</a:value>
+                    </a:expectedOutput>
+                </a:assertions>
+            </el>
+            <el>
+                <a:name>Logged in user is in default assignee group</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">'type!{urn:com:appian:types:AS:IO}AS_IO_Task'(
+  groupAssignee: a!groupsByName(groupName: "All Users")[1],
+  taskStatus: {taskStatusId: #"_a-0000e460-9d93-8000-9bc1-011c48011c48_603236"},
+)</a:value>
+                    <a:nameRef>tasks</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions>
+                    <a:expectedOutput>
+                        <a:type a:uuid="{http://www.appian.com/ae/types/2009}Boolean"/>
+                        <a:runtimeType a:uuid="{http://www.appian.com/ae/types/2009}Boolean"/>
+                        <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:boolean">false</a:value>
+                    </a:expectedOutput>
+                </a:assertions>
+            </el>
+            <el>
+                <a:name>Task is not assigned</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">'type!{urn:com:appian:types:AS:IO}AS_IO_Task'(
+  userAssignee: loggedInUser(),
+  taskStatus: {taskStatusId: #"_a-0000e460-9d93-8000-9bc1-011c48011c48_603230"},
+)</a:value>
+                    <a:nameRef>tasks</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions>
+                    <a:expectedOutput>
+                        <a:type a:uuid="{http://www.appian.com/ae/types/2009}Boolean"/>
+                        <a:runtimeType a:uuid="{http://www.appian.com/ae/types/2009}Boolean"/>
+                        <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:boolean">true</a:value>
+                    </a:expectedOutput>
+                </a:assertions>
+            </el>
+            <el>
+                <a:name>No Tasks</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">{}</a:value>
+                    <a:nameRef>tasks</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions>
+                    <a:expectedOutput>
+                        <a:type a:uuid="{http://www.appian.com/ae/types/2009}Boolean"/>
+                        <a:runtimeType a:uuid="{http://www.appian.com/ae/types/2009}Boolean"/>
+                        <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:boolean">true</a:value>
+                    </a:expectedOutput>
+                </a:assertions>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e36c-7599-8000-9ba2-011c48011c48_68868"/>
+        <historyInfo versionUuid="_a-0000e393-fbf1-8000-9ba2-011c48011c48_107942"/>
+        <historyInfo versionUuid="_a-0000e3e6-fb42-8000-9ba5-011c48011c48_222030"/>
+        <historyInfo versionUuid="_a-0000e40a-de32-8000-9ba8-011c48011c48_261576"/>
+        <historyInfo versionUuid="_a-0000e419-f401-8000-9ba4-011c48011c48_17036"/>
+        <historyInfo versionUuid="_a-0000e430-f270-8000-9bbc-011c48011c48_368937"/>
+        <historyInfo versionUuid="_a-0000e460-9d93-8000-9bc1-011c48011c48_604420"/>
+        <historyInfo versionUuid="_a-0000e673-a4a7-8000-9bef-011c48011c48_2008493"/>
+    </history>
+</contentHaul>

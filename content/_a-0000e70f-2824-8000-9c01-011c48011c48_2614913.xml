@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e70f-2824-8000-9c01-011c48011c48_2623800</versionUuid>
+    <interface>
+        <name>AS_FS_ALT_CPS_RegionFilter_ReadOnlyDisplay</name>
+        <uuid>_a-0000e70f-2824-8000-9c01-011c48011c48_2614913</uuid>
+        <description>Contains region filter read only display on Alert configuration</description>
+        <parentUuid>_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_968428</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  local!regionCodes: #"_a-0000e70f-2824-8000-9c01-011c48011c48_2539235"(
+    json: ri!filterCondition[#"urn:appian:record-field:v1:8546e985-8ec8-4daa-a28b-b43706a9e0e7/5faf6060-50ca-4929-ac57-53ec7d04c739"],
+    field: "regionCodes",
+    indexDefault: {}
+  ),
+  local!regions: #"_a-0000e70f-2824-8000-9c01-011c48011c48_2605380"(
+    regionCodes: local!regionCodes,
+    executeWhen: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(local!regionCodes),
+    i18nData: ri!i18nData,
+    returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290163"
+  ),
+  if(
+    #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(local!regions),
+    {},
+    {
+      /*Region*/
+      #"SYSTEM_SYSRULES_richTextDisplayField"(
+        labelPosition: "COLLAPSED",
+        preventWrapping: true(),
+        value: #"SYSTEM_SYSRULES_richTextItem_v1"(
+          color: "SECONDARY",
+          text: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+            i18nData: ri!i18nData,
+            bundleKey: "AS.FS.AllBundles.lbl_Region"
+          )
+        )
+      ),
+      /*Regions*/
+      #"SYSTEM_SYSRULES_sideBySideLayout"(
+        alignVertical: "MIDDLE",
+        items: {
+          #"SYSTEM_SYSRULES_sideBySideItem"(
+            width: "MINIMIZE",
+            item: #"_a-0000e607-97fd-8000-9be9-011c48011c48_1713562"(
+              tagText: #"_a-0000e70f-2824-8000-9c01-011c48011c48_2552563"(
+                i18nData: ri!i18nData,
+                operators: ri!filterCondition[#"urn:appian:record-field:v1:8546e985-8ec8-4daa-a28b-b43706a9e0e7/d784e790-6863-4053-bb9f-33dc83d34f3e"]
+              ).label,
+              size: "SMALL",
+              color: "SECONDARY"
+            )
+          ),
+          #"SYSTEM_SYSRULES_sideBySideItem"(
+            width: "MINIMIZE",
+            item: #"SYSTEM_SYSRULES_richTextDisplayField"(
+              label: "Region filter condition regions",
+              labelPosition: "COLLAPSED",
+              preventWrapping: true,
+              value: {
+                #"SYSTEM_SYSRULES_richTextItem_v1"(
+                  text: joinarray(local!regions.[#"urn:appian:record-field:v1:a71a21af-d89c-4dbf-9de9-9595d4e1c44b/eb42c8e9-a404-4542-ac7e-181d66576e88"], ", ")
+                )
+              }
+            )
+          )
+        }
+      )
+    }
+  )
+)</definition>
+        <namedTypedValue>
+            <name>filterCondition</name>
+            <type>
+                <name>8546e985-8ec8-4daa-a28b-b43706a9e0e7</name>
+                <namespace>urn:com:appian:recordtype:datatype</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>i18nData</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+        <isCustom>false</isCustom>
+    </interface>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name/>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"SYSTEM_SYSRULES_queryRecordType_v1"(
+  recordType: #"urn:appian:record-type:v1:8546e985-8ec8-4daa-a28b-b43706a9e0e7",
+  pagingInfo: #"SYSTEM_SYSRULES_pagingInfo"(1,1),
+  filters: #"SYSTEM_SYSRULES_queryFilter"(
+    field: #"urn:appian:record-field:v1:8546e985-8ec8-4daa-a28b-b43706a9e0e7/07d99365-1701-4648-8f6c-758f0221c916",
+    operator: "=",
+    value: #"_a-0000e70f-2824-8000-9c01-011c48011c48_2546898"
+  )
+).data</a:value>
+                    <a:nameRef>filterCondition</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression"> #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_975720"(triggerRefresh: null),</a:value>
+                    <a:nameRef>i18nData</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2615243"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2618908"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2623800"/>
+    </history>
+</contentHaul>

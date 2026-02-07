@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_894919</versionUuid>
+    <rule>
+        <name>AS_QNM_CDT_cloneQuestionnaireTemplate_QuestionCategories</name>
+        <uuid>_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_894832</uuid>
+        <description>Rule to clone the question categories in a template</description>
+        <parentUuid>_a-0000e42d-ffef-8000-9ba6-011c48011c48_7213-qnm</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>#"SYSTEM_SYSRULES_forEach"(
+  items: ri!categoriesToClone,
+  expression: 'type!{urn:com:appian:types:AS:QNM}AS_QNM_T_QuestionCategory'(
+    questionCategoryTemplateId: null,
+    questionCategoryName: fv!item.questionCategoryName,
+    questionCategoryDescription: fv!item.questionCategoryDescription,
+    displayOrder: fv!item.displayOrder,
+    isActive: fv!item.isActive
+  )
+)</definition>
+        <namedTypedValue>
+            <name>categoriesToClone</name>
+            <type>
+                <name>AS_QNM_T_QuestionCategory?list</name>
+                <namespace>urn:com:appian:types:AS:QNM</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <history>
+        <historyInfo versionUuid="_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_894919"/>
+    </history>
+</contentHaul>

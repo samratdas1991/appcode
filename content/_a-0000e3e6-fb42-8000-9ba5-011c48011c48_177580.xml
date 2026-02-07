@@ -1,0 +1,348 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e7fa-f829-8000-9c17-011c48011c48_3479653</versionUuid>
+    <interface>
+        <name>AS_IO_CPS_processSetupAddTaskToCategory</name>
+        <uuid>_a-0000e3e6-fb42-8000-9ba5-011c48011c48_177580</uuid>
+        <description>Search and add reference tasks or add a custom task to a selected category during onboarding process setup.</description>
+        <parentUuid>_a-0000e2bb-4188-8000-9ba2-011c48011c48_25469</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  local!refData: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_39864"(
+    typeList: {
+      #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_40302",
+      #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_975334"
+    },
+    i18nData: ri!i18nData
+  ),
+  local!taskCategories: #"_a-0000e393-fbf1-8000-9ba2-011c48011c48_100474"(
+    returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290163"
+  ),
+  local!searchText: #"_a-0000e3d1-f4dc-8000-9ba4-011c48011c48_143475"(
+    type: 'type!{http://www.appian.com/ae/types/2009}Text'
+  ),
+  local!newCustomTask: #"_a-0000e3d1-f4dc-8000-9ba4-011c48011c48_143475"(
+    type: 'type!{urn:com:appian:types:AS:IO}AS_IO_Task'
+  ),
+  local!customTasks: #"_a-0000e3d1-f4dc-8000-9ba4-011c48011c48_143475"(
+    type: 'type!{urn:com:appian:types:AS:IO}AS_IO_Task?list'
+  ),
+  local!selectedTaskRefs: #"_a-0000e3d1-f4dc-8000-9ba4-011c48011c48_143475"(
+    type: 'type!{urn:com:appian:types:AS:IO}AS_IO_R_TaskRef?list'
+  ),
+  if(
+    #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(local!newCustomTask),
+    /*Display of the task grids*/
+    {
+      /*Header*/
+      #"_a-0000e393-fbf1-8000-9ba2-011c48011c48_111777"(
+        headerText: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+          i18nData: ri!i18nData,
+          bundleKey: "AS.CO.AllBundles.lbl_AddTasks",
+          
+        ),
+        headerLevel: #"_a-0000e3e6-fb42-8000-9ba5-011c48011c48_156859"
+      ),
+      /*Task category and search*/
+      #"SYSTEM_SYSRULES_columnsLayout"(
+        columns: {
+          #"SYSTEM_SYSRULES_columnLayout"(contents: {}),
+          #"SYSTEM_SYSRULES_columnLayout"(
+            contents: {
+              #"_a-0000e528-bc07-8000-9bcf-011c48011c48_1032072"(
+                labelPosition: "COLLAPSED",
+                placeholderLabel: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                  i18nData: ri!i18nData,
+                  bundleKey: "AS.CO.AllBundles.plc_Categories"
+                ),
+                choiceValues: local!taskCategories,
+                choiceLabels: local!taskCategories.categoryName,
+                value: ri!taskCategoryFilter,
+                saveInto: ri!taskCategoryFilter
+              )
+            },
+            width: "MEDIUM"
+          ),
+          #"SYSTEM_SYSRULES_columnLayout"(
+            contents: {
+              #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_233094"(
+                value: local!searchText,
+                saveInto: local!searchText,
+                placeholder: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_152826"(
+                  i18nData: ri!i18nData,
+                  bundleKey: "AS.CO.AllBundles.lbl_Tasks"
+                )
+              ),
+              
+            },
+            width: "MEDIUM"
+          )
+        }
+      ),
+      /*Reference task grid*/
+      #"_a-0000e393-fbf1-8000-9ba2-011c48011c48_113787"(
+        allowLinkSelection: false,
+        selectedTaskRefs: local!selectedTaskRefs,
+        i18nData: ri!i18nData,
+        refData: local!refData,
+        allowCheckboxSelection: true,
+        taskCategoryFilter: ri!taskCategoryFilter,
+        taskRefIdsToHide: ri!tasksForRequest.taskRefId,
+        triggerRefresh: ri!triggerRefresh,
+        searchText: local!searchText,
+        configurationLevelCode: #"_a-0000e3c8-6861-8000-9ba2-011c48011c48_116934"
+      ),
+      /*Sub-header and +Add Custom Task*/
+      #"SYSTEM_SYSRULES_columnsLayout"(
+        columns: {
+          #"SYSTEM_SYSRULES_columnLayout"(
+            contents: #"_a-0000e393-fbf1-8000-9ba2-011c48011c48_111777"(
+              headerText: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                i18nData: ri!i18nData,
+                bundleKey: "AS.CO.AllBundles.lbl_CustomTasks"
+              ),
+              headerLevel: #"_a-0000e3e6-fb42-8000-9ba5-011c48011c48_156865"
+            )
+          ),
+          #"SYSTEM_SYSRULES_columnLayout"(
+            contents: #"SYSTEM_SYSRULES_ButtonLayout"(
+              primaryButtons: #"_a-0000e3c8-6861-8000-9ba2-011c48011c48_124203"(
+                label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                  i18nData: ri!i18nData,
+                  bundleKey: "AS.CO.AllBundles.btn_NewTask"
+                ),
+                saveInto: {
+                  #"_a-0000e3c8-6861-8000-9ba2-011c48011c48_124304"(valueToNull: local!newCustomTask.taskId)
+                },
+                icon: "PLUS"
+              )
+            )
+          )
+        },
+        marginBelow: "NONE"
+      ),
+      /*Custom task grid*/
+      #"_a-0000e3e6-fb42-8000-9ba5-011c48011c48_177416"(
+        i18nData: ri!i18nData,
+        refData: local!refData,
+        staticTaskList: local!customTasks,
+        allowDeletion: true
+      ),
+      /*Cancel/Save buttons*/
+      a!localVariables(
+        local!bothButtonSaves: a!refreshVariable(
+          value: {
+            #"_a-0000e3c8-6861-8000-9ba2-011c48011c48_124304"(valueToNull: ri!taskCategoryFilter),
+            #"_a-0000e3c8-6861-8000-9ba2-011c48011c48_124304"(valueToNull: local!customTasks),
+            #"_a-0000e3c8-6861-8000-9ba2-011c48011c48_124304"(valueToNull: local!selectedTaskRefs),
+            a!save(ri!addNewTask, false)
+          },
+          refreshAlways: true
+        ),
+        #"_a-0000e3d1-f4dc-8000-9ba4-011c48011c48_134344"(
+          confirmLabel: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+            i18nData: ri!i18nData,
+            bundleKey: "AS.CO.AllBundles.btn_AddTasks"
+          ),
+          cancelLabel: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+            i18nData: ri!i18nData,
+            bundleKey: "AS.CO.AllBundles.btn_Cancel"
+          ),
+          confirmSaveInto: {
+            a!save(
+              target: ri!tasksForRequest,
+              value: append(
+                ri!tasksForRequest,
+                a!flatten(
+                  {
+                    local!customTasks,
+                    #"SYSTEM_SYSRULES_forEach"(
+                      items: local!selectedTaskRefs,
+                      expression: #"_a-0000e3e6-fb42-8000-9ba5-011c48011c48_193601"(taskRef: fv!item, request: ri!request)
+                    )
+                  }
+                )
+              )
+            ),
+            local!bothButtonSaves,
+          },
+          cancelSaveInto: { local!bothButtonSaves },
+          includeDivider: true
+        )
+      )
+    },
+    /*Display when adding a new custom task*/
+    #"_a-0000e3e6-fb42-8000-9ba5-011c48011c48_164000"(
+      request: ri!request,
+      task: local!newCustomTask,
+      i18nData: ri!i18nData,
+      refData: local!refData,
+      allUploadedDocuments: ri!allUploadedDocuments,
+      confirmSaves: {
+        a!save(
+          local!customTasks,
+          append(local!customTasks, local!newCustomTask)
+        ),
+        #"_a-0000e3c8-6861-8000-9ba2-011c48011c48_124304"(valueToNull: local!newCustomTask)
+      },
+      cancelSaves: {
+        #"_a-0000e3c8-6861-8000-9ba2-011c48011c48_124304"(valueToNull: local!newCustomTask)
+      },
+      headerLevel: #"_a-0000e3e6-fb42-8000-9ba5-011c48011c48_156859"/*Request ID is set for all tasks in the parent process setup rule on submit*/
+      
+    )
+  )
+)</definition>
+        <namedTypedValue>
+            <name>i18nData</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>tasksForRequest</name>
+            <type>
+                <name>AS_IO_Task?list</name>
+                <namespace>urn:com:appian:types:AS:IO</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>triggerRefresh</name>
+            <type>
+                <name>dateTime</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>request</name>
+            <type>
+                <name>AS_IO_OnboardingRequest</name>
+                <namespace>urn:com:appian:types:AS:IO</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>taskCategoryFilter</name>
+            <type>
+                <name>AS_IO_R_TaskCategory?list</name>
+                <namespace>urn:com:appian:types:AS:IO</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>addNewTask</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>allUploadedDocuments</name>
+            <type>
+                <name>CollaborationDocument?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+        <isCustom>false</isCustom>
+    </interface>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name/>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81834"(triggerRefresh: now())</a:value>
+                    <a:nameRef>i18nData</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">{}</a:value>
+                    <a:nameRef>tasksForRequest</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:dateTime"/>
+                    <a:nameRef>triggerRefresh</a:nameRef>
+                    <a:id>4</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:n1="urn:com:appian:types:AS:IO" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="n1:AS_IO_OnboardingRequest"/>
+                    <a:nameRef>request</a:nameRef>
+                    <a:id>5</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                    <a:nameRef>taskCategoryFilter</a:nameRef>
+                    <a:id>7</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:boolean"/>
+                    <a:nameRef>addNewTask</a:nameRef>
+                    <a:id>8</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                    <a:nameRef>allUploadedDocuments</a:nameRef>
+                    <a:id>9</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e3e6-fb42-8000-9ba5-011c48011c48_187794"/>
+        <historyInfo versionUuid="_a-0000e3e6-fb42-8000-9ba5-011c48011c48_195674"/>
+        <historyInfo versionUuid="_a-0000e3e6-fb42-8000-9ba5-011c48011c48_196846"/>
+        <historyInfo versionUuid="_a-0000e3e6-fb42-8000-9ba5-011c48011c48_217284"/>
+        <historyInfo versionUuid="_a-0000e3e6-fb42-8000-9ba5-011c48011c48_237888"/>
+        <historyInfo versionUuid="_a-0000e3ff-a5bc-8000-9ba8-011c48011c48_40679"/>
+        <historyInfo versionUuid="_a-0000e430-f270-8000-9bbc-011c48011c48_365832"/>
+        <historyInfo versionUuid="_a-0000e471-623a-8000-9bc3-011c48011c48_657105"/>
+        <historyInfo versionUuid="_a-0000e471-623a-8000-9bc3-011c48011c48_678808"/>
+        <historyInfo versionUuid="_a-0000e528-bc07-8000-9bcf-011c48011c48_1032581"/>
+        <historyInfo versionUuid="_a-0000e586-af6f-8000-9bd2-011c48011c48_1356027"/>
+        <historyInfo versionUuid="_a-0000e5a0-53e9-8000-9bd8-011c48011c48_1467502"/>
+        <historyInfo versionUuid="_a-0000e62c-7375-8000-9bec-011c48011c48_1834500"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2714626"/>
+        <historyInfo versionUuid="_a-0000e7fa-f829-8000-9c17-011c48011c48_3436231"/>
+        <historyInfo versionUuid="_a-0000e7fa-f829-8000-9c17-011c48011c48_3479653"/>
+    </history>
+</contentHaul>

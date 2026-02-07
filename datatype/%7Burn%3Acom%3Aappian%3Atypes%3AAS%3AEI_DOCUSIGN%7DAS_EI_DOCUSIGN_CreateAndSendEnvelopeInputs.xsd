@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema targetNamespace="urn:com:appian:types:AS:EI_DOCUSIGN"
+  xmlns:docusign1="urn:com:appian:types:AS:EI:DOCUSIGN"
+  xmlns:tns="urn:com:appian:types:AS:EI_DOCUSIGN" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <xsd:import namespace="urn:com:appian:types:AS:EI:DOCUSIGN" schemaLocation="%7Burn%3Acom%3Aappian%3Atypes%3AAS%3AEI%3ADOCUSIGN%7DAS_EI_DOCUSIGN_DocumentNameIdMap.xsd"/>
+  <xsd:complexType name="AS_EI_DOCUSIGN_CreateAndSendEnvelopeInputs">
+    <xsd:annotation>
+      <xsd:appinfo source="http://www.appian.com/ae/types/2009">
+        <ns2:Metadata xmlns:ns2="http://www.appian.com/ae/types/2009">
+          <ns2:versionUuid>0000e599-c1d2-8000-28c7-7f0000014e7a</ns2:versionUuid>
+          <ns2:history>
+            <ns2:historyInfo versionUuid="0000e599-c1d2-8000-28c7-7f0000014e7a"/>
+          </ns2:history>
+        </ns2:Metadata>
+      </xsd:appinfo>
+      <xsd:documentation><![CDATA[Contains the inputs for the create and send envelope integration]]></xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="envelopeDefinition" nillable="true" type="xsd:string"/>
+      <xsd:element name="sendEnvelope" nillable="true" type="xsd:boolean"/>
+      <xsd:element name="from" nillable="true" type="xsd:string"/>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="documents" type="docusign1:AS_EI_DOCUSIGN_DocumentNameIdMap">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@OneToMany(cascade=CascadeType.ALL, indexed=false)</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+</xsd:schema>

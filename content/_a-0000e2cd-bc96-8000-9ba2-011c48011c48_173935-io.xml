@@ -1,0 +1,316 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2407066</versionUuid>
+    <interface>
+        <name>AS_GM_GRD_usersGrid</name>
+        <uuid>_a-0000e2cd-bc96-8000-9ba2-011c48011c48_173935-io</uuid>
+        <description>Grid that displays list of users in a group</description>
+        <parentUuid>_a-0000e471-623a-8000-9bc3-011c48011c48_750565</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>#"SYSTEM_SYSRULES_gridField_v1"(
+  labelPosition: "COLLAPSED",
+  emptyGridMessage: if(
+    or(
+      #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(group(ri!groupName, "id")),
+      #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(ri!parentGroup)
+    ),
+    #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+      i18nData: ri!i18nData,
+      bundleKey: "AS.GM.GroupManagement.lbl_PleaseSelectGroupSeeMembers"
+    ),
+    #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+      i18nData: ri!i18nData,
+      bundleKey: "AS.GM.GroupManagement.lbl_NoMembersSelectedGroup"
+    )
+  ),
+  data: ri!indirectUsers,
+  columns: {
+    /*Group or user icon*/
+    #"SYSTEM_SYSRULES_gridColumn"(
+      width: "ICON_PLUS",
+      align: "CENTER",
+      value: if(
+        fv!row.isGroup = true,
+        #"SYSTEM_SYSRULES_richTextDisplayField"(
+          value: #"SYSTEM_SYSRULES_richTextIcon"(
+            icon: "users",
+            size: "MEDIUM",
+            caption: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+              i18nData: ri!i18nData,
+              bundleKey: "AS.GM.GroupManagement.lbl_Group"
+            )
+          )
+        ),
+        #"SYSTEM_SYSRULES_richTextDisplayField"(
+          value: #"SYSTEM_SYSRULES_richTextIcon"(
+            icon: "user",
+            size: "MEDIUM",
+            caption: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+              i18nData: ri!i18nData,
+              bundleKey: "AS.GM.GroupManagement.lbl_User"
+            )
+          )
+        )
+      )
+    ),
+    /*Name*/
+    #"SYSTEM_SYSRULES_gridColumn"(
+      label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+        i18nData: ri!i18nData,
+        bundleKey: "AS.GM.GroupManagement.lbl_Name"
+      ),
+      value: if(
+        fv!row.isGroup = true,
+        #"SYSTEM_SYSRULES_richTextDisplayField"(
+          value: {
+            #"SYSTEM_SYSRULES_richTextItem_v1"(
+              text: group(togroup(fv!row.name), "groupName") &amp; char(10),
+              linkStyle: "STANDALONE",
+              link: #"SYSTEM_SYSRULES_dynamicLink"(
+                saveInto: {
+                  a!save(ri!groupName, togroup(fv!row.name))
+                }
+              )
+            ),
+            #"SYSTEM_SYSRULES_richTextItem_v1"(
+              size: "SMALL",
+              color: "SECONDARY",
+              text: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_147294"(
+                text: group(togroup(fv!row.groupId), "description"),
+                shortenToLen: 120
+              )
+            )
+          }
+        ),
+        #"SYSTEM_SYSRULES_richTextDisplayField"(
+          value: {
+            #"SYSTEM_SYSRULES_richTextItem_v1"(
+              text: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73660"(user: fv!row.name) &amp; char(10)
+            ),
+            #"SYSTEM_SYSRULES_richTextItem_v1"(
+              size: "SMALL",
+              color: "SECONDARY",
+              text: fv!row.name
+            )
+          }
+        )
+      )
+    ),
+    /*Member Type*/
+    #"SYSTEM_SYSRULES_gridColumn"(
+      label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+        i18nData: ri!i18nData,
+        bundleKey: "AS.GM.GroupManagement.lbl_MemberType"
+      ),
+      helpTooltip: if(
+        ri!memberType = #"_a-0000e419-f401-8000-9ba4-011c48011c48_16737-io",
+        #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+          i18nData: ri!i18nData,
+          bundleKey: "AS.GM.GroupManagement.lbl_IndicatesUserOrGroupAsMember"
+        ),
+        #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+          i18nData: ri!i18nData,
+          bundleKey: "AS.GM.GroupManagement.lbl_IndicatesJoinedUserOrGroup",
+          arguments: { lower(ri!memberType) }
+        )
+      ),
+      value: if(
+        fv!row.isDirect,
+        #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+          i18nData: ri!i18nData,
+          bundleKey: "AS.GM.GroupManagement.lbl_Direct"
+        ),
+        #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+          i18nData: ri!i18nData,
+          bundleKey: "AS.GM.GroupManagement.lbl_Indirect"
+        )
+      )
+    ),
+    /*Parent Groups(s)*/
+    #"SYSTEM_SYSRULES_gridColumn"(
+      label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+        i18nData: ri!i18nData,
+        bundleKey: "AS.GM.GroupManagement.lbl_ParentGroup"
+      ),
+      value: #"SYSTEM_SYSRULES_richTextDisplayField"(
+        value: {
+          if(
+            fv!row.isDirect = true,
+            #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+              i18nData: ri!i18nData,
+              bundleKey: "AS.GM.GroupManagement.lbl_NA"
+            ),
+            #"SYSTEM_SYSRULES_richTextItem_v1"(
+              text: #"SYSTEM_SYSRULES_forEach"(
+                items: fv!row.listOfParentGroups,
+                expression: group(fv!item, "groupName") &amp; if(fv!isLast, {}, char(10))
+              )
+            )
+          )
+        }
+      )
+    )
+  },
+  pageSize: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_168971-io",
+  selectable: true,
+  selectionValue: ri!userToRemove,
+  selectionSaveInto: {
+    a!save(ri!userToRemove, save!value),
+    #"_a-0000e3e6-fb42-8000-9ba5-011c48011c48_186770"(target: ri!selectedRows)
+  }
+)</definition>
+        <namedTypedValue>
+            <name>indirectUsers</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>selectedRows</name>
+            <type>
+                <name>AS_GM_P_UserInformation?list</name>
+                <namespace>urn:com:appian:types:AS:GM</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>userToRemove</name>
+            <type>
+                <name>Integer?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>groupName</name>
+            <type>
+                <name>Group</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>parentGroup</name>
+            <type>
+                <name>Group</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>memberType</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>i18nData</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+        <isCustom>false</isCustom>
+    </interface>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name/>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:string"/>
+                    <a:nameRef>indirectUsers</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                    <a:nameRef>selectedRows</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                    <a:nameRef>userToRemove</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="a:Group"/>
+                    <a:nameRef>groupName</a:nameRef>
+                    <a:id>4</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="a:Group"/>
+                    <a:nameRef>parentGroup</a:nameRef>
+                    <a:id>5</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:string"/>
+                    <a:nameRef>memberType</a:nameRef>
+                    <a:id>6</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81720"(
+  bundleFolder: #"_a-0000e471-623a-8000-9bc3-011c48011c48_751055",
+  bundleNames: { "GroupManagement" }
+)</a:value>
+                    <a:nameRef>i18nData</a:nameRef>
+                    <a:id>7</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e2cd-bc96-8000-9ba2-011c48011c48_261587"/>
+        <historyInfo versionUuid="_a-0000e2cd-bc96-8000-9ba2-011c48011c48_271488"/>
+        <historyInfo versionUuid="_a-0000e329-3415-8000-9ba2-011c48011c48_384861"/>
+        <historyInfo versionUuid="_a-0000e3d1-f4dc-8000-9ba4-011c48011c48_155614"/>
+        <historyInfo versionUuid="_a-0000e3e6-fb42-8000-9ba5-011c48011c48_214278"/>
+        <historyInfo versionUuid="_a-0000e419-f401-8000-9ba4-011c48011c48_16782"/>
+        <historyInfo versionUuid="_a-0000e41f-788a-8000-9ba9-011c48011c48_61094"/>
+        <historyInfo versionUuid="_a-0000e41f-4b71-8000-9bba-011c48011c48_328685"/>
+        <historyInfo versionUuid="_a-0000e430-f270-8000-9bbc-011c48011c48_331123-io"/>
+        <historyInfo versionUuid="_a-0000e430-f270-8000-9bbc-011c48011c48_366625"/>
+        <historyInfo versionUuid="_a-0000e471-623a-8000-9bc3-011c48011c48_756370"/>
+        <historyInfo versionUuid="_a-0000e586-af6f-8000-9bd2-011c48011c48_1325587"/>
+        <historyInfo versionUuid="_a-0000e62c-7375-8000-9bec-011c48011c48_1861475"/>
+        <historyInfo versionUuid="_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2407066"/>
+    </history>
+</contentHaul>

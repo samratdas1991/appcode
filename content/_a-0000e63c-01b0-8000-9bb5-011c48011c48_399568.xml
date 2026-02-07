@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e673-a4a7-8000-9bef-011c48011c48_2016817</versionUuid>
+    <rule>
+        <name>AS_FRM_getBrandingValueByKey</name>
+        <uuid>_a-0000e63c-01b0-8000-9bb5-011c48011c48_399568</uuid>
+        <description>Returns a branding value from the branding configuration file by its key. Checks both _custom and _default branding files.</description>
+        <parentUuid>_a-0000e5d4-2024-8000-9baf-011c48011c48_320771</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  local!brandingConfigs: getbrandingconfig(ri!defaultBrandingConfigDoc, true),
+  
+  local!defaultValue: displayvalue(
+    tostring(ri!brandingKey),
+    touniformstring(local!brandingConfigs.defaultBranding.key),
+    local!brandingConfigs.defaultBranding.value,
+    null
+  ),
+  
+  local!customValue: displayvalue(
+    tostring(ri!brandingKey),
+    touniformstring(local!brandingConfigs.customBranding.key),
+    local!brandingConfigs.customBranding.value,
+    null
+  ),
+  
+  local!type: displayvalue(
+    tostring(ri!brandingKey),
+    touniformstring(local!brandingConfigs.defaultBranding.key),
+    touniformstring(local!brandingConfigs.defaultBranding.type),
+    null
+  ),
+  
+  local!returnValue: if(
+    isnull(local!customValue),
+    local!defaultValue,
+    local!customValue
+  ),
+  
+  local!castReturnValue: if(
+    contains({"IMAGE", "FAVICON"}, local!type),
+    todocument(local!returnValue),
+    local!returnValue
+  ),
+  
+  local!castReturnValue
+)</definition>
+        <namedTypedValue>
+            <name>defaultBrandingConfigDoc</name>
+            <type>
+                <name>CollaborationDocument</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>brandingKey</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name>Sample Test Case</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e62c-7375-8000-9bec-011c48011c48_1924701"</a:value>
+                    <a:nameRef>defaultBrandingConfigDoc</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">"SiteLogo"</a:value>
+                    <a:nameRef>brandingKey</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e63c-01b0-8000-9bb5-011c48011c48_399671"/>
+        <historyInfo versionUuid="_a-0000e65f-acc5-8000-9bb8-011c48011c48_405867"/>
+        <historyInfo versionUuid="_a-0000e65f-acc5-8000-9bb8-011c48011c48_409139"/>
+        <historyInfo versionUuid="_a-0000e673-a4a7-8000-9bef-011c48011c48_2016817"/>
+    </history>
+</contentHaul>

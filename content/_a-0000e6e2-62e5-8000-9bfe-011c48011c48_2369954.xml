@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e70f-2824-8000-9c01-011c48011c48_2644761</versionUuid>
+    <rule>
+        <name>AS_CO_UT_displayRefDataLabelSingle_forRecordType</name>
+        <uuid>_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2369954</uuid>
+        <description>Rule to get the display value for a single ref data for record type</description>
+        <parentUuid>_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73105</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>tostring(
+  if(
+    or(
+      #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(ri!singleData),
+      #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(ri!singleData[ri!recordField])
+    ),
+    null,
+    a!localVariables(
+      
+      local!isInactive: not(#"_a-0000e3ff-a5bc-8000-9ba8-011c48011c48_39082"(index(ri!singleData, "isActive", null))),
+      
+      local!rawLabel: ri!singleData[ri!recordField],
+      
+      /*If the label includes a ".", then it is likely an internationalized label, */
+      /*in which case we want to run it through AS_CO_I18N_UT_displayLabel*/
+      local!isInternationalizedLabel: count(split(local!rawLabel, ".")) &gt; 1,
+      
+      local!displayLabel: if(
+        local!isInternationalizedLabel,
+        #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+          i18nData: ri!i18nData,
+          bundleKey: ri!singleData[ri!recordField]
+        ),
+        local!rawLabel
+      ),
+      
+      if(
+        and(local!isInactive, ri!skipInactiveAppend &lt;&gt; true),
+        #"_a-0000e447-933d-8000-9baa-011c48011c48_33160"(
+          bundleKey: "AS.CO.CommonObjects.lbl_InactiveRefData",
+          arguments: local!displayLabel
+        ),
+        local!displayLabel
+      )
+    )
+  )
+)</definition>
+        <namedTypedValue>
+            <name>singleData</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>recordField</name>
+            <type>
+                <name>RecordField</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>skipInactiveAppend</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>i18nData</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name>vaid case</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2378839"(
+  typeList: #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_975334",
+  returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290163"
+)</a:value>
+                    <a:nameRef>singleData</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"urn:appian:record-field:v1:a46af155-bfad-4dd3-9449-bf228fafb07c/47b3c8d8-b0d2-49e1-9fc3-1d15351e830f"</a:value>
+                    <a:nameRef>recordField</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">false</a:value>
+                    <a:nameRef>skipInactiveAppend</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81720"(
+  bundleFolder: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_104931",
+  bundleNames: "AS.CO.SampleBundle"
+)</a:value>
+                    <a:nameRef>i18nData</a:nameRef>
+                    <a:id>4</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2369968"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2644761"/>
+    </history>
+</contentHaul>

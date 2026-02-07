@@ -1,0 +1,405 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e811-1167-8000-9c18-011c48011c48_3489421</versionUuid>
+    <interface>
+        <name>AS_IO_CRD_viewOnboardingTasks</name>
+        <uuid>_a-0000e607-97fd-8000-9be9-011c48011c48_1674696</uuid>
+        <description>Card layout to view service request tasks on customer portal site</description>
+        <parentUuid>_a-0000e2bb-4188-8000-9ba2-011c48011c48_25469</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>if(
+  #"SYSTEM_SYSRULES_isPageWidth"({ "DESKTOP_WIDE" }),
+  #"SYSTEM_SYSRULES_cardLayout"(
+    contents: {
+      #"SYSTEM_SYSRULES_sideBySideLayout"(
+        items: {
+          #"SYSTEM_SYSRULES_sideBySideItem"(
+            item: #"SYSTEM_SYSRULES_richTextDisplayField"(
+              label: "Rich Text",
+              labelPosition: "COLLAPSED",
+              value: #"SYSTEM_SYSRULES_richTextIcon"(
+                icon: ri!task.taskStatus.icon,
+                color: "SECONDARY",
+                caption: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                  i18nData: ri!i18nData,
+                  bundleKey: "AS.FS.AllBundles.txt_Open"
+                ),
+                size: "LARGE"
+              )
+            ),
+            width: "MINIMIZE",
+            showWhen: ri!showOpenIcon
+          ),
+          #"SYSTEM_SYSRULES_sideBySideItem"(
+            item: #"SYSTEM_SYSRULES_richTextDisplayField"(
+              label: "Rich Text",
+              labelPosition: "COLLAPSED",
+              value: {
+                #"SYSTEM_SYSRULES_richTextItem_v1"(
+                  text: ri!task.taskName,
+                  color: "STANDARD",
+                  size: "STANDARD"
+                ),
+                char(10),
+                #"SYSTEM_SYSRULES_richTextItem_v1"(
+                  text: {
+                    #"SYSTEM_SYSRULES_richTextIcon"(
+                      icon: "calendar-o",
+                      caption: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                        i18nData: ri!i18nData,
+                        bundleKey: "AS.FS.AllBundles.txt_DueDate"
+                      )
+                    ),
+                    " ",
+                    #"_a-0000e447-933d-8000-9baa-011c48011c48_31679"(date: ri!task.dueDate)
+                  },
+                  color: "SECONDARY",
+                  size: "SMALL"
+                )
+              }
+            ),
+            width: "AUTO"
+          ),
+          #"SYSTEM_SYSRULES_sideBySideItem"(
+            item: #"SYSTEM_SYSRULES_richTextDisplayField"(
+              value: {
+                #"SYSTEM_SYSRULES_richTextIcon"(icon: ri!task.taskBehaviorType.icon),
+                " ",
+                #"SYSTEM_SYSRULES_richTextItem_v1"(
+                  text: #"_a-0000e438-fdf5-8000-9ba8-011c48011c48_21856"(
+                    singleData: ri!task.taskBehaviorType,
+                    labelField: "behaviorDisplayName",
+                    i18nData: ri!i18nData
+                  )
+                )
+              },
+              align: "LEFT"
+            ),
+            width: "AUTO"
+          ),
+          #"SYSTEM_SYSRULES_sideBySideItem"(
+            item: #"SYSTEM_SYSRULES_richTextDisplayField"(
+              label: "Rich Text",
+              labelPosition: "COLLAPSED",
+              value: #"SYSTEM_SYSRULES_richTextItem_v1"(
+                text: ri!task.request.uniqueIdentifier,
+                color: "STANDARD",
+                size: "STANDARD",
+                style: { "STRONG" }
+              )
+            ),
+            width: "AUTO",
+            showWhen: ri!showUniqueIdentifier
+          ),
+          #"SYSTEM_SYSRULES_sideBySideItem"(
+            item: #"_a-0000e586-af6f-8000-9bd2-011c48011c48_1345877"(
+              i18nData: ri!i18nData,
+              dueDate: #"_a-0000e586-af6f-8000-9bd2-011c48011c48_1346140"(date: ri!task.dueDate),
+              currentTime: now()
+            )
+          ),
+          #"SYSTEM_SYSRULES_sideBySideItem"(
+            item: #"SYSTEM_SYSRULES_recordActionField"(
+              actions: #"SYSTEM_SYSRULES_recordActionItem"(
+                action: #"urn:appian:record-action:v1:31b77cbe-8b51-41ba-927f-f11ee2d7fd33/ae94a5bf-9091-4f24-b490-82f99efe2b77",
+                identifier: ri!task.taskId
+              ),
+              align: "END",
+              showWhen: contains(
+                {
+                  #"_a-0000e3e6-fb42-8000-9ba5-011c48011c48_170260",
+                  #"_a-0000e393-fbf1-8000-9ba2-011c48011c48_99641",
+                  #"_a-0000e393-fbf1-8000-9ba2-011c48011c48_99647",
+                  #"_a-0000e586-af6f-8000-9bd2-011c48011c48_1347796",
+                  #"_a-0000e586-af6f-8000-9bd2-011c48011c48_1374056",
+                  #"_a-0000e79b-0335-8000-9c0c-011c48011c48_3040883",
+                  #"_a-0000e539-6d59-8000-9bd0-011c48011c48_1273105"
+                },
+                ri!task.taskBehaviorType.behaviorSubtypeCode
+              )
+            )
+          )
+        },
+        alignVertical: "MIDDLE",
+        showWhen: #"SYSTEM_SYSRULES_isPageWidth"({ "DESKTOP_WIDE", "DESKTOP" })
+      )
+    },
+    height: "AUTO",
+    style: "NONE",
+    marginBelow: "STANDARD",
+    showBorder: false,
+    showShadow: true
+  ),
+  #"SYSTEM_SYSRULES_cardLayout"(
+    contents: {
+      #"SYSTEM_SYSRULES_columnsLayout"(
+        columns: {
+          #"SYSTEM_SYSRULES_columnLayout"(
+            contents: {
+              #"SYSTEM_SYSRULES_sideBySideLayout"(
+                items: {
+                  #"SYSTEM_SYSRULES_sideBySideItem"(
+                    item: #"SYSTEM_SYSRULES_richTextDisplayField"(
+                      label: "Rich Text",
+                      labelPosition: "COLLAPSED",
+                      value: #"SYSTEM_SYSRULES_richTextIcon"(
+                        icon: ri!task.taskStatus.icon,
+                        color: "SECONDARY",
+                        caption: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                          i18nData: ri!i18nData,
+                          bundleKey: "AS.FS.AllBundles.txt_Open"
+                        ),
+                        size: "LARGE"
+                      )
+                    ),
+                    width: "MINIMIZE",
+                    showWhen: ri!showOpenIcon
+                  ),
+                  #"SYSTEM_SYSRULES_sideBySideItem"(
+                    item: #"SYSTEM_SYSRULES_richTextDisplayField"(
+                      label: "Rich Text",
+                      labelPosition: "COLLAPSED",
+                      value: {
+                        #"SYSTEM_SYSRULES_richTextItem_v1"(
+                          text: ri!task.taskName,
+                          color: "STANDARD",
+                          size: "STANDARD"
+                        ),
+                        char(10),
+                        #"SYSTEM_SYSRULES_richTextItem_v1"(
+                          text: {
+                            #"SYSTEM_SYSRULES_richTextIcon"(
+                              icon: "calendar-o",
+                              caption: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                                i18nData: ri!i18nData,
+                                bundleKey: "AS.FS.AllBundles.txt_DueDate"
+                              )
+                            ),
+                            " ",
+                            #"_a-0000e447-933d-8000-9baa-011c48011c48_31679"(date: ri!task.dueDate)
+                          },
+                          color: "SECONDARY",
+                          size: "SMALL"
+                        )
+                      }
+                    ),
+                    width: "AUTO"
+                  ),
+                  #"SYSTEM_SYSRULES_sideBySideItem"(
+                    item: #"SYSTEM_SYSRULES_recordActionField"(
+                      actions: #"SYSTEM_SYSRULES_recordActionItem"(
+                        action: #"urn:appian:record-action:v1:31b77cbe-8b51-41ba-927f-f11ee2d7fd33/ae94a5bf-9091-4f24-b490-82f99efe2b77",
+                        identifier: ri!task.taskId
+                      ),
+                      align: "END",
+                      showWhen: contains(
+                        {
+                          #"_a-0000e3e6-fb42-8000-9ba5-011c48011c48_170260",
+                          #"_a-0000e393-fbf1-8000-9ba2-011c48011c48_99641",
+                          #"_a-0000e393-fbf1-8000-9ba2-011c48011c48_99647",
+                          #"_a-0000e586-af6f-8000-9bd2-011c48011c48_1347796",
+                          #"_a-0000e586-af6f-8000-9bd2-011c48011c48_1374056",
+                          #"_a-0000e79b-0335-8000-9c0c-011c48011c48_3040883",
+                          #"_a-0000e539-6d59-8000-9bd0-011c48011c48_1273105"
+                        },
+                        ri!task.taskBehaviorType.behaviorSubtypeCode
+                      )
+                    )
+                  )
+                },
+                alignVertical: "MIDDLE"
+              )
+            }
+          ),
+          #"SYSTEM_SYSRULES_columnLayout"(
+            contents: {
+              #"SYSTEM_SYSRULES_sideBySideLayout"(
+                items: {
+                  #"SYSTEM_SYSRULES_sideBySideItem"(
+                    item: #"SYSTEM_SYSRULES_richTextDisplayField"(
+                      value: {
+                        #"SYSTEM_SYSRULES_richTextIcon"(icon: ri!task.taskBehaviorType.icon),
+                        " ",
+                        #"SYSTEM_SYSRULES_richTextItem_v1"(
+                          text: #"_a-0000e438-fdf5-8000-9ba8-011c48011c48_21856"(
+                            singleData: ri!task.taskBehaviorType,
+                            labelField: "behaviorDisplayName",
+                            i18nData: ri!i18nData
+                          )
+                        )
+                      },
+                      align: "LEFT"
+                    ),
+                    width: "MINIMIZE"
+                  ),
+                  #"SYSTEM_SYSRULES_sideBySideItem"(
+                    item: #"_a-0000e586-af6f-8000-9bd2-011c48011c48_1345877"(
+                      i18nData: ri!i18nData,
+                      dueDate: #"_a-0000e586-af6f-8000-9bd2-011c48011c48_1346140"(date: ri!task.dueDate),
+                      currentTime: now()
+                    ),
+                    width: "AUTO"
+                  ),
+                  #"SYSTEM_SYSRULES_sideBySideItem"(
+                    item: #"SYSTEM_SYSRULES_richTextDisplayField"(
+                      label: "Rich Text",
+                      labelPosition: "COLLAPSED",
+                      value: #"SYSTEM_SYSRULES_richTextItem_v1"(
+                        text: ri!task.request.uniqueIdentifier,
+                        color: "STANDARD",
+                        size: "STANDARD",
+                        style: { "STRONG" }
+                      )
+                    ),
+                    width: "MINIMIZE",
+                    showWhen: ri!showUniqueIdentifier
+                  )
+                },
+                alignVertical: "MIDDLE"
+              )
+            }
+          )
+        },
+        showWhen: #"SYSTEM_SYSRULES_isPageWidth"(
+          {
+            "DESKTOP",
+            "DESKTOP_NARROW",
+            "TABLET_LANDSCAPE",
+            "TABLET_PORTRAIT",
+            "PHONE"
+          }
+        ),
+        stackWhen: {
+          "DESKTOP",
+          "DESKTOP_NARROW",
+          "TABLET_LANDSCAPE",
+          "TABLET_PORTRAIT",
+          "PHONE"
+        }
+      )
+    },
+    height: "AUTO",
+    style: "NONE",
+    marginBelow: "STANDARD",
+    showBorder: false,
+    showShadow: true
+  )
+)</definition>
+        <namedTypedValue>
+            <name>task</name>
+            <type>
+                <name>AS_IO_Task</name>
+                <namespace>urn:com:appian:types:AS:IO</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>i18nData</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>showUniqueIdentifier</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>showOpenIcon</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+        <isCustom>false</isCustom>
+    </interface>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name/>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e393-fbf1-8000-9ba2-011c48011c48_104148"(
+     requestId:  1,
+     
+     returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290163"
+     
+   )
+  </a:value>
+                    <a:nameRef>task</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81834"(triggerRefresh: now())</a:value>
+                    <a:nameRef>i18nData</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:boolean"/>
+                    <a:nameRef>showUniqueIdentifier</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:boolean"/>
+                    <a:nameRef>showOpenIcon</a:nameRef>
+                    <a:id>4</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e607-97fd-8000-9be9-011c48011c48_1677978"/>
+        <historyInfo versionUuid="_a-0000e607-97fd-8000-9be9-011c48011c48_1684535"/>
+        <historyInfo versionUuid="_a-0000e607-97fd-8000-9be9-011c48011c48_1686484"/>
+        <historyInfo versionUuid="_a-0000e69f-3688-8000-9bf2-011c48011c48_2092219"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2707805"/>
+        <historyInfo versionUuid="_a-0000e79b-0335-8000-9c0c-011c48011c48_2915643"/>
+        <historyInfo versionUuid="_a-0000e79b-0335-8000-9c0c-011c48011c48_2931795"/>
+        <historyInfo versionUuid="_a-0000e79b-0335-8000-9c0c-011c48011c48_2959250"/>
+        <historyInfo versionUuid="_a-0000e7c7-bc72-8000-9c0e-011c48011c48_3094430"/>
+        <historyInfo versionUuid="_a-0000e7fa-f829-8000-9c17-011c48011c48_3466583"/>
+        <historyInfo versionUuid="_a-0000e811-1167-8000-9c18-011c48011c48_3489421"/>
+    </history>
+</contentHaul>

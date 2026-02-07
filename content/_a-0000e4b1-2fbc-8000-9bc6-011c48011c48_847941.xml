@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e70f-2824-8000-9c01-011c48011c48_2671582</versionUuid>
+    <interface>
+        <name>AS_QNM_GRD_questionsForQuestionBank</name>
+        <uuid>_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_847941</uuid>
+        <description>Grid to display all the questions available in the system</description>
+        <parentUuid>_a-0000e42d-ffef-8000-9ba6-011c48011c48_7213-qnm</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>#"SYSTEM_SYSRULES_gridField_v1"(
+  labelPosition: "COLLAPSED",
+  emptyGridMessage: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+    i18nData: ri!i18nData,
+    bundleKey: "AS.QNM.QuestionnaireSettings.ins_NoQuestions"
+  ),
+  data: #"_a-0000e447-933d-8000-9baa-011c48011c48_39392"(
+    returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290131",
+    triggerRefresh: ri!triggerRefresh,
+    pagingInfo: fv!pagingInfo,
+    searchQuestionText: ri!searchText,
+    questionTypes: ri!selectedResponseType
+  ),
+  columns: {
+    #"SYSTEM_SYSRULES_gridColumn"(
+      label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+        i18nData: ri!i18nData,
+        bundleKey: "AS.QNM.QuestionnaireSettings.lbl_Question"
+      ),
+      sortField: "defaultLabel",
+      value: #"SYSTEM_SYSRULES_recordActionField"(
+        actions: {
+          #"SYSTEM_SYSRULES_recordActionItem"(
+            action: #"urn:appian:record-action:v1:eb5e211e-3e8f-470e-9e79-1b668ce74fc9/03bd28bd-db86-4ec9-9daa-1c21c5f7a55c",
+            identifier: fv!row.questionReferenceId
+          )
+        },
+        style: "LINKS",
+        display: "LABEL"
+      )
+    ),
+    #"SYSTEM_SYSRULES_gridColumn"(
+      label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+        i18nData: ri!i18nData,
+        bundleKey: "AS.QNM.QuestionnaireSettings.lbl_ResponeType"
+      ),
+      sortField: "questionTypeCode",
+      value: #"_a-0000e460-9d93-8000-9bc1-011c48011c48_609085"(
+        questionTypeCode: fv!row.questionTypeCode
+      )
+    ),
+    a!localVariables(
+      local!docTypeRefData: #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_975294"(
+        typeList: #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_975334",
+        i18nData: ri!i18nData
+      ),
+      #"SYSTEM_SYSRULES_gridColumn"(
+        label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+          i18nData: ri!i18nData,
+          bundleKey: "AS.QNM.QuestionnaireSettings.lbl_DocumentType"
+        ),
+        value: #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_977034"(
+          code: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+            cdt: fv!row.defaultResponseRequirements,
+            field: "requirementTypeCode",
+            value: #"_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_889953"
+          ).requirementValue,
+          refData: local!docTypeRefData
+        )
+      )
+    ),
+    #"SYSTEM_SYSRULES_gridColumn"(
+      label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+        i18nData: ri!i18nData,
+        bundleKey: "AS.QNM.QuestionnaireSettings.lbl_LastModified"
+      ),
+      sortField: "modifiedDatetime",
+      value: #"_a-0000e3c8-6861-8000-9ba2-011c48011c48_120056"(
+        user: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73980"(
+          nullableValue: fv!row.modifiedBy,
+          replacementValue: fv!row.createdBy
+        ),
+        dateTime: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73980"(
+          nullableValue: fv!row.modifiedByDateTime,
+          replacementValue: fv!row.createdDateTime
+        )
+      )
+    ),
+    #"SYSTEM_SYSRULES_gridColumn"(
+      value: #"_a-0000e3e6-fb42-8000-9ba5-011c48011c48_180322"(
+        caption: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+          i18nData: ri!i18nData,
+          bundleKey: if(
+            #"_a-0000e539-6d59-8000-9bd0-011c48011c48_1223931"(questionReference: fv!row),
+            "AS.QNM.QuestionnaireSettings.lbl_DeactivateQuestion",
+            "AS.QNM.QuestionnaireSettings.ins_CannotDeactivateQuestion"
+          )
+        ),
+        size: "MEDIUM",
+        disable: not(
+          #"_a-0000e539-6d59-8000-9bd0-011c48011c48_1223931"(questionReference: fv!row)
+        ),
+        saveInto: {
+          if(
+            #"_a-0000e539-6d59-8000-9bd0-011c48011c48_1223931"(questionReference: fv!row),
+            #"SYSTEM_SYSRULES_startProcess"(
+              processModel: #"_a-0000e539-6d59-8000-9bd0-011c48011c48_1223943",
+              processParameters: { questionReference: fv!row },
+              onSuccess: {
+                #"_a-0000e3c8-6861-8000-9ba2-011c48011c48_124064"(ri!triggerRefresh)
+              }
+            ),
+            {}
+          )
+        },
+        removalType: #"_a-0000e3e6-fb42-8000-9ba5-011c48011c48_186255"
+      ),
+      width: "ICON"
+    )
+  },
+  pageSize: 30,
+  initialSorts: #"SYSTEM_SYSRULES_sortInfo"(field: "modifiedDatetime")
+)</definition>
+        <namedTypedValue>
+            <name>i18nData</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>triggerRefresh</name>
+            <type>
+                <name>dateTime</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>searchText</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>selectedResponseType</name>
+            <type>
+                <name>Text?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+        <isCustom>false</isCustom>
+    </interface>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name/>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e447-933d-8000-9baa-011c48011c48_43088"(
+  triggerRefresh: null
+)</a:value>
+                    <a:nameRef>i18nData</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:dateTime"/>
+                    <a:nameRef>triggerRefresh</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:string"/>
+                    <a:nameRef>searchText</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                    <a:nameRef>selectedResponseType</a:nameRef>
+                    <a:id>4</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_870958"/>
+        <historyInfo versionUuid="_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_902268"/>
+        <historyInfo versionUuid="_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_925815"/>
+        <historyInfo versionUuid="_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_945494"/>
+        <historyInfo versionUuid="_a-0000e50d-bf1d-8000-9bcd-011c48011c48_1017571"/>
+        <historyInfo versionUuid="_a-0000e539-6d59-8000-9bd0-011c48011c48_1196215"/>
+        <historyInfo versionUuid="_a-0000e539-6d59-8000-9bd0-011c48011c48_1223991"/>
+        <historyInfo versionUuid="_a-0000e62c-7375-8000-9bec-011c48011c48_1862137"/>
+        <historyInfo versionUuid="_a-0000e69f-3688-8000-9bf2-011c48011c48_2152741"/>
+        <historyInfo versionUuid="_a-0000e6ca-7e19-8000-9bfb-011c48011c48_2241382"/>
+        <historyInfo versionUuid="_a-0000e6ca-7e19-8000-9bfb-011c48011c48_2259146"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2671411"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2671582"/>
+    </history>
+</contentHaul>

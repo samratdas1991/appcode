@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e70f-2824-8000-9c01-011c48011c48_2664031</versionUuid>
+    <rule>
+        <name>AS_FS_BL_RiskScoreLevelsAndDisplay_v1_default</name>
+        <uuid>8a6a6558-d5a5-4cda-bdaa-6621c1a699d4</uuid>
+        <description>This rule defines the risk score style and thresholds
+
+@customizable:1.0
+@category:BUSINESS_LOGIC
+@app:FS</description>
+        <parentUuid>_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_968428</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>/*
+
+DESCRIPTION: This rule defines the risk score style and thresholds.
+
+DEFAULT BEHAVIOR: 
+Returns a single cdt of type AS_FS_UNMAPPED_RiskScoreSetting with values:
+  riskScoreStyle: "INTEGER"
+  mediumRiskScoreThreshold: 33
+  highRiskScoreThreshold: 66
+
+The default behavior establishes the following risk score ranges:
+LOW: 0-32
+MEDIUM: 33-65
+HIGH 66+
+
+
+CUSTOMIZATION STEPS: 
+To change default threshold values, specify integer values for mediumRiskScoreThreshold and highRiskScoreThreshold
+for example:
+
+'type!{urn:com:appian:types:AS:FS}AS_FS_UNMAPPED_RiskScoreSetting'(
+ 
+  riskScoreStyle: "INTEGER",
+  
+  mediumRiskScoreThreshold: 100,
+
+  highRiskScoreThreshold: 300
+)
+
+NOTE:
+"TEXT" style displays the following: "HIGH"
+"INTEGER" style displays the following "150 (HIGH)"
+The exact display format varies throughout the app.
+
+NOTE:
+Changing the thresholds after manually updating risk score using the “TEXT” style could result in data corruption which could change
+the risk score level of existing customers. This is because even when "TEXT" style is used, risk scores are stored as integers 
+in the backend, and changing the thresholds could cause those integers to fall into different risk score levels.
+
+NOTE:
+If there are existing alert configurations with a risk score trigger when you switch risk score style, these configurations will need
+to be migrated to the new style. AS_FS_ALT_CONF_ALERT_CONFIGURATION_TRIGGER_CONDITION.CONFIGURATION_TRIGGER_SETTINGS will need to be
+updated from this structure:
+  operator (text)
+  riskScoreLowerBound (int)
+  riskScoreUpperBound (int)
+to this structure:
+  operator (text)
+  riskScoreLevels (list of text)
+
+PARAMETERS: 
+None
+
+
+EXPECTED RETURN TYPE: Single CDT of type AS_FS_UNMAPPED_RiskScoreSetting with the fields:
+  riskScoreStyle (text)
+  mediumRiskScoreThreshold (int)
+  highRiskScoreThreshold (int)
+
+*/
+a!localVariables(
+  /*by default, we use the formerly configurable Northrow thresholds*/
+  'type!{urn:com:appian:types:AS:FS}AS_FS_UNMAPPED_RiskScoreSetting'(
+    /*options: "TEXT" or "INTEGER"*/
+    /*once "TEXT" is chosen, the thresholds are should not be changed - see comment above*/
+    riskScoreStyle: "INTEGER",
+    /*Any risk score &lt; this value is classified as LOW*/
+    mediumRiskScoreThreshold: 33,
+    /*Any risk score &gt;= this value is classified as HIGH*/
+    highRiskScoreThreshold: 66
+  )
+)</definition>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name>valid case</a:name>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2474436"/>
+        <historyInfo versionUuid="_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2493269"/>
+        <historyInfo versionUuid="_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2502315"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2556708"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2586291"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2599435"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2664031"/>
+    </history>
+</contentHaul>

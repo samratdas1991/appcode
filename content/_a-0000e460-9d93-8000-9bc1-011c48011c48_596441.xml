@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_864323</versionUuid>
+    <rule>
+        <name>AS_QNM_VD_evaluateResponseRequirement</name>
+        <uuid>_a-0000e460-9d93-8000-9bc1-011c48011c48_596441</uuid>
+        <description>Used to generically evaluate all types of response requirements</description>
+        <parentUuid>_a-0000e42d-ffef-8000-9ba6-011c48011c48_7213-qnm</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>if(
+  isnull(
+    ri!responseRequirement
+  ),
+  "",
+  with(
+    local!evaluationRule: #"_a-0000e460-9d93-8000-9bc1-011c48011c48_597333"(
+      responseRequirement: ri!responseRequirement
+    ).evaluationRule,
+    local!displayedResponses: if(
+      index(
+        ri!questionMetadata.fieldMetadata.showWhen,
+        wherecontains(
+          ri!responseRequirement.fieldKey,
+          ri!questionMetadata.fieldMetadata.fieldKey
+        )[1],
+        false
+      ),
+      #"_a-0000e447-933d-8000-9baa-011c48011c48_31196"(
+        question: ri!question,
+        fieldKey: ri!responseRequirement.fieldKey
+      ),
+      {}
+    ),
+    local!evaluationRule(
+      responses: local!displayedResponses,
+      responseRequirement: ri!responseRequirement,
+      returnValidationMessage: ri!returnValidationMessage
+    )
+  )
+)</definition>
+        <namedTypedValue>
+            <name>question</name>
+            <type>
+                <name>AS_QNM_Question</name>
+                <namespace>urn:com:appian:types:AS:QNM</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>questionMetadata</name>
+            <type>
+                <name>AS_QNM_QuestionMetadata</name>
+                <namespace>urn:com:appian:types:AS:QNM</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>responseRequirement</name>
+            <type>
+                <name>AS_QNM_ResponseRequirement</name>
+                <namespace>urn:com:appian:types:AS:QNM</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>returnValidationMessage</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name>Over max responses (single)</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">'type!{urn:com:appian:types:AS:QNM}AS_QNM_Question'(
+  responses: {
+    'type!{urn:com:appian:types:AS:QNM}AS_QNM_Response'(
+    value: 1
+  ),
+  'type!{urn:com:appian:types:AS:QNM}AS_QNM_Response'(
+    value: 2)
+})</a:value>
+                    <a:nameRef>question</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">'type!{urn:com:appian:types:AS:QNM}AS_QNM_QuestionMetadata'(
+  showWhen: true,
+  fieldMetadata: 'type!{urn:com:appian:types:AS:QNM}AS_QNM_FieldMetadata'(
+    showWhen: true
+  )
+)</a:value>
+                    <a:nameRef>questionMetadata</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">'type!{urn:com:appian:types:AS:QNM}AS_QNM_ResponseRequirement'(
+  requirementTypeCode: #"_a-0000e460-9d93-8000-9bc1-011c48011c48_597312",
+  requirementValue: 1
+)</a:value>
+                    <a:nameRef>responseRequirement</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:boolean">true</a:value>
+                    <a:nameRef>returnValidationMessage</a:nameRef>
+                    <a:id>4</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions>
+                    <a:expectedOutput>
+                        <a:type a:uuid="{http://www.appian.com/ae/types/2009}Variant"/>
+                        <a:runtimeType a:uuid="{http://www.appian.com/ae/types/2009}Variant"/>
+                        <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e447-933d-8000-9baa-011c48011c48_42943"(
+  bundleKey: "AS.QNM.ResponseRequirements.vld_MaxResponseValidationSingle"
+)</a:value>
+                    </a:expectedOutput>
+                </a:assertions>
+            </el>
+            <el>
+                <a:name>No requirement</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">{
+  'type!{urn:com:appian:types:AS:QNM}AS_QNM_Response'(
+    value: 1
+  ),
+  'type!{urn:com:appian:types:AS:QNM}AS_QNM_Response'(
+    value: 2)
+}</a:value>
+                    <a:nameRef>question</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:n1="urn:com:appian:types:AS:QNM" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="n1:AS_QNM_QuestionMetadata"/>
+                    <a:nameRef>questionMetadata</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:n1="urn:com:appian:types:AS:QNM" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="n1:AS_QNM_ResponseRequirement"/>
+                    <a:nameRef>responseRequirement</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:boolean"/>
+                    <a:nameRef>returnValidationMessage</a:nameRef>
+                    <a:id>4</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions>
+                    <a:expectedOutput>
+                        <a:type a:uuid="{http://www.appian.com/ae/types/2009}Variant"/>
+                        <a:runtimeType a:uuid="{http://www.appian.com/ae/types/2009}Variant"/>
+                        <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="a:Expression"/>
+                    </a:expectedOutput>
+                </a:assertions>
+            </el>
+            <el>
+                <a:name>Over max responses (multiple)</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">'type!{urn:com:appian:types:AS:QNM}AS_QNM_Question'(
+  responses: {
+  'type!{urn:com:appian:types:AS:QNM}AS_QNM_Response'(
+    value: 1
+  ),
+  'type!{urn:com:appian:types:AS:QNM}AS_QNM_Response'(
+    value: 1
+  ),
+  'type!{urn:com:appian:types:AS:QNM}AS_QNM_Response'(
+    value: 2)
+})</a:value>
+                    <a:nameRef>question</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">
+'type!{urn:com:appian:types:AS:QNM}AS_QNM_QuestionMetadata'(
+  showWhen: true,
+  fieldMetadata: 'type!{urn:com:appian:types:AS:QNM}AS_QNM_FieldMetadata'(
+    showWhen: true
+  )
+)</a:value>
+                    <a:nameRef>questionMetadata</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">'type!{urn:com:appian:types:AS:QNM}AS_QNM_ResponseRequirement'(
+  requirementTypeCode: #"_a-0000e460-9d93-8000-9bc1-011c48011c48_597312",
+  requirementValue: 2
+)</a:value>
+                    <a:nameRef>responseRequirement</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:boolean">true</a:value>
+                    <a:nameRef>returnValidationMessage</a:nameRef>
+                    <a:id>4</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions>
+                    <a:expectedOutput>
+                        <a:type a:uuid="{http://www.appian.com/ae/types/2009}Variant"/>
+                        <a:runtimeType a:uuid="{http://www.appian.com/ae/types/2009}Variant"/>
+                        <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e447-933d-8000-9baa-011c48011c48_42943"(
+  bundleKey: "AS.QNM.ResponseRequirements.vld_MaxResponseValidationMultiple",
+  arguments: 2
+)</a:value>
+                    </a:expectedOutput>
+                </a:assertions>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e460-9d93-8000-9bc1-011c48011c48_597516"/>
+        <historyInfo versionUuid="_a-0000e460-9d93-8000-9bc1-011c48011c48_599948"/>
+        <historyInfo versionUuid="_a-0000e460-9d93-8000-9bc1-011c48011c48_631117"/>
+        <historyInfo versionUuid="_a-0000e447-933d-8000-9baa-011c48011c48_109334"/>
+        <historyInfo versionUuid="_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_864323"/>
+    </history>
+</contentHaul>

@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<webApiHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>04c5bb4f-113a-48e1-ad4d-aa0d636f3ab9</versionUuid>
+    <webApi a:uuid="cee9b87e-e635-4226-8e1c-9632539577ab" name="AS IO Get Open Tasks">
+        <a:description>takes in search criteria and returns open tasks</a:description>
+        <a:expression>a!localVariables(
+  local!tasks: #"_a-0000e393-fbf1-8000-9ba2-011c48011c48_104148"(
+    taskStatusIds: {
+      #"_a-0000e460-9d93-8000-9bc1-011c48011c48_603236",
+      #"_a-0000e460-9d93-8000-9bc1-011c48011c48_603242"
+    },
+    onboardingType: http!request.queryParameters.onboardingType,
+    customerName: http!request.queryParameters.customerName,
+    returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290163"
+  ),
+  /*if no customer was provided, return an error*/
+  if(
+    #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(
+      http!request.queryParameters.customerName
+    ),
+    #"SYSTEM_SYSRULES_httpResponse_v1"(
+      statusCode: 400,
+      body: #"SYSTEM_SYSRULES_toJson_v1"(
+        {
+          error: "No Customer was provided"
+        }
+      ),
+      headers: {
+        #"SYSTEM_SYSRULES_httpHeader"(
+          name: "Content-Type",
+          value: "application/json"
+        )
+      }
+    ),
+    #"SYSTEM_SYSRULES_httpResponse_v1"(
+      headers: {
+        #"SYSTEM_SYSRULES_httpHeader"(
+          name: "Content-Type",
+          value: "application/json"
+        )
+      },
+      /*
+    * JSON-encoded value of "local!entities" is the response body.
+    */
+      body: #"SYSTEM_SYSRULES_toJson_v1"(
+        value: local!tasks
+      )
+    )
+  )
+)</a:expression>
+        <a:urlAlias>get-tasks</a:urlAlias>
+        <a:httpMethod>GET</a:httpMethod>
+        <a:system>false</a:system>
+        <a:requestBodyType>NONE</a:requestBodyType>
+        <a:loggingEnabled>false</a:loggingEnabled>
+    </webApi>
+    <roleMap>
+        <role name="web_api_administrator">
+            <users/>
+            <groups>
+                <groupUuid>_e-0000e2bb-4188-8000-9aee-01075c01075c_41</groupUuid>
+            </groups>
+        </role>
+        <role name="web_api_viewer">
+            <users/>
+            <groups>
+                <groupUuid>_e-0000e329-3415-8000-9aee-01075c01075c_5490</groupUuid>
+            </groups>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>WebApiRequest?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:path/>
+                <a:queryParameters>
+                    <a:name>customerName</a:name>
+                    <a:value>Many Moons</a:value>
+                </a:queryParameters>
+                <a:queryParameters>
+                    <a:name>onboardingType</a:name>
+                    <a:value>Capital Markets Buy Side</a:value>
+                </a:queryParameters>
+                <a:body/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="77f464d8-7911-46c5-b8f1-e3a350023f1a"/>
+        <historyInfo versionUuid="09c79592-365d-466c-8679-ea4852c4c161"/>
+        <historyInfo versionUuid="8f97d65d-0405-4187-915b-afbfabb5542e"/>
+        <historyInfo versionUuid="73acd90b-bafb-41ca-a469-a2b8f2031d84"/>
+        <historyInfo versionUuid="0ec2ecb9-b840-4475-984f-f8f751f9b348"/>
+        <historyInfo versionUuid="04c5bb4f-113a-48e1-ad4d-aa0d636f3ab9"/>
+    </history>
+</webApiHaul>

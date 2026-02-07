@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema targetNamespace="urn:com:appian:types:AS:ADT"
+  xmlns:tns="urn:com:appian:types:AS:ADT" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <xsd:include schemaLocation="%7Burn%3Acom%3Aappian%3Atypes%3AAS%3AADT%7DAS_ADT_AdditionalField.xsd"/>
+  <xsd:complexType name="AS_ADT_AuditConfig">
+    <xsd:annotation>
+      <xsd:appinfo source="http://www.appian.com/ae/types/2009">
+        <ns2:Metadata xmlns:ns2="http://www.appian.com/ae/types/2009">
+          <ns2:versionUuid>0000e7d2-b9d0-8000-6408-7f0000014e7a</ns2:versionUuid>
+          <ns2:history>
+            <ns2:historyInfo versionUuid="0000e628-02c4-8000-398f-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0000e63c-fc9b-8000-3cdb-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0000e685-a2d4-8000-4329-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0000e6e6-69e4-8000-4d63-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0000e7d2-b9d0-8000-6408-7f0000014e7a"/>
+          </ns2:history>
+        </ns2:Metadata>
+      </xsd:appinfo>
+      <xsd:documentation><![CDATA[Structure for audit configuration settings]]></xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="fieldName" nillable="true" type="xsd:string"/>
+      <xsd:element name="auditFieldName" nillable="true" type="xsd:string"/>
+      <xsd:element name="idField" nillable="true" type="xsd:string"/>
+      <xsd:element maxOccurs="unbounded" minOccurs="0"
+        name="additionalFields" type="tns:AS_ADT_AdditionalField">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@OneToMany(cascade=CascadeType.ALL, indexed=false)</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element maxOccurs="unbounded" minOccurs="0"
+        name="simpleFields" nillable="true" type="xsd:string"/>
+      <xsd:element maxOccurs="unbounded" minOccurs="0"
+        name="complexFields" type="tns:AS_ADT_AuditConfig">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@OneToMany(cascade=CascadeType.ALL, indexed=false)</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="captureUnchanged" nillable="true" type="xsd:boolean"/>
+      <xsd:element name="getNewObjectsPostProcessingRule"
+        nillable="true" type="xsd:anyType"/>
+      <xsd:element name="recordIdField" nillable="true" type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+</xsd:schema>

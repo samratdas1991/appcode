@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e673-a4a7-8000-9bef-011c48011c48_2008598</versionUuid>
+    <rule>
+        <name>AS_FS_BL_getRecordViewVisibilityForOFACResults</name>
+        <uuid>_a-0000e673-a4a7-8000-9bef-011c48011c48_1986590</uuid>
+        <description>Visibility of OFCA check Results record view of SRQ</description>
+        <parentUuid>_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_968428</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  local!userSettings: #"_a-0000e5d6-d648-8000-9bde-011c48011c48_1501904"(
+    settingsCode: {
+      #"_a-0000e5fd-0ed3-8000-9be6-011c48011c48_1579692"
+    }
+  ),
+  local!isOFACEnabled: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+    cdt: local!userSettings,
+    field: "userSettingCode",
+    value: #"_a-0000e5fd-0ed3-8000-9be6-011c48011c48_1579692"
+  ).userSettingValue[1],
+  local!resultEntity: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_241954"(
+    customerId: ri!customerId,
+    recordId: ri!recordId,
+    recordTypeCode: ri!recordTypeCode,
+    containsSourceList: true(),
+    returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290157",
+    sort: #"SYSTEM_SYSRULES_sortInfo"(
+      field: "searchDatetime",
+      ascending: false()
+    )
+  ),
+  local!resultFindings: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+    cdt: index(local!resultEntity, "results", {}),
+    field: "isRelevant",
+    value: true
+  ),
+  if(
+    and(
+      local!isOFACEnabled &lt;&gt; true(),
+      #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(local!resultFindings)
+    ),
+    false(),
+    true()
+  )
+)</definition>
+        <namedTypedValue>
+            <name>recordId</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>recordTypeCode</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>customerId</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name>Null Input</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:int"/>
+                    <a:nameRef>recordId</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:string"/>
+                    <a:nameRef>recordTypeCode</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:int"/>
+                    <a:nameRef>customerId</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e673-a4a7-8000-9bef-011c48011c48_1987705"/>
+        <historyInfo versionUuid="_a-0000e673-a4a7-8000-9bef-011c48011c48_1992607"/>
+        <historyInfo versionUuid="_a-0000e673-a4a7-8000-9bef-011c48011c48_2001158"/>
+        <historyInfo versionUuid="_a-0000e673-a4a7-8000-9bef-011c48011c48_2002771"/>
+        <historyInfo versionUuid="_a-0000e673-a4a7-8000-9bef-011c48011c48_2008598"/>
+    </history>
+</contentHaul>

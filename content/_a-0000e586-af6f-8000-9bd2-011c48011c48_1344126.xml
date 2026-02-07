@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e70f-2824-8000-9c01-011c48011c48_2720634</versionUuid>
+    <rule>
+        <name>AS_IO_UT_constructFundingDetailsForOnboarding</name>
+        <uuid>_a-0000e586-af6f-8000-9bd2-011c48011c48_1344126</uuid>
+        <description>Constructs the funding details for onboarding based on status</description>
+        <parentUuid>_a-0000e2bb-4188-8000-9ba2-011c48011c48_25469</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  local!awaitingFunding: contains(
+    {
+      #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_48763",
+      #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_48769"
+    },
+    ri!onboardingRequest.status
+  ),
+  local!actualFundingDate: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+    i18nData: ri!i18nData,
+    bundleKey: "AS.CO.AllBundles.lbl_ActualFundingDate"
+  ),
+  local!cancelledDate: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+    i18nData: ri!i18nData,
+    bundleKey: "AS.CO.AllBundles.lbl_CancellationDate"
+  ),
+  local!estFundingDate: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+    i18nData: ri!i18nData,
+    bundleKey: "AS.CO.AllBundles.lbl_EstimatedFundingDate"
+  ),
+  local!label: a!map(
+    'ONBOARDING_STATUS_COMPLETE': local!actualFundingDate,
+    'ONBOARDING_STATUS_FUNDED': local!actualFundingDate,
+    'ONBOARDING_STATUS_CANCELLED': local!cancelledDate
+  ),
+  local!value: a!map(
+    'ONBOARDING_STATUS_COMPLETE': ri!onboardingRequest.fundingDetails.actualFundingDate,
+    'ONBOARDING_STATUS_FUNDED': ri!onboardingRequest.fundingDetails.actualFundingDate,
+    'ONBOARDING_STATUS_CANCELLED': #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75551"(ri!onboardingRequest.modifiedDatetime)
+  ),
+  local!overdue: and(
+    local!awaitingFunding,
+    ri!onboardingRequest.fundingDetails.estFundingDate &lt; today()
+  ),
+  local!dueToday: and(
+    local!awaitingFunding,
+    ri!onboardingRequest.fundingDetails.estFundingDate = today()
+  ),
+  a!map(
+    label: index(
+      local!label,
+      ri!onboardingRequest.status,
+      local!estFundingDate
+    ),
+    value: index(
+      local!value,
+      ri!onboardingRequest.status,
+      ri!onboardingRequest.fundingDetails.estFundingDate
+    ),
+    color: if(
+      local!overdue,
+      "NEGATIVE",
+      local!dueToday,
+      #"_a-0000e62c-7375-8000-9bec-011c48011c48_1924695"(brandingKey: "WarningColor"),
+      ""
+    ),
+    icon: if(
+      local!overdue,
+      "clock-o",
+      local!dueToday,
+      "exclamation-triangle",
+      local!awaitingFunding,
+      "info-circle",
+      ""
+    ),
+    countDownValue: if(
+      local!overdue,
+      #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+        i18nData: ri!i18nData,
+        bundleKey: "AS.CO.AllBundles.lbl_Overdue"
+      ),
+      local!dueToday,
+      #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+        i18nData: ri!i18nData,
+        bundleKey: "AS.CO.AllBundles.lbl_DueToday"
+      ),
+      local!awaitingFunding,
+      a!localVariables(
+        local!daysAway: tointeger(
+          abs(
+            ri!onboardingRequest.fundingDetails.estFundingDate - today()
+          )
+        ),
+        #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+          i18nData: ri!i18nData,
+          bundleKey: if(
+            local!daysAway = 1,
+            "AS.CO.AllBundles.lbl_1DayAway",
+            "AS.CO.AllBundles.lbl_XDaysAway"
+          ),
+          /* Countdown to esimated funding date */
+          arguments: local!daysAway
+        )
+      ),
+      ri!onboardingRequest.status = #"_a-0000e471-623a-8000-9bc3-011c48011c48_659949",
+      a!localVariables(
+        local!fundingDateDaysAwayMagnitude: tointeger(
+          abs(
+            today() - ri!onboardingRequest.fundingDetails.actualFundingDate
+          )
+        ),
+        #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+          i18nData: ri!i18nData,
+          bundleKey: if(
+            ri!onboardingRequest.fundingDetails.actualFundingDate &lt;= today(),
+            if(
+              local!fundingDateDaysAwayMagnitude = 1,
+              "AS.CO.AllBundles.lbl_1DayAgo",
+              "AS.CO.AllBundles.lbl_XDaysAgo"
+            ),
+            /* TOBEDONE: Is a future date even possible here? */
+            if(
+              local!fundingDateDaysAwayMagnitude = 1,
+              "AS.CO.AllBundles.lbl_1DayAway",
+              "AS.CO.AllBundles.lbl_XDaysAway"
+            )
+          ),
+          /* Countdown to actual funding date */
+          arguments: local!fundingDateDaysAwayMagnitude
+        )
+      ),
+      ""
+    )
+  )
+)</definition>
+        <namedTypedValue>
+            <name>onboardingRequest</name>
+            <type>
+                <name>AS_IO_OnboardingRequest</name>
+                <namespace>urn:com:appian:types:AS:IO</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>i18nData</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name>onboarding details retuned</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_33091"(returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290157", includeNestedCdts: true)</a:value>
+                    <a:nameRef>onboardingRequest</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81834"(triggerRefresh: null)</a:value>
+                    <a:nameRef>i18nData</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+            <el>
+                <a:name>due in 5 days</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">'type!{urn:com:appian:types:AS:IO}AS_IO_OnboardingRequest'(
+  status: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_48769",
+  fundingDetails: 'type!{urn:com:appian:types:AS:IO}AS_IO_OnboardingFundingDetails'(
+    estFundingDate: today()+5,
+    estFundingValue: 100
+  )
+)</a:value>
+                    <a:nameRef>onboardingRequest</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81834"(triggerRefresh: null)</a:value>
+                    <a:nameRef>i18nData</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions>
+                    <a:expectedOutput>
+                        <a:type a:uuid="{http://www.appian.com/ae/types/2009}Variant"/>
+                        <a:runtimeType a:uuid="{http://www.appian.com/ae/types/2009}Variant"/>
+                        <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">a!map(
+  label: "Estimated Funding Date",
+  value: today()+5,
+  color: "",
+  icon: "info-circle",
+  countDownValue: "5 days away"
+)</a:value>
+                    </a:expectedOutput>
+                </a:assertions>
+            </el>
+            <el>
+                <a:name>overdue by 5 days</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">'type!{urn:com:appian:types:AS:IO}AS_IO_OnboardingRequest'(
+  status: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_48763",
+  fundingDetails: 'type!{urn:com:appian:types:AS:IO}AS_IO_OnboardingFundingDetails'(
+    estFundingDate: today()-5,
+    estFundingValue: 100
+  )
+)</a:value>
+                    <a:nameRef>onboardingRequest</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81834"(triggerRefresh: null)</a:value>
+                    <a:nameRef>i18nData</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions>
+                    <a:expectedOutput>
+                        <a:type a:uuid="{http://www.appian.com/ae/types/2009}Variant"/>
+                        <a:runtimeType a:uuid="{http://www.appian.com/ae/types/2009}Variant"/>
+                        <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">a!map(
+  label: "Estimated Funding Date",
+  value: today()-5,
+  color: "NEGATIVE",
+  icon: "clock-o",
+  countDownValue: "Overdue"
+)</a:value>
+                    </a:expectedOutput>
+                </a:assertions>
+            </el>
+            <el>
+                <a:name>Cancelled 5 days ago</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">'type!{urn:com:appian:types:AS:IO}AS_IO_OnboardingRequest'(
+  status: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_49494",
+  modifiedDatetime: now()-5,
+  fundingDetails: 'type!{urn:com:appian:types:AS:IO}AS_IO_OnboardingFundingDetails'(
+    estFundingDate: today()-5,
+    estFundingValue: 100
+  )
+)</a:value>
+                    <a:nameRef>onboardingRequest</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81834"(triggerRefresh: null)</a:value>
+                    <a:nameRef>i18nData</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions>
+                    <a:expectedOutput xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                    <a:resultAssertions>test!output=a!map(
+  label: "Cancellation Date",
+  value: today()-5,
+  color: "",
+  icon: "",
+  countDownValue: ""
+)</a:resultAssertions>
+                </a:assertions>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e586-af6f-8000-9bd2-011c48011c48_1355507"/>
+        <historyInfo versionUuid="_a-0000e62c-7375-8000-9bec-011c48011c48_1860998"/>
+        <historyInfo versionUuid="_a-0000e69f-3688-8000-9bf2-011c48011c48_2088218"/>
+        <historyInfo versionUuid="_a-0000e6ba-d6dd-8000-9bf5-011c48011c48_2194117"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2680813"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2720634"/>
+    </history>
+</contentHaul>

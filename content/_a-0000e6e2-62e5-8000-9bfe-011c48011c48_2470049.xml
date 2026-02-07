@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e79b-0335-8000-9c0c-011c48011c48_3006008</versionUuid>
+    <interface>
+        <name>AS_FS_UT_DisplayOpenEventsTag</name>
+        <uuid>_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2470049</uuid>
+        <description>Displays a tag with the number of open events in effect for a field/object, along with hovertext showing the associated event unique identifiers</description>
+        <parentUuid>_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_968428</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  /*Multiple in case this applied to a list of objects*/
+  local!uniqueIdentifiers: a!flatten(
+    apply(
+      #"_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2469934"(
+        pendingObjectDisplay: _,
+        field: ri!field,
+        displayType: #"_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2469960",
+        applyFieldFilter: ri!applyFieldFilter
+      ),
+      ri!pendingObjectDisplays
+    )
+  ),
+  local!isPendingDeletion: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(
+    ri!pendingObjectDisplays.objectForDisplay
+  ),
+  #"_a-0000e607-97fd-8000-9be9-011c48011c48_1713562"(
+    showWhen: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(local!uniqueIdentifiers),
+    tooltip: joinarray(local!uniqueIdentifiers, ", "),
+    color: if(
+      local!isPendingDeletion,
+      "NEGATIVE",
+      ""/*default*/
+      
+    ),
+    tagText: upper(
+      if(
+        local!isPendingDeletion,
+        #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+          i18nData: ri!i18nData,
+          bundleKey: "AS.FS.AllBundles.txt_PendingDeletion"
+        ),
+        #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+          i18nData: ri!i18nData,
+          bundleKey: #"_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2407133"(
+            singularLabel: "AS.FS.AllBundles.txt_OpenEvent",
+            pluralLabel: "AS.FS.AllBundles.txt_OpenEvents",
+            value: length(local!uniqueIdentifiers)
+          ),
+          arguments: length(local!uniqueIdentifiers)
+        )
+      )
+    )
+  )
+)</definition>
+        <namedTypedValue>
+            <name>i18nData</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>pendingObjectDisplays</name>
+            <type>
+                <name>AS_FS_UNMAPPED_PendingObjectDisplay?list</name>
+                <namespace>urn:com:appian:types:FS</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>field</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>applyFieldFilter</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+        <isCustom>false</isCustom>
+    </interface>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name/>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_975720"(
+  triggerRefresh: null
+)</a:value>
+                    <a:nameRef>i18nData</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2466057"(
+  i18nData: #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_975720"(triggerRefresh: null),
+  customer: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_33079"(
+    returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290157"
+  )
+)</a:value>
+                    <a:nameRef>pendingObjectDisplays</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:string"/>
+                    <a:nameRef>field</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:boolean">false</a:value>
+                    <a:nameRef>applyFieldFilter</a:nameRef>
+                    <a:id>4</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2470554"/>
+        <historyInfo versionUuid="_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2483386"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2557937"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2709006"/>
+        <historyInfo versionUuid="_a-0000e79b-0335-8000-9c0c-011c48011c48_3006008"/>
+    </history>
+</contentHaul>

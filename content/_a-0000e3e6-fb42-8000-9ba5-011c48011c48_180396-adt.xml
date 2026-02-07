@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e62c-7375-8000-9bec-011c48011c48_1848888</versionUuid>
+    <rule>
+        <name>AS_ADT_UT_buildAuditToWrite</name>
+        <uuid>_a-0000e3e6-fb42-8000-9ba5-011c48011c48_180396-adt</uuid>
+        <description>Calculates audits and the entity data to write</description>
+        <parentUuid>_a-0000e42d-ffef-8000-9ba6-011c48011c48_7213-adt</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>#"_a-0000e586-af6f-8000-9bd2-011c48011c48_1348231"(
+  value: #"_a-0000e3e6-fb42-8000-9ba5-011c48011c48_161361-adt"(
+    originalObjects: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73980"(
+      nullableValue: ri!auditParams.originalObjects,
+      replacementValue: {}
+    ),
+    newObjects: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73980"(
+      nullableValue: ri!auditParams.newObjects,
+      replacementValue: {}
+    ),
+    username: ri!auditParams.username,
+    auditConfig: ri!auditParams.auditConfig
+  )
+)</definition>
+        <namedTypedValue>
+            <name>auditParams</name>
+            <type>
+                <name>AS_ADT_P_AuditProcessParameters</name>
+                <namespace>urn:com:appian:types:AS:ADT</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name>Sample Test Case</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">'type!{urn:com:appian:types:AS:ADT}AS_ADT_P_AuditProcessParameters'(
+  originalObjects: 'type!{urn:com:appian:types:AS:ADT}AS_ADT_SAMPLE_Parent'(
+    parentId: 1
+  ),
+  objectTypeNumber: typeof('type!{urn:com:appian:types:AS:ADT}AS_ADT_SAMPLE_Parent'()),
+  namespace: "urn:com:appian:types:AS:ADT"
+)</a:value>
+                    <a:nameRef>auditParams</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e3e6-fb42-8000-9ba5-011c48011c48_181305"/>
+        <historyInfo versionUuid="_a-0000e3ff-79a3-8000-7714-45ef9045ef90_8853-fs"/>
+        <historyInfo versionUuid="_a-0000e430-f270-8000-9bbc-011c48011c48_370949"/>
+        <historyInfo versionUuid="_a-0000e467-127b-8000-0fb7-43ef9043ef90_9029"/>
+        <historyInfo versionUuid="_a-0000e465-3942-8000-3664-a8ef90a8ef90_15619-adt"/>
+        <historyInfo versionUuid="_a-0000e5d4-2024-8000-9baf-011c48011c48_320484"/>
+        <historyInfo versionUuid="_a-0000e5d4-20a7-8000-9bdb-011c48011c48_1476166"/>
+        <historyInfo versionUuid="_a-0000e5d4-2024-8000-9baf-011c48011c48_323103"/>
+        <historyInfo versionUuid="_a-0000e5fd-0ed3-8000-9be6-011c48011c48_1573807"/>
+        <historyInfo versionUuid="_a-0000e62c-7375-8000-9bec-011c48011c48_1848888"/>
+    </history>
+</contentHaul>

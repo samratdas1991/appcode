@@ -1,0 +1,457 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<recordTypeHaul xmlns:a="http://www.appian.com/ae/types/2009" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <versionUuid>330ed444-fbb8-471f-a3f5-5ffd3f8c72e6</versionUuid>
+  <recordType a:uuid="8f021ea2-460d-4e2f-b829-470c8f80d48d" name="AS_IO_QNM_T_Questionnaire_RecordType">
+    <a:pluralName>AS_IO_QNM_T_Questionnaire_RecordTypes</a:pluralName>
+    <a:description>List of available IO questionnaire templates</a:description>
+    <a:urlStub>1KMI3w</a:urlStub>
+    <a:source xsi:type="a:RecordsReplica"/>
+    <a:listViewTemplateExpr>#"SYSTEM_SYSRULES_recordGridField"(
+  columns: {
+    #"SYSTEM_SYSRULES_gridColumn"(
+      label: "Questionnaire Name",
+      sortField: #"urn:appian:record-field:v1:8f021ea2-460d-4e2f-b829-470c8f80d48d/fc049a56-5eea-4f08-bb5a-df9fca99fb0e",
+      value: #"SYSTEM_SYSRULES_linkField"(
+        links: {
+          #"SYSTEM_SYSRULES_recordLink"(
+            label: fv!row[#"urn:appian:record-field:v1:8f021ea2-460d-4e2f-b829-470c8f80d48d/fc049a56-5eea-4f08-bb5a-df9fca99fb0e"],
+            recordType: #"urn:appian:record-type:v1:8f021ea2-460d-4e2f-b829-470c8f80d48d",
+            identifier: fv!identifier
+          )
+        }
+      )
+    ),
+    #"SYSTEM_SYSRULES_gridColumn"(
+      label: "Questionnaire Description",
+      sortField: #"urn:appian:record-field:v1:8f021ea2-460d-4e2f-b829-470c8f80d48d/e3e86abc-8ec1-49b9-ba7f-312943c2e79e",
+      value: fv!row[#"urn:appian:record-field:v1:8f021ea2-460d-4e2f-b829-470c8f80d48d/e3e86abc-8ec1-49b9-ba7f-312943c2e79e"]
+    ),
+    #"SYSTEM_SYSRULES_gridColumn"(
+      label: "Created By",
+      sortField: #"urn:appian:record-field:v1:8f021ea2-460d-4e2f-b829-470c8f80d48d/f26f7396-dac4-4b47-88b4-baf9a9e638b6",
+      value: fv!row[#"urn:appian:record-field:v1:8f021ea2-460d-4e2f-b829-470c8f80d48d/f26f7396-dac4-4b47-88b4-baf9a9e638b6"]
+    ),
+    #"SYSTEM_SYSRULES_gridColumn"(
+      label: "Questionnaire Template Id",
+      sortField: #"urn:appian:record-field:v1:8f021ea2-460d-4e2f-b829-470c8f80d48d/f65b9235-9704-4c72-9c5d-7e0515572324",
+      value: fv!row[#"urn:appian:record-field:v1:8f021ea2-460d-4e2f-b829-470c8f80d48d/f65b9235-9704-4c72-9c5d-7e0515572324"],
+      align: "END"
+    )
+  },
+  pageSize: 50,
+  shadeAlternateRows: true
+)</a:listViewTemplateExpr>
+    <a:detailViewCfg>
+      <a:nameExpr>#"SYSTEM_SYSRULES_rtd_getDefaultSummaryViewName"()</a:nameExpr>
+      <a:uiExpr/>
+      <a:visibilityExpr>=true()</a:visibilityExpr>
+      <a:urlStub>summary</a:urlStub>
+      <a:headerExpr/>
+      <a:recordActionLaunchType>DIALOG</a:recordActionLaunchType>
+      <a:recordUiSecurityType>EXPRESSION</a:recordUiSecurityType>
+    </a:detailViewCfg>
+    <a:relatedActionCfg a:uuid="0f81a70f-383b-4ce7-8d0b-738c4aac1041">
+      <a:target a:uuid="0002e44d-8a5f-8000-fac0-7f0000014e7a" xsi:type="a:ProcessModel"/>
+      <a:contextExpr>{
+  questionnaire_template: #"_a-0000e447-933d-8000-9baa-011c48011c48_39379"(
+    questionnaireTemplateId: rv!identifier,
+    returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290157"
+  ),
+  /* AS_QNM_T_Questionnaire */
+  userAction: null/* Text */,
+  recordTypeCode: #"_a-0000e607-97fd-8000-9be9-011c48011c48_1687150" 
+  
+}</a:contextExpr>
+      <a:visibilityExpr>=true()</a:visibilityExpr>
+      <a:iconId>f0e7</a:iconId>
+      <a:refId>refId-0f81a70f-383b-4ce7-8d0b-738c4aac1041</a:refId>
+      <a:titleExpr>/*TOBEDONE this should just be update -- create would be a separate process defined in the record list tab here */
+"AS.QNM.QuestionnaireTemplate.lbl_CreateOrUpdate"</a:titleExpr>
+      <a:staticDescriptionString>"AS.QNM.QuestionnaireTemplate.txt_CreateOrUpdateDescription"</a:staticDescriptionString>
+      <a:referenceKey>createOrUpdate</a:referenceKey>
+      <a:dialogSize>FIT$FIT</a:dialogSize>
+      <a:showInRecordList>false</a:showInRecordList>
+      <a:recordUiSecurityType>EXPRESSION</a:recordUiSecurityType>
+      <a:dialogWidth>FIT</a:dialogWidth>
+      <a:dialogHeight>FIT</a:dialogHeight>
+    </a:relatedActionCfg>
+    <a:relatedActionCfg a:uuid="36bb3d19-6a8a-444e-b160-f6b044e1065b">
+      <a:target a:uuid="0002e4ce-c67e-8000-1182-7f0000014e7a" xsi:type="a:ProcessModel"/>
+      <a:contextExpr>{
+  questionnaireTemplate: #"_a-0000e447-933d-8000-9baa-011c48011c48_39379"(
+    questionnaireTemplateId: rv!identifier,
+    returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290157"
+  )
+}</a:contextExpr>
+      <a:visibilityExpr>=true()</a:visibilityExpr>
+      <a:iconId>f067</a:iconId>
+      <a:refId>refId-36bb3d19-6a8a-444e-b160-f6b044e1065b</a:refId>
+      <a:titleExpr>#"_a-0000e447-933d-8000-9baa-011c48011c48_42943"(
+  bundleKey: "AS.QNM.QuestionnaireSettings.lbl_AddCategory"
+)</a:titleExpr>
+      <a:staticDescriptionString/>
+      <a:referenceKey>addCategory</a:referenceKey>
+      <a:dialogSize>FIT$FIT</a:dialogSize>
+      <a:showInRecordList>false</a:showInRecordList>
+      <a:recordUiSecurityType>EXPRESSION</a:recordUiSecurityType>
+      <a:dialogWidth>FIT</a:dialogWidth>
+      <a:dialogHeight>FIT</a:dialogHeight>
+    </a:relatedActionCfg>
+    <a:relatedActionCfg a:uuid="cf8fffe3-cada-4bc4-961c-f0d3e01ee977">
+      <a:target a:uuid="0005e4d2-940a-8000-11b4-7f0000014e7a" xsi:type="a:ProcessModel"/>
+      <a:contextExpr>{
+  questionnaireTemplateId: rv!identifier,
+  questionnaireName: rv!record[#"urn:appian:record-field:v1:6acc4eb2-a4b1-41bc-a3fb-3dfa09df68da/name"],
+  userAction: null,
+  recordTypeCode: #"_a-0000e607-97fd-8000-9be9-011c48011c48_1687150"
+}</a:contextExpr>
+      <a:visibilityExpr>=true()</a:visibilityExpr>
+      <a:iconId>f0e7</a:iconId>
+      <a:refId>refId-cf8fffe3-cada-4bc4-961c-f0d3e01ee977</a:refId>
+      <a:titleExpr>#"_a-0000e447-933d-8000-9baa-011c48011c48_42943"(
+  bundleKey: "AS.QNM.QuestionnaireSettings.lbl_SetDefault"
+)</a:titleExpr>
+      <a:staticDescriptionString/>
+      <a:referenceKey>setAsDefault</a:referenceKey>
+      <a:dialogSize>FIT$FIT</a:dialogSize>
+      <a:showInRecordList>false</a:showInRecordList>
+      <a:recordUiSecurityType>EXPRESSION</a:recordUiSecurityType>
+      <a:dialogWidth>FIT</a:dialogWidth>
+      <a:dialogHeight>FIT</a:dialogHeight>
+    </a:relatedActionCfg>
+    <a:relatedActionCfg a:uuid="8a0abbcf-1f5d-4f95-9bfe-c0a85effdefd">
+      <a:target a:uuid="0002e4e0-a47b-8000-1339-7f0000014e7a" xsi:type="a:ProcessModel"/>
+      <a:contextExpr>{
+  questionnaireTemplate: #"_a-0000e447-933d-8000-9baa-011c48011c48_39379"(
+    questionnaireTemplateId: rv!identifier,
+    returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290157"
+  )
+}</a:contextExpr>
+      <a:visibilityExpr>=true()</a:visibilityExpr>
+      <a:iconId>f06e</a:iconId>
+      <a:refId>refId-8a0abbcf-1f5d-4f95-9bfe-c0a85effdefd</a:refId>
+      <a:titleExpr>#"_a-0000e447-933d-8000-9baa-011c48011c48_42943"(
+  bundleKey: "AS.QNM.QuestionnaireSettings.lbl_Preview"
+)</a:titleExpr>
+      <a:staticDescriptionString/>
+      <a:referenceKey>preview</a:referenceKey>
+      <a:dialogSize>FIT$FIT</a:dialogSize>
+      <a:showInRecordList>false</a:showInRecordList>
+      <a:recordUiSecurityType>EXPRESSION</a:recordUiSecurityType>
+      <a:dialogWidth>FIT</a:dialogWidth>
+      <a:dialogHeight>FIT</a:dialogHeight>
+    </a:relatedActionCfg>
+    <a:relatedActionCfg a:uuid="1119380b-8463-41b2-be0c-5ddca4e20f4f">
+      <a:target a:uuid="0002e4d2-ba0c-8000-11bf-7f0000014e7a" xsi:type="a:ProcessModel"/>
+      <a:contextExpr>{
+  questionnaireTemplate: #"_a-0000e447-933d-8000-9baa-011c48011c48_39379"(
+    questionnaireTemplateId: rv!identifier,
+    returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290157"
+  ),
+  userAction: null /* Text */
+}</a:contextExpr>
+      <a:visibilityExpr>=true()</a:visibilityExpr>
+      <a:iconId>f014</a:iconId>
+      <a:refId>refId-1119380b-8463-41b2-be0c-5ddca4e20f4f</a:refId>
+      <a:titleExpr>#"_a-0000e447-933d-8000-9baa-011c48011c48_42943"(
+  bundleKey: "AS.QNM.QuestionnaireSettings.lbl_DeleteQuestionnaire"
+)</a:titleExpr>
+      <a:staticDescriptionString/>
+      <a:referenceKey>deleteQuestionnaire</a:referenceKey>
+      <a:dialogSize>FIT$FIT</a:dialogSize>
+      <a:showInRecordList>false</a:showInRecordList>
+      <a:recordUiSecurityType>EXPRESSION</a:recordUiSecurityType>
+      <a:dialogWidth>FIT</a:dialogWidth>
+      <a:dialogHeight>FIT</a:dialogHeight>
+    </a:relatedActionCfg>
+    <a:relatedActionCfg a:uuid="301a9d13-2c0e-4ede-a3dd-bde1bf58d615">
+      <a:target a:uuid="0002e4f3-a6c8-8000-164b-7f0000014e7a" xsi:type="a:ProcessModel"/>
+      <a:contextExpr>{
+  clonedQuestionnaireTemplate: #"_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_894812"(
+    templateToClone: #"_a-0000e447-933d-8000-9baa-011c48011c48_39379"(
+      questionnaireTemplateId: rv!identifier,
+      returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290157"
+    )
+  ),
+  userAction: null
+}</a:contextExpr>
+      <a:visibilityExpr>=true()</a:visibilityExpr>
+      <a:iconId>f0c5</a:iconId>
+      <a:refId>refId-301a9d13-2c0e-4ede-a3dd-bde1bf58d615</a:refId>
+      <a:titleExpr>#"_a-0000e447-933d-8000-9baa-011c48011c48_42943"(
+  bundleKey: "AS.QNM.QuestionnaireSettings.btn_CloneQuestionnaire"
+)</a:titleExpr>
+      <a:staticDescriptionString/>
+      <a:referenceKey>cloneQuestionnaire</a:referenceKey>
+      <a:dialogSize>FIT$FIT</a:dialogSize>
+      <a:showInRecordList>false</a:showInRecordList>
+      <a:recordUiSecurityType>EXPRESSION</a:recordUiSecurityType>
+      <a:dialogWidth>FIT</a:dialogWidth>
+      <a:dialogHeight>FIT</a:dialogHeight>
+    </a:relatedActionCfg>
+    <a:isSystem>false</a:isSystem>
+    <a:dataSrcExpr/>
+    <a:facetsListExpr/>
+    <a:titleExpr/>
+    <a:defaultFiltersExpr>if(
+  #"_a-0000e69f-3688-8000-9bf2-011c48011c48_2143846"(),
+  {},
+  {
+    #"SYSTEM_SYSRULES_queryFilter"(
+      field: #"urn:appian:record-field:v1:6acc4eb2-a4b1-41bc-a3fb-3dfa09df68da/questionnaireTemplateId",
+      operator: "is null"
+    )
+  }
+)</a:defaultFiltersExpr>
+    <a:layoutType>GRID</a:layoutType>
+    <a:security>16383</a:security>
+    <a:hideLatestNews>false</a:hideLatestNews>
+    <a:hideNewsView>false</a:hideNewsView>
+    <a:hideRelatedActionsView>false</a:hideRelatedActionsView>
+    <a:isExportable>true</a:isExportable>
+    <a:listViewSrcExpr/>
+    <a:recordViewSrcExpr/>
+    <a:recordTypeSearchCfg>
+      <searchFieldsSrc>DEFAULT</searchFieldsSrc>
+      <placeholderSrc>DEFAULT</placeholderSrc>
+      <placeholder/>
+    </a:recordTypeSearchCfg>
+    <a:iconId/>
+    <a:listAutoRefreshInterval>0.0</a:listAutoRefreshInterval>
+    <a:sourceConfiguration>
+      <sourceUuid>AS_QNM_T_QUESTIONNAIRE@jdbc/Appian</sourceUuid>
+      <sourceType>RDBMS_TABLE</sourceType>
+      <sourceSubType>NONE</sourceSubType>
+      <friendlyName>AS_QNM_T_QUESTIONNAIRE</friendlyName>
+      <sourceFilterExpr/>
+      <field>
+        <uuid>f65b9235-9704-4c72-9c5d-7e0515572324</uuid>
+        <type>{http://www.appian.com/ae/types/2009}Integer</type>
+        <sourceFieldName>QUESTIONNAIRE_TEMPLATE_ID</sourceFieldName>
+        <sourceFieldType>INTEGER</sourceFieldType>
+        <fieldName>questionnaireTemplateId</fieldName>
+        <isRecordId>true</isRecordId>
+        <isUnique>true</isUnique>
+        <isCustomField>false</isCustomField>
+        <customFieldExpr/>
+        <customFieldDefaultValueStr>null</customFieldDefaultValueStr>
+        <fieldCalculationType>NA</fieldCalculationType>
+        <fieldTemplateType>NA</fieldTemplateType>
+        <isIndexable>false</isIndexable>
+        <subType>NA</subType>
+        <displayNameSource>STATIC</displayNameSource>
+        <descriptionSource>STATIC</descriptionSource>
+        <isHidden>false</isHidden>
+      </field>
+      <field>
+        <uuid>fc049a56-5eea-4f08-bb5a-df9fca99fb0e</uuid>
+        <type>{http://www.appian.com/ae/types/2009}Text</type>
+        <sourceFieldName>NAME</sourceFieldName>
+        <sourceFieldType>VARCHAR(255)</sourceFieldType>
+        <fieldName>name</fieldName>
+        <isRecordId>false</isRecordId>
+        <isUnique>false</isUnique>
+        <isCustomField>false</isCustomField>
+        <customFieldExpr/>
+        <customFieldDefaultValueStr>null</customFieldDefaultValueStr>
+        <fieldCalculationType>NA</fieldCalculationType>
+        <fieldTemplateType>NA</fieldTemplateType>
+        <isIndexable>false</isIndexable>
+        <subType>NA</subType>
+        <displayNameSource>STATIC</displayNameSource>
+        <descriptionSource>STATIC</descriptionSource>
+        <isHidden>false</isHidden>
+      </field>
+      <field>
+        <uuid>e3e86abc-8ec1-49b9-ba7f-312943c2e79e</uuid>
+        <type>{http://www.appian.com/ae/types/2009}Text</type>
+        <sourceFieldName>DESCRIPTION</sourceFieldName>
+        <sourceFieldType>VARCHAR(1000)</sourceFieldType>
+        <fieldName>description</fieldName>
+        <isRecordId>false</isRecordId>
+        <isUnique>false</isUnique>
+        <isCustomField>false</isCustomField>
+        <customFieldExpr/>
+        <customFieldDefaultValueStr>null</customFieldDefaultValueStr>
+        <fieldCalculationType>NA</fieldCalculationType>
+        <fieldTemplateType>NA</fieldTemplateType>
+        <isIndexable>false</isIndexable>
+        <subType>NA</subType>
+        <displayNameSource>STATIC</displayNameSource>
+        <descriptionSource>STATIC</descriptionSource>
+        <isHidden>false</isHidden>
+      </field>
+      <field>
+        <uuid>75e8c046-ce9c-48aa-a3ce-45bd4df1fdda</uuid>
+        <type>{http://www.appian.com/ae/types/2009}Boolean</type>
+        <sourceFieldName>IS_ACTIVE</sourceFieldName>
+        <sourceFieldType>BIT</sourceFieldType>
+        <fieldName>isActive</fieldName>
+        <isRecordId>false</isRecordId>
+        <isUnique>false</isUnique>
+        <isCustomField>false</isCustomField>
+        <customFieldExpr/>
+        <customFieldDefaultValueStr>null</customFieldDefaultValueStr>
+        <fieldCalculationType>NA</fieldCalculationType>
+        <fieldTemplateType>NA</fieldTemplateType>
+        <isIndexable>false</isIndexable>
+        <subType>NA</subType>
+        <displayNameSource>STATIC</displayNameSource>
+        <descriptionSource>STATIC</descriptionSource>
+        <isHidden>false</isHidden>
+      </field>
+      <field>
+        <uuid>f26f7396-dac4-4b47-88b4-baf9a9e638b6</uuid>
+        <type>{http://www.appian.com/ae/types/2009}Text</type>
+        <sourceFieldName>CREATED_BY</sourceFieldName>
+        <sourceFieldType>VARCHAR(255)</sourceFieldType>
+        <fieldName>createdBy</fieldName>
+        <isRecordId>false</isRecordId>
+        <isUnique>false</isUnique>
+        <isCustomField>false</isCustomField>
+        <customFieldExpr/>
+        <customFieldDefaultValueStr>null</customFieldDefaultValueStr>
+        <fieldCalculationType>NA</fieldCalculationType>
+        <fieldTemplateType>NA</fieldTemplateType>
+        <isIndexable>false</isIndexable>
+        <subType>NA</subType>
+        <displayNameSource>STATIC</displayNameSource>
+        <descriptionSource>STATIC</descriptionSource>
+        <isHidden>false</isHidden>
+      </field>
+      <field>
+        <uuid>4f13d806-5e9a-4593-8876-6221bae05029</uuid>
+        <type>{http://www.appian.com/ae/types/2009}Datetime</type>
+        <sourceFieldName>CREATED_DATETIME</sourceFieldName>
+        <sourceFieldType>TIMESTAMP</sourceFieldType>
+        <fieldName>createdDatetime</fieldName>
+        <isRecordId>false</isRecordId>
+        <isUnique>false</isUnique>
+        <isCustomField>false</isCustomField>
+        <customFieldExpr/>
+        <customFieldDefaultValueStr>null</customFieldDefaultValueStr>
+        <fieldCalculationType>NA</fieldCalculationType>
+        <fieldTemplateType>NA</fieldTemplateType>
+        <isIndexable>false</isIndexable>
+        <subType>NA</subType>
+        <displayNameSource>STATIC</displayNameSource>
+        <descriptionSource>STATIC</descriptionSource>
+        <isHidden>false</isHidden>
+      </field>
+      <field>
+        <uuid>6f66ed24-8b66-4b73-b7af-91d6be1e1f74</uuid>
+        <type>{http://www.appian.com/ae/types/2009}Text</type>
+        <sourceFieldName>MODIFIED_BY</sourceFieldName>
+        <sourceFieldType>VARCHAR(255)</sourceFieldType>
+        <fieldName>modifiedBy</fieldName>
+        <isRecordId>false</isRecordId>
+        <isUnique>false</isUnique>
+        <isCustomField>false</isCustomField>
+        <customFieldExpr/>
+        <customFieldDefaultValueStr>null</customFieldDefaultValueStr>
+        <fieldCalculationType>NA</fieldCalculationType>
+        <fieldTemplateType>NA</fieldTemplateType>
+        <isIndexable>false</isIndexable>
+        <subType>NA</subType>
+        <displayNameSource>STATIC</displayNameSource>
+        <descriptionSource>STATIC</descriptionSource>
+        <isHidden>false</isHidden>
+      </field>
+      <field>
+        <uuid>30e623c3-ea87-4785-b868-876ff4cf7a6f</uuid>
+        <type>{http://www.appian.com/ae/types/2009}Datetime</type>
+        <sourceFieldName>MODIFIED_DATETIME</sourceFieldName>
+        <sourceFieldType>TIMESTAMP</sourceFieldType>
+        <fieldName>modifiedDatetime</fieldName>
+        <isRecordId>false</isRecordId>
+        <isUnique>false</isUnique>
+        <isCustomField>false</isCustomField>
+        <customFieldExpr/>
+        <customFieldDefaultValueStr>null</customFieldDefaultValueStr>
+        <fieldCalculationType>NA</fieldCalculationType>
+        <fieldTemplateType>NA</fieldTemplateType>
+        <isIndexable>false</isIndexable>
+        <subType>NA</subType>
+        <displayNameSource>STATIC</displayNameSource>
+        <descriptionSource>STATIC</descriptionSource>
+        <isHidden>false</isHidden>
+      </field>
+      <field>
+        <uuid>b003ed2f-f168-4dd3-84c5-539cc3ab2bab</uuid>
+        <type>{http://www.appian.com/ae/types/2009}Text</type>
+        <sourceFieldName>CUSTOMER_DOMICILE</sourceFieldName>
+        <sourceFieldType>VARCHAR(255)</sourceFieldType>
+        <fieldName>customerDomicile</fieldName>
+        <isRecordId>false</isRecordId>
+        <isUnique>false</isUnique>
+        <isCustomField>false</isCustomField>
+        <customFieldExpr/>
+        <customFieldDefaultValueStr>null</customFieldDefaultValueStr>
+        <fieldCalculationType>NA</fieldCalculationType>
+        <fieldTemplateType>NA</fieldTemplateType>
+        <isIndexable>false</isIndexable>
+        <subType>NA</subType>
+        <displayNameSource>STATIC</displayNameSource>
+        <descriptionSource>STATIC</descriptionSource>
+        <isHidden>false</isHidden>
+      </field>
+      <field>
+        <uuid>7f5c8ea6-ea79-4162-a27a-40422da2fd86</uuid>
+        <type>{http://www.appian.com/ae/types/2009}Text</type>
+        <sourceFieldName>CUSTOMER_TYPE_CODE</sourceFieldName>
+        <sourceFieldType>VARCHAR(255)</sourceFieldType>
+        <fieldName>customerTypeCode</fieldName>
+        <isRecordId>false</isRecordId>
+        <isUnique>false</isUnique>
+        <isCustomField>false</isCustomField>
+        <customFieldExpr/>
+        <customFieldDefaultValueStr>null</customFieldDefaultValueStr>
+        <fieldCalculationType>NA</fieldCalculationType>
+        <fieldTemplateType>NA</fieldTemplateType>
+        <isIndexable>false</isIndexable>
+        <subType>NA</subType>
+        <displayNameSource>STATIC</displayNameSource>
+        <descriptionSource>STATIC</descriptionSource>
+        <isHidden>false</isHidden>
+      </field>
+      <uuid>a1f594d2-76ee-4425-a88c-50b9f4eef300</uuid>
+      <refreshSchedule>
+        <frequency>DAILY</frequency>
+        <value>{"hour":3,"minute":"00","amPM":"AM","timeZone":"GMT","version":"v1"}</value>
+        <activated>false</activated>
+      </refreshSchedule>
+      <skipFailureEnabled>false</skipFailureEnabled>
+    </a:sourceConfiguration>
+    <a:enabledFeatures>63</a:enabledFeatures>
+    <a:isVisibleInRecordTypeList>false</a:isVisibleInRecordTypeList>
+    <a:recordActionLaunchType>DIALOG</a:recordActionLaunchType>
+    <a:showSearchBox>true</a:showSearchBox>
+    <a:isVisibleInDataFabric>false</a:isVisibleInDataFabric>
+    <a:usesRollingSyncLimit>false</a:usesRollingSyncLimit>
+    <a:usesRecoverySync>false</a:usesRecoverySync>
+    <a:isScheduledIndexingEnabled>false</a:isScheduledIndexingEnabled>
+    <a:smartSearchAcceptableFailureRate>0.0</a:smartSearchAcceptableFailureRate>
+    <a:skipFailedSmartServicesSync>false</a:skipFailedSmartServicesSync>
+  </recordType>
+  <roleMap>
+    <role name="record_type_administrator">
+      <users/>
+      <groups>
+        <groupUuid>_e-0000e2bb-4188-8000-9aee-01075c01075c_41</groupUuid>
+      </groups>
+    </role>
+    <role name="record_type_viewer">
+      <users/>
+      <groups>
+        <groupUuid>_e-0000e35c-7b7b-8000-9aee-01075c01075c_290</groupUuid>
+      </groups>
+    </role>
+  </roleMap>
+  <history>
+    <historyInfo versionUuid="845cec97-25ab-408e-87d4-e7a2638cf80d"/>
+    <historyInfo versionUuid="4e996106-cc28-4325-9263-8678d1eb1ba3"/>
+    <historyInfo versionUuid="1d0d3515-edff-44a7-b87b-6298f971af69"/>
+    <historyInfo versionUuid="330ed444-fbb8-471f-a3f5-5ffd3f8c72e6"/>
+  </history>
+  <migrationVersion>1</migrationVersion>
+</recordTypeHaul>

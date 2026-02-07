@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e70f-2824-8000-9c01-011c48011c48_2706920</versionUuid>
+    <interface>
+        <name>AS_IO_BOX_addressDetails</name>
+        <uuid>_a-0000e5d6-d648-8000-9bde-011c48011c48_1503802</uuid>
+        <description>address details</description>
+        <parentUuid>_a-0000e2bb-4188-8000-9ba2-011c48011c48_25469</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  local!refData: #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_975294"(
+    typeList: { #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_978922" },
+    i18nData: ri!i18nData
+  ),
+  #"SYSTEM_SYSRULES_boxLayout"(
+    label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+      i18nData: ri!i18nData,
+      bundleKey: "AS.FS.AllBundles.lbl_CustomerAddresses"
+    ),
+    contents: {
+      if(
+        #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(ri!addresses),
+        #"SYSTEM_SYSRULES_richTextDisplayField"(
+          label: "Rich Text",
+          labelPosition: "COLLAPSED",
+          value: {
+            #"SYSTEM_SYSRULES_richTextItem_v1"(
+              text: {
+                #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                  i18nData: ri!i18nData,
+                  bundleKey: "AS.FS.AllBundles.lbl_NoExistingAddresses"
+                )
+              },
+              color: "STANDARD",
+              size: "SMALL"
+            )
+          }
+        ),
+        /*rule!AS_CO_UT_cardsToGridStyleLayout_handler(*/
+        /*cardLayouts: a!forEach(*/
+        /*items: ri!addresses,*/
+        /*expression: rule!AS_FS_viewAddressSingle(*/
+        /*refData: local!refData,*/
+        /*countries: local!countries,*/
+        /*states: local!states,*/
+        /*address: fv!item*/
+        /*)*/
+        /*),*/
+        /*maxPerRow: local!numberOfColumns,*/
+        /*minPerRow: local!numberOfColumns,*/
+        /*columnWidth: "NARROW_PLUS",*/
+        /*stackWhen: {*/
+        /*"PHONE",*/
+        /*"TABLET_PORTRAIT",*/
+        /*"TABLET_LANDSCAPE",*/
+        /*"DESKTOP_NARROW"*/
+        /*}*/
+        /*),*/
+        #"SYSTEM_SYSRULES_forEach"(
+          items: ri!addresses,
+          expression: #"_a-0000e5d6-d648-8000-9bde-011c48011c48_1503703"(refData: local!refData, address: fv!item)
+        )
+      )
+    }
+  )
+)</definition>
+        <namedTypedValue>
+            <name>addresses</name>
+            <type>
+                <name>AS_FS_Address?list</name>
+                <namespace>urn:com:appian:types:AS:FS</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>i18nData</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+        <isCustom>false</isCustom>
+    </interface>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name/>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                    <a:nameRef>addresses</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81834"(
+ triggerRefresh: null
+)</a:value>
+                    <a:nameRef>i18nData</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e5d6-d648-8000-9bde-011c48011c48_1513870"/>
+        <historyInfo versionUuid="_a-0000e5fd-0ed3-8000-9be6-011c48011c48_1563817"/>
+        <historyInfo versionUuid="_a-0000e62c-7375-8000-9bec-011c48011c48_1794142"/>
+        <historyInfo versionUuid="_a-0000e62c-7375-8000-9bec-011c48011c48_1848005"/>
+        <historyInfo versionUuid="_a-0000e673-a4a7-8000-9bef-011c48011c48_1965520"/>
+        <historyInfo versionUuid="_a-0000e69f-3688-8000-9bf2-011c48011c48_2152086"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2706920"/>
+    </history>
+</contentHaul>

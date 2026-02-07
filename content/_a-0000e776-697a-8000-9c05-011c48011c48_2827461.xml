@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e79b-0335-8000-9c0c-011c48011c48_3016047</versionUuid>
+    <rule>
+        <name>AS_IO_UT_sortTimelineTasks</name>
+        <uuid>_a-0000e776-697a-8000-9c05-011c48011c48_2827461</uuid>
+        <description>Recursive function that can be used to sort a list of tasks into hierarchal order. Takes in a precedentTask, level, and list of allTasks and returns a map with the task, dependents, and number of total nested dependents</description>
+        <parentUuid>_a-0000e2bb-4188-8000-9ba2-011c48011c48_25469</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>/*return a list of maps with tasks*/
+a!localVariables(
+  local!dependentTasks: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75720"(
+    cdt: a!flatten(
+      if(
+        #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(ri!precedentTask),
+        /*if there is no precedent, get all tasks with no precedent*/
+        #"SYSTEM_SYSRULES_forEach"(
+          items: ri!allTasks,
+          expression: if(
+            #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(fv!item.taskPrecedents),
+            fv!item,
+            {}
+          )
+        ),
+        #"SYSTEM_SYSRULES_forEach"(
+          items: ri!allTasks,
+          expression: if(
+            or(
+              /*this shouldn't be triggered but will prevent infinite loop scenario*/
+              #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(fv!item.taskPrecedents),
+              contains(
+                #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_76433"(
+                  cdt: ri!precedentTask,
+                  field: "taskPrecedents.taskId_precedent",
+                  indexDefault: tointeger({})
+                ),
+                #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_76433"(
+                  cdt: fv!item,
+                  field: "taskPrecedents.taskId_precedent",
+                  indexDefault: tointeger({})
+                )
+              )
+            ),
+            {},
+            /*check if each task's precedent is the precedentTask*/
+            if(
+              contains(
+                fv!item.taskPrecedents.taskId_precedent,
+                if(
+                  #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(ri!precedentTask.taskId),
+                  /*To get task dependency on process setup */
+                  wherecontains(ri!precedentTask, ri!allTasks),
+                  ri!precedentTask.taskId
+                )
+              ),
+              fv!item,
+              {}
+            )
+          )
+        )
+      )
+    ),
+    field: "dueDate",
+    ascending: true
+  ),
+  local!dependents: #"SYSTEM_SYSRULES_forEach"(
+    items: local!dependentTasks,
+    expression: #"_a-0000e776-697a-8000-9c05-011c48011c48_2827461"(
+      precedentTask: fv!item,
+      alltasks: ri!allTasks,
+      level: ri!level + 1
+    )
+  ),
+  a!map(
+    task: ri!precedentTask,
+    dependents: local!dependents,
+    numTotalDependents: sum(
+      tointeger(
+        /*for each task, add 1 plus num of total dependents*/
+        #"SYSTEM_SYSRULES_forEach"(
+          items: local!dependents,
+          expression: 1 + index(fv!item, "numTotalDependents", 0)
+        )
+      )
+    )
+  )
+)</definition>
+        <namedTypedValue>
+            <name>precedentTask</name>
+            <type>
+                <name>AS_IO_Task</name>
+                <namespace>urn:com:appian:types:AS:IO</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>allTasks</name>
+            <type>
+                <name>AS_IO_Task?list</name>
+                <namespace>urn:com:appian:types:AS:IO</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>level</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <history>
+        <historyInfo versionUuid="_a-0000e777-b9f8-8000-9c06-011c48011c48_2830160"/>
+        <historyInfo versionUuid="_a-0000e79b-0335-8000-9c0c-011c48011c48_3016047"/>
+    </history>
+</contentHaul>

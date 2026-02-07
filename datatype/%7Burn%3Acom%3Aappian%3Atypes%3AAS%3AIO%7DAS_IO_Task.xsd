@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema targetNamespace="urn:com:appian:types:AS:IO"
+  xmlns:fs1="urn:com:appian:types:AS:FS"
+  xmlns:io5="urn:com:appian:types:IO"
+  xmlns:qnm4="urn:com:appian:types:AS:QNM"
+  xmlns:rc3="urn:com:appian:types:AS:IO:RC"
+  xmlns:tns="urn:com:appian:types:AS:IO" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <xsd:import namespace="urn:com:appian:types:AS:FS" schemaLocation="%7Burn%3Acom%3Aappian%3Atypes%3AAS%3AFS%7DAS_FS_DOCUSIGN_DocSignatureContext.xsd"/>
+  <xsd:import namespace="urn:com:appian:types:AS:FS" schemaLocation="%7Burn%3Acom%3Aappian%3Atypes%3AAS%3AFS%7DAS_FS_IDP_DocUnderstanding.xsd"/>
+  <xsd:import namespace="urn:com:appian:types:IO" schemaLocation="%7Burn%3Acom%3Aappian%3Atypes%3AIO%7DAS_IO_CustomerBenchmark.xsd"/>
+  <xsd:include schemaLocation="%7Burn%3Acom%3Aappian%3Atypes%3AAS%3AIO%7DAS_IO_OnboardingRequest.xsd"/>
+  <xsd:import namespace="urn:com:appian:types:AS:IO:RC" schemaLocation="%7Burn%3Acom%3Aappian%3Atypes%3AAS%3AIO%3ARC%7DAS_IO_RC_Comment.xsd"/>
+  <xsd:include schemaLocation="%7Burn%3Acom%3Aappian%3Atypes%3AAS%3AIO%7DAS_IO_R_TaskBehaviorType.xsd"/>
+  <xsd:include schemaLocation="%7Burn%3Acom%3Aappian%3Atypes%3AAS%3AIO%7DAS_IO_R_TaskCategory.xsd"/>
+  <xsd:include schemaLocation="%7Burn%3Acom%3Aappian%3Atypes%3AAS%3AIO%7DAS_IO_R_TaskStatus.xsd"/>
+  <xsd:include schemaLocation="%7Burn%3Acom%3Aappian%3Atypes%3AAS%3AIO%7DAS_IO_RequiredOnboardingDocument.xsd"/>
+  <xsd:include schemaLocation="%7Burn%3Acom%3Aappian%3Atypes%3AAS%3AIO%7DAS_IO_Task_DocUploadContext.xsd"/>
+  <xsd:include schemaLocation="%7Burn%3Acom%3Aappian%3Atypes%3AAS%3AIO%7DAS_IO_Task_Precedent.xsd"/>
+  <xsd:include schemaLocation="%7Burn%3Acom%3Aappian%3Atypes%3AAS%3AIO%7DAS_IO_Task_Review.xsd"/>
+  <xsd:import namespace="urn:com:appian:types:AS:QNM" schemaLocation="%7Burn%3Acom%3Aappian%3Atypes%3AAS%3AQNM%7DAS_QNM_Questionnaire.xsd"/>
+  <xsd:complexType name="AS_IO_Task">
+    <xsd:annotation>
+      <xsd:appinfo source="appian.jpa">@Table(name="AS_IO_TASK")</xsd:appinfo>
+      <xsd:appinfo source="http://www.appian.com/ae/types/2009">
+        <ns2:Metadata xmlns:ns2="http://www.appian.com/ae/types/2009">
+          <ns2:versionUuid>0000e809-3d73-8000-708c-7f0000014e7a</ns2:versionUuid>
+          <ns2:history>
+            <ns2:historyInfo versionUuid="0001e3b6-2bf3-8000-f92f-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0003e3cb-081c-8000-f92f-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0001e3f0-8eac-8000-f9d4-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0002e3f8-7d9e-8000-faee-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0003e3fa-9cb1-8000-fb8a-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0000e3ff-3922-8000-fbba-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0002e400-40c4-8000-fbd7-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0000e402-7001-8000-fc20-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0003e41d-f58a-8000-fb63-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0001e42f-da57-8000-fe3d-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0004e430-b218-8000-fe4f-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0000e465-e715-8000-0611-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0000e472-1e49-8000-0745-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0001e47b-07ba-8000-082d-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0004e482-dbee-8000-08f3-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0001e48e-08d6-8000-0bb9-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0002e4a9-6b4e-8000-0f66-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0004e4d7-c76b-8000-1262-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0008e51c-1173-8000-19ab-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0000e529-6265-8000-1b12-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0001e58e-e344-8000-2716-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0009e597-253b-8000-282a-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0001e59d-879c-8000-293b-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0006e5b2-379d-8000-2a98-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0001e5cf-9f20-8000-2d7f-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0000e5eb-9e17-8000-31b1-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0000e64f-6783-8000-3eee-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0003e6aa-4cb5-8000-4722-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0002e6aa-7fc7-8000-4737-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0011e6c7-6c71-8000-48b3-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0015e72b-88a6-8000-5557-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0007e748-f14d-8000-584a-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0000e7ae-7328-8000-5ee9-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0000e7af-bd8b-8000-5f1f-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0002e7be-fb36-8000-5faf-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0002e7c8-8e23-8000-619b-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0002e7c8-e935-8000-61b1-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0000e7cb-1efc-8000-62a6-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0013e7d2-fe70-8000-6427-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0000e7e6-b320-8000-67a9-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0000e809-3d73-8000-708c-7f0000014e7a"/>
+          </ns2:history>
+        </ns2:Metadata>
+      </xsd:appinfo>
+      <xsd:documentation><![CDATA[Run-time task which represents a front-end task for users]]></xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="taskId" nillable="true" type="xsd:int">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@Id @GeneratedValue @Column(name="TASK_ID", nullable=false, unique=true)</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="request" nillable="true" type="tns:AS_IO_OnboardingRequest">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@Column(name="REQUEST_ID") @ManyToOne(cascade=CascadeType.REFRESH) @JoinColumn(name="REQUEST_ID")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="taskRefId" nillable="true" type="xsd:int">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@Column(name="TASK_REF_ID")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="taskName" nillable="true" type="xsd:string">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@Column(name="TASK_NAME", nullable=false)</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="taskDesc" nillable="true" type="xsd:string">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@Column(name="TASK_DESC", nullable=true)</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="taskBehaviorType" nillable="true" type="tns:AS_IO_R_TaskBehaviorType">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@ManyToOne(cascade=CascadeType.REFRESH) @JoinColumn(name="TASK_BEHAVIOR_TYPE_ID")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="taskCategory" nillable="true" type="tns:AS_IO_R_TaskCategory">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@ManyToOne(cascade=CascadeType.REFRESH) @JoinColumn(name="TASK_CATEGORY_ID")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="dueDate" nillable="true" type="xsd:date">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@Column(name="DUE_DATE", nullable=true)</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="slaDays" nillable="true" type="xsd:int">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@Column(name="SLA_DAYS", nullable=true)</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="slaRule" nillable="true" type="xsd:string">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@Column(name="SLA_RULE", nullable=true)</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="groupAssignee" nillable="true" type="xsd:int">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@Column(name="GROUP_ASSIGNEE")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="userAssignee" nillable="true" type="xsd:string">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@Column(name="USER_ASSIGNEE")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="taskStatus" nillable="true" type="tns:AS_IO_R_TaskStatus">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@ManyToOne(cascade=CascadeType.REFRESH) @JoinColumn(name="TASK_STATUS_ID")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="docUploadContext" nillable="true" type="tns:AS_IO_Task_DocUploadContext">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@ManyToOne(cascade=CascadeType.ALL) @JoinColumn(name="TASK_DOC_UPLOAD_ID")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="requiredDocument" nillable="true" type="tns:AS_IO_RequiredOnboardingDocument">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@ManyToOne(cascade=CascadeType.ALL) @JoinColumn(name="REQUIRED_ONBOARDING_DOCUMENT_ID")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="review" nillable="true" type="tns:AS_IO_Task_Review">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@ManyToOne(cascade=CascadeType.ALL) @JoinColumn(name="TASK_REVIEW_ID")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element maxOccurs="unbounded" minOccurs="0"
+        name="taskPrecedents" type="tns:AS_IO_Task_Precedent">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@OneToMany(cascade=CascadeType.ALL, indexed=false) @JoinColumn(name="TASK_ID")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="orderNumber" nillable="true" type="xsd:int">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@Column(name="ORDER_NUMBER")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="discussion" nillable="true" type="rc3:AS_IO_RC_Comment">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@Column(name="COMMENT_ID", nullable=true) @OneToOne(cascade=CascadeType.ALL) @JoinColumn(name="COMMENT_ID")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="availableDatetime" nillable="true" type="xsd:dateTime">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@Column(name="AVAILABLE_DATETIME")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="completedBy" nillable="true" type="xsd:string">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@Column(name="COMPLETED_BY")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="completedDatetime" nillable="true" type="xsd:dateTime">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@Column(name="COMPLETED_DATETIME")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="createdBy" nillable="true" type="xsd:string">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@Column(name="CREATED_BY", nullable=false)</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="createdDatetime" nillable="true" type="xsd:dateTime">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@Column(name="CREATED_DATETIME", nullable=false)</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="modifiedBy" nillable="true" type="xsd:string">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@Column(name="MODIFIED_BY", nullable=false)</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="modifiedDatetime" nillable="true" type="xsd:dateTime">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@Column(name="MODIFIED_DATETIME", nullable=false)</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="questionnaire" nillable="true" type="qnm4:AS_QNM_Questionnaire">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@OneToOne(cascade=CascadeType.REFRESH) @JoinColumn(name="QUESTIONNAIRE_ID")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="docUnderstanding" nillable="true" type="fs1:AS_FS_IDP_DocUnderstanding">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@OneToOne(cascade=CascadeType.ALL) @JoinColumn(name="UNDERSTANDING_ID")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="northrowCheckUuid" nillable="true" type="xsd:string">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@Column(name="NORTHROW_CHECK_UUID", nullable=true)</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="docSignatureContext" nillable="true" type="fs1:AS_FS_DOCUSIGN_DocSignatureContext">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@OneToOne(cascade=CascadeType.ALL) @JoinColumn(name="DOC_SIGNATURE_CONTEXT_ID")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="benchmark" nillable="true" type="io5:AS_IO_CustomerBenchmark">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@OneToOne(cascade=CascadeType.ALL) @JoinColumn(name="BENCHMARK")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="rpaExecutionId" nillable="true" type="xsd:string">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@Column(name="RPA_EXECUTION_ID", nullable=true)</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="retryRpaExecution" nillable="true" type="xsd:boolean">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@Column(name="RETRY_RPA_EXECUTION", nullable=true)</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="newCustomerAddressId" nillable="true" type="xsd:int">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@Column(name="NEW_CUSTOMER_ADDRESS_ID")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+</xsd:schema>

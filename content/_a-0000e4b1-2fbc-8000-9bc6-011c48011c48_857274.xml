@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e825-b425-8000-9c1c-011c48011c48_3647821</versionUuid>
+    <interface>
+        <name>AS_QNM_FM_createOrUpdateTemplateQuestion</name>
+        <uuid>_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_857274</uuid>
+        <description>Add questions to templates form </description>
+        <parentUuid>_a-0000e42d-ffef-8000-9ba6-011c48011c48_7213-qnm</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  local!i18nData: #"_a-0000e447-933d-8000-9baa-011c48011c48_43088"(triggerRefresh: null),
+  local!isCreate: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(ri!question.questionTemplateId),
+  #"SYSTEM_SYSRULES_formLayout_v1"(
+    label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+      i18nData: local!i18nData,
+      bundleKey: if(
+        local!isCreate,
+        "AS.QNM.QuestionnaireSettings.lbl_AddQuestion",
+        "AS.QNM.QuestionnaireSettings.lbl_UpdateQuestion"
+      )
+    ),
+    contents: {
+      #"_a-0000e7e5-dad4-8000-9c14-011c48011c48_3312448"(
+        "AS_QNM_FM_createOrUpdateTemplateQuestion"
+      ),
+      #"_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_881889"(
+        i18nData: local!i18nData,
+        question_template: ri!question
+      ),
+      #"_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_852090"(
+        question: ri!question,
+        questionnaireTemplate: ri!questionnaireTemplate,
+        i18nData: local!i18nData
+      )
+    },
+    buttons: #"_a-0000e3d1-f4dc-8000-9ba4-011c48011c48_134344"(
+      confirmLabel: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+        i18nData: local!i18nData,
+        bundleKey: if(
+          local!isCreate,
+          "AS.QNM.QuestionnaireSettings.btn_AddQuestion",
+          "AS.QNM.QuestionnaireSettings.btn_UpdateQuestion"
+        )
+      ),
+      cancelLabel: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+        i18nData: local!i18nData,
+        bundleKey: "AS.QNM.QuestionnaireSettings.btn_Cancel"
+      ),
+      confirmSaveInto: {
+        a!save(
+          ri!userAction,
+          #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73305"
+        )
+      },
+      cancelSaveInto: a!save(
+        ri!userAction,
+        #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73173"
+      ),
+      confirmSubmit: true,
+      cancelSubmit: true,
+      confirmDisabled: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(ri!question.questionReferenceId)
+    )
+  )
+)</definition>
+        <namedTypedValue>
+            <name>questionnaireTemplate</name>
+            <type>
+                <name>AS_QNM_T_Questionnaire</name>
+                <namespace>urn:com:appian:types:AS:QNM</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>userAction</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>question</name>
+            <type>
+                <name>AS_QNM_T_Question</name>
+                <namespace>urn:com:appian:types:AS:QNM</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+        <isCustom>false</isCustom>
+    </interface>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name/>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_870515"()</a:value>
+                    <a:nameRef>questionnaireTemplate</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:string"/>
+                    <a:nameRef>userAction</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:n1="urn:com:appian:types:AS:QNM" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="n1:AS_QNM_T_Question"/>
+                    <a:nameRef>question</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_873336"/>
+        <historyInfo versionUuid="_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_882928"/>
+        <historyInfo versionUuid="_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_891798"/>
+        <historyInfo versionUuid="_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_924687"/>
+        <historyInfo versionUuid="_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_956439"/>
+        <historyInfo versionUuid="_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_956663"/>
+        <historyInfo versionUuid="_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_957667"/>
+        <historyInfo versionUuid="_a-0000e62c-7375-8000-9bec-011c48011c48_1863715"/>
+        <historyInfo versionUuid="_a-0000e6ca-7e19-8000-9bfb-011c48011c48_2241344"/>
+        <historyInfo versionUuid="_a-0000e6ca-7e19-8000-9bfb-011c48011c48_2258945"/>
+        <historyInfo versionUuid="_a-0000e825-b425-8000-9c1c-011c48011c48_3647821"/>
+    </history>
+</contentHaul>

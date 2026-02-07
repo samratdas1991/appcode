@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<recordTypeHaul xmlns:a="http://www.appian.com/ae/types/2009" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <versionUuid>21709e43-3ff5-46e6-8295-f6f8caa49f93</versionUuid>
+  <recordType a:uuid="d1b4a5a4-aeae-4e56-b46a-fe1c2bf46222" name="AS_FS_Context_Record">
+    <a:pluralName>AS_FS_Context_Records</a:pluralName>
+    <a:description>Generic record object that accepts context</a:description>
+    <a:urlStub>yUfB3A</a:urlStub>
+    <a:source
+      a:uuid="{urn:com:appian:types:AS:FS}AS_FS_UNMAPPED_Context" xsi:type="a:Datatype"/>
+    <a:listViewTemplateExpr>#"SYSTEM_SYSRULES_recordGridField"(
+  columns: {
+    #"SYSTEM_SYSRULES_gridColumn"(
+      label: "Context",
+      sortField: #"urn:appian:record-field:v1:d1b4a5a4-aeae-4e56-b46a-fe1c2bf46222/context",
+      value: #"SYSTEM_SYSRULES_linkField"(
+        links: {
+          #"SYSTEM_SYSRULES_recordLink"(
+            label: fv!row[#"urn:appian:record-field:v1:d1b4a5a4-aeae-4e56-b46a-fe1c2bf46222/context"],
+            recordType: #"urn:appian:record-type:v1:d1b4a5a4-aeae-4e56-b46a-fe1c2bf46222",
+            identifier: fv!identifier
+          )
+        }
+      )
+    )
+  },
+  pageSize: 50,
+  shadeAlternateRows: true
+)</a:listViewTemplateExpr>
+    <a:detailViewCfg>
+      <a:nameExpr>#"SYSTEM_SYSRULES_rtd_getDefaultSummaryViewName"()</a:nameExpr>
+      <a:uiExpr/>
+      <a:visibilityExpr>=true()</a:visibilityExpr>
+      <a:urlStub>summary</a:urlStub>
+      <a:headerExpr/>
+      <a:recordActionLaunchType>DIALOG</a:recordActionLaunchType>
+      <a:recordUiSecurityType>EXPRESSION</a:recordUiSecurityType>
+    </a:detailViewCfg>
+    <a:relatedActionCfg a:uuid="61ebee65-01ae-49da-8c2f-1b990240b4d3">
+      <a:target a:uuid="0002e484-fe18-8000-fcd0-7f0000014e7a" xsi:type="a:ProcessModel"/>
+      <a:contextExpr>{
+  alertIds: rv!record[#"urn:appian:record-field:v1:d1b4a5a4-aeae-4e56-b46a-fe1c2bf46222/context"]
+}</a:contextExpr>
+      <a:visibilityExpr>and(
+  /* Note: query defaults to active alerts */
+  #"_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2387037"(
+    alertId: rv!record[#"urn:appian:record-field:v1:d1b4a5a4-aeae-4e56-b46a-fe1c2bf46222/context"],
+    /*Limit fields being returned for efficiency*/
+    fields: #"urn:appian:record-field:v1:b68a6595-9eaf-4ecc-bde6-452db35bfc42/0fc5c613-091d-4c1c-a3a0-eadd10af076d",
+    returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290175"
+  ) = length(
+    rv!record[#"urn:appian:record-field:v1:d1b4a5a4-aeae-4e56-b46a-fe1c2bf46222/context"]
+  ),
+  #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_114114"(
+    groups: #"_a-0000e79b-0335-8000-9c0c-011c48011c48_3016028",
+    user: loggedInUser()
+  )
+)</a:visibilityExpr>
+      <a:iconId>f1f7</a:iconId>
+      <a:refId>refId-61ebee65-01ae-49da-8c2f-1b990240b4d3</a:refId>
+      <a:titleExpr>#"_a-0000e447-933d-8000-9baa-011c48011c48_102767"(
+  bundleKey: "AS.ALT.Alerts.lbl_Dismiss"
+)</a:titleExpr>
+      <a:staticDescriptionString/>
+      <a:referenceKey>dismissAlerts</a:referenceKey>
+      <a:dialogSize>TALL$WIDE</a:dialogSize>
+      <a:showInRecordList>false</a:showInRecordList>
+      <a:recordUiSecurityType>EXPRESSION</a:recordUiSecurityType>
+      <a:dialogWidth>WIDE</a:dialogWidth>
+      <a:dialogHeight>TALL</a:dialogHeight>
+    </a:relatedActionCfg>
+    <a:isSystem>false</a:isSystem>
+    <a:dataSrcExpr/>
+    <a:facetsListExpr/>
+    <a:titleExpr>rv!identifier</a:titleExpr>
+    <a:defaultFiltersExpr/>
+    <a:layoutType>GRID</a:layoutType>
+    <a:security>16383</a:security>
+    <a:hideLatestNews>false</a:hideLatestNews>
+    <a:hideNewsView>false</a:hideNewsView>
+    <a:hideRelatedActionsView>false</a:hideRelatedActionsView>
+    <a:isExportable>false</a:isExportable>
+    <a:listViewSrcExpr>/*XBR_GENERATED_EXPRESSION_PREFIX - bd2419e6-babe-4938-b938-66c5b246d9ed*/#"_a-0000e70f-2824-8000-9c01-011c48011c48_2673468"(a47e73f764b5447f6805623af032e5f2b:fn!null())</a:listViewSrcExpr>
+    <a:recordViewSrcExpr>/*XBR_GENERATED_EXPRESSION_PREFIX - bd2419e6-babe-4938-b938-66c5b246d9ed*/#"_a-0000e70f-2824-8000-9c01-011c48011c48_2673468"(externalizedContext:rv!identifier)</a:recordViewSrcExpr>
+    <a:recordTypeSearchCfg>
+      <searchFieldsSrc>DEFAULT</searchFieldsSrc>
+      <placeholderSrc>DEFAULT</placeholderSrc>
+      <placeholder/>
+    </a:recordTypeSearchCfg>
+    <a:iconId/>
+    <a:listAutoRefreshInterval>0.0</a:listAutoRefreshInterval>
+    <a:enabledFeatures>63</a:enabledFeatures>
+    <a:isVisibleInRecordTypeList>false</a:isVisibleInRecordTypeList>
+    <a:recordActionLaunchType>DIALOG</a:recordActionLaunchType>
+    <a:showSearchBox>true</a:showSearchBox>
+    <a:isVisibleInDataFabric>false</a:isVisibleInDataFabric>
+    <a:usesRollingSyncLimit>false</a:usesRollingSyncLimit>
+    <a:usesRecoverySync>false</a:usesRecoverySync>
+    <a:isScheduledIndexingEnabled>false</a:isScheduledIndexingEnabled>
+    <a:smartSearchAcceptableFailureRate>0.0</a:smartSearchAcceptableFailureRate>
+    <a:skipFailedSmartServicesSync>false</a:skipFailedSmartServicesSync>
+  </recordType>
+  <roleMap>
+    <role name="record_type_administrator">
+      <users/>
+      <groups>
+        <groupUuid>_e-0000e2bb-4188-8000-9aee-01075c01075c_41</groupUuid>
+      </groups>
+    </role>
+    <role name="record_type_viewer">
+      <users/>
+      <groups>
+        <groupUuid>_e-0000e2cd-bc96-8000-9aee-01075c01075c_134</groupUuid>
+      </groups>
+    </role>
+  </roleMap>
+  <history>
+    <historyInfo versionUuid="64e16d67-719e-461a-9249-0b1218352e6b"/>
+    <historyInfo versionUuid="84191cc2-d4b6-4df2-85a3-98271becb719"/>
+    <historyInfo versionUuid="a21ded11-04a1-445d-ba0b-7615275257ac"/>
+    <historyInfo versionUuid="21709e43-3ff5-46e6-8295-f6f8caa49f93"/>
+  </history>
+  <migrationVersion>1</migrationVersion>
+</recordTypeHaul>

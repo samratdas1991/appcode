@@ -1,0 +1,396 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e70f-2824-8000-9c01-011c48011c48_2715156</versionUuid>
+    <rule>
+        <name>AS_IO_VD_importReferenceTasks</name>
+        <uuid>_a-0000e3e6-fb42-8000-9ba5-011c48011c48_235063</uuid>
+        <description>Validations to run when adding tasks</description>
+        <parentUuid>_a-0000e2bb-4188-8000-9ba2-011c48011c48_25469</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>if(
+  /*Check there is at least one task*/
+  #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(ri!tasksToAdd),
+  #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+    i18nData: ri!i18nData,
+    bundleKey: "AS.CO.AllBundles.vld_AddAtleastOneTask"
+  ),
+  #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73758"(
+    reject(
+      #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(_),
+      {
+        touniformstring(
+          /*Check required fields*/
+          a!localVariables(
+            local!requiredFields: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+              cdt: #"_a-0000e3e6-fb42-8000-9ba5-011c48011c48_249941"(i18nData: ri!i18nData),
+              field: "required",
+              value: true
+            ),
+            if(
+              any(
+                #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(_),
+                a!flatten(
+                  #"SYSTEM_SYSRULES_forEach"(
+                    items: local!requiredFields.field,
+                    expression: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_76433"(cdt: ri!tasksToAdd, field: fv!item)
+                  )
+                )
+              ),
+              #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                i18nData: ri!i18nData,
+                bundleKey: "AS.CO.AllBundles.vld_RequiredFields",
+                arguments: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_55491"(
+                  list: local!requiredFields.label,
+                  finalSeparator: lower(
+                    #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_84423"(bundleKey: "AS.CO.AllBundles.lbl_And")
+                  )
+                )
+              ),
+              ""
+            )
+          ),
+          /*Check doc upload type, if relevant*/
+          #"SYSTEM_SYSRULES_forEach"(
+            items: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+              cdt: ri!tasksToAdd,
+              field: "taskBehaviorType.behaviorSubtypeCode",
+              value: #"_a-0000e393-fbf1-8000-9ba2-011c48011c48_99647"
+            ),
+            expression: if(
+              #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(
+                index(
+                  fv!item.docUploadContext,
+                  "docTypeCode",
+                  null
+                )
+              ),
+              #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                i18nData: ri!i18nData,
+                bundleKey: "AS.CO.AllBundles.vld_EachRequiredFields",
+                arguments: {
+                  #"_a-0000e438-fdf5-8000-9ba8-011c48011c48_21856"(
+                    singleData: fv!item.taskBehaviorType,
+                    labelField: "behaviorDisplayName",
+                    i18nData: ri!i18nData
+                  ),
+                  #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+                    cdt: #"_a-0000e3e6-fb42-8000-9ba5-011c48011c48_249941"(i18nData: ri!i18nData),
+                    field: "field",
+                    value: "docUploadContext.docTypeCode"
+                  ).label
+                }
+              ),
+              {}
+            )
+          ),
+          /*Check signature doc type and unsigned document upload field, if relevant*/
+          #"SYSTEM_SYSRULES_forEach"(
+            items: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+              cdt: ri!tasksToAdd,
+              field: "taskBehaviorType.behaviorSubtypeCode",
+              value: #"_a-0000e586-af6f-8000-9bd2-011c48011c48_1347796"
+            ),
+            expression: {
+              if(
+                #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(
+                  index(
+                    fv!item.docSignatureContext,
+                    "documentTypeCode",
+                    null
+                  )
+                ),
+                #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                  i18nData: ri!i18nData,
+                  bundleKey: "AS.CO.AllBundles.vld_EachRequiredFields",
+                  arguments: {
+                    #"_a-0000e438-fdf5-8000-9ba8-011c48011c48_21856"(
+                      singleData: fv!item.taskBehaviorType,
+                      labelField: "behaviorDisplayName",
+                      i18nData: ri!i18nData
+                    ),
+                    #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+                      cdt: #"_a-0000e3e6-fb42-8000-9ba5-011c48011c48_249941"(i18nData: ri!i18nData),
+                      field: "field",
+                      value: "docSignatureContext.documentTypeCode"
+                    ).label
+                  }
+                ),
+                {}
+              ),
+              if(
+                #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(
+                  index(
+                    fv!item.docSignatureContext,
+                    "unsignedDocumentId",
+                    null
+                  )
+                ),
+                #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                  i18nData: ri!i18nData,
+                  bundleKey: "AS.CO.AllBundles.vld_EachRequiredFields",
+                  arguments: {
+                    #"_a-0000e438-fdf5-8000-9ba8-011c48011c48_21856"(
+                      singleData: fv!item.taskBehaviorType,
+                      labelField: "behaviorDisplayName",
+                      i18nData: ri!i18nData
+                    ),
+                    #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                      i18nData: ri!i18nData,
+                      bundleKey: "AS.CO.AllBundles.lbl_DocumentToBeSigned"
+                    )
+                  }
+                ),
+                {}
+              )
+            }
+          ),
+          /*Check name length*/
+          #"SYSTEM_SYSRULES_forEach"(
+            items: ri!tasksToAdd,
+            expression: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_74104"(
+              value: fv!item.taskName,
+              maxLength: 50,
+              maxLengthMessage: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                i18nData: ri!i18nData,
+                bundleKey: "AS.CO.AllBundles.vld_TaskNameLength"
+              )
+            )
+          ),
+          /*Check name duplication*/
+          if(
+            or(
+              or(
+                #"_a-0000e3c8-6861-8000-9ba2-011c48011c48_124392"(taskRefs: ri!tasksToAdd)
+              ),
+              #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75483"(
+                array: ri!tasksToAdd.taskName,
+                caseSensitive: false,
+                skipNulls: true
+              )
+            ),
+            #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+              i18nData: ri!i18nData,
+              bundleKey: "AS.CO.AllBundles.vld_DuplicateTaskName"
+            ),
+            ""
+          )
+        )
+      }
+    )
+  )
+)</definition>
+        <namedTypedValue>
+            <name>i18nData</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>tasksToAdd</name>
+            <type>
+                <name>AS_IO_R_TaskRef?list</name>
+                <namespace>urn:com:appian:types:AS:IO</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name>Blank task (missing required fields)</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81834"(triggerRefresh: {})</a:value>
+                    <a:nameRef>i18nData</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">'type!{urn:com:appian:types:AS:IO}AS_IO_R_TaskRef'()</a:value>
+                    <a:nameRef>tasksToAdd</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+            <el>
+                <a:name>Null task</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81834"(triggerRefresh: null)</a:value>
+                    <a:nameRef>i18nData</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                    <a:nameRef>tasksToAdd</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions>
+                    <a:expectedOutput>
+                        <a:type a:uuid="{http://www.appian.com/ae/types/2009}Variant"/>
+                        <a:runtimeType a:uuid="{http://www.appian.com/ae/types/2009}Variant"/>
+                        <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+  i18nData: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81834"(triggerRefresh: {}),
+  bundleKey: "AS.CO.AllBundles.vld_AddAtleastOneTask"
+)</a:value>
+                    </a:expectedOutput>
+                </a:assertions>
+            </el>
+            <el>
+                <a:name>Task with missing doc type code</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81834"(triggerRefresh: null)</a:value>
+                    <a:nameRef>i18nData</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">{'type!{urn:com:appian:types:AS:IO}AS_IO_R_TaskRef'(
+  taskName: "name",
+  taskCategory: #"_a-0000e393-fbf1-8000-9ba2-011c48011c48_100474"(returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290157"),
+  defaultGroupAssignee: 1,
+  taskBehaviorType: #"_a-0000e393-fbf1-8000-9ba2-011c48011c48_108080"(behaviorSubtypeCode: #"_a-0000e393-fbf1-8000-9ba2-011c48011c48_99647")
+)}</a:value>
+                    <a:nameRef>tasksToAdd</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions>
+                    <a:expectedOutput>
+                        <a:type a:uuid="{http://www.appian.com/ae/types/2009}Text?list"/>
+                        <a:runtimeType a:uuid="{http://www.appian.com/ae/types/2009}Text?list"/>
+                        <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">{"The following fields are required for each Attach Document task: Upload Document Type"}</a:value>
+                    </a:expectedOutput>
+                </a:assertions>
+            </el>
+            <el>
+                <a:name>Same long task name x 3</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81834"(triggerRefresh: null)</a:value>
+                    <a:nameRef>i18nData</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">repeat(
+  3,
+  'type!{urn:com:appian:types:AS:IO}AS_IO_R_TaskRef'(
+  taskName: repeat(10, "this is a very long name"),
+  taskCategory: #"_a-0000e393-fbf1-8000-9ba2-011c48011c48_100474"(returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290157"),
+  defaultGroupAssignee: 1,
+  taskBehaviorType: #"_a-0000e393-fbf1-8000-9ba2-011c48011c48_108080"(behaviorSubtypeCode: #"_a-0000e3e6-fb42-8000-9ba5-011c48011c48_170260")
+)
+)</a:value>
+                    <a:nameRef>tasksToAdd</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions>
+                    <a:expectedOutput>
+                        <a:type a:uuid="{http://www.appian.com/ae/types/2009}Text?list"/>
+                        <a:runtimeType a:uuid="{http://www.appian.com/ae/types/2009}Text?list"/>
+                        <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">{"A task name cannot be more than 50 characters", "You cannot have two tasks with the same name"}</a:value>
+                    </a:expectedOutput>
+                </a:assertions>
+            </el>
+            <el>
+                <a:name>Only existing tasks</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81834"(triggerRefresh: null)</a:value>
+                    <a:nameRef>i18nData</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">{
+  'type!{urn:com:appian:types:AS:IO}AS_IO_R_TaskRef'(
+    taskName: "Hello",
+    taskCategory: 'type!{urn:com:appian:types:AS:IO}AS_IO_R_TaskCategory'(categoryName: "Hello"),
+    defaultGroupAssignee: 123,
+    taskBehaviorType: 'type!{urn:com:appian:types:AS:IO}AS_IO_R_TaskBehaviorType'(
+      behaviorTypeCode: "abc",
+      behaviorSubtypeCode: "abc",
+      behaviorDisplayName: "Abc"
+    ),
+    docSignatureContext: 'type!{urn:com:appian:types:AS:FS}AS_FS_DOCUSIGN_DocSignatureContext'(
+      documentTypeCode: "abc"
+    )
+  ),
+  'type!{urn:com:appian:types:AS:IO}AS_IO_R_TaskRef'(
+    taskName: "Hello",
+    taskCategory: 'type!{urn:com:appian:types:AS:IO}AS_IO_R_TaskCategory'(categoryName: "Hello"),
+    defaultGroupAssignee: 123,
+    taskBehaviorType: 'type!{urn:com:appian:types:AS:IO}AS_IO_R_TaskBehaviorType'(
+      behaviorTypeCode: "abc",
+      behaviorSubtypeCode: "abc",
+      behaviorDisplayName: "Abc"
+    ),
+    docSignatureContext: 'type!{urn:com:appian:types:AS:FS}AS_FS_DOCUSIGN_DocSignatureContext'(
+      documentTypeCode: "abc"
+    )
+  )
+}</a:value>
+                    <a:nameRef>tasksToAdd</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions>
+                    <a:expectedOutput>
+                        <a:type a:uuid="{http://www.appian.com/ae/types/2009}Text?list"/>
+                        <a:runtimeType a:uuid="{http://www.appian.com/ae/types/2009}Text?list"/>
+                        <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">{"You cannot have two tasks with the same name"}</a:value>
+                    </a:expectedOutput>
+                </a:assertions>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e3e6-fb42-8000-9ba5-011c48011c48_254165"/>
+        <historyInfo versionUuid="_a-0000e3e6-fb42-8000-9ba5-011c48011c48_256769"/>
+        <historyInfo versionUuid="_a-0000e40a-de32-8000-9ba8-011c48011c48_281422"/>
+        <historyInfo versionUuid="_a-0000e430-f270-8000-9bbc-011c48011c48_369496"/>
+        <historyInfo versionUuid="_a-0000e447-91f4-8000-9bc0-011c48011c48_502196"/>
+        <historyInfo versionUuid="_a-0000e44c-6248-8000-9bc1-011c48011c48_447946"/>
+        <historyInfo versionUuid="_a-0000e447-91f4-8000-9bc0-011c48011c48_583672"/>
+        <historyInfo versionUuid="_a-0000e460-9d93-8000-9bc1-011c48011c48_621289"/>
+        <historyInfo versionUuid="_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_817632"/>
+        <historyInfo versionUuid="_a-0000e528-bc07-8000-9bcf-011c48011c48_1048080"/>
+        <historyInfo versionUuid="_a-0000e586-af6f-8000-9bd2-011c48011c48_1370834"/>
+        <historyInfo versionUuid="_a-0000e5a0-53e9-8000-9bd8-011c48011c48_1399617"/>
+        <historyInfo versionUuid="_a-0000e62c-7375-8000-9bec-011c48011c48_1844004"/>
+        <historyInfo versionUuid="_a-0000e62c-7375-8000-9bec-011c48011c48_1886027"/>
+        <historyInfo versionUuid="_a-0000e6ca-7e19-8000-9bfb-011c48011c48_2226162"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2715156"/>
+    </history>
+</contentHaul>

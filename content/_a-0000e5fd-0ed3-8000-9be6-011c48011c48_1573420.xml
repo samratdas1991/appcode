@@ -1,0 +1,830 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e70f-2824-8000-9c01-011c48011c48_2707477</versionUuid>
+    <interface>
+        <name>AS_FS_CPS_ProductsDetailsSection</name>
+        <uuid>_a-0000e5fd-0ed3-8000-9be6-011c48011c48_1573420</uuid>
+        <description>Details section for a single product view</description>
+        <parentUuid>_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_968428</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  local!visibleDetailsFields: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+    cdt: ri!fieldData,
+    field: "fieldKey",
+    value: #"_a-0000e528-bc07-8000-9bcf-011c48011c48_1035088"(isInternationalizedForAdminSetup: false).fieldKey
+  ),
+  if(
+    #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(local!visibleDetailsFields),
+    {},
+    {
+      #"_a-0000e528-bc07-8000-9bcf-011c48011c48_1037497"(
+        icon: "list-alt",
+        label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+          i18nData: ri!i18nData,
+          bundleKey: "AS.FS.AllBundles.lbl_DetailsSection"
+        ),
+        size: "SMALL"
+      ),
+      #"_a-0000e539-6d59-8000-9bd0-011c48011c48_1177073"(
+        numberOfColumns: if(ri!readOnly, 4, 2),
+        allFields: {
+          {
+            a!localVariables(
+              local!amountFieldData: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+                cdt: local!visibleDetailsFields,
+                field: "fieldKey",
+                value: #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_1021020"
+              ),
+              {
+                span: 1,
+                components: a!localVariables(
+                  local!amountReadOnly: and(
+                    ri!readOnly,
+                    not(
+                      contains(
+                        ri!editableFieldsOverride,
+                        #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_1021020"
+                      )
+                    )
+                  ),
+                  {
+                    #"_a-0000e69f-3688-8000-9bf2-011c48011c48_2111069"(
+                      label: "AS.FS.AllBundles.lbl_Amount",
+                      i18nData: ri!i18nData,
+                      isEdited: contains(
+                        ri!updatedFieldKeys,
+                        #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_1021020"
+                      ),
+                      /* Because currency and dollar have distinct labels, use the field labels when not read only */
+                      showWhen: and(
+                        #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(local!amountFieldData),
+                        local!amountReadOnly
+                      ),
+                      isRequired: local!amountFieldData.required
+                    ),
+                    #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_125906"(
+                      i18nData: ri!i18nData,
+                      dollarLabel: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                        i18nData: ri!i18nData,
+                        bundleKey: "AS.FS.AllBundles.lbl_Amount"
+                      ),
+                      currencyLabel: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                        i18nData: ri!i18nData,
+                        bundleKey: "AS.FS.AllBundles.lbl_Currency"
+                      ),
+                      labelPosition: if(
+                        local!amountReadOnly,
+                        "COLLAPSED",
+                        "ABOVE"
+                      ),
+                      showWhen: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(local!amountFieldData),
+                      required: local!amountFieldData.required,
+                      readOnly: and(
+                        ri!readOnly,
+                        not(
+                          contains(
+                            ri!editableFieldsOverride,
+                            #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_1021020"
+                          )
+                        )
+                      ),
+                      dollarValue: ri!product.value,
+                      currencyCode: ri!product.valueCurrencyCode,
+                      minValue: 0
+                    )
+                  }
+                )
+              }
+            ),
+            a!localVariables(
+              local!interestFieldData: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+                cdt: local!visibleDetailsFields,
+                field: "fieldKey",
+                value: #"_a-0000e539-6d59-8000-9bd0-011c48011c48_1159810"
+              ),
+              {
+                span: 1,
+                components: {
+                  #"_a-0000e69f-3688-8000-9bf2-011c48011c48_2111069"(
+                    label: "AS.FS.AllBundles.lbl_Interest",
+                    i18nData: ri!i18nData,
+                    isEdited: contains(
+                      ri!updatedFieldKeys,
+                      #"_a-0000e539-6d59-8000-9bd0-011c48011c48_1159810"
+                    ),
+                    showWhen: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(local!interestFieldData),
+                    isRequired: local!interestFieldData.required,
+                    
+                  ),
+                  #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_74314"(
+                    label: "Interest",
+                    labelPosition: "COLLAPSED",
+                    showWhen: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(local!interestFieldData),
+                    required: local!interestFieldData.required,
+                    readOnly: and(
+                      ri!readOnly,
+                      not(
+                        contains(
+                          ri!editableFieldsOverride,
+                          #"_a-0000e539-6d59-8000-9bd0-011c48011c48_1159810"
+                        )
+                      )
+                    ),
+                    value: ri!product.interest,
+                    saveInto: a!save(
+                      ri!product.interest,
+                      #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73998"(number: save!value, numDigits: 2)
+                    ),
+                    minSize: 0,
+                    numberOfDecimals: 2,
+                    textToAppend: "%",
+                    formattedInput: ri!product.interest
+                  )
+                }
+              }
+            ),
+            a!localVariables(
+              local!fundFieldData: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+                cdt: local!visibleDetailsFields,
+                field: "fieldKey",
+                value: #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_1021026"
+              ),
+              local!activeFunds: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+                cdt: ri!funds,
+                field: "isDeleted",
+                value: false
+              ),
+              {
+                span: 1,
+                components: {
+                  #"_a-0000e69f-3688-8000-9bf2-011c48011c48_2111069"(
+                    label: "AS.FS.AllBundles.lbl_Fund",
+                    i18nData: ri!i18nData,
+                    isEdited: contains(
+                      ri!updatedFieldKeys,
+                      #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_1021026"
+                    ),
+                    showWhen: and(
+                      #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(local!fundFieldData),
+                      /*since funds are not integrated into FS yet, don't show the funds dropdown*/
+                      #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(ri!funds)
+                    ),
+                    isRequired: local!fundFieldData.required
+                  ),
+                  #"_a-0000e528-bc07-8000-9bcf-011c48011c48_1027802"(
+                    label: "Fund",
+                    labelPosition: "COLLAPSED",
+                    showWhen: and(
+                      #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(local!fundFieldData),
+                      /*since funds are not integrated into FS yet, don't show the funds dropdown*/
+                      #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(ri!funds)
+                    ),
+                    required: local!fundFieldData.required,
+                    readOnly: and(
+                      ri!readOnly,
+                      not(
+                        contains(
+                          ri!editableFieldsOverride,
+                          #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_1021026"
+                        )
+                      )
+                    ),
+                    placeholderlabel: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                      i18nData: ri!i18nData,
+                      bundleKey: "AS.FS.AllBundles.lbl_Fund"
+                    ),
+                    choiceLabels: local!activeFunds.name,
+                    choiceValues: local!activeFunds.fundId,
+                    value: ri!product.fundId,
+                    saveInto: ri!product.fundId
+                  )
+                }
+              }
+            ),
+            a!localVariables(
+              local!entityFieldData: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+                cdt: local!visibleDetailsFields,
+                field: "fieldKey",
+                value: #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_1021032"
+              ),
+              local!entities: #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_976967"(
+                refData: ri!refData,
+                currentValue: ri!product.entity,
+                type: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_40647"
+              ),
+              {
+                span: 1,
+                components: {
+                  #"_a-0000e69f-3688-8000-9bf2-011c48011c48_2111069"(
+                    label: "AS.FS.AllBundles.lbl_Entity",
+                    i18nData: ri!i18nData,
+                    isEdited: contains(
+                      ri!updatedFieldKeys,
+                      #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_1021032"
+                    ),
+                    showWhen: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(local!entityFieldData),
+                    isRequired: local!entityFieldData.required,
+                    
+                  ),
+                  #"_a-0000e528-bc07-8000-9bcf-011c48011c48_1027802"(
+                    label: "Entity",
+                    labelPosition: "COLLAPSED",
+                    showWhen: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(local!entityFieldData),
+                    required: local!entityFieldData.required,
+                    readOnly: and(
+                      ri!readOnly,
+                      not(
+                        contains(
+                          ri!editableFieldsOverride,
+                          #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_1021032"
+                        )
+                      )
+                    ),
+                    placeholderlabel: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                      i18nData: ri!i18nData,
+                      bundleKey: "AS.FS.AllBundles.lbl_Entity"
+                    ),
+                    choiceLabels: local!entities.label,
+                    choiceValues: local!entities.code,
+                    value: ri!product.entity,
+                    saveInto: ri!product.entity
+                  )
+                }
+              }
+            ),
+            a!localVariables(
+              local!strategyFieldData: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+                cdt: local!visibleDetailsFields,
+                field: "fieldKey",
+                value: #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_1021038"
+              ),
+              {
+                span: 1,
+                components: {
+                  #"_a-0000e69f-3688-8000-9bf2-011c48011c48_2111069"(
+                    label: "AS.FS.AllBundles.lbl_Strategy",
+                    i18nData: ri!i18nData,
+                    isEdited: contains(
+                      ri!updatedFieldKeys,
+                      #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_1021038"
+                    ),
+                    isRequired: local!strategyFieldData.required,
+                    showWhen: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(local!strategyFieldData),
+                    
+                  ),
+                  #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73562"(
+                    label: "Strategy",
+                    labelPosition: "COLLAPSED",
+                    showWhen: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(local!strategyFieldData),
+                    required: local!strategyFieldData.required,
+                    value: ri!product.strategy,
+                    readOnly: and(
+                      ri!readOnly,
+                      not(
+                        contains(
+                          ri!editableFieldsOverride,
+                          #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_1021038"
+                        )
+                      )
+                    ),
+                    maxLength: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73500",
+                    saveInto: ri!product.strategy
+                  )
+                }
+              }
+            ),
+            a!localVariables(
+              local!durationFieldData: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+                cdt: local!visibleDetailsFields,
+                field: "fieldKey",
+                value: #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_1021044"
+              ),
+              {
+                span: 1,
+                components: {
+                  #"_a-0000e69f-3688-8000-9bf2-011c48011c48_2111069"(
+                    label: "AS.FS.AllBundles.lbl_DurationMonths",
+                    i18nData: ri!i18nData,
+                    isEdited: contains(
+                      ri!updatedFieldKeys,
+                      #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_1021044"
+                    ),
+                    showWhen: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(local!durationFieldData),
+                    isRequired: local!durationFieldData.required,
+                    
+                  ),
+                  #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_74362"(
+                    label: "Duration (months)",
+                    labelPosition: "COLLAPSED",
+                    showWhen: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(local!durationFieldData),
+                    required: local!durationFieldData.required,
+                    value: ri!product.duration,
+                    saveInto: ri!product.duration,
+                    readOnly: and(
+                      ri!readOnly,
+                      not(
+                        contains(
+                          ri!editableFieldsOverride,
+                          #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_1021044"
+                        )
+                      )
+                    ),
+                    minSize: 0,
+                    maxSize: #"_a-0000e539-6d59-8000-9bd0-011c48011c48_1137712"
+                  )
+                }
+              }
+            ),
+            a!localVariables(
+              local!upfrontFeeFieldData: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+                cdt: local!visibleDetailsFields,
+                field: "fieldKey",
+                value: #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_1021077"
+              ),
+              {
+                span: 1,
+                components: {
+                  #"_a-0000e69f-3688-8000-9bf2-011c48011c48_2111069"(
+                    label: "AS.FS.AllBundles.lbl_UpfrontFee",
+                    i18nData: ri!i18nData,
+                    isEdited: contains(
+                      ri!updatedFieldKeys,
+                      #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_1021077"
+                    ),
+                    showWhen: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(local!upfrontFeeFieldData),
+                    isRequired: local!upfrontFeeFieldData.required,
+                    
+                  ),
+                  #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_74314"(
+                    label: "Upfront Fee",
+                    labelPosition: "COLLAPSED",
+                    showWhen: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(local!upfrontFeeFieldData),
+                    required: local!upfrontFeeFieldData.required,
+                    value: ri!product.upfrontFee,
+                    saveInto: a!save(
+                      ri!product.upfrontFee,
+                      #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73998"(number: save!value, numDigits: 2)
+                    ),
+                    readOnly: and(
+                      ri!readOnly,
+                      not(
+                        contains(
+                          ri!editableFieldsOverride,
+                          #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_1021077"
+                        )
+                      )
+                    ),
+                    minSize: 0,
+                    textToAppend: "%",
+                    formattedInput: ri!product.upfrontFee
+                  )
+                }
+              }
+            ),
+            a!localVariables(
+              local!restrictedCountriesFieldData: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+                cdt: local!visibleDetailsFields,
+                field: "fieldKey",
+                value: #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_1021083"
+              ),
+              local!permissibleCountriesFieldData: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+                cdt: local!visibleDetailsFields,
+                field: "fieldKey",
+                value: #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_1021089"
+              ),
+              local!restrictedCountries: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+                cdt: ri!product.countries,
+                field: "isTradingAllowed",
+                value: false
+              ),
+              local!permissibleCountries: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+                cdt: ri!product.countries,
+                field: "isTradingAllowed",
+                value: true
+              ),
+              local!selectedRestrictedCountryCodes: index(
+                local!restrictedCountries,
+                "countryCode",
+                {}
+              ),
+              local!selectedPermissibleCountryCodes: index(
+                local!permissibleCountries,
+                "countryCode",
+                {}
+              ),
+              {
+              {
+                span: 1,
+                components: {
+                  #"_a-0000e69f-3688-8000-9bf2-011c48011c48_2111069"(
+                    label: "AS.FS.AllBundles.lbl_RestrictedCountries",
+                    i18nData: ri!i18nData,
+                    isEdited: contains(
+                      ri!updatedFieldKeys,
+                      #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_1021083"
+                    ),
+                    showWhen: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(local!restrictedCountriesFieldData),
+                    isRequired: local!restrictedCountriesFieldData.required
+                  ),
+                  #"_a-0000e69f-3688-8000-9bf2-011c48011c48_2119960"(
+                    alternateLabel: "Restricted Countries",
+                    labelPosition: "COLLAPSED",
+                    readOnly: and(
+                      ri!readOnly,
+                      not(
+                        contains(
+                          ri!editableFieldsOverride,
+                          #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_1021083"
+                        )
+                      )
+                    ),
+                    countries: ri!countries,
+                    selectedCountryCodes: local!selectedRestrictedCountryCodes,
+                    additionalSaveInto: {
+                      a!save(
+                        local!selectedRestrictedCountryCodes,
+                        union(save!value, save!value)
+                      ),
+                      a!save(
+                        local!restrictedCountries,
+                        #"SYSTEM_SYSRULES_forEach"(
+                          items: local!selectedRestrictedCountryCodes,
+                          expression: a!map(
+                            countryCode: fv!item,
+                            isTradingAllowed: false,
+                            isDeleted: false
+                          )
+                        )
+                      ),
+                      a!save(
+                        ri!product.countries,
+                        append(
+                          local!permissibleCountries,
+                          local!restrictedCountries,
+                          
+                        )
+                      )
+                    },
+                    validations: #"_a-0000e5fb-e360-8000-9be3-011c48011c48_1557034"(
+                      restrictedCountries: local!restrictedCountries,
+                      permissibleCountries: local!permissibleCountries,
+                      i18nData: ri!i18nData
+                    ),
+                    i18nData: ri!i18nData,
+                    showWhen: true,
+                    /*showWhen: rule!AS_CO_UT_isNotBlank(local!restrictedCountriesFieldData),*/
+                    required: local!restrictedCountriesFieldData.required
+                  )
+                }
+              },
+              {
+                span: 1,
+                components: {
+                  #"_a-0000e69f-3688-8000-9bf2-011c48011c48_2111069"(
+                    label: "AS.FS.AllBundles.lbl_PermissibleCountries",
+                    i18nData: ri!i18nData,
+                    isEdited: contains(
+                      ri!updatedFieldKeys,
+                      #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_1021089"
+                    ),
+                    isRequired: local!permissibleCountriesFieldData.required,
+                    showWhen: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(local!permissibleCountriesFieldData),
+
+                  ),
+                  #"_a-0000e69f-3688-8000-9bf2-011c48011c48_2119960"(
+                    alternateLabel: "Permissible Countries",
+                    labelPosition: "COLLAPSED",
+                    countries: ri!countries,
+                    showWhen: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(local!permissibleCountriesFieldData),
+                    required: local!permissibleCountriesFieldData.required,
+                    i18nData: ri!i18nData,
+                    readOnly: and(
+                      ri!readOnly,
+                      not(
+                        contains(
+                          ri!editableFieldsOverride,
+                          #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_1021089"
+                        )
+                      )
+                    ),
+                    selectedCountryCodes: local!selectedPermissibleCountryCodes,
+                    validations: #"_a-0000e5fb-e360-8000-9be3-011c48011c48_1557034"(
+                      restrictedCountries: local!restrictedCountries,
+                      permissibleCountries: local!permissibleCountries,
+                      i18nData: ri!i18nData
+                    ),
+                    additionalSaveInto: {
+                      a!save(
+                        local!selectedPermissibleCountryCodes,
+                        union(save!value, save!value)
+                      ),
+                      a!save(
+                        local!permissibleCountries,
+                        #"SYSTEM_SYSRULES_forEach"(
+                          items: local!selectedPermissibleCountryCodes,
+                          expression: a!map(
+                            countryCode: fv!item,
+                            isTradingAllowed: true,
+                            isDeleted: false
+                          )
+                        )
+                      ),
+                      a!save(
+                        ri!product.countries,
+                        append(
+                          local!restrictedCountries,
+                          local!permissibleCountries
+                        )
+                      )
+                    }
+                  )
+                }
+              }
+              }
+            ),
+            a!localVariables(
+              local!commitmentFeeRateFieldData: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+                cdt: local!visibleDetailsFields,
+                field: "fieldKey",
+                value: #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_1021131"
+              ),
+              {
+                span: 1,
+                components: {
+                  #"_a-0000e69f-3688-8000-9bf2-011c48011c48_2111069"(
+                    label: "AS.FS.AllBundles.lbl_CommitmentFeeRate",
+                    i18nData: ri!i18nData,
+                    isEdited: contains(
+                      ri!updatedFieldKeys,
+                      #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_1021131"
+                    ),
+                    isRequired: local!commitmentFeeRateFieldData.required,
+                    showWhen: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(local!commitmentFeeRateFieldData)
+                  ),
+                  #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_74314"(
+                    label: "Commitment Fee Rate",
+                    labelPosition: "COLLAPSED",
+                    showWhen: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(local!commitmentFeeRateFieldData),
+                    required: local!commitmentFeeRateFieldData.required,
+                    readOnly: and(
+                      ri!readOnly,
+                      not(
+                        contains(
+                          ri!editableFieldsOverride,
+                          #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_1021131"
+                        )
+                      )
+                    ),
+                    value: ri!product.commitmentFee,
+                    saveInto: a!save(
+                      ri!product.commitmentFee,
+                      #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73998"(number: save!value, numDigits: 2)
+                    ),
+                    minSize: 0,
+                    numberOfDecimals: 2,
+                    textToAppend: "%",
+                    formattedInput: ri!product.commitmentFee
+                  )
+                }
+              }
+            ),
+            a!localVariables(
+              local!descriptionFieldData: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+                cdt: local!visibleDetailsFields,
+                field: "fieldKey",
+                value: #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_1021541"
+              ),
+              {
+                span: 2,
+                components: {
+                  #"_a-0000e69f-3688-8000-9bf2-011c48011c48_2111069"(
+                    label: "AS.FS.AllBundles.lbl_Description",
+                    i18nData: ri!i18nData,
+                    isEdited: contains(
+                      ri!updatedFieldKeys,
+                      #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_1021541"
+                    ),
+                    isRequired: local!descriptionFieldData.required,
+                    showWhen: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(local!descriptionFieldData)
+                  ),
+                  #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_74400"(
+                    label: "Description",
+                    labelPosition: "COLLAPSED",
+                    showWhen: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(local!descriptionFieldData),
+                    required: local!descriptionFieldData.required,
+                    readOnly: and(
+                      ri!readOnly,
+                      not(
+                        contains(
+                          ri!editableFieldsOverride,
+                          #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_1021541"
+                        )
+                      )
+                    ),
+                    value: ri!product.description,
+                    maxLength: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_27447",
+                    saveInto: ri!product.description,
+                    height: "SHORT",
+                    placeholder: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                      i18nData: ri!i18nData,
+                      bundleKey: "AS.FS.AllBundles.plc_EnterProductDescription"
+                    )
+                  )
+                }
+              }
+            )
+          }
+        }
+      )
+    }
+  )
+)</definition>
+        <namedTypedValue>
+            <name>fieldData</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>i18nData</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>product</name>
+            <type>
+                <name>Map</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>refData</name>
+            <type>
+                <name>AS_FS_R_Data?list</name>
+                <namespace>urn:com:appian:types:AS:FS</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>funds</name>
+            <type>
+                <name>AS_FS_Fund?list</name>
+                <namespace>urn:com:appian:types:AS:FS</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>readOnly</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>editableFieldsOverride</name>
+            <type>
+                <name>Text?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>updatedFieldKeys</name>
+            <type>
+                <name>Text?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>countries</name>
+            <type>
+                <name>AS_FS_R_Country?list</name>
+                <namespace>urn:com:appian:types:AS:FS</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+        <isCustom>false</isCustom>
+    </interface>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name/>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"SYSTEM_SYSRULES_fromJson_v1"(#"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_1021459"(
+  productTypeCode: #"_a-0000e5d6-d648-8000-9bde-011c48011c48_1532334"(
+    returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290157"
+  ).productTypeCode,
+  returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290157"
+).fieldData)</a:value>
+                    <a:nameRef>fieldData</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_975720"(triggerRefresh: null)</a:value>
+                    <a:nameRef>i18nData</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e5d6-d648-8000-9bde-011c48011c48_1532334"(
+  returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290157"
+)</a:value>
+                    <a:nameRef>product</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_975294"(
+  typeList: {}
+)</a:value>
+                    <a:nameRef>refData</a:nameRef>
+                    <a:id>4</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                    <a:nameRef>funds</a:nameRef>
+                    <a:id>5</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:boolean">true</a:value>
+                    <a:nameRef>readOnly</a:nameRef>
+                    <a:id>6</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                    <a:nameRef>editableFieldsOverride</a:nameRef>
+                    <a:id>7</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                    <a:nameRef>updatedFieldKeys</a:nameRef>
+                    <a:id>8</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_976936"(
+  returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290163"
+)</a:value>
+                    <a:nameRef>countries</a:nameRef>
+                    <a:id>9</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e5fd-0ed3-8000-9be6-011c48011c48_1573465"/>
+        <historyInfo versionUuid="_a-0000e5fd-0ed3-8000-9be6-011c48011c48_1582593"/>
+        <historyInfo versionUuid="_a-0000e607-97fd-8000-9be9-011c48011c48_1675419"/>
+        <historyInfo versionUuid="_a-0000e62c-7375-8000-9bec-011c48011c48_1728089"/>
+        <historyInfo versionUuid="_a-0000e62c-7375-8000-9bec-011c48011c48_1848832"/>
+        <historyInfo versionUuid="_a-0000e673-a4a7-8000-9bef-011c48011c48_1963547"/>
+        <historyInfo versionUuid="_a-0000e673-a4a7-8000-9bef-011c48011c48_2014013"/>
+        <historyInfo versionUuid="_a-0000e69f-3688-8000-9bf2-011c48011c48_2104486"/>
+        <historyInfo versionUuid="_a-0000e69f-3688-8000-9bf2-011c48011c48_2124352"/>
+        <historyInfo versionUuid="_a-0000e69f-3688-8000-9bf2-011c48011c48_2128268"/>
+        <historyInfo versionUuid="_a-0000e69f-3688-8000-9bf2-011c48011c48_2138687"/>
+        <historyInfo versionUuid="_a-0000e69f-3688-8000-9bf2-011c48011c48_2167717"/>
+        <historyInfo versionUuid="_a-0000e69f-3688-8000-9bf2-011c48011c48_2173766"/>
+        <historyInfo versionUuid="_a-0000e6ca-7e19-8000-9bfb-011c48011c48_2225267"/>
+        <historyInfo versionUuid="_a-0000e6ca-7e19-8000-9bfb-011c48011c48_2249422"/>
+        <historyInfo versionUuid="_a-0000e6ca-7e19-8000-9bfb-011c48011c48_2253913"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2707477"/>
+    </history>
+</contentHaul>

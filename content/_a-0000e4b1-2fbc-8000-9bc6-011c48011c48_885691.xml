@@ -1,0 +1,338 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e6ca-7e19-8000-9bfb-011c48011c48_2259047</versionUuid>
+    <interface>
+        <name>AS_QNM_FM_importReferenceQuestionsFileUpload</name>
+        <uuid>_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_885691</uuid>
+        <description>UI for updating templates - Interface to upload an import file</description>
+        <parentUuid>_a-0000e42d-ffef-8000-9ba6-011c48011c48_7213-qnm</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  local!questionFields: #"_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_885430"(),
+  local!questionImportData: #"_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_885303"(
+    excelDocument: ri!questionImportDocument,
+    numberOfColumns: count(
+      local!questionFields
+    )
+  ),
+  /*Return an array of headers from Excel with their matching task field*/
+  local!excelColumns: #"SYSTEM_SYSRULES_forEach"(
+    items: local!questionImportData.headers,
+    expression: {
+      excelHeader: fv!item,
+      questionField: index(
+        #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+          cdt: local!questionFields,
+          field: "label",
+          value: fv!item
+        ),
+        1,
+        null
+      )
+    }
+  ),
+  /*The document isn't blank and the parsing returned a valid value*/
+  local!fileSuccessfullyUploaded: and(
+    #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(
+      ri!questionImportDocument
+    ),
+    #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(
+      local!questionImportData.data
+    )
+  ),
+  local!importedRefQuestions: #"_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_885636"(
+    questionImportData: local!questionImportData,
+    excelColumns: local!excelColumns
+  ),
+  local!refQuestionsToAdd: #"SYSTEM_SYSRULES_forEach"(
+    items: local!importedRefQuestions,
+    expression: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73980"(
+      nullableValue: #"_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_907642"(
+        question: fv!item,
+        returnDuplicate: true
+      ),
+      replacementValue: fv!item
+    )
+  ),
+  local!existingQuestionRefsCount: length(
+    local!refQuestionsToAdd.questionReferenceId
+  ),
+  local!showWarningMesage: local!existingQuestionRefsCount &gt; 0,
+  local!invalidFile: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(
+    difference(
+      a!flatten(
+        local!questionImportData.headers
+      ),
+      touniformstring(
+        local!questionFields.label
+      )
+    )
+  ),
+  #"_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_933789"(
+    formLabel: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+      i18nData: ri!i18nData,
+      bundleKey: "AS.QNM.QuestionnaireSettings.lbl_ImportQuestions"
+    ),
+    primaryName: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+      i18nData: ri!i18nData,
+      bundleKey: "AS.QNM.Question.lbl_UploadAnExcelFile"
+    ),
+    /* Let's make this a rich text bulletted list or something?  And it should pull from REF_questionTypes. */
+    instructions: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+      i18nData: ri!i18nData,
+      bundleKey: "AS.QNM.Question.ins_QuestionImportExcelHeaders",
+      arguments: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_55491"(
+        list: #"SYSTEM_SYSRULES_forEach"(
+          items: local!questionFields.label,
+          expression: #"_a-0000e329-3415-8000-9ba2-011c48011c48_386641"(
+            text: fv!item
+          )
+        ),
+        finalSeparator: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+          i18nData: ri!i18nData,
+          bundleKey: "AS.QNM.Question.txt_And"
+        )
+      )
+    ),
+    formContents: {
+      #"SYSTEM_SYSRULES_columnsLayout"(
+        columns: {
+          #"SYSTEM_SYSRULES_columnLayout"(
+            contents: {
+              /*File upload field*/
+              #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_74302"(
+                label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                  i18nData: ri!i18nData,
+                  bundleKey: "AS.QNM.Question.lbl_ExcelFile"
+                ),
+                target: #"_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_885818",
+                maxSelections: 1,
+                value: ri!questionImportDocument,
+                saveInto: {
+                  ri!questionImportDocument
+                }
+              ),
+              /*Sample Import File*/
+              #"SYSTEM_SYSRULES_richTextDisplayField"(
+                labelPosition: "COLLAPSED",
+                value: {
+                  #"SYSTEM_SYSRULES_richTextItem_v1"(
+                    text: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                      i18nData: ri!i18nData,
+                      bundleKey: "AS.QNM.Question.ins_SampleFile"
+                    ),
+                    link: #"_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_850779"(
+                      document: #"_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_885849"
+                    ),
+                    linkStyle: "STANDALONE"
+                  )
+                },
+                showWhen: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75636"(
+                  local!fileSuccessfullyUploaded
+                )
+              )
+            }
+          ),
+          #"SYSTEM_SYSRULES_columnLayout"()
+        }
+      ),
+      #"SYSTEM_SYSRULES_sectionLayout_v1"(
+        contents: {
+          #"_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_907744"(
+            i18nData: ri!i18nData,
+            excelColumns: local!excelColumns,
+            questionImportData: local!questionImportData,
+            showWhen: local!fileSuccessfullyUploaded
+          ),
+          #"_a-0000e3e6-fb42-8000-9ba5-011c48011c48_247447"(
+            showWhen: local!showWarningMesage,
+            label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+              i18nData: ri!i18nData,
+              bundleKey: "AS.QNM.Question.ins_SkippedQuestionsThatAreAlreadyInTheSystem",
+              arguments: local!existingQuestionRefsCount
+            ),
+            secondaryLabel: "",
+            acknowledgementSaveInto: {
+              a!save(
+                local!showWarningMesage,
+                false
+              )
+            }
+          )
+        },
+        showWhen: if(
+          local!invalidFile,
+          false,
+          #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(
+            ri!questionImportDocument
+          )
+        ),
+        validations: #"SYSTEM_SYSRULES_validationMessage"(
+          message: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+            i18nData: ri!i18nData,
+            bundleKey: "AS.QNM.Question.vld_ErrorParsing"
+          ),
+          validateAfter: "REFRESH",
+          showWhen: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75636"(
+            local!fileSuccessfullyUploaded
+          )
+        )
+      ),
+      #"_a-0000e3e6-fb42-8000-9ba5-011c48011c48_212429"(
+        showWhen: local!invalidFile,
+        label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+          i18nData: ri!i18nData,
+          bundleKey: "AS.QNM.Question.ins_InvalidFileUploaded"
+        )
+      )
+    },
+    confirmLabel: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+      i18nData: ri!i18nData,
+      bundleKey: "AS.QNM.Question.btn_BeginImport"
+    ),
+    cancelLabel: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+      i18nData: ri!i18nData,
+      bundleKey: "AS.QNM.Question.btn_Cancel"
+    ),
+    confirmSaveInto: {
+      a!save(
+        ri!importStep,
+        ri!importStep + 1
+      ),
+      a!save(
+        ri!allImportedQuestions,
+        local!refQuestionsToAdd
+      )
+    },
+    confirmDisabled: or(
+      local!invalidFile,
+      #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75636"(
+        local!fileSuccessfullyUploaded
+      )
+    ),
+    cancelSaveInto: ri!userAction
+  )
+)</definition>
+        <namedTypedValue>
+            <name>i18nData</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>allImportedQuestions</name>
+            <type>
+                <name>AS_QNM_R_Question?list</name>
+                <namespace>urn:com:appian:types:AS:QNM</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>questionImportDocument</name>
+            <type>
+                <name>CollaborationDocument</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>importStep</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>userAction</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+        <isCustom>false</isCustom>
+    </interface>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name/>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e447-933d-8000-9baa-011c48011c48_43088"(triggerRefresh: null)</a:value>
+                    <a:nameRef>i18nData</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e447-933d-8000-9baa-011c48011c48_39392"(
+  returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290163"
+)</a:value>
+                    <a:nameRef>allImportedQuestions</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="a:CollaborationDocument"/>
+                    <a:nameRef>questionImportDocument</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">1</a:value>
+                    <a:nameRef>importStep</a:nameRef>
+                    <a:id>4</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:string"/>
+                    <a:nameRef>userAction</a:nameRef>
+                    <a:id>5</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_908139"/>
+        <historyInfo versionUuid="_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_952751"/>
+        <historyInfo versionUuid="_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_959554"/>
+        <historyInfo versionUuid="_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_961034"/>
+        <historyInfo versionUuid="_a-0000e62c-7375-8000-9bec-011c48011c48_1862844"/>
+        <historyInfo versionUuid="_a-0000e6ca-7e19-8000-9bfb-011c48011c48_2241549"/>
+        <historyInfo versionUuid="_a-0000e6ca-7e19-8000-9bfb-011c48011c48_2259047"/>
+    </history>
+</contentHaul>

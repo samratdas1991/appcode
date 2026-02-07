@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e825-b425-8000-9c1c-011c48011c48_3633829</versionUuid>
+    <interface>
+        <name>AS_FS_FM_createOrUpdateBeneficialOwner</name>
+        <uuid>_a-0000e50d-bf1d-8000-9bcd-011c48011c48_987625</uuid>
+        <description>Form used to edit a beneficial owner</description>
+        <parentUuid>_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_968428</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  local!i18nData: #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_975720"(triggerRefresh: null),
+  local!refData: #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_975294"(
+    typeList: #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_988422",
+    i18nData: local!i18nData
+  ),
+  local!isCreate: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(ri!beneficialOwner.beneficialOwnerId),
+  local!getAllBeneficialOwnersForCustomer: #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_985751"(
+    returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290163",
+    customerId: ri!beneficialOwner.customerId
+  ),
+  #"SYSTEM_SYSRULES_formLayout_v1"(
+    label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+      i18nData: local!i18nData,
+      bundleKey: if(
+        local!isCreate,
+        "AS.FS.AllBundles.lbl_AddBeneficialOwner",
+        "AS.FS.AllBundles.lbl_UpdateBeneficialOwner"
+      )
+    ),
+    contents: {
+      #"_a-0000e7e5-dad4-8000-9c14-011c48011c48_3312448"(
+        "AS_FS_FM_createOrUpdateBeneficialOwner"
+      ),
+      #"SYSTEM_SYSRULES_columnsLayout"(
+        columns: {
+          #"SYSTEM_SYSRULES_columnLayout"(
+            contents: {
+              #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73562"(
+                label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                  i18nData: local!i18nData,
+                  bundleKey: "AS.FS.AllBundles.lbl_Name"
+                ),
+                labelPosition: "ABOVE",
+                value: ri!beneficialOwner.name,
+                saveInto: ri!beneficialOwner.name,
+                maxLength: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73500",
+                required: true
+              ),
+              #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_74314"(
+                label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                  i18nData: local!i18nData,
+                  bundleKey: "AS.FS.AllBundles.lbl_PercentageOwnership"
+                ),
+                labelPosition: "ABOVE",
+                value: if(
+                  #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(
+                    ri!beneficialOwner.beneficialOwnershipPercent
+                  ),
+                  ri!beneficialOwner.beneficialOwnershipPercent,
+                  text(
+                    ri!beneficialOwner.beneficialOwnershipPercent,
+                    "##.##"
+                  )
+                ),
+                saveInto: ri!beneficialOwner.beneficialOwnershipPercent,
+                validations: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73956"(
+                  value: ri!beneficialOwner.beneficialOwnershipPercent,
+                  minSize: 1,
+                  minSizeMessage: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                    i18nData: local!i18nData,
+                    bundleKey: "AS.FS.AllBundles.vld_OwnershipGreaterThanZero"
+                  ),
+                  maxSize: 100
+                ),
+                required: true
+              )
+            }
+          ),
+          #"SYSTEM_SYSRULES_columnLayout"(
+            contents: {
+              a!localVariables(
+                local!beneficialOwnershipTypes: #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_976967"(
+                  refData: local!refData,
+                  currentValue: ri!beneficialOwner.beneficialOwnershipTypeCode,
+                  type: #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_988422"
+                ),
+                #"_a-0000e528-bc07-8000-9bcf-011c48011c48_1027802"(
+                  label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                    i18nData: local!i18nData,
+                    bundleKey: "AS.FS.AllBundles.lbl_OwnerType"
+                  ),
+                  labelPosition: "ABOVE",
+                  placeholderLabel: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                    i18nData: local!i18nData,
+                    bundleKey: "AS.FS.AllBundles.lbl_Type"
+                  ),
+                  choiceLabels: local!beneficialOwnershipTypes.label,
+                  choiceValues: local!beneficialOwnershipTypes.code,
+                  value: ri!beneficialOwner.beneficialOwnershipTypeCode,
+                  saveInto: ri!beneficialOwner.beneficialOwnershipTypeCode,
+                  required: true
+                )
+              ),
+              #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73562"(
+                label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                  i18nData: local!i18nData,
+                  bundleKey: "AS.FS.AllBundles.lbl_GovernmentIssuedId"
+                ),
+                labelPosition: "ABOVE",
+                value: ri!beneficialOwner.ein,
+                saveInto: ri!beneficialOwner.ein,
+                maxLength: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73500",
+                validations: #"_a-0000e62c-7375-8000-9bec-011c48011c48_1837190"(
+                  i18nData: local!i18nData,
+                  value: ri!beneficialOwner.ein
+                ),
+                required: false/*Since DNB UBO Integration dosn't return Govt Issued Id*/
+                
+              )
+            }
+          ),
+          #"SYSTEM_SYSRULES_columnLayout"(contents: {})
+        }
+      ),
+      #"_a-0000e3e6-fb42-8000-9ba5-011c48011c48_247447"(
+        showWhen: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_52795"(
+          if(
+            #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(ri!beneficialOwner),
+            {},
+            {
+              #"_a-0000e40a-de32-8000-9ba8-011c48011c48_271202"(
+                cdt: local!getAllBeneficialOwnersForCustomer,
+                field: "beneficialOwnerId",
+                value: ri!beneficialOwner.beneficialOwnerId
+              ).beneficialOwnershipPercent,
+              ri!beneficialOwner.beneficialOwnershipPercent
+            }
+          )
+        ) &gt; 100,
+        label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+          i18nData: local!i18nData,
+          bundleKey: "AS.FS.AllBundles.vld_OwnershipGreaterThanOneHundredPercent"
+        )
+      )
+    },
+    buttons: #"_a-0000e3d1-f4dc-8000-9ba4-011c48011c48_134344"(
+      confirmLabel: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+        i18nData: local!i18nData,
+        bundleKey: if(
+          local!isCreate,
+          "AS.FS.AllBundles.btn_AddBeneficialOwner",
+          "AS.FS.AllBundles.btn_UpdateBeneficalOwner"
+        )
+      ),
+      cancelLabel: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+        i18nData: local!i18nData,
+        bundleKey: "AS.FS.AllBundles.btn_Cancel"
+      ),
+      confirmSaveInto: a!save(
+        ri!userAction,
+        #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73305"
+      ),
+      cancelSaveInto: a!save(
+        ri!userAction,
+        #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73173"
+      ),
+      cancelSubmit: true,
+      confirmSubmit: true
+    )
+  )
+)</definition>
+        <namedTypedValue>
+            <name>beneficialOwner</name>
+            <type>
+                <name>AS_FS_BeneficialOwner</name>
+                <namespace>urn:com:appian:types:AS:FS</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>userAction</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+        <isCustom>false</isCustom>
+    </interface>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <history>
+        <historyInfo versionUuid="_a-0000e50d-bf1d-8000-9bcd-011c48011c48_999831"/>
+        <historyInfo versionUuid="_a-0000e528-bc07-8000-9bcf-011c48011c48_1028251"/>
+        <historyInfo versionUuid="_a-0000e5a0-53e9-8000-9bd8-011c48011c48_1461026"/>
+        <historyInfo versionUuid="_a-0000e5d6-d648-8000-9bde-011c48011c48_1540467"/>
+        <historyInfo versionUuid="_a-0000e607-97fd-8000-9be9-011c48011c48_1636074"/>
+        <historyInfo versionUuid="_a-0000e62c-7375-8000-9bec-011c48011c48_1837351"/>
+        <historyInfo versionUuid="_a-0000e69f-3688-8000-9bf2-011c48011c48_2153449"/>
+        <historyInfo versionUuid="_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2423033"/>
+        <historyInfo versionUuid="_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2442399"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2703449"/>
+        <historyInfo versionUuid="_a-0000e825-b425-8000-9c1c-011c48011c48_3633829"/>
+    </history>
+</contentHaul>

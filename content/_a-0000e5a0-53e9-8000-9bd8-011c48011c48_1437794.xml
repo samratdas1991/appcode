@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e62c-7375-8000-9bec-011c48011c48_1769753</versionUuid>
+    <rule>
+        <name>AS_FS_BL_constructCompanyDetailsAudit</name>
+        <uuid>_a-0000e5a0-53e9-8000-9bd8-011c48011c48_1437794</uuid>
+        <description>Rule to construct the customer Company Details audit history data for grid</description>
+        <parentUuid>_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_968428</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!map(
+  cdt: "companiesHouseDetails",
+  objectId: ri!companyDetailsAudit.companyDetailsId,
+  actionCode: ri!companyDetailsAudit.auditActionCode,
+  username: ri!companyDetailsAudit.username,
+  timestamp: ri!companyDetailsAudit.timestamp,
+  fieldChanges: ri!companyDetailsAudit.simpleFieldChanges,
+  complexChanges: #"SYSTEM_SYSRULES_forEach"(
+    items: ri!companyDetailsAudit.previousCompanyDetailsChanges,
+    expression: #"_a-0000e62c-7375-8000-9bec-011c48011c48_1767199"(previousCompanyDetailsAudit: fv!item)
+  )
+)</definition>
+        <namedTypedValue>
+            <name>companyDetailsAudit</name>
+            <type>
+                <name>AS_FS_CHS_A_CompanyDetails</name>
+                <namespace>urn:com:appian:types:AS:FS</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name>Add</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e5a0-53e9-8000-9bd8-011c48011c48_1437740"(
+  returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290157",
+  auditActionCode: #"_a-0000e3e6-fb42-8000-9ba5-011c48011c48_181584-adt"
+)</a:value>
+                    <a:nameRef>companyDetailsAudit</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+            <el>
+                <a:name>Modify</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e5a0-53e9-8000-9bd8-011c48011c48_1437740"(
+  returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290157",
+  auditActionCode: #"_a-0000e3e6-fb42-8000-9ba5-011c48011c48_181596-adt"
+)</a:value>
+                    <a:nameRef>companyDetailsAudit</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e5a0-53e9-8000-9bd8-011c48011c48_1438078"/>
+        <historyInfo versionUuid="_a-0000e5a0-53e9-8000-9bd8-011c48011c48_1451071"/>
+        <historyInfo versionUuid="_a-0000e5a0-53e9-8000-9bd8-011c48011c48_1457355"/>
+        <historyInfo versionUuid="_a-0000e62c-7375-8000-9bec-011c48011c48_1767231"/>
+        <historyInfo versionUuid="_a-0000e62c-7375-8000-9bec-011c48011c48_1769753"/>
+    </history>
+</contentHaul>

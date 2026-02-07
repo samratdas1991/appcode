@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e70f-2824-8000-9c01-011c48011c48_2706777</versionUuid>
+    <rule>
+        <name>AS_FS_VLD_previousCompanyNames</name>
+        <uuid>_a-0000e5a0-53e9-8000-9bd8-011c48011c48_1431359</uuid>
+        <description>Validation for Previous Company Detail Dates</description>
+        <parentUuid>_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_968428</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>if(
+  ri!forEffectiveFromDate,
+  if(
+    or(
+      toboolean(
+        #"SYSTEM_SYSRULES_forEach"(
+          items: if(
+            /*Added if, to avoid rejection of previous company details in create customer screen*/
+            #"_a-0000e3ff-a5bc-8000-9ba8-011c48011c48_39082"(ri!rejectExistingDetails),
+            #"_a-0000e40a-de32-8000-9ba8-011c48011c48_271202"(
+              cdt: ri!allPreviousCompanyDetails,
+              field: "previousCompanyDetailsId",
+              value: ri!previousCompanyDetail.previousCompanyDetailsId
+            ),
+            ri!allPreviousCompanyDetails
+          ),
+          expression: or(
+            and(
+              ri!previousCompanyDetail.effectiveFrom &gt;= fv!item.effectiveFrom,
+              ri!previousCompanyDetail.effectiveFrom &lt; fv!item.ceasedOn
+            ),
+            and(
+              ri!previousCompanyDetail.effectiveFrom &lt;= fv!item.effectiveFrom,
+              ri!previousCompanyDetail.ceasedOn &gt;= fv!item.ceasedOn
+            )
+          )
+        )
+      )
+    ),
+    #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+      i18nData: ri!i18nData,
+      bundleKey: "AS.FS.AllBundles.vld_PreviousCustomerDate"
+    ),
+    if(
+      ri!previousCompanyDetail.effectiveFrom &gt; today(),
+      #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+        i18nData: ri!i18nData,
+        bundleKey: "AS.FS.AllBundles.vld_PreviousCustomerFutureDate"
+      ),
+      ""
+    )
+  ),
+  if(
+    or(
+      toboolean(
+        #"SYSTEM_SYSRULES_forEach"(
+          items: if(
+            /*Added if, to avoid rejection of previous company details in create customer screen*/
+            #"_a-0000e3ff-a5bc-8000-9ba8-011c48011c48_39082"(ri!rejectExistingDetails),
+            #"_a-0000e40a-de32-8000-9ba8-011c48011c48_271202"(
+              cdt: ri!allPreviousCompanyDetails,
+              field: "previousCompanyDetailsId",
+              value: ri!previousCompanyDetail.previousCompanyDetailsId
+            ),
+            ri!allPreviousCompanyDetails
+          ),
+          expression: and(
+            ri!previousCompanyDetail.ceasedOn &gt; fv!item.effectiveFrom,
+            ri!previousCompanyDetail.ceasedOn &lt;= fv!item.ceasedOn
+          )
+        )
+      )
+    ),
+    #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+      i18nData: ri!i18nData,
+      bundleKey: "AS.FS.AllBundles.vld_PreviousCustomerDate"
+    ),
+    if(
+      ri!previousCompanyDetail.ceasedOn &gt; today(),
+      #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+        i18nData: ri!i18nData,
+        bundleKey: "AS.FS.AllBundles.vld_PreviousCustomerFutureDate"
+      ),
+      if(
+        and(
+          #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(ri!previousCompanyDetail.effectiveFrom),
+          ri!previousCompanyDetail.effectiveFrom &gt; ri!previousCompanyDetail.ceasedOn
+        ),
+        #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+          i18nData: ri!i18nData,
+          bundleKey: "AS.FS.AllBundles.vld_PreviousCustomerPastCeasedOnDate"
+        ),
+        ""
+      )
+    )
+  )
+)</definition>
+        <namedTypedValue>
+            <name>i18nData</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>previousCompanyDetail</name>
+            <type>
+                <name>AS_FS_CHS_PreviousCompanyDetails</name>
+                <namespace>urn:com:appian:types:AS:FS</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>allPreviousCompanyDetails</name>
+            <type>
+                <name>AS_FS_CHS_PreviousCompanyDetails?list</name>
+                <namespace>urn:com:appian:types:AS:FS</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>forEffectiveFromDate</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>rejectExistingDetails</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name>Basic</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                    <a:nameRef>i18nData</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">'type!{urn:com:appian:types:AS:FS}AS_FS_CHS_PreviousCompanyDetails'(
+  previousCompanyName: "Test Name",
+  effectiveFrom: today()-30,
+  ceasedOn: today()-60
+)</a:value>
+                    <a:nameRef>previousCompanyDetail</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e5a0-53e9-8000-9bd8-011c48011c48_1430726"(
+  customerId: 106,
+  returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290163"
+)</a:value>
+                    <a:nameRef>allPreviousCompanyDetails</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:boolean">false</a:value>
+                    <a:nameRef>forEffectiveFromDate</a:nameRef>
+                    <a:id>4</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                    <a:nameRef>rejectExistingDetails</a:nameRef>
+                    <a:id>5</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e5a0-53e9-8000-9bd8-011c48011c48_1435277"/>
+        <historyInfo versionUuid="_a-0000e5a0-53e9-8000-9bd8-011c48011c48_1454888"/>
+        <historyInfo versionUuid="_a-0000e69f-3688-8000-9bf2-011c48011c48_2099911"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2706777"/>
+    </history>
+</contentHaul>

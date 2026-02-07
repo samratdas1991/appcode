@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e70f-2824-8000-9c01-011c48011c48_2752693</versionUuid>
+    <interface>
+        <name>AS_IO_CPS_processSetupTrendsDrilldown</name>
+        <uuid>_a-0000e40a-961e-8000-9ba7-011c48011c48_258663</uuid>
+        <description>Shows process setup modification drilldown-down</description>
+        <parentUuid>_a-0000e2bb-4188-8000-9ba2-011c48011c48_25469</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  local!taskTemplateMappingFieldsMetadata: #"_a-0000e6c5-6536-8000-9bf8-011c48011c48_2203265"(
+    i18nData: ri!i18nData,
+    queryDropdownValues: true
+  ),
+  local!template: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_155202"(
+    templateId: ri!drilldownSelection.templateId,
+    excludeNestedCdts: true,
+    returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290157"
+  ),
+  {
+    #"_a-0000e40a-961e-8000-9ba7-011c48011c48_258735"(
+      label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+        i18nData: ri!i18nData,
+        bundleKey: "AS.CO.AllBundles.lbl_BackToAllTemplates"
+      ),
+      saveInto: #"_a-0000e3c8-6861-8000-9ba2-011c48011c48_124304"(valueToNull: ri!drilldownSelection)
+    ),
+    #"_a-0000e393-fbf1-8000-9ba2-011c48011c48_111777"(
+      headerText: local!template.templateName,
+      headerLevel: #"_a-0000e3e6-fb42-8000-9ba5-011c48011c48_156859"
+    ),
+    #"SYSTEM_SYSRULES_cardLayout"(
+      padding: "LESS",
+      showBorder: false,
+      contents: {
+        #"_a-0000e62c-7375-8000-9bec-011c48011c48_1752283"(
+          numberOfColumns: a!localVariables(
+            /* Template description + mapping components */
+            local!numberOfComponents: 1 + length(
+              local!taskTemplateMappingFieldsMetadata
+            ),
+            /* TOBEDONE should this be determined more intelligently? */
+            if(mod(local!numberOfComponents, 4) = 0, 4, 3)
+          ),
+          components: {
+            #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_74400"(
+              label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                i18nData: ri!i18nData,
+                bundleKey: "AS.CO.AllBundles.lbl_TemplateDescription"
+              ),
+              labelPosition: "ABOVE",
+              value: local!template.templateDesc,
+              readOnly: true
+            ),
+            #"_a-0000e6c5-6536-8000-9bf8-011c48011c48_2209026"(
+              taskTemplate: local!template,
+              taskTemplateMappingFieldsMetadata: local!taskTemplateMappingFieldsMetadata,
+              readOnly: true
+            )
+          }
+        ),
+        #"SYSTEM_SYSRULES_sideBySideLayout"(),
+        #"_a-0000e393-fbf1-8000-9ba2-011c48011c48_111777"(
+          headerText: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+            i18nData: ri!i18nData,
+            bundleKey: "AS.CO.AllBundles.lbl_OnboardingSetupModification"
+          ),
+          headerLevel: #"_a-0000e3e6-fb42-8000-9ba5-011c48011c48_156865"
+        ),
+        #"_a-0000e40a-de32-8000-9ba8-011c48011c48_276828"(
+          i18nData: ri!i18nData,
+          drilldownSelection: ri!drilldownSelection,
+          dateFilter: ri!dateFilter
+        )
+      }
+    )
+  }
+)</definition>
+        <namedTypedValue>
+            <name>i18nData</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>drilldownSelection</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>dateFilter</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+        <isCustom>false</isCustom>
+    </interface>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name/>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81834"(triggerRefresh: null)</a:value>
+                    <a:nameRef>i18nData</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">{
+  templateId: 1
+}</a:value>
+                    <a:nameRef>drilldownSelection</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e40a-de32-8000-9ba8-011c48011c48_276298"()[2]</a:value>
+                    <a:nameRef>dateFilter</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e40a-de32-8000-9ba8-011c48011c48_280867"/>
+        <historyInfo versionUuid="_a-0000e40a-de32-8000-9ba8-011c48011c48_282455"/>
+        <historyInfo versionUuid="_a-0000e40a-de32-8000-9ba8-011c48011c48_284474"/>
+        <historyInfo versionUuid="_a-0000e419-f401-8000-9ba4-011c48011c48_17100"/>
+        <historyInfo versionUuid="_a-0000e41a-e649-8000-9ba5-011c48011c48_17538"/>
+        <historyInfo versionUuid="_a-0000e3ff-a5bc-8000-9ba8-011c48011c48_39447"/>
+        <historyInfo versionUuid="_a-0000e430-f270-8000-9bbc-011c48011c48_363354"/>
+        <historyInfo versionUuid="_a-0000e471-623a-8000-9bc3-011c48011c48_679342"/>
+        <historyInfo versionUuid="_a-0000e471-623a-8000-9bc3-011c48011c48_690900"/>
+        <historyInfo versionUuid="_a-0000e539-6d59-8000-9bd0-011c48011c48_1134130"/>
+        <historyInfo versionUuid="_a-0000e62c-7375-8000-9bec-011c48011c48_1815741"/>
+        <historyInfo versionUuid="_a-0000e69f-3688-8000-9bf2-011c48011c48_2154203"/>
+        <historyInfo versionUuid="_a-0000e6c5-6536-8000-9bf8-011c48011c48_2209732"/>
+        <historyInfo versionUuid="_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2360606"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2671185"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2715603"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2752693"/>
+    </history>
+</contentHaul>

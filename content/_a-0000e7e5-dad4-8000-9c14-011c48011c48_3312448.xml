@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e825-b425-8000-9c1c-011c48011c48_3581450</versionUuid>
+    <interface>
+        <name>AS_DBG_LNK_displayRuleName</name>
+        <uuid>_a-0000e7e5-dad4-8000-9c14-011c48011c48_3312448</uuid>
+        <description>Displays the passed in rule name if the environment is configured to do so and the user is in the debug group</description>
+        <parentUuid>39ceb4d5-3596-4942-8baa-b4c5d22406e6</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>#"SYSTEM_SYSRULES_richTextDisplayField"(
+  showWhen: and(
+    #"_a-0000e3ff-a5bc-8000-9ba8-011c48011c48_39070"(#"_a-0000e7e5-dad4-8000-9c14-011c48011c48_3312538"),
+    #"_a-0000e7e5-dad4-8000-9c14-011c48011c48_3321579"(),
+    #"f04c38ac-1ef1-4b42-8f72-038cf1509e10"()
+  ),
+  labelPosition: "COLLAPSED",
+  value: a!localVariables(
+    local!ruleMetadata: rulebyname(ri!ruleName),
+    #"SYSTEM_SYSRULES_richTextItem_v1"(
+      text: {
+        #"SYSTEM_SYSRULES_richTextItem_v1"(
+          text: ri!ruleName,
+          link: #"SYSTEM_SYSRULES_safeLink"(
+            uri: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_100254"() &amp; "design/" &amp; local!ruleMetadata.opaqueId
+          ),
+          style: "STRONG",
+          /*choosing an ugly color so debug mode stands out clearly*/
+          /*we can hardcode this color since it is not displayed to end users*/
+          color: "#c98d00"
+        )
+      }
+    )
+  )
+)</definition>
+        <namedTypedValue>
+            <name>ruleName</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+        <isCustom>false</isCustom>
+    </interface>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name/>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">"dt_test_debugger"</a:value>
+                    <a:nameRef>ruleName</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e7fa-f829-8000-9c17-011c48011c48_3377113"/>
+        <historyInfo versionUuid="_a-0000e7fa-f829-8000-9c17-011c48011c48_3393218"/>
+        <historyInfo versionUuid="_a-0000e81d-5ddb-8000-9c1b-011c48011c48_3551789"/>
+        <historyInfo versionUuid="_a-0000e825-b425-8000-9c1c-011c48011c48_3581450"/>
+    </history>
+</contentHaul>

@@ -1,0 +1,344 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e7d2-6286-8000-9c11-011c48011c48_3180591</versionUuid>
+    <interface>
+        <name>AS_IO_SCT_onboardingDocumentDetails</name>
+        <uuid>_a-0000e41f-788a-8000-9ba9-011c48011c48_61914</uuid>
+        <description>Display onboarding Document Details </description>
+        <parentUuid>_a-0000e2bb-4188-8000-9ba2-011c48011c48_25469</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  local!userSettings: if(
+    #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(ri!userSettings),
+    #"_a-0000e5d6-d648-8000-9bde-011c48011c48_1501904"(
+      settingsCode: {
+        #"_a-0000e5fd-0ed3-8000-9be6-011c48011c48_1579702"
+      }
+    ),
+    ri!userSettings
+  ),
+  local!idpToggle: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+    cdt: local!userSettings,
+    field: "userSettingCode",
+    value: #"_a-0000e5fd-0ed3-8000-9be6-011c48011c48_1579702"
+  ).userSettingValue[1],
+  {
+    /*Document Type*/
+    #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73562"(
+      label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+        i18nData: ri!i18nData,
+        bundleKey: "AS.CO.AllBundles.lbl_DocumentType"
+      ),
+      labelPosition: "JUSTIFIED",
+      value: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+        i18nData: ri!i18nData,
+        bundleKey: "AS.CO.AllBundles.txt_DocTypeStatusPending"
+      ),
+      readOnly: true,
+      
+    ),
+    a!localVariables(
+      local!typeConf: index(
+        #"_a-0000e539-6d59-8000-9bd0-011c48011c48_1261636"(
+          documentId: ri!onboardingDocument.customerDocument.appianDocId,
+          returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290157",
+          executeWhen: true,
+          excludeNestedCdts: true
+        ),
+        "docTypeConf",
+        null
+      ),
+      #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73562"(
+        label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+          i18nData: ri!i18nData,
+          bundleKey: "AS.CO.AllBundles.lbl_TypeConfidence"
+        ),
+        helpTooltip: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+          i18nData: ri!i18nData,
+          bundleKey: "AS.CO.AllBundles.hlp_TypeConfidence"
+        ),
+        readOnly: true,
+        value: if(
+          #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(local!typeConf),
+          null,
+          #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+            i18nData: ri!i18nData,
+            bundleKey: "AS.CO.AllBundles.txt_DisplayPercentage",
+            arguments: fixed(local!typeConf * 100, 1)
+          )
+        ),
+        labelPosition: "JUSTIFIED",
+        showWhen: local!idpToggle
+      )
+    ),
+    /*Status*/
+    #"SYSTEM_SYSRULES_richTextDisplayField"(
+      label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+        i18nData: ri!i18nData,
+        bundleKey: "AS.CO.AllBundles.lbl_Status"
+      ),
+      labelPosition: "JUSTIFIED",
+      value: {
+        #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73980"(
+          nullableValue: #"_a-0000e36c-7599-8000-9ba2-011c48011c48_48515"(
+            refData: ri!refData,
+            statusCode: ri!onboardingDocument.documentStatusCode,
+            includeLabel: true
+          ),
+          replacementValue: "-"
+        )
+      }
+    ),
+    /*Use/Security*/
+    #"_a-0000e62c-7375-8000-9bec-011c48011c48_1726044"(
+      labelPosition: "JUSTIFIED",
+      label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+        i18nData: ri!i18nData,
+        bundleKey: "AS.FS.AllBundles.lbl_Security"
+      ),
+      i18nData: ri!i18nData,
+      readOnlyValue: if(
+        or(
+          ri!readOnly,
+          ri!onboardingDocument.customerDocument.isUploadedByCustomer
+        ),
+        #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+          i18nData: ri!i18nData,
+          bundleKey: if(
+            ri!onboardingDocument.customerDocument.isInternal,
+            "AS.FS.AllBundles.txt_InternalUseOnly",
+            "AS.FS.AllBundles.txt_None"
+          )
+        ),
+        {}
+      ),
+      isInternalValue: ri!onboardingDocument.customerDocument.isInternal,
+      showWhen: true()
+    ),
+    /*Uploaded*/
+    #"_a-0000e41f-788a-8000-9ba9-011c48011c48_58958"(
+      username: ri!onboardingDocument.createdBy,
+      date: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75551"(
+        dateTime: ri!onboardingDocument.createdDatetime
+      ),
+      label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+        i18nData: ri!i18nData,
+        bundleKey: "AS.CO.AllBundles.lbl_Uploaded"
+      ),
+      labelPosition: "JUSTIFIED"
+    ),
+    /*Modified*/
+    a!localVariables(
+      local!mostRecentModification: if(
+        ri!onboardingDocument.modifiedDatetime &gt; ri!onboardingDocument.customerDocument.modifiedDatetime,
+        {
+          modifiedBy: ri!onboardingDocument.modifiedBy,
+          modifiedDatetime: ri!onboardingDocument.modifiedDatetime
+        },
+        {
+          modifiedBy: ri!onboardingDocument.customerDocument.modifiedBy,
+          modifiedDatetime: ri!onboardingDocument.customerDocument.modifiedDatetime
+        }
+      ),
+      #"_a-0000e41f-788a-8000-9ba9-011c48011c48_58958"(
+        username: local!mostRecentModification.modifiedBy,
+        date: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75551"(
+          dateTime: local!mostRecentModification.modifiedDatetime
+        ),
+        label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+          i18nData: ri!i18nData,
+          bundleKey: "AS.CO.AllBundles.lbl_Modified"
+        ),
+        labelPosition: "JUSTIFIED"
+      )
+    ),
+    /*Expiration Date*/
+    #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_74175"(
+      label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+        i18nData: ri!i18nData,
+        bundleKey: "AS.CO.AllBundles.lbl_ExpirationDate"
+      ),
+      readOnly: #"_a-0000e3ff-a5bc-8000-9ba8-011c48011c48_39082"(ri!readOnly),
+      value: ri!onboardingDocument.customerDocument.expirationDate,
+      labelPosition: "JUSTIFIED",
+      saveInto: {
+        ri!onboardingDocument.customerDocument.expirationDate
+      },
+      showWhen: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75636"(
+        #"_a-0000e3ff-a5bc-8000-9ba8-011c48011c48_39082"(ri!readOnly)
+      )
+    ),
+    #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73562"(
+      showWhen: #"_a-0000e3ff-a5bc-8000-9ba8-011c48011c48_39082"(ri!readOnly),
+      label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+        i18nData: ri!i18nData,
+        bundleKey: "AS.CO.AllBundles.lbl_ExpirationDate"
+      ),
+      readOnly: #"_a-0000e3ff-a5bc-8000-9ba8-011c48011c48_39082"(ri!readOnly),
+      value: ri!onboardingDocument.customerDocument.expirationDate,
+      labelPosition: "JUSTIFIED"
+    ),
+    /*Description*/
+    #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_74400"(
+      label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+        i18nData: ri!i18nData,
+        bundleKey: "AS.CO.AllBundles.lbl_Description"
+      ),
+      readOnly: #"_a-0000e3ff-a5bc-8000-9ba8-011c48011c48_39082"(ri!readOnly),
+      value: ri!onboardingDocument.customerDocument.documentDesc,
+      labelPosition: "JUSTIFIED",
+      saveInto: {
+        ri!onboardingDocument.customerDocument.documentDesc
+      },
+      maxLength: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73500",
+      validations: {
+        #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_74104"(
+          value: ri!onboardingDocument.customerDocument.documentDesc,
+          maxLength: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73500"
+        )
+      }
+    )
+  }
+)</definition>
+        <namedTypedValue>
+            <name>i18nData</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>refData</name>
+            <type>
+                <name>AS_IO_R_Data?list</name>
+                <namespace>urn:com:appian:types:AS:IO</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>onboardingDocument</name>
+            <type>
+                <name>AS_IO_OnboardingDocument</name>
+                <namespace>urn:com:appian:types:AS:IO</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>readOnly</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>userSettings</name>
+            <type>
+                <name>AS_FS_AllUserSettings?list</name>
+                <namespace>urn:com:appian:types:AS:FS</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+        <isCustom>false</isCustom>
+    </interface>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name/>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81834"(triggerRefresh: {})</a:value>
+                    <a:nameRef>i18nData</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_975294"(
+  typeList: {},
+internationalizeLabels: true
+)</a:value>
+                    <a:nameRef>refData</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e41f-788a-8000-9ba9-011c48011c48_59560"(
+  returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290163"
+)[1]</a:value>
+                    <a:nameRef>onboardingDocument</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:boolean">false</a:value>
+                    <a:nameRef>readOnly</a:nameRef>
+                    <a:id>4</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                    <a:nameRef>userSettings</a:nameRef>
+                    <a:id>5</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e41f-788a-8000-9ba9-011c48011c48_63725"/>
+        <historyInfo versionUuid="_a-0000e430-f270-8000-9bbc-011c48011c48_338891"/>
+        <historyInfo versionUuid="_a-0000e430-f270-8000-9bbc-011c48011c48_350568"/>
+        <historyInfo versionUuid="_a-0000e438-fd8a-8000-9bbe-011c48011c48_409131"/>
+        <historyInfo versionUuid="_a-0000e447-91f4-8000-9bc0-011c48011c48_444860"/>
+        <historyInfo versionUuid="_a-0000e447-91f4-8000-9bc0-011c48011c48_558196"/>
+        <historyInfo versionUuid="_a-0000e471-623a-8000-9bc3-011c48011c48_680122"/>
+        <historyInfo versionUuid="_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_846230"/>
+        <historyInfo versionUuid="_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_948726"/>
+        <historyInfo versionUuid="_a-0000e586-af6f-8000-9bd2-011c48011c48_1333305"/>
+        <historyInfo versionUuid="_a-0000e586-af6f-8000-9bd2-011c48011c48_1373270"/>
+        <historyInfo versionUuid="_a-0000e607-97fd-8000-9be9-011c48011c48_1591386"/>
+        <historyInfo versionUuid="_a-0000e607-97fd-8000-9be9-011c48011c48_1607301"/>
+        <historyInfo versionUuid="_a-0000e62c-7375-8000-9bec-011c48011c48_1740406"/>
+        <historyInfo versionUuid="_a-0000e62c-7375-8000-9bec-011c48011c48_1761441"/>
+        <historyInfo versionUuid="_a-0000e62c-7375-8000-9bec-011c48011c48_1776241"/>
+        <historyInfo versionUuid="_a-0000e62c-7375-8000-9bec-011c48011c48_1808087"/>
+        <historyInfo versionUuid="_a-0000e69f-3688-8000-9bf2-011c48011c48_2119897"/>
+        <historyInfo versionUuid="_a-0000e6ba-d6dd-8000-9bf5-011c48011c48_2180432"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2701745"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2716726"/>
+        <historyInfo versionUuid="_a-0000e7d2-6286-8000-9c11-011c48011c48_3149675"/>
+        <historyInfo versionUuid="_a-0000e7d2-6286-8000-9c11-011c48011c48_3163225"/>
+        <historyInfo versionUuid="_a-0000e7d2-6286-8000-9c11-011c48011c48_3180591"/>
+    </history>
+</contentHaul>

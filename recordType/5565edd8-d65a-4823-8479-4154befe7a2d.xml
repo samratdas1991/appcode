@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<recordTypeHaul xmlns:a="http://www.appian.com/ae/types/2009" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <versionUuid>3337659d-a5db-4b1d-bbe4-e97a87d4a86b</versionUuid>
+  <recordType a:uuid="5565edd8-d65a-4823-8479-4154befe7a2d" name="AS_IO_R_TaskRef_RecordType">
+    <a:pluralName>AS_IO_R_TaskRef_RecordTypes</a:pluralName>
+    <a:description>Record type for actions associated to task refs</a:description>
+    <a:urlStub>GqNFSg</a:urlStub>
+    <a:source
+      a:uuid="2a46f73a-a9b5-427e-9b01-a474214dcd46@_a-0000e2cd-bc96-8000-9ba2-011c48011c48_71624" xsi:type="a:DataStoreEntity"/>
+    <a:listViewTemplateExpr>#"SYSTEM_SYSRULES_recordGridField"(
+  columns: {
+    #"SYSTEM_SYSRULES_gridColumn"(
+      label: "Task Ref Id",
+      sortField: #"urn:appian:record-field:v1:5565edd8-d65a-4823-8479-4154befe7a2d/taskRefId",
+      value: fv!row[#"urn:appian:record-field:v1:5565edd8-d65a-4823-8479-4154befe7a2d/taskRefId"],
+      align: "END"
+    ),
+    #"SYSTEM_SYSRULES_gridColumn"(
+      label: "Task Name",
+      sortField: #"urn:appian:record-field:v1:5565edd8-d65a-4823-8479-4154befe7a2d/taskName",
+      value: #"SYSTEM_SYSRULES_linkField"(
+        links: {
+          #"SYSTEM_SYSRULES_recordLink"(
+            label: fv!row[#"urn:appian:record-field:v1:5565edd8-d65a-4823-8479-4154befe7a2d/taskName"],
+            recordType: #"urn:appian:record-type:v1:5565edd8-d65a-4823-8479-4154befe7a2d",
+            identifier: fv!identifier
+          )
+        }
+      )
+    ),
+    #"SYSTEM_SYSRULES_gridColumn"(
+      label: "Task Behavior Type",
+      sortField: #"urn:appian:record-field:v1:5565edd8-d65a-4823-8479-4154befe7a2d/taskBehaviorType",
+      value: fv!row[#"urn:appian:record-field:v1:5565edd8-d65a-4823-8479-4154befe7a2d/taskBehaviorType"]
+    ),
+    #"SYSTEM_SYSRULES_gridColumn"(
+      label: "Task Category",
+      sortField: #"urn:appian:record-field:v1:5565edd8-d65a-4823-8479-4154befe7a2d/taskCategory",
+      value: fv!row[#"urn:appian:record-field:v1:5565edd8-d65a-4823-8479-4154befe7a2d/taskCategory"]
+    ),
+    #"SYSTEM_SYSRULES_gridColumn"(
+      label: "Default Group Assignee",
+      sortField: #"urn:appian:record-field:v1:5565edd8-d65a-4823-8479-4154befe7a2d/defaultGroupAssignee",
+      value: fv!row[#"urn:appian:record-field:v1:5565edd8-d65a-4823-8479-4154befe7a2d/defaultGroupAssignee"],
+      align: "END"
+    ),
+    #"SYSTEM_SYSRULES_gridColumn"(
+      label: "Doc Upload Context",
+      sortField: #"urn:appian:record-field:v1:5565edd8-d65a-4823-8479-4154befe7a2d/docUploadContext",
+      value: fv!row[#"urn:appian:record-field:v1:5565edd8-d65a-4823-8479-4154befe7a2d/docUploadContext"]
+    ),
+    #"SYSTEM_SYSRULES_gridColumn"(
+      label: "Doc Signature Context",
+      sortField: #"urn:appian:record-field:v1:5565edd8-d65a-4823-8479-4154befe7a2d/docSignatureContext",
+      value: fv!row[#"urn:appian:record-field:v1:5565edd8-d65a-4823-8479-4154befe7a2d/docSignatureContext"]
+    ),
+    #"SYSTEM_SYSRULES_gridColumn"(
+      label: "Created By",
+      sortField: #"urn:appian:record-field:v1:5565edd8-d65a-4823-8479-4154befe7a2d/createdBy",
+      value: fv!row[#"urn:appian:record-field:v1:5565edd8-d65a-4823-8479-4154befe7a2d/createdBy"]
+    ),
+    #"SYSTEM_SYSRULES_gridColumn"(
+      label: "Created Datetime",
+      sortField: #"urn:appian:record-field:v1:5565edd8-d65a-4823-8479-4154befe7a2d/createdDatetime",
+      value: if(
+      isnull(fv!row[#"urn:appian:record-field:v1:5565edd8-d65a-4823-8479-4154befe7a2d/createdDatetime"]),
+      fv!row[#"urn:appian:record-field:v1:5565edd8-d65a-4823-8479-4154befe7a2d/createdDatetime"],
+      datetext(fv!row[#"urn:appian:record-field:v1:5565edd8-d65a-4823-8479-4154befe7a2d/createdDatetime"], "default")
+      ),
+      align: "END"
+    ),
+    #"SYSTEM_SYSRULES_gridColumn"(
+      label: "Modified By",
+      sortField: #"urn:appian:record-field:v1:5565edd8-d65a-4823-8479-4154befe7a2d/modifiedBy",
+      value: fv!row[#"urn:appian:record-field:v1:5565edd8-d65a-4823-8479-4154befe7a2d/modifiedBy"]
+    ),
+    #"SYSTEM_SYSRULES_gridColumn"(
+      label: "Modified Datetime",
+      sortField: #"urn:appian:record-field:v1:5565edd8-d65a-4823-8479-4154befe7a2d/modifiedDatetime",
+      value: if(
+      isnull(fv!row[#"urn:appian:record-field:v1:5565edd8-d65a-4823-8479-4154befe7a2d/modifiedDatetime"]),
+      fv!row[#"urn:appian:record-field:v1:5565edd8-d65a-4823-8479-4154befe7a2d/modifiedDatetime"],
+      datetext(fv!row[#"urn:appian:record-field:v1:5565edd8-d65a-4823-8479-4154befe7a2d/modifiedDatetime"], "default")
+      ),
+      align: "END"
+    )
+  },
+  pageSize: 50,
+  shadeAlternateRows: true
+)</a:listViewTemplateExpr>
+    <a:detailViewCfg>
+      <a:nameExpr>#"SYSTEM_SYSRULES_rtd_getDefaultSummaryViewName"()</a:nameExpr>
+      <a:uiExpr/>
+      <a:visibilityExpr>=true()</a:visibilityExpr>
+      <a:urlStub>summary</a:urlStub>
+      <a:headerExpr/>
+      <a:recordActionLaunchType>DIALOG</a:recordActionLaunchType>
+      <a:recordUiSecurityType>EXPRESSION</a:recordUiSecurityType>
+    </a:detailViewCfg>
+    <a:relatedActionCfg a:uuid="ec9f27d1-2b75-40b5-944e-619c4f96b4a5">
+      <a:target a:uuid="0000e598-75ba-8000-284a-7f0000014e7a" xsi:type="a:ProcessModel"/>
+      <a:contextExpr>{
+  taskRefs: #"_a-0000e393-fbf1-8000-9ba2-011c48011c48_113793"(
+    taskRefId: rv!record[#"urn:appian:record-field:v1:5565edd8-d65a-4823-8479-4154befe7a2d/taskRefId"],
+    returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290157"
+  ),
+  userAction: null
+}</a:contextExpr>
+      <a:visibilityExpr>=true()</a:visibilityExpr>
+      <a:iconId>f040</a:iconId>
+      <a:refId>refId-ec9f27d1-2b75-40b5-944e-619c4f96b4a5</a:refId>
+      <a:titleExpr>rv!record[#"urn:appian:record-field:v1:5565edd8-d65a-4823-8479-4154befe7a2d/taskName"]</a:titleExpr>
+      <a:staticDescriptionString/>
+      <a:referenceKey>updateReferenceTask</a:referenceKey>
+      <a:dialogSize>FIT$FIT</a:dialogSize>
+      <a:showInRecordList>false</a:showInRecordList>
+      <a:recordUiSecurityType>EXPRESSION</a:recordUiSecurityType>
+      <a:dialogWidth>FIT</a:dialogWidth>
+      <a:dialogHeight>FIT</a:dialogHeight>
+    </a:relatedActionCfg>
+    <a:isSystem>false</a:isSystem>
+    <a:dataSrcExpr/>
+    <a:facetsListExpr/>
+    <a:titleExpr/>
+    <a:defaultFiltersExpr/>
+    <a:layoutType>GRID</a:layoutType>
+    <a:security>16383</a:security>
+    <a:hideLatestNews>false</a:hideLatestNews>
+    <a:hideNewsView>false</a:hideNewsView>
+    <a:hideRelatedActionsView>false</a:hideRelatedActionsView>
+    <a:isExportable>true</a:isExportable>
+    <a:listViewSrcExpr/>
+    <a:recordViewSrcExpr/>
+    <a:recordListActionCfg a:uuid="74a7dcd2-df2b-4f1a-b78e-5b04cc5e993f">
+      <a:titleExpr>#"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_84423"(
+  bundleKey: "AS.CO.AllBundles.btn_NewTask"
+)</a:titleExpr>
+      <a:staticDescription/>
+      <a:iconId>f067</a:iconId>
+      <a:target a:uuid="0000e598-75ba-8000-284a-7f0000014e7a" xsi:type="a:ProcessModel"/>
+      <a:visibilityExpr>#"_a-0000e69f-3688-8000-9bf2-011c48011c48_2143846"()</a:visibilityExpr>
+      <a:referenceKey>createReferenceTask</a:referenceKey>
+      <a:dialogSize>FIT$FIT</a:dialogSize>
+      <a:showInRecordList>true</a:showInRecordList>
+      <a:recordUiSecurityType>EXPRESSION</a:recordUiSecurityType>
+      <a:dialogWidth>FIT</a:dialogWidth>
+      <a:dialogHeight>FIT</a:dialogHeight>
+    </a:recordListActionCfg>
+    <a:recordListActionCfg a:uuid="9548309b-167c-4865-8fa9-ab0abb2ae502">
+      <a:titleExpr>#"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_84423"(
+  bundleKey: "AS.CO.AllBundles.btn_ImportTasks"
+)</a:titleExpr>
+      <a:staticDescription/>
+      <a:iconId>f093</a:iconId>
+      <a:target a:uuid="0000e598-79cb-8000-2854-7f0000014e7a" xsi:type="a:ProcessModel"/>
+      <a:visibilityExpr>#"_a-0000e69f-3688-8000-9bf2-011c48011c48_2143846"()</a:visibilityExpr>
+      <a:referenceKey>importReferenceTasks</a:referenceKey>
+      <a:dialogSize>FIT$FIT</a:dialogSize>
+      <a:showInRecordList>true</a:showInRecordList>
+      <a:recordUiSecurityType>EXPRESSION</a:recordUiSecurityType>
+      <a:dialogWidth>FIT</a:dialogWidth>
+      <a:dialogHeight>FIT</a:dialogHeight>
+    </a:recordListActionCfg>
+    <a:recordTypeSearchCfg>
+      <searchFieldsSrc>DEFAULT</searchFieldsSrc>
+      <placeholderSrc>DEFAULT</placeholderSrc>
+      <placeholder/>
+    </a:recordTypeSearchCfg>
+    <a:iconId/>
+    <a:listAutoRefreshInterval>0.0</a:listAutoRefreshInterval>
+    <a:enabledFeatures>63</a:enabledFeatures>
+    <a:isVisibleInRecordTypeList>false</a:isVisibleInRecordTypeList>
+    <a:recordActionLaunchType>DIALOG</a:recordActionLaunchType>
+    <a:showSearchBox>true</a:showSearchBox>
+    <a:isVisibleInDataFabric>false</a:isVisibleInDataFabric>
+    <a:usesRollingSyncLimit>false</a:usesRollingSyncLimit>
+    <a:usesRecoverySync>false</a:usesRecoverySync>
+    <a:isScheduledIndexingEnabled>false</a:isScheduledIndexingEnabled>
+    <a:smartSearchAcceptableFailureRate>0.0</a:smartSearchAcceptableFailureRate>
+    <a:skipFailedSmartServicesSync>false</a:skipFailedSmartServicesSync>
+  </recordType>
+  <roleMap>
+    <role name="record_type_administrator">
+      <users/>
+      <groups>
+        <groupUuid>_e-0000e2bb-4188-8000-9aee-01075c01075c_41</groupUuid>
+      </groups>
+    </role>
+    <role name="record_type_viewer">
+      <users/>
+      <groups>
+        <groupUuid>_e-0000e35c-7b7b-8000-9aee-01075c01075c_290</groupUuid>
+      </groups>
+    </role>
+  </roleMap>
+  <history>
+    <historyInfo versionUuid="7ee26c5c-fd0f-4250-adc3-d00dd87df869"/>
+    <historyInfo versionUuid="0eb56f7d-9306-462e-9efc-3bd90e7eb8ee"/>
+    <historyInfo versionUuid="eef99a09-a284-4e71-b522-6405f4dbe206"/>
+    <historyInfo versionUuid="2ea40f30-c1da-44f0-a28f-0910109ed270"/>
+    <historyInfo versionUuid="0a24e18d-4df6-4980-af63-36d047a9919e"/>
+    <historyInfo versionUuid="3337659d-a5db-4b1d-bbe4-e97a87d4a86b"/>
+  </history>
+  <migrationVersion>1</migrationVersion>
+</recordTypeHaul>

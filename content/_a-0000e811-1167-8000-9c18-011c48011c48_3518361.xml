@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e811-1167-8000-9c18-011c48011c48_3518367</versionUuid>
+    <rule>
+        <name>AS_IO_UT_removeTaskDuringRequiredDocumentsCreationSaves</name>
+        <uuid>_a-0000e811-1167-8000-9c18-011c48011c48_3518361</uuid>
+        <description>Handles saves required for the removal of a task during the initial setup task that takes place at creation of an onboarding process.  Removes the given task index from the list of tasks, removes the index wherever it is found as a precedent of any task, and decrements all indexes that are greater than that of the removed task wherever they are referenced as precedents.</description>
+        <parentUuid>_a-0000e2bb-4188-8000-9ba2-011c48011c48_25469</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>{
+  /*update task precedents*/
+  /*this is done first to prevent breaking on deletion of the last task*/
+  #"SYSTEM_SYSRULES_forEach"(
+    items: ri!tasksForRequest,
+    expression: {
+      a!save(
+        fv!item.taskPrecedents,
+        #"SYSTEM_SYSRULES_forEach"(
+          items: fv!item.taskPrecedents,
+          expression: if(
+            contains(
+              ri!taskIndexesToRemove,
+              fv!item.taskId_precedent
+            ),
+            /*Where index is equal to that which was removed, remove it*/
+            {},
+            /*decrement precedent index by the number of removed indexes less than it*/
+            #"_a-0000e40a-de32-8000-9ba8-011c48011c48_260165"(
+              cdt: fv!item,
+              fields: "taskId_precedent",
+              newValues: fv!item.taskId_precedent - count(
+                where(
+                  ri!taskIndexesToRemove &lt; fv!item.taskId_precedent
+                )
+              )
+            )
+          )
+        )
+      )
+    }
+  ),
+  /*remove tasks from list*/
+  a!save(
+    ri!tasksForRequest,
+    remove(
+      ri!tasksForRequest,
+      ri!taskIndexesToRemove
+    )
+  )
+}</definition>
+        <namedTypedValue>
+            <name>tasksForRequest</name>
+            <type>
+                <name>AS_IO_Task?list</name>
+                <namespace>urn:com:appian:types:AS:IO</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>taskIndexesToRemove</name>
+            <type>
+                <name>Integer?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name>Request ID 1, Remove index 10</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e3d1-f4dc-8000-9ba4-011c48011c48_145492"(
+  template: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_155202"(
+  returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290163"
+  )
+)</a:value>
+                    <a:nameRef>tasksForRequest</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">10</a:value>
+                    <a:nameRef>taskIndexesToRemove</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e811-1167-8000-9c18-011c48011c48_3518367"/>
+    </history>
+</contentHaul>

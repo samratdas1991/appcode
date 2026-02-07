@@ -1,0 +1,569 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e825-b425-8000-9c1c-011c48011c48_3620192</versionUuid>
+    <interface>
+        <name>AS_IO_CPS_documentDetails</name>
+        <uuid>_a-0000e7c7-bc72-8000-9c0e-011c48011c48_3070322</uuid>
+        <description>This interface is for document details</description>
+        <parentUuid>_a-0000e2bb-4188-8000-9ba2-011c48011c48_25469</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  local!customerInternalFolder: if(
+    ri!showWhenIsInternalDoc,
+    #"_a-0000e62c-7375-8000-9bec-011c48011c48_1834953"(customerFolderId: ri!customerFolder),
+    {}
+  ),
+  local!customerPublicFolder: #"_a-0000e528-bc07-8000-9bcf-011c48011c48_1106615"(customerFolderId: ri!customerFolder),
+  local!requiredDocuments: #"_a-0000e79b-0335-8000-9c0c-011c48011c48_3029015"(
+    requestId: ri!requiredDocuments.requestId,
+    returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290163",
+    additionalFilter: #"SYSTEM_SYSRULES_queryFilter"(
+      field: #"urn:appian:record-field:v1:ee29c681-ea9f-4298-8113-51be93d69017/16d8f46b-6e98-47fd-bbd9-c1623b4afbab/b347fb34-4eb9-465b-9cc8-a0c217a75e41",
+      operator: "not in",
+      value: {
+        #"_a-0000e36c-7599-8000-9ba2-011c48011c48_48067"
+      }
+    )
+  ),
+  local!isRequiredDocument: a!refreshVariable(
+    value: #"_a-0000e7c7-bc72-8000-9c0e-011c48011c48_3070402"(
+      documentType: ri!selectedDocTypeCode,
+      requiredDocuments: local!requiredDocuments,
+      requestId: ri!onboardingRequest.requestId
+    ),
+    refreshOnReferencedVarChange: false
+  ),
+  local!defaultValueForCustomerDocument: 'type!{urn:com:appian:types:AS:FS}AS_FS_CustomerDocument'(docTypeCode: ri!selectedDocTypeCode),
+  local!uploadType: #"_a-0000e438-fd8a-8000-9bbe-011c48011c48_377879",
+  local!requiredDocsOfSameType: a!refreshVariable(
+    value: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81482"(
+      cdt: local!requiredDocuments,
+      fields: { "docTypeCode", "onboardingDocument" },
+      values: { ri!selectedDocTypeCode, null }
+    ),
+    refreshOnReferencedVarChange: false
+  ),
+  {
+    #"SYSTEM_SYSRULES_columnsLayout"(
+      columns: {
+        #"SYSTEM_SYSRULES_columnLayout"(
+          contents: /*Document Requirement Type*/
+          #"_a-0000e393-fbf1-8000-9ba2-011c48011c48_81756"(
+            i18nData: ri!i18nData,
+            refData: ri!refData,
+            selectedTypeCode: ri!selectedDocTypeCode,
+            showWhen: #"_a-0000e3ff-a5bc-8000-9ba8-011c48011c48_39082"(boolean: ri!showDocTypeSelection),
+            required: true(),
+            additionalSaveInto: {
+              /*find all requirements of the same doc type*/
+              a!save(
+                local!requiredDocsOfSameType,
+                #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81482"(
+                  cdt: ri!requiredDocuments,
+                  fields: { "docTypeCode", "onboardingDocument" },
+                  values: { ri!selectedDocTypeCode, null }
+                )
+              ),
+              /*determine if doc will be required*/
+              a!save(
+                local!isRequiredDocument,
+                #"_a-0000e7c7-bc72-8000-9c0e-011c48011c48_3070402"(
+                  documentType: ri!selectedDocTypeCode,
+                  requiredDocuments: ri!requiredDocuments,
+                  requestId: ri!onboardingRequest.requestId
+                )
+              ),
+              /*default matched doc id if there is only one option*/
+              a!save(
+                ri!matchedReqdDocId,
+                if(
+                  local!isRequiredDocument = false(),
+                  null,
+                  and(
+                    #"_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_880586"(local!requiredDocsOfSameType) = 1,
+                    local!isRequiredDocument = true()
+                  ),
+                  local!requiredDocsOfSameType[1].requiredOnboardingDocumentId,
+                  ri!matchedReqdDocId
+                )
+              ),
+              /*get customer documents of the selected type*/
+              a!save(
+                ri!customerDocuments,
+                if(
+                  #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(ri!selectedDocTypeCode),
+                  {},
+                  #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_971481"(
+                    docTypeCodes: ri!selectedDocTypeCode,
+                    nonExpired: true(),
+                    customerId: ri!onboardingRequest.customer.customerId,
+                    returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290163",
+                    documentsToExclude: /*Rejecting if a document is associated with a requirement, remove it from the dropdown*/
+                    ri!requiredDocuments.onboardingDocument.customerDocument.customerDocumentId
+                  )
+                )
+              ),
+              /*default customer document if there is only 1*/
+              a!save(
+                ri!onboardingDocument.customerDocument,
+                if(
+                  and(
+                    ri!uploadType = #"_a-0000e438-fd8a-8000-9bbe-011c48011c48_377885",
+                    #"_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_880586"(ri!customerDocuments) = 1
+                  ),
+                  ri!customerDocuments,
+                  ri!onboardingDocument.customerDocument
+                )
+              )
+            }
+          )
+        ),
+        /*choose the appropriate requirement*/
+        #"SYSTEM_SYSRULES_columnLayout"(
+          contents: #"_a-0000e528-bc07-8000-9bcf-011c48011c48_1027802"(
+            readOnly: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75636"(
+              #"_a-0000e3ff-a5bc-8000-9ba8-011c48011c48_39082"(boolean: ri!showDocTypeSelection)
+            ),
+            showWhen: and(
+              local!isRequiredDocument,
+              #"_a-0000e3ff-a5bc-8000-9ba8-011c48011c48_39082"(boolean: ri!showDocTypeSelection),
+              #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(local!requiredDocsOfSameType)
+            ),
+            label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+              i18nData: ri!i18nData,
+              bundleKey: "AS.CO.AllBundles.lbl_DocumentRequirementName"
+            ),
+            saveInto: ri!matchedReqdDocId,
+            required: true(),
+            choiceLabels: local!requiredDocsOfSameType.requirementName,
+            choiceValues: local!requiredDocsOfSameType.requiredOnboardingDocumentId,
+            value: ri!matchedReqdDocId,
+            placeholderLabel: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+              i18nData: ri!i18nData,
+              bundleKey: "AS.CO.AllBundles.lbl_DocumentName"
+            )
+          )
+        ),
+        #"SYSTEM_SYSRULES_columnLayout"(contents: {})
+      }
+    ),
+    #"SYSTEM_SYSRULES_columnsLayout"(
+      columns: {
+        #"SYSTEM_SYSRULES_columnLayout"(
+          contents: {
+            /*New or existing document*/
+            #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_74506"(
+              label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                i18nData: ri!i18nData,
+                bundleKey: "AS.CO.AllBundles.lbl_NewOrExistingDocument"
+              ),
+              helpTooltip: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                i18nData: ri!i18nData,
+                bundleKey: "AS.CO.AllBundles.ins_YouCanAttachACustomerDoc"
+              ),
+              choiceLabels: {
+                #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                  i18nData: ri!i18nData,
+                  bundleKey: "AS.CO.AllBundles.lbl_New"
+                ),
+                #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                  i18nData: ri!i18nData,
+                  bundleKey: "AS.CO.AllBundles.lbl_Existing"
+                )
+              },
+              choiceValues: {
+                #"_a-0000e438-fd8a-8000-9bbe-011c48011c48_377879",
+                #"_a-0000e438-fd8a-8000-9bbe-011c48011c48_377885"
+              },
+              value: ri!uploadType,
+              saveInto: {
+                ri!uploadType,
+                /*null out document if selection is switched*/
+                #"_a-0000e3c8-6861-8000-9ba2-011c48011c48_124304"(ri!onboardingDocument.customerDocument)
+              },
+              readOnly: false,
+              choiceLayout: "COMPACT"
+            ),
+            /*Expiration Date*/
+            #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_74175"(
+              labelPosition: "ABOVE",
+              label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                i18nData: ri!i18nData,
+                bundleKey: "AS.CO.AllBundles.lbl_ExpirationDate"
+              ),
+              value: ri!onboardingDocument.customerDocument.expirationDate,
+              readOnly: ri!uploadType = #"_a-0000e438-fd8a-8000-9bbe-011c48011c48_377885",
+              saveInto: {
+                ri!onboardingDocument.customerDocument.expirationDate
+              },
+              align: "LEFT"
+            )
+          }
+        ),
+        #"SYSTEM_SYSRULES_columnLayout"(
+          contents: {
+            if(
+              ri!uploadType = #"_a-0000e438-fd8a-8000-9bbe-011c48011c48_377885",
+              /*Choose existing document*/
+              #"_a-0000e528-bc07-8000-9bcf-011c48011c48_1027802"(
+                label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                  i18nData: ri!i18nData,
+                  bundleKey: "AS.CO.AllBundles.lbl_Document"
+                ),
+                required: true,
+                choiceLabels: ri!customerDocuments.documentName,
+                choiceValues: ri!customerDocuments,
+                value: ri!onboardingDocument.customerDocument,
+                saveInto: {
+                  a!save(
+                    ri!onboardingDocument.customerDocument,
+                    if(
+                      #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(save!value),
+                      local!defaultValueForCustomerDocument,
+                      save!value
+                    )
+                  )
+                },
+                disabled: and(
+                  #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(ri!selectedDocTypeCode),
+                  #"_a-0000e3ff-a5bc-8000-9ba8-011c48011c48_39082"(ri!showDocTypeSelection)
+                ),
+                placeholderLabel: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                  bundleKey: if(
+                    #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(ri!customerDocuments),
+                    "AS.CO.AllBundles.plc_NoExistingDocumentsAvailable",
+                    "AS.CO.AllBundles.lbl_Document"
+                  ),
+                  i18nData: ri!i18nData
+                )
+              ),
+              /*Upload file*/
+              #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_74302"(
+                allUploadedDocuments: ri!uploadedDocument,
+                required: true,
+                label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                  i18nData: ri!i18nData,
+                  bundleKey: "AS.CO.AllBundles.lbl_Document"
+                ),
+                target: if(
+                  ri!onboardingDocument.customerDocument.isInternal,
+                  local!customerInternalFolder,
+                  local!customerPublicFolder
+                ),
+                value: ri!onboardingDocument.customerDocument.appianDocId,
+                maxSelections: 1,
+                saveInto: {
+                  ri!onboardingDocument.customerDocument.appianDocId,
+                  if(
+                    #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(
+                      ri!onboardingDocument.customerDocument.appianDocId
+                    ),
+                    /* Clear out all fields if removing the document */
+                    a!save(
+                      ri!onboardingDocument.customerDocument,
+                      local!defaultValueForCustomerDocument
+                    ),
+                    {}
+                  ),
+                  a!save(
+                    ri!onboardingDocument.customerDocument.createdDatetime,
+                    now()
+                  )/*Do not set folder ID here -- instead set in process to follow the "process model as a webservice" paradigm */
+                  
+                }
+              )
+            ),
+            /*Security*/
+            #"_a-0000e62c-7375-8000-9bec-011c48011c48_1726044"(
+              labelPosition: "ABOVE",
+              label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                i18nData: ri!i18nData,
+                bundleKey: "AS.FS.AllBundles.lbl_Security"
+              ),
+              choiceLayout: "COMPACT",
+              align: "LEFT",
+              i18nData: ri!i18nData,
+              required: false(),
+              showWhen: ri!showWhenIsInternalDoc,
+              isInternalValue: ri!onboardingDocument.customerDocument.isInternal,
+              readOnlyValue: if(
+                ri!uploadType = #"_a-0000e438-fd8a-8000-9bbe-011c48011c48_377879",
+                {},
+                if(
+                  #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(ri!onboardingDocument.customerDocument),
+                  "-",
+                  #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                    i18nData: ri!i18nData,
+                    bundleKey: if(
+                      ri!onboardingDocument.customerDocument.isInternal,
+                      "AS.CO.AllBundles.txt_InternalViewersOnly",
+                      "AS.CO.AllBundles.txt_ExternalViewersPermitted"
+                    )
+                  )
+                )
+              )
+            )
+          }
+        ),
+        #"SYSTEM_SYSRULES_columnLayout"(contents: {})
+      }
+    ),
+    #"SYSTEM_SYSRULES_columnsLayout"(
+      columns: {
+        #"SYSTEM_SYSRULES_columnLayout"(
+          contents: {
+            /*Description*/
+            #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_74400"(
+              labelPosition: "ABOVE",
+              height: "SHORT",
+              value: ri!onboardingDocument.customerDocument.documentDesc,
+              label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                i18nData: ri!i18nData,
+                bundleKey: "AS.CO.AllBundles.lbl_Description"
+              ),
+              readOnly: ri!uploadType = #"_a-0000e438-fd8a-8000-9bbe-011c48011c48_377885",
+              saveInto: {
+                ri!onboardingDocument.customerDocument.documentDesc
+              },
+              validations: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_74104"(
+                value: ri!onboardingDocument.customerDocument.documentDesc,
+                maxLength: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73500"
+              )
+            )
+          }
+        )
+      }
+    ),
+    #"SYSTEM_SYSRULES_sectionLayout_v1"(contents: {})
+  }
+)</definition>
+        <namedTypedValue>
+            <name>i18nData</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>refData</name>
+            <type>
+                <name>AS_IO_R_Data?list</name>
+                <namespace>urn:com:appian:types:AS:IO</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>onboardingDocument</name>
+            <type>
+                <name>AS_IO_OnboardingDocument</name>
+                <namespace>urn:com:appian:types:AS:IO</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>requiredDocuments</name>
+            <type>
+                <name>AS_IO_RequiredOnboardingDocument?list</name>
+                <namespace>urn:com:appian:types:AS:IO</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>matchedReqdDocId</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>customerFolder</name>
+            <type>
+                <name>CollaborationFolder</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>showWhenIsInternalDoc</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>uploadedDocument</name>
+            <type>
+                <name>CollaborationDocument</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>showDocTypeSelection</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>customerDocuments</name>
+            <type>
+                <name>AS_FS_CustomerDocument?list</name>
+                <namespace>urn:com:appian:types:AS:FS</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>onboardingRequest</name>
+            <type>
+                <name>AS_IO_OnboardingRequest</name>
+                <namespace>urn:com:appian:types:AS:IO</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>selectedDocTypeCode</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>uploadType</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+        <isCustom>false</isCustom>
+    </interface>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name/>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81834"(
+  triggerRefresh: null
+)</a:value>
+                    <a:nameRef>i18nData</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_39864"(
+  typeList: {
+    #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_975321",
+    #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_975334"
+  },
+  i18nData: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81834"(
+    triggerRefresh: null
+  )
+)</a:value>
+                    <a:nameRef>refData</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:n1="urn:com:appian:types:AS:IO" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="n1:AS_IO_OnboardingDocument"/>
+                    <a:nameRef>onboardingDocument</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">{
+  {requiredOnboardingDocumentId:1,requirementName:"Name1",'docTypeCode': "DOCUMENT_TYPE_AGREEMENT_CUSTODY", 'onboardingDocument': null},
+  {requiredOnboardingDocumentId:2,requirementName:"Name2"}
+}</a:value>
+                    <a:nameRef>requiredDocuments</a:nameRef>
+                    <a:id>4</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:int"/>
+                    <a:nameRef>matchedReqdDocId</a:nameRef>
+                    <a:id>5</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="a:CollaborationFolder"/>
+                    <a:nameRef>customerFolder</a:nameRef>
+                    <a:id>6</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:boolean"/>
+                    <a:nameRef>showWhenIsInternalDoc</a:nameRef>
+                    <a:id>7</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="a:CollaborationDocument"/>
+                    <a:nameRef>uploadedDocument</a:nameRef>
+                    <a:id>8</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">null</a:value>
+                    <a:nameRef>showDocTypeSelection</a:nameRef>
+                    <a:id>9</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">{}</a:value>
+                    <a:nameRef>customerDocuments</a:nameRef>
+                    <a:id>10</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:n1="urn:com:appian:types:AS:IO" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="n1:AS_IO_OnboardingRequest"/>
+                    <a:nameRef>onboardingRequest</a:nameRef>
+                    <a:id>11</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:string"/>
+                    <a:nameRef>selectedDocTypeCode</a:nameRef>
+                    <a:id>13</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:string"/>
+                    <a:nameRef>uploadType</a:nameRef>
+                    <a:id>14</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e7c7-bc72-8000-9c0e-011c48011c48_3074737"/>
+        <historyInfo versionUuid="_a-0000e7c7-bc72-8000-9c0e-011c48011c48_3094889"/>
+        <historyInfo versionUuid="_a-0000e7c7-bc72-8000-9c0e-011c48011c48_3100557"/>
+        <historyInfo versionUuid="_a-0000e811-1167-8000-9c18-011c48011c48_3489653"/>
+        <historyInfo versionUuid="_a-0000e825-b425-8000-9c1c-011c48011c48_3573177"/>
+        <historyInfo versionUuid="_a-0000e825-b425-8000-9c1c-011c48011c48_3620192"/>
+    </history>
+</contentHaul>

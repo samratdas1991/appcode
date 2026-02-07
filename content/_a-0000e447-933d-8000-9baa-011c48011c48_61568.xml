@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e447-933d-8000-9baa-011c48011c48_62594</versionUuid>
+    <rule>
+        <name>AS_QNM_UT_buildCurrentFieldResponsesForSelectionBasedQuestion</name>
+        <uuid>_a-0000e447-933d-8000-9baa-011c48011c48_61568</uuid>
+        <description>Helper rule for updating responses for selection based questions where both label and value are important (dropdown, radio button, etc)</description>
+        <parentUuid>_a-0000e42d-ffef-8000-9ba6-011c48011c48_7213-qnm</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>#"_a-0000e447-933d-8000-9baa-011c48011c48_44150"(
+  fieldKey: ri!fieldKey,
+  labelValuePairs: #"SYSTEM_SYSRULES_forEach"(
+    items: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+      cdt: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+        cdt: ri!responseOptions,
+        field: "fieldKey",
+        value: ri!fieldKey
+      ),
+      field: "value",
+      value: ri!selectedValues
+    ),
+    expression: {
+      label: fv!item.label,
+      value: fv!item.value
+    }
+  )
+)</definition>
+        <namedTypedValue>
+            <name>fieldKey</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>responseOptions</name>
+            <type>
+                <name>AS_QNM_Response?list</name>
+                <namespace>urn:com:appian:types:AS:QNM</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>selectedValues</name>
+            <type>
+                <name>Text?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name>No response</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                    <a:nameRef>fieldKey</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">{
+  'type!{urn:com:appian:types:AS:QNM}AS_QNM_Response'(
+    label: "lab1",
+    value: "val1"
+  ),
+  'type!{urn:com:appian:types:AS:QNM}AS_QNM_Response'(
+    label: "lab2",
+    value: "val2"
+  ),
+  'type!{urn:com:appian:types:AS:QNM}AS_QNM_Response'(
+    label: "lab3",
+    value: "val3"
+  )
+}</a:value>
+                    <a:nameRef>responseOptions</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                    <a:nameRef>selectedValues</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions>
+                    <a:expectedOutput xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                    <a:resultAssertions>#"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(test!output)</a:resultAssertions>
+                </a:assertions>
+            </el>
+            <el>
+                <a:name>Response</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                    <a:nameRef>fieldKey</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">{
+  'type!{urn:com:appian:types:AS:QNM}AS_QNM_Response'(
+    label: "lab1",
+    value: "val1"
+  ),
+  'type!{urn:com:appian:types:AS:QNM}AS_QNM_Response'(
+    label: "lab2",
+    value: "val2"
+  ),
+  'type!{urn:com:appian:types:AS:QNM}AS_QNM_Response'(
+    label: "lab3",
+    value: "val3"
+  )
+}</a:value>
+                    <a:nameRef>responseOptions</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">"val1"</a:value>
+                    <a:nameRef>selectedValues</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions>
+                    <a:expectedOutput>
+                        <a:type a:uuid="{http://www.appian.com/ae/types/2009}Variant"/>
+                        <a:runtimeType a:uuid="{http://www.appian.com/ae/types/2009}Variant"/>
+                        <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">{
+  'type!{urn:com:appian:types:AS:QNM}AS_QNM_Response'(
+    label: "lab1",
+    value: "val1"
+  )
+}</a:value>
+                    </a:expectedOutput>
+                </a:assertions>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e447-933d-8000-9baa-011c48011c48_61920"/>
+        <historyInfo versionUuid="_a-0000e447-933d-8000-9baa-011c48011c48_62594"/>
+    </history>
+</contentHaul>

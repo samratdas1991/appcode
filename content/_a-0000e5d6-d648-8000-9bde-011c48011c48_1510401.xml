@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e5d6-d648-8000-9bde-011c48011c48_1515668</versionUuid>
+    <rule>
+        <name>AS_FS_RPA_UT_calculateAverageRunTime</name>
+        <uuid>_a-0000e5d6-d648-8000-9bde-011c48011c48_1510401</uuid>
+        <description>Calculate average run time of executions in seconds</description>
+        <parentUuid>_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_968428</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>if(
+  #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(ri!executions),
+  {},
+  #"_a-0000e447-933d-8000-9baa-011c48011c48_62810"(
+    numerator: sum(
+      #"SYSTEM_SYSRULES_forEach"(
+        ri!executions,
+        todecimal(fv!item.endTimeMillis) - todecimal(fv!item.startTimeMillis)
+      ),
+      
+    ),
+    denominator: length(ri!executions)
+  ) * 0.001
+)</definition>
+        <namedTypedValue>
+            <name>executions</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name>valid test case</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">{
+  {
+    id: "28",
+    executionNumber: 12,
+    robotName: "601d03a1e4b0cacaf1873c4d",
+    robotCustomName: "AddressUpdateProcess",
+    robotId: "5efb18a5f9e21a2764d22399",
+    nodeName: "601bbc16e4b0cacaf1873c30#1",
+    nodeCustomName: "Persistent_Rahul_PC",
+    nodeId: "601bbc16e4b0cacaf1873c31",
+    startTimeMillis: "1612785229070",
+    endTimeMillis: "1612785364470",
+    result: "SUCCESS",
+    itemsTotal: 2,
+    itemsOk: 2,
+    itemsWarn: 0,
+    testExecution: false,
+    username: "rahul.chaturvedi",
+    description: "@ Persistent_Rahul_PC (601bbc16e4b0cacaf1873c30#1) by rahul.chaturvedi (console)",
+    averageTime: "00h 01m 07s",
+    workItemsAverageTime: "00h 02m 01s"
+  },
+  {
+    id: "29",
+    executionNumber: 13,
+    robotName: "601d03a1e4b0cacaf1873c4d",
+    robotCustomName: "AddressUpdateProcess",
+    robotId: "5efb18a5f9e21a2764d22399",
+    nodeName: "601bbc16e4b0cacaf1873c30#1",
+    nodeCustomName: "Persistent_Rahul_PC",
+    nodeId: "601bbc16e4b0cacaf1873c31",
+    startTimeMillis: "1612847175506",
+    endTimeMillis: "1612847313806",
+    result: "SUCCESS",
+    itemsTotal: 2,
+    itemsOk: 2,
+    itemsWarn: 0,
+    testExecution: false,
+    username: "rahul.chaturvedi",
+    description: "@ Persistent_Rahul_PC (601bbc16e4b0cacaf1873c30#1) by rahul.chaturvedi (console)",
+    averageTime: "00h 01m 09s",
+    workItemsAverageTime: "00h 02m 02s"
+  }
+}</a:value>
+                    <a:nameRef>executions</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+            <el>
+                <a:name>null</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:string"/>
+                    <a:nameRef>executions</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e5d6-d648-8000-9bde-011c48011c48_1515668"/>
+    </history>
+</contentHaul>

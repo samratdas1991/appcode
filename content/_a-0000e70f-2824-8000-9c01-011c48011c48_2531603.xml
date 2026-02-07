@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e70f-2824-8000-9c01-011c48011c48_2630612</versionUuid>
+    <rule>
+        <name>AS_FS_ADT_BL_auditConfig_AlertConfiguration</name>
+        <uuid>_a-0000e70f-2824-8000-9c01-011c48011c48_2531603</uuid>
+        <description>Audit config for the AS_FS_ALT_CONF_AlertConfiguration CDT</description>
+        <parentUuid>_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_968428</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>/*Audit config for */
+/*'type!{urn:com:appian:types:AS:FS}AS_FS_ALT_CONF_AlertConfiguration'*/
+/**/
+'type!{urn:com:appian:types:AS:ADT}AS_ADT_AuditConfig'(
+  idField: "alertConfigurationId",
+  simpleFields: {
+    /*"alertConfigurationId", excluded since it is the primary key*/
+    "alertConfigurationName",
+    "alertText",
+    "isActive"/*no need to track metadata fields, but need to track is active becuase
+    alert configs can be created in deactivated state, which is atypical*/
+    
+  },
+  complexFields: {
+    /*Events*/
+    'type!{urn:com:appian:types:AS:ADT}AS_ADT_AuditConfig'(
+      fieldName: "events",
+      auditFieldName: "eventChanges",
+      idField: "alertConfigurationEventId",
+      simpleFields: {
+        "eventTypeCode",
+        "eventTypeSpecificFieldsJson"
+      },
+      additionalFields: 'type!{urn:com:appian:types:AS:ADT}AS_ADT_AdditionalField'(
+        field: "eventTypeCode",
+        path: "eventTypeCode"
+      ),
+      complexFields: {}
+    ),
+    /*Filter*/
+    'type!{urn:com:appian:types:AS:ADT}AS_ADT_AuditConfig'(
+      fieldName: "filterSet",
+      auditFieldName: "filterSetChanges",
+      idField: "alertConfigurationFilterSetId",
+      simpleFields: { "operator" },
+      complexFields: {
+        /* Filter Conditions */
+        'type!{urn:com:appian:types:AS:ADT}AS_ADT_AuditConfig'(
+          fieldName: "filterConditions",
+          auditFieldName: "filterConditionChanges",
+          idField: "alertConfigurationFilterConditionId",
+          simpleFields: {
+            "alertConfigurationFilterTypeCode",
+            "operator",
+            "configurationFilterSettings"
+          },
+          complexFields: {}
+        )
+      }
+    ),
+    /*Trigger Set*/
+    'type!{urn:com:appian:types:AS:ADT}AS_ADT_AuditConfig'(
+      fieldName: "triggerSet",
+      auditFieldName: "triggerSetChanges",
+      idField: "alertConfigurationTriggerSetId",
+      simpleFields: { "operator" },
+      complexFields: {
+        /*Trigger conditions*/
+        'type!{urn:com:appian:types:AS:ADT}AS_ADT_AuditConfig'(
+          fieldName: "triggerConditions",
+          auditFieldName: "triggerConditionChanges",
+          idField: "alertConfigurationTriggerConditionId",
+          simpleFields: {
+            "alertConfigurationTriggerTypeCode",
+            "configurationTriggerSettings"
+          },
+          complexFields: {}
+        )
+      }
+    )
+  }
+)</definition>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name>EXCEPTION: It is not possible to have a test case with assertion for this rule</a:name>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2531648"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2542001"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2551038"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2551857"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2562084"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2615320"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2630612"/>
+    </history>
+</contentHaul>

@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e62c-7375-8000-9bec-011c48011c48_1864018</versionUuid>
+    <interface>
+        <name>AS_QNM_CPS_displayQuestionPage</name>
+        <uuid>_a-0000e447-933d-8000-9baa-011c48011c48_42875</uuid>
+        <description>Used to display a page of questions on a questionnaire</description>
+        <parentUuid>_a-0000e42d-ffef-8000-9ba6-011c48011c48_7213-qnm</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>{
+  #"SYSTEM_SYSRULES_sectionLayout_v1"(
+    label: ri!questionCategory.questionCategoryName,
+    divider: "ABOVE",
+    marginBelow: "NONE"
+  ),
+  #"SYSTEM_SYSRULES_forEach"(
+    items: #"_a-0000e447-933d-8000-9baa-011c48011c48_42922"(
+      array: ri!questionsOnPage.groupNumber,
+      ascending: true
+    ),
+    expression: a!localVariables(
+      local!questionInGroupIndices: wherecontains(
+        fv!item,
+        ri!questionsOnPage.groupNumber
+      ),
+      local!questionMetadataInGroupIndices: wherecontains(
+        ri!questionsOnPage.questionId[local!questionInGroupIndices],
+        ri!calculatedQuestionPageMetadata.questionId
+      ),
+      #"_a-0000e447-933d-8000-9baa-011c48011c48_37453"(
+        questionsInGroup: ri!questionsOnPage[local!questionInGroupIndices],
+        calculatedQuestionGroupMetadata: ri!calculatedQuestionPageMetadata[local!questionMetadataInGroupIndices],
+        readOnly: ri!readOnly,
+        i18nData: ri!i18nData,
+        divider: if(
+          or(
+            not(
+              fv!isLast
+            ),
+            ri!spacerBelow
+          ),
+          "BELOW",
+          "NONE"
+        ),
+        allUploadedDocs: ri!allUploadedDocs
+      )
+    )
+  ),
+  if(
+    ri!spacerBelow,
+    {
+      #"SYSTEM_SYSRULES_sideBySideLayout"(),
+      #"SYSTEM_SYSRULES_sideBySideLayout"()
+    },
+    {}
+  )
+}</definition>
+        <namedTypedValue>
+            <name>calculatedQuestionPageMetadata</name>
+            <type>
+                <name>AS_QNM_QuestionMetadata?list</name>
+                <namespace>urn:com:appian:types:AS:QNM</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>readOnly</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>questionCategory</name>
+            <type>
+                <name>AS_QNM_QuestionCategory</name>
+                <namespace>urn:com:appian:types:AS:QNM</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>i18nData</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>spacerBelow</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>questionsOnPage</name>
+            <type>
+                <name>AS_QNM_Question?list</name>
+                <namespace>urn:com:appian:types:AS:QNM</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>allUploadedDocs</name>
+            <type>
+                <name>CollaborationDocument?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+        <isCustom>false</isCustom>
+    </interface>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name/>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">a!localVariables(
+  local!questionMetadata: #"_a-0000e460-9d93-8000-9bc1-011c48011c48_633811"(
+  allQuestions: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+    cdt: #"_a-0000e471-623a-8000-9bc3-011c48011c48_662569"().questions,
+    field: "questionCategoryId",
+    value: #"_a-0000e471-623a-8000-9bc3-011c48011c48_662569"().questionCategories[1].questionCategoryId
+  )  
+),
+local!questionMetadata)</a:value>
+                    <a:nameRef>calculatedQuestionPageMetadata</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:boolean">false</a:value>
+                    <a:nameRef>readOnly</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e471-623a-8000-9bc3-011c48011c48_662569"().questionCategories[1]</a:value>
+                    <a:nameRef>questionCategory</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e447-933d-8000-9baa-011c48011c48_43088"(triggerRefresh: null)</a:value>
+                    <a:nameRef>i18nData</a:nameRef>
+                    <a:id>4</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:boolean">false</a:value>
+                    <a:nameRef>spacerBelow</a:nameRef>
+                    <a:id>5</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+  cdt: #"_a-0000e471-623a-8000-9bc3-011c48011c48_662569"().questions,
+  field: "questionCategoryId",
+  value: #"_a-0000e471-623a-8000-9bc3-011c48011c48_662569"().questionCategories[1].questionCategoryId
+)</a:value>
+                    <a:nameRef>questionsOnPage</a:nameRef>
+                    <a:id>6</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                    <a:nameRef>allUploadedDocs</a:nameRef>
+                    <a:id>7</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e447-933d-8000-9baa-011c48011c48_43058"/>
+        <historyInfo versionUuid="_a-0000e447-91f4-8000-9bc0-011c48011c48_574756"/>
+        <historyInfo versionUuid="_a-0000e471-623a-8000-9bc3-011c48011c48_672917"/>
+        <historyInfo versionUuid="_a-0000e471-623a-8000-9bc3-011c48011c48_697718"/>
+        <historyInfo versionUuid="_a-0000e471-623a-8000-9bc3-011c48011c48_722219"/>
+        <historyInfo versionUuid="_a-0000e471-623a-8000-9bc3-011c48011c48_762195"/>
+        <historyInfo versionUuid="_a-0000e471-623a-8000-9bc3-011c48011c48_769628"/>
+        <historyInfo versionUuid="_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_895517"/>
+        <historyInfo versionUuid="_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_933292"/>
+        <historyInfo versionUuid="_a-0000e62c-7375-8000-9bec-011c48011c48_1864018"/>
+    </history>
+</contentHaul>

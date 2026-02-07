@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e70f-2824-8000-9c01-011c48011c48_2716128</versionUuid>
+    <rule>
+        <name>AS_IO_DSP_detailModificationForProcessSetupTrend_DetailModification</name>
+        <uuid>_a-0000e40a-de32-8000-9ba8-011c48011c48_279378</uuid>
+        <description>Displays a detailed modification for process setup trends</description>
+        <parentUuid>_a-0000e2bb-4188-8000-9ba2-011c48011c48_25469</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  local!textItemsToShow: if(
+    #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(ri!auditItem.newTemplateId),
+    /*Show new template name*/
+    #"SYSTEM_SYSRULES_richTextItem_v1"(
+      text: {
+        #"_a-0000e471-623a-8000-9bc3-011c48011c48_702641"(
+          i18nData: ri!i18nData,
+          bundleKey: "AS.CO.AllBundles.txt_ChangedTo",
+          richTextArguments: #"_a-0000e40a-de32-8000-9ba8-011c48011c48_280415"(
+            i18nData: ri!i18nData,
+            value: #"_a-0000e40a-de32-8000-9ba8-011c48011c48_280612"(
+              fieldName: "templateId",
+              value: ri!auditItem.newTemplateId
+            )
+          )
+        )
+      }
+    ),
+    /*Show task-field changes*/
+    #"SYSTEM_SYSRULES_forEach"(
+      items: ri!auditItem.simpleFieldChanges,
+      expression: #"_a-0000e40a-de32-8000-9ba8-011c48011c48_280083"(
+        i18nData: ri!i18nData,
+        change: #"_a-0000e40a-de32-8000-9ba8-011c48011c48_279147"(fv!item)
+      )
+    )
+  ),
+
+  #"SYSTEM_SYSRULES_forEach"(
+    items: local!textItemsToShow,
+    expression: #"SYSTEM_SYSRULES_richTextListItem"(
+      text: fv!item,
+      showWhen: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(fv!item)
+    )
+  )
+)</definition>
+        <namedTypedValue>
+            <name>i18nData</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>auditItem</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name>Null test case</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:string"/>
+                    <a:nameRef>i18nData</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:string"/>
+                    <a:nameRef>auditItem</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions>
+                    <a:expectedOutput>
+                        <a:type a:uuid="{http://www.appian.com/ae/types/2009}Variant"/>
+                        <a:runtimeType a:uuid="{http://www.appian.com/ae/types/2009}Variant"/>
+                        <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">{}</a:value>
+                    </a:expectedOutput>
+                </a:assertions>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e40a-de32-8000-9ba8-011c48011c48_280717"/>
+        <historyInfo versionUuid="_a-0000e40a-de32-8000-9ba8-011c48011c48_284404"/>
+        <historyInfo versionUuid="_a-0000e430-f270-8000-9bbc-011c48011c48_369711"/>
+        <historyInfo versionUuid="_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_826621"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2716128"/>
+    </history>
+</contentHaul>

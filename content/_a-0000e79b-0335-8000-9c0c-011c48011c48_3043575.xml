@@ -1,0 +1,390 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e7e5-dad4-8000-9c14-011c48011c48_3317701</versionUuid>
+    <interface>
+        <name>AS_IO_CRD_individualRequirementEdit</name>
+        <uuid>_a-0000e79b-0335-8000-9c0c-011c48011c48_3043575</uuid>
+        <description>This interface is for edit Requirement document details</description>
+        <parentUuid>_a-0000e2bb-4188-8000-9ba2-011c48011c48_25469</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  local!docRequirementUploadTypes: #"_a-0000e79b-0335-8000-9c0c-011c48011c48_3043295"(i18nData: ri!i18nData),
+  local!selectedUploadField: #"_a-0000e79b-0335-8000-9c0c-011c48011c48_3043388",
+  local!dueDate: if(
+    ri!onboarding.slaDayType = #"_a-0000e460-9d93-8000-9bc1-011c48011c48_620378",
+    workday(
+      today(),
+      #"_a-0000e79b-0335-8000-9c0c-011c48011c48_3039343"
+    ),
+    today() + #"_a-0000e79b-0335-8000-9c0c-011c48011c48_3039343"
+  ),
+  #"SYSTEM_SYSRULES_cardLayout"(
+    contents: {
+      #"SYSTEM_SYSRULES_columnsLayout"(
+        columns: {
+          #"SYSTEM_SYSRULES_columnLayout"(
+            contents: {
+              #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_74506"(
+                label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                  i18nData: ri!i18nData,
+                  bundleKey: "AS.FS.AllBundles.lbl_Upload"
+                ),
+                choiceLabels: local!docRequirementUploadTypes.choiceLabel,
+                choiceValues: local!docRequirementUploadTypes.choiceValue,
+                value: local!selectedUploadField,
+                validations: {},
+                saveInto: {
+                  local!selectedUploadField,
+                  /*update task fields*/
+                  #"_a-0000e79b-0335-8000-9c0c-011c48011c48_3044918"(
+                    selectedUploadField: local!selectedUploadField,
+                    docUploadTask: ri!docUploadTasks[ri!taskIndex],
+                    reviewTask: ri!reviewTasks[ri!taskIndex],
+                    dueDate: local!dueDate,
+                    dueDateCalculationUnit: ri!onboarding.slaDayType
+                  ),
+                  if(
+                    local!selectedUploadField = #"_a-0000e79b-0335-8000-9c0c-011c48011c48_3043381",
+                    {
+                      /*populate requirement with AS_IO_RequiredOnboardingDocument*/
+                      a!save(
+                        ri!allDocumentRequirements[wherecontains(
+                          ri!requiredDocument.requirementName, ri!allDocumentRequirements.requirementName
+                        )].onboardingDocument,
+                        'type!{urn:com:appian:types:AS:IO}AS_IO_OnboardingDocument'(onboardingDocumentId: null)
+                      ),
+                      a!save(
+                        ri!docUploadTasks[ri!taskIndex].requiredDocument.onboardingDocument,
+                        'type!{urn:com:appian:types:AS:IO}AS_IO_OnboardingDocument'(onboardingDocumentId: null)
+                      )
+                    },
+                    {
+                      /*null out requirement's OnboardingDocument*/
+                      a!save(
+                        ri!allDocumentRequirements[wherecontains(
+                          ri!requiredDocument.requirementName, ri!allDocumentRequirements.requirementName
+                        )].onboardingDocument,
+                        null
+                      ),
+                      a!save(
+                        ri!docUploadTasks[ri!taskIndex].requiredDocument.onboardingDocument,
+                        null
+                      )
+                    }
+                  ),
+                  if(
+                    local!selectedUploadField = #"_a-0000e79b-0335-8000-9c0c-011c48011c48_3043381",
+                    a!save(
+                      ri!requiredDocument.onboardingDocument,
+                      null
+                    ),
+                    a!save(
+                      ri!requiredDocument.onboardingDocument,
+                      'type!{urn:com:appian:types:AS:IO}AS_IO_OnboardingDocument'(onboardingDocumentId: null)
+                    )
+                  )
+                },
+                labelPosition: "ABOVE",
+                choiceLayout: "COMPACT",
+                choiceStyle: "CARDS"
+              )
+            }
+          )
+        }
+      ),
+      choose(
+        #"_a-0000e40a-de32-8000-9ba8-011c48011c48_280802"(
+          value: local!selectedUploadField,
+          inArray: {
+            #"_a-0000e79b-0335-8000-9c0c-011c48011c48_3043381",
+            #"_a-0000e79b-0335-8000-9c0c-011c48011c48_3043388"
+          }
+        ),
+        {},
+        #"_a-0000e79b-0335-8000-9c0c-011c48011c48_3042233"(
+          i18nData: ri!i18nData,
+          requiredDocument: ri!requiredDocument,
+          allUploadedDocuments: ri!allUploadedDocuments,
+          onboardingRequest: ri!onboarding,
+          mappedCustomerDocumentIds: ri!mappedCustomerDocumentIds,
+          allDocumentRequirements: ri!allDocumentRequirements,
+          reviewTasks: ri!reviewTasks,
+          taskIndex: ri!taskIndex,
+          markRequiredFields: local!selectedUploadField = #"_a-0000e79b-0335-8000-9c0c-011c48011c48_3043381"
+        ),
+        #"_a-0000e79b-0335-8000-9c0c-011c48011c48_3044845"(
+          i18nData: ri!i18nData,
+          docUploadTasks: ri!docUploadTasks,
+          onboardingRequest: ri!onboarding,
+          reviewTasks: ri!reviewTasks,
+          taskIndex: ri!taskIndex,
+          markRequiredFields: local!selectedUploadField = #"_a-0000e79b-0335-8000-9c0c-011c48011c48_3043388"
+        )
+      )
+    },
+    showWhen: ri!isExpanded
+  )
+)</definition>
+        <namedTypedValue>
+            <name>i18nData</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>requiredDocument</name>
+            <type>
+                <name>AS_IO_RequiredOnboardingDocument</name>
+                <namespace>urn:com:appian:types:AS:IO</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>isExpanded</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>docUploadTasks</name>
+            <type>
+                <name>AS_IO_Task?list</name>
+                <namespace>urn:com:appian:types:AS:IO</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>reviewTasks</name>
+            <type>
+                <name>AS_IO_Task?list</name>
+                <namespace>urn:com:appian:types:AS:IO</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>onboarding</name>
+            <type>
+                <name>AS_IO_OnboardingRequest</name>
+                <namespace>urn:com:appian:types:AS:IO</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>mappedCustomerDocumentIds</name>
+            <type>
+                <name>Integer?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>allUploadedDocuments</name>
+            <type>
+                <name>CollaborationDocument?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>taskIndex</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>allDocumentRequirements</name>
+            <type>
+                <name>AS_IO_RequiredOnboardingDocument?list</name>
+                <namespace>urn:com:appian:types:AS:IO</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+        <isCustom>false</isCustom>
+    </interface>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name/>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81834"(
+  triggerRefresh: null
+)</a:value>
+                    <a:nameRef>i18nData</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">'type!{urn:com:appian:types:AS:IO}AS_IO_RequiredOnboardingDocument'('requestId': 31, 'requirementName': "Agreement: Custody 1", 'docTypeCode': "DOCUMENT_TYPE_AGREEMENT_CUSTODY",
+'isDeleted': false)</a:value>
+                    <a:nameRef>requiredDocument</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:boolean"/>
+                    <a:nameRef>isExpanded</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">{
+  'type!{urn:com:appian:types:AS:IO}AS_IO_Task'(
+    'taskName': "Attach Required Document | Agreement: Pricing 1",
+    'taskBehaviorType': 'type!{urn:com:appian:types:AS:IO}AS_IO_R_TaskBehaviorType'(
+      'taskBehaviorTypeId': 5,
+      'behaviorTypeCode': "DATA_ENTRY",
+      'behaviorSubtypeCode': "DOCUMENT_UPLOAD",
+      'behaviorDisplayName': "AS.CO.AllBundles.txt_BehaviorTypeAttachDocument",
+      'configurationLevelCode': "AD_HOC",
+      'createdBy': "appian.administrator",
+      'createdDatetime': fn!datetime(2021, 11, 25, 3, 54, 24, 0),
+      'modifiedBy': "appian.administrator",
+      'modifiedDatetime': fn!datetime(2021, 11, 25, 3, 54, 24, 0),
+      'icon': "upload"
+    ),
+    'taskCategory': 'type!{urn:com:appian:types:AS:IO}AS_IO_R_TaskCategory'(
+      'taskCategoryId': 4,
+      'categoryName': "KYC",
+      'createdBy': "1",
+      'createdDatetime': fn!datetime(2021, 11, 25, 3, 54, 24, 0),
+      'modifiedBy': "appian.administrator",
+      'modifiedDatetime': fn!datetime(2021, 11, 25, 3, 54, 24, 0),
+      'isActive': false
+    ),
+    'groupAssignee': 122,
+    'taskStatus': 'type!{urn:com:appian:types:AS:IO}AS_IO_R_TaskStatus'('taskStatusId': 4),
+    'requiredDocument': 'type!{urn:com:appian:types:AS:IO}AS_IO_RequiredOnboardingDocument'(
+      'requestId': 31,
+      'requirementName': "Agreement: Pricing 1",
+      'docTypeCode': "DOCUMENT_TYPE_AGREEMENT_PRICING",
+      'isDeleted': false
+    ),
+    'dueDate': fn!date(2022, 12, 30),
+    slaRule: "SLA_RULE_TYPE_BEFORE_TARGET_COMPLETION_DATE",
+    slaDays: 7
+  )
+}</a:value>
+                    <a:nameRef>docUploadTasks</a:nameRef>
+                    <a:id>4</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">{
+  'type!{urn:com:appian:types:AS:IO}AS_IO_Task'(
+    'taskName': "Review Document | Agreement: Pricing 1",
+    'taskBehaviorType': 'type!{urn:com:appian:types:AS:IO}AS_IO_R_TaskBehaviorType'(
+      'taskBehaviorTypeId': 7,
+      'behaviorTypeCode': "DATA_ENTRY",
+      'behaviorSubtypeCode': "DOCUMENT_REVIEW",
+      'behaviorDisplayName': "AS.CO.AllBundles.txt_BehaviorTypeDocumentReview",
+      'configurationLevelCode': "SYSTEM",
+      'createdBy': "appian.administrator",
+      'createdDatetime': fn!datetime(2021, 12, 6, 7, 12, 41, 0),
+      'modifiedBy': "appian.administrator",
+      'modifiedDatetime': fn!datetime(2021, 12, 6, 7, 12, 41, 0),
+      'icon': "search"
+    ),
+    'taskCategory': 'type!{urn:com:appian:types:AS:IO}AS_IO_R_TaskCategory'(
+      'taskCategoryId': 2,
+      'categoryName': "Document Review",
+      'createdBy': "appian.administrator",
+      'createdDatetime': fn!datetime(2021, 11, 25, 3, 54, 24, 0),
+      'modifiedBy': "appian.administrator",
+      'modifiedDatetime': fn!datetime(2021, 11, 25, 3, 54, 24, 0),
+      'isActive': true
+    ),
+    'groupAssignee': 122,
+    'taskStatus': 'type!{urn:com:appian:types:AS:IO}AS_IO_R_TaskStatus'(
+      'taskStatusId': 1,
+      'statusDisplayName': "AS.CO.AllBundles.txt_StatusQueued",
+      'icon': "clock-o",
+      'createdBy': "appian.administrator",
+      'createdDatetime': fn!datetime(2021, 11, 25, 3, 54, 24, 0),
+      'modifiedBy': "appian.administrator",
+      'modifiedDatetime': fn!datetime(2021, 11, 25, 3, 54, 24, 0)
+    ),
+    'taskPrecedents': {
+      'type!{urn:com:appian:types:AS:IO}AS_IO_Task_Precedent'()
+    },
+    'dueDate': fn!date(2022, 1, 10),
+    slaRule: "SLA_RULE_TYPE_BEFORE_TARGET_COMPLETION_DATE",
+    slaDays: 14,
+    'createdBy': "System",
+    'createdDatetime': fn!datetime(2021, 12, 21, 12, 50, 0, 641),
+    'modifiedBy': "System",
+    'modifiedDatetime': fn!datetime(2021, 12, 21, 12, 50, 0, 641)
+  )
+}</a:value>
+                    <a:nameRef>reviewTasks</a:nameRef>
+                    <a:id>5</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_33091"(
+  returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290163",
+  requestId: 31
+)</a:value>
+                    <a:nameRef>onboarding</a:nameRef>
+                    <a:id>6</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                    <a:nameRef>mappedCustomerDocumentIds</a:nameRef>
+                    <a:id>7</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                    <a:nameRef>allUploadedDocuments</a:nameRef>
+                    <a:id>8</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:int">1</a:value>
+                    <a:nameRef>taskIndex</a:nameRef>
+                    <a:id>9</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">{}</a:value>
+                    <a:nameRef>allDocumentRequirements</a:nameRef>
+                    <a:id>10</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e79b-0335-8000-9c0c-011c48011c48_3059919"/>
+        <historyInfo versionUuid="_a-0000e7c7-bc72-8000-9c0e-011c48011c48_3072889"/>
+        <historyInfo versionUuid="_a-0000e7e5-dad4-8000-9c14-011c48011c48_3317701"/>
+    </history>
+</contentHaul>

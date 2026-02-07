@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e70f-2824-8000-9c01-011c48011c48_2708743</versionUuid>
+    <interface>
+        <name>AS_FS_IDP_integrationSpecificSettings</name>
+        <uuid>_a-0000e6ca-7e19-8000-9bfb-011c48011c48_2348881</uuid>
+        <description>Contains IDP Specific settings</description>
+        <parentUuid>_a-0000e539-6d59-8000-9bd0-011c48011c48_1261631</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  local!classifierConfThreshold: #"_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2367499"(
+    userSettings: ri!allUserSettings,
+    code: #"_a-0000e607-97fd-8000-9be9-011c48011c48_1627716"
+  ).userSettingValue,
+  local!numDocsForRetraining: #"_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2367499"(
+    userSettings: ri!allUserSettings,
+    code: #"_a-0000e607-97fd-8000-9be9-011c48011c48_1627774"
+  ).userSettingValue,
+  {
+    if(
+      ri!readOnly,
+      #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73562"(
+        label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+          i18nData: ri!i18nData,
+          bundleKey: "AS.FS.AllBundles.lbl_ClassficationConf"
+        ),
+        value: local!classifierConfThreshold &amp; "%",
+        readOnly: true,
+        labelPosition: "ABOVE"
+      ),
+      #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_74362"(
+        showWhen: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75636"(ri!readOnly),
+        label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+          i18nData: ri!i18nData,
+          bundleKey: "AS.FS.AllBundles.lbl_ClassficationConf"
+        ),
+        instructions: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+          i18nData: ri!i18nData,
+          bundleKey: "AS.FS.AllBundles.ins_ClassficationConf"
+        ),
+        required: true,
+        readOnly: false,
+        value: #"_a-0000e586-af6f-8000-9bd2-011c48011c48_1335011"(fraction: local!classifierConfThreshold),
+        minSize: 0,
+        maxSize: 100,
+        saveInto: {
+          a!save(
+            ri!allUserSettings,
+            #"_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2367492"(
+              allUserSettings: ri!allUserSettings,
+              value: #"_a-0000e586-af6f-8000-9bd2-011c48011c48_1335053"(percentage: save!value),
+              code: #"_a-0000e607-97fd-8000-9be9-011c48011c48_1627716"
+            )
+          )
+        },
+        labelPosition: "ABOVE",
+        helpTooltip: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+          i18nData: ri!i18nData,
+          bundleKey: "AS.FS.AllBundles.vld_ClassficationConf"
+        )
+      )
+    ),
+    #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_74362"(
+      label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+        i18nData: ri!i18nData,
+        bundleKey: "AS.FS.AllBundles.lbl_DocumentsForRetraining"
+      ),
+      instructions: if(
+        ri!readOnly,
+        "",
+        #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+          i18nData: ri!i18nData,
+          bundleKey: "AS.FS.AllBundles.ins_DocumentsForRetraining"
+        )
+      ),
+      required: true,
+      readOnly: ri!readOnly,
+      value: local!numDocsForRetraining,
+      minSize: 1,
+      saveInto: {
+        a!save(
+          ri!allUserSettings,
+          #"_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2367492"(
+            allUserSettings: ri!allUserSettings,
+            value: save!value,
+            code: #"_a-0000e607-97fd-8000-9be9-011c48011c48_1627774"
+          )
+        )
+      },
+      labelPosition: "ABOVE",
+      helpTooltip: if(
+        ri!readOnly,
+        "",
+        #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+          i18nData: ri!i18nData,
+          bundleKey: "AS.FS.AllBundles.hlp_DocumentsForRetraining"
+        )
+      )
+    )
+  }
+)</definition>
+        <namedTypedValue>
+            <name>readOnly</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>allUserSettings</name>
+            <type>
+                <name>AS_FS_AllUserSettings?list</name>
+                <namespace>urn:com:appian:types:AS:FS</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>i18nData</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+        <isCustom>false</isCustom>
+    </interface>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name/>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:boolean">false</a:value>
+                    <a:nameRef>readOnly</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e5d6-d648-8000-9bde-011c48011c48_1501904"(
+  triggerRefresh: null
+)</a:value>
+                    <a:nameRef>allUserSettings</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_975720"(
+  triggerRefresh: null
+)</a:value>
+                    <a:nameRef>i18nData</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e6ca-7e19-8000-9bfb-011c48011c48_2348938"/>
+        <historyInfo versionUuid="_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2356305"/>
+        <historyInfo versionUuid="_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2367550"/>
+        <historyInfo versionUuid="_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2382280"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2708743"/>
+    </history>
+</contentHaul>

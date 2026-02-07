@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e825-b425-8000-9c1c-011c48011c48_3577914</versionUuid>
+    <interface>
+        <name>AS_FS_CPS_viewAllProducts</name>
+        <uuid>_a-0000e5f9-18eb-8000-9be1-011c48011c48_1549336</uuid>
+        <description>Main rule to view all products in products dashboard</description>
+        <parentUuid>_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_968428</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  local!triggerRefresh: a!refreshVariable(value: now(), refreshAlways: true),
+  local!i18nData: #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_975720"(triggerRefresh: null),
+  local!products: append(
+    #"_a-0000e5d6-d648-8000-9bde-011c48011c48_1532334"(
+      customerId: ri!customerId,
+      returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290163",
+      triggerRefresh: local!triggerRefresh
+    ),
+    'type!{urn:com:appian:types:AS:FS}AS_FS_Product'(customerId: ri!customerId, isParent: true)
+  ),
+  local!customerOpenServiceRequests: #"_a-0000e62c-7375-8000-9bec-011c48011c48_1775427"(
+    customerId: ri!customerId,
+    isActive: true,
+    excludeNestedCdts: true
+  ),
+  local!customerOpenServiceRequestProductUpdates: if(
+    #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(local!customerOpenServiceRequests),
+    {},
+    #"_a-0000e69f-3688-8000-9bf2-011c48011c48_2096884"(
+      returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290163",
+      serviceRequestId: local!customerOpenServiceRequests.serviceRequestId,
+      excludeNestedCdts: false
+    )
+  ),
+  local!columnsPerRow: #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_996646",
+  local!selectedIndex,
+  {
+    #"_a-0000e7e5-dad4-8000-9c14-011c48011c48_3312632"(),
+    #"_a-0000e7e5-dad4-8000-9c14-011c48011c48_3312448"("AS_FS_CPS_viewAllProducts"),
+    if(
+      #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(local!selectedIndex),
+      {
+        #"_a-0000e447-933d-8000-9baa-011c48011c48_68668"(
+          cardLayouts: #"SYSTEM_SYSRULES_forEach"(
+            items: local!products,
+            expression: a!localVariables(
+              local!openSrqUpdatesForProduct: if(
+                fv!isLast,
+                {
+                  /* Pending SRQs is not relevant for the add product card */
+                  
+                },
+                #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+                  cdt: local!customerOpenServiceRequestProductUpdates,
+                  field: "fsProductId",
+                  value: fv!item.productId
+                )
+              ),
+              #"_a-0000e5f9-18eb-8000-9be1-011c48011c48_1549346"(
+                i18nData: local!i18nData,
+                products: local!products,
+                selectedProductIndex: fv!index,
+                additionalSaves: { a!save(local!selectedIndex, fv!index) },
+                pendingServiceRequestIdentifiers: index(
+                  #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+                    cdt: local!customerOpenServiceRequests,
+                    field: "serviceRequestId",
+                    value: index(
+                      local!openSrqUpdatesForProduct,
+                      "serviceRequestId",
+                      {}
+                    )
+                  ),
+                  "uniqueIdentifier",
+                  {}
+                )
+              )
+            )
+          ),
+          maxPerRow: local!columnsPerRow,
+          minPerRow: local!columnsPerRow,
+          marginBelow: "NONE",
+          stackWhen: {
+            "PHONE",
+            "TABLET_PORTRAIT",
+            "TABLET_LANDSCAPE",
+            "DESKTOP_NARROW"
+          }
+        )
+      },
+      {
+        #"_a-0000e5f9-18eb-8000-9be1-011c48011c48_1549704"(
+          i18nData: local!i18nData,
+          selectedProductIndex: local!selectedIndex,
+          products: local!products,
+          readOnly: true,
+          openSrqUpdatesForSelectedProduct: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+            cdt: local!customerOpenServiceRequestProductUpdates,
+            field: "fsProductId",
+            value: local!products[local!selectedIndex].productId
+          )
+        )
+      }
+    )
+  }
+)</definition>
+        <namedTypedValue>
+            <name>customerId</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+        <isCustom>false</isCustom>
+    </interface>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name/>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">1</a:value>
+                    <a:nameRef>customerId</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e5f9-18eb-8000-9be1-011c48011c48_1552307"/>
+        <historyInfo versionUuid="_a-0000e607-97fd-8000-9be9-011c48011c48_1722329"/>
+        <historyInfo versionUuid="_a-0000e62c-7375-8000-9bec-011c48011c48_1742657"/>
+        <historyInfo versionUuid="_a-0000e62c-7375-8000-9bec-011c48011c48_1744268"/>
+        <historyInfo versionUuid="_a-0000e62c-7375-8000-9bec-011c48011c48_1756898"/>
+        <historyInfo versionUuid="_a-0000e673-a4a7-8000-9bef-011c48011c48_1964008"/>
+        <historyInfo versionUuid="_a-0000e69f-3688-8000-9bf2-011c48011c48_2074171"/>
+        <historyInfo versionUuid="_a-0000e69f-3688-8000-9bf2-011c48011c48_2096917"/>
+        <historyInfo versionUuid="_a-0000e69f-3688-8000-9bf2-011c48011c48_2117245"/>
+        <historyInfo versionUuid="_a-0000e69f-3688-8000-9bf2-011c48011c48_2166709"/>
+        <historyInfo versionUuid="_a-0000e81d-5ddb-8000-9c1b-011c48011c48_3565376"/>
+        <historyInfo versionUuid="_a-0000e825-b425-8000-9c1c-011c48011c48_3577914"/>
+    </history>
+</contentHaul>

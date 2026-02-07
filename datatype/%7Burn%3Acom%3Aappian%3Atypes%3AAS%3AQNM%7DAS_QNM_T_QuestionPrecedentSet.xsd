@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema targetNamespace="urn:com:appian:types:AS:QNM"
+  xmlns:tns="urn:com:appian:types:AS:QNM" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <xsd:include schemaLocation="%7Burn%3Acom%3Aappian%3Atypes%3AAS%3AQNM%7DAS_QNM_T_QuestionPrecedent.xsd"/>
+  <xsd:complexType name="AS_QNM_T_QuestionPrecedentSet">
+    <xsd:annotation>
+      <xsd:appinfo source="appian.jpa">@Table(name="AS_QNM_T_QSTN_PRCDNT_SET")</xsd:appinfo>
+      <xsd:appinfo source="http://www.appian.com/ae/types/2009">
+        <ns2:Metadata xmlns:ns2="http://www.appian.com/ae/types/2009">
+          <ns2:versionUuid>0001e4fb-ac20-8000-1711-7f0000014e7a</ns2:versionUuid>
+          <ns2:history>
+            <ns2:historyInfo versionUuid="0000e448-5026-8000-f9f2-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0000e44a-e802-8000-fa88-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0004e456-959b-8000-fb38-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0004e456-fd74-8000-fb5d-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0000e45d-5960-8000-fb74-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0001e4d4-f815-8000-123d-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0003e4ea-38cf-8000-14a8-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0001e4fb-ac20-8000-1711-7f0000014e7a"/>
+          </ns2:history>
+        </ns2:Metadata>
+      </xsd:appinfo>
+      <xsd:documentation><![CDATA[Data type for setting up precedent behavior in template questions.  Can be applied to response requiredness, display, etc -- any behavior that can be made dependent upon the answers to questions.  Functions similarly to a queryLogicalExpression in Appian.  A field key can be provided at the root CDT, indicating that this specific field is to be conditionally displayed.  If no field key is provided, the precedentSet is applied to the entire question.  Precedent sets applied to entire quesions take precedence (i.e. a field will never be displayed if the question as a whole is not).]]></xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="questionPrecedentSetTemplateId" nillable="true" type="xsd:int">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@Id @GeneratedValue @Column(name="QSTN_PRCDNT_SET_TEMPLATE_ID")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="fieldKey" nillable="true" type="xsd:string">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@Column(name="FIELD_KEY")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="operator" nillable="true" type="xsd:string">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@Column(name="OPERATOR")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element maxOccurs="unbounded" minOccurs="0"
+        name="questionPrecedentSets" type="tns:AS_QNM_T_QuestionPrecedentSet">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@OneToMany(cascade=CascadeType.ALL, indexed=false) @JoinColumn(name="QSTN_PRCDNT_ST_TPLT_ID_PRNT")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element maxOccurs="unbounded" minOccurs="0"
+        name="questionPrecedents" type="tns:AS_QNM_T_QuestionPrecedent">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@OneToMany(cascade=CascadeType.ALL, indexed=false) @JoinColumn(name="QSTN_PRCDNT_SET_TEMPLATE_ID")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+</xsd:schema>

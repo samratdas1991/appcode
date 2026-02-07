@@ -1,0 +1,825 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e825-b425-8000-9c1c-011c48011c48_3643948</versionUuid>
+    <interface>
+        <name>AS_IO_FM_standardFormForDocumentTask</name>
+        <uuid>_a-0000e7c7-bc72-8000-9c0e-011c48011c48_3103785</uuid>
+        <description>Standard task form for document tasks</description>
+        <parentUuid>_a-0000e2bb-4188-8000-9ba2-011c48011c48_25469</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  local!otherTaskIdsOfTheRequest: a!refreshVariable(
+    value: if(
+      ri!isUploadTask,
+      #"_a-0000e7c7-bc72-8000-9c0e-011c48011c48_3107618"(
+        requestId: ri!task.request.requestId,
+        taskIdToExclude: ri!task.taskId
+      ),
+      #"_a-0000e7c7-bc72-8000-9c0e-011c48011c48_3107709"(
+        requestId: ri!task.request.requestId,
+        taskIdToExclude: ri!task.taskId
+      )
+    ),
+    refreshOnReferencedVarChange: false()
+  ),
+  local!index: 0,
+  #"SYSTEM_SYSRULES_formLayout_v1"(
+    label: "",
+    contents: {
+      /*Debug Frame work*/
+      #"_a-0000e7e5-dad4-8000-9c14-011c48011c48_3312632"(),
+      #"_a-0000e7e5-dad4-8000-9c14-011c48011c48_3312448"("AS_IO_FM_standardFormForDocumentTask"),
+      #"SYSTEM_SYSRULES_sectionLayout_v1"(
+        label: "",
+        contents: {
+          #"SYSTEM_SYSRULES_columnsLayout"(
+            columns: {
+              #"SYSTEM_SYSRULES_columnLayout"(
+                contents: #"SYSTEM_SYSRULES_richTextDisplayField"(
+                  label: "Rich Text",
+                  labelPosition: "COLLAPSED",
+                  value: {
+                    #"SYSTEM_SYSRULES_richTextItem_v1"(
+                      text: { index(ri!task, "taskName", {}) },
+                      size: "LARGE",
+                      style: { "" }
+                    )
+                  }
+                )
+              ),
+              #"SYSTEM_SYSRULES_columnLayout"(contents: {})
+            }
+          )
+        },
+        divider: "BELOW"
+      ),
+      #"SYSTEM_SYSRULES_columnsLayout"(
+        columns: {
+          #"SYSTEM_SYSRULES_columnLayout"(
+            contents: {
+              #"SYSTEM_SYSRULES_columnsLayout"(
+                columns: {
+                  #"SYSTEM_SYSRULES_columnLayout"(
+                    contents: {
+                      #"SYSTEM_SYSRULES_richTextDisplayField"(
+                        value: {
+                          #"SYSTEM_SYSRULES_richTextIcon"(
+                            icon: "angle-double-right-bold",
+                            link: #"SYSTEM_SYSRULES_dynamicLink"(
+                              value: local!index,
+                              saveInto: {
+                                /*           When user skips the first task it has to be removed from ri!allTasks which is coming from the process model                     */
+                                a!save(
+                                  ri!allTasks,
+                                  if(local!index = 0, {}, ri!allTasks)
+                                ),
+                                a!save(local!index, local!index + 1),
+                                /*Save the next task to the ri*/
+                                a!save(
+                                  ri!task,
+                                  #"_a-0000e393-fbf1-8000-9ba2-011c48011c48_104148"(
+                                    taskId: index(
+                                      local!otherTaskIdsOfTheRequest,
+                                      local!index,
+                                      {}
+                                    ),
+                                    returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290157"
+                                  )
+                                ),
+                                if(
+                                  ri!isUploadTask,
+                                  {
+                                    #"_a-0000e3c8-6861-8000-9ba2-011c48011c48_124304"(ri!uploadedDocument),
+                                    #"_a-0000e3c8-6861-8000-9ba2-011c48011c48_124304"(ri!onboardingDocument),
+                                    a!save(
+                                      ri!uploadType,
+                                      #"_a-0000e438-fd8a-8000-9bbe-011c48011c48_377879"
+                                    )
+                                  },
+                                  /*              otherwise is a review task in which case null out all response                    */
+                                  {
+                                    #"_a-0000e3c8-6861-8000-9ba2-011c48011c48_124304"(ri!reason),
+                                    #"_a-0000e3c8-6861-8000-9ba2-011c48011c48_124304"(ri!comment)
+                                  }
+                                )
+                              }
+                            ),
+                            linkStyle: "STANDALONE",
+                            /*              Show when there are no other tasks or the current task is the last task              */
+                            showWhen: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75636"(
+                              or(
+                                #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(local!otherTaskIdsOfTheRequest),
+                                local!index = #"_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_880586"(local!otherTaskIdsOfTheRequest)
+                              )
+                            )
+                          ),
+                          #"SYSTEM_SYSRULES_richTextItem_v1"(
+                            text: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                              i18nData: ri!i18nData,
+                              bundleKey: "AS.CO.AllBundles.lbl_Skip"
+                            ),
+                            link: #"SYSTEM_SYSRULES_dynamicLink"(
+                              value: local!index,
+                              saveInto: {
+                                /*           When user skips the first task it has to be removed from ri!allTasks which is coming from the process model                     */
+                                a!save(
+                                  ri!allTasks,
+                                  if(local!index = 0, {}, ri!allTasks)
+                                ),
+                                a!save(local!index, local!index + 1),
+                                /*Save the next task to the ri*/
+                                a!save(
+                                  ri!task,
+                                  #"_a-0000e393-fbf1-8000-9ba2-011c48011c48_104148"(
+                                    taskId: index(
+                                      local!otherTaskIdsOfTheRequest,
+                                      local!index,
+                                      {}
+                                    ),
+                                    returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290157"
+                                  )
+                                ),
+                                if(
+                                  ri!isUploadTask,
+                                  {
+                                    #"_a-0000e3c8-6861-8000-9ba2-011c48011c48_124304"(ri!uploadedDocument),
+                                    #"_a-0000e3c8-6861-8000-9ba2-011c48011c48_124304"(ri!onboardingDocument),
+                                    a!save(
+                                      ri!uploadType,
+                                      #"_a-0000e438-fd8a-8000-9bbe-011c48011c48_377879"
+                                    )
+                                  },
+                                  /*              otherwise is a review task in which case null out all response                    */
+                                  {
+                                    #"_a-0000e3c8-6861-8000-9ba2-011c48011c48_124304"(ri!reason),
+                                    #"_a-0000e3c8-6861-8000-9ba2-011c48011c48_124304"(ri!comment)
+                                  }
+                                )
+                              }
+                            ),
+                            linkStyle: "STANDALONE",
+                            showWhen: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75636"(
+                              or(
+                                #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(local!otherTaskIdsOfTheRequest),
+                                local!index = #"_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_880586"(local!otherTaskIdsOfTheRequest)
+                              )
+                            )
+                          )
+                        },
+                        showWhen: #"_a-0000e3ff-a5bc-8000-9ba8-011c48011c48_39070"(ri!completeSubsequentTasks),
+                        align: "LEFT"
+                      )
+                    },
+                    width: "NARROW",
+                    showWhen: ri!showSpacerColumns
+                  ),
+                  #"SYSTEM_SYSRULES_columnLayout"(
+                    contents: {
+                      if(
+                        or(
+                          ri!alignTaskContentsWithHeader,
+                          #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(index(ri!task, "docUploadContext", {}))
+                        ),
+                        ri!taskContents,
+                        {}
+                      )
+                    }
+                  )
+                }
+              ),
+              #"SYSTEM_SYSRULES_columnsLayout"(
+                columns: #"SYSTEM_SYSRULES_columnLayout"(
+                  contents: ri!taskContents,
+                  showWhen: and(
+                    ri!alignTaskContentsWithHeader &lt;&gt; true(),
+                    #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(index(ri!task, "docUploadContext", {}))
+                  )
+                )
+              )
+            }
+          ),
+          #"SYSTEM_SYSRULES_columnLayout"(
+            contents: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_76367"(
+              array: {
+                #"_a-0000e3e6-fb42-8000-9ba5-011c48011c48_172196"(
+                  task: ri!task,
+                  i18nData: ri!i18nData,
+                  isCustomerPortal: ri!isCustomerPortal
+                )
+              }
+            ),
+            width: "MEDIUM"
+          )
+        }
+      )
+    },
+    buttons: if(
+      #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(ri!alternateButtons),
+      #"_a-0000e3d1-f4dc-8000-9ba4-011c48011c48_134344"(
+        /*     Submit button   */
+        confirmLabel: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+          i18nData: ri!i18nData,
+          bundleKey: "AS.CO.AllBundles.btn_Submit"
+        ),
+        /*     cancel button   */
+        cancelLabel: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+          i18nData: ri!i18nData,
+          bundleKey: "AS.CO.AllBundles.btn_Cancel"
+        ),
+        confirmSaveInto: {
+          ri!confirmSaveInto,
+          a!save(
+            ri!userAction,
+            #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73305"
+          ),
+          if(
+            ri!isUploadTask,
+            {
+              a!save(
+                ri!allUploadedDocuments,
+                append(
+                  ri!allUploadedDocuments,
+                  ri!uploadedDocument
+                )
+              ),
+              a!save(
+                ri!allOnboardingDocuments,
+                append(
+                  ri!allOnboardingDocuments,
+                  ri!onboardingDocument
+                )
+              )
+            },
+            {
+              /*Append current reason to all reasons */
+              a!save(
+                ri!reasons,
+                append(ri!reasons, ri!reason)
+              ),
+              /*construct comment to save in task*/
+              if(
+                #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(ri!comment),
+                {},
+                a!save(
+                  ri!task.discussion,
+                  'type!{urn:com:appian:types:AS:IO:RC}AS_IO_RC_Comment'(
+                    comment: ri!comment,
+                    recordId: ri!task.request.requestId,
+                    recordTypeId: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_76924"(
+                      recordType: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_33188"
+                    ),
+                    createdDatetime: now(),
+                    createdBy: loggedInUser(),
+                    modifiedDatetime: now(),
+                    modifiedBy: loggedInUser(),
+                    isDeleted: false(),
+                    commentType: #"_a-0000e5a0-53e9-8000-9bd8-011c48011c48_1403061"
+                  )
+                )
+              )
+            }
+          ),
+          /*   To prevet duplicates       */
+          a!save(
+            ri!allTasks,
+            if(
+              local!index = 0,
+              ri!task,
+              append(ri!allTasks, ri!task)
+            )
+          ),
+          a!save(
+            ri!task.taskStatus.taskStatusId,
+            #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73980"(
+              nullableValue: ri!taskStatusId,
+              replacementValue: #"_a-0000e460-9d93-8000-9bc1-011c48011c48_603248"
+            )
+          )
+        },
+        cancelSaveInto: {
+          a!save(
+            ri!userAction,
+            #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73173"
+          ),
+          if(
+            ri!completeSubsequentTasks,
+            a!save(ri!index, local!index),
+            {}
+          )
+        },
+        includeDivider: false,
+        confirmSubmit: true(),
+        cancelSubmit: true,
+        confirmDisabled: false,
+        cancelDisabled: false,
+        confirmHeader: ri!confirmHeader,
+        confirmMessage: ri!confirmMessage,
+        /*    Submit and complete next button     */
+        additionalPrimaryButtons: #"SYSTEM_SYSRULES_ButtonWidget"(
+          label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+            i18nData: ri!i18nData,
+            bundleKey: "AS.CO.AllBundles.btn_SubmitAndCompleteNext"
+          ),
+          saveInto: {
+            ri!confirmSaveInto,
+            a!save(local!index, local!index + 1),
+            if(
+              ri!isUploadTask,
+              {
+                /*    Append current document to all documents        */
+                a!save(
+                  ri!allUploadedDocuments,
+                  append(
+                    ri!allUploadedDocuments,
+                    ri!uploadedDocument
+                  )
+                ),
+                /*    Append current onboarding document to all onboarding documents        */
+                a!save(
+                  ri!allOnboardingDocuments,
+                  append(
+                    ri!allOnboardingDocuments,
+                    ri!onboardingDocument
+                  )
+                )
+              },
+              {
+                /*Append current reason to all reasons */
+                a!save(
+                  ri!reasons,
+                  append(ri!reasons, ri!reason)
+                ),
+                /*construct comment to save in task*/
+                if(
+                  #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(ri!comment),
+                  {},
+                  a!save(
+                    ri!task.discussion,
+                    'type!{urn:com:appian:types:AS:IO:RC}AS_IO_RC_Comment'(
+                      comment: ri!comment,
+                      recordId: ri!task.request.requestId,
+                      recordTypeId: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_76924"(
+                        recordType: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_33188"
+                      ),
+                      createdDatetime: now(),
+                      createdBy: loggedInUser(),
+                      modifiedDatetime: now(),
+                      modifiedBy: loggedInUser(),
+                      isDeleted: false(),
+                      commentType: #"_a-0000e5a0-53e9-8000-9bd8-011c48011c48_1403061"
+                    )
+                  )
+                )
+              }
+            ),
+            /*    Append current task to all tasks        */
+            a!save(
+              ri!allTasks,
+              if(
+                local!index = 1,
+                ri!task,
+                append(ri!allTasks, ri!task)
+              )
+            ),
+            a!save(
+              ri!task,
+              #"_a-0000e393-fbf1-8000-9ba2-011c48011c48_104148"(
+                taskId: index(
+                  local!otherTaskIdsOfTheRequest,
+                  local!index,
+                  {}
+                ),
+                returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290157"
+              )
+            ),
+            #"_a-0000e3c8-6861-8000-9ba2-011c48011c48_124304"(ri!userAction),
+            if(
+              ri!isUploadTask,
+              {
+                #"_a-0000e3c8-6861-8000-9ba2-011c48011c48_124304"(ri!uploadedDocument),
+                #"_a-0000e3c8-6861-8000-9ba2-011c48011c48_124304"(ri!onboardingDocument),
+                a!save(
+                  ri!uploadType,
+                  #"_a-0000e438-fd8a-8000-9bbe-011c48011c48_377879"
+                )
+              },
+              /*              otherwise is a review task in which case null out all response                    */
+              {
+                #"_a-0000e3c8-6861-8000-9ba2-011c48011c48_124304"(ri!reason),
+                #"_a-0000e3c8-6861-8000-9ba2-011c48011c48_124304"(ri!comment)
+              }
+            )
+          },
+          showWhen: and(
+            #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75636"(
+              or(
+                #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(local!otherTaskIdsOfTheRequest),
+                local!index = #"_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_880586"(local!otherTaskIdsOfTheRequest)
+              )
+            ),
+            ri!completeSubsequentTasks
+          ),
+          validate: true
+        ),
+        cancelConfirmMessage: if(
+          #"_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_880586"(ri!allTasks) = 1,
+          null(),
+          #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+            i18nData: ri!i18nData,
+            bundleKey: "AS.CO.AllBundles.txt_CancelConfirmForDocUpload"
+          )
+        )
+      ),
+      ri!alternateButtons
+    ),
+    validations: #"SYSTEM_SYSRULES_validationMessage"(
+      message: ri!validation,
+      validateAfter: "SUBMIT",
+      showWhen: ri!validateWhen
+    ),
+    skipAutoFocus: false
+  )
+)</definition>
+        <namedTypedValue>
+            <name>task</name>
+            <type>
+                <name>AS_IO_Task?list</name>
+                <namespace>urn:com:appian:types:AS:IO</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>i18nData</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>userAction</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>taskContents</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>confirmSaveInto</name>
+            <type>
+                <name>Save?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>validation</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>validateWhen</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>confirmMessage</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>confirmHeader</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>taskStatusId</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>alignTaskContentsWithHeader</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>alternateButtons</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>showSpacerColumns</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>completeSubsequentTasks</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>onboardingDocument</name>
+            <type>
+                <name>AS_IO_OnboardingDocument</name>
+                <namespace>urn:com:appian:types:AS:IO</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>uploadedDocument</name>
+            <type>
+                <name>CollaborationDocument</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>allTasks</name>
+            <type>
+                <name>AS_IO_Task?list</name>
+                <namespace>urn:com:appian:types:AS:IO</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>allUploadedDocuments</name>
+            <type>
+                <name>CollaborationDocument?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>allOnboardingDocuments</name>
+            <type>
+                <name>AS_IO_OnboardingDocument?list</name>
+                <namespace>urn:com:appian:types:AS:IO</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>comment</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>reason</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>isUploadTask</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>index</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>uploadType</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>isCustomerPortal</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>reasons</name>
+            <type>
+                <name>Text?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+        <isCustom>false</isCustom>
+    </interface>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name/>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e393-fbf1-8000-9ba2-011c48011c48_104148"(
+  returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290157",
+  behaviorSubtypeCode: #"_a-0000e79b-0335-8000-9c0c-011c48011c48_3040883"
+)</a:value>
+                    <a:nameRef>task</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81834"(
+  null
+)</a:value>
+                    <a:nameRef>i18nData</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:string"/>
+                    <a:nameRef>userAction</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">{}</a:value>
+                    <a:nameRef>taskContents</a:nameRef>
+                    <a:id>4</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                    <a:nameRef>confirmSaveInto</a:nameRef>
+                    <a:id>5</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:string"/>
+                    <a:nameRef>validation</a:nameRef>
+                    <a:id>6</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:boolean"/>
+                    <a:nameRef>validateWhen</a:nameRef>
+                    <a:id>7</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:string"/>
+                    <a:nameRef>confirmMessage</a:nameRef>
+                    <a:id>8</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:string"/>
+                    <a:nameRef>confirmHeader</a:nameRef>
+                    <a:id>9</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:int"/>
+                    <a:nameRef>taskStatusId</a:nameRef>
+                    <a:id>10</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:boolean"/>
+                    <a:nameRef>alignTaskContentsWithHeader</a:nameRef>
+                    <a:id>11</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:string"/>
+                    <a:nameRef>alternateButtons</a:nameRef>
+                    <a:id>12</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:boolean"/>
+                    <a:nameRef>showSpacerColumns</a:nameRef>
+                    <a:id>13</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:boolean">true</a:value>
+                    <a:nameRef>completeSubsequentTasks</a:nameRef>
+                    <a:id>14</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:n1="urn:com:appian:types:AS:IO" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="n1:AS_IO_OnboardingDocument"/>
+                    <a:nameRef>onboardingDocument</a:nameRef>
+                    <a:id>15</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="a:CollaborationDocument"/>
+                    <a:nameRef>uploadedDocument</a:nameRef>
+                    <a:id>16</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                    <a:nameRef>allTasks</a:nameRef>
+                    <a:id>17</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                    <a:nameRef>allUploadedDocuments</a:nameRef>
+                    <a:id>18</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                    <a:nameRef>allOnboardingDocuments</a:nameRef>
+                    <a:id>19</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:string"/>
+                    <a:nameRef>comment</a:nameRef>
+                    <a:id>20</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:string"/>
+                    <a:nameRef>reason</a:nameRef>
+                    <a:id>21</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:boolean">true</a:value>
+                    <a:nameRef>isUploadTask</a:nameRef>
+                    <a:id>22</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:int"/>
+                    <a:nameRef>index</a:nameRef>
+                    <a:id>23</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:string"/>
+                    <a:nameRef>uploadType</a:nameRef>
+                    <a:id>24</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:boolean"/>
+                    <a:nameRef>isCustomerPortal</a:nameRef>
+                    <a:id>25</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                    <a:nameRef>reasons</a:nameRef>
+                    <a:id>26</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e7d2-6286-8000-9c11-011c48011c48_3124265"/>
+        <historyInfo versionUuid="_a-0000e7d2-6286-8000-9c11-011c48011c48_3129676"/>
+        <historyInfo versionUuid="_a-0000e7d2-6286-8000-9c11-011c48011c48_3212827"/>
+        <historyInfo versionUuid="_a-0000e7e5-dad4-8000-9c14-011c48011c48_3224659"/>
+        <historyInfo versionUuid="_a-0000e7e5-dad4-8000-9c14-011c48011c48_3318102"/>
+        <historyInfo versionUuid="_a-0000e825-b425-8000-9c1c-011c48011c48_3643948"/>
+    </history>
+</contentHaul>

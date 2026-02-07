@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e70f-2824-8000-9c01-011c48011c48_2530004</versionUuid>
+    <rule>
+        <name>AS_FS_UT_ReturnUniqueIdentifiersForDisplayForPendingFieldUpdate</name>
+        <uuid>_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2469934</uuid>
+        <description>Given an instance of PendingObjectDisplay and a field to check, returns the unique identifiers with pending action on that field.  Supports returning record links and plaintext.</description>
+        <parentUuid>_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_968428</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>with(
+  local!index: choose(
+    #"_a-0000e40a-de32-8000-9ba8-011c48011c48_280802"(
+      value: ri!displayType,
+      inArray: {
+        #"_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2469960",
+        #"_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2469966"
+      }
+    ),
+    /*Default to plaintext*/
+    "relevantUniqueRecordIdentifiersForTextDisplay",
+    "relevantUniqueRecordIdentifiersForTextDisplay",
+    "relevantRecordLinks"
+  ),
+  local!castType: choose(
+    #"_a-0000e40a-de32-8000-9ba8-011c48011c48_280802"(
+      value: ri!displayType,
+      inArray: {
+        #"_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2469960",
+        #"_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2469966"
+      }
+    ),
+    /*Default to plaintext*/
+    #"_a-0000e40a-de32-8000-9ba8-011c48011c48_282990"(),
+    #"_a-0000e40a-de32-8000-9ba8-011c48011c48_282990"(),
+    typeof({ #"SYSTEM_SYSRULES_dynamicLink"() })
+  ),
+  local!fieldUpdateMetadata: if(
+    ri!applyFieldFilter,
+    #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+      cdt: ri!pendingObjectDisplay.pendingFieldUpdateDisplayMetadata,
+      field: "field",
+      value: ri!field
+    ),
+    ri!pendingObjectDisplay.pendingFieldUpdateDisplayMetadata
+  ),
+  cast(
+    local!castType,
+    #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73758"(
+      value: a!flatten(
+        apply(
+          index(_, local!index, {}),
+          local!fieldUpdateMetadata          
+        )
+      )
+    )
+  )
+)</definition>
+        <namedTypedValue>
+            <name>pendingObjectDisplay</name>
+            <type>
+                <name>AS_FS_UNMAPPED_PendingObjectDisplay</name>
+                <namespace>urn:com:appian:types:FS</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>field</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>displayType</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>applyFieldFilter</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name>Single update, fieldApplied, text</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">'type!{urn:com:appian:types:FS}AS_FS_UNMAPPED_PendingObjectDisplay'('pendingFieldUpdateDisplayMetadata': {
+  'type!{urn:com:appian:types:FS}AS_FS_UNMAPPED_PendingFieldUpdateDisplayMetadata'(
+    'field': "riskScore",
+    'relevantUniqueRecordIdentifiersForTextDisplay': { "SRQ-AAA-0001" }
+  )
+}
+)</a:value>
+                    <a:nameRef>pendingObjectDisplay</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">"riskScore"</a:value>
+                    <a:nameRef>field</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2469960"</a:value>
+                    <a:nameRef>displayType</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:boolean">true</a:value>
+                    <a:nameRef>applyFieldFilter</a:nameRef>
+                    <a:id>4</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions>
+                    <a:expectedOutput>
+                        <a:type a:uuid="{http://www.appian.com/ae/types/2009}Text?list"/>
+                        <a:runtimeType a:uuid="{http://www.appian.com/ae/types/2009}Text?list"/>
+                        <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">{"SRQ-AAA-0001"}</a:value>
+                    </a:expectedOutput>
+                </a:assertions>
+            </el>
+            <el>
+                <a:name>Multiple updates, field applied, text</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">'type!{urn:com:appian:types:FS}AS_FS_UNMAPPED_PendingObjectDisplay'('pendingFieldUpdateDisplayMetadata': {
+  'type!{urn:com:appian:types:FS}AS_FS_UNMAPPED_PendingFieldUpdateDisplayMetadata'(
+    'field': "name",
+    'relevantUniqueRecordIdentifiersForTextDisplay': { "SRQ-AAA-0001" }
+  ),
+  'type!{urn:com:appian:types:FS}AS_FS_UNMAPPED_PendingFieldUpdateDisplayMetadata'(
+    'field': "riskScore",
+    'relevantUniqueRecordIdentifiersForTextDisplay': { "SRQ-AAA-0001" }
+  ),
+  'type!{urn:com:appian:types:FS}AS_FS_UNMAPPED_PendingFieldUpdateDisplayMetadata'(
+    'field': "riskScore",
+    'relevantUniqueRecordIdentifiersForTextDisplay': { "SRQ-AAA-0002" }
+  )
+}
+)</a:value>
+                    <a:nameRef>pendingObjectDisplay</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">"riskScore"</a:value>
+                    <a:nameRef>field</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2469960"</a:value>
+                    <a:nameRef>displayType</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:boolean">true</a:value>
+                    <a:nameRef>applyFieldFilter</a:nameRef>
+                    <a:id>4</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions>
+                    <a:expectedOutput>
+                        <a:type a:uuid="{http://www.appian.com/ae/types/2009}Text?list"/>
+                        <a:runtimeType a:uuid="{http://www.appian.com/ae/types/2009}Text?list"/>
+                        <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">{"SRQ-AAA-0001","SRQ-AAA-0002"}</a:value>
+                    </a:expectedOutput>
+                </a:assertions>
+            </el>
+            <el>
+                <a:name>Multiple updates, field not applied, text</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">'type!{urn:com:appian:types:FS}AS_FS_UNMAPPED_PendingObjectDisplay'('pendingFieldUpdateDisplayMetadata': {
+  'type!{urn:com:appian:types:FS}AS_FS_UNMAPPED_PendingFieldUpdateDisplayMetadata'(
+    'field': "name",
+    'relevantUniqueRecordIdentifiersForTextDisplay': { "SRQ-AAA-0001" }
+  ),
+  'type!{urn:com:appian:types:FS}AS_FS_UNMAPPED_PendingFieldUpdateDisplayMetadata'(
+    'field': "riskScore",
+    'relevantUniqueRecordIdentifiersForTextDisplay': { "SRQ-AAA-0001" }
+  ),
+  'type!{urn:com:appian:types:FS}AS_FS_UNMAPPED_PendingFieldUpdateDisplayMetadata'(
+    'field': "riskScore",
+    'relevantUniqueRecordIdentifiersForTextDisplay': { "SRQ-AAA-0002" }
+  )
+}
+)</a:value>
+                    <a:nameRef>pendingObjectDisplay</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:string"/>
+                    <a:nameRef>field</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2469960"</a:value>
+                    <a:nameRef>displayType</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:boolean">false</a:value>
+                    <a:nameRef>applyFieldFilter</a:nameRef>
+                    <a:id>4</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions>
+                    <a:expectedOutput>
+                        <a:type a:uuid="{http://www.appian.com/ae/types/2009}Text?list"/>
+                        <a:runtimeType a:uuid="{http://www.appian.com/ae/types/2009}Text?list"/>
+                        <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">{"SRQ-AAA-0001","SRQ-AAA-0002"}</a:value>
+                    </a:expectedOutput>
+                </a:assertions>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2470632"/>
+        <historyInfo versionUuid="_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2483365"/>
+        <historyInfo versionUuid="_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2502255"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2530004"/>
+    </history>
+</contentHaul>

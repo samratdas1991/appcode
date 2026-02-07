@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e79b-0335-8000-9c0c-011c48011c48_3017394</versionUuid>
+    <interface>
+        <name>AS_IO_CPS_displayIndividualTaskDetails_timeline</name>
+        <uuid>_a-0000e4ae-1ed6-8000-9bc5-011c48011c48_802721</uuid>
+        <description>Interface to display individual task details in timeline</description>
+        <parentUuid>_a-0000e2bb-4188-8000-9ba2-011c48011c48_25469</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>{
+  #"SYSTEM_SYSRULES_sideBySideLayout"(
+    alignvertical: "BOTTOM",
+    marginbelow: "NONE",
+    items: {
+      /*indenting by interationLevel*/
+      #"SYSTEM_SYSRULES_sideBySideItem"(
+        item: #"SYSTEM_SYSRULES_richTextDisplayField"(
+          label: "Extra Spacing",
+          labelPosition: "COLLAPSED",
+          value: {
+            repeat(ri!iterationLevel, char(9)),
+            #"SYSTEM_SYSRULES_richTextItem_v1"(text: { "↳" }, size: "MEDIUM_PLUS")
+          }
+        ),
+        showWhen: ri!iterationLevel &gt; 0,
+        width: "MINIMIZE"
+      ),
+      /*Task type icon*/
+      #"SYSTEM_SYSRULES_sideBySideItem"(
+        item: #"SYSTEM_SYSRULES_richTextDisplayField"(
+          label: "Task Type",
+          labelPosition: "COLLAPSED",
+          value: {
+            "  ",
+            #"SYSTEM_SYSRULES_richTextIcon"(
+              icon: ri!currentTask.taskBehaviorType.icon
+            )
+          }
+        ),
+        width: "MINIMIZE"
+      ),
+      /*Task name*/
+      #"SYSTEM_SYSRULES_sideBySideItem"(
+        item: #"SYSTEM_SYSRULES_richTextDisplayField"(
+          label: "Task Name",
+          labelPosition: "COLLAPSED",
+          value: {
+            #"SYSTEM_SYSRULES_richTextItem_v1"(
+              text: { ri!currentTask.taskName },
+              style: {}
+            )
+          }
+        ),
+        width: "MINIMIZE"
+      ),
+      /*Due date*/
+      #"SYSTEM_SYSRULES_sideBySideItem"(
+        item: #"SYSTEM_SYSRULES_richTextDisplayField"(
+          label: "Due Date",
+          labelPosition: "COLLAPSED",
+          value: {
+            #"SYSTEM_SYSRULES_richTextItem_v1"(
+              text: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                i18nData: ri!i18nData,
+                bundleKey: "AS.CO.AllBundles.lbl_DueWithDate",
+                arguments: ri!currentTask.dueDate
+              ),
+              color: "SECONDARY",
+              size: "SMALL"
+            )
+          }
+        ),
+        width: "MINIMIZE",
+        showWhen: and(
+          #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(ri!currentTask.completedDatetime),
+          #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(ri!currentTask.dueDate)
+        )
+      ),
+      /*Completed On*/
+      #"SYSTEM_SYSRULES_sideBySideItem"(
+        item: #"SYSTEM_SYSRULES_richTextDisplayField"(
+          label: "Due Date",
+          labelPosition: "COLLAPSED",
+          value: {
+            #"SYSTEM_SYSRULES_richTextItem_v1"(
+              text: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                i18nData: ri!i18nData,
+                bundleKey: "AS.CO.AllBundles.lbl_CompletedX",
+                arguments: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75551"(ri!currentTask.completedDatetime)
+              ),
+              color: "SECONDARY",
+              size: "SMALL"
+            )
+          }
+        ),
+        width: "MINIMIZE",
+        showWhen: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(ri!currentTask.completedDatetime)
+      ),
+      /*Description, assigned group, assignee*/
+      #"SYSTEM_SYSRULES_sideBySideItem"(
+        item: #"SYSTEM_SYSRULES_richTextDisplayField"(
+          label: "Rich Text",
+          labelPosition: "COLLAPSED",
+          value: {
+            #"SYSTEM_SYSRULES_richTextIcon"(
+              icon: "info-circle",
+              color: "SECONDARY",
+              linkstyle: "STANDALONE",
+              caption: concat(
+                #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                  i18nData: ri!i18nData,
+                  bundleKey: "AS.CO.AllBundles.hlp_Description",
+                  arguments: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73980"(
+                    nullableValue: ri!currentTask.taskDesc,
+                    replacementValue: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                      i18nData: ri!i18nData,
+                      bundleKey: "AS.CO.AllBundles.ins_NA"
+                    )
+                  )
+                ),
+                ", ",
+                #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                  i18nData: ri!i18nData,
+                  bundleKey: "AS.CO.AllBundles.lbl_AssignedGroupWithGroup",
+                  arguments: if(
+                    and(
+                      #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(ri!currentTask.groupAssignee),
+                      contains(
+                        #"_a-0000e79b-0335-8000-9c0c-011c48011c48_3017255"(),
+                        ri!currentTask.taskBehaviorType.behaviorSubtypeCode
+                      )
+                    ),
+                    #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73366",
+                    #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73726"(
+                      groupOrUser: ri!currentTask.groupAssignee
+                    )
+                  )
+                ),
+                ", ",
+                if(
+                  ri!currentTask.taskStatus.taskStatusId = #"_a-0000e460-9d93-8000-9bc1-011c48011c48_603248",
+                  #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                    i18nData: ri!i18nData,
+                    bundleKey: "AS.CO.AllBundles.hlp_CompletedBy",
+                    arguments: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73980"(
+                      nullableValue: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73660"(user: ri!currentTask.completedBy),
+                      replacementValue: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                        i18nData: ri!i18nData,
+                        bundleKey: "AS.CO.AllBundles.ins_NA"
+                      )
+                    )
+                  ),
+                  #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                    i18nData: ri!i18nData,
+                    bundleKey: "AS.CO.AllBundles.lbl_AssigneeWithAssignee",
+                    arguments: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73980"(
+                      nullableValue: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73660"(user: ri!currentTask.userAssignee),
+                      replacementValue: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                        i18nData: ri!i18nData,
+                        bundleKey: "AS.CO.AllBundles.ins_NA"
+                      )
+                    )
+                  )
+                )
+              )
+            )
+          }
+        ),
+        width: "MINIMIZE"
+      )
+    }
+  ),
+  #"SYSTEM_SYSRULES_forEach"(
+    items: ri!dependents,
+    expression: {
+      #"_a-0000e4ae-1ed6-8000-9bc5-011c48011c48_802721"(
+        iterationLevel: ri!iterationLevel + 1,
+        currentTask: fv!item.task,
+        dependents: fv!item.dependents,
+        i18nData: ri!i18nData
+      )
+    }
+  )
+}</definition>
+        <namedTypedValue>
+            <name>iterationLevel</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>currentTask</name>
+            <type>
+                <name>AS_IO_Task</name>
+                <namespace>urn:com:appian:types:AS:IO</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>i18nData</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>dependents</name>
+            <type>
+                <name>Map?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+        <isCustom>false</isCustom>
+    </interface>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name/>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:int">0</a:value>
+                    <a:nameRef>iterationLevel</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e393-fbf1-8000-9ba2-011c48011c48_104148"(
+  returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290157",
+  taskId: 5
+)</a:value>
+                    <a:nameRef>currentTask</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81834"(
+  triggerRefresh: null
+)</a:value>
+                    <a:nameRef>i18nData</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                    <a:nameRef>dependents</a:nameRef>
+                    <a:id>4</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e4ae-1ed6-8000-9bc5-011c48011c48_803429"/>
+        <historyInfo versionUuid="_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_812690"/>
+        <historyInfo versionUuid="_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_816339"/>
+        <historyInfo versionUuid="_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_825052"/>
+        <historyInfo versionUuid="_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_828206"/>
+        <historyInfo versionUuid="_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_843310"/>
+        <historyInfo versionUuid="_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_843433"/>
+        <historyInfo versionUuid="_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_847092"/>
+        <historyInfo versionUuid="_a-0000e50d-bf1d-8000-9bcd-011c48011c48_1018285"/>
+        <historyInfo versionUuid="_a-0000e59e-fc58-8000-9bd3-011c48011c48_1387578"/>
+        <historyInfo versionUuid="_a-0000e62c-7375-8000-9bec-011c48011c48_1860049"/>
+        <historyInfo versionUuid="_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2472036"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2718540"/>
+        <historyInfo versionUuid="_a-0000e777-b9f8-8000-9c06-011c48011c48_2830344"/>
+        <historyInfo versionUuid="_a-0000e79b-0335-8000-9c0c-011c48011c48_3017394"/>
+    </history>
+</contentHaul>

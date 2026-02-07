@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e447-933d-8000-9baa-011c48011c48_62535</versionUuid>
+    <rule>
+        <name>AS_QNM_UT_buildResponseForQuestion</name>
+        <uuid>_a-0000e447-933d-8000-9baa-011c48011c48_44150</uuid>
+        <description>Given a question, builds the appropriate CDT type to populate a response</description>
+        <parentUuid>_a-0000e42d-ffef-8000-9ba6-011c48011c48_7213-qnm</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>#"SYSTEM_SYSRULES_forEach"(
+  items: ri!labelValuePairs,
+  expression: 'type!{urn:com:appian:types:AS:QNM}AS_QNM_Response'(
+    fieldKey: ri!fieldKey,
+    label: fv!item.label,
+    value: fv!item.value
+  )
+)</definition>
+        <namedTypedValue>
+            <name>fieldKey</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>labelValuePairs</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name>Question Response Generation</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">"key1"</a:value>
+                    <a:nameRef>fieldKey</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">{label: "lab1", value: "val1"}</a:value>
+                    <a:nameRef>labelValuePairs</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions>
+                    <a:expectedOutput xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                    <a:resultAssertions>#"_a-0000e3e6-fb42-8000-9ba5-011c48011c48_157603"(type: 'type!{urn:com:appian:types:AS:QNM}AS_QNM_Response', value: test!output) = 'type!{urn:com:appian:types:AS:QNM}AS_QNM_Response'(fieldKey: "key1", label: "lab1", value: "val1")</a:resultAssertions>
+                </a:assertions>
+            </el>
+            <el>
+                <a:name>Multiple Response Generation</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">"key1"</a:value>
+                    <a:nameRef>fieldKey</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">{{label: "lab1", value: "val1"},{label: "lab2", value: "val2"}}</a:value>
+                    <a:nameRef>labelValuePairs</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions>
+                    <a:expectedOutput xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                    <a:resultAssertions>and(
+  length(
+    test!output
+  ) = 2,
+  contains(
+    test!output,
+    {
+      'type!{urn:com:appian:types:AS:QNM}AS_QNM_Response'(
+        fieldKey: "key1",
+        label: "lab1",
+        value: "val1"
+      ),
+      'type!{urn:com:appian:types:AS:QNM}AS_QNM_Response'(
+        fieldKey: "key1",
+        label: "lab2",
+        value: "val2"
+      )
+    }
+  )
+)</a:resultAssertions>
+                </a:assertions>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e447-933d-8000-9baa-011c48011c48_44161"/>
+        <historyInfo versionUuid="_a-0000e447-933d-8000-9baa-011c48011c48_50232"/>
+        <historyInfo versionUuid="_a-0000e447-933d-8000-9baa-011c48011c48_62140"/>
+        <historyInfo versionUuid="_a-0000e447-933d-8000-9baa-011c48011c48_62535"/>
+    </history>
+</contentHaul>

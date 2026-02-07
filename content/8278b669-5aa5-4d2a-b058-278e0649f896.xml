@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e7e5-dad4-8000-9c14-011c48011c48_3255837</versionUuid>
+    <interface>
+        <name>AS_FS_CRD_SettingsPageNavigation</name>
+        <uuid>8278b669-5aa5-4d2a-b058-278e0649f896</uuid>
+        <description>For a given settings page configuration, renders a navigational element</description>
+        <parentUuid>_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_968428</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>#"SYSTEM_SYSRULES_cardLayout"(
+  contents: {
+    /*filler*/
+    #"SYSTEM_SYSRULES_cardLayout"(height: "AUTO", showBorder: false),
+    #"SYSTEM_SYSRULES_cardLayout"(
+      contents: {
+        #"SYSTEM_SYSRULES_sectionLayout_v1"(
+          label: proper(ri!settingsPageConfiguration.label),
+          labelSize: "MEDIUM",
+          labelColor: "STANDARD",
+          contents: {},
+          divider: "NONE",
+          marginBelow: "NONE"
+        )
+      },
+      height: "EXTRA_SHORT",
+      style: "NONE",
+      marginBelow: "NONE",
+      showBorder: false
+    ),
+    #"SYSTEM_SYSRULES_cardLayout"(
+      height: "AUTO",
+      style: "NONE",
+      padding: "NONE",
+      marginBelow: "NONE",
+      showBorder: false,
+      contents: {
+        #"SYSTEM_SYSRULES_forEach"(
+          items: filter(
+            #"_a-0000e70f-2824-8000-9c01-011c48011c48_2660486"(
+              settingsPageSubactionGrouping: _,
+              user: ri!loggedInUser
+            ),
+            ri!settingsPageConfiguration.subActionGroupings
+          ),
+          expression: {
+            #"SYSTEM_SYSRULES_cardLayout"(
+              showWhen: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(fv!item.label),
+              contents: {
+                #"SYSTEM_SYSRULES_richTextDisplayField"(
+                  labelPosition: "COLLAPSED",
+                  value: {
+                    #"SYSTEM_SYSRULES_richTextItem_v1"(
+                      text: upper(fv!item.label),
+                      style: "STRONG"
+                    )
+                  }
+                )
+              },
+              height: "AUTO",
+              style: "NONE",
+              padding: "LESS",
+              marginBelow: "NONE",
+              showBorder: false
+            ),
+            #"SYSTEM_SYSRULES_forEach"(
+              items: filter(
+                #"_a-0000e70f-2824-8000-9c01-011c48011c48_2660503"(
+                  settingsPageSubaction: _,
+                  user: ri!loggedInUser
+                ),
+                fv!item.subActions
+              ),
+              expression: a!localVariables(
+                local!isSelectedSubAction: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73624"(
+                  value1: fv!item,
+                  value2: ri!selectedSubAction
+                ),
+                #"SYSTEM_SYSRULES_cardLayout"(
+                  contents: {
+                    #"SYSTEM_SYSRULES_sideBySideLayout"(
+                      items: {
+                        #"SYSTEM_SYSRULES_sideBySideItem"(
+                          item: #"SYSTEM_SYSRULES_richTextDisplayField"(
+                            labelPosition: "COLLAPSED",
+                            value: {
+                              #"SYSTEM_SYSRULES_richTextItem_v1"(
+                                text: "❘",
+                                color: if(
+                                  local!isSelectedSubAction,
+                                  "ACCENT",
+                                  /* Make white to hide if not selected */
+                                  "#ffffff"
+                                ),
+                                size: "LARGE"
+                              ),
+                              "   "
+                            },
+                            align: "CENTER"
+                          ),
+                          width: "MINIMIZE"
+                        ),
+                        #"SYSTEM_SYSRULES_sideBySideItem"(
+                          item: #"SYSTEM_SYSRULES_richTextDisplayField"(
+                            labelPosition: "COLLAPSED",
+                            value: {
+                              #"SYSTEM_SYSRULES_richTextItem_v1"(
+                                text: proper(fv!item.label),
+                                color: if(
+                                  local!isSelectedSubAction,
+                                  "ACCENT",
+                                  "SECONDARY"
+                                ),
+                                size: "MEDIUM",
+                                style: if(local!isSelectedSubAction, "STRONG", "")
+                              )
+                            },
+                            preventWrapping: true
+                          ),
+                          width: "AUTO"
+                        )
+                      },
+                      alignVertical: "MIDDLE",
+                      spacing: "DENSE",
+                      marginBelow: "NONE"
+                    )
+                  },
+                  link: #"SYSTEM_SYSRULES_dynamicLink"(
+                    label: "Select Subaction: " &amp; fv!item.label,
+                    saveInto: a!save(ri!selectedSubAction, fv!item)
+                  ),
+                  height: "AUTO",
+                  padding: "LESS",
+                  marginBelow: "NONE",
+                  showBorder: false,
+                  accessibilityText: fv!item.additionalConfigurations.accessibilityText
+                )
+              )
+            )
+          }
+        )
+      }
+    ),
+    /*filler*/
+    #"SYSTEM_SYSRULES_cardLayout"(
+      contents: {},
+      height: "EXTRA_TALL",
+      style: "NONE",
+      marginBelow: "NONE",
+      showBorder: false
+    ),
+    #"SYSTEM_SYSRULES_cardLayout"(
+      contents: {},
+      height: "MEDIUM",
+      style: "NONE",
+      marginBelow: "NONE",
+      showBorder: false
+    )
+  },
+  height: "AUTO",
+  style: "NONE",
+  padding: "NONE",
+  marginBelow: "NONE",
+  showBorder: false
+)</definition>
+        <namedTypedValue>
+            <name>settingsPageConfiguration</name>
+            <type>
+                <name>AS_FS_UNMAPPED_SettingsPageConfiguration</name>
+                <namespace>urn:com:appian:types:AS:FS</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>selectedSubAction</name>
+            <type>
+                <name>AS_FS_UNMAPPED_SettingsPageSubAction</name>
+                <namespace>urn:com:appian:types:AS:FS</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>loggedInUser</name>
+            <type>
+                <name>User</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+        <isCustom>false</isCustom>
+    </interface>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name/>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e70f-2824-8000-9c01-011c48011c48_2511810"(i18nData: #"_a-0000e69f-3688-8000-9bf2-011c48011c48_2172179"(triggerRefresh: null))[1]</a:value>
+                    <a:nameRef>settingsPageConfiguration</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:n1="urn:com:appian:types:AS:FS" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="n1:AS_FS_UNMAPPED_SettingsPageSubAction"/>
+                    <a:nameRef>selectedSubAction</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">loggedInUser()</a:value>
+                    <a:nameRef>loggedInUser</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2661343"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2666528"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2667842"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2668967"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2672475"/>
+        <historyInfo versionUuid="_a-0000e79b-0335-8000-9c0c-011c48011c48_3010200"/>
+        <historyInfo versionUuid="_a-0000e79b-0335-8000-9c0c-011c48011c48_3012606"/>
+        <historyInfo versionUuid="_a-0000e79b-0335-8000-9c0c-011c48011c48_3039413"/>
+        <historyInfo versionUuid="_a-0000e79b-0335-8000-9c0c-011c48011c48_3040073"/>
+        <historyInfo versionUuid="_a-0000e79b-0335-8000-9c0c-011c48011c48_3040243"/>
+        <historyInfo versionUuid="_a-0000e79b-0335-8000-9c0c-011c48011c48_3042928"/>
+        <historyInfo versionUuid="_a-0000e7d2-6286-8000-9c11-011c48011c48_3195620"/>
+        <historyInfo versionUuid="_a-0000e7e5-dad4-8000-9c14-011c48011c48_3255837"/>
+        <historyInfo versionUuid="_a-0000e7de-fcf5-8000-9be5-011c48011c48_949338"/>
+    </history>
+</contentHaul>

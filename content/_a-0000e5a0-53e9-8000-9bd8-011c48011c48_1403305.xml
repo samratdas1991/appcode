@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e607-97fd-8000-9be9-011c48011c48_1705145</versionUuid>
+    <rule>
+        <name>AS_FS_APPREF_IO_DISPLAY_viewDiscussionInCustomerPortal</name>
+        <uuid>_a-0000e5a0-53e9-8000-9bd8-011c48011c48_1403305</uuid>
+        <description>Application reference to `AS_IO_ENTRYPOINT_DISPLAY_customerPortalViewDiscussion`</description>
+        <parentUuid>_a-0000e539-6d59-8000-9bd0-011c48011c48_1261631</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  /*Return the entry-point rule if it exists, or else returns a no-op*/
+  local!rule: a!refreshVariable(
+    value: #"_a-0000e571-774f-8000-b919-01ef9001ef90_28790"(
+      ruleName: "AS_IO_ENTRYPOINT_DISPLAY_customerPortalViewDiscussion"
+    ),
+    /*Note this always needs to be refreshAlways: true*/
+    refreshAlways: true
+  ),
+  /*Actually execute the rule*/
+  local!rule(
+    /*This should be passed in every app reference rule, */
+    /*which returns a default value if the rule does not exist*/
+    ifNull_default: {},
+    /*Entrypoint-specific inputs for that rule*/
+    requestId: ri!requestId,
+    i18nData: ri!i18nData,
+    columnWidth: ri!columnWidth,
+    triggerRefresh: ri!triggerRefresh
+  )
+)</definition>
+        <namedTypedValue>
+            <name>requestId</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>i18nData</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>columnWidth</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>triggerRefresh</name>
+            <type>
+                <name>dateTime</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <history>
+        <historyInfo versionUuid="_a-0000e5a0-53e9-8000-9bd8-011c48011c48_1409277"/>
+        <historyInfo versionUuid="_a-0000e607-97fd-8000-9be9-011c48011c48_1660585"/>
+        <historyInfo versionUuid="_a-0000e607-97fd-8000-9be9-011c48011c48_1705145"/>
+    </history>
+</contentHaul>

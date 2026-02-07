@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e447-933d-8000-9baa-011c48011c48_33535</versionUuid>
+    <rule>
+        <name>AS_CO_UT_formatDateTime</name>
+        <uuid>_a-0000e2ad-62e7-8000-9ba2-011c48011c48_74227</uuid>
+        <description>Formats a date time for read-only text display using the loggedInUser's timezone. Note, do not use this rule to format dates, only date times. Returns text.</description>
+        <parentUuid>_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73105</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>cast(
+   'type!{http://www.appian.com/ae/types/2009}Text',
+  if(
+    #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(ri!dateTime), 
+    "",
+    if(
+      #"_a-0000e447-933d-8000-9baa-011c48011c48_31790"(user: loggedInUser()),
+      text(ri!dateTime, "mmm d, yyyy h:mm a"),
+      text(ri!dateTime, "d mmm yyyy hh:mm")
+    )
+  )
+)</definition>
+        <namedTypedValue>
+            <name>dateTime</name>
+            <type>
+                <name>dateTime</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name>Null Input</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:dateTime"/>
+                    <a:nameRef>dateTime</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions>
+                    <a:expectedOutput>
+                        <a:type a:uuid="{http://www.appian.com/ae/types/2009}Text"/>
+                        <a:runtimeType a:uuid="{http://www.appian.com/ae/types/2009}Text"/>
+                        <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:string"/>
+                    </a:expectedOutput>
+                </a:assertions>
+            </el>
+            <el>
+                <a:name>DateTime that crosses over midnight</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">datetime(2011, 2, 28, 1, 0, 0)</a:value>
+                    <a:nameRef>dateTime</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions>
+                    <a:expectedOutput xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                    <a:resultAssertions>test!output = 
+if(
+  and(
+    userlocale(loggedInUser()) = "en_US",
+    usertimezone(loggedInUser()) = "America/New_York"
+  ),
+  "Feb 27, 2011 8:00 PM",
+  if(
+    userlocale(loggedInUser()) = "en_US",
+    text(ri!dateTime, "mmm d, yyyy h:mm a"),
+    text(ri!dateTime, "d mmm yyyy hh:mm")
+  )
+)</a:resultAssertions>
+                </a:assertions>
+            </el>
+            <el>
+                <a:name>Copy of DateTime that doesn't cross over midnight</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">datetime(2011, 2, 28, 11, 0, 0)</a:value>
+                    <a:nameRef>dateTime</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions>
+                    <a:expectedOutput xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                    <a:resultAssertions>test!output = 
+if(
+  and(
+    userlocale(loggedInUser()) = "en_US",
+    usertimezone(loggedInUser()) = "America/New_York"
+  ),
+  "Feb 28, 2011 6:00 AM",
+  if(
+    userlocale(loggedInUser()) = "en_US",
+    text(ri!dateTime, "mmm d, yyyy h:mm a"),
+    text(ri!dateTime, "d mmm yyyy hh:mm")
+  )
+)</a:resultAssertions>
+                </a:assertions>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e2ad-62e7-8000-9ba2-011c48011c48_74232"/>
+        <historyInfo versionUuid="_a-0000e2ad-62e7-8000-9ba2-011c48011c48_76889"/>
+        <historyInfo versionUuid="_a-0000e36c-7599-8000-9ba2-011c48011c48_59320"/>
+        <historyInfo versionUuid="_a-0000e430-f270-8000-9bbc-011c48011c48_372669"/>
+        <historyInfo versionUuid="_a-0000e447-933d-8000-9baa-011c48011c48_32018"/>
+        <historyInfo versionUuid="_a-0000e447-933d-8000-9baa-011c48011c48_33535"/>
+    </history>
+</contentHaul>

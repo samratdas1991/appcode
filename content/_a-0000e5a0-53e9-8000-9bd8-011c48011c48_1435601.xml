@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2374258</versionUuid>
+    <rule>
+        <name>AS_EI_CHS_ALT_UT_buildAlert_UpdateAlert</name>
+        <uuid>_a-0000e5a0-53e9-8000-9bd8-011c48011c48_1435601</uuid>
+        <description>Used to build the alerts for CHS field Changes</description>
+        <parentUuid>_a-0000e5a0-53e9-8000-9bd8-011c48011c48_1403824</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>#"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_76367"(
+  a!flatten(
+    #"SYSTEM_SYSRULES_forEach"(
+      items: ri!auditObject.simpleFieldChanges,
+      expression: a!localVariables(
+        local!typeMetadata: displayvalue(
+          fv!item.fieldName,
+          {
+            "jurisdiction",
+            "class",
+            "subclass",
+            "companyStatus"
+          },
+          {
+            a!map(
+              message: "AS.EI.CHS.Alerts.txt_JurisdictionUpdated",
+              displayType: #"_a-0000e5a0-53e9-8000-9bd8-011c48011c48_1451469"
+            ),
+            a!map(
+              message: "AS.EI.CHS.Alerts.txt_ClassUpdated",
+              displayType: #"_a-0000e5a0-53e9-8000-9bd8-011c48011c48_1451475"
+            ),
+            a!map(
+              message: "AS.EI.CHS.Alerts.txt_SubclassUpdated",
+              displayType: #"_a-0000e5a0-53e9-8000-9bd8-011c48011c48_1451481"
+            ),
+            a!map(
+              message: "AS.EI.CHS.Alerts.txt_StatusUpdated",
+              displayType: #"_a-0000e5a0-53e9-8000-9bd8-011c48011c48_1451487"
+            )
+          },
+          /*rule!AS_FS_CHS_ADT_BL_auditConfig_CompanyDetails_SimpleFelds(),*/
+          /*{*/
+          /*a!map(*/
+          /*message: "AS.EI.CHS.Alerts.txt_dateOfCreationUpdated",*/
+          /*displayType: cons!AS_ALT_ENUM_ALERT_ARGUMENT_DISPLAY_TYPE_DATE*/
+          /*),*/
+          /*a!map(*/
+          /*message: "AS.EI.CHS.Alerts.txt_externalRegistrationNumberUpdated"*/
+          /*),*/
+          /*a!map(*/
+          /*message: "AS.EI.CHS.Alerts.txt_JurisdictionUpdated",*/
+          /*displayType: cons!AS_FS_CHS_ALT_ENUM_ALERT_ARGUMENT_DISPLAY_TYPE_JURISDICTION*/
+          /*),*/
+          /*a!map(*/
+          /*message: "AS.EI.CHS.Alerts.txt_ClassUpdated",*/
+          /*displayType: cons!AS_FS_CHS_ALT_ENUM_ALERT_ARGUMENT_DISPLAY_TYPE_CLASS*/
+          /*),*/
+          /*a!map(*/
+          /*message: "AS.EI.CHS.Alerts.txt_SubclassUpdated",*/
+          /*displayType: cons!AS_FS_CHS_ALT_ENUM_ALERT_ARGUMENT_DISPLAY_TYPE_SUB_CLASS*/
+          /*),*/
+          /*a!map(*/
+          /*message: "AS.EI.CHS.Alerts.txt_StatusUpdated",*/
+          /*displayType: cons!AS_FS_CHS_ALT_ENUM_ALERT_ARGUMENT_DISPLAY_TYPE_STATUS_WITH_DESCRIPTION*/
+          /*),*/
+          /*a!map(*/
+          /*message: "AS.EI.CHS.Alerts.txt_companyStatusDetailUpdated"*/
+          /*),*/
+          /*a!map(*/
+          /*message: "AS.EI.CHS.Alerts.txt_streetAddressUpdated"*/
+          /*),*/
+          /*a!map(*/
+          /*message: "AS.EI.CHS.Alerts.txt_addressLine2Updated"*/
+          /*),*/
+          /*a!map(*/
+          /*message: "AS.EI.CHS.Alerts.txt_cityUpdated"*/
+          /*),*/
+          /*a!map(*/
+          /*message: "AS.EI.CHS.Alerts.txt_stateRegionUpdated",*/
+          /*displayType: cons!AS_FS_ALT_ENUM_ALERT_ARGUMENT_DISPLAY_TYPE_STATE*/
+          /*),*/
+          /*a!map(*/
+          /*message: "AS.EI.CHS.Alerts.txt_countryCodeUpdated",*/
+          /*displayType: cons!AS_FS_ALT_ENUM_ALERT_ARGUMENT_DISPLAY_TYPE_COUNTRY*/
+          /*),*/
+          /*a!map(*/
+          /*message: "AS.EI.CHS.Alerts.txt_postalCodeUpdated"*/
+          /*),*/
+          /*a!map(*/
+          /*message: "AS.EI.CHS.Alerts.txt_foreignAccountTypeUpdated",*/
+          /*displayType: cons!AS_FS_CHS_ALT_ENUM_ALERT_ARGUMENT_DISPLAY_TYPE_FOREIGN_ACCOUNT_TYPE*/
+          /*),*/
+          /*a!map(*/
+          /*message: "AS.EI.CHS.Alerts.txt_termsOfAccountPublicationUpdated",*/
+          /*displayType: cons!AS_FS_CHS_ALT_ENUM_ALERT_ARGUMENT_DISPLAY_TYPE_TERMS_OF_ACCOUNT_PUBLICATION*/
+          /*),*/
+          /*a!map(*/
+          /*message: "AS.EI.CHS.Alerts.txt_accountPeriodFromDayUpdated"*/
+          /*),*/
+          /*a!map(*/
+          /*message: "AS.EI.CHS.Alerts.txt_accountPeriodFromMonthUpdated"*/
+          /*),*/
+          /*a!map(*/
+          /*message: "AS.EI.CHS.Alerts.txt_accountPeriodToDayUpdated"*/
+          /*),*/
+          /*a!map(*/
+          /*message: "AS.EI.CHS.Alerts.txt_accountPeriodToMonthUpdated"*/
+          /*),*/
+          /*a!map(*/
+          /*message: "AS.EI.CHS.Alerts.txt_mustFileWithinMonthsUpdated"*/
+          /*),*/
+          /*a!map(*/
+          /*message: "AS.EI.CHS.Alerts.txt_businessActivityUpdated"*/
+          /*),*/
+          /*a!map(*/
+          /*message: "AS.EI.CHS.Alerts.txt_companyTypeUpdated"*/
+          /*),*/
+          /*a!map(*/
+          /*message: "AS.EI.CHS.Alerts.txt_governedByUpdated"*/
+          /*),*/
+          /*a!map(*/
+          /*message: "AS.EI.CHS.Alerts.txt_isCreditFinanceInstitutionUpdated"*/
+          /*),*/
+          /*a!map(*/
+          /*message: "AS.EI.CHS.Alerts.txt_originatingRegistryCountryUpdated"*/
+          /*),*/
+          /*a!map(*/
+          /*message: "AS.EI.CHS.Alerts.txt_originatingRegistryNameUpdated"*/
+          /*),*/
+          /*a!map(*/
+          /*message: "AS.EI.CHS.Alerts.txt_registrationNumberUpdated"*/
+          /*),*/
+          /*a!map(*/
+          /*message: "AS.EI.CHS.Alerts.txt_chargesUpdated"*/
+          /*),*/
+          /*a!map(*/
+          /*message: "AS.EI.CHS.Alerts.txt_fillingHistoryUpdated"*/
+          /*),*/
+          /*a!map(*/
+          /*message: "AS.EI.CHS.Alerts.txt_insolvencyUpdated"*/
+          /*),*/
+          /*a!map(*/
+          /*message: "AS.EI.CHS.Alerts.txt_officersUpdated"*/
+          /*),*/
+          /*a!map(*/
+          /*message: "AS.EI.CHS.Alerts.txt_overseasUpdated"*/
+          /*),*/
+          /*a!map(*/
+          /*message: "AS.EI.CHS.Alerts.txt_personsWithSignificantControlUpdated"*/
+          /*),*/
+          /*a!map(*/
+          /*message: "AS.EI.CHS.Alerts.txt_personsWithSignificantControlStatementsUpdated"*/
+          /*),*/
+          /*a!map(*/
+          /*message: "AS.EI.CHS.Alerts.txt_registersUpdated"*/
+          /*),*/
+          /*a!map(*/
+          /*message: "AS.EI.CHS.Alerts.txt_selfLinkUpdated"*/
+          /*),*/
+          /*a!map(*/
+          /*message: "AS.EI.CHS.Alerts.txt_ukEstablishmentsUpdated"*/
+          /*)*/
+          /*},*/
+          null
+        ),
+        if(
+          #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(input: local!typeMetadata),
+          #"_a-0000e5a0-53e9-8000-9bd8-011c48011c48_1435594"(
+            alertSetId: ri!alertSetId,
+            message: local!typeMetadata.message,
+            arguments: {
+              'type!{urn:com:appian:types:AS:ALT}AS_ALT_AlertArgument'(
+                argumentPosition: 1,
+                argument: ri!auditObject.username,
+                argumentDisplayType: #"_a-0000e447-933d-8000-9baa-011c48011c48_106902"
+              ),
+              'type!{urn:com:appian:types:AS:ALT}AS_ALT_AlertArgument'(
+                argumentPosition: 2,
+                argument: fv!item.oldValue,
+                argumentDisplayType: if(
+                  #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(value: fv!item.oldValue),
+                  #"_a-0000e5a0-53e9-8000-9bd8-011c48011c48_1451726",
+                  local!typeMetadata.displayType
+                )
+              ),
+              'type!{urn:com:appian:types:AS:ALT}AS_ALT_AlertArgument'(
+                argumentPosition: 3,
+                argument: fv!item.newValue,
+                argumentDisplayType: if(
+                  #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(value: fv!item.newValue),
+                  #"_a-0000e5a0-53e9-8000-9bd8-011c48011c48_1451726",
+                  local!typeMetadata.displayType
+                )
+              )
+            },
+            createdBy: ri!createdBy
+          ),
+          null
+        )
+      )
+    )
+  )
+)</definition>
+        <namedTypedValue>
+            <name>alertSetId</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>auditObject</name>
+            <type>
+                <name>AS_FS_CHS_A_CompanyDetails</name>
+                <namespace>urn:com:appian:types:AS:FS</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>createdBy</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name>Unnamed Test Case</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:int"/>
+                    <a:nameRef>alertSetId</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:n1="urn:com:appian:types:AS:FS" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="n1:AS_FS_CHS_A_CompanyDetails"/>
+                    <a:nameRef>auditObject</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                    <a:nameRef>createdBy</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e5a0-53e9-8000-9bd8-011c48011c48_1437702"/>
+        <historyInfo versionUuid="_a-0000e5a0-53e9-8000-9bd8-011c48011c48_1451745"/>
+        <historyInfo versionUuid="_a-0000e5a0-53e9-8000-9bd8-011c48011c48_1461396"/>
+        <historyInfo versionUuid="_a-0000e62c-74fe-8000-9bba-011c48011c48_295168"/>
+        <historyInfo versionUuid="_a-0000e62c-7375-8000-9bec-011c48011c48_1783560"/>
+        <historyInfo versionUuid="_a-0000e62c-7375-8000-9bec-011c48011c48_1812000"/>
+        <historyInfo versionUuid="_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2359658"/>
+        <historyInfo versionUuid="_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2374258"/>
+    </history>
+</contentHaul>

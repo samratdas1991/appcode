@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema targetNamespace="urn:com:appian:types:AS:QNM"
+  xmlns:tns="urn:com:appian:types:AS:QNM" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <xsd:include schemaLocation="%7Burn%3Acom%3Aappian%3Atypes%3AAS%3AQNM%7DAS_QNM_ResponseRequirement.xsd"/>
+  <xsd:complexType name="AS_QNM_QuestionPrecedent">
+    <xsd:annotation>
+      <xsd:appinfo source="appian.jpa">@Table(name="AS_QNM_QUESTION_PRECEDENT")</xsd:appinfo>
+      <xsd:appinfo source="http://www.appian.com/ae/types/2009">
+        <ns2:Metadata xmlns:ns2="http://www.appian.com/ae/types/2009">
+          <ns2:versionUuid>0000e4cd-4a39-8000-1145-7f0000014e7a</ns2:versionUuid>
+          <ns2:history>
+            <ns2:historyInfo versionUuid="0000e448-5cb0-8000-fa1e-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0001e449-72a4-8000-fa5b-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0002e456-95c2-8000-fb3c-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0002e456-eb21-8000-fb42-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0002e456-fd65-8000-fb59-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0002e476-71e4-8000-0777-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0000e4cd-4a39-8000-1145-7f0000014e7a"/>
+          </ns2:history>
+        </ns2:Metadata>
+      </xsd:appinfo>
+      <xsd:documentation><![CDATA[Datatype indicating the required/prohibited responses for a precedent to be considered fulfilled.  The field "questionId_precedent" should point to the question that must meet the given criteria for this precedent to be considered "fulfilled."  Functions similarly to a queryFilter in Appian.]]></xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="questionPrecedentId" nillable="true" type="xsd:int">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@Id @GeneratedValue @Column(name="QUESTION_PRECEDENT_ID")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="questionId_precedent" nillable="true" type="xsd:int">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@Column(name="QUESTION_ID_PRECEDENT")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element maxOccurs="unbounded" minOccurs="0"
+        name="responseRequirement" type="tns:AS_QNM_ResponseRequirement">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@OneToMany(cascade=CascadeType.ALL, indexed=false) @JoinColumn(name="QUESTION_PRECEDENT_ID")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+</xsd:schema>

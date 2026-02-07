@@ -1,0 +1,439 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_884623</versionUuid>
+    <rule>
+        <name>AS_QNM_UT_setTemplateQuestionsDataOnUpdate</name>
+        <uuid>_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_882548</uuid>
+        <description>Sets the group and order number for questions that are impacted on update</description>
+        <parentUuid>_a-0000e42d-ffef-8000-9ba6-011c48011c48_7213-qnm</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  local!followUpQuestions: #"_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_873728"(
+    question: ri!question,
+    allQuestions: ri!allQuestions
+  ),
+  local!unrelatedQuestionsInCategory: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+    cdt: #"_a-0000e40a-de32-8000-9ba8-011c48011c48_271202"(
+      cdt: ri!allQuestions,
+      field: "questionTemplateId",
+      value: append(
+        ri!question.questionTemplateId,
+        local!followupQuestions.questionTemplateId
+      )
+    ),
+    field: "questionCategoryTemplateId",
+    value: ri!question.questionCategoryTemplateId
+  ),
+  local!isQuestionDisplayedPrecedentSets: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+    cdt: ri!question.isDisplayedPrecedentSets,
+    field: "fieldKey",
+    value: null
+  ),
+  local!precedentQuestion: if(
+    #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(local!isQuestionDisplayedPrecedentSets),
+    null,
+    #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+      cdt: local!unrelatedQuestionsInCategory,
+      field: "questionTemplateId",
+      value: index(
+        index(
+          local!isQuestionDisplayedPrecedentSets[1],
+          "questionPrecedents",
+          null
+        )[1],
+        "questionTemplateId_precedent",
+        null
+      )
+    )
+  ),
+/*  If not a follow-up question, returns the next group number.
+    If a follow-up questions, returns the group of the precedent question it is following */
+  local!newGroupNumber: if(
+    #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(
+      local!precedentQuestion
+    ),
+    max(
+      local!unrelatedQuestionsInCategory.groupNumber
+    ) + 1,
+    local!precedentQuestion.groupNumber
+  ),
+/*  use prior order number here in order to update order number by question index (see line 96) */
+  local!priorOrderNumber: if(
+    #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(
+      local!precedentQuestion
+    ),
+    0,
+    max(
+      append(
+        local!precedentQuestion,
+        #"_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_873728"(
+          question: local!precedentQuestion,
+          allQuestions: local!unrelatedQuestionsInCategory
+        )
+      ).orderNumber
+    )
+  ),
+  /* Say you have a precedent structure with multiple levels of nesting in a group.
+  If you set a question as a followup to the first followup question off of the top question,
+  you will also need to bump down the other followup questions and their followups
+  (basically, anything with a higher order number) */
+  local!questionsInGroupToBeBumpedDown: a!localVariables(
+    local!unrelatedQuestionsInGroup: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+      cdt: local!unrelatedQuestionsInCategory,
+      field: "groupNumber",
+      value: local!newGroupNumber
+    ),
+    index(
+      local!unrelatedQuestionsInGroup,
+      where(
+        local!unrelatedQuestionsInGroup.orderNumber &gt; local!priorOrderNumber
+      ),
+      {}
+    )
+  ),
+  local!updatedQuestions: #"SYSTEM_SYSRULES_forEach"(
+    items: append(
+      ri!question,
+      append(
+        local!followUpQuestions,
+        local!questionsInGroupToBeBumpedDown
+      )
+    ),
+    expression: #"_a-0000e40a-de32-8000-9ba8-011c48011c48_269170"(
+      cdt: fv!item,
+      fieldValuePairs: {
+        {
+          field: "groupNumber",
+          value: local!newGroupNumber
+        },
+        {
+          field: "orderNumber",
+          value: local!priorOrderNumber + fv!index
+        }
+      }
+    )
+  ),
+  reduce(
+    #"_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_882558"(
+      allQuestions: _,
+      question: _
+    ),
+    ri!allQuestions,
+    local!updatedQuestions
+  )
+)</definition>
+        <namedTypedValue>
+            <name>question</name>
+            <type>
+                <name>AS_QNM_T_Question</name>
+                <namespace>urn:com:appian:types:AS:QNM</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>allQuestions</name>
+            <type>
+                <name>AS_QNM_T_Question?list</name>
+                <namespace>urn:com:appian:types:AS:QNM</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name>Removing precedent, no followups</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e40a-de32-8000-9ba8-011c48011c48_269170"(
+  cdt: #"_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_870515"().questions[7],
+  fieldValuePairs: {
+    {
+      field: "isDisplayedPrecedentSets",
+      value: {}
+    }
+  }
+)</a:value>
+                    <a:nameRef>question</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_870515"().questions</a:value>
+                    <a:nameRef>allQuestions</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions>
+                    <a:expectedOutput>
+                        <a:type a:uuid="{http://www.appian.com/ae/types/2009}Variant"/>
+                        <a:runtimeType a:uuid="{http://www.appian.com/ae/types/2009}Variant"/>
+                        <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">updatearray(
+  #"_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_870515"().questions,
+  7,
+  #"_a-0000e40a-de32-8000-9ba8-011c48011c48_269170"(
+    cdt: #"_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_870515"().questions[7],
+    fieldValuePairs: {
+      {
+        field: "isDisplayedPrecedentSets",
+        value: {}
+      },
+      {
+        field: "orderNumber",
+        value: 1
+      },
+      {
+        field: "groupNumber",
+        value: 2
+      }
+    }
+  )
+)</a:value>
+                    </a:expectedOutput>
+                </a:assertions>
+            </el>
+            <el>
+                <a:name>New question, no precedents</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">'type!{urn:com:appian:types:AS:QNM}AS_QNM_T_Question'(
+  questionTemplateId: 100
+)</a:value>
+                    <a:nameRef>question</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_870515"().questions</a:value>
+                    <a:nameRef>allQuestions</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions>
+                    <a:expectedOutput>
+                        <a:type a:uuid="{http://www.appian.com/ae/types/2009}Variant"/>
+                        <a:runtimeType a:uuid="{http://www.appian.com/ae/types/2009}Variant"/>
+                        <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">append(
+  #"_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_870515"().questions,
+  'type!{urn:com:appian:types:AS:QNM}AS_QNM_T_Question'(
+    questionTemplateId: 100,
+    groupNumber: 1,
+    orderNumber: 1
+  )
+)</a:value>
+                    </a:expectedOutput>
+                </a:assertions>
+            </el>
+            <el>
+                <a:name>New question, with precedents, no bumping</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">'type!{urn:com:appian:types:AS:QNM}AS_QNM_T_Question'(
+  questionTemplateId: 100,
+  questionCategoryTemplateId: -1,
+  isDisplayedPrecedentSets: 'type!{urn:com:appian:types:AS:QNM}AS_QNM_T_QuestionPrecedentSet'(
+    questionPrecedents: 'type!{urn:com:appian:types:AS:QNM}AS_QNM_T_QuestionPrecedent'(
+      questionTemplateId_precedent: -1
+    )
+  )
+)</a:value>
+                    <a:nameRef>question</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_870515"().questions</a:value>
+                    <a:nameRef>allQuestions</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions>
+                    <a:expectedOutput>
+                        <a:type a:uuid="{http://www.appian.com/ae/types/2009}Variant"/>
+                        <a:runtimeType a:uuid="{http://www.appian.com/ae/types/2009}Variant"/>
+                        <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">append(
+  #"_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_870515"().questions,
+  'type!{urn:com:appian:types:AS:QNM}AS_QNM_T_Question'(
+    questionTemplateId: 100,
+    questionCategoryTemplateId: - 1,
+    groupNumber: 2,
+    orderNumber: 2,
+    isDisplayedPrecedentSets: 'type!{urn:com:appian:types:AS:QNM}AS_QNM_T_QuestionPrecedentSet'(
+      questionPrecedents: 'type!{urn:com:appian:types:AS:QNM}AS_QNM_T_QuestionPrecedent'(
+        questionTemplateId_precedent: - 1
+      )
+    )
+  )
+)</a:value>
+                    </a:expectedOutput>
+                </a:assertions>
+            </el>
+            <el>
+                <a:name>Removing precedent, has followups</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e40a-de32-8000-9ba8-011c48011c48_269170"(
+  cdt: #"_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_870515"().questions[5],
+  fieldValuePairs: {
+    {
+      field: "isDisplayedPrecedentSets",
+      value: {}
+    }
+  }
+)</a:value>
+                    <a:nameRef>question</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_870515"().questions</a:value>
+                    <a:nameRef>allQuestions</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions>
+                    <a:expectedOutput>
+                        <a:type a:uuid="{http://www.appian.com/ae/types/2009}Variant"/>
+                        <a:runtimeType a:uuid="{http://www.appian.com/ae/types/2009}Variant"/>
+                        <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">updatearray(
+  #"_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_870515"().questions,
+  {
+    5,
+    6,
+    7
+  },
+  {
+    #"_a-0000e40a-de32-8000-9ba8-011c48011c48_269170"(
+      cdt: #"_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_870515"().questions[5],
+      fieldValuePairs: {
+        {
+          field: "isDisplayedPrecedentSets",
+          value: {}
+        },
+        {
+          field: "orderNumber",
+          value: 1
+        },
+        {
+          field: "groupNumber",
+          value: 2
+        }
+      }
+    ),
+    #"_a-0000e40a-de32-8000-9ba8-011c48011c48_269170"(
+      cdt: #"_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_870515"().questions[6],
+      fieldValuePairs: {
+        {
+          field: "orderNumber",
+          value: 2
+        },
+        {
+          field: "groupNumber",
+          value: 2
+        }
+      }
+    ),
+    #"_a-0000e40a-de32-8000-9ba8-011c48011c48_269170"(
+      cdt: #"_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_870515"().questions[7],
+      fieldValuePairs: {
+        {
+          field: "orderNumber",
+          value: 3
+        },
+        {
+          field: "groupNumber",
+          value: 2
+        }
+      }
+    )
+  }
+)</a:value>
+                    </a:expectedOutput>
+                </a:assertions>
+            </el>
+            <el>
+                <a:name>New question, with precedents, bumping</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">'type!{urn:com:appian:types:AS:QNM}AS_QNM_T_Question'(
+  questionTemplateId: 100,
+  questionCategoryTemplateId: -3,
+  isDisplayedPrecedentSets: 'type!{urn:com:appian:types:AS:QNM}AS_QNM_T_QuestionPrecedentSet'(
+    questionPrecedents: 'type!{urn:com:appian:types:AS:QNM}AS_QNM_T_QuestionPrecedent'(
+      questionTemplateId_precedent: -6
+    )
+  )
+)</a:value>
+                    <a:nameRef>question</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_870515"().questions</a:value>
+                    <a:nameRef>allQuestions</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions>
+                    <a:expectedOutput>
+                        <a:type a:uuid="{http://www.appian.com/ae/types/2009}Variant"/>
+                        <a:runtimeType a:uuid="{http://www.appian.com/ae/types/2009}Variant"/>
+                        <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">append(
+  updatearray(
+    #"_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_870515"().questions,
+    7,
+    #"_a-0000e40a-de32-8000-9ba8-011c48011c48_269170"(
+      cdt: #"_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_870515"().questions[7],
+      fieldValuePairs: {
+        {
+          field: "orderNumber",
+          value: 5
+        }
+      }
+    )
+  ),
+  'type!{urn:com:appian:types:AS:QNM}AS_QNM_T_Question'(
+    questionTemplateId: 100,
+    questionCategoryTemplateId: - 3,
+    groupNumber: 1,
+    orderNumber: 4,
+    isDisplayedPrecedentSets: 'type!{urn:com:appian:types:AS:QNM}AS_QNM_T_QuestionPrecedentSet'(
+      questionPrecedents: 'type!{urn:com:appian:types:AS:QNM}AS_QNM_T_QuestionPrecedent'(
+        questionTemplateId_precedent: - 6
+      )
+    )
+  )
+)</a:value>
+                    </a:expectedOutput>
+                </a:assertions>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_882841"/>
+        <historyInfo versionUuid="_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_884623"/>
+    </history>
+</contentHaul>

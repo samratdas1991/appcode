@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e471-623a-8000-9bc3-011c48011c48_784029</versionUuid>
+    <rule>
+        <name>AS_IO_BL_constructOnboardingRequestAudit</name>
+        <uuid>_a-0000e471-623a-8000-9bc3-011c48011c48_761107</uuid>
+        <description>Business logic rule for construction of onboarding request audit</description>
+        <parentUuid>_a-0000e2bb-4188-8000-9ba2-011c48011c48_25469</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>#"_a-0000e3e6-fb42-8000-9ba5-011c48011c48_157603"(
+  type: 'type!{http://www.appian.com/ae/types/2009}Dictionary?list',
+  value: {
+    #"SYSTEM_SYSRULES_forEach"(
+      items: ri!onboardingReqAudits,
+      expression: a!localVariables(
+        local!singleAudit: fv!item,
+        #"SYSTEM_SYSRULES_forEach"(
+          items: #"_a-0000e3e6-fb42-8000-9ba5-011c48011c48_157603"(
+            type: 'type!{urn:com:appian:types:AS:IO}AS_IO_A_OnboardingRequest_Field?list',
+            value: local!singleAudit.simpleFieldChanges
+          ),
+          expression: {
+            username: local!singleAudit.username,
+            auditActionCode: local!singleAudit.auditActionCode,
+            fieldName: fv!item.fieldName,
+            oldValue: fv!item.oldValue,
+            newValue: fv!item.newValue,
+            timestamp: local!singleAudit.timestamp,
+            comment: fv!item.comment
+          }
+        )
+      )
+    )
+  }
+)</definition>
+        <namedTypedValue>
+            <name>onboardingReqAudits</name>
+            <type>
+                <name>AS_IO_A_OnboardingRequest?list</name>
+                <namespace>urn:com:appian:types:AS:IO</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name>Valid</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e471-623a-8000-9bc3-011c48011c48_761093"(
+  returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290163",
+  requestId: 18,
+  includeNestedCdts: true,
+  auditActionCode: "MODIFY"
+)</a:value>
+                    <a:nameRef>onboardingReqAudits</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e471-623a-8000-9bc3-011c48011c48_761521"/>
+        <historyInfo versionUuid="_a-0000e471-623a-8000-9bc3-011c48011c48_784029"/>
+    </history>
+</contentHaul>

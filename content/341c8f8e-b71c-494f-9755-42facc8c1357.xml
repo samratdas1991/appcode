@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e811-1167-8000-9c18-011c48011c48_3526056</versionUuid>
+    <rule>
+        <name>AS_IO_UT_returnTasksToBeStarted</name>
+        <uuid>341c8f8e-b71c-494f-9755-42facc8c1357</uuid>
+        <description>Tasks in a completed task and returns new tasks to kick-off based on precedents</description>
+        <parentUuid>_a-0000e2bb-4188-8000-9ba2-011c48011c48_25469</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>/*
+For the example in the comments, pretend Tasks A &amp; B are precedents for Task C, and Task A was just completed
+*/
+a!localVariables(
+  /*First retrieve all task IDs for which the current task was a precedent*/
+  /*e.g. Retrieve the ID of Task C, since Task A was just completed*/
+  local!taskIdsToPossiblyStart: #"_a-0000e3c8-6861-8000-9ba2-011c48011c48_115660"(taskId_precedent: ri!currentTask.taskId).taskId,
+  /*Early exit if the current task was not a precedent to anything*/
+  if(
+    #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(local!taskIdsToPossiblyStart),
+    {},
+    a!localVariables(
+      /*Then retrieve the actual task objects for which the current task was a precedent and are in queued status*/
+      /*e.g. Retrieve the Task C object, since Task A was just completed*/
+      local!tasksToPossiblyStart: #"_a-0000e393-fbf1-8000-9ba2-011c48011c48_104148"(
+        taskId: local!taskIdsToPossiblyStart,
+        taskStatusIds: #"_a-0000e460-9d93-8000-9bc1-011c48011c48_603230",
+        returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290163"
+      ),
+      if(
+        #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(local!tasksToPossiblyStart),
+        {},
+        a!localVariables(
+          /*Then retrieve the task objects of all preceding tasks for the possible tasks to start*/
+          /*e.g. Retrieve the Task B object, since Task B was also a precedent to Task C*/
+          local!precedentTasksOfThePossibleTasksToStart: #"_a-0000e393-fbf1-8000-9ba2-011c48011c48_104148"(
+            taskId: tointeger(
+              #"SYSTEM_SYSRULES_forEach"(
+                items: local!tasksToPossiblyStart,
+                expression: fv!item.taskPrecedents.taskId_precedent
+              )
+            ),
+            returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290163"
+          ),
+          /*Then loop over each task to possibly start, and only return it if all of its precedents are completed*/
+          /*e.g. We're checking that Task B is also completed, since it's a precedent of Task C*/
+          local!tasksToStart: a!flatten(
+            #"SYSTEM_SYSRULES_forEach"(
+              items: local!tasksToPossiblyStart,
+              expression: a!localVariables(
+                /*Gather the tasks which we need to check are complete for this specific task*/
+                /*e.g. This would return Task B, since we are checking if we can start Task C*/
+                local!tasksToEnsureAreComplete: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+                  cdt: local!precedentTasksOfThePossibleTasksToStart,
+                  field: "taskId",
+                  value: fv!item.taskPrecedents.taskId_precedent
+                ),
+                /*Returns true if all precedents are Completed/Not Needed/Cancelled and not uin list to skip start*/
+                /* if all precedents are Completed/Not Needed/Cancelled, but the task precedent id is present in list to skip start, returns false*/
+                /*e.g. This would return True if Task B is Completed*/
+                local!allPrecedentsAreComplete: and(
+                  #"SYSTEM_SYSRULES_forEach"(
+                    items: local!tasksToEnsureAreComplete,
+                    expression: and(
+                      contains(
+                        {
+                          #"_a-0000e460-9d93-8000-9bc1-011c48011c48_603248",
+                          #"_a-0000e460-9d93-8000-9bc1-011c48011c48_603254",
+                          #"_a-0000e460-9d93-8000-9bc1-011c48011c48_603260"
+                        },
+                        fv!item.taskStatus.taskStatusId
+                      ),
+                      not(
+                        contains(
+                          ri!taskPrecedentIdsToSkipStart,
+                          fv!item.taskId
+                        )
+                      )
+                    )
+                  )
+                ),
+                /*Return the task object if it is ready to be started*/
+                /*e.g. This will return Task C if Task B is completed, otherwise it will return nothing*/
+                if(
+                  local!allPrecedentsAreComplete,
+                  fv!item,
+                  {}
+                )
+              )
+            )
+          ),
+          /*Finally, set the tasks to start as assigned*/
+          /*e.g. This would set Task C to assigned*/
+          #"8c731acd-3941-41e1-b06f-452fd89ab48b"(tasks: local!tasksToStart)
+        )
+      )
+    )
+  )
+)</definition>
+        <namedTypedValue>
+            <name>currentTask</name>
+            <type>
+                <name>AS_IO_Task</name>
+                <namespace>urn:com:appian:types:AS:IO</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>taskPrecedentIdsToSkipStart</name>
+            <type>
+                <name>Integer?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name>Sample Test Case</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e393-fbf1-8000-9ba2-011c48011c48_104148"(
+  behaviorSubtypeCode: #"_a-0000e393-fbf1-8000-9ba2-011c48011c48_99653",
+  returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290131",
+  pagingInfo: #"SYSTEM_SYSRULES_pagingInfo"(1,5)
+).data</a:value>
+                    <a:nameRef>currentTask</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                    <a:nameRef>taskPrecedentIdsToSkipStart</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e2cd-bc96-8000-9ba2-011c48011c48_38561"/>
+        <historyInfo versionUuid="_a-0000e2cd-bc96-8000-9ba2-011c48011c48_78170"/>
+        <historyInfo versionUuid="_a-0000e2cd-bc96-8000-9ba2-011c48011c48_78784"/>
+        <historyInfo versionUuid="_a-0000e2cd-bc96-8000-9ba2-011c48011c48_240229"/>
+        <historyInfo versionUuid="_a-0000e3c8-6861-8000-9ba2-011c48011c48_116054"/>
+        <historyInfo versionUuid="_a-0000e3e6-fb42-8000-9ba5-011c48011c48_217157"/>
+        <historyInfo versionUuid="_a-0000e3e6-fb42-8000-9ba5-011c48011c48_246521"/>
+        <historyInfo versionUuid="_a-0000e41b-1752-8000-9ba6-011c48011c48_17981"/>
+        <historyInfo versionUuid="_a-0000e3ff-a5bc-8000-9ba8-011c48011c48_40492"/>
+        <historyInfo versionUuid="_a-0000e430-f270-8000-9bbc-011c48011c48_368563"/>
+        <historyInfo versionUuid="_a-0000e460-9d93-8000-9bc1-011c48011c48_603666"/>
+        <historyInfo versionUuid="_a-0000e460-9d93-8000-9bc1-011c48011c48_614697"/>
+        <historyInfo versionUuid="_a-0000e539-6d59-8000-9bd0-011c48011c48_1241262"/>
+        <historyInfo versionUuid="_a-0000e811-1167-8000-9c18-011c48011c48_3526056"/>
+    </history>
+</contentHaul>

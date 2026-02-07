@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema targetNamespace="urn:com:appian:types:AS:IO"
+  xmlns:fs1="urn:com:appian:types:AS:FS"
+  xmlns:tns="urn:com:appian:types:AS:IO" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <xsd:import namespace="urn:com:appian:types:AS:FS" schemaLocation="%7Burn%3Acom%3Aappian%3Atypes%3AAS%3AFS%7DAS_FS_Customer.xsd"/>
+  <xsd:complexType name="AS_IO_V_RequestWithOwner">
+    <xsd:annotation>
+      <xsd:appinfo source="appian.jpa">@Table(name="AS_IO_V_REQUEST_WITH_OWNER")</xsd:appinfo>
+      <xsd:appinfo source="http://www.appian.com/ae/types/2009">
+        <ns2:Metadata xmlns:ns2="http://www.appian.com/ae/types/2009">
+          <ns2:versionUuid>000ae7d2-fe70-8000-6427-7f0000014e7a</ns2:versionUuid>
+          <ns2:history>
+            <ns2:historyInfo versionUuid="0000e386-55b4-8000-f92f-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0005e3cb-081c-8000-f92f-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0000e41d-fafd-8000-fb74-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0001e430-b218-8000-fe4f-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0000e47f-5145-8000-0848-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0002e482-dbee-8000-08f3-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0000e49b-0507-8000-0cfe-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0000e4a9-4aaa-8000-0f5d-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0001e4d7-c76b-8000-1262-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0004e51c-1173-8000-19ab-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0000e526-a813-8000-1aaa-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0000e556-0898-8000-1df5-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0000e58c-62f2-8000-264b-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0004e5b2-379d-8000-2a98-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0000e6bd-d962-8000-4853-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="000ce6c7-6c71-8000-48b3-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="000be72b-88a6-8000-5557-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="000ae7d2-fe70-8000-6427-7f0000014e7a"/>
+          </ns2:history>
+        </ns2:Metadata>
+      </xsd:appinfo>
+      <xsd:documentation><![CDATA[Data type for the attributes related to the view for joining onboarding request record with owners]]></xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="requestId" nillable="true" type="xsd:int">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@Column(name="REQUEST_ID") @Id</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="ownerId" nillable="true" type="xsd:int">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@Column(name="OWNER_ID")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="uniqueIdentifier" nillable="true" type="xsd:string">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@Column(name="UNIQUE_IDENTIFIER")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="owner" nillable="true" type="xsd:string">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@Column(name="OWNER")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="primaryOwner" nillable="true" type="xsd:string">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@Column(name="PRIMARY_OWNER")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="status" nillable="true" type="xsd:string">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@Column(name="STATUS")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="estFundingDate" nillable="true" type="xsd:date">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@Column(name="EST_FUNDING_DATE")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="estFundingValue" nillable="true" type="xsd:double">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@Column(name="EST_FUNDING_VALUE")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="actualFundingDate" nillable="true" type="xsd:date">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@Column(name="ACTUAL_FUNDING_DATE")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="actualFundingValue" nillable="true" type="xsd:double">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@Column(name="ACTUAL_FUNDING_VALUE")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="type" nillable="true" type="xsd:string">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@Column(name="TYPE")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="priorityCode" nillable="true" type="xsd:string">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@Column(name="PRIORITY_CODE")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="createdDate" nillable="true" type="xsd:date">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@Column(name="CREATED_DATE")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="customer" nillable="true" type="fs1:AS_FS_Customer">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@ManyToOne(cascade=CascadeType.ALL) @JoinColumn(name="CUSTOMER_ID")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="isAtRisk" nillable="true" type="xsd:boolean">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@Column(name="IS_AT_RISK", columnDefinition="Integer")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+</xsd:schema>

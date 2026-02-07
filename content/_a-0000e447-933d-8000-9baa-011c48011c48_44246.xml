@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e62c-7375-8000-9bec-011c48011c48_1877980</versionUuid>
+    <rule>
+        <name>AS_QNM_UT_buildQuestions_RuntimeFromTemplate</name>
+        <uuid>_a-0000e447-933d-8000-9baa-011c48011c48_44246</uuid>
+        <description>Given a template question, builds a question by mapping the fields</description>
+        <parentUuid>_a-0000e42d-ffef-8000-9ba6-011c48011c48_7213-qnm</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>#"SYSTEM_SYSRULES_forEach"(
+  items: ri!questions_Template,
+  expression: 'type!{urn:com:appian:types:AS:QNM}AS_QNM_Question'(
+    questionId: if(ri!isPreview, fv!index, null),
+    questionReferenceId: fv!item.questionReferenceId,
+    questionTemplateId: fv!item.questionTemplateId,
+    label: fv!item.label,
+    instructions: fv!item.instructions,
+    pageNumber: fv!item.pageNumber,
+    groupNumber: fv!item.groupNumber,
+    orderNumber: fv!item.orderNumber,
+    responseOptions: #"_a-0000e447-933d-8000-9baa-011c48011c48_44252"(
+      responses_Template: fv!item.responseOptions
+    ),
+    responseRequirements: #"_a-0000e460-9d93-8000-9bc1-011c48011c48_597567"(
+      responseRequirements_Template: fv!item.responseRequirements
+    ),
+    responses: #"_a-0000e447-933d-8000-9baa-011c48011c48_44252"(
+      responses_Template: fv!item.defaultResponses
+    ),
+    isExternalUserFacing: fv!item.isExternalUserFacing,
+    isDisplayedPrecedentSets: #"_a-0000e447-933d-8000-9baa-011c48011c48_44330"(
+      questions_Template: ri!questions_Template,
+      questionPrecedentSets_Template: fv!item.isDisplayedPrecedentSets
+    ),
+    isRequiredPrecedentSets: #"_a-0000e447-933d-8000-9baa-011c48011c48_44330"(
+      questions_Template: ri!questions_Template,
+      questionPrecedentSets_Template: fv!item.isRequiredPrecedentSets
+    ),
+    questionCategoryId: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73980"(
+      nullableValue: wherecontains(
+        fv!item.questionCategoryTemplateId,
+        ri!questionCategories_Template.questionCategoryTemplateId
+      ),
+      replacementValue: 1
+    ),
+    questionTypeCode: fv!item.questionTypeCode
+  )
+)</definition>
+        <namedTypedValue>
+            <name>questions_Template</name>
+            <type>
+                <name>AS_QNM_T_Question?list</name>
+                <namespace>urn:com:appian:types:AS:QNM</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>questionCategories_Template</name>
+            <type>
+                <name>AS_QNM_T_QuestionCategory?list</name>
+                <namespace>urn:com:appian:types:AS:QNM</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>isPreview</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name>TST Example</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_870515"().questions</a:value>
+                    <a:nameRef>questions_Template</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_870515"().questionCategories</a:value>
+                    <a:nameRef>questionCategories_Template</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:boolean"/>
+                    <a:nameRef>isPreview</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e447-933d-8000-9baa-011c48011c48_44409"/>
+        <historyInfo versionUuid="_a-0000e447-933d-8000-9baa-011c48011c48_66233"/>
+        <historyInfo versionUuid="_a-0000e460-9d93-8000-9bc1-011c48011c48_597587"/>
+        <historyInfo versionUuid="_a-0000e460-9d93-8000-9bc1-011c48011c48_609456"/>
+        <historyInfo versionUuid="_a-0000e471-623a-8000-9bc3-011c48011c48_670974"/>
+        <historyInfo versionUuid="_a-0000e471-623a-8000-9bc3-011c48011c48_722405"/>
+        <historyInfo versionUuid="_a-0000e471-623a-8000-9bc3-011c48011c48_758637"/>
+        <historyInfo versionUuid="_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_882975"/>
+        <historyInfo versionUuid="_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_890638"/>
+        <historyInfo versionUuid="_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_956788"/>
+        <historyInfo versionUuid="_a-0000e62c-7375-8000-9bec-011c48011c48_1872966"/>
+        <historyInfo versionUuid="_a-0000e62c-7375-8000-9bec-011c48011c48_1877980"/>
+    </history>
+</contentHaul>

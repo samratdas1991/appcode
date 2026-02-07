@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e62c-7375-8000-9bec-011c48011c48_1818569</versionUuid>
+    <rule>
+        <name>AS_QNM_UT_buildQuestionCategories_RuntimeFromTemplate</name>
+        <uuid>_a-0000e471-623a-8000-9bc3-011c48011c48_722364</uuid>
+        <description>Given a list of template question categories, builds a list of question categories by mapping the fields</description>
+        <parentUuid>_a-0000e42d-ffef-8000-9ba6-011c48011c48_7213-qnm</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>#"SYSTEM_SYSRULES_forEach"(
+  items: ri!questionCategories_Template,
+  expression: 'type!{urn:com:appian:types:AS:QNM}AS_QNM_QuestionCategory'(
+    questionCategoryId: if(
+      ri!isPreview,
+      fv!index,
+      null
+    ),
+    questionCategoryName: fv!item.questionCategoryName,
+    questionCategoryDescription: fv!item.questionCategoryDescription,
+    displayOrder: fv!item.displayOrder
+  )
+)</definition>
+        <namedTypedValue>
+            <name>questionCategories_Template</name>
+            <type>
+                <name>AS_QNM_T_QuestionCategory?list</name>
+                <namespace>urn:com:appian:types:AS:QNM</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>isPreview</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <history>
+        <historyInfo versionUuid="_a-0000e471-623a-8000-9bc3-011c48011c48_722382"/>
+        <historyInfo versionUuid="_a-0000e447-933d-8000-9baa-011c48011c48_109414"/>
+        <historyInfo versionUuid="_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_880240"/>
+        <historyInfo versionUuid="_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_888632"/>
+        <historyInfo versionUuid="_a-0000e62c-7375-8000-9bec-011c48011c48_1818569"/>
+    </history>
+</contentHaul>

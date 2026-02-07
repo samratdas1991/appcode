@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e825-b425-8000-9c1c-011c48011c48_3587830</versionUuid>
+    <rule>
+        <name>AS_FS_APPREF_AD_STARTPROCESS_AutoDeploy</name>
+        <uuid>_a-0000e69f-3688-8000-9bf2-011c48011c48_2158158</uuid>
+        <description>AS FS APPREF referring to AD_ENTRYPOINT_STARTPROCESS_AutoDeploy</description>
+        <parentUuid>_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_968428</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  /*Return the entry-point rule if it exists, or else returns a no-op*/
+  local!rule: a!refreshVariable(
+    value: #"_a-0000e571-774f-8000-b919-01ef9001ef90_28790"(
+      ruleName: "AD_ENTRYPOINT_STARTPROCESS_AutoDeploy"
+    ),
+    /*Note this always needs to be refreshAlways: true*/
+    refreshAlways: true
+  ),
+  /*Actually execute the rule*/
+  local!rule(
+    /*This should be passed in every app reference rule, */
+    /*which returns a default value if the rule does not exist*/
+    ifNull_default: cast(
+      #"_a-0000e607-97fd-8000-9be9-011c48011c48_1594253"(),
+      null
+    ),
+    /*Entrypoint-specific inputs for that rule*/
+    deployment: ri!deployment
+  )
+)</definition>
+        <namedTypedValue>
+            <name>deployment</name>
+            <type>
+                <name>Deployment</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <history>
+        <historyInfo versionUuid="_a-0000e69f-3688-8000-9bf2-011c48011c48_2158207"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2731004"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2767874"/>
+        <historyInfo versionUuid="_a-0000e825-b425-8000-9c1c-011c48011c48_3587830"/>
+    </history>
+</contentHaul>

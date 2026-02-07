@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e607-97fd-8000-9be9-011c48011c48_1675860</versionUuid>
+    <rule>
+        <name>AS_FS_UT_productAccountSaves</name>
+        <uuid>_a-0000e5fd-0ed3-8000-9be6-011c48011c48_1577582</uuid>
+        <description>List of saves to match a product to a account</description>
+        <parentUuid>_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_968428</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  local!updatedProductTypeCode: index(ri!updatedProduct, "productTypeCode", {}),
+  local!accountMappings: #"_a-0000e5fd-0ed3-8000-9be6-011c48011c48_1577746"(
+    executeWhen: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(local!updatedProductTypeCode),
+    returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290163",
+    productTypeCode: local!updatedProductTypeCode
+  ),
+  local!populateDefaultRow: if(
+    #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(ri!fieldData),
+    false,
+    or(
+      #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+        cdt: ri!fieldData,
+        field: "fieldKey",
+        value: #"_a-0000e528-bc07-8000-9bcf-011c48011c48_1037510"(isInternationalizedForAdminSetup: false).fieldKey
+      ).required
+    )
+  ),
+  if(
+    #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(ri!updatedProduct),
+    {},
+    {
+      a!save(
+        ri!updatedProduct.accounts,
+        #"SYSTEM_SYSRULES_forEach"(
+          items: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+            cdt: local!accountMappings,
+            field: "productTypeCode",
+            value: ri!updatedProduct.productTypeCode
+          ),
+          expression: 'type!{urn:com:appian:types:AS:FS}AS_FS_Account'(
+            type: fv!item.accountTypeCode,
+            isParent: false
+          )
+        )
+      ),
+      a!save(
+        ri!updatedProduct.accounts,
+        if(
+          and(
+            #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(ri!updatedProduct.accounts),
+            local!populateDefaultRow
+          ),
+          'type!{urn:com:appian:types:AS:FS}AS_FS_Account'(isParent: false),
+          ri!updatedProduct.accounts
+        )
+      )
+    }
+  )
+)</definition>
+        <namedTypedValue>
+            <name>updatedProduct</name>
+            <type>
+                <name>Map</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>fieldData</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name>Unnamed Test Case</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:n1="urn:com:appian:types:AS:FS" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="n1:AS_FS_Product"/>
+                    <a:nameRef>updatedProduct</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                    <a:nameRef>fieldData</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e5fd-0ed3-8000-9be6-011c48011c48_1578877"/>
+        <historyInfo versionUuid="_a-0000e607-97fd-8000-9be9-011c48011c48_1675860"/>
+    </history>
+</contentHaul>

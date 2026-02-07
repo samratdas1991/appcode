@@ -1,0 +1,349 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e70f-2824-8000-9c01-011c48011c48_2611931</versionUuid>
+    <rule>
+        <name>AS_FS_UT_evaluateAlertConfigurationTrigger_Single</name>
+        <uuid>_a-0000e70f-2824-8000-9c01-011c48011c48_2571556</uuid>
+        <description>given a single triggerCondition and several audit parameters, evaluates whether that trigger condition is triggered using the trigger condition type's evaluation rule</description>
+        <parentUuid>_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_968428</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  local!evaluationRule: a!refreshVariable(
+    value: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+      /*i18nData is not needed here*/
+      cdt: #"_a-0000e70f-2824-8000-9c01-011c48011c48_2555742"(i18nData: null),
+      field: "triggerTypeCode",
+      value: ri!alertTriggerCondition[#"urn:appian:record-field:v1:949f2787-0ff4-4431-884b-8cb98899776a/0691e262-f507-41d5-a846-ca2ffa6fd4f3"]
+    )[1].evaluationRule,
+    refreshAlways: true
+  ),
+  local!evaluationRule(
+    configurationTriggerSettings: ri!alertTriggerCondition[#"urn:appian:record-field:v1:949f2787-0ff4-4431-884b-8cb98899776a/96ef3355-e542-47eb-9f56-033c8170d1aa"],
+    isOriginalObjectEvaluation: ri!isOriginalObjectEvaluation,
+    triggerConditionId: ri!alertTriggerCondition[#"urn:appian:record-field:v1:949f2787-0ff4-4431-884b-8cb98899776a/d0a6627d-b65b-439a-8fee-9a0333905330"],
+    auditParameters: choose(
+      #"_a-0000e40a-de32-8000-9ba8-011c48011c48_280802"(
+        value: ri!alertTriggerCondition[#"urn:appian:record-field:v1:949f2787-0ff4-4431-884b-8cb98899776a/0691e262-f507-41d5-a846-ca2ffa6fd4f3"],
+        inArray: #"_a-0000e70f-2824-8000-9c01-011c48011c48_2555742"(i18nData: null).triggerTypeCode
+      ),
+      error(concat("Invalid trigger type code `", ri!alertTriggerCondition[#"urn:appian:record-field:v1:949f2787-0ff4-4431-884b-8cb98899776a/0691e262-f507-41d5-a846-ca2ffa6fd4f3"], "` in trigger condition ID = ", ri!alertTriggerCondition[#"urn:appian:record-field:v1:949f2787-0ff4-4431-884b-8cb98899776a/d0a6627d-b65b-439a-8fee-9a0333905330"])),
+      ri!customerAuditParameters,
+      ri!customerAuditParameters,
+      ri!beneficialOwnerAuditParameters,
+      ri!entityRelationsAuditParameters
+    )
+  )
+)</definition>
+        <namedTypedValue>
+            <name>customerAuditParameters</name>
+            <type>
+                <name>AS_ADT_P_AuditProcessParameters</name>
+                <namespace>urn:com:appian:types:AS:ADT</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>beneficialOwnerAuditParameters</name>
+            <type>
+                <name>AS_ADT_P_AuditProcessParameters</name>
+                <namespace>urn:com:appian:types:AS:ADT</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>entityRelationsAuditParameters</name>
+            <type>
+                <name>AS_ADT_P_AuditProcessParameters</name>
+                <namespace>urn:com:appian:types:AS:ADT</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>isOriginalObjectEvaluation</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>alertTriggerCondition</name>
+            <type>
+                <name>949f2787-0ff4-4431-884b-8cb98899776a</name>
+                <namespace>urn:com:appian:recordtype:datatype</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name>simple risk score test case</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">'type!{urn:com:appian:types:AS:ADT}AS_ADT_P_AuditProcessParameters'(
+  originalObjects: 'type!{urn:com:appian:types:AS:FS}AS_FS_Customer'(
+    riskScore: 33
+  ),
+  newObjects: 'type!{urn:com:appian:types:AS:FS}AS_FS_Customer'(
+    riskScore: 67
+  )
+)</a:value>
+                    <a:nameRef>customerAuditParameters</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:n1="urn:com:appian:types:AS:ADT" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="n1:AS_ADT_P_AuditProcessParameters"/>
+                    <a:nameRef>beneficialOwnerAuditParameters</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:n1="urn:com:appian:types:AS:ADT" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="n1:AS_ADT_P_AuditProcessParameters"/>
+                    <a:nameRef>entityRelationsAuditParameters</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:boolean">true</a:value>
+                    <a:nameRef>isOriginalObjectEvaluation</a:nameRef>
+                    <a:id>4</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">'type!{urn:com:appian:types:AS:FS}AS_FS_ALT_CONF_AlertConfigurationTriggerCondition'(
+  alertConfigurationTriggerTypeCode: #"_a-0000e70f-2824-8000-9c01-011c48011c48_2555828",
+  configurationTriggerSettings: #"SYSTEM_SYSRULES_toJson_v1"(
+    {
+      operator: "&gt;",
+      riskScoreLowerBound: 50,
+      riskScoreUpperBound: null
+    }
+  )
+)</a:value>
+                    <a:nameRef>alertTriggerCondition</a:nameRef>
+                    <a:id>5</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+            <el>
+                <a:name>simple domicile test case</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">'type!{urn:com:appian:types:AS:FS}AS_FS_ALT_CONF_AlertConfigurationTriggerCondition'(
+  alertConfigurationTriggerTypeCode: #"_a-0000e70f-2824-8000-9c01-011c48011c48_2555834",
+  configurationTriggerSettings: #"SYSTEM_SYSRULES_toJson_v1"(
+    {
+      operator: "IN",
+      countryCodes: {
+        "GB",
+        "IE",
+        "NO"
+      }
+    }
+  )
+)</a:value>
+                    <a:nameRef>customerAuditParameters</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:n1="urn:com:appian:types:AS:ADT" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="n1:AS_ADT_P_AuditProcessParameters"/>
+                    <a:nameRef>beneficialOwnerAuditParameters</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:n1="urn:com:appian:types:AS:ADT" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="n1:AS_ADT_P_AuditProcessParameters"/>
+                    <a:nameRef>entityRelationsAuditParameters</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:boolean">false</a:value>
+                    <a:nameRef>isOriginalObjectEvaluation</a:nameRef>
+                    <a:id>4</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">'type!{urn:com:appian:types:AS:FS}AS_FS_ALT_CONF_AlertConfigurationTriggerCondition'(
+  alertConfigurationTriggerTypeCode: #"_a-0000e70f-2824-8000-9c01-011c48011c48_2555828",
+  configurationTriggerSettings: #"SYSTEM_SYSRULES_toJson_v1"(
+    {
+      operator: "&gt;",
+      riskScoreLowerBound: 50,
+      riskScoreUpperBound: null
+    }
+  )
+)</a:value>
+                    <a:nameRef>alertTriggerCondition</a:nameRef>
+                    <a:id>5</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+            <el>
+                <a:name>simple beneficial owner test case</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:n1="urn:com:appian:types:AS:ADT" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="n1:AS_ADT_P_AuditProcessParameters"/>
+                    <a:nameRef>customerAuditParameters</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">'type!{urn:com:appian:types:AS:ADT}AS_ADT_P_AuditProcessParameters'(
+  originalObjects: {
+    'type!{urn:com:appian:types:AS:FS}AS_FS_BeneficialOwner'(
+      beneficialOwnerId: 1,
+      beneficialOwnershipPercent: 10
+    ),
+    'type!{urn:com:appian:types:AS:FS}AS_FS_BeneficialOwner'(
+      beneficialOwnerId: 2,
+      beneficialOwnershipPercent: 40
+    ),
+    'type!{urn:com:appian:types:AS:FS}AS_FS_BeneficialOwner'(
+      beneficialOwnerId: 3,
+      beneficialOwnershipPercent: 30
+    )
+  },
+  newObjects: {
+    'type!{urn:com:appian:types:AS:FS}AS_FS_BeneficialOwner'(
+      beneficialOwnerId: 1,
+      beneficialOwnershipPercent: 10
+    ),
+    'type!{urn:com:appian:types:AS:FS}AS_FS_BeneficialOwner'(
+      beneficialOwnerId: 2,
+      beneficialOwnershipPercent: 30
+    ),
+    'type!{urn:com:appian:types:AS:FS}AS_FS_BeneficialOwner'(
+      beneficialOwnerId: 3,
+      beneficialOwnershipPercent: 50
+    )
+  }
+)</a:value>
+                    <a:nameRef>beneficialOwnerAuditParameters</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:n1="urn:com:appian:types:AS:ADT" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="n1:AS_ADT_P_AuditProcessParameters"/>
+                    <a:nameRef>entityRelationsAuditParameters</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:boolean">true</a:value>
+                    <a:nameRef>isOriginalObjectEvaluation</a:nameRef>
+                    <a:id>4</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">'type!{urn:com:appian:types:AS:FS}AS_FS_ALT_CONF_AlertConfigurationTriggerCondition'(
+  alertConfigurationTriggerTypeCode: #"_a-0000e70f-2824-8000-9c01-011c48011c48_2555841",
+  configurationTriggerSettings: #"SYSTEM_SYSRULES_toJson_v1"(
+    {
+      action: "MODIFY",
+      modificationTriggerCriteria: {
+        field: "beneficialOwnershipPercent",
+        operator: "&gt;=",
+        threshold: 50
+      }
+    }
+  )
+)</a:value>
+                    <a:nameRef>alertTriggerCondition</a:nameRef>
+                    <a:id>5</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+            <el>
+                <a:name>simple entity relationship test case</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:n1="urn:com:appian:types:AS:ADT" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="n1:AS_ADT_P_AuditProcessParameters"/>
+                    <a:nameRef>customerAuditParameters</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:n1="urn:com:appian:types:AS:ADT" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="n1:AS_ADT_P_AuditProcessParameters"/>
+                    <a:nameRef>beneficialOwnerAuditParameters</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">'type!{urn:com:appian:types:AS:ADT}AS_ADT_P_AuditProcessParameters'(
+  originalObjects: {
+    'type!{urn:com:appian:types:AS:FS}AS_FS_CustomerRelation'(
+      customerRelationId: 1
+    ),
+    'type!{urn:com:appian:types:AS:FS}AS_FS_CustomerRelation'(
+      customerRelationId: 2
+    ),
+    'type!{urn:com:appian:types:AS:FS}AS_FS_CustomerRelation'(
+      customerRelationId: 3
+    )
+  },
+  newObjects: {
+    'type!{urn:com:appian:types:AS:FS}AS_FS_CustomerRelation'(
+      customerRelationId: 1
+    ),
+    'type!{urn:com:appian:types:AS:FS}AS_FS_CustomerRelation'(
+      customerRelationId: 2
+    ),
+    'type!{urn:com:appian:types:AS:FS}AS_FS_CustomerRelation'(
+      customerRelationId: 3
+    ),
+    'type!{urn:com:appian:types:AS:FS}AS_FS_CustomerRelation'(
+      customerRelationId: 4
+    )
+  }
+)</a:value>
+                    <a:nameRef>entityRelationsAuditParameters</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:boolean">false</a:value>
+                    <a:nameRef>isOriginalObjectEvaluation</a:nameRef>
+                    <a:id>4</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">'type!{urn:com:appian:types:AS:FS}AS_FS_ALT_CONF_AlertConfigurationTriggerCondition'(
+  alertConfigurationTriggerTypeCode: #"_a-0000e70f-2824-8000-9c01-011c48011c48_2555848",
+  configurationTriggerSettings: #"SYSTEM_SYSRULES_toJson_v1"(
+    {
+      action: "ADD",
+    }
+  )
+)</a:value>
+                    <a:nameRef>alertTriggerCondition</a:nameRef>
+                    <a:id>5</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2571648"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2573829"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2611931"/>
+    </history>
+</contentHaul>

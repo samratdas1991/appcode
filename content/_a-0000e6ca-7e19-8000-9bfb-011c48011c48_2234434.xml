@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2365867</versionUuid>
+    <interface>
+        <name>AS_IO_HCL_TrendsReportDisplay</name>
+        <uuid>_a-0000e6ca-7e19-8000-9bfb-011c48011c48_2234434</uuid>
+        <description>This is the rule which renders all Connected Onboarding trends reports (OOTB and any custom trends reports created by the user)</description>
+        <parentUuid>_a-0000e2bb-4188-8000-9ba2-011c48011c48_25469</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  local!i18nData: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81834"(triggerRefresh: null),
+  local!selectedTrendsPageIndex: 1,
+  local!allSelectedTrendsPageIndexes: { 1 },
+  local!trendsOptions: a!defaultValue(
+    value: #"_a-0000e6ca-7e19-8000-9bfb-011c48011c48_2272979"(i18nData: local!i18nData),
+    /*if there are no trends pages to show for the user (should only happen for sys admins), handle elegantly*/
+    default: {
+      a!map(
+        headerContentLayout: #"ffaf32a7-316c-4f16-b752-d59992331745"
+      )
+    }
+  ),
+  #"185c7f23-ca84-4190-a569-3045f86a7acf"(
+    baseHeaderContentLayout: local!trendsOptions[local!selectedTrendsPageIndex].headerContentLayout(),
+    headerLayout: if(
+      count(local!trendsOptions) &gt; 1,
+      {
+        #"SYSTEM_SYSRULES_cardLayout"(
+          contents: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_74506"(
+            choiceLabels: local!trendsOptions.label,
+            choiceValues: enumerate(count(local!trendsOptions)) + 1,
+            saveInto: {
+              local!selectedTrendsPageIndex,
+              a!save(
+                local!allSelectedTrendsPageIndexes,
+                union(
+                  local!allSelectedTrendsPageIndexes,
+                  save!value
+                )
+              )
+            },
+            choiceLayout: "COMPACT",
+            choiceStyle: "CARDS",
+            value: local!selectedTrendsPageIndex
+          ),
+          style: #"_a-0000e62c-7375-8000-9bec-011c48011c48_1924695"(brandingKey: "TrendsFiltersBackground"),
+          showBorder: false,
+          showShadow: true
+        ),
+        #"_a-0000e6ca-7e19-8000-9bfb-011c48011c48_2248081"
+      },
+      {}
+    ),
+    contentLayout: {}
+  )
+)</definition>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+        <isCustom>false</isCustom>
+    </interface>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <history>
+        <historyInfo versionUuid="_a-0000e6ca-7e19-8000-9bfb-011c48011c48_2234695"/>
+        <historyInfo versionUuid="_a-0000e6ca-7e19-8000-9bfb-011c48011c48_2273152"/>
+        <historyInfo versionUuid="_a-0000e6ca-7e19-8000-9bfb-011c48011c48_2353422"/>
+        <historyInfo versionUuid="_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2357508"/>
+        <historyInfo versionUuid="_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2365867"/>
+    </history>
+</contentHaul>

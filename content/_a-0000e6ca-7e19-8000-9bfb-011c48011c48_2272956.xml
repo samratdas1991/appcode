@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2360055</versionUuid>
+    <rule>
+        <name>AS_IO_UT_TrendsReportDisplay_v1_default</name>
+        <uuid>_a-0000e6ca-7e19-8000-9bfb-011c48011c48_2272956</uuid>
+        <description>A list of reporting interfaces to be displayed on the Connected Onboarding trends page.
+
+@customizable:1.0
+@category:USER_INTERFACE
+@app:FS.IO</description>
+        <parentUuid>_a-0000e2bb-4188-8000-9ba2-011c48011c48_25469</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>/*
+
+DESCRIPTION: A list of reporting interfaces to be displayed on the Connected Onboarding trends page.
+
+
+DEFAULT BEHAVIOR: By default, this interface returns a list of AS_FS_P_TrendsPageContent which contains only the OOTB interface, 
+  AS_IO_HCL_trendsReports, along with its visibility and a label in case more pages are added
+
+
+CUSTOMIZATION STEPS:
+- Create any interfaces that should be displayed on the "Trends" tab of the site. 
+  NOTE: These interfaces must return a headerContentLayout and should not have any rule inputs. When testing your customization, 
+    if you receive the following error: "The baseHeaderContentLayout parameter must be defined as an instance of a!headerContentLayout", 
+    it means that your interface definition does not return an a!headerContentLayout()
+- For each of the pages to be displayed, add an instance of AS_FS_P_TrendsPageContent containing three fields: 
+    label - text shown in a radioButtonField for selecting the interface
+    headerContentLayout - rule reference to the interface to be shown
+    showWhen - defines the visibility of the interface - items with showWhen: false will be filtered out
+  NOTE: If there are multiple visible interfaces for a user, a radioButtonField will automatically be shown at the top of the header 
+    which allows the user to switch interfaces using the "label" field. If there will only be one visible interface, a label 
+    is not needed.
+  NOTE: The visibility of the trends tab as a whole is based on the combined visibility of all available pages here.
+- If you wish to remove the out of the box trends report entirely, you may do so. 
+
+
+PARAMETERS: 
+i18nData
+
+
+*/
+{
+  'type!{urn:com:appian:types:AS:FS}AS_FS_P_TrendsPageContent'(
+    /* Note: the label is not shown if there are fewer than 2 trends report pages to display for the user */
+    label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+      i18nData: ri!i18nData,
+      bundleKey: "AS.CO.AllBundles.lbl_DefaultTrendsInterface"
+    ),
+    /*define rule reference to interface here*/
+    headerContentLayout: #"_a-0000e471-623a-8000-9bc3-011c48011c48_734253",
+    /*define interface visibility here*/
+    showWhen: #"urn:appian:function:v1:a:isusermemberofgroup?okey=a!isUserMemberOfGroup"(
+      loggedInUser(),
+      #"_a-0000e5da-4dac-8000-9ba5-011c48011c48_22793"
+    )
+  )
+}</definition>
+        <namedTypedValue>
+            <name>i18nData</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <history>
+        <historyInfo versionUuid="_a-0000e6ca-7e19-8000-9bfb-011c48011c48_2273175"/>
+        <historyInfo versionUuid="_a-0000e6ca-7e19-8000-9bfb-011c48011c48_2354090"/>
+        <historyInfo versionUuid="_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2360055"/>
+    </history>
+</contentHaul>

@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e79b-0335-8000-9c0c-011c48011c48_3024423</versionUuid>
+    <interface>
+        <name>AS_IO_FM_addOwners</name>
+        <uuid>_a-0000e471-623a-8000-9bc3-011c48011c48_713118</uuid>
+        <description>Interface to add owners to the onboarding request</description>
+        <parentUuid>_a-0000e2bb-4188-8000-9ba2-011c48011c48_25469</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  local!i18nData: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81834"(triggerRefresh: null),
+  local!activeOwners: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_52990"(
+    returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290163",
+    requestIds: { ri!request.requestId },
+    isDeleted: false
+  ),
+  #"SYSTEM_SYSRULES_formLayout_v1"(
+    label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+      i18nData: local!i18nData,
+      bundleKey: "AS.CO.AllBundles.lbl_AddOwner"
+    ),
+    contents: {
+      #"SYSTEM_SYSRULES_columnsLayout"(
+        columns: {
+          #"SYSTEM_SYSRULES_columnLayout"(
+            contents: {
+              #"SYSTEM_SYSRULES_columnsLayout"(
+                columns: {
+                  #"SYSTEM_SYSRULES_columnLayout"(contents: {}, width: "EXTRA_NARROW"),
+                  #"SYSTEM_SYSRULES_columnLayout"(
+                    contents: {
+                      #"_a-0000e3e6-fb42-8000-9ba5-011c48011c48_235251"(
+                        prominentText: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                          i18nData: local!i18nData,
+                          bundleKey: "AS.CO.AllBundles.lbl_SearchOwner"
+                        ),
+                        secondaryText: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                          i18nData: local!i18nData,
+                          bundleKey: "AS.CO.AllBundles.ins_DesignatePrimaryOwner"
+                        ),
+                        includeMarginAbove: true,
+                        includeMarginBelow: true
+                      )
+                    }
+                  ),
+                  #"SYSTEM_SYSRULES_columnLayout"(contents: {}, width: "EXTRA_NARROW")
+                }
+              ),
+              #"SYSTEM_SYSRULES_columnsLayout"(
+                columns: {
+                  #"SYSTEM_SYSRULES_columnLayout"(width: "EXTRA_NARROW"),
+                  #"SYSTEM_SYSRULES_columnLayout"(
+                    contents: {
+                      #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_74494"(
+                        label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                          i18nData: local!i18nData,
+                          bundleKey: "AS.CO.AllBundles.lbl_Owner"
+                        ),
+                        required: true,
+                        maxSelections: 1,
+                        groupFilter: #"_a-0000e36c-7599-8000-9ba2-011c48011c48_44966",
+                        value: ri!newOwner.owner,
+                        validations: #"_a-0000e329-3415-8000-9ba2-011c48011c48_361104"(
+                          owners: local!activeOwners,
+                          selectedOwner: ri!newOwner,
+                          i18nData: local!i18nData
+                        ),
+                        saveInto: ri!newOwner.owner,
+                        placeholder: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                          i18nData: local!i18nData,
+                          bundleKey: "AS.CO.AllBundles.plc_SearchUsers"
+                        ),
+                        i18nData: local!i18nData
+                      ),
+                      #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_74163"(
+                        choiceLabels: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                          i18nData: local!i18nData,
+                          bundleKey: "AS.CO.AllBundles.lbl_DesignatePrimaryOwner"
+                        ),
+                        choiceValues: true,
+                        value: ri!isPrimaryOwner,
+                        saveInto: ri!isPrimaryOwner
+                      )
+                    }
+                  ),
+                  #"SYSTEM_SYSRULES_columnLayout"(width: "EXTRA_NARROW")
+                }
+              )
+            }
+          ),
+          #"SYSTEM_SYSRULES_columnLayout"(width: "MEDIUM"),
+          #"SYSTEM_SYSRULES_columnLayout"(
+            contents: {
+              #"_a-0000e329-3415-8000-9ba2-011c48011c48_303587"(
+                i18nData: local!i18nData,
+                onboardingRequest: ri!request,
+                showOnboardingLink: true
+              )
+            },
+            width: "MEDIUM"
+          )
+        }
+      )
+    },
+    buttons: #"_a-0000e3d1-f4dc-8000-9ba4-011c48011c48_134344"(
+      confirmLabel: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+        i18nData: local!i18nData,
+        bundleKey: "AS.CO.AllBundles.btn_AddOwner"
+      ),
+      cancelLabel: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+        i18nData: local!i18nData,
+        bundleKey: "AS.CO.AllBundles.btn_Cancel"
+      ),
+      confirmSaveInto: {
+        a!save(
+          ri!userAction,
+          #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73305"
+        ),
+        a!save(
+          ri!newOwner.ownerGroup,
+          #"_a-0000e79b-0335-8000-9c0c-011c48011c48_3019012"(
+            parentGroup: #"_a-0000e36c-7599-8000-9ba2-011c48011c48_44966",
+            onlyCheckDirectMemberGroupsOfParent: false,
+            user: ri!newOwner.owner
+          )
+        ),
+        a!save(
+          ri!requestOwners,
+          append(local!activeOwners, ri!newOwner)
+        ),
+        if(
+          ri!isPrimaryOwner,
+          {
+            #"_a-0000e539-6d59-8000-9bd0-011c48011c48_1234659"(),
+            #"_a-0000e539-6d59-8000-9bd0-011c48011c48_1234653"()
+          },
+          #"_a-0000e539-6d59-8000-9bd0-011c48011c48_1234653"()
+        )
+      },
+      cancelSaveInto: {
+        a!save(
+          ri!userAction,
+          #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73173"
+        )
+      },
+      includeDivider: false,
+      confirmSubmit: true,
+      cancelSubmit: true,
+      confirmDisabled: false,
+      cancelDisabled: false
+    )
+  )
+)</definition>
+        <namedTypedValue>
+            <name>newOwner</name>
+            <type>
+                <name>AS_IO_Owner</name>
+                <namespace>urn:com:appian:types:AS:IO</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>userAction</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>request</name>
+            <type>
+                <name>AS_IO_OnboardingRequest</name>
+                <namespace>urn:com:appian:types:AS:IO</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>requestOwners</name>
+            <type>
+                <name>AS_IO_Owner?list</name>
+                <namespace>urn:com:appian:types:AS:IO</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>isPrimaryOwner</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+        <isCustom>false</isCustom>
+    </interface>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name/>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:n1="urn:com:appian:types:AS:IO" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="n1:AS_IO_Owner"/>
+                    <a:nameRef>newOwner</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:string"/>
+                    <a:nameRef>userAction</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:n1="urn:com:appian:types:AS:IO" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="n1:AS_IO_OnboardingRequest"/>
+                    <a:nameRef>request</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                    <a:nameRef>requestOwners</a:nameRef>
+                    <a:id>4</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:boolean"/>
+                    <a:nameRef>isPrimaryOwner</a:nameRef>
+                    <a:id>5</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e471-623a-8000-9bc3-011c48011c48_718370"/>
+        <historyInfo versionUuid="_a-0000e471-623a-8000-9bc3-011c48011c48_731969"/>
+        <historyInfo versionUuid="_a-0000e471-623a-8000-9bc3-011c48011c48_735622"/>
+        <historyInfo versionUuid="_a-0000e471-623a-8000-9bc3-011c48011c48_745895"/>
+        <historyInfo versionUuid="_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_832936"/>
+        <historyInfo versionUuid="_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_833097"/>
+        <historyInfo versionUuid="_a-0000e539-6d59-8000-9bd0-011c48011c48_1156664"/>
+        <historyInfo versionUuid="_a-0000e539-6d59-8000-9bd0-011c48011c48_1236380"/>
+        <historyInfo versionUuid="_a-0000e5d6-d648-8000-9bde-011c48011c48_1494238"/>
+        <historyInfo versionUuid="_a-0000e62c-7375-8000-9bec-011c48011c48_1754874"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2717808"/>
+        <historyInfo versionUuid="_a-0000e79b-0335-8000-9c0c-011c48011c48_2959657"/>
+        <historyInfo versionUuid="_a-0000e79b-0335-8000-9c0c-011c48011c48_3024423"/>
+    </history>
+</contentHaul>

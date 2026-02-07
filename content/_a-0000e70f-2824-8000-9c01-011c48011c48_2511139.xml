@@ -1,0 +1,314 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e79b-0335-8000-9c0c-011c48011c48_2940429</versionUuid>
+    <interface>
+        <name>AS_FS_CPS_externalCustomerBeneficialOwners_customerProfile</name>
+        <uuid>_a-0000e70f-2824-8000-9c01-011c48011c48_2511139</uuid>
+        <description>Interface to list the Beneficial Owners for external user</description>
+        <parentUuid>_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_968428</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>if(
+  ri!showWhen,
+  a!localVariables(
+    local!triggerRefresh: a!refreshVariable(
+      value: now(),
+      refreshAfter: "RECORD_ACTION"
+    ),
+    local!fsBeneficialOwners: #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_985751"(
+      triggerRefresh: local!triggerRefresh,
+      customerId: ri!customer.customerId,
+      returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290163"
+    ),
+    local!relatedSrqBeneficialOwnerUpdates: if(
+      #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(ri!customerOpenServiceRequests),
+      {},
+      #"_a-0000e69f-3688-8000-9bf2-011c48011c48_2079185"(
+        returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290163",
+        serviceRequestId: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_76433"(
+          cdt: ri!customerOpenServiceRequests,
+          field: "serviceRequestId",
+          indexDefault: {}
+        )
+      )
+    ),
+    local!updatedBeneficialOwners: #"_a-0000e69f-3688-8000-9bf2-011c48011c48_2084534"(
+      fsBeneficialOwners: local!fsBeneficialOwners,
+      beneficialOwnerUpdates: local!relatedSrqBeneficialOwnerUpdates
+    ),
+    local!paging: #"SYSTEM_SYSRULES_pagingInfo"(
+      startIndex: 1,
+      batchSize: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73148"
+    ),
+    local!beneficialOwnersOnCurrentPage: todatasubset(
+      local!updatedBeneficialOwners,
+      local!paging
+    ),
+    {
+      #"SYSTEM_SYSRULES_sideBySideLayout"(
+        items: {
+          #"SYSTEM_SYSRULES_sideBySideItem"(
+            item: #"SYSTEM_SYSRULES_richTextDisplayField"(
+              label: "Rich Text",
+              labelPosition: "COLLAPSED",
+              value: {
+                #"SYSTEM_SYSRULES_richTextItem_v1"(
+                  text: upper(
+                    #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                      i18nData: ri!i18nData,
+                      bundleKey: "AS.FS.AllBundles.lbl_BeneficialOwners"
+                    )
+                  ) &amp; " ",
+                  color: "ACCENT",
+                  size: "MEDIUM",
+                  style: { "STRONG" }
+                )
+              },
+              preventWrapping: true
+            ),
+            width: "MINIMIZE"
+          ),
+          /* If DUNS is not blank, show it*/
+          #"SYSTEM_SYSRULES_sideBySideItem"(
+            item: #"SYSTEM_SYSRULES_richTextDisplayField"(
+              label: "DUNS",
+              labelPosition: "COLLAPSED",
+              value: {
+                #"SYSTEM_SYSRULES_richTextItem_v1"(
+                  text: {
+                    #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                      i18nData: ri!i18nData,
+                      bundleKey: "AS.FS.AllBundles.lbl_DUNS"
+                    )
+                  },
+                  style: { "STRONG" }
+                ),
+                "  " &amp; #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73980"(
+                  nullableValue: ri!customer.duns,
+                  replacementValue: "-"
+                )
+              },
+              preventWrapping: true,
+              align: "RIGHT"
+            ),
+            showWhen: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(ri!customer.duns)
+          )
+        },
+        alignVertical: "MIDDLE",
+        spacing: "NONE"
+      ),
+      if(
+        #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(local!updatedBeneficialOwners),
+        #"SYSTEM_SYSRULES_cardLayout"(
+          height: "AUTO",
+          style: "NONE",
+          marginBelow: "STANDARD",
+          showBorder: false,
+          contents: #"SYSTEM_SYSRULES_richTextDisplayField"(
+            label: "Rich Text",
+            labelPosition: "COLLAPSED",
+            align: "CENTER",
+            value: #"SYSTEM_SYSRULES_richTextItem_v1"(
+              style: "EMPHASIS",
+              text: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                i18nData: ri!i18nData,
+                bundleKey: "AS.FS.AllBundles.lbl_NoBeneficialOwnersAvailable"
+              )
+            )
+          )
+        ),
+        {
+          #"SYSTEM_SYSRULES_forEach"(
+            items: local!beneficialOwnersOnCurrentPage,
+            expression: a!localVariables(
+              local!relatedBeneficialOwnerUpdate: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+                cdt: local!relatedSrqBeneficialOwnerUpdates,
+                field: "fsBeneficialOwnerId",
+                value: fv!item.beneficialOwnerId
+              ),
+              local!pendingServiceRequestIdentifiers: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_76433"(
+                cdt: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+                  cdt: ri!customerOpenServiceRequests,
+                  field: "serviceRequestId",
+                  value: index(
+                    local!relatedBeneficialOwnerUpdate,
+                    "serviceRequestId",
+                    null
+                  )
+                ),
+                field: "uniqueIdentifier",
+                indexDefault: {}
+              ),
+              #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_985821"(
+                beneficialOwner: fv!item,
+                i18nData: ri!i18nData,
+                refData: ri!refData,
+                showBorder: false,
+                iconField: a!defaultValue(
+                  value: #"_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2373717"(
+                    i18nData: ri!i18nData,
+                    beneficialOwner: fv!item,
+                    size: "ICON",
+                    style: "AVATAR"
+                  ),
+                  default: #"SYSTEM_SYSRULES_stampField"(
+                    labelPosition: "COLLAPSED",
+                    icon: "user",
+                    backgroundColor: "SECONDARY",
+                    contentColor: "STANDARD",
+                    size: "TINY"
+                  )
+                ),
+                pendingServiceRequestIdentifiers: local!pendingServiceRequestIdentifiers,
+                allowBeneficialOwnerUpdate: false()
+              )
+            )
+          ),
+          #"_a-0000e539-6d59-8000-9bd0-011c48011c48_1207543"(
+            align: "RIGHT",
+            pagingInfo: local!paging,
+            totalCount: local!beneficialOwnersOnCurrentPage.totalCount
+          )
+        }
+      )
+    }
+  ),
+  {}
+)</definition>
+        <namedTypedValue>
+            <name>customer</name>
+            <type>
+                <name>AS_FS_Customer</name>
+                <namespace>urn:com:appian:types:AS:FS</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>i18nData</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>refData</name>
+            <type>
+                <name>AS_FS_R_Data?list</name>
+                <namespace>urn:com:appian:types:AS:FS</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>customerOpenServiceRequests</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>showWhen</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+        <isCustom>false</isCustom>
+    </interface>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name/>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_33079"(
+  returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290157"
+)</a:value>
+                    <a:nameRef>customer</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression"> #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_975720"(
+   triggerRefresh: null
+ )</a:value>
+                    <a:nameRef>i18nData</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_975294"(
+  typeList: {},
+  i18nData: #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_975720"(
+    triggerRefresh: null
+  )
+)</a:value>
+                    <a:nameRef>refData</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e62c-7375-8000-9bec-011c48011c48_1775427"(
+  customerId: 1,
+  isActive: true(),
+  excludeNestedCdts: true,
+  /* Sort so that the SRQs that are expected to be completed last are first in the list,
+    then we can easily index to the first position for the correct pending value in below rules */
+  sort: #"SYSTEM_SYSRULES_sortInfo"(
+    field: "targetCompletionDate",
+    ascending: false
+  )
+)</a:value>
+                    <a:nameRef>customerOpenServiceRequests</a:nameRef>
+                    <a:id>4</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:boolean">true</a:value>
+                    <a:nameRef>showWhen</a:nameRef>
+                    <a:id>5</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2511155"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2533213"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2709112"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2726767"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2748892"/>
+        <historyInfo versionUuid="_a-0000e79b-0335-8000-9c0c-011c48011c48_2940429"/>
+    </history>
+</contentHaul>

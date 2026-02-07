@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema targetNamespace="urn:com:appian:types:AS:QNM"
+  xmlns:tns="urn:com:appian:types:AS:QNM" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <xsd:include schemaLocation="%7Burn%3Acom%3Aappian%3Atypes%3AAS%3AQNM%7DAS_QNM_R_FieldType.xsd"/>
+  <xsd:complexType name="AS_QNM_R_QuestionType">
+    <xsd:annotation>
+      <xsd:appinfo source="http://www.appian.com/ae/types/2009">
+        <ns2:Metadata xmlns:ns2="http://www.appian.com/ae/types/2009">
+          <ns2:versionUuid>0001e4ef-7649-8000-1531-7f0000014e7a</ns2:versionUuid>
+          <ns2:history>
+            <ns2:historyInfo versionUuid="0000e448-675f-8000-fa31-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0000e44a-c779-8000-fa5f-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0000e44c-6751-8000-faa8-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0000e467-daa5-8000-062b-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0001e477-c3a5-8000-07a4-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0001e4df-d9a7-8000-132f-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0001e4ef-7649-8000-1531-7f0000014e7a"/>
+          </ns2:history>
+        </ns2:Metadata>
+      </xsd:appinfo>
+      <xsd:documentation><![CDATA[Datatype for tying questions types to a set of defined rules, metadata, and fields.  Not to be confused with QuestionCategory, which is set of values defined by the business.]]></xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="questionTypeCode" nillable="true" type="xsd:string"/>
+      <xsd:element name="questionTypeLabel" nillable="true" type="xsd:string"/>
+      <xsd:element name="questionTypeDescription" nillable="true" type="xsd:string"/>
+      <xsd:element name="respond" nillable="true" type="xsd:anyType"/>
+      <xsd:element name="readOnlyDisplay" nillable="true" type="xsd:anyType"/>
+      <xsd:element maxOccurs="unbounded" name="fieldTypes" type="tns:AS_QNM_R_FieldType"/>
+      <xsd:element name="isActive" nillable="true" type="xsd:boolean"/>
+    </xsd:sequence>
+  </xsd:complexType>
+</xsd:schema>

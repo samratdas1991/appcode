@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e70f-2824-8000-9c01-011c48011c48_2753594</versionUuid>
+    <rule>
+        <name>AS_IO_ENTRYPOINT_GETDATA_BuildPendingProductsForDisplay</name>
+        <uuid>_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2501593</uuid>
+        <description>Returns a list of AS_FS_UNMAPPED_PendingObjectDisplays for product pending onboarding for a customer.</description>
+        <parentUuid>_a-0000e2bb-4188-8000-9ba2-011c48011c48_25469</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  local!openOnboardingRequestsForCustomer: #"_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2501604"(
+    /*FS products are the source of truth for onboarded products*/
+    /*and so should be queried from FS tables*/
+    statusCodes: #"_a-0000e539-6d59-8000-9bd0-011c48011c48_1209491"(),
+    customerId: ri!customerId,
+    returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290163",
+    triggerRefresh: ri!triggerRefresh
+  ),
+  /*Could eventually simplify to a single record query, but we currently still work in CDTs for FS/SRQ products, so doing this for consistency*/
+  local!productsPendingOnboarding: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_114847"(
+    requestId: local!openOnboardingRequestsForCustomer[#"urn:appian:record-field:v1:04c66223-4089-4d5e-8ed8-6a853822f478/9e449e60-b0c4-497f-9284-80ec663f2e7e"],
+    executeWhen: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(
+      local!openOnboardingRequestsForCustomer
+    ),
+    returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290163"
+  ),
+  #"SYSTEM_SYSRULES_forEach"(
+    local!productsPendingOnboarding,
+    'type!{urn:com:appian:types:FS}AS_FS_UNMAPPED_PendingObjectDisplay'(
+      objectAsQueried: null(
+        'type!{urn:com:appian:types:AS:FS}AS_FS_Product'
+      ),
+      objectForDisplay: cast(
+        'type!{urn:com:appian:types:AS:FS}AS_FS_Product',
+        fv!item
+      ),
+      pendingFieldUpdateDisplayMetadata: 'type!{urn:com:appian:types:FS}AS_FS_UNMAPPED_PendingFieldUpdateDisplayMetadata'(
+        field: null,
+        relevantRecordTypeCode: #"_a-0000e607-97fd-8000-9be9-011c48011c48_1687150",
+        /*TOBEDONE replace with filterRecordByField*/
+        relevantUniqueRecordIdentifiersForTextDisplay: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+          cdt: local!openOnboardingRequestsForCustomer,
+          field: #"urn:appian:record-field:v1:04c66223-4089-4d5e-8ed8-6a853822f478/9e449e60-b0c4-497f-9284-80ec663f2e7e",
+          value: fv!item.requestId
+        )[#"urn:appian:record-field:v1:04c66223-4089-4d5e-8ed8-6a853822f478/f78f903c-e72b-4574-ba40-98fcc9ef231e"]
+      )
+    )
+  )
+)</definition>
+        <namedTypedValue>
+            <name>customerId</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>triggerRefresh</name>
+            <type>
+                <name>dateTime</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name>Sample test case</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_33079"(
+  returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290157"
+).customerId</a:value>
+                    <a:nameRef>customerId</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                    <a:nameRef>triggerRefresh</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2502415"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2537720"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2544569"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2753594"/>
+    </history>
+</contentHaul>

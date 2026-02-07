@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema targetNamespace="urn:com:appian:types:AS:ADT"
+  xmlns:tns="urn:com:appian:types:AS:ADT" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <xsd:include schemaLocation="%7Burn%3Acom%3Aappian%3Atypes%3AAS%3AADT%7DAS_ADT_SAMPLE_ComplexChildMultiple.xsd"/>
+  <xsd:include schemaLocation="%7Burn%3Acom%3Aappian%3Atypes%3AAS%3AADT%7DAS_ADT_SAMPLE_ComplexChildSingle.xsd"/>
+  <xsd:include schemaLocation="%7Burn%3Acom%3Aappian%3Atypes%3AAS%3AADT%7DAS_ADT_SAMPLE_ReferenceChildSingle.xsd"/>
+  <xsd:complexType name="AS_ADT_SAMPLE_Parent">
+    <xsd:annotation>
+      <xsd:appinfo source="http://www.appian.com/ae/types/2009">
+        <ns2:Metadata xmlns:ns2="http://www.appian.com/ae/types/2009">
+          <ns2:versionUuid>0000e64d-fc21-8000-3e78-7f0000014e7a</ns2:versionUuid>
+          <ns2:history>
+            <ns2:historyInfo versionUuid="0000e3f5-6897-8000-fa60-7f0000014e7a-adt"/>
+            <ns2:historyInfo versionUuid="0000e52c-98f3-8000-005c-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0001e530-75ad-8000-007b-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0000e620-2b05-8000-3840-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0000e64d-fc21-8000-3e78-7f0000014e7a"/>
+          </ns2:history>
+        </ns2:Metadata>
+      </xsd:appinfo>
+      <xsd:documentation><![CDATA[Parent CDT which we audit against for test cases for auditing rules.]]></xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="parentId" nillable="true" type="xsd:int">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@Id</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="name" nillable="true" type="xsd:string"/>
+      <xsd:element name="text" nillable="true" type="xsd:string"/>
+      <xsd:element name="date" nillable="true" type="xsd:date"/>
+      <xsd:element name="referenceChild" nillable="true" type="tns:AS_ADT_SAMPLE_ReferenceChildSingle">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@ManyToOne(cascade=CascadeType.REFRESH)</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="complexChildSingle" nillable="true" type="tns:AS_ADT_SAMPLE_ComplexChildSingle">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@ManyToOne(cascade=CascadeType.ALL)</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element maxOccurs="unbounded" minOccurs="0"
+        name="complexChildMultiple" type="tns:AS_ADT_SAMPLE_ComplexChildMultiple">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@OneToMany(cascade=CascadeType.ALL, indexed=false) @JoinColumn(name="parentId")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="isActive" nillable="true" type="xsd:boolean"/>
+      <xsd:element name="createdBy" nillable="true" type="xsd:string"/>
+      <xsd:element name="createdDatetime" nillable="true" type="xsd:dateTime"/>
+      <xsd:element name="modifiedBy" nillable="true" type="xsd:string"/>
+      <xsd:element name="modifiedDatetime" nillable="true" type="xsd:dateTime"/>
+    </xsd:sequence>
+  </xsd:complexType>
+</xsd:schema>

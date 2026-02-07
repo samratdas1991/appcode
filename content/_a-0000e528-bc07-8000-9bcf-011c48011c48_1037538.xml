@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e70f-2824-8000-9c01-011c48011c48_2703823</versionUuid>
+    <rule>
+        <name>AS_FS_REF_PRODUCT_FIELDS_THRESHOLDS</name>
+        <uuid>_a-0000e528-bc07-8000-9bcf-011c48011c48_1037538</uuid>
+        <description>Fields in the "thresholds" section</description>
+        <parentUuid>_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_968428</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>{
+  {
+    fieldKey: #"_a-0000e528-bc07-8000-9bcf-011c48011c48_1026457",
+    sectionKey: #"_a-0000e528-bc07-8000-9bcf-011c48011c48_1025795",
+    label: if(
+      ri!isInternationalizedForAdminSetup,
+      #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+        i18nData: ri!adminSetupI18nData,
+        bundleKey: "AS.FS.AllBundles.lbl_Operator"
+      ),
+      null
+    ),
+    cdtField: { "thresholds.operator" },
+    isValid: if(
+      #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(ri!product),
+      null,
+      true
+    )
+  },
+  {
+    fieldKey: #"_a-0000e528-bc07-8000-9bcf-011c48011c48_1026463",
+    sectionKey: #"_a-0000e528-bc07-8000-9bcf-011c48011c48_1025795",
+    label: if(
+      ri!isInternationalizedForAdminSetup,
+      #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+        i18nData: ri!adminSetupI18nData,
+        bundleKey: "AS.FS.AllBundles.lbl_Amount"
+      ),
+      null
+    ),
+    cdtField: { "thresholds.threshold" },
+    isValid: if(
+      #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(ri!product),
+      null,
+      and(
+        #"SYSTEM_SYSRULES_forEach"(
+          items: ri!product.thresholds,
+          expression: or(
+            isnull(fv!item.threshold),
+            fv!item.threshold &gt;= 0
+          )
+        )
+      )
+    )
+  },
+  {
+    fieldKey: #"_a-0000e528-bc07-8000-9bcf-011c48011c48_1026469",
+    sectionKey: #"_a-0000e528-bc07-8000-9bcf-011c48011c48_1025795",
+    label: if(
+      ri!isInternationalizedForAdminSetup,
+      #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+        i18nData: ri!adminSetupI18nData,
+        bundleKey: "AS.FS.AllBundles.lbl_Currency"
+      ),
+      null
+    ),
+    cdtField: { "thresholds.thresholdCurrencyCode" },
+    isValid: if(
+      #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(ri!product),
+      null,
+      and(
+        a!flatten(
+          #"SYSTEM_SYSRULES_forEach"(
+            items: ri!product.thresholds,
+            expression: or(
+              isnull(fv!item.threshold),
+              and(
+                not(isnull(fv!item.threshold)),
+                not(isnull(fv!item.thresholdCurrencyCode))
+              )
+            )
+          )
+        )
+      )
+    )
+  },
+  {
+    fieldKey: #"_a-0000e528-bc07-8000-9bcf-011c48011c48_1026445",
+    sectionKey: #"_a-0000e528-bc07-8000-9bcf-011c48011c48_1025795",
+    label: if(
+      ri!isInternationalizedForAdminSetup,
+      #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+        i18nData: ri!adminSetupI18nData,
+        bundleKey: "AS.FS.AllBundles.lbl_NumberOfAuthorizations"
+      ),
+      null
+    ),
+    span: 1,
+    cdtField: { "thresholds.authorizations" },
+    isValid: if(
+      #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(ri!product),
+      null,
+      and(
+        #"SYSTEM_SYSRULES_forEach"(
+          items: ri!product.thresholds,
+          expression: or(
+            isnull(fv!item.authorizations),
+            fv!item.authorizations &gt;= 0
+          )
+        )
+      )
+    )
+  }
+}</definition>
+        <namedTypedValue>
+            <name>adminSetupI18nData</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>product</name>
+            <type>
+                <name>AS_FS_Product</name>
+                <namespace>urn:com:appian:types:AS:FS</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>isInternationalizedForAdminSetup</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name>no errors</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                    <a:nameRef>adminSetupI18nData</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:n1="urn:com:appian:types:AS:FS" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="n1:AS_FS_Product"/>
+                    <a:nameRef>product</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:boolean"/>
+                    <a:nameRef>isInternationalizedForAdminSetup</a:nameRef>
+                    <a:id>4</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e528-bc07-8000-9bcf-011c48011c48_1039111"/>
+        <historyInfo versionUuid="_a-0000e528-bc07-8000-9bcf-011c48011c48_1048203"/>
+        <historyInfo versionUuid="_a-0000e539-6d59-8000-9bd0-011c48011c48_1140307"/>
+        <historyInfo versionUuid="_a-0000e539-6d59-8000-9bd0-011c48011c48_1172709"/>
+        <historyInfo versionUuid="_a-0000e5a0-53e9-8000-9bd8-011c48011c48_1398195"/>
+        <historyInfo versionUuid="_a-0000e5fd-0ed3-8000-9be6-011c48011c48_1562929"/>
+        <historyInfo versionUuid="_a-0000e5fd-0ed3-8000-9be6-011c48011c48_1563441"/>
+        <historyInfo versionUuid="_a-0000e5fd-0ed3-8000-9be6-011c48011c48_1564934"/>
+        <historyInfo versionUuid="_a-0000e62c-7375-8000-9bec-011c48011c48_1844757"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2703823"/>
+    </history>
+</contentHaul>

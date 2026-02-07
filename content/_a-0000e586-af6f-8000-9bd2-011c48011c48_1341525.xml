@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e586-af6f-8000-9bd2-011c48011c48_1371343</versionUuid>
+    <rule>
+        <name>AS_IO_DOCUSIGN_generateDocusignTaskEnvelope</name>
+        <uuid>_a-0000e586-af6f-8000-9bd2-011c48011c48_1341525</uuid>
+        <description>Rule to get envelop definition for Docusign.</description>
+        <parentUuid>_a-0000e2bb-4188-8000-9ba2-011c48011c48_25469</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>#"SYSTEM_SYSRULES_toJson_v1"(
+  {
+    "emailSubject": "Signature Required for Onboarding Document",
+    "recipients": {
+      "signers": {
+        {
+          "email": user(ri!recipient,"email"),
+          "name": #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73660"(user: ri!recipient),
+          "recipientId": "1",
+          "routingOrder": "1",
+          "clientUserId": user(ri!recipient,"username"),
+          "tabs": {
+            "dateSignedTabs": {
+              {
+                "anchorString": "signer1date",
+                "anchorYOffset": "-6",
+                "fontSize": "Size12",
+                "name": "Date Signed",
+                "recipientId": "1",
+                "tabLabel": "date_signed"
+              }
+            },
+            "fullNameTabs": {
+              {
+                "anchorString": "signer1name",
+                "anchorYOffset": "-6",
+                "fontSize": "Size12",
+                "name": "Full Name",
+                "recipientId": "1",
+                "tabLabel": "Full Name"
+              }
+            },
+            "signHereTabs": {
+              {
+                "anchorString": "signer1sig",
+                "anchorUnits": "mms",
+                "anchorXOffset": "0",
+                "anchorYOffset": "0",
+                "name": "Please sign here",
+                "optional": "false",
+                "recipientId": "1",
+                "scaleValue": 1,
+                "tabLabel": "signer1sig"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+)
+</definition>
+        <namedTypedValue>
+            <name>recipient</name>
+            <type>
+                <name>User</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name>Logged-in User</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">loggedInUser()</a:value>
+                    <a:nameRef>recipient</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e586-af6f-8000-9bd2-011c48011c48_1341537"/>
+        <historyInfo versionUuid="_a-0000e586-af6f-8000-9bd2-011c48011c48_1371343"/>
+    </history>
+</contentHaul>

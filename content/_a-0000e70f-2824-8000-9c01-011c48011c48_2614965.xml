@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e70f-2824-8000-9c01-011c48011c48_2627414</versionUuid>
+    <interface>
+        <name>AS_FS_ALT_CPS_CustomerFilter_ReadOnlyDisplay</name>
+        <uuid>_a-0000e70f-2824-8000-9c01-011c48011c48_2614965</uuid>
+        <description>Contains customer filter in read only display</description>
+        <parentUuid>_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_968428</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  local!customersIds: #"_a-0000e70f-2824-8000-9c01-011c48011c48_2539235"(
+    json: ri!filterCondition[#"urn:appian:record-field:v1:8546e985-8ec8-4daa-a28b-b43706a9e0e7/5faf6060-50ca-4929-ac57-53ec7d04c739"],
+    field: "customers",
+    indexDefault: {}
+  ),
+  local!customer: #"_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2465114"(
+    returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290163",
+    customerIds: local!customersIds,
+    executeWhen: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(local!customersIds)
+  ),
+  if(
+    #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(local!customersIds),
+    {},
+    {
+      #"SYSTEM_SYSRULES_sideBySideLayout"(
+        alignVertical: "MIDDLE",
+        items: {
+          #"SYSTEM_SYSRULES_sideBySideItem"(
+            width: "MINIMIZE",
+            item: #"_a-0000e607-97fd-8000-9be9-011c48011c48_1713562"(
+              tagText: #"_a-0000e70f-2824-8000-9c01-011c48011c48_2552563"(
+                i18nData: ri!i18nData,
+                operators: ri!filterCondition[#"urn:appian:record-field:v1:8546e985-8ec8-4daa-a28b-b43706a9e0e7/d784e790-6863-4053-bb9f-33dc83d34f3e"]
+              ).label,
+              size: "SMALL",
+              color: "SECONDARY"
+            )
+          ),
+          #"SYSTEM_SYSRULES_sideBySideItem"(
+            item: #"SYSTEM_SYSRULES_richTextDisplayField"(
+              label: "Customer filter condition customers",
+              labelPosition: "COLLAPSED",
+              preventWrapping: true,
+              value: {
+                #"SYSTEM_SYSRULES_richTextItem_v1"(
+                  text: joinarray(local!customer[#"urn:appian:record-field:v1:ac016353-2977-4ef1-b643-fed621e7b701/82717263-d098-48ae-ad24-1591d57c5a00"], ", ")
+                )
+              }
+            )
+          )
+        }
+      )
+    }
+  )
+)</definition>
+        <namedTypedValue>
+            <name>filterCondition</name>
+            <type>
+                <name>8546e985-8ec8-4daa-a28b-b43706a9e0e7</name>
+                <namespace>urn:com:appian:recordtype:datatype</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>i18nData</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+        <isCustom>false</isCustom>
+    </interface>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name/>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression"> #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_975720"(triggerRefresh: null),</a:value>
+                    <a:nameRef>filterCondition</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"SYSTEM_SYSRULES_queryRecordType_v1"(
+  recordType: #"urn:appian:record-type:v1:8546e985-8ec8-4daa-a28b-b43706a9e0e7",
+  pagingInfo: #"SYSTEM_SYSRULES_pagingInfo"(1,1),
+  filters: #"SYSTEM_SYSRULES_queryFilter"(
+    field: #"urn:appian:record-field:v1:8546e985-8ec8-4daa-a28b-b43706a9e0e7/07d99365-1701-4648-8f6c-758f0221c916",
+    operator: "=",
+    value: #"_a-0000e70f-2824-8000-9c01-011c48011c48_2546912"
+  )
+).data</a:value>
+                    <a:nameRef>i18nData</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2615263"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2618873"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2627414"/>
+    </history>
+</contentHaul>

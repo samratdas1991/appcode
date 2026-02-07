@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema targetNamespace="urn:com:appian:types:AS:QNM"
+  xmlns:tns="urn:com:appian:types:AS:QNM" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <xsd:include schemaLocation="%7Burn%3Acom%3Aappian%3Atypes%3AAS%3AQNM%7DAS_QNM_Question.xsd"/>
+  <xsd:include schemaLocation="%7Burn%3Acom%3Aappian%3Atypes%3AAS%3AQNM%7DAS_QNM_QuestionCategory.xsd"/>
+  <xsd:complexType name="AS_QNM_Questionnaire">
+    <xsd:annotation>
+      <xsd:appinfo source="appian.jpa">@Table(name="AS_QNM_QUESTIONNAIRE")</xsd:appinfo>
+      <xsd:appinfo source="http://www.appian.com/ae/types/2009">
+        <ns2:Metadata xmlns:ns2="http://www.appian.com/ae/types/2009">
+          <ns2:versionUuid>0000e4fc-e87a-8000-1723-7f0000014e7a</ns2:versionUuid>
+          <ns2:history>
+            <ns2:historyInfo versionUuid="0004e448-675f-8000-fa31-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0001e44c-33d0-8000-fa9b-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0001e452-ab09-8000-fae1-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0001e454-448e-8000-fb15-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0003e456-fd65-8000-fb59-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0001e45d-6ed2-8000-fb8c-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0002e464-3dae-8000-0598-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0001e466-bc76-8000-0623-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0000e467-ebf0-8000-0632-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0000e468-152b-8000-0659-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0002e476-7203-8000-077b-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0003e480-d754-8000-0890-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0001e484-2d1b-8000-0962-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0001e48c-0951-8000-0ac3-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0003e4cd-4a39-8000-1145-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0001e4ea-3a5c-8000-14b0-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0001e4fc-e2ac-8000-171e-7f0000014e7a"/>
+            <ns2:historyInfo versionUuid="0000e4fc-e87a-8000-1723-7f0000014e7a"/>
+          </ns2:history>
+        </ns2:Metadata>
+      </xsd:appinfo>
+      <xsd:documentation><![CDATA[Datatype for questionnaires.  This should be used exclusively to link a set of questions to some other type of business CDT.]]></xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="questionnaireId" nillable="true" type="xsd:int">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@Id @GeneratedValue @Column(name="QUESTIONNAIRE_ID")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="questionnaireTemplateId" nillable="true" type="xsd:int">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@Column(name="QUESTIONNAIRE_TEMPLATE_ID")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element maxOccurs="unbounded" minOccurs="0"
+        name="questionCategories" type="tns:AS_QNM_QuestionCategory">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@OneToMany(cascade=CascadeType.ALL, indexed=false) @JoinColumn(name="QUESTIONNAIRE_ID")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element maxOccurs="unbounded" minOccurs="0" name="questions" type="tns:AS_QNM_Question">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@OneToMany(cascade=CascadeType.ALL, indexed=false) @JoinColumn(name="QUESTIONNAIRE_ID")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="questionnaireStatusCode" nillable="true" type="xsd:string">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@Column(name="QUESTIONNAIRE_STATUS_CODE")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="createdBy" nillable="true" type="xsd:string">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@Column(name="CREATED_BY")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="createdDatetime" nillable="true" type="xsd:dateTime">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@Column(name="CREATED_DATETIME")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="modifiedBy" nillable="true" type="xsd:string">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@Column(name="MODIFIED_BY")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="modifiedDatetime" nillable="true" type="xsd:dateTime">
+        <xsd:annotation>
+          <xsd:appinfo source="appian.jpa">@Column(name="MODIFIED_DATETIME")</xsd:appinfo>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+</xsd:schema>

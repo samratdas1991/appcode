@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<recordTypeHaul xmlns:a="http://www.appian.com/ae/types/2009" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <versionUuid>85d2e111-3b53-4134-87cb-ed2782a8321c</versionUuid>
+  <recordType a:uuid="063952b7-0b93-4be5-a055-9f914259f26e" name="AS_FS_Address_RecordType">
+    <a:pluralName>AS_FS_Address_RecordTypes</a:pluralName>
+    <a:description>Record of Addresses</a:description>
+    <a:urlStub>MuEoBQ</a:urlStub>
+    <a:source
+      a:uuid="83846b2a-e16d-4c2f-9e2c-ada29fd27a1f@_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_968035" xsi:type="a:DataStoreEntity"/>
+    <a:listViewTemplateExpr>#"SYSTEM_SYSRULES_recordGridField"(
+  columns: {
+    #"SYSTEM_SYSRULES_gridColumn"(
+      label: "Address Id",
+      sortField: #"urn:appian:record-field:v1:063952b7-0b93-4be5-a055-9f914259f26e/addressId",
+      value: #"SYSTEM_SYSRULES_linkField"(
+        links: #"SYSTEM_SYSRULES_recordLink"(
+          label: fv!row[#"urn:appian:record-field:v1:063952b7-0b93-4be5-a055-9f914259f26e/addressId"],
+          recordType: #"urn:appian:record-type:v1:063952b7-0b93-4be5-a055-9f914259f26e",
+          identifier: fv!identifier
+        )
+      ),
+      width: "1X"
+    ),
+    #"SYSTEM_SYSRULES_gridColumn"(
+      label: "Customer Id",
+      sortField: #"urn:appian:record-field:v1:063952b7-0b93-4be5-a055-9f914259f26e/customerId",
+      value: tointeger(
+        fv!row[#"urn:appian:record-field:v1:063952b7-0b93-4be5-a055-9f914259f26e/customerId"]
+      ),
+      align: "END",
+      width: "1X"
+    ),
+    #"SYSTEM_SYSRULES_gridColumn"(
+      label: "Address Type",
+      sortField: #"urn:appian:record-field:v1:063952b7-0b93-4be5-a055-9f914259f26e/addressType",
+      width: "1X"
+    ),
+    #"SYSTEM_SYSRULES_gridColumn"(
+      label: "Street Address",
+      sortField: #"urn:appian:record-field:v1:063952b7-0b93-4be5-a055-9f914259f26e/streetAddress",
+      value: fv!row[#"urn:appian:record-field:v1:063952b7-0b93-4be5-a055-9f914259f26e/streetAddress"],
+      width: "1X"
+    )
+  },
+  pageSize: 50,
+  initialSorts: {
+    #"SYSTEM_SYSRULES_sortInfo"(
+      field: #"urn:appian:record-field:v1:063952b7-0b93-4be5-a055-9f914259f26e/addressType",
+      ascending: fn!true()
+    )
+  },
+  shadeAlternateRows: true
+)</a:listViewTemplateExpr>
+    <a:detailViewCfg>
+      <a:nameExpr>#"SYSTEM_SYSRULES_rtd_getDefaultSummaryViewName"()</a:nameExpr>
+      <a:uiExpr/>
+      <a:visibilityExpr>=true()</a:visibilityExpr>
+      <a:urlStub>summary</a:urlStub>
+      <a:headerExpr/>
+      <a:recordActionLaunchType>DIALOG</a:recordActionLaunchType>
+      <a:recordUiSecurityType>EXPRESSION</a:recordUiSecurityType>
+    </a:detailViewCfg>
+    <a:relatedActionCfg a:uuid="d42e16cc-80ee-4375-8378-a53f100c7821">
+      <a:target a:uuid="0002e516-e78c-8000-18ed-7f0000014e7a" xsi:type="a:ProcessModel"/>
+      <a:contextExpr>{
+  address: #"_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_968447"(
+    addressId: rv!identifier
+  ), /* AS_FS_Address */
+  userAction: null /* Text */,
+  createAlertOnRpaFailure: true
+}</a:contextExpr>
+      <a:visibilityExpr>=true()</a:visibilityExpr>
+      <a:iconId>f040</a:iconId>
+      <a:refId>refId-d42e16cc-80ee-4375-8378-a53f100c7821</a:refId>
+      <a:titleExpr>#"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_976788"(
+  bundleKey: "AS.FS.AllBundles.lbl_UpdateAddress"
+)</a:titleExpr>
+      <a:descriptionExpr/>
+      <a:referenceKey>EditAddress</a:referenceKey>
+      <a:dialogSize>FIT$FIT</a:dialogSize>
+      <a:showInRecordList>false</a:showInRecordList>
+      <a:recordUiSecurityType>EXPRESSION</a:recordUiSecurityType>
+      <a:dialogWidth>FIT</a:dialogWidth>
+      <a:dialogHeight>FIT</a:dialogHeight>
+    </a:relatedActionCfg>
+    <a:relatedActionCfg a:uuid="ad833637-ad81-420a-8a5a-4f5397d00aaf">
+      <a:target a:uuid="0002e51b-ed0f-8000-1994-7f0000014e7a" xsi:type="a:ProcessModel"/>
+      <a:contextExpr>{
+  address: #"_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_968447"(
+    addressId: rv!identifier
+  )
+}</a:contextExpr>
+      <a:visibilityExpr>=true()</a:visibilityExpr>
+      <a:iconId>f014</a:iconId>
+      <a:refId>refId-ad833637-ad81-420a-8a5a-4f5397d00aaf</a:refId>
+      <a:titleExpr>#"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_976788"(
+  bundleKey: "AS.FS.AllBundles.lbl_DeleteAddress"
+)</a:titleExpr>
+      <a:staticDescriptionString/>
+      <a:referenceKey>DeleteAddress</a:referenceKey>
+      <a:dialogSize>FIT$FIT</a:dialogSize>
+      <a:showInRecordList>false</a:showInRecordList>
+      <a:recordUiSecurityType>EXPRESSION</a:recordUiSecurityType>
+      <a:dialogWidth>FIT</a:dialogWidth>
+      <a:dialogHeight>FIT</a:dialogHeight>
+    </a:relatedActionCfg>
+    <a:isSystem>false</a:isSystem>
+    <a:dataSrcExpr/>
+    <a:facetsListExpr/>
+    <a:titleExpr/>
+    <a:defaultFiltersExpr>if(
+  #"_a-0000e69f-3688-8000-9bf2-011c48011c48_2143846"(),
+  {},
+  a!localVariables(
+    local!userCustomerGroup: #"_a-0000e5da-4dac-8000-9ba5-011c48011c48_23439"(),
+    #"SYSTEM_SYSRULES_queryFilter"(
+      field: #"urn:appian:record-field:v1:063952b7-0b93-4be5-a055-9f914259f26e/customerId",
+      operator: "=",
+      value: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_33079"(
+        groupIds: local!userCustomerGroup,
+        returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290157",
+        executeWhen: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(input: local!userCustomerGroup)
+      ).customerId
+    )
+  )
+)</a:defaultFiltersExpr>
+    <a:layoutType>GRID</a:layoutType>
+    <a:security>16383</a:security>
+    <a:hideLatestNews>false</a:hideLatestNews>
+    <a:hideNewsView>false</a:hideNewsView>
+    <a:hideRelatedActionsView>false</a:hideRelatedActionsView>
+    <a:isExportable>false</a:isExportable>
+    <a:listViewSrcExpr/>
+    <a:recordViewSrcExpr/>
+    <a:recordTypeSearchCfg>
+      <searchFieldsSrc>DEFAULT</searchFieldsSrc>
+      <placeholderSrc>DEFAULT</placeholderSrc>
+      <placeholder/>
+    </a:recordTypeSearchCfg>
+    <a:iconId/>
+    <a:listAutoRefreshInterval>0.0</a:listAutoRefreshInterval>
+    <a:enabledFeatures>63</a:enabledFeatures>
+    <a:isVisibleInRecordTypeList>false</a:isVisibleInRecordTypeList>
+    <a:recordActionLaunchType>DIALOG</a:recordActionLaunchType>
+    <a:showSearchBox>true</a:showSearchBox>
+    <a:isVisibleInDataFabric>false</a:isVisibleInDataFabric>
+    <a:usesRollingSyncLimit>false</a:usesRollingSyncLimit>
+    <a:usesRecoverySync>false</a:usesRecoverySync>
+    <a:isScheduledIndexingEnabled>false</a:isScheduledIndexingEnabled>
+    <a:smartSearchAcceptableFailureRate>0.0</a:smartSearchAcceptableFailureRate>
+    <a:skipFailedSmartServicesSync>false</a:skipFailedSmartServicesSync>
+  </recordType>
+  <roleMap>
+    <role name="record_type_administrator">
+      <users/>
+      <groups>
+        <groupUuid>_e-0000e2bb-4188-8000-9aee-01075c01075c_41</groupUuid>
+      </groups>
+    </role>
+    <role name="record_type_viewer">
+      <users/>
+      <groups>
+        <groupUuid>_e-0000e50d-bf1d-8000-9b19-01075c01075c_10046</groupUuid>
+      </groups>
+    </role>
+  </roleMap>
+  <history>
+    <historyInfo versionUuid="13ffe264-fcd5-4031-a43b-b3851c59ea0a"/>
+    <historyInfo versionUuid="0fe93c72-9875-4a31-8a56-c284883627c1"/>
+    <historyInfo versionUuid="dd7325ef-3d33-4bdb-86ff-8120b6e23b5c"/>
+    <historyInfo versionUuid="bfbc1dc1-8a25-4613-af28-2a067e8cc6ff"/>
+    <historyInfo versionUuid="46e84564-e221-4db3-8946-47afa2060b5e"/>
+    <historyInfo versionUuid="b47e6a5a-0876-41a2-b1a2-8f7d30063fb4"/>
+    <historyInfo versionUuid="42f587dc-0d54-4ac3-a9df-2aaab8eb2dae"/>
+    <historyInfo versionUuid="ce614fba-1f47-48d4-8f97-fcf3ca751ec5"/>
+    <historyInfo versionUuid="85d2e111-3b53-4134-87cb-ed2782a8321c"/>
+  </history>
+  <migrationVersion>1</migrationVersion>
+</recordTypeHaul>

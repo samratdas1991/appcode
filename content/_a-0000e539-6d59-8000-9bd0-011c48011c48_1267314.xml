@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e70f-2824-8000-9c01-011c48011c48_2705767</versionUuid>
+    <interface>
+        <name>AS_FS_IDP_CPS_uploadClassificationDocs</name>
+        <uuid>_a-0000e539-6d59-8000-9bd0-011c48011c48_1267314</uuid>
+        <description>Form to upload classification doc</description>
+        <parentUuid>_a-0000e539-6d59-8000-9bd0-011c48011c48_1261631</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  local!i18nData: #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_975720"(triggerRefresh: null),
+  local!allDocumentTypes: #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_975294"(
+    internationalizeLabels: true,
+    typeList: #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_975334",
+    isActive: true,
+    i18nData: local!i18nData
+  ),
+  local!docTypeZips: #"SYSTEM_SYSRULES_forEach"(
+    items: local!allDocumentTypes,
+    expression: 'type!{urn:com:appian:types:AS:FS}AS_FS_IDP_DocTypeZip'(docTypeName: fv!item.code, zipId: null)
+  ),
+  local!docTypes,
+  local!trainingInprogress: #"_a-0000e539-6d59-8000-9bd0-011c48011c48_1284314"(
+    channelId: #"_a-0000e539-6d59-8000-9bd0-011c48011c48_1266629"
+  ),
+  #"SYSTEM_SYSRULES_formLayout_v1"(
+    label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+      i18nData: local!i18nData,
+      bundleKey: "AS.FS.AllBundles.txt_UploadClassificationDocuments"
+    ),
+    contents: {
+      if(
+        local!trainingInprogress,
+        #"_a-0000e447-933d-8000-9baa-011c48011c48_50686"(
+          label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+            i18nData: local!i18nData,
+            bundleKey: "AS.FS.AllBundles.txt_DocumentTrainingInprogress"
+          )
+        ),
+        {
+          #"_a-0000e447-933d-8000-9baa-011c48011c48_50686"(
+            label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+              i18nData: local!i18nData,
+              bundleKey: "AS.FS.AllBundles.txt_ProvideZIpFiles",
+              arguments: #"_a-0000e539-6d59-8000-9bd0-011c48011c48_1259009"
+            )
+          )
+        }
+      ),
+      #"_a-0000e447-933d-8000-9baa-011c48011c48_68668"(
+        cardLayouts: #"SYSTEM_SYSRULES_forEach"(
+          items: local!allDocumentTypes.label,
+          expression: #"SYSTEM_SYSRULES_cardLayout"(
+            showBorder: false,
+            contents: a!localVariables(
+              local!classficationDocs,
+              #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_74302"(
+                label: fv!item,
+                target: #"_a-0000e539-6d59-8000-9bd0-011c48011c48_1267530",
+                maxSelections: 1,
+                value: local!classficationDocs,
+                saveInto: {
+                  local!classficationDocs,
+                  a!save(
+                    local!docTypeZips[fv!index].zipId,
+                    tointeger(local!classficationDocs)
+                  )
+                },
+                allowedFileExtensions: #"_a-0000e539-6d59-8000-9bd0-011c48011c48_1266089",
+                allUploadedDocuments: ri!allUploadedDocuments,
+                disabled: local!trainingInprogress
+              )
+            )
+          )
+        ),
+        maxPerRow: #"_a-0000e539-6d59-8000-9bd0-011c48011c48_1268293",
+        minPerRow: #"_a-0000e539-6d59-8000-9bd0-011c48011c48_1268293",
+        marginBelow: "NONE",
+        stackWhen: {
+          "PHONE",
+          "TABLET_PORTRAIT",
+          "TABLET_LANDSCAPE",
+          "DESKTOP_NARROW"
+        }
+      )
+    },
+    buttons: #"_a-0000e3d1-f4dc-8000-9ba4-011c48011c48_134344"(
+      confirmLabel: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+        i18nData: local!i18nData,
+        bundleKey: "AS.FS.AllBundles.btn_Submit",
+        
+      ),
+      cancelLabel: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+        i18nData: local!i18nData,
+        bundleKey: "AS.FS.AllBundles.btn_Cancel"
+      ),
+      confirmDisabled: count(
+        #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_111264"(cdt: local!docTypeZips, fields: "zipId")
+      ) &lt; 1,
+      confirmSubmit: true,
+      cancelSubmit: true,
+      cancelSaveInto: {
+        a!save(
+          ri!userAction,
+          #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73173"
+        )
+      },
+      confirmSaveInto: {
+        a!save(
+          ri!userAction,
+          #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73305"
+        ),
+        a!save(
+          ri!docTypes,
+          #"_a-0000e539-6d59-8000-9bd0-011c48011c48_1264886"(
+            docTypeCode: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_111264"(cdt: local!docTypeZips, fields: "zipId").docTypeName,
+            returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290163",
+            executeWhen: true
+          )
+        ),
+        a!save(
+          ri!docTypeZips,
+          #"SYSTEM_SYSRULES_forEach"(
+            items: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_111264"(cdt: local!docTypeZips, fields: "zipId"),
+            expression: a!localVariables(
+              local!mactchingType: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+                cdt: ri!docTypes,
+                field: "docTypeCode",
+                value: fv!item.docTypeName
+              ),
+              'type!{urn:com:appian:types:AS:FS}AS_FS_IDP_DocTypeZip'(
+                docTypeZipId: null,
+                docTypeId: local!mactchingType.docTypeId,
+                docTypeName: local!mactchingType.docTypeName,
+                zipId: fv!item.zipId,
+                understandingArray: #"_a-0000e539-6d59-8000-9bd0-011c48011c48_1261636"(
+                  docTypeId: local!mactchingType.docTypeId,
+                  returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290157",
+                  executeWhen: true,
+                  excludeNestedCdts: true
+                ),
+                uploadedBy: loggedInUser(),
+                uploadedOn: now()
+              )
+            )
+          )
+        ),
+        a!save(
+          ri!docChannel,
+          #"_a-0000e539-6d59-8000-9bd0-011c48011c48_1265307"()
+        )
+      }
+    )
+  )
+)</definition>
+        <namedTypedValue>
+            <name>userAction</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>docTypes</name>
+            <type>
+                <name>AS_FS_IDP_DocType?list</name>
+                <namespace>urn:com:appian:types:AS:FS</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>docTypeZips</name>
+            <type>
+                <name>AS_FS_IDP_DocTypeZip?list</name>
+                <namespace>urn:com:appian:types:AS:FS</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>docChannel</name>
+            <type>
+                <name>AS_FS_IDP_DocChannel</name>
+                <namespace>urn:com:appian:types:AS:FS</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>allUploadedDocuments</name>
+            <type>
+                <name>CollaborationDocument?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+        <isCustom>false</isCustom>
+    </interface>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <history>
+        <historyInfo versionUuid="_a-0000e586-af6f-8000-9bd2-011c48011c48_1332784"/>
+        <historyInfo versionUuid="_a-0000e62c-7375-8000-9bec-011c48011c48_1861455"/>
+        <historyInfo versionUuid="_a-0000e69f-3688-8000-9bf2-011c48011c48_2152008"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2705767"/>
+    </history>
+</contentHaul>

@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e70f-2824-8000-9c01-011c48011c48_2703549</versionUuid>
+    <rule>
+        <name>AS_FS_REF_PRODUCT_FIELDS_TERMS</name>
+        <uuid>_a-0000e528-bc07-8000-9bcf-011c48011c48_1035269</uuid>
+        <description>fields in the "terms" section</description>
+        <parentUuid>_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_968428</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>{
+  {
+    fieldKey: #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_1021209",
+    sectionKey: #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_1021328",
+    label: if(
+      ri!isInternationalizedForAdminSetup,
+      #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+        i18nData: ri!adminSetupI18nData,
+        bundleKey: "AS.FS.AllBundles.lbl_PeroformanceReturn"
+      ),
+      null
+    ),
+    cdtField: { "term.performanceReturnTerm" },
+    isValid: if(
+      #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(ri!product),
+      null,
+      a!localVariables(
+        local!performanceReturnTerm: index(
+          ri!product.term,
+          "performanceReturnTerm",
+          null
+        ),
+        or(
+          isnull(local!performanceReturnTerm),
+          local!performanceReturnTerm &gt;= 0
+        )
+      )
+    )
+  },
+  {
+    fieldKey: #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_1021215",
+    sectionKey: #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_1021328",
+    label: if(
+      ri!isInternationalizedForAdminSetup,
+      #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+        i18nData: ri!adminSetupI18nData,
+        bundleKey: "AS.FS.AllBundles.lbl_StartDate"
+      ),
+      null
+    ),
+    cdtField: { "term.performanceStartDate" },
+    isValid: if(
+      #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(ri!product),
+      null,
+      true
+    )
+  },
+  {
+    fieldKey: #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_1021233",
+    sectionKey: #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_1021328",
+    label: if(
+      ri!isInternationalizedForAdminSetup,
+      #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+        i18nData: ri!adminSetupI18nData,
+        bundleKey: "AS.FS.AllBundles.lbl_ShortLock"
+      ),
+      null
+    ),
+    cdtField: { "term.shortLock" },
+    isValid: if(
+      #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(ri!product),
+      null,
+      a!localVariables(
+        local!shortLock: index(ri!product.term, "shortLock", null),
+        or(
+          isnull(local!shortLock),
+          local!shortLock &gt;= 0
+        )
+      )
+    )
+  },
+  {
+    fieldKey: #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_1021221",
+    sectionKey: #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_1021328",
+    label: if(
+      ri!isInternationalizedForAdminSetup,
+      #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+        i18nData: ri!adminSetupI18nData,
+        bundleKey: "AS.FS.AllBundles.lbl_RateLock"
+      ),
+      null
+    ),
+    cdtField: { "term.rateLock" },
+    isValid: if(
+      #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(ri!product),
+      null,
+      a!localVariables(
+        local!rateLock: index(ri!product.term, "rateLock", null),
+        or(
+          isnull(local!rateLock),
+          local!rateLock &gt;= 0
+        )
+      )
+    )
+  },
+  {
+    fieldKey: #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_1021227",
+    sectionKey: #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_1021328",
+    label: if(
+      ri!isInternationalizedForAdminSetup,
+      #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+        i18nData: ri!adminSetupI18nData,
+        bundleKey: "AS.FS.AllBundles.lbl_CommittedMargin"
+      ),
+      null
+    ),
+    cdtField: { "term.committedMargin" },
+    isValid: if(
+      #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(ri!product),
+      null,
+      a!localVariables(
+        local!committedMargin: index(ri!product.term, "committedMargin", null),
+        or(
+          isnull(local!committedMargin),
+          local!committedMargin &gt;= 0
+        )
+      )
+    )
+  },
+  {
+    fieldKey: #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_1021253",
+    sectionKey: #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_1021328",
+    label: if(
+      ri!isInternationalizedForAdminSetup,
+      #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+        i18nData: ri!adminSetupI18nData,
+        bundleKey: "AS.FS.AllBundles.lbl_Other"
+      ),
+      null
+    ),
+    cdtField: { "term.otherTerm" },
+    isValid: if(
+      #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(ri!product),
+      null,
+      len(
+        index(ri!product.term, "otherTerm", null)
+      ) &lt;= #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73500"
+    )
+  }
+}</definition>
+        <namedTypedValue>
+            <name>adminSetupI18nData</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>product</name>
+            <type>
+                <name>AS_FS_Product</name>
+                <namespace>urn:com:appian:types:AS:FS</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>isInternationalizedForAdminSetup</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name>no errors</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                    <a:nameRef>adminSetupI18nData</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:n1="urn:com:appian:types:AS:FS" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="n1:AS_FS_Product"/>
+                    <a:nameRef>product</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:boolean"/>
+                    <a:nameRef>isInternationalizedForAdminSetup</a:nameRef>
+                    <a:id>4</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e528-bc07-8000-9bcf-011c48011c48_1035350"/>
+        <historyInfo versionUuid="_a-0000e539-6d59-8000-9bd0-011c48011c48_1155628"/>
+        <historyInfo versionUuid="_a-0000e539-6d59-8000-9bd0-011c48011c48_1172615"/>
+        <historyInfo versionUuid="_a-0000e5a0-53e9-8000-9bd8-011c48011c48_1398191"/>
+        <historyInfo versionUuid="_a-0000e5fd-0ed3-8000-9be6-011c48011c48_1562781"/>
+        <historyInfo versionUuid="_a-0000e5fd-0ed3-8000-9be6-011c48011c48_1563529"/>
+        <historyInfo versionUuid="_a-0000e5fd-0ed3-8000-9be6-011c48011c48_1564910"/>
+        <historyInfo versionUuid="_a-0000e62c-7375-8000-9bec-011c48011c48_1844836"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2703549"/>
+    </history>
+</contentHaul>

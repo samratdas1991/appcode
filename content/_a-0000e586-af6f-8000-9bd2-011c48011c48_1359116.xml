@@ -1,0 +1,824 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e70f-2824-8000-9c01-011c48011c48_2720635</versionUuid>
+    <rule>
+        <name>AS_IO_UT_emailTemplateForTaskAssignment</name>
+        <uuid>_a-0000e586-af6f-8000-9bd2-011c48011c48_1359116</uuid>
+        <description>Contains the email template for the customer task assignment</description>
+        <parentUuid>_a-0000e2bb-4188-8000-9ba2-011c48011c48_25469</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  local!isDocUpload: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(
+    input: index(
+      ri!task.docUploadContext,
+      "docTypeCode",
+      null
+    )
+  ),
+  local!i18nData: #"_a-0000e673-a4a7-8000-9bef-011c48011c48_2065315"(
+    bundleFolders: {
+      #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81840",
+      #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_976833"
+    },
+    localeOverride: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_76004"(user: ri!emailRecipient),
+    bundleNames: {
+      /*"taskEmailNotification",*/
+      /*if(*/
+        /*local!isDocUpload,*/
+        /*"OnboardingDocuments",*/
+        /*{}*/
+      /*),*/
+      /*"AS.FS.DocumentType"*/
+    }
+  ),
+  local!refData: if(
+    local!isDocUpload,
+    #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_976921"(
+      codeList: index(
+        ri!task.docUploadContext,
+        "docTypeCode",
+        null
+      )
+    ),
+    {}
+  ),
+  "&lt;!DOCTYPE html PUBLIC ""-//W3C//DTD XHTML 1.0 Strict//EN"" ""http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd""&gt;
+&lt;html xmlns=""http://www.w3.org/1999/xhtml""&gt;
+
+&lt;head&gt;
+  &lt;meta http-equiv=""Content-Type"" content=""text/html; charset=utf-8"" /&gt;
+  &lt;meta name=""viewport"" content=""width=device-width"" /&gt;
+&lt;title&gt;" &amp; #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+    i18nData: local!i18nData,
+    bundleKey: "AS.CO.AllBundles.lbl_TaskNotificationEmail"
+  ) &amp; "&lt;/title&gt;
+&lt;/head&gt;
+
+&lt;body style=""
+-moz-box-sizing: border-box;
+-ms-text-size-adjust: 100%;
+-webkit-box-sizing: border-box;
+-webkit-text-size-adjust: 100%;
+margin: 0;
+box-sizing: border-box;
+color: "&amp; #"_a-0000e62c-7375-8000-9bec-011c48011c48_1924695"(
+  brandingKey: "TaskEmailBodyText"
+) &amp; ";
+font-family: Helvetica, Arial, sans-serif;
+font-size: 16px;
+font-weight: 400;
+line-height: 1.3;
+margin: 0;
+min-width: 100%;
+padding: 0;
+text-align: left;
+width: 100% !important;
+""&gt;
+  &lt;style&gt;
+  @media only screen {
+    html {
+      min-height: 100%;
+      background: "&amp; #"_a-0000e62c-7375-8000-9bec-011c48011c48_1924695"(
+        brandingKey: "TaskEmailBackground"
+      ) &amp; ";
+    }
+  }
+
+  @media only screen and (max-width: 596px) {
+    .small-float-center {
+      margin: 0 auto !important;
+      float: none !important;
+      text-align: center !important;
+    }
+    .small-text-center {
+      text-align: center !important;
+    }
+    .small-text-left {
+      text-align: left !important;
+    }
+    .small-text-right {
+      text-align: right !important;
+    }
+  }
+
+  @media only screen and (max-width: 596px) {
+    .hide-for-large {
+      display: block !important;
+      width: auto !important;
+      overflow: visible !important;
+      max-height: none !important;
+      font-size: inherit !important;
+      line-height: inherit !important;
+    }
+  }
+
+  @media only screen and (max-width: 596px) {
+    table.body table.container .hide-for-large,
+    table.body table.container .row.hide-for-large {
+      display: table !important;
+      width: 100% !important;
+    }
+  }
+
+  @media only screen and (max-width: 596px) {
+    table.body table.container .callout-inner.hide-for-large {
+      display: table-cell !important;
+      width: 100% !important;
+    }
+  }
+
+  @media only screen and (max-width: 596px) {
+    table.body table.container .show-for-large {
+      display: none !important;
+      width: 0;
+      mso-hide: all;
+      overflow: hidden;
+    }
+  }
+
+  @media only screen and (max-width: 596px) {
+    table.body img {
+      width: auto;
+      height: auto;
+    }
+    table.body center {
+      min-width: 0 !important;
+    }
+    table.body .container {
+      width: 95% !important;
+    }
+    table.body .column,
+    table.body .columns {
+      height: auto !important;
+      -moz-box-sizing: border-box;
+      -webkit-box-sizing: border-box;
+      box-sizing: border-box;
+      padding-left: 16px !important;
+      padding-right: 16px !important;
+    }
+    table.body .column .column,
+    table.body .column .columns,
+    table.body .columns .column,
+    table.body .columns .columns {
+      padding-left: 0 !important;
+      padding-right: 0 !important;
+    }
+    table.body .collapse .column,
+    table.body .collapse .columns {
+      padding-left: 0 !important;
+      padding-right: 0 !important;
+    }
+    td.small-1,
+    th.small-1 {
+      display: inline-block !important;
+      width: 8.33333% !important;
+    }
+    td.small-2,
+    th.small-2 {
+      display: inline-block !important;
+      width: 16.66667% !important;
+    }
+    td.small-3,
+    th.small-3 {
+      display: inline-block !important;
+      width: 25% !important;
+    }
+    td.small-4,
+    th.small-4 {
+      display: inline-block !important;
+      width: 33.33333% !important;
+    }
+    td.small-5,
+    th.small-5 {
+      display: inline-block !important;
+      width: 41.66667% !important;
+    }
+    td.small-6,
+    th.small-6 {
+      display: inline-block !important;
+      width: 50% !important;
+    }
+    td.small-7,
+    th.small-7 {
+      display: inline-block !important;
+      width: 58.33333% !important;
+    }
+    td.small-8,
+    th.small-8 {
+      display: inline-block !important;
+      width: 66.66667% !important;
+    }
+    td.small-9,
+    th.small-9 {
+      display: inline-block !important;
+      width: 75% !important;
+    }
+    td.small-10,
+    th.small-10 {
+      display: inline-block !important;
+      width: 83.33333% !important;
+    }
+    td.small-11,
+    th.small-11 {
+      display: inline-block !important;
+      width: 91.66667% !important;
+    }
+    td.small-12,
+    th.small-12 {
+      display: inline-block !important;
+      width: 100% !important;
+    }
+    .column td.small-12,
+    .column th.small-12,
+    .columns td.small-12,
+    .columns th.small-12 {
+      display: block !important;
+      width: 100% !important;
+    }
+    table.body td.small-offset-1,
+    table.body th.small-offset-1 {
+      margin-left: 8.33333% !important;
+      margin-left: 8.33333% !important;
+    }
+    table.body td.small-offset-2,
+    table.body th.small-offset-2 {
+      margin-left: 16.66667% !important;
+      margin-left: 16.66667% !important;
+    }
+    table.body td.small-offset-3,
+    table.body th.small-offset-3 {
+      margin-left: 25% !important;
+      margin-left: 25% !important;
+    }
+    table.body td.small-offset-4,
+    table.body th.small-offset-4 {
+      margin-left: 33.33333% !important;
+      margin-left: 33.33333% !important;
+    }
+    table.body td.small-offset-5,
+    table.body th.small-offset-5 {
+      margin-left: 41.66667% !important;
+      margin-left: 41.66667% !important;
+    }
+    table.body td.small-offset-6,
+    table.body th.small-offset-6 {
+      margin-left: 50% !important;
+      margin-left: 50% !important;
+    }
+    table.body td.small-offset-7,
+    table.body th.small-offset-7 {
+      margin-left: 58.33333% !important;
+      margin-left: 58.33333% !important;
+    }
+    table.body td.small-offset-8,
+    table.body th.small-offset-8 {
+      margin-left: 66.66667% !important;
+      margin-left: 66.66667% !important;
+    }
+    table.body td.small-offset-9,
+    table.body th.small-offset-9 {
+      margin-left: 75% !important;
+      margin-left: 75% !important;
+    }
+    table.body td.small-offset-10,
+    table.body th.small-offset-10 {
+      margin-left: 83.33333% !important;
+      margin-left: 83.33333% !important;
+    }
+    table.body td.small-offset-11,
+    table.body th.small-offset-11 {
+      margin-left: 91.66667% !important;
+      margin-left: 91.66667% !important;
+    }
+    table.body table.columns td.expander,
+    table.body table.columns th.expander {
+      display: none !important;
+    }
+    table.body .right-text-pad,
+    table.body .text-pad-right {
+      padding-left: 10px !important;
+    }
+    table.body .left-text-pad,
+    table.body .text-pad-left {
+      padding-right: 10px !important;
+    }
+    table.menu {
+      width: 100% !important;
+    }
+    table.menu td,
+    table.menu th {
+      width: auto !important;
+      display: inline-block !important;
+    }
+    table.menu.small-vertical td,
+    table.menu.small-vertical th,
+    table.menu.vertical td,
+    table.menu.vertical th {
+      display: block !important;
+    }
+    table.menu[align=""center""] {
+      width: auto !important;
+    }
+    table.button.small-expand,
+    table.button.small-expanded {
+      width: 100% !important;
+    }
+    table.button.small-expand table,
+    table.button.small-expanded table {
+      width: 100%;
+    }
+    table.button.small-expand table a,
+    table.button.small-expanded table a {
+      text-align: center !important;
+      width: 100% !important;
+      padding-left: 0 !important;
+      padding-right: 0 !important;
+    }
+    table.button.small-expand center,
+    table.button.small-expanded center {
+      min-width: 0;
+    }
+  }
+  &lt;/style&gt;
+  &lt;table class=""body"" data-made-with-foundation="""" style=""
+margin: 0;
+background: "&amp; #"_a-0000e62c-7375-8000-9bec-011c48011c48_1924695"(
+  brandingKey: "TaskEmailBackground"
+) &amp; ";
+border-collapse: collapse;
+border-spacing: 0;
+color: "&amp; #"_a-0000e62c-7375-8000-9bec-011c48011c48_1924695"(
+  brandingKey: "TaskEmailBodyText"
+) &amp; ";
+font-family: Helvetica, Arial, sans-serif;
+font-size: 16px;
+font-weight: 400;
+height: 100%;
+line-height: 1.3;
+margin: 0;
+padding: 0;
+text-align: left;
+vertical-align: top;
+width: 100%;
+""&gt;
+    &lt;tbody&gt;
+      &lt;tr style=""padding: 0; text-align: left; vertical-align: top;""&gt;
+        &lt;td class=""float-center"" align=""center"" valign=""top"" style=""
+-moz-hyphens: auto;
+-webkit-hyphens: auto;
+margin: 0 auto;
+border-collapse: collapse !important;
+color: "&amp; #"_a-0000e62c-7375-8000-9bec-011c48011c48_1924695"(
+  brandingKey: "TaskEmailBodyText"
+) &amp; ";
+float: none;
+font-family: Helvetica, Arial, sans-serif;
+font-size: 16px;
+font-weight: 400;
+hyphens: auto;
+line-height: 1.3;
+margin: 0 auto;
+padding: 0;
+text-align: center;
+vertical-align: top;
+word-wrap: break-word;
+""&gt;
+          &lt;center data-parsed="""" style=""min-width: 580px; width: 100%;""&gt;
+            &lt;table align=""center"" class=""wrapper header float-center"" style=""margin: 0 auto; border-collapse: collapse; border-spacing: 0; float: none; margin: 0 auto; padding: 0; text-align: center; vertical-align: top; width: 100%;""&gt;
+              &lt;tbody&gt;
+                &lt;tr style=""padding: 0; text-align: left; vertical-align: top;""&gt;
+                  &lt;td class=""wrapper-inner"" style=""
+-moz-hyphens: auto;
+-webkit-hyphens: auto;
+margin: 0;
+border-collapse: collapse !important;
+color: "&amp; #"_a-0000e62c-7375-8000-9bec-011c48011c48_1924695"(
+  brandingKey: "TaskEmailBodyText"
+) &amp; ";
+font-family: Helvetica, Arial, sans-serif;
+font-size: 16px;
+font-weight: 400;
+hyphens: auto;
+line-height: 1.3;
+margin: 0;
+padding: 0;
+text-align: left;
+vertical-align: top;
+word-wrap: break-word;
+""&gt;
+&lt;table align=""center"" class=""container"" style=""margin: 0 auto; background: "&amp; #"_a-0000e62c-7375-8000-9bec-011c48011c48_1924695"(
+  brandingKey: "TaskEmailBodyText"
+) &amp; "; border-collapse: collapse; border-spacing: 0; margin: 0 auto; padding: 0; text-align: inherit; vertical-align: top; width: 580px;""&gt;
+                      &lt;tbody&gt;
+                        &lt;tr style=""padding: 0; text-align: left; vertical-align: top;""&gt;
+                          &lt;td style=""
+-moz-hyphens: auto;
+-webkit-hyphens: auto;
+margin: 0;
+border-collapse: collapse !important;
+color: "&amp; #"_a-0000e62c-7375-8000-9bec-011c48011c48_1924695"(
+  brandingKey: "TaskEmailBodyText"
+) &amp; ";
+font-family: Helvetica, Arial, sans-serif;
+font-size: 16px;
+font-weight: 400;
+hyphens: auto;
+line-height: 1.3;
+margin: 0;
+padding: 0;
+text-align: left;
+vertical-align: top;
+word-wrap: break-word;
+""&gt;
+                            &lt;table class=""row collapse"" style=""border-collapse: collapse; border-spacing: 0; display: table; padding: 0; position: relative; text-align: left; vertical-align: top; width: 100%;""&gt;
+                              &lt;tbody&gt;
+                                &lt;tr style=""padding: 0; text-align: left; vertical-align: top;""&gt;
+                                  &lt;th class=""small-6 large-6 columns first"" valign=""middle"" style=""
+margin: 0 auto;
+color: "&amp; #"_a-0000e62c-7375-8000-9bec-011c48011c48_1924695"(
+  brandingKey: "TaskEmailBodyText"
+) &amp; ";
+font-family: Helvetica, Arial, sans-serif;
+font-size: 16px;
+font-weight: 400;
+line-height: 1.3;
+margin: 0 auto;
+padding: 0;
+padding-bottom: 0;
+padding-left: 0;
+padding-right: 0;
+text-align: left;
+width: 298px;
+""&gt;
+                                    &lt;table style=""border-collapse: collapse; border-spacing: 0; padding: 0; text-align: left; vertical-align: top; width: 100%;""&gt;
+                                      &lt;tbody&gt;
+                                        &lt;tr style=""padding: 0; text-align: center; vertical-align: middle;""&gt;
+                                          &lt;th style=""
+margin: 0;
+color: "&amp; #"_a-0000e62c-7375-8000-9bec-011c48011c48_1924695"(
+  brandingKey: "TaskEmailHeaderText"
+) &amp; ";
+font-family: Helvetica, Arial, sans-serif;
+font-size: 35px;
+font-weight: 400;
+line-height: 3;
+background-color: "&amp; #"_a-0000e62c-7375-8000-9bec-011c48011c48_1924695"(
+  brandingKey: "TaskEmailHeaderBackground"
+) &amp; ";
+padding: 10px;
+text-align: center;
+
+color: white;
+""&gt;
+                                            &lt;header&gt;" &amp; ri!task.request.customer.name &amp; "&lt;/header&gt;
+                                          &lt;/th&gt;
+                                        &lt;/tr&gt;
+                                      &lt;/tbody&gt;
+                                    &lt;/table&gt;
+                                  &lt;/th&gt;
+                                &lt;/tr&gt;
+                              &lt;/tbody&gt;
+                            &lt;/table&gt;
+                          &lt;/td&gt;
+                        &lt;/tr&gt;
+                      &lt;/tbody&gt;
+                    &lt;/table&gt;
+                  &lt;/td&gt;
+                &lt;/tr&gt;
+              &lt;/tbody&gt;
+            &lt;/table&gt;
+&lt;table align=""center"" class=""container float-center"" style=""margin: 0 auto; background: "&amp; #"_a-0000e62c-7375-8000-9bec-011c48011c48_1924695"(
+  brandingKey: "TaskEmailBodyBackground"
+) &amp; "; border-collapse: collapse; border-spacing: 0; float: none; margin: 0 auto; padding: 0; text-align: center; vertical-align: top; width: 580px;""&gt;
+              &lt;tbody&gt;
+                &lt;tr style=""padding: 0; text-align: left; vertical-align: top;""&gt;
+                  &lt;td style=""
+-moz-hyphens: auto;
+-webkit-hyphens: auto;
+margin: 0;
+border-collapse: collapse !important;
+color: "&amp; #"_a-0000e62c-7375-8000-9bec-011c48011c48_1924695"(
+  brandingKey: "TaskEmailBodyText"
+) &amp; ";
+font-family: Helvetica, Arial, sans-serif;
+font-size: 16px;
+font-weight: 400;
+hyphens: auto;
+line-height: 1.3;
+margin: 0;
+padding: 0;
+text-align: left;
+vertical-align: top;
+word-wrap: break-word;
+""&gt;
+                    &lt;table class=""spacer"" style=""border-collapse: collapse; border-spacing: 0; padding: 0; text-align: left; vertical-align: top; width: 100%;""&gt;
+                      &lt;tbody&gt;
+                        &lt;tr style=""padding: 0; text-align: left; vertical-align: top;""&gt;
+                          &lt;td height=""16px"" style=""
+-moz-hyphens: auto;
+-webkit-hyphens: auto;
+margin: 0;
+border-collapse: collapse !important;
+color: "&amp; #"_a-0000e62c-7375-8000-9bec-011c48011c48_1924695"(
+  brandingKey: "TaskEmailBodyText"
+) &amp; ";
+font-family: Helvetica, Arial, sans-serif;
+font-size: 16px;
+font-weight: 400;
+hyphens: auto;
+line-height: 16px;
+margin: 0;
+mso-line-height-rule: exactly;
+padding: 0;
+text-align: left;
+vertical-align: top;
+word-wrap: break-word;
+""&gt;&lt;/td&gt;
+                        &lt;/tr&gt;
+                      &lt;/tbody&gt;
+                    &lt;/table&gt;
+                    &lt;table class=""row"" style=""border-collapse: collapse; border-spacing: 0; display: table; padding: 0; position: relative; text-align: left; vertical-align: top; width: 100%;""&gt;
+                      &lt;tbody&gt;
+                        &lt;tr style=""padding: 0; text-align: left; vertical-align: top;""&gt;
+                          &lt;th class=""small-12 large-12 columns first last"" style=""
+margin: 0 auto;
+color: "&amp; #"_a-0000e62c-7375-8000-9bec-011c48011c48_1924695"(
+  brandingKey: "TaskEmailBodyText"
+) &amp; ";
+font-family: Helvetica, Arial, sans-serif;
+font-size: 16px;
+font-weight: 400;
+line-height: 1.3;
+margin: 0 auto;
+padding: 0;
+padding-bottom: 16px;
+padding-left: 16px;
+padding-right: 16px;
+text-align: left;
+width: 564px;
+""&gt;
+                            &lt;table style=""border-collapse: collapse; border-spacing: 0; padding: 0; text-align: left; vertical-align: top; width: 100%;""&gt;
+                              &lt;tbody&gt;
+                                &lt;tr style=""padding: 0; text-align: left; vertical-align: top;""&gt;
+                                  &lt;th style=""
+margin: 0;
+color: "&amp; #"_a-0000e62c-7375-8000-9bec-011c48011c48_1924695"(
+  brandingKey: "TaskEmailBodyText"
+) &amp; ";
+font-family: Helvetica, Arial, sans-serif;
+font-size: 16px;
+font-weight: 400;
+line-height: 1.3;
+margin: 0;
+padding: 0;
+text-align: left;
+""&gt;
+                                    &lt;h2 style=""
+margin: 0;
+margin-bottom: 10px;
+color: inherit;
+font-family: Helvetica, Arial, sans-serif;
+
+font-weight: 400;
+line-height: 1.3;
+margin: 0;
+margin-bottom: 10px;
+padding: 0;
+text-align: center;
+word-wrap: normal;
+""&gt;
+                                                                               " &amp; #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+    i18nData: local!i18nData,
+    bundleKey: "AS.CO.AllBundles.txt_CompleteTask",
+    arguments: #"_a-0000e586-af6f-8000-9bd2-011c48011c48_1377072"(
+      i18nData: local!i18nData,
+      refData: local!refData,
+      task: ri!task
+    )
+  ) &amp; "
+                                                                            &lt;/h2&gt; &lt;br/&gt;
+                                    &lt;p class=""lead"" style=""
+margin: 0;
+margin-bottom: 10px;
+color: "&amp; #"_a-0000e62c-7375-8000-9bec-011c48011c48_1924695"(
+  brandingKey: "TaskEmailBodyText"
+) &amp; ";
+font-family: Helvetica, Arial, sans-serif;
+font-size: 16px;
+font-weight: 400;
+line-height: 1.2;
+margin: 0;
+margin-bottom: 10px;
+padding: 0;
+text-align: left;
+""&gt; " &amp; #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+    i18nData: local!i18nData,
+    bundleKey: "AS.CO.AllBundles.txt_HelloUser",
+    arguments: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73660"(user: touser(ri!emailRecipient))
+  ) &amp; ",
+&lt;br/&gt;&lt;br/&gt;" &amp; #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+    i18nData: local!i18nData,
+    bundleKey: "AS.CO.AllBundles.txt_EmailContent"
+  ) &amp; "
+                                      &lt;br /&gt;
+
+                                      &lt;ul class=""lead"" &gt;
+&lt;li&gt; &lt;b&gt; " &amp; #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+    i18nData: local!i18nData,
+    bundleKey: "AS.CO.AllBundles.txt_TaskName"
+  ) &amp; "&lt;/b&gt; " &amp; #"_a-0000e586-af6f-8000-9bd2-011c48011c48_1377072"(
+    i18nData: local!i18nData,
+    refData: local!refData,
+    task: ri!task
+  ) &amp; " &lt;/li&gt;
+&lt;li&gt; &lt;b&gt; " &amp; #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+    i18nData: local!i18nData,
+    bundleKey: "AS.CO.AllBundles.txt_DueDate"
+  ) &amp; " &lt;/b&gt; " &amp; #"_a-0000e447-933d-8000-9baa-011c48011c48_31679"(
+    date: ri!task.dueDate,
+    user: ri!emailRecipient
+  ) &amp; "
+&lt;/li&gt;
+                                      &lt;/ul&gt;
+                                    &lt;/p&gt;
+&lt;br /&gt; 
+&lt;p class=""lead"" style=""text-align: center; color: "&amp; #"_a-0000e62c-7375-8000-9bec-011c48011c48_1924695"(
+  brandingKey: "TaskEmailSecondaryText"
+) &amp; "; font-size: 14px;""&gt;" &amp; #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+    i18nData: local!i18nData,
+    bundleKey: "AS.CO.AllBundles.ins_Link"
+  ) &amp; "
+                                    &lt;/p&gt;
+&lt;a href=""" &amp; #"_a-0000e586-af6f-8000-9bd2-011c48011c48_1367774"() &amp; """ style=""background-color: "&amp; #"_a-0000e62c-7375-8000-9bec-011c48011c48_1924695"(
+  brandingKey: "TaskEmailCompleteTaskBackground"
+) &amp; ";
+border: none;
+color: white;
+white-space: nowrap;
+padding: 10px 130px;
+text-align: center;
+text-decoration: none;
+display: inline-block;
+font-size: 14px;
+margin: 2px 100px;
+cursor: pointer;""&gt;&lt;b&gt; " &amp; #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+    i18nData: local!i18nData,
+    bundleKey: "AS.CO.AllBundles.txt_ViewTasks"
+  ) &amp; " &lt;/b&gt;&lt;/a&gt; &lt;br/&gt; &lt;br/&gt; &lt;br/&gt;
+                                    &lt;p class=""lead"" style=""
+margin: 0;
+margin-bottom: 10px;
+color: "&amp; #"_a-0000e62c-7375-8000-9bec-011c48011c48_1924695"(
+  brandingKey: "TaskEmailCompleteTaskText"
+) &amp; ";
+font-family: Helvetica, Arial, sans-serif;
+font-size: 12px;
+font-weight: 400;
+line-height: 1.3;
+margin: 0;
+margin-bottom: 10px;
+padding: 0;
+text-align: center;
+""&gt; " &amp; #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+    i18nData: local!i18nData,
+    bundleKey: "AS.CO.AllBundles.txt_Footer"
+  ) &amp; " &lt;/p&gt;
+                                  &lt;/th&gt;
+                                  &lt;th class=""expander"" style=""
+margin: 0;
+color: "&amp; #"_a-0000e62c-7375-8000-9bec-011c48011c48_1924695"(
+  brandingKey: "TaskEmailSecondaryText"
+) &amp; ";
+font-family: Helvetica, Arial, sans-serif;
+font-size: 16px;
+font-weight: 400;
+line-height: 1.3;
+margin: 0;
+padding: 0 !important;
+text-align: left;
+visibility: hidden;
+width: 0;
+""&gt;&lt;/th&gt;
+                                &lt;/tr&gt;
+                              &lt;/tbody&gt;
+                            &lt;/table&gt;
+                          &lt;/th&gt;
+                        &lt;/tr&gt;
+                      &lt;/tbody&gt;
+                    &lt;/table&gt;
+                  &lt;/td&gt;
+                &lt;/tr&gt;
+              &lt;/tbody&gt;
+            &lt;/table&gt;
+          &lt;/center&gt;
+        &lt;/td&gt;
+      &lt;/tr&gt;
+    &lt;/tbody&gt;
+  &lt;/table&gt;
+&lt;/body&gt;
+
+&lt;/html&gt;"
+)</definition>
+        <namedTypedValue>
+            <name>task</name>
+            <type>
+                <name>AS_IO_Task</name>
+                <namespace>urn:com:appian:types:AS:IO</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>emailRecipient</name>
+            <type>
+                <name>User</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name>Document upload type</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e393-fbf1-8000-9ba2-011c48011c48_104148"(
+  behaviorSubtypeCode: #"_a-0000e393-fbf1-8000-9ba2-011c48011c48_99647",
+  returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290157"
+)</a:value>
+                    <a:nameRef>task</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">loggedInUser()</a:value>
+                    <a:nameRef>emailRecipient</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+            <el>
+                <a:name>Other type</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e393-fbf1-8000-9ba2-011c48011c48_104148"(
+  behaviorSubtypeCode: #"_a-0000e3e6-fb42-8000-9ba5-011c48011c48_170260",
+  returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290157"
+)</a:value>
+                    <a:nameRef>task</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">loggedInUser()</a:value>
+                    <a:nameRef>emailRecipient</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e586-af6f-8000-9bd2-011c48011c48_1359296"/>
+        <historyInfo versionUuid="_a-0000e586-af6f-8000-9bd2-011c48011c48_1377179"/>
+        <historyInfo versionUuid="_a-0000e586-af6f-8000-9bd2-011c48011c48_1383065"/>
+        <historyInfo versionUuid="_a-0000e5a0-53e9-8000-9bd8-011c48011c48_1397863"/>
+        <historyInfo versionUuid="_a-0000e673-a4a7-8000-9bef-011c48011c48_2067142"/>
+        <historyInfo versionUuid="_a-0000e69f-3688-8000-9bf2-011c48011c48_2092877"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2720635"/>
+    </history>
+</contentHaul>

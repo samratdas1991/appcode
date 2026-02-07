@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e70f-2824-8000-9c01-011c48011c48_2628807</versionUuid>
+    <rule>
+        <name>AS_ADT_UT_captureMetadataDuringAudit</name>
+        <uuid>_a-0000e447-933d-8000-9baa-011c48011c48_211995</uuid>
+        <description>Captures metadata of a CDT if it or any of its children were updated, doing the same for all of its complex MULTIPLE children recursively.  Ideally, we should update this to work for all children.</description>
+        <parentUuid>_a-0000e42d-ffef-8000-9ba6-011c48011c48_7213-adt</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>#"_a-0000e460-9d93-8000-9bc1-011c48011c48_619401"(
+  originalCdt: ri!oldObject,
+  updatedCdt: #"_a-0000e40a-de32-8000-9ba8-011c48011c48_269170"(
+    cdt: ri!newObject,
+    fieldValuePairs: #"SYSTEM_SYSRULES_forEach"(
+      items: ri!auditConfig.complexFields,
+      expression: a!localVariables(
+        local!complexFieldAuditConfig: fv!item,
+        {
+          field: local!complexFieldAuditConfig.fieldName,
+          value: cast(
+            typeof(
+              ri!newObject[local!complexFieldAuditConfig.fieldName]
+            ),
+            a!defaultValue(
+              value: #"SYSTEM_SYSRULES_forEach"(
+                items: ri!newObject[local!complexFieldAuditConfig.fieldName],
+                expression: #"_a-0000e447-933d-8000-9baa-011c48011c48_211995"(
+                  newObject: fv!item,
+                  oldObject: if(
+                    isnull(ri!oldObject),
+                    null,
+                    index(
+                      a!flatten(
+                        #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+                          cdt: ri!oldObject[local!complexFieldAuditConfig.fieldName],
+                          field: local!complexFieldAuditConfig.idField,
+                          value: fv!item[local!complexFieldAuditConfig.idField]
+                        )
+                      ),
+                      1,
+                      null
+                    )
+                  ),
+                  auditConfig: local!complexFieldAuditConfig,
+                  modifiedBy: ri!modifiedBy
+                )
+              ),
+  /*Prevent empty lists from being cast to an empty instance of singly nested complex fields instead of a null instance*/
+              default: if(
+                #"7fe7c8a5-36b5-43e4-a4b5-12ac903c8462"(ri!newObject[local!complexFieldAuditConfig.fieldName]),
+                {},
+                null
+              )
+            )
+          )
+        }
+      )
+    )
+  ),
+  modifiedBy: ri!modifiedBy
+)</definition>
+        <namedTypedValue>
+            <name>newObject</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>oldObject</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>auditConfig</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>modifiedBy</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name>Sample Test Case</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e447-933d-8000-9baa-011c48011c48_212047"()</a:value>
+                    <a:nameRef>newObject</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e447-933d-8000-9baa-011c48011c48_212009"()</a:value>
+                    <a:nameRef>oldObject</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e3ff-79a3-8000-7714-45ef9045ef90_8682-adt"()</a:value>
+                    <a:nameRef>auditConfig</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">"appian.administrator"</a:value>
+                    <a:nameRef>modifiedBy</a:nameRef>
+                    <a:id>4</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e447-933d-8000-9baa-011c48011c48_212129"/>
+        <historyInfo versionUuid="_a-0000e528-bc07-8000-9bcf-011c48011c48_1039851"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2551825"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2628807"/>
+    </history>
+</contentHaul>

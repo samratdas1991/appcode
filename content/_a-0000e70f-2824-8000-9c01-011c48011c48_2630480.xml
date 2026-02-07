@@ -1,0 +1,442 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e70f-2824-8000-9c01-011c48011c48_2666777</versionUuid>
+    <rule>
+        <name>AS_FS_UI_displayAlertConfigurationAudit_FilterCondition_SimpleFieldChanges_Single</name>
+        <uuid>_a-0000e70f-2824-8000-9c01-011c48011c48_2630480</uuid>
+        <description></description>
+        <parentUuid>_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_968428</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>if(
+  ri!filterConditionAuditField[#"urn:appian:record-field:v1:79c8d148-c4e8-4a0a-afe4-c702afde1f48/6d0eb4eb-5010-4a09-9b9d-ba63dfdcc9fc"] = "configurationFilterSettings",
+  a!localVariables(
+    /*Currently always single for filters -- this rule will need to be updated if these ever become more complex*/
+    local!jsonFields: union(
+      #"f69e679b-a363-454d-875a-c42d60f42d98"(
+        jsonText: ri!filterConditionAuditField[#"urn:appian:record-field:v1:79c8d148-c4e8-4a0a-afe4-c702afde1f48/d5f3b76a-c3fb-47b3-9ee6-48d421f85124"]
+      ),
+      #"f69e679b-a363-454d-875a-c42d60f42d98"(
+        jsonText: ri!filterConditionAuditField[#"urn:appian:record-field:v1:79c8d148-c4e8-4a0a-afe4-c702afde1f48/ba5d68e3-8530-4279-830a-e7e9af93f6ef"]
+      )
+    ),
+    local!isCustomerFilter: contains(local!jsonFields, "customers"),
+    local!customerDetails: #"_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2465114"(
+      executeWhen: local!isCustomerFilter,
+      returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290163",
+      fields: {
+        #"urn:appian:record-field:v1:ac016353-2977-4ef1-b643-fed621e7b701/5bcf4368-762b-4e2d-9c38-b9673be9a76c",
+        #"urn:appian:record-field:v1:ac016353-2977-4ef1-b643-fed621e7b701/82717263-d098-48ae-ad24-1591d57c5a00"
+      }
+    ),
+    local!jsonChanges: #"ca4684c8-6e99-4fe3-acb2-1c710767dbaa"(
+      oldJsonText: ri!filterConditionAuditField[#"urn:appian:record-field:v1:79c8d148-c4e8-4a0a-afe4-c702afde1f48/ba5d68e3-8530-4279-830a-e7e9af93f6ef"],
+      newJsonText: ri!filterConditionAuditField[#"urn:appian:record-field:v1:79c8d148-c4e8-4a0a-afe4-c702afde1f48/d5f3b76a-c3fb-47b3-9ee6-48d421f85124"],
+      jsonFields: local!jsonFields,
+      delimiter: if(
+        local!isCustomerFilter,
+        #"_a-0000e70f-2824-8000-9c01-011c48011c48_2606158",
+        ""
+      )
+    ),
+    #"SYSTEM_SYSRULES_forEach"(
+      items: local!jsonChanges,
+      expression: #"SYSTEM_SYSRULES_richTextItem_v1"(
+        size: "SMALL",
+        text: #"_a-0000e471-623a-8000-9bc3-011c48011c48_702641"(
+          i18nData: ri!i18nData,
+          bundleKey: "AS.FS.AllBundles.txt_ChangedFieldNameFromTo",
+          richTextArguments: choose(
+            #"_a-0000e40a-de32-8000-9ba8-011c48011c48_280802"(
+              value: fv!item.fieldName,
+              inArray: {
+                "countryCodes",
+                "regionCodes",
+                "customers"
+              }
+            ),
+            /*default*/
+            {
+              #"SYSTEM_SYSRULES_richTextItem_v1"(text: fv!item.fieldName),
+              #"_a-0000e40a-de32-8000-9ba8-011c48011c48_280511-adt"(
+                displayText: fv!item.oldValue,
+                textStyle: "EMPHASIS"
+              ),
+              #"_a-0000e40a-de32-8000-9ba8-011c48011c48_280511-adt"(
+                displayText: fv!item.newValue,
+                textStyle: "EMPHASIS"
+              )
+            },
+            /*Domicile*/
+            {
+              #"SYSTEM_SYSRULES_richTextItem_v1"(
+                text: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                  i18nData: ri!i18nData,
+                  bundleKey: "AS.FS.AllBundles.txt_Domicile"
+                ),
+                
+              ),
+              #"_a-0000e40a-de32-8000-9ba8-011c48011c48_280511-adt"(
+                displayText: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_55491"(
+                  list: #"_a-0000e70f-2824-8000-9c01-011c48011c48_2537617"(
+                    records: ri!countryRefData,
+                    field: #"urn:appian:record-field:v1:68f03530-0a19-4ddc-b115-5f11894be715/1951b204-8254-4006-9ead-637dcb1664c3",
+                    values: fv!item.oldValue
+                  )[#"urn:appian:record-field:v1:68f03530-0a19-4ddc-b115-5f11894be715/f451436a-7f49-4c51-84d1-89d5cdac03a7"],
+                  finalSeparator: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                    i18nData: ri!i18nData,
+                    bundleKey: "AS.FS.AllBundles.lbl_And"
+                  )
+                ),
+                textStyle: "EMPHASIS"
+              ),
+              #"_a-0000e40a-de32-8000-9ba8-011c48011c48_280511-adt"(
+                displayText: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_55491"(
+                  list: #"_a-0000e70f-2824-8000-9c01-011c48011c48_2537617"(
+                    records: ri!countryRefData,
+                    field: #"urn:appian:record-field:v1:68f03530-0a19-4ddc-b115-5f11894be715/1951b204-8254-4006-9ead-637dcb1664c3",
+                    values: fv!item.newValue
+                  )[#"urn:appian:record-field:v1:68f03530-0a19-4ddc-b115-5f11894be715/f451436a-7f49-4c51-84d1-89d5cdac03a7"],
+                  finalSeparator: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                    i18nData: ri!i18nData,
+                    bundleKey: "AS.FS.AllBundles.lbl_And"
+                  )
+                ),
+                textStyle: "EMPHASIS"
+              )
+            },
+            /*region*/
+            {
+              #"SYSTEM_SYSRULES_richTextItem_v1"(
+                text: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                  i18nData: ri!i18nData,
+                  bundleKey: "AS.FS.AllBundles.lbl_Region"
+                )
+              ),
+              #"_a-0000e40a-de32-8000-9ba8-011c48011c48_280511-adt"(
+                displayText: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_55491"(
+                  list: #"_a-0000e70f-2824-8000-9c01-011c48011c48_2537617"(
+                    records: ri!regionRefData,
+                    field: #"urn:appian:record-field:v1:a71a21af-d89c-4dbf-9de9-9595d4e1c44b/e9c5f77f-ce71-44ee-9c4b-8a7e29166ab0",
+                    values: fv!item.oldValue
+                  )[#"urn:appian:record-field:v1:a71a21af-d89c-4dbf-9de9-9595d4e1c44b/eb42c8e9-a404-4542-ac7e-181d66576e88"],
+                  finalSeparator: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                    i18nData: ri!i18nData,
+                    bundleKey: "AS.FS.AllBundles.lbl_And"
+                  )
+                ),
+                textStyle: "EMPHASIS"
+              ),
+              #"_a-0000e40a-de32-8000-9ba8-011c48011c48_280511-adt"(
+                displayText: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_55491"(
+                  list: #"_a-0000e70f-2824-8000-9c01-011c48011c48_2537617"(
+                    records: ri!regionRefData,
+                    field: #"urn:appian:record-field:v1:a71a21af-d89c-4dbf-9de9-9595d4e1c44b/e9c5f77f-ce71-44ee-9c4b-8a7e29166ab0",
+                    values: fv!item.newValue
+                  )[#"urn:appian:record-field:v1:a71a21af-d89c-4dbf-9de9-9595d4e1c44b/eb42c8e9-a404-4542-ac7e-181d66576e88"],
+                  finalSeparator: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                    i18nData: ri!i18nData,
+                    bundleKey: "AS.FS.AllBundles.lbl_And"
+                  )
+                ),
+                textStyle: "EMPHASIS"
+              )
+            },
+            /*customer*/
+            {
+              #"SYSTEM_SYSRULES_richTextItem_v1"(
+                text: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                  i18nData: ri!i18nData,
+                  bundleKey: "AS.FS.AllBundles.lbl_Customer"
+                )
+              ),
+              #"_a-0000e40a-de32-8000-9ba8-011c48011c48_280511-adt"(
+                displayText: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_55491"(
+                  list: #"_a-0000e70f-2824-8000-9c01-011c48011c48_2537617"(
+                    records: local!customerDetails,
+                    field: #"urn:appian:record-field:v1:ac016353-2977-4ef1-b643-fed621e7b701/5bcf4368-762b-4e2d-9c38-b9673be9a76c",
+                    values: fv!item.oldValue
+                  )[#"urn:appian:record-field:v1:ac016353-2977-4ef1-b643-fed621e7b701/82717263-d098-48ae-ad24-1591d57c5a00"],
+                  finalSeparator: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                    i18nData: ri!i18nData,
+                    bundleKey: "AS.FS.AllBundles.lbl_And"
+                  )
+                ),
+                textStyle: "EMPHASIS"
+              ),
+              #"_a-0000e40a-de32-8000-9ba8-011c48011c48_280511-adt"(
+                displayText: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_55491"(
+                  list: #"_a-0000e70f-2824-8000-9c01-011c48011c48_2537617"(
+                    records: local!customerDetails,
+                    field: #"urn:appian:record-field:v1:ac016353-2977-4ef1-b643-fed621e7b701/5bcf4368-762b-4e2d-9c38-b9673be9a76c",
+                    values: fv!item.newValue
+                  )[#"urn:appian:record-field:v1:ac016353-2977-4ef1-b643-fed621e7b701/82717263-d098-48ae-ad24-1591d57c5a00"],
+                  finalSeparator: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                    i18nData: ri!i18nData,
+                    bundleKey: "AS.FS.AllBundles.lbl_And"
+                  )
+                ),
+                textStyle: "EMPHASIS"
+              )
+            }
+          )
+        )
+      )
+    )
+  ),
+  #"SYSTEM_SYSRULES_richTextItem_v1"(
+    size: "SMALL",
+    text: #"_a-0000e471-623a-8000-9bc3-011c48011c48_702641"(
+      i18nData: ri!i18nData,
+      bundleKey: "AS.FS.AllBundles.txt_ChangedFieldNameFromTo",
+      richTextArguments: a!localVariables(
+        local!filterSetAuditConfig: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+          cdt: #"_a-0000e70f-2824-8000-9c01-011c48011c48_2531603"().complexFields,
+          field: "fieldName",
+          value: "filterSet"
+        )[1],
+        local!filterConditionAuditConfig: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+          cdt: local!filterSetAuditConfig.complexFields,
+          field: "fieldName",
+          value: "filterConditions"
+        )[1],
+        choose(
+          #"_a-0000e40a-de32-8000-9ba8-011c48011c48_280802"(
+            value: ri!filterConditionAuditField[#"urn:appian:record-field:v1:79c8d148-c4e8-4a0a-afe4-c702afde1f48/6d0eb4eb-5010-4a09-9b9d-ba63dfdcc9fc"],
+            inArray: {
+              local!filterConditionAuditConfig.simpleFields
+            }
+          ),
+          /*default*/
+          {
+            #"SYSTEM_SYSRULES_richTextItem_v1"(
+              text: ri!filterConditionAuditField[#"urn:appian:record-field:v1:79c8d148-c4e8-4a0a-afe4-c702afde1f48/6d0eb4eb-5010-4a09-9b9d-ba63dfdcc9fc"]
+            ),
+            #"_a-0000e40a-de32-8000-9ba8-011c48011c48_280511-adt"(
+              displayText: ri!filterConditionAuditField[#"urn:appian:record-field:v1:79c8d148-c4e8-4a0a-afe4-c702afde1f48/ba5d68e3-8530-4279-830a-e7e9af93f6ef"],
+              textStyle: "EMPHASIS"
+            ),
+            #"_a-0000e40a-de32-8000-9ba8-011c48011c48_280511-adt"(
+              displayText: ri!filterConditionAuditField[#"urn:appian:record-field:v1:79c8d148-c4e8-4a0a-afe4-c702afde1f48/d5f3b76a-c3fb-47b3-9ee6-48d421f85124"],
+              textStyle: "EMPHASIS"
+            )
+          },
+          /*Filter Type*/
+          {
+            #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+              i18nData: ri!i18nData,
+              bundleKey: "AS.FS.AllBundles.lbl_Type"
+            ),
+            #"_a-0000e40a-de32-8000-9ba8-011c48011c48_280511-adt"(
+              displayText: proper(
+                #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+                  cdt: #"_a-0000e70f-2824-8000-9c01-011c48011c48_2603969"(i18nData: ri!i18nData),
+                  field: "filterTypeCode",
+                  value: ri!filterConditionAuditField[#"urn:appian:record-field:v1:79c8d148-c4e8-4a0a-afe4-c702afde1f48/ba5d68e3-8530-4279-830a-e7e9af93f6ef"]
+                ).filterTypeLabel
+              ),
+              textStyle: "EMPHASIS"
+            ),
+            #"_a-0000e40a-de32-8000-9ba8-011c48011c48_280511-adt"(
+              displayText: proper(
+                #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+                  cdt: #"_a-0000e70f-2824-8000-9c01-011c48011c48_2603969"(i18nData: ri!i18nData),
+                  field: "filterTypeCode",
+                  value: ri!filterConditionAuditField[#"urn:appian:record-field:v1:79c8d148-c4e8-4a0a-afe4-c702afde1f48/d5f3b76a-c3fb-47b3-9ee6-48d421f85124"]
+                ).filterTypeLabel
+              ),
+              textStyle: "EMPHASIS"
+            )
+          },
+          /* Operator */
+          {
+            #"SYSTEM_SYSRULES_richTextItem_v1"(
+              text: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                i18nData: ri!i18nData,
+                bundleKey: "AS.FS.AllBundles.lbl_Operator"
+              )
+            ),
+            #"_a-0000e40a-de32-8000-9ba8-011c48011c48_280511-adt"(
+              displayText: #"_a-0000e70f-2824-8000-9c01-011c48011c48_2552563"(
+                i18nData: ri!i18nData,
+                operators: ri!filterConditionAuditField[#"urn:appian:record-field:v1:79c8d148-c4e8-4a0a-afe4-c702afde1f48/ba5d68e3-8530-4279-830a-e7e9af93f6ef"]
+              ).label,
+              textStyle: "EMPHASIS"
+            ),
+            #"_a-0000e40a-de32-8000-9ba8-011c48011c48_280511-adt"(
+              displayText: #"_a-0000e70f-2824-8000-9c01-011c48011c48_2552563"(
+                i18nData: ri!i18nData,
+                operators: ri!filterConditionAuditField[#"urn:appian:record-field:v1:79c8d148-c4e8-4a0a-afe4-c702afde1f48/d5f3b76a-c3fb-47b3-9ee6-48d421f85124"]
+              ).label,
+              textStyle: "EMPHASIS"
+            )
+          }/* configurationFilterSettings handled above */
+          
+        )
+      )
+    )
+  )
+)</definition>
+        <namedTypedValue>
+            <name>filterConditionAuditField</name>
+            <type>
+                <name>79c8d148-c4e8-4a0a-afe4-c702afde1f48</name>
+                <namespace>urn:com:appian:recordtype:datatype</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>i18nData</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>countryRefData</name>
+            <type>
+                <name>68f03530-0a19-4ddc-b115-5f11894be715?list</name>
+                <namespace>urn:com:appian:recordtype:datatype</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>regionRefData</name>
+            <type>
+                <name>a71a21af-d89c-4dbf-9de9-9595d4e1c44b?list</name>
+                <namespace>urn:com:appian:recordtype:datatype</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name>Sample Test case</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e70f-2824-8000-9c01-011c48011c48_2585288"(
+  returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290157",
+  fields: {
+    #"urn:appian:record-relationship:v1:7139f681-849d-4c3a-9ded-797fd5857bcb/9f22fe3d-835c-4aaf-90b7-563466d53870",
+    #"urn:appian:record-relationship:v1:7139f681-849d-4c3a-9ded-797fd5857bcb/949b9b71-55ef-4f19-8589-ebabc65be81d",
+    #"urn:appian:record-relationship:v1:7139f681-849d-4c3a-9ded-797fd5857bcb/949b9b71-55ef-4f19-8589-ebabc65be81d/14306fd6-bba9-48b1-965a-8895de32f00a",
+    #"urn:appian:record-relationship:v1:7139f681-849d-4c3a-9ded-797fd5857bcb/949b9b71-55ef-4f19-8589-ebabc65be81d/14306fd6-bba9-48b1-965a-8895de32f00a/02051285-8cfc-4b31-8871-7e837ecfd4d7",
+    #"urn:appian:record-relationship:v1:7139f681-849d-4c3a-9ded-797fd5857bcb/6c778819-09f3-417c-8217-1dd419381db7",
+    #"urn:appian:record-relationship:v1:7139f681-849d-4c3a-9ded-797fd5857bcb/6c778819-09f3-417c-8217-1dd419381db7/ccae0c74-de61-4466-b285-f10aebbf3225",
+    #"urn:appian:record-relationship:v1:7139f681-849d-4c3a-9ded-797fd5857bcb/6c778819-09f3-417c-8217-1dd419381db7/ccae0c74-de61-4466-b285-f10aebbf3225/e46d988d-2355-4d8c-b9ea-0f26215f6789",
+    #"urn:appian:record-relationship:v1:7139f681-849d-4c3a-9ded-797fd5857bcb/2d25a1bc-c4dc-4b2e-ac4c-46d9922bd538",
+    #"urn:appian:record-relationship:v1:7139f681-849d-4c3a-9ded-797fd5857bcb/2d25a1bc-c4dc-4b2e-ac4c-46d9922bd538/06cf483a-ee8e-427a-acba-3a05dc03db10"
+  }
+)[#"urn:appian:record-relationship:v1:7139f681-849d-4c3a-9ded-797fd5857bcb/6c778819-09f3-417c-8217-1dd419381db7/ccae0c74-de61-4466-b285-f10aebbf3225/e46d988d-2355-4d8c-b9ea-0f26215f6789"][1][3]</a:value>
+                    <a:nameRef>filterConditionAuditField</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_975720"(triggerRefresh: {})</a:value>
+                    <a:nameRef>i18nData</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e70f-2824-8000-9c01-011c48011c48_2604037"(
+  returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290163"
+),</a:value>
+                    <a:nameRef>countryRefData</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e70f-2824-8000-9c01-011c48011c48_2605380"(
+  returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290163"
+),</a:value>
+                    <a:nameRef>regionRefData</a:nameRef>
+                    <a:id>4</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+            <el>
+                <a:name>New</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e70f-2824-8000-9c01-011c48011c48_2585288"(
+  returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290157",
+  fields: {
+    #"urn:appian:record-relationship:v1:7139f681-849d-4c3a-9ded-797fd5857bcb/9f22fe3d-835c-4aaf-90b7-563466d53870",
+    #"urn:appian:record-relationship:v1:7139f681-849d-4c3a-9ded-797fd5857bcb/949b9b71-55ef-4f19-8589-ebabc65be81d",
+    #"urn:appian:record-relationship:v1:7139f681-849d-4c3a-9ded-797fd5857bcb/949b9b71-55ef-4f19-8589-ebabc65be81d/14306fd6-bba9-48b1-965a-8895de32f00a",
+    #"urn:appian:record-relationship:v1:7139f681-849d-4c3a-9ded-797fd5857bcb/949b9b71-55ef-4f19-8589-ebabc65be81d/14306fd6-bba9-48b1-965a-8895de32f00a/02051285-8cfc-4b31-8871-7e837ecfd4d7",
+    #"urn:appian:record-relationship:v1:7139f681-849d-4c3a-9ded-797fd5857bcb/6c778819-09f3-417c-8217-1dd419381db7",
+    #"urn:appian:record-relationship:v1:7139f681-849d-4c3a-9ded-797fd5857bcb/6c778819-09f3-417c-8217-1dd419381db7/ccae0c74-de61-4466-b285-f10aebbf3225",
+    #"urn:appian:record-relationship:v1:7139f681-849d-4c3a-9ded-797fd5857bcb/6c778819-09f3-417c-8217-1dd419381db7/ccae0c74-de61-4466-b285-f10aebbf3225/e46d988d-2355-4d8c-b9ea-0f26215f6789",
+    #"urn:appian:record-relationship:v1:7139f681-849d-4c3a-9ded-797fd5857bcb/2d25a1bc-c4dc-4b2e-ac4c-46d9922bd538",
+    #"urn:appian:record-relationship:v1:7139f681-849d-4c3a-9ded-797fd5857bcb/2d25a1bc-c4dc-4b2e-ac4c-46d9922bd538/06cf483a-ee8e-427a-acba-3a05dc03db10"
+  }
+)[#"urn:appian:record-relationship:v1:7139f681-849d-4c3a-9ded-797fd5857bcb/6c778819-09f3-417c-8217-1dd419381db7/ccae0c74-de61-4466-b285-f10aebbf3225/e46d988d-2355-4d8c-b9ea-0f26215f6789"][1][3]</a:value>
+                    <a:nameRef>filterConditionAuditField</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_975720"(triggerRefresh: {})</a:value>
+                    <a:nameRef>i18nData</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e70f-2824-8000-9c01-011c48011c48_2604037"(
+  returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290163",
+  i18nData: #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_975720"(triggerRefresh: {})
+),</a:value>
+                    <a:nameRef>countryRefData</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e70f-2824-8000-9c01-011c48011c48_2605380"(
+  returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290163",
+  i18nData: #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_975720"(triggerRefresh: {})
+)</a:value>
+                    <a:nameRef>regionRefData</a:nameRef>
+                    <a:id>4</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2641311"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2650192"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2653562"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2666777"/>
+    </history>
+</contentHaul>

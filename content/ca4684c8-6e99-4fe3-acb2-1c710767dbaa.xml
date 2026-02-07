@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e70f-2824-8000-9c01-011c48011c48_2654207</versionUuid>
+    <rule>
+        <name>AS_FS_ALT_UT_buildSimpleFieldChangesFromJsonFields</name>
+        <uuid>ca4684c8-6e99-4fe3-acb2-1c710767dbaa</uuid>
+        <description>Identifies modified changes from a json field and returns list of maps of changed values</description>
+        <parentUuid>_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_968428</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>#"SYSTEM_SYSRULES_forEach"(
+  items: ri!jsonFields,
+  expression: if(
+    #"_a-0000e69f-3688-8000-9bf2-011c48011c48_2156132"(
+      value1: #"_a-0000e70f-2824-8000-9c01-011c48011c48_2539235"(
+        json: ri!oldJsonText,
+        field: fv!item,
+        delimiter: ri!delimiter,
+        indexDefault: ""
+      ),
+      value2: #"_a-0000e70f-2824-8000-9c01-011c48011c48_2539235"(
+        json: ri!newJsonText,
+        field: fv!item,
+        delimiter: ri!delimiter,
+        indexDefault: ""
+      )
+    ),
+    {},
+    a!map(
+      fieldName: fv!item,
+      oldValue: #"_a-0000e70f-2824-8000-9c01-011c48011c48_2539235"(
+        json: ri!oldJsonText,
+        field: fv!item,
+        delimiter: ri!delimiter,
+        indexDefault: ""
+      ),
+      newValue: #"_a-0000e70f-2824-8000-9c01-011c48011c48_2539235"(
+        json: ri!newJsonText,
+        field: fv!item,
+        delimiter: ri!delimiter,
+        indexDefault: ""
+      )
+    )
+  )
+)</definition>
+        <namedTypedValue>
+            <name>oldJsonText</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>newJsonText</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>jsonFields</name>
+            <type>
+                <name>Text?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>delimiter</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name>valid text case</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"SYSTEM_SYSRULES_toJson_v1"({
+  "action": "MODIFY",
+  "modificationTriggerCriteria": {
+    "field": "beneficialOwnershipPercent",
+    "operator": "&gt;=",
+    "threshold": 50.0
+  }
+}
+)</a:value>
+                    <a:nameRef>oldJsonText</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"SYSTEM_SYSRULES_toJson_v1"({
+  "action": "MODIFY",
+  "modificationTriggerCriteria": {
+    "field": "beneficialOwnershipPercent",
+    "operator": "&gt;=",
+    "threshold": 51.0
+  }
+}
+)</a:value>
+                    <a:nameRef>newJsonText</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"f69e679b-a363-454d-875a-c42d60f42d98"(
+  jsonText: #"SYSTEM_SYSRULES_toJson_v1"({
+    "action": "MODIFY",
+    "modificationTriggerCriteria": {
+      "field": "beneficialOwnershipPercent",
+      "operator": "&gt;=",
+      "threshold": 51.0
+    }
+  }
+  )
+)</a:value>
+                    <a:nameRef>jsonFields</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:string"/>
+                    <a:nameRef>delimiter</a:nameRef>
+                    <a:id>4</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+            <el>
+                <a:name>null test case</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:string"/>
+                    <a:nameRef>oldJsonText</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:string"/>
+                    <a:nameRef>newJsonText</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                    <a:nameRef>jsonFields</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:string"/>
+                    <a:nameRef>delimiter</a:nameRef>
+                    <a:id>4</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+            <el>
+                <a:name>some unchanged text</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"SYSTEM_SYSRULES_toJson_v1"(
+  {
+    "operator": "&gt;=",
+    "riskScoreLowerBound": 400,
+    "riskScoreUpperBound": ""
+  }
+)</a:value>
+                    <a:nameRef>oldJsonText</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"SYSTEM_SYSRULES_toJson_v1"(
+  {
+    "operator": "&gt;=",
+    "riskScoreLowerBound": 500,
+    "riskScoreUpperBound": ""
+  }
+)</a:value>
+                    <a:nameRef>newJsonText</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"f69e679b-a363-454d-875a-c42d60f42d98"(
+  jsonText: #"SYSTEM_SYSRULES_toJson_v1"(
+    {
+      "operator": "&gt;=",
+      "riskScoreLowerBound": 500,
+      "riskScoreUpperBound": ""
+    }
+  )
+)</a:value>
+                    <a:nameRef>jsonFields</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:string"/>
+                    <a:nameRef>delimiter</a:nameRef>
+                    <a:id>4</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+            <el>
+                <a:name>new json</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:string"/>
+                    <a:nameRef>oldJsonText</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"SYSTEM_SYSRULES_toJson_v1"(
+  {
+    "operator": "&gt;=",
+    "riskScoreLowerBound": 500,
+    "riskScoreUpperBound": ""
+  }
+)</a:value>
+                    <a:nameRef>newJsonText</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"f69e679b-a363-454d-875a-c42d60f42d98"(
+  jsonText: #"SYSTEM_SYSRULES_toJson_v1"(
+    {
+      "operator": "&gt;=",
+      "riskScoreLowerBound": 500,
+      "riskScoreUpperBound": ""
+    }
+  )
+)</a:value>
+                    <a:nameRef>jsonFields</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:string"/>
+                    <a:nameRef>delimiter</a:nameRef>
+                    <a:id>4</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2631667"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2654207"/>
+    </history>
+</contentHaul>

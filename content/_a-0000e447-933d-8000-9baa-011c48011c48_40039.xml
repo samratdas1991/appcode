@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_891582</versionUuid>
+    <rule>
+        <name>AS_QNM_UT_buildQuestions_TemplateFromReference</name>
+        <uuid>_a-0000e447-933d-8000-9baa-011c48011c48_40039</uuid>
+        <description>Given a reference question, builds a template question by mapping the fields</description>
+        <parentUuid>_a-0000e42d-ffef-8000-9ba6-011c48011c48_7213-qnm</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>#"SYSTEM_SYSRULES_forEach"(
+  items: ri!questions_Reference,
+  expression: 'type!{urn:com:appian:types:AS:QNM}AS_QNM_T_Question'(
+    questionReferenceId: fv!item.questionReferenceId,
+    questionTypeCode: fv!item.questionTypeCode,
+    label: fv!item.defaultLabel,
+    instructions: fv!item.defaultInstructions,
+    isDisplayedPrecedentSets: #"_a-0000e447-933d-8000-9baa-011c48011c48_66031"(
+      questionPrecedentSets_Reference: fv!item.isDisplayedPrecedentSets
+    ),
+    isRequiredPrecedentSets: #"_a-0000e447-933d-8000-9baa-011c48011c48_66031"(
+      questionPrecedentSets_Reference: fv!item.isRequiredPrecedentSets
+    ),
+    responseOptions: #"_a-0000e447-933d-8000-9baa-011c48011c48_40209"(
+      responses_Reference: fv!item.defaultResponseOptions
+    ),
+    responseRequirements: #"_a-0000e460-9d93-8000-9bc1-011c48011c48_597588"(
+      responseRequirements_Reference: fv!item.defaultResponseRequirements
+    ),
+    defaultResponses: #"_a-0000e447-933d-8000-9baa-011c48011c48_40209"(
+      responses_Reference: fv!item.defaultDefaultResponses
+    ),
+    isActive: true
+  )
+)</definition>
+        <namedTypedValue>
+            <name>questions_Reference</name>
+            <type>
+                <name>AS_QNM_R_Question?list</name>
+                <namespace>urn:com:appian:types:AS:QNM</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <history>
+        <historyInfo versionUuid="_a-0000e447-933d-8000-9baa-011c48011c48_44274"/>
+        <historyInfo versionUuid="_a-0000e447-933d-8000-9baa-011c48011c48_66248"/>
+        <historyInfo versionUuid="_a-0000e460-9d93-8000-9bc1-011c48011c48_597607"/>
+        <historyInfo versionUuid="_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_871701"/>
+        <historyInfo versionUuid="_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_881840"/>
+        <historyInfo versionUuid="_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_891582"/>
+    </history>
+</contentHaul>

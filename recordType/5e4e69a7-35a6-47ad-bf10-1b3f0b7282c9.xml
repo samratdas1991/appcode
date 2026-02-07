@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<recordTypeHaul xmlns:a="http://www.appian.com/ae/types/2009" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <versionUuid>b98ae8a9-655d-4eee-81ec-04541db4cfb0</versionUuid>
+  <recordType a:uuid="5e4e69a7-35a6-47ad-bf10-1b3f0b7282c9" name="AS_FS_IDP_DocType_RecordType">
+    <a:pluralName>AS_FS_IDP_DocType_RecordType</a:pluralName>
+    <a:description>Record to trigger actions related to a document type</a:description>
+    <a:urlStub>QL9Plw</a:urlStub>
+    <a:source
+      a:uuid="6541d1b0-7cea-41ae-be35-746c65439350@_a-0000e539-6d59-8000-9bd0-011c48011c48_1262111" xsi:type="a:DataStoreEntity"/>
+    <a:listViewTemplateExpr>#"SYSTEM_SYSRULES_recordGridField"(
+  columns: {
+    #"SYSTEM_SYSRULES_gridColumn"(
+      label: "Doc Type Id",
+      sortField: #"urn:appian:record-field:v1:5e4e69a7-35a6-47ad-bf10-1b3f0b7282c9/docTypeId",
+      value: fv!row[#"urn:appian:record-field:v1:5e4e69a7-35a6-47ad-bf10-1b3f0b7282c9/docTypeId"],
+      align: "END"
+    ),
+    #"SYSTEM_SYSRULES_gridColumn"(
+      label: "Doc Type Name",
+      sortField: #"urn:appian:record-field:v1:5e4e69a7-35a6-47ad-bf10-1b3f0b7282c9/docTypeName",
+      value: #"SYSTEM_SYSRULES_linkField"(
+        links: {
+          #"SYSTEM_SYSRULES_recordLink"(
+            label: fv!row[#"urn:appian:record-field:v1:5e4e69a7-35a6-47ad-bf10-1b3f0b7282c9/docTypeName"],
+            recordType: #"urn:appian:record-type:v1:5e4e69a7-35a6-47ad-bf10-1b3f0b7282c9",
+            identifier: fv!identifier
+          )
+        }
+      )
+    ),
+    #"SYSTEM_SYSRULES_gridColumn"(
+      label: "Doc Type Code",
+      sortField: #"urn:appian:record-field:v1:5e4e69a7-35a6-47ad-bf10-1b3f0b7282c9/docTypeCode",
+      value: fv!row[#"urn:appian:record-field:v1:5e4e69a7-35a6-47ad-bf10-1b3f0b7282c9/docTypeCode"]
+    ),
+    #"SYSTEM_SYSRULES_gridColumn"(
+      label: "Doc Type Status",
+      sortField: #"urn:appian:record-field:v1:5e4e69a7-35a6-47ad-bf10-1b3f0b7282c9/docTypeStatus",
+      value: fv!row[#"urn:appian:record-field:v1:5e4e69a7-35a6-47ad-bf10-1b3f0b7282c9/docTypeStatus"]
+    ),
+    #"SYSTEM_SYSRULES_gridColumn"(
+      label: "Is Invalid Type",
+      sortField: #"urn:appian:record-field:v1:5e4e69a7-35a6-47ad-bf10-1b3f0b7282c9/isInvalidType",
+      value: fv!row[#"urn:appian:record-field:v1:5e4e69a7-35a6-47ad-bf10-1b3f0b7282c9/isInvalidType"]
+    ),
+    #"SYSTEM_SYSRULES_gridColumn"(
+      label: "Channel Id",
+      sortField: #"urn:appian:record-field:v1:5e4e69a7-35a6-47ad-bf10-1b3f0b7282c9/channelId",
+      value: fv!row[#"urn:appian:record-field:v1:5e4e69a7-35a6-47ad-bf10-1b3f0b7282c9/channelId"],
+      align: "END"
+    ),
+    #"SYSTEM_SYSRULES_gridColumn"(
+      label: "Is Training Successful",
+      sortField: #"urn:appian:record-field:v1:5e4e69a7-35a6-47ad-bf10-1b3f0b7282c9/isTrainingSuccessful",
+      value: fv!row[#"urn:appian:record-field:v1:5e4e69a7-35a6-47ad-bf10-1b3f0b7282c9/isTrainingSuccessful"]
+    )
+  },
+  pageSize: 50,
+  shadeAlternateRows: true
+)</a:listViewTemplateExpr>
+    <a:detailViewCfg>
+      <a:nameExpr>#"SYSTEM_SYSRULES_rtd_getDefaultSummaryViewName"()</a:nameExpr>
+      <a:uiExpr/>
+      <a:visibilityExpr>=true()</a:visibilityExpr>
+      <a:urlStub>summary</a:urlStub>
+      <a:headerExpr/>
+      <a:recordActionLaunchType>DIALOG</a:recordActionLaunchType>
+      <a:recordUiSecurityType>EXPRESSION</a:recordUiSecurityType>
+    </a:detailViewCfg>
+    <a:relatedActionCfg a:uuid="310d538f-6c05-44a4-b751-113277697bff">
+      <a:target a:uuid="0000e595-6335-8000-27a2-7f0000014e7a" xsi:type="a:ProcessModel"/>
+      <a:contextExpr>{
+  allUploadedDocuments: null,
+  docChannel: null,
+  docType: #"_a-0000e539-6d59-8000-9bd0-011c48011c48_1264886"(
+    docTypeIds: rv!identifier,
+    returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290157"
+  ),
+  docTypeZip: null,
+  userAction: null
+}</a:contextExpr>
+      <a:visibilityExpr>#"_a-0000e5d6-d648-8000-9bde-011c48011c48_1501904"(
+  settingsCode: {
+    #"_a-0000e5fd-0ed3-8000-9be6-011c48011c48_1579702"
+  }
+).userSettingValue</a:visibilityExpr>
+      <a:iconId>f115</a:iconId>
+      <a:refId>refId-310d538f-6c05-44a4-b751-113277697bff</a:refId>
+      <a:titleExpr>#"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_976788"( bundleKey: "AS.FS.AllBundles.txt_UploadClassificationFile" )</a:titleExpr>
+      <a:staticDescriptionString/>
+      <a:referenceKey>singleUpload</a:referenceKey>
+      <a:dialogSize>FIT$FIT</a:dialogSize>
+      <a:showInRecordList>false</a:showInRecordList>
+      <a:recordUiSecurityType>EXPRESSION</a:recordUiSecurityType>
+      <a:dialogWidth>FIT</a:dialogWidth>
+      <a:dialogHeight>FIT</a:dialogHeight>
+    </a:relatedActionCfg>
+    <a:isSystem>false</a:isSystem>
+    <a:dataSrcExpr/>
+    <a:facetsListExpr/>
+    <a:titleExpr/>
+    <a:defaultFiltersExpr>if(
+  #"_a-0000e69f-3688-8000-9bf2-011c48011c48_2143846"(),
+  {},
+  #"SYSTEM_SYSRULES_queryFilter"(
+    field: #"urn:appian:record-field:v1:5e4e69a7-35a6-47ad-bf10-1b3f0b7282c9/docTypeId",
+    operator: "is null"
+  )
+)</a:defaultFiltersExpr>
+    <a:layoutType>GRID</a:layoutType>
+    <a:security>16383</a:security>
+    <a:hideLatestNews>false</a:hideLatestNews>
+    <a:hideNewsView>false</a:hideNewsView>
+    <a:hideRelatedActionsView>false</a:hideRelatedActionsView>
+    <a:isExportable>true</a:isExportable>
+    <a:listViewSrcExpr/>
+    <a:recordViewSrcExpr/>
+    <a:recordTypeSearchCfg>
+      <searchFieldsSrc>DEFAULT</searchFieldsSrc>
+      <placeholderSrc>DEFAULT</placeholderSrc>
+      <placeholder/>
+    </a:recordTypeSearchCfg>
+    <a:iconId/>
+    <a:listAutoRefreshInterval>0.0</a:listAutoRefreshInterval>
+    <a:enabledFeatures>63</a:enabledFeatures>
+    <a:isVisibleInRecordTypeList>false</a:isVisibleInRecordTypeList>
+    <a:recordActionLaunchType>DIALOG</a:recordActionLaunchType>
+    <a:showSearchBox>true</a:showSearchBox>
+    <a:isVisibleInDataFabric>false</a:isVisibleInDataFabric>
+    <a:usesRollingSyncLimit>false</a:usesRollingSyncLimit>
+    <a:usesRecoverySync>false</a:usesRecoverySync>
+    <a:isScheduledIndexingEnabled>false</a:isScheduledIndexingEnabled>
+    <a:smartSearchAcceptableFailureRate>0.0</a:smartSearchAcceptableFailureRate>
+    <a:skipFailedSmartServicesSync>false</a:skipFailedSmartServicesSync>
+  </recordType>
+  <roleMap>
+    <role name="record_type_administrator">
+      <users/>
+      <groups>
+        <groupUuid>_e-0000e2bb-4188-8000-9aee-01075c01075c_41</groupUuid>
+      </groups>
+    </role>
+    <role name="record_type_viewer">
+      <users/>
+      <groups>
+        <groupUuid>_e-0000e539-6d59-8000-9b1c-01075c01075c_10207</groupUuid>
+      </groups>
+    </role>
+  </roleMap>
+  <history>
+    <historyInfo versionUuid="df62fa55-cc86-4dbd-8afb-d5be594261b1"/>
+    <historyInfo versionUuid="6c904b99-7181-4de6-bffa-4264d84ef5e1"/>
+    <historyInfo versionUuid="7385c1d3-5eea-429c-8190-397ff6881ccf"/>
+    <historyInfo versionUuid="be47bc9f-0343-41a2-ac67-8a8407224417"/>
+    <historyInfo versionUuid="0e411b95-c963-408f-9b13-ad958b864780"/>
+    <historyInfo versionUuid="27cf4a75-a94d-401e-9128-ba1d6a50a9d2"/>
+    <historyInfo versionUuid="b98ae8a9-655d-4eee-81ec-04541db4cfb0"/>
+  </history>
+  <migrationVersion>1</migrationVersion>
+</recordTypeHaul>

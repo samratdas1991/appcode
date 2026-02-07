@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2468343</versionUuid>
+    <interface>
+        <name>AS_IO_CPS_customerBenchmarksDetails</name>
+        <uuid>_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2467849</uuid>
+        <description>Contains information related benchmark details read only as well of editable interface</description>
+        <parentUuid>_a-0000e2bb-4188-8000-9ba2-011c48011c48_25469</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>#"SYSTEM_SYSRULES_columnsLayout"(
+  columns: {
+    #"SYSTEM_SYSRULES_columnLayout"(
+      contents: {
+        #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73562"(
+          label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+            i18nData: ri!i18nData,
+            bundleKey: "AS.CO.AllBundles.lbl_BenchmarkName",
+            
+          ),
+          value: ri!benchmark.name,
+          saveInto: ri!benchmark.name,
+          maxLength: 255,
+          required: true
+        ),
+        #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_125906"(
+          i18nData: ri!i18nData,
+          dollarLabel: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+            i18nData: ri!i18nData,
+            bundleKey: "AS.CO.AllBundles.lbl_BenchmarkGrossNet"
+          ),
+          currencyLabel: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+            i18nData: ri!i18nData,
+            bundleKey: "AS.CO.AllBundles.lbl_Currency"
+          ),
+          dollarFieldWidth: "5X",
+          currencyFieldWidth: "4X",
+          dollarValue: ri!benchmark.amount,
+          currencyCode: ri!benchmark.currency,
+          readOnly: false,
+          required: true,
+          minValue: 0
+        )
+      }
+    ),
+    #"SYSTEM_SYSRULES_columnLayout"(
+      contents: {
+        #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73562"(
+          label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+            i18nData: ri!i18nData,
+            bundleKey: "AS.CO.AllBundles.lbl_BenchmarkId"
+          ),
+          value: ri!benchmark.identifer,
+          saveInto: {
+            a!save(
+              ri!benchmark.identifer,
+              upper(
+                cleanwith(
+                  save!value,
+                  " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890"
+                )
+              ),
+              
+            )
+          },
+          minLength: #"_a-0000e586-af6f-8000-9bd2-011c48011c48_1374385",
+          maxLength: #"_a-0000e586-af6f-8000-9bd2-011c48011c48_1374385",
+          minLengthMessage: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+            i18nData: ri!i18nData,
+            bundleKey: "AS.CO.AllBundles.vld_BenchmarkLength",
+            arguments: #"_a-0000e586-af6f-8000-9bd2-011c48011c48_1374385"
+          ),
+          required: true
+        ),
+        a!localVariables(
+          local!hedgeValues: #"_a-0000e586-af6f-8000-9bd2-011c48011c48_1373648"(i18nData: ri!i18nData),
+          #"_a-0000e528-bc07-8000-9bcf-011c48011c48_1027802"(
+            label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+              i18nData: ri!i18nData,
+              bundleKey: "AS.CO.AllBundles.lbl_HedgedUnhedged"
+            ),
+            choiceLabels: local!hedgeValues.label,
+            choiceValues: local!hedgeValues.code,
+            value: ri!benchmark.hedge,
+            saveInto: { ri!benchmark.hedge },
+            required: true,
+            skipSorting: true
+          )
+        )
+      }
+    ),
+    #"SYSTEM_SYSRULES_columnLayout"(
+      contents: {
+        #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73562"(
+          label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+            i18nData: ri!i18nData,
+            bundleKey: "AS.CO.AllBundles.lbl_BenchmarkType"
+          ),
+          value: ri!benchmark.type,
+          saveInto: ri!benchmark.type,
+          maxLength: 255,
+          required: true
+        ),
+        #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_74506"(
+          label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+            i18nData: ri!i18nData,
+            bundleKey: "AS.CO.AllBundles.lbl_LicenseAcquired"
+          ),
+          readOnly: false,
+          choiceLabels: {
+            #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+              i18nData: ri!i18nData,
+              bundleKey: "AS.CO.AllBundles.lbl_Yes"
+            ),
+            #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+              i18nData: ri!i18nData,
+              bundleKey: "AS.CO.AllBundles.lbl_No"
+            )
+          },
+          choiceValues: { true, false },
+          value: ri!benchmark.isLicenseAcquired,
+          saveInto: { ri!benchmark.isLicenseAcquired },
+          choiceLayout: "COMPACT",
+          required: true
+        )
+      }
+    )
+  }
+)</definition>
+        <namedTypedValue>
+            <name>i18nData</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>benchmark</name>
+            <type>
+                <name>AS_IO_CustomerBenchmark</name>
+                <namespace>urn:com:appian:types:IO</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+        <isCustom>false</isCustom>
+    </interface>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name/>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81834"(triggerRefresh: null)</a:value>
+                    <a:nameRef>i18nData</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:n1="urn:com:appian:types:IO" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="n1:AS_IO_CustomerBenchmark"/>
+                    <a:nameRef>benchmark</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2468343"/>
+    </history>
+</contentHaul>

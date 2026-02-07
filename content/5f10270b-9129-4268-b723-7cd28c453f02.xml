@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_957712</versionUuid>
+    <rule>
+        <name>AS_QNM_UT_updateQuestionsOnDeletion</name>
+        <uuid>5f10270b-9129-4268-b723-7cd28c453f02</uuid>
+        <description>rule to update the questions on the deletion</description>
+        <parentUuid>_a-0000e42d-ffef-8000-9ba6-011c48011c48_7213-qnm</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  local!allQuestionsMinusSelected: #"_a-0000e40a-de32-8000-9ba8-011c48011c48_271202"(
+    cdt: ri!questionnaireTemplate.questions,
+    field: "questionTemplateId",
+    value: ri!questions.questionTemplateId
+  ),
+  local!allFollowUpQuestions: #"SYSTEM_SYSRULES_forEach"(
+    items: ri!questions,
+    expression: #"_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_873728"(
+      question: fv!item,
+      /* Avoid duplicating any selected questions */
+      allQuestions: local!allQuestionsMinusSelected
+    )
+  ),
+  #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_28158"(
+    cdt: #"_a-0000e40a-de32-8000-9ba8-011c48011c48_269170"(
+      cdt: append(
+        ri!questions,
+        local!allFollowUpQuestions
+      ),
+      fieldValuePairs: {
+        {
+          field: "isActive",
+          value: false
+        },
+        {
+          field: "questionnaireTemplateId",
+          value: null
+        }
+      }
+    ),
+    modifiedBy: ri!modifiedBy
+  )
+)</definition>
+        <namedTypedValue>
+            <name>questions</name>
+            <type>
+                <name>AS_QNM_T_Question?list</name>
+                <namespace>urn:com:appian:types:AS:QNM</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>questionnaireTemplate</name>
+            <type>
+                <name>AS_QNM_T_Questionnaire</name>
+                <namespace>urn:com:appian:types:AS:QNM</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>modifiedBy</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <history>
+        <historyInfo versionUuid="_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_875411"/>
+        <historyInfo versionUuid="_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_955030"/>
+        <historyInfo versionUuid="_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_957712"/>
+    </history>
+</contentHaul>

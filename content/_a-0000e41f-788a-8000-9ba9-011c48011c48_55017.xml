@@ -1,0 +1,318 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e825-b425-8000-9c1c-011c48011c48_3633549</versionUuid>
+    <interface>
+        <name>AS_FS_FM_uploadCustomerDocuments</name>
+        <uuid>_a-0000e41f-788a-8000-9ba9-011c48011c48_55017</uuid>
+        <description>Form to upload a document to the customer record</description>
+        <parentUuid>_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_968428</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  local!i18nData: #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_975720"(triggerRefresh: now()),
+  local!activeStep: #"_a-0000e7d2-6286-8000-9c11-011c48011c48_3112171",
+  local!isInternalUser: #"_a-0000e69f-3688-8000-9bf2-011c48011c48_2143846"(),
+  local!reqdDocFieldsMissingFor: #"SYSTEM_SYSRULES_forEach"(
+    items: ri!customerDocuments,
+    expression: if(
+      #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(fv!item.docTypeCode),
+      #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+        i18nData: local!i18nData,
+        bundleKey: "AS.FS.AllBundles.lbl_DocumentWithArugument",
+        arguments: fv!index
+      ),
+      {}
+    )
+  ),
+  local!validate: false(),
+  #"SYSTEM_SYSRULES_headerContentLayout"(
+    header: {
+      #"SYSTEM_SYSRULES_cardLayout"(
+        contents: {
+          #"_a-0000e7e5-dad4-8000-9c14-011c48011c48_3312448"("AS_FS_FM_uploadCustomerDocuments"),
+          #"SYSTEM_SYSRULES_columnsLayout"(
+            columns: {
+              #"SYSTEM_SYSRULES_columnLayout"(
+                contents: {
+                  #"_a-0000e7d2-6286-8000-9c11-011c48011c48_3112295"(
+                    i18nData: local!i18nData,
+                    activeStep: local!activeStep
+                  )
+                },
+                width: "MEDIUM"
+              ),
+              #"SYSTEM_SYSRULES_columnLayout"(width: "NARROW"),
+              #"SYSTEM_SYSRULES_columnLayout"(
+                contents: {
+                  choose(
+                    #"_a-0000e40a-de32-8000-9ba8-011c48011c48_280802"(
+                      value: local!activeStep,
+                      inArray: {
+                        #"_a-0000e7d2-6286-8000-9c11-011c48011c48_3112171",
+                        #"_a-0000e7d2-6286-8000-9c11-011c48011c48_3112439"
+                      }
+                    ),
+                    {},
+                    /*Wizard 1*/
+                    #"_a-0000e7e5-dad4-8000-9c14-011c48011c48_3232389"(
+                      i18nData: local!i18nData,
+                      uploadedDocuments: ri!allUploadedDocs,
+                      customerFolder: ri!customerFolder,
+                      customerDocuments: ri!customerDocuments
+                    ),
+                    /*Wizard 2*/
+                    #"_a-0000e7e5-dad4-8000-9c14-011c48011c48_3232512"(
+                      i18nData: local!i18nData,
+                      customerDocuments: ri!customerDocuments
+                    )
+                  ),
+                  #"SYSTEM_SYSRULES_sectionLayout_v1"(
+                    contents: {
+                      #"_a-0000e3e6-fb42-8000-9ba5-011c48011c48_212429"(
+                        label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                          i18nData: local!i18nData,
+                          bundleKey: "AS.FS.AllBundles.vld_PleaseAddAllRequiredFieldsAttachDoc",
+                          arguments: joinarray(local!reqdDocFieldsMissingFor, ", ")
+                        ),
+                        showWhen: and(
+                          #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(local!reqdDocFieldsMissingFor),
+                          local!validate = true()
+                        )
+                      ),
+                      #"SYSTEM_SYSRULES_columnsLayout"(
+                        columns: {
+                          #"SYSTEM_SYSRULES_columnLayout"(
+                            contents: {
+                              #"_a-0000e3d1-f4dc-8000-9ba4-011c48011c48_134344"(
+                                confirmLabel: if(
+                                  local!activeStep = #"_a-0000e7d2-6286-8000-9c11-011c48011c48_3112171",
+                                  #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                                    i18nData: local!i18nData,
+                                    bundleKey: "AS.FS.AllBundles.btn_Next"
+                                  ),
+                                  #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                                    i18nData: local!i18nData,
+                                    bundleKey: "AS.FS.AllBundles.btn_Submit"
+                                  )
+                                ),
+                                cancelLabel: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                                  i18nData: local!i18nData,
+                                  bundleKey: "AS.FS.AllBundles.btn_Cancel"
+                                ),
+                                confirmSaveInto: {
+                                  if(
+                                    local!activeStep = #"_a-0000e7d2-6286-8000-9c11-011c48011c48_3112439",
+                                    {
+                                      a!save(
+                                        local!reqdDocFieldsMissingFor,
+                                        #"SYSTEM_SYSRULES_forEach"(
+                                          items: ri!customerDocuments,
+                                          expression: if(
+                                            #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(fv!item.docTypeCode),
+                                            #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                                              i18nData: local!i18nData,
+                                              bundleKey: "AS.FS.AllBundles.lbl_DocumentWithArugument",
+                                              arguments: fv!index
+                                            ),
+                                            {}
+                                          )
+                                        )
+                                      ),
+                                      a!save(local!validate, true()),
+                                      if(
+                                        #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(local!reqdDocFieldsMissingFor),
+                                        {
+                                          a!save(
+                                            ri!userAction,
+                                            #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73317"
+                                          ),
+                                          a!save(
+                                            ri!customerDocuments.folderId,
+                                            ri!customerFolder
+                                          ),
+                                          #"SYSTEM_SYSRULES_forEach"(
+                                            items: ri!customerDocuments,
+                                            expression: a!save(
+                                              fv!item,
+                                              #"_a-0000e62c-7375-8000-9bec-011c48011c48_1731993"(
+                                                customerDocument: fv!item,
+                                                isUploadedByCustomer: not(local!isInternalUser)
+                                              )
+                                            )
+                                          )
+                                        },
+                                        {}
+                                      )
+                                    },
+                                    {
+                                      a!save(
+                                        ri!userAction,
+                                        #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_1014656"
+                                      ),
+                                      a!save(local!activeStep, local!activeStep + 1)
+                                    }
+                                  )
+                                },
+                                cancelSaveInto: {
+                                  a!save(
+                                    ri!userAction,
+                                    #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73173"
+                                  )
+                                },
+                                confirmSubmit: and(
+                                  #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(local!reqdDocFieldsMissingFor),
+                                  local!activeStep = #"_a-0000e7d2-6286-8000-9c11-011c48011c48_3112439"
+                                ),
+                                cancelSubmit: true,
+                                additionalSecondaryButtons: #"SYSTEM_SYSRULES_ButtonWidget"(
+                                  label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                                    i18nData: local!i18nData,
+                                    bundleKey: "AS.FS.AllBundles.btn_Back"
+                                  ),
+                                  value: #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_1014889",
+                                  saveInto: {
+                                    ri!userAction,
+                                    a!save(local!activeStep, local!activeStep - 1),
+                                    a!save(local!validate, false())
+                                  },
+                                  showWhen: local!activeStep = #"_a-0000e7d2-6286-8000-9c11-011c48011c48_3112439"
+                                )
+                              )
+                            }
+                          )
+                        }
+                      )
+                    },
+                    divider: "ABOVE"
+                  )
+                }
+              ),
+              #"SYSTEM_SYSRULES_columnLayout"(width: "EXTRA_NARROW")
+            }
+          )
+        }
+      )
+    }
+  )
+)</definition>
+        <namedTypedValue>
+            <name>userAction</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>customerDocuments</name>
+            <type>
+                <name>AS_FS_CustomerDocument?list</name>
+                <namespace>urn:com:appian:types:AS:FS</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>customerFolder</name>
+            <type>
+                <name>CollaborationFolder</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>allUploadedDocs</name>
+            <type>
+                <name>CollaborationDocument?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+        <isCustom>false</isCustom>
+    </interface>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name/>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:string"/>
+                    <a:nameRef>userAction</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">{}</a:value>
+                    <a:nameRef>customerDocuments</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="a:CollaborationFolder"/>
+                    <a:nameRef>customerFolder</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                    <a:nameRef>allUploadedDocs</a:nameRef>
+                    <a:id>4</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e41f-788a-8000-9ba9-011c48011c48_66321"/>
+        <historyInfo versionUuid="_a-0000e430-f270-8000-9bbc-011c48011c48_336922"/>
+        <historyInfo versionUuid="_a-0000e438-fd8a-8000-9bbe-011c48011c48_409367"/>
+        <historyInfo versionUuid="_a-0000e438-fd8a-8000-9bbe-011c48011c48_420182"/>
+        <historyInfo versionUuid="_a-0000e471-623a-8000-9bc3-011c48011c48_684661"/>
+        <historyInfo versionUuid="_a-0000e471-623a-8000-9bc3-011c48011c48_691164"/>
+        <historyInfo versionUuid="_a-0000e471-623a-8000-9bc3-011c48011c48_769925"/>
+        <historyInfo versionUuid="_a-0000e50d-bf1d-8000-9bcd-011c48011c48_1005777"/>
+        <historyInfo versionUuid="_a-0000e539-6d59-8000-9bd0-011c48011c48_1254462"/>
+        <historyInfo versionUuid="_a-0000e607-97fd-8000-9be9-011c48011c48_1591841"/>
+        <historyInfo versionUuid="_a-0000e607-97fd-8000-9be9-011c48011c48_1603236"/>
+        <historyInfo versionUuid="_a-0000e62c-7375-8000-9bec-011c48011c48_1761582"/>
+        <historyInfo versionUuid="_a-0000e673-a4a7-8000-9bef-011c48011c48_2007081"/>
+        <historyInfo versionUuid="_a-0000e69f-3688-8000-9bf2-011c48011c48_2151311"/>
+        <historyInfo versionUuid="_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2442987"/>
+        <historyInfo versionUuid="_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2452754"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2700845"/>
+        <historyInfo versionUuid="_a-0000e79b-0335-8000-9c0c-011c48011c48_3018379"/>
+        <historyInfo versionUuid="_a-0000e7e5-dad4-8000-9c14-011c48011c48_3235188"/>
+        <historyInfo versionUuid="_a-0000e825-b425-8000-9c1c-011c48011c48_3633549"/>
+    </history>
+</contentHaul>

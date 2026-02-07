@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<recordTypeHaul xmlns:a="http://www.appian.com/ae/types/2009" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <versionUuid>d33a11aa-b795-4395-80f8-5d15b323134e</versionUuid>
+  <recordType a:uuid="84f45543-279b-422e-9c46-01deddc1d59c" name="AS_FS_BeneficialOwner_RecordType">
+    <a:pluralName>Beneficial Owner</a:pluralName>
+    <a:description>Record type for Beneficial Owners</a:description>
+    <a:urlStub>djKMKg</a:urlStub>
+    <a:source
+      a:uuid="0d57af04-31b9-4a48-b797-57a3a4f09b23@_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_968035" xsi:type="a:DataStoreEntity"/>
+    <a:listViewTemplateExpr>#"SYSTEM_SYSRULES_recordGridField"(
+  columns: {
+    #"SYSTEM_SYSRULES_gridColumn"(
+      label: "Name",
+      sortField: #"urn:appian:record-field:v1:84f45543-279b-422e-9c46-01deddc1d59c/name",
+      value: #"SYSTEM_SYSRULES_linkField"(
+        links: #"SYSTEM_SYSRULES_recordLink"(
+          label: fv!row[#"urn:appian:record-field:v1:84f45543-279b-422e-9c46-01deddc1d59c/name"],
+          recordType: #"urn:appian:record-type:v1:84f45543-279b-422e-9c46-01deddc1d59c",
+          identifier: fv!identifier
+        )
+      ),
+      width: "1X"
+    ),
+    #"SYSTEM_SYSRULES_gridColumn"(
+      label: "Customer Id",
+      sortField: #"urn:appian:record-field:v1:84f45543-279b-422e-9c46-01deddc1d59c/customerId",
+      value: tointeger(
+        fv!row[#"urn:appian:record-field:v1:84f45543-279b-422e-9c46-01deddc1d59c/customerId"]
+      ),
+      align: "END",
+      width: "1X"
+    ),
+    #"SYSTEM_SYSRULES_gridColumn"(
+      label: "Beneficial Ownership Type Code",
+      sortField: #"urn:appian:record-field:v1:84f45543-279b-422e-9c46-01deddc1d59c/beneficialOwnershipTypeCode",
+      value: fv!row[#"urn:appian:record-field:v1:84f45543-279b-422e-9c46-01deddc1d59c/beneficialOwnershipTypeCode"],
+      width: "1X"
+    )
+  },
+  pageSize: 50,
+  initialSorts: {
+    #"SYSTEM_SYSRULES_sortInfo"(
+      field: #"urn:appian:record-field:v1:84f45543-279b-422e-9c46-01deddc1d59c/name",
+      ascending: fn!true()
+    )
+  },
+  shadeAlternateRows: true
+)</a:listViewTemplateExpr>
+    <a:detailViewCfg>
+      <a:nameExpr>#"SYSTEM_SYSRULES_rtd_getDefaultSummaryViewName"()</a:nameExpr>
+      <a:uiExpr/>
+      <a:visibilityExpr>=true()</a:visibilityExpr>
+      <a:urlStub>summary</a:urlStub>
+      <a:headerExpr/>
+      <a:recordActionLaunchType>DIALOG</a:recordActionLaunchType>
+      <a:recordUiSecurityType>EXPRESSION</a:recordUiSecurityType>
+    </a:detailViewCfg>
+    <a:relatedActionCfg a:uuid="d9312064-5662-4c0e-9db6-e4484e6b7286">
+      <a:target a:uuid="0002e518-482c-8000-1957-7f0000014e7a" xsi:type="a:ProcessModel"/>
+      <a:contextExpr>{
+  beneficialOwners: #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_985751"(
+    returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290157",
+    beneficialOwnerId: rv!identifier
+  )
+}</a:contextExpr>
+      <a:visibilityExpr>=true()</a:visibilityExpr>
+      <a:iconId>f040</a:iconId>
+      <a:refId>refId-d9312064-5662-4c0e-9db6-e4484e6b7286</a:refId>
+      <a:titleExpr>#"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_976788"(
+  bundleKey: "AS.FS.AllBundles.lbl_EditBeneficialOwner",
+  arguments: rv!record[#"urn:appian:record-field:v1:84f45543-279b-422e-9c46-01deddc1d59c/name"]
+)</a:titleExpr>
+      <a:staticDescriptionString/>
+      <a:referenceKey>UpdateBeneficialOwner</a:referenceKey>
+      <a:dialogSize>TALL$WIDE</a:dialogSize>
+      <a:showInRecordList>false</a:showInRecordList>
+      <a:recordUiSecurityType>EXPRESSION</a:recordUiSecurityType>
+      <a:dialogWidth>WIDE</a:dialogWidth>
+      <a:dialogHeight>TALL</a:dialogHeight>
+    </a:relatedActionCfg>
+    <a:relatedActionCfg a:uuid="e53897a9-2a45-4c2a-967b-b72fdfbb3eb4">
+      <a:target a:uuid="0002e51d-44a6-8000-19d5-7f0000014e7a" xsi:type="a:ProcessModel"/>
+      <a:contextExpr>{
+  beneficialOwners: #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_985751"(
+    returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290157",
+    beneficialOwnerId: rv!identifier
+  )
+}</a:contextExpr>
+      <a:visibilityExpr>=true()</a:visibilityExpr>
+      <a:iconId>f014</a:iconId>
+      <a:refId>refId-e53897a9-2a45-4c2a-967b-b72fdfbb3eb4</a:refId>
+      <a:titleExpr>#"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_976788"(
+  bundleKey: "AS.FS.AllBundles.lbl_DeleteBeneficialOwner",
+  arguments: rv!record[#"urn:appian:record-field:v1:84f45543-279b-422e-9c46-01deddc1d59c/name"]
+)</a:titleExpr>
+      <a:staticDescriptionString/>
+      <a:referenceKey>DeleteBeneficialOwner</a:referenceKey>
+      <a:dialogSize>SHORT$MEDIUM</a:dialogSize>
+      <a:showInRecordList>false</a:showInRecordList>
+      <a:recordUiSecurityType>EXPRESSION</a:recordUiSecurityType>
+      <a:dialogWidth>MEDIUM</a:dialogWidth>
+      <a:dialogHeight>SHORT</a:dialogHeight>
+    </a:relatedActionCfg>
+    <a:isSystem>false</a:isSystem>
+    <a:dataSrcExpr/>
+    <a:facetsListExpr/>
+    <a:titleExpr/>
+    <a:defaultFiltersExpr>if(
+  #"_a-0000e69f-3688-8000-9bf2-011c48011c48_2143846"(),
+  {},
+  a!localVariables(
+    local!userCustomerGroup: #"_a-0000e5da-4dac-8000-9ba5-011c48011c48_23439"(),
+    #"SYSTEM_SYSRULES_queryFilter"(
+      field: #"urn:appian:record-field:v1:84f45543-279b-422e-9c46-01deddc1d59c/customerId",
+      operator: "=",
+      value: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_33079"(
+        groupIds: local!userCustomerGroup,
+        returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290157",
+        executeWhen: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(input: local!userCustomerGroup)
+      ).customerId
+    )
+  )
+)</a:defaultFiltersExpr>
+    <a:layoutType>GRID</a:layoutType>
+    <a:security>16383</a:security>
+    <a:hideLatestNews>false</a:hideLatestNews>
+    <a:hideNewsView>false</a:hideNewsView>
+    <a:hideRelatedActionsView>false</a:hideRelatedActionsView>
+    <a:isExportable>false</a:isExportable>
+    <a:listViewSrcExpr/>
+    <a:recordViewSrcExpr/>
+    <a:recordTypeSearchCfg>
+      <searchFieldsSrc>DEFAULT</searchFieldsSrc>
+      <placeholderSrc>DEFAULT</placeholderSrc>
+      <placeholder/>
+    </a:recordTypeSearchCfg>
+    <a:iconId/>
+    <a:listAutoRefreshInterval>0.0</a:listAutoRefreshInterval>
+    <a:enabledFeatures>63</a:enabledFeatures>
+    <a:isVisibleInRecordTypeList>false</a:isVisibleInRecordTypeList>
+    <a:recordActionLaunchType>DIALOG</a:recordActionLaunchType>
+    <a:showSearchBox>true</a:showSearchBox>
+    <a:isVisibleInDataFabric>false</a:isVisibleInDataFabric>
+    <a:usesRollingSyncLimit>false</a:usesRollingSyncLimit>
+    <a:usesRecoverySync>false</a:usesRecoverySync>
+    <a:isScheduledIndexingEnabled>false</a:isScheduledIndexingEnabled>
+    <a:smartSearchAcceptableFailureRate>0.0</a:smartSearchAcceptableFailureRate>
+    <a:skipFailedSmartServicesSync>false</a:skipFailedSmartServicesSync>
+  </recordType>
+  <roleMap>
+    <role name="record_type_administrator">
+      <users/>
+      <groups>
+        <groupUuid>_e-0000e2bb-4188-8000-9aee-01075c01075c_41</groupUuid>
+      </groups>
+    </role>
+    <role name="record_type_viewer">
+      <users/>
+      <groups>
+        <groupUuid>_e-0000e50d-bf1d-8000-9b19-01075c01075c_10046</groupUuid>
+      </groups>
+    </role>
+  </roleMap>
+  <history>
+    <historyInfo versionUuid="a7ea0cea-527b-41c7-b3af-356c81b3e6a0"/>
+    <historyInfo versionUuid="b3f0b329-8bec-4be2-96a4-597c87994c35"/>
+    <historyInfo versionUuid="d3117629-2782-470f-bcec-2f2e9165523b"/>
+    <historyInfo versionUuid="a04274ca-0c01-468c-b96c-dfcf448d3ec5"/>
+    <historyInfo versionUuid="32b9e51c-c528-459e-b161-8d6353473674"/>
+    <historyInfo versionUuid="f5bfa54e-b781-4482-bbf0-ca2d3573dc1b"/>
+    <historyInfo versionUuid="09ae45cd-7361-42ba-aa8a-5ae911736d8d"/>
+    <historyInfo versionUuid="9832f2ee-d507-42cf-8fa1-4b9178abe3f4"/>
+    <historyInfo versionUuid="a7268373-2195-4a22-aa9b-7562315ff7a6"/>
+    <historyInfo versionUuid="a8ee752a-4fc8-424e-a92d-30526c7e3f23"/>
+    <historyInfo versionUuid="b821abd8-d79f-45f5-ac87-94fcb77260aa"/>
+    <historyInfo versionUuid="d33a11aa-b795-4395-80f8-5d15b323134e"/>
+  </history>
+  <migrationVersion>1</migrationVersion>
+</recordTypeHaul>

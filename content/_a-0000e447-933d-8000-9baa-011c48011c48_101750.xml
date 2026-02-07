@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e7d2-6286-8000-9c11-011c48011c48_3124307</versionUuid>
+    <rule>
+        <name>AS_ADT_UT_getNewObjectsAfterWriting</name>
+        <uuid>_a-0000e447-933d-8000-9baa-011c48011c48_101750</uuid>
+        <description>Queries for the new objects after writing them to the database</description>
+        <parentUuid>_a-0000e42d-ffef-8000-9ba6-011c48011c48_7213-adt</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  local!newValues: if(
+    ri!skipFetchNewObjects,
+    ri!storedValues,
+    a!localVariables(
+      local!primaryKeyField: #"_a-0000e3e6-fb42-8000-9ba5-011c48011c48_180804-adt"(auditParams: ri!auditParams),
+      local!newObjectPrimaryKeys: a!flatten(
+        tointeger(
+          index(
+            ri!storedValues,
+            local!primaryKeyField,
+            {}
+          )
+        )
+      ),
+      #"_a-0000e3e6-fb42-8000-9ba5-011c48011c48_157870"(
+        entity: ri!auditParams.objectDse,
+        entityType: ri!auditParams.objectTypeNumber,
+        returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290163",
+        executeWhen: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(local!newObjectPrimaryKeys),
+        filters: #"SYSTEM_SYSRULES_queryFilter"(
+          field: local!primaryKeyField,
+          operator: "in",
+          value: local!newObjectPrimaryKeys
+        )
+      )
+    )
+  ),
+  if(
+    #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(
+      ri!auditParams.auditConfig.getNewObjectsPostProcessingRule
+    ),
+    local!newValues,
+    ri!auditParams.auditConfig.getNewObjectsPostProcessingRule(
+      originalNewObjects: ri!auditParams.newObjects,
+      requeriedNewObjects: local!newValues
+    )
+  )
+)</definition>
+        <namedTypedValue>
+            <name>auditParams</name>
+            <type>
+                <name>AS_ADT_P_AuditProcessParameters</name>
+                <namespace>urn:com:appian:types:AS:ADT</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>storedValues</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>skipFetchNewObjects</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <history>
+        <historyInfo versionUuid="_a-0000e447-933d-8000-9baa-011c48011c48_101775"/>
+        <historyInfo versionUuid="_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_846610"/>
+        <historyInfo versionUuid="_a-0000e5a0-53e9-8000-9bd8-011c48011c48_1400537"/>
+        <historyInfo versionUuid="_a-0000e5d4-20a7-8000-9bdb-011c48011c48_1476096"/>
+        <historyInfo versionUuid="_a-0000e5d4-20a7-8000-9bdb-011c48011c48_1478213"/>
+        <historyInfo versionUuid="_a-0000e607-97fd-8000-9be9-011c48011c48_1593220"/>
+        <historyInfo versionUuid="_a-0000e607-97fd-8000-9be9-011c48011c48_1595796"/>
+        <historyInfo versionUuid="_a-0000e607-97fd-8000-9be9-011c48011c48_1703911"/>
+        <historyInfo versionUuid="_a-0000e673-a4a7-8000-9bef-011c48011c48_2044050"/>
+        <historyInfo versionUuid="_a-0000e69f-3688-8000-9bf2-011c48011c48_2104201"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2679570"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2680064"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2698713"/>
+        <historyInfo versionUuid="_a-0000e77e-5277-8000-9c09-011c48011c48_2871857"/>
+        <historyInfo versionUuid="_a-0000e79b-0335-8000-9c0c-011c48011c48_2938294"/>
+        <historyInfo versionUuid="_a-0000e7d2-6286-8000-9c11-011c48011c48_3124307"/>
+    </history>
+</contentHaul>

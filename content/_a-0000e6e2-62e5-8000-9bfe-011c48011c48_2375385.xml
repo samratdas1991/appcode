@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e70f-2824-8000-9c01-011c48011c48_2650623</versionUuid>
+    <rule>
+        <name>AS_CO_UT_updateRecordFieldsByPath</name>
+        <uuid>_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2375385</uuid>
+        <description>Updates one or more fields of a record, allows passing a path (e.g. fieldA[1].fieldB...)</description>
+        <parentUuid>_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73105</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>cast(
+  typeof(ri!cdt),
+  reduce(
+    #"_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2375513"(
+      cdt: _,
+      field: _,
+      newValue: _
+    ),
+    ri!cdt,
+    merge(
+      a!flatten(ri!fields),
+      a!flatten(ri!newValues)
+    )
+  )
+)</definition>
+        <namedTypedValue>
+            <name>cdt</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>fields</name>
+            <type>
+                <name>RecordField?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>newValues</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name>Single Field</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2378839"(
+  typeList: #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_975334",
+  returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290163",
+  triggerRefresh: now()
+)</a:value>
+                    <a:nameRef>cdt</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"urn:appian:record-field:v1:a46af155-bfad-4dd3-9449-bf228fafb07c/47b3c8d8-b0d2-49e1-9fc3-1d15351e830f"</a:value>
+                    <a:nameRef>fields</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2369954"(
+  i18nData: #"_a-0000e607-97fd-8000-9be9-011c48011c48_1606284"(
+    triggerRefresh: null
+  ),
+  recordField: #"urn:appian:record-field:v1:a46af155-bfad-4dd3-9449-bf228fafb07c/47b3c8d8-b0d2-49e1-9fc3-1d15351e830f",
+  singleData: #"_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2378839"(
+    typeList: #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_975334",
+    returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290163",
+    triggerRefresh: now()
+  ),
+  skipInactiveAppend: false
+)</a:value>
+                    <a:nameRef>newValues</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2375536"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2650623"/>
+    </history>
+</contentHaul>

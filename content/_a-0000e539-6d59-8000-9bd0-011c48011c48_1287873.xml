@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e825-b425-8000-9c1c-011c48011c48_3643292</versionUuid>
+    <interface>
+        <name>AS_FS_FM_customerLandingPage</name>
+        <uuid>_a-0000e539-6d59-8000-9bd0-011c48011c48_1287873</uuid>
+        <description>Customer Landing page for FS Customer site</description>
+        <parentUuid>_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_968428</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  local!triggerRefresh: now(),
+  local!i18nData: #"_a-0000e69f-3688-8000-9bf2-011c48011c48_2172179"(triggerRefresh: local!triggerRefresh),
+  local!customer: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_33079"(
+    returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290157",
+    groupIds: tointeger(
+      #"_a-0000e5da-4dac-8000-9ba5-011c48011c48_23439"()
+    )
+  ),
+  local!selectedServiceRequest,
+  local!selectedOnboarding,
+  if(
+    #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(local!customer),
+    #"_a-0000e3e6-fb42-8000-9ba5-011c48011c48_212429"(
+      label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+        i18nData: local!i18nData,
+        bundleKey: "AS.FS.AllBundles.ins_NoAccess"
+      )
+    ),
+    #"SYSTEM_SYSRULES_headerContentLayout"(
+      header: {
+        #"_a-0000e539-6d59-8000-9bd0-011c48011c48_1287879"(
+          i18nData: local!i18nData,
+          customer: local!customer,
+          showSummaryHeader: or(
+            #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(local!selectedOnboarding),
+            #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(local!selectedServiceRequest)
+          )
+        )
+      },
+      contents: {
+        #"_a-0000e825-b425-8000-9c1c-011c48011c48_3642861"(),
+        #"_a-0000e40a-961e-8000-9ba7-011c48011c48_258735"(
+          label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+            i18nData: local!i18nData,
+            bundleKey: "AS.FS.AllBundles.txt_Back"
+          ),
+          saveInto: a!save(
+            {
+              local!selectedServiceRequest,
+              local!selectedOnboarding
+            },
+            {}
+          ),
+          showWhen: or(
+            #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(local!selectedServiceRequest),
+            #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(local!selectedOnboarding)
+          )
+        ),
+        choose(
+          where(
+            {
+              #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(local!selectedServiceRequest),
+              #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(local!selectedOnboarding)
+            },
+            3/*   Since there are just 2 options to display the default is 3. Need to change when we have additional options       */
+            
+          ),
+          #"_a-0000e607-97fd-8000-9be9-011c48011c48_1664533"(
+            i18nData: local!i18nData,
+            selectedServiceRequest: #"_a-0000e5d6-d648-8000-9bde-011c48011c48_1479339"(
+              customerId: local!customer.customerId,
+              serviceRequestId: local!selectedServiceRequest
+            ),
+            requestId: local!selectedServiceRequest,
+            customer: local!customer,
+            triggerRefresh: local!triggerRefresh
+          ),
+          #"_a-0000e607-97fd-8000-9be9-011c48011c48_1664526"(
+            selectedOnboardingId: local!selectedOnboarding,
+            i18nData: local!i18nData,
+            customer: local!customer,
+            triggerRefresh: local!triggerRefresh
+          ),
+          {
+            #"SYSTEM_SYSRULES_columnsLayout"(
+              columns: {
+                #"SYSTEM_SYSRULES_columnLayout"(
+                  contents: {
+                    #"_a-0000e607-97fd-8000-9be9-011c48011c48_1649905"(
+                      selectedRequest: local!selectedServiceRequest,
+                      customerId: local!customer.customerId,
+                      i18nData: local!i18nData
+                    ),
+                    #"_a-0000e607-97fd-8000-9be9-011c48011c48_1658718"(
+                      selectedOnboarding: local!selectedOnboarding,
+                      customerId: local!customer.customerId,
+                      i18nData: local!i18nData
+                    )
+                  },
+                  width: "MEDIUM"
+                ),
+                #"SYSTEM_SYSRULES_columnLayout"(
+                  contents: #"_a-0000e607-97fd-8000-9be9-011c48011c48_1665942"(
+                    customer: local!customer,
+                    i18nData: local!i18nData
+                  )
+                ),
+                #"SYSTEM_SYSRULES_columnLayout"(
+                  contents: {
+                    #"_a-0000e607-97fd-8000-9be9-011c48011c48_1673269"(
+                      customerId: local!customer.customerId,
+                      i18nData: local!i18nData
+                    ),
+                    #"46949542-0515-4fb0-ac84-b5fd81af0863"(
+                      i18nData: local!i18nData,
+                      customerId: local!customer.customerId
+                    ),
+                    #"ba6343ee-d108-47da-b5c4-17fb6c570b39"(
+                      customerId: local!customer.customerId,
+                      i18nData: local!i18nData,
+                      selectedOnboarding: local!selectedOnboarding,
+                      selectedServiceRequest: local!selectedServiceRequest,
+                      triggerRefresh: local!triggerRefresh
+                    )
+                  },
+                  width: "MEDIUM"
+                )
+              }
+            ),
+            #"_a-0000e460-9d93-8000-9bc1-011c48011c48_622927"(
+              version: #"_a-0000e62c-7375-8000-9bec-011c48011c48_1883209"()
+            )
+          }
+        )
+      },
+      backgroundColor: "TRANSPARENT"
+    )
+  )
+)</definition>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+        <isCustom>false</isCustom>
+    </interface>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <history>
+        <historyInfo versionUuid="_a-0000e539-6d59-8000-9bd0-011c48011c48_1297048"/>
+        <historyInfo versionUuid="_a-0000e586-af6f-8000-9bd2-011c48011c48_1347701"/>
+        <historyInfo versionUuid="_a-0000e586-af6f-8000-9bd2-011c48011c48_1375403"/>
+        <historyInfo versionUuid="_a-0000e5a0-53e9-8000-9bd8-011c48011c48_1409268"/>
+        <historyInfo versionUuid="_a-0000e5a0-53e9-8000-9bd8-011c48011c48_1412206"/>
+        <historyInfo versionUuid="_a-0000e5a0-53e9-8000-9bd8-011c48011c48_1443210"/>
+        <historyInfo versionUuid="_a-0000e607-97fd-8000-9be9-011c48011c48_1650068"/>
+        <historyInfo versionUuid="_a-0000e607-97fd-8000-9be9-011c48011c48_1659090"/>
+        <historyInfo versionUuid="_a-0000e607-97fd-8000-9be9-011c48011c48_1664359"/>
+        <historyInfo versionUuid="_a-0000e607-97fd-8000-9be9-011c48011c48_1680621"/>
+        <historyInfo versionUuid="_a-0000e607-97fd-8000-9be9-011c48011c48_1682383"/>
+        <historyInfo versionUuid="_a-0000e607-97fd-8000-9be9-011c48011c48_1684700"/>
+        <historyInfo versionUuid="_a-0000e607-97fd-8000-9be9-011c48011c48_1686159"/>
+        <historyInfo versionUuid="_a-0000e607-97fd-8000-9be9-011c48011c48_1686313"/>
+        <historyInfo versionUuid="_a-0000e607-97fd-8000-9be9-011c48011c48_1688570"/>
+        <historyInfo versionUuid="_a-0000e607-97fd-8000-9be9-011c48011c48_1689531"/>
+        <historyInfo versionUuid="_a-0000e607-97fd-8000-9be9-011c48011c48_1690188"/>
+        <historyInfo versionUuid="_a-0000e607-97fd-8000-9be9-011c48011c48_1693136"/>
+        <historyInfo versionUuid="_a-0000e607-97fd-8000-9be9-011c48011c48_1693442"/>
+        <historyInfo versionUuid="_a-0000e607-97fd-8000-9be9-011c48011c48_1707083"/>
+        <historyInfo versionUuid="_a-0000e62c-7375-8000-9bec-011c48011c48_1726871"/>
+        <historyInfo versionUuid="_a-0000e62c-7375-8000-9bec-011c48011c48_1829244"/>
+        <historyInfo versionUuid="_a-0000e62c-7375-8000-9bec-011c48011c48_1883408"/>
+        <historyInfo versionUuid="_a-0000e62c-7375-8000-9bec-011c48011c48_1886397"/>
+        <historyInfo versionUuid="_a-0000e69f-3688-8000-9bf2-011c48011c48_2167419"/>
+        <historyInfo versionUuid="_a-0000e69f-3688-8000-9bf2-011c48011c48_2172295"/>
+        <historyInfo versionUuid="_a-0000e69f-3688-8000-9bf2-011c48011c48_2175457"/>
+        <historyInfo versionUuid="_a-0000e6ba-d6dd-8000-9bf5-011c48011c48_2193804"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2705463"/>
+        <historyInfo versionUuid="_a-0000e825-b425-8000-9c1c-011c48011c48_3643292"/>
+    </history>
+</contentHaul>

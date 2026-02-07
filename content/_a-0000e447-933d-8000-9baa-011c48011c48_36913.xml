@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e62c-7375-8000-9bec-011c48011c48_1845866</versionUuid>
+    <rule>
+        <name>AS_QNM_REF_questionTypes</name>
+        <uuid>_a-0000e447-933d-8000-9baa-011c48011c48_36913</uuid>
+        <description>Running list of AS_QNM_R_QuestionType CDTs</description>
+        <parentUuid>_a-0000e42d-ffef-8000-9ba6-011c48011c48_7213-qnm</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>/* This rule is often used in scenarios where display is not relevant,
+so we account for i18n specifically where display is necessary for efficiency */
+with(
+  local!i18nData: if(
+    ri!internationalize,
+    #"_a-0000e447-933d-8000-9baa-011c48011c48_43088"(triggerRefresh: null()),
+    { a: 1 }
+  ),
+  /* Single Radio Button field*/
+  {
+    'type!{urn:com:appian:types:AS:QNM}AS_QNM_R_QuestionType'(
+      questionTypeCode: #"_a-0000e447-933d-8000-9baa-011c48011c48_36963",
+      questionTypeLabel: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+        i18nData: local!i18nData,
+        bundleKey: "AS.QNM.QuestionTypes.lbl_SingleRadioButton"
+      ),
+      questionTypeDescription: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+        i18nData: local!i18nData,
+        bundleKey: "AS.QNM.QuestionTypes.txt_SingleRadioButtonDesc"
+      ),
+      respond: #"_a-0000e447-933d-8000-9baa-011c48011c48_36871",
+      readOnlyDisplay: #"_a-0000e447-91f4-8000-9bc0-011c48011c48_580019",
+      fieldTypes: {
+        'type!{urn:com:appian:types:AS:QNM}AS_QNM_R_FieldType'(
+          fieldKey: null,
+          fieldType: #"_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_929070",
+          validate: #"_a-0000e447-91f4-8000-9bc0-011c48011c48_574116",
+          fieldResponseType: #"_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_890002"
+        )
+      },
+      isActive: true
+    ),
+    /* Single Paragraph field*/
+    'type!{urn:com:appian:types:AS:QNM}AS_QNM_R_QuestionType'(
+      questionTypeCode: #"_a-0000e447-91f4-8000-9bc0-011c48011c48_569158",
+      questionTypeLabel: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+        i18nData: local!i18nData,
+        bundleKey: "AS.QNM.QuestionTypes.lbl_SingleParagraph"
+      ),
+      questionTypeDescription: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+        i18nData: local!i18nData,
+        bundleKey: "AS.QNM.QuestionTypes.txt_SingleParagraphDesc"
+      ),
+      respond: #"_a-0000e447-91f4-8000-9bc0-011c48011c48_569164",
+      readOnlyDisplay: #"_a-0000e447-91f4-8000-9bc0-011c48011c48_580031",
+      fieldTypes: {
+        'type!{urn:com:appian:types:AS:QNM}AS_QNM_R_FieldType'(
+          fieldKey: null,
+          fieldType: #"_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_929116",
+          validate: #"_a-0000e447-91f4-8000-9bc0-011c48011c48_576551",
+          fieldResponseType: #"_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_890008"
+        )
+      },
+      isActive: true
+    ),
+    /* Single Document Upload field */
+    'type!{urn:com:appian:types:AS:QNM}AS_QNM_R_QuestionType'(
+      questionTypeCode: #"_a-0000e447-91f4-8000-9bc0-011c48011c48_573833",
+      questionTypeLabel: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+        i18nData: local!i18nData,
+        bundleKey: "AS.QNM.QuestionTypes.lbl_DocumentUpload"
+      ),
+      questionTypeDescription: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+        i18nData: local!i18nData,
+        bundleKey: "AS.QNM.QuestionTypes.txt_DocumentUploadDesc"
+      ),
+      respond: #"_a-0000e447-91f4-8000-9bc0-011c48011c48_573839",
+      readOnlyDisplay: #"_a-0000e447-91f4-8000-9bc0-011c48011c48_586663",
+      fieldTypes: {
+        'type!{urn:com:appian:types:AS:QNM}AS_QNM_R_FieldType'(
+          fieldKey: "appianDocId",
+          fieldType: #"_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_929082",
+          validate: #"_a-0000e447-91f4-8000-9bc0-011c48011c48_574116",
+          fieldResponseType: #"_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_889996"
+        ),
+        'type!{urn:com:appian:types:AS:QNM}AS_QNM_R_FieldType'(
+          fieldKey: "documentTypeCode",
+          fieldType: null,
+          /* Backend field for now, could be a dropdown if implemented */
+          validate: #"_a-0000e447-91f4-8000-9bc0-011c48011c48_574116",
+          fieldResponseType: #"_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_902135"
+        )
+      },
+      isActive: true
+    ),
+    /* Single dropdown field -- plain text value */
+    'type!{urn:com:appian:types:AS:QNM}AS_QNM_R_QuestionType'(
+      questionTypeCode: #"_a-0000e447-933d-8000-9baa-011c48011c48_109121",
+      questionTypeLabel: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+        i18nData: local!i18nData,
+        bundleKey: "AS.QNM.QuestionTypes.lbl_DropdownText"
+      ),
+      questionTypeDescription: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+        i18nData: local!i18nData,
+        bundleKey: "AS.QNM.QuestionTypes.txt_DropdownTextDesc"
+      ),
+      respond: #"_a-0000e447-933d-8000-9baa-011c48011c48_109144",
+      readOnlyDisplay: #"_a-0000e447-933d-8000-9baa-011c48011c48_109151",
+      fieldTypes: {
+        'type!{urn:com:appian:types:AS:QNM}AS_QNM_R_FieldType'(
+          fieldKey: null,
+          fieldType: #"_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_929076",
+          validate: #"_a-0000e447-91f4-8000-9bc0-011c48011c48_574116",
+          fieldResponseType: #"_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_890002"
+        )
+      },
+      isActive: true
+    ),
+    /* New question types go here */
+    
+  }
+)</definition>
+        <namedTypedValue>
+            <name>internationalize</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <history>
+        <historyInfo versionUuid="_a-0000e447-933d-8000-9baa-011c48011c48_44231"/>
+        <historyInfo versionUuid="_a-0000e447-933d-8000-9baa-011c48011c48_50060"/>
+        <historyInfo versionUuid="_a-0000e447-933d-8000-9baa-011c48011c48_62169"/>
+        <historyInfo versionUuid="_a-0000e447-91f4-8000-9bc0-011c48011c48_571421"/>
+        <historyInfo versionUuid="_a-0000e447-91f4-8000-9bc0-011c48011c48_574162"/>
+        <historyInfo versionUuid="_a-0000e447-933d-8000-9baa-011c48011c48_66823"/>
+        <historyInfo versionUuid="_a-0000e447-91f4-8000-9bc0-011c48011c48_580109"/>
+        <historyInfo versionUuid="_a-0000e460-9d93-8000-9bc1-011c48011c48_597266"/>
+        <historyInfo versionUuid="_a-0000e460-9d93-8000-9bc1-011c48011c48_609485"/>
+        <historyInfo versionUuid="_a-0000e460-9d93-8000-9bc1-011c48011c48_613515"/>
+        <historyInfo versionUuid="_a-0000e447-933d-8000-9baa-011c48011c48_83399"/>
+        <historyInfo versionUuid="_a-0000e460-9d93-8000-9bc1-011c48011c48_622632"/>
+        <historyInfo versionUuid="_a-0000e460-9d93-8000-9bc1-011c48011c48_634436"/>
+        <historyInfo versionUuid="_a-0000e471-623a-8000-9bc3-011c48011c48_667507"/>
+        <historyInfo versionUuid="_a-0000e447-933d-8000-9baa-011c48011c48_109190"/>
+        <historyInfo versionUuid="_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_856932"/>
+        <historyInfo versionUuid="_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_902793"/>
+        <historyInfo versionUuid="_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_928554"/>
+        <historyInfo versionUuid="_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_929291"/>
+        <historyInfo versionUuid="_a-0000e5d6-d648-8000-9bde-011c48011c48_1481051"/>
+        <historyInfo versionUuid="_a-0000e62c-7375-8000-9bec-011c48011c48_1845866"/>
+    </history>
+</contentHaul>

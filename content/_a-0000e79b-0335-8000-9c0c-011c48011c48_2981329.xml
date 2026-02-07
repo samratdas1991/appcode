@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e7fa-f829-8000-9c17-011c48011c48_3348331</versionUuid>
+    <interface>
+        <name>AS_IO_FM_viewSingleProductDetails</name>
+        <uuid>_a-0000e79b-0335-8000-9c0c-011c48011c48_2981329</uuid>
+        <description>Form for the display of single product details in onboarding record</description>
+        <parentUuid>_a-0000e2bb-4188-8000-9ba2-011c48011c48_25469</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  local!triggerRefresh: a!refreshVariable(value: now(), refreshAlways: true),
+  local!i18nData: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81834"(triggerRefresh: local!triggerRefresh),
+  local!refData: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_39864"(
+    typeList: {
+      #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_40302",
+      #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_41722",
+      #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_975334",
+      #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_979240",
+      #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_48775",
+      #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_40647",
+      #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_41592",
+      #"_a-0000e329-3415-8000-9ba2-011c48011c48_294168",
+      #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_975321"
+    },
+    i18nData: local!i18nData
+  ),
+  local!product: cast(
+    typeof(
+      'type!{urn:com:appian:types:AS:IO}AS_IO_Product_P'()
+    ),
+    #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_114847"(
+      productId: ri!productId,
+      returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290163",
+      triggerRefresh: local!triggerRefresh
+    )
+  ),
+  local!funds: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_68721"(
+    requestId: ri!requestId,
+    returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290163"
+  ),
+  local!countries: #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_976936"(
+    i18nData: local!i18nData,
+    returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290163"
+  ),
+  #"SYSTEM_SYSRULES_formLayout_v1"(
+    label: local!product.name,
+    contents: {
+      #"_a-0000e539-6d59-8000-9bd0-011c48011c48_1172848"(
+        readOnly: true(),
+        product: local!product,
+        refData: local!refData,
+        i18nData: local!i18nData,
+        funds: local!funds,
+        countries: local!countries
+      )
+    },
+    buttons: #"SYSTEM_SYSRULES_ButtonLayout"(
+      primaryButtons: #"SYSTEM_SYSRULES_ButtonWidget"(
+        label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+          i18nData: local!i18nData,
+          bundleKey: "AS.CO.AllBundles.btn_Close"
+        ),
+        submit: true(),
+        style: "PRIMARY"
+      )
+    )
+  )
+)</definition>
+        <namedTypedValue>
+            <name>productId</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>requestId</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+        <isCustom>false</isCustom>
+    </interface>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name/>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:int">6</a:value>
+                    <a:nameRef>productId</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:int">5</a:value>
+                    <a:nameRef>requestId</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e79b-0335-8000-9c0c-011c48011c48_2981349"/>
+        <historyInfo versionUuid="_a-0000e7fa-f829-8000-9c17-011c48011c48_3348331"/>
+    </history>
+</contentHaul>

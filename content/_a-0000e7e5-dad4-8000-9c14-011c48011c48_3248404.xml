@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e825-b425-8000-9c1c-011c48011c48_3646660</versionUuid>
+    <interface>
+        <name>AS_IO_CPS_manageOnboardingTemplate_Attributes</name>
+        <uuid>_a-0000e7e5-dad4-8000-9c14-011c48011c48_3248404</uuid>
+        <description>Contains Attributes section for manage onboarding templates</description>
+        <parentUuid>_a-0000e2bb-4188-8000-9ba2-011c48011c48_25469</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  local!taskTemplateMappingFieldsMetadata: #"_a-0000e6c5-6536-8000-9bf8-011c48011c48_2203265"(
+    i18nData: ri!i18nData,
+    queryDropdownValues: true
+  ),
+  local!duplicateTemplateByMappingFields: #"_a-0000e3d1-f4dc-8000-9ba4-011c48011c48_143394"(
+    selectedTemplate: ri!template,
+    templateMappingFields: local!taskTemplateMappingFieldsMetadata.templateField
+  ),
+  local!isDuplicateTemplateName: #"_a-0000e3d1-f4dc-8000-9ba4-011c48011c48_153492"(selectedTemplate: ri!template),
+  {
+    #"_a-0000e7e5-dad4-8000-9c14-011c48011c48_3312448"(
+      "AS_IO_CPS_manageOnboardingTemplate_Attributes"
+    ),
+    /*Template name*/
+    #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73562"(
+      label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+        i18nData: ri!i18nData,
+        bundleKey: "AS.CO.AllBundles.lbl_OnboardingTemplateName"
+      ),
+      labelPosition: "ABOVE",
+      required: true,
+      value: ri!template.templateName,
+      saveInto: ri!template.templateName,
+      validations: {
+        #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_74104"(
+          value: ri!template.templateName,
+          maxLength: #"_a-0000e3d1-f4dc-8000-9ba4-011c48011c48_153436"
+        ),
+        #"_a-0000e3e6-fb42-8000-9ba5-011c48011c48_156667"(
+          validation: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+            i18nData: ri!i18nData,
+            bundleKey: "AS.CO.AllBundles.vld_DuplicateTemplateName"
+          ),
+          validateWhen: local!isDuplicateTemplateName
+        )
+      }
+    ),
+    /*Fields which are used to choose which template fits an onboarding*/
+    /*By default just Onboarding Type and Region*/
+    #"_a-0000e6c5-6536-8000-9bf8-011c48011c48_2209026"(
+      taskTemplate: ri!template,
+      taskTemplateMappingFieldsMetadata: local!taskTemplateMappingFieldsMetadata,
+      readOnly: false,
+      isDuplicateTemplateByMappingFields: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(local!duplicateTemplateByMappingFields)
+    ),
+    /*validation*/
+    #"SYSTEM_SYSRULES_sectionLayout_v1"(
+      validations: {
+        #"SYSTEM_SYSRULES_validationMessage"(
+          message: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+            i18nData: ri!i18nData,
+            bundleKey: "AS.CO.AllBundles.vld_DuplicateTemplateMapping",
+            arguments: local!duplicateTemplateByMappingFields.templateName
+          ),
+          validateAfter: "REFRESH"
+        )
+      },
+      marginBelow: "NONE",
+      showWhen: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(local!duplicateTemplateByMappingFields)
+    ),
+    /*Active*/
+    #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_982370"(
+      label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+        i18nData: ri!i18nData,
+        bundleKey: "AS.CO.AllBundles.lbl_SetOnboardingTemplateActive"
+      ),
+      labelPosition: "ABOVE",
+      choiceLayout: "COMPACT",
+      choiceStyle: "CARDS",
+      required: true,
+      value: ri!template.isActive,
+      disabled: ri!template.isDefault,
+      instructions: if(
+        ri!template.isDefault,
+        #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+          i18nData: ri!i18nData,
+          bundleKey: "AS.CO.AllBundles.ins_ActiveDisabledIfTemplateSetDefault"
+        ),
+        ""
+      )
+    ),
+    /*Default*/
+    #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_982370"(
+      label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+        i18nData: ri!i18nData,
+        bundleKey: "AS.CO.AllBundles.lbl_SetOnboardingTemplateDefault"
+      ),
+      labelPosition: "ABOVE",
+      choiceLayout: "COMPACT",
+      choiceStyle: "CARDS",
+      required: true,
+      value: ri!template.isDefault,
+      instructions: if(
+        and(
+          ri!template.isDefault,
+          #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75636"(ri!originalTemplate.isDefault)
+        ),
+        #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+          i18nData: ri!i18nData,
+          bundleKey: "AS.CO.AllBundles.ins_setTemplateDefaultFromAttributesPage"
+        ),
+        ""
+      ),
+      disabled: if(
+        ri!isExistingTemplate,
+        ri!originalTemplate.isDefault,
+        false()
+      ),
+      additionalSaveInto: {
+        if(
+          ri!template.isDefault,
+          a!save(ri!template.isActive, true()),
+          {}
+        )
+      }
+    ),
+    /*Calendar Settings*/
+    #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_74163"(
+      label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+        i18nData: ri!i18nData,
+        bundleKey: "AS.CO.AllBundles.lbl_CalendarSettings"
+      ),
+      value: if(
+        ri!template.slaDayType = #"_a-0000e460-9d93-8000-9bc1-011c48011c48_620378",
+        true,
+        null
+      ),
+      choiceLabels: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+        i18nData: ri!i18nData,
+        bundleKey: "AS.CO.AllBundles.txt_ExcludeWeekendsAndHolidays"
+      ),
+      choiceValues: true,
+      saveInto: {
+        a!save(
+          ri!template.slaDayType,
+          /*if exclude weekends and holidays, SLA type = business days*/
+          if(
+            #"_a-0000e3ff-a5bc-8000-9ba8-011c48011c48_39070"(save!value),
+            #"_a-0000e460-9d93-8000-9bc1-011c48011c48_620378",
+            #"_a-0000e460-9d93-8000-9bc1-011c48011c48_620372"
+          )
+        )
+      },
+      helpTooltip: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+        i18nData: ri!i18nData,
+        bundleKey: "AS.CO.AllBundles.hlp_HowToCalculateTaskDueDates"
+      )
+    ),
+    /*Description*/
+    #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_74400"(
+      label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+        i18nData: ri!i18nData,
+        bundleKey: "AS.CO.AllBundles.lbl_Description"
+      ),
+      value: ri!template.templateDesc,
+      saveInto: ri!template.templateDesc,
+      height: "MEDIUM",
+      maxLength: #"_a-0000e438-fd8a-8000-9bbe-011c48011c48_410799"
+    )
+  }
+)</definition>
+        <namedTypedValue>
+            <name>template</name>
+            <type>
+                <name>AS_IO_R_Template</name>
+                <namespace>urn:com:appian:types:AS:IO</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>i18nData</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>originalTemplate</name>
+            <type>
+                <name>AS_IO_R_Template</name>
+                <namespace>urn:com:appian:types:AS:IO</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>isExistingTemplate</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+        <isCustom>false</isCustom>
+    </interface>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name/>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:n1="urn:com:appian:types:AS:IO" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="n1:AS_IO_R_Template"/>
+                    <a:nameRef>template</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81834"(null)</a:value>
+                    <a:nameRef>i18nData</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:n1="urn:com:appian:types:AS:IO" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="n1:AS_IO_R_Template"/>
+                    <a:nameRef>originalTemplate</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:boolean"/>
+                    <a:nameRef>isExistingTemplate</a:nameRef>
+                    <a:id>4</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e7e5-dad4-8000-9c14-011c48011c48_3257208"/>
+        <historyInfo versionUuid="_a-0000e7e5-dad4-8000-9c14-011c48011c48_3274708"/>
+        <historyInfo versionUuid="_a-0000e7e5-dad4-8000-9c14-011c48011c48_3297857"/>
+        <historyInfo versionUuid="_a-0000e7e5-dad4-8000-9c14-011c48011c48_3318776"/>
+        <historyInfo versionUuid="_a-0000e825-b425-8000-9c1c-011c48011c48_3646660"/>
+    </history>
+</contentHaul>

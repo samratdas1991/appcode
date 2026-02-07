@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e5a0-53e9-8000-9bd8-011c48011c48_1396723</versionUuid>
+    <rule>
+        <name>AS_FS_IDP_returnDocUnderstandingWithCloudStorageUri</name>
+        <uuid>_a-0000e539-6d59-8000-9bd0-011c48011c48_1265796</uuid>
+        <description></description>
+        <parentUuid>_a-0000e539-6d59-8000-9bd0-011c48011c48_1261631</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  local!documentId: #"_a-0000e539-6d59-8000-9bd0-011c48011c48_1265775"(
+    objectName: ri!objectName
+  ),
+  local!docUnderstanding: index(
+    index(
+      ri!understandingArray,
+      wherecontains(local!documentId, ri!understandingArray.documentId),
+      null
+    ),
+    1,
+    null
+  ),
+  #"_a-0000e40a-de32-8000-9ba8-011c48011c48_269170"(
+    cdt: local!docUnderstanding,
+    fieldValuePairs: {
+      field: "cloudStorageUri",
+      value: #"_a-0000e539-6d59-8000-9bd0-011c48011c48_1265789"(
+        bucketName: #"_a-0000e539-6d59-8000-9bd0-011c48011c48_1265484",
+        path: ri!objectName
+      )
+    }
+  )
+)</definition>
+        <namedTypedValue>
+            <name>objectName</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>understandingArray</name>
+            <type>
+                <name>AS_FS_IDP_DocUnderstanding?list</name>
+                <namespace>urn:com:appian:types:AS:FS</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name>Sample Invoice</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e539-6d59-8000-9bd0-011c48011c48_1265621"(
+  document: #"_a-0000e539-6d59-8000-9bd0-011c48011c48_1266842"
+)</a:value>
+                    <a:nameRef>objectName</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">{
+  'type!{urn:com:appian:types:AS:FS}AS_FS_IDP_DocUnderstanding'(
+    understandingId: 1,
+    documentId: 10*rand()
+  ),
+  'type!{urn:com:appian:types:AS:FS}AS_FS_IDP_DocUnderstanding'(
+    understandingId: 1,
+    documentId: #"_a-0000e539-6d59-8000-9bd0-011c48011c48_1266842",
+    documentName: document(#"_a-0000e539-6d59-8000-9bd0-011c48011c48_1266842", "name")
+  ),
+  'type!{urn:com:appian:types:AS:FS}AS_FS_IDP_DocUnderstanding'(
+    understandingId: 1,
+    documentId: 10*rand()
+  )
+}</a:value>
+                    <a:nameRef>understandingArray</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions>
+                    <a:expectedOutput xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                    <a:resultAssertions>not(#"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(test!output))</a:resultAssertions>
+                </a:assertions>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e539-6d59-8000-9bd0-011c48011c48_1299239"/>
+        <historyInfo versionUuid="_a-0000e5a0-53e9-8000-9bd8-011c48011c48_1396723"/>
+    </history>
+</contentHaul>

@@ -1,0 +1,588 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e70f-2824-8000-9c01-011c48011c48_2756795</versionUuid>
+    <interface>
+        <name>AS_FS_CPS_Products_DetailsSection</name>
+        <uuid>_a-0000e528-bc07-8000-9bcf-011c48011c48_1037700</uuid>
+        <description>Details section for a single product view</description>
+        <parentUuid>_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_968428</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  local!visibleDetailsFields: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+    cdt: ri!fieldData,
+    field: "fieldKey",
+    value: #"_a-0000e528-bc07-8000-9bcf-011c48011c48_1035088"(isInternationalizedForAdminSetup: false).fieldKey
+  ),
+  if(
+    #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(local!visibleDetailsFields),
+    {},
+    {
+      #"_a-0000e528-bc07-8000-9bcf-011c48011c48_1037497"(
+        icon: "list-alt",
+        label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+          i18nData: ri!i18nData,
+          bundleKey: "AS.FS.AllBundles.lbl_DetailsSection"
+        ),
+        size: "SMALL"
+      ),
+      #"_a-0000e539-6d59-8000-9bd0-011c48011c48_1177073"(
+        numberOfColumns: if(ri!readOnly, 4, 2),
+        allFields: {
+          {
+            a!localVariables(
+              local!amountFieldData: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+                cdt: local!visibleDetailsFields,
+                field: "fieldKey",
+                value: #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_1021020"
+              ),
+              {
+                span: 1,
+                components: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_125906"(
+                  i18nData: ri!i18nData,
+                  showWhen: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(local!amountFieldData),
+                  required: local!amountFieldData.required,
+                  readOnly: ri!readOnly,
+                  dollarValue: ri!product.value,
+                  currencyCode: ri!product.valueCurrencyCode,
+                  dollarLabel: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                    i18nData: ri!i18nData,
+                    bundleKey: "AS.FS.AllBundles.lbl_Amount"
+                  ),
+                  currencyLabel: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                    i18nData: ri!i18nData,
+                    bundleKey: "AS.FS.AllBundles.lbl_Currency"
+                  ),
+                  minValue: 0
+                )
+              }
+            ),
+            a!localVariables(
+              local!interestFieldData: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+                cdt: local!visibleDetailsFields,
+                field: "fieldKey",
+                value: #"_a-0000e539-6d59-8000-9bd0-011c48011c48_1159810"
+              ),
+              {
+                span: 1,
+                components: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_74314"(
+                  showWhen: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(local!interestFieldData),
+                  required: local!interestFieldData.required,
+                  label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                    i18nData: ri!i18nData,
+                    bundleKey: "AS.FS.AllBundles.lbl_Interest"
+                  ),
+                  readOnly: ri!readOnly,
+                  value: ri!product.interest,
+                  saveInto: a!save(
+                    ri!product.interest,
+                    #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73998"(number: save!value, numDigits: 2)
+                  ),
+                  minSize: 0,
+                  numberOfDecimals: 2,
+                  textToAppend: "%",
+                  formattedInput: ri!product.interest
+                )
+              }
+            ),
+            a!localVariables(
+              local!fundFieldData: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+                cdt: local!visibleDetailsFields,
+                field: "fieldKey",
+                value: #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_1021026"
+              ),
+              local!activeFunds: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+                cdt: ri!funds,
+                field: "isDeleted",
+                value: false
+              ),
+              {
+                span: 1,
+                components: #"_a-0000e528-bc07-8000-9bcf-011c48011c48_1027802"(
+                  showWhen: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(local!fundFieldData),
+                  required: local!fundFieldData.required,
+                  readOnly: ri!readOnly,
+                  label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                    i18nData: ri!i18nData,
+                    bundleKey: "AS.FS.AllBundles.lbl_Fund"
+                  ),
+                  placeholderlabel: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                    i18nData: ri!i18nData,
+                    bundleKey: "AS.FS.AllBundles.lbl_Fund"
+                  ),
+                  choiceLabels: local!activeFunds.name,
+                  choiceValues: local!activeFunds.fundId,
+                  value: ri!product.fundId,
+                  saveInto: ri!product.fundId
+                )
+              }
+            ),
+            a!localVariables(
+              local!entityFieldData: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+                cdt: local!visibleDetailsFields,
+                field: "fieldKey",
+                value: #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_1021032"
+              ),
+              local!entities: #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_976967"(
+                refData: ri!refData,
+                currentValue: ri!product.entity,
+                type: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_40647"
+              ),
+              {
+                span: 1,
+                components: #"_a-0000e528-bc07-8000-9bcf-011c48011c48_1027802"(
+                  showWhen: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(local!entityFieldData),
+                  required: local!entityFieldData.required,
+                  readOnly: ri!readOnly,
+                  label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                    i18nData: ri!i18nData,
+                    bundleKey: "AS.FS.AllBundles.lbl_Entity"
+                  ),
+                  placeholderlabel: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                    i18nData: ri!i18nData,
+                    bundleKey: "AS.FS.AllBundles.lbl_Entity"
+                  ),
+                  choiceLabels: local!entities.label,
+                  choiceValues: local!entities.code,
+                  value: ri!product.entity,
+                  saveInto: ri!product.entity
+                )
+              }
+            ),
+            a!localVariables(
+              local!strategyFieldData: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+                cdt: local!visibleDetailsFields,
+                field: "fieldKey",
+                value: #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_1021038"
+              ),
+              {
+                span: 1,
+                components: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73562"(
+                  showWhen: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(local!strategyFieldData),
+                  required: local!strategyFieldData.required,
+                  label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                    i18nData: ri!i18nData,
+                    bundleKey: "AS.FS.AllBundles.lbl_Strategy"
+                  ),
+                  value: ri!product.strategy,
+                  readOnly: ri!readOnly,
+                  maxLength: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73500",
+                  saveInto: ri!product.strategy
+                )
+              }
+            ),
+            a!localVariables(
+              local!durationFieldData: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+                cdt: local!visibleDetailsFields,
+                field: "fieldKey",
+                value: #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_1021044"
+              ),
+              {
+                span: 1,
+                components: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_74362"(
+                  showWhen: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(local!durationFieldData),
+                  required: local!durationFieldData.required,
+                  label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                    i18nData: ri!i18nData,
+                    bundleKey: "AS.FS.AllBundles.lbl_DurationMonths"
+                  ),
+                  value: ri!product.duration,
+                  saveInto: ri!product.duration,
+                  readOnly: ri!readOnly,
+                  minSize: 0,
+                  maxSize: #"_a-0000e539-6d59-8000-9bd0-011c48011c48_1137712"
+                )
+              }
+            ),
+            a!localVariables(
+              local!upfrontFeeFieldData: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+                cdt: local!visibleDetailsFields,
+                field: "fieldKey",
+                value: #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_1021077"
+              ),
+              {
+                span: 1,
+                components: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_74314"(
+                  showWhen: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(local!upfrontFeeFieldData),
+                  required: local!upfrontFeeFieldData.required,
+                  label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                    i18nData: ri!i18nData,
+                    bundleKey: "AS.FS.AllBundles.lbl_UpfrontFee"
+                  ),
+                  value: ri!product.upfrontFee,
+                  saveInto: a!save(
+                    ri!product.upfrontFee,
+                    #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73998"(number: save!value, numDigits: 2)
+                  ),
+                  readOnly: ri!readOnly,
+                  minSize: 0,
+                  textToAppend: "%",
+                  formattedInput: ri!product.upfrontFee
+                )
+              }
+            ),
+            a!localVariables(
+              local!restrictedCountriesFieldData: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+                cdt: local!visibleDetailsFields,
+                field: "fieldKey",
+                value: #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_1021083"
+              ),
+              local!permissibleCountries: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+                cdt: ri!product.countries,
+                field: "isTradingAllowed",
+                value: true
+              ),
+              local!restrictedCountries: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+                cdt: ri!product.countries,
+                field: "isTradingAllowed",
+                value: false
+              ),
+              local!selectedRestrictedCountryCodes: index(
+                local!restrictedCountries,
+                "countryCode",
+                {}
+              ),
+              {
+                span: 1,
+                components: #"_a-0000e69f-3688-8000-9bf2-011c48011c48_2119960"(
+                  readOnly: ri!readOnly,
+                  selectedCountryCodes: local!selectedRestrictedCountryCodes,
+                  countries: ri!countries,
+                  additionalSaveInto: {
+                    a!save(
+                      local!selectedRestrictedCountryCodes,
+                      union(save!value, save!value)
+                    ),
+                    a!save(
+                      local!restrictedCountries,
+                      #"SYSTEM_SYSRULES_forEach"(
+                        items: local!selectedRestrictedCountryCodes,
+                        expression: 'type!{urn:com:appian:types:AS:FS}AS_FS_Country'(
+                          countryCode: fv!item,
+                          isTradingAllowed: false,
+                          isDeleted: false
+                        )
+                      )
+                    ),
+                    a!save(
+                      ri!product.countries,
+                      append(
+                        local!restrictedCountries,
+                        local!permissibleCountries
+                      )
+                    )
+                  },
+                  alternateLabel: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                    i18nData: ri!i18nData,
+                    bundleKey: "AS.CO.AllBundles.lbl_RestrictedCountries"
+                  ),
+                  validations: #"_a-0000e5fb-e360-8000-9be3-011c48011c48_1557034"(
+                    restrictedCountries: local!restrictedCountries,
+                    permissibleCountries: local!permissibleCountries,
+                    i18nData: ri!i18nData
+                  ),
+                  i18nData: ri!i18nData,
+                  showWhen: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(local!restrictedCountriesFieldData),
+                  required: local!restrictedCountriesFieldData.required
+                )
+              }
+            ),
+            a!localVariables(
+              local!permissibleCountriesFieldData: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+                cdt: local!visibleDetailsFields,
+                field: "fieldKey",
+                value: #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_1021089"
+              ),
+              local!permissibleCountries: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+                cdt: ri!product.countries,
+                field: "isTradingAllowed",
+                value: true
+              ),
+              local!restrictedCountries: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+                cdt: ri!product.countries,
+                field: "isTradingAllowed",
+                value: false
+              ),
+              local!selectedPermissibleCountryCodes: index(
+                local!permissibleCountries,
+                "countryCode",
+                {}
+              ),
+              {
+                span: 1,
+                components: #"_a-0000e69f-3688-8000-9bf2-011c48011c48_2119960"(
+                  showWhen: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(local!permissibleCountriesFieldData),
+                  required: local!permissibleCountriesFieldData.required,
+                  i18nData: ri!i18nData,
+                  alternateLabel: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                    i18nData: ri!i18nData,
+                    bundleKey: "AS.FS.AllBundles.lbl_PermissibleCountries"
+                  ),
+                  countries: ri!countries,
+                  readOnly: ri!readOnly,
+                  selectedCountryCodes: local!selectedPermissibleCountryCodes,
+                  validations: #"_a-0000e5fb-e360-8000-9be3-011c48011c48_1557034"(
+                    restrictedCountries: local!restrictedCountries,
+                    permissibleCountries: local!permissibleCountries,
+                    i18nData: ri!i18nData
+                  ),
+                  additionalSaveInto: {
+                    a!save(
+                      local!selectedPermissibleCountryCodes,
+                      union(save!value, save!value)
+                    ),
+                    a!save(
+                      local!permissibleCountries,
+                      #"SYSTEM_SYSRULES_forEach"(
+                        items: local!selectedPermissibleCountryCodes,
+                        expression: 'type!{urn:com:appian:types:AS:FS}AS_FS_Country'(
+                          countryCode: fv!item,
+                          isTradingAllowed: true,
+                          isDeleted: false
+                        )
+                      )
+                    ),
+                    a!save(
+                      ri!product.countries,
+                      append(
+                        local!restrictedCountries,
+                        local!permissibleCountries
+                      )
+                    )
+                  }
+                )
+              }
+            ),
+            a!localVariables(
+              local!commitmentFeeRateFieldData: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+                cdt: local!visibleDetailsFields,
+                field: "fieldKey",
+                value: #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_1021131"
+              ),
+              {
+                span: 1,
+                components: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_74314"(
+                  showWhen: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(local!commitmentFeeRateFieldData),
+                  required: local!commitmentFeeRateFieldData.required,
+                  label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                    i18nData: ri!i18nData,
+                    bundleKey: "AS.FS.AllBundles.lbl_CommitmentFeeRate"
+                  ),
+                  readOnly: ri!readOnly,
+                  value: ri!product.commitmentFee,
+                  saveInto: a!save(
+                    ri!product.commitmentFee,
+                    #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73998"(number: save!value, numDigits: 2)
+                  ),
+                  minSize: 0,
+                  numberOfDecimals: 2,
+                  textToAppend: "%",
+                  formattedInput: ri!product.commitmentFee
+                )
+              }
+            ),
+            a!localVariables(
+              local!descriptionFieldData: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+                cdt: local!visibleDetailsFields,
+                field: "fieldKey",
+                value: #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_1021541"
+              ),
+              {
+                span: 2,
+                components: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_74400"(
+                  showWhen: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(local!descriptionFieldData),
+                  required: local!descriptionFieldData.required,
+                  label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                    i18nData: ri!i18nData,
+                    bundleKey: "AS.FS.AllBundles.lbl_Description"
+                  ),
+                  readOnly: ri!readOnly,
+                  value: ri!product.description,
+                  maxLength: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_27447",
+                  saveInto: ri!product.description,
+                  height: "SHORT",
+                  placeholder: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                    i18nData: ri!i18nData,
+                    bundleKey: "AS.FS.AllBundles.plc_EnterProductDescription"
+                  )
+                )
+              }
+            )
+          }
+        }
+      )
+    }
+  )
+)</definition>
+        <namedTypedValue>
+            <name>fieldData</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>i18nData</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>product</name>
+            <type>
+                <name>Map</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>refData</name>
+            <type>
+                <name>AS_FS_R_Data?list</name>
+                <namespace>urn:com:appian:types:AS:FS</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>funds</name>
+            <type>
+                <name>AS_FS_Fund?list</name>
+                <namespace>urn:com:appian:types:AS:FS</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>readOnly</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>countries</name>
+            <type>
+                <name>AS_FS_R_Country?list</name>
+                <namespace>urn:com:appian:types:AS:FS</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+        <isCustom>false</isCustom>
+    </interface>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name/>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"SYSTEM_SYSRULES_fromJson_v1"(#"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_1021459"(
+  productTypeCode: #"_a-0000e5d6-d648-8000-9bde-011c48011c48_1532334"(
+    returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290157"
+  ).productTypeCode,
+  returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290157"
+).fieldData)</a:value>
+                    <a:nameRef>fieldData</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_975720"(triggerRefresh: now())</a:value>
+                    <a:nameRef>i18nData</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e5d6-d648-8000-9bde-011c48011c48_1532334"(
+  returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290157"
+)</a:value>
+                    <a:nameRef>product</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_975294"(
+  typeList: {}
+)</a:value>
+                    <a:nameRef>refData</a:nameRef>
+                    <a:id>4</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                    <a:nameRef>funds</a:nameRef>
+                    <a:id>5</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:boolean">true</a:value>
+                    <a:nameRef>readOnly</a:nameRef>
+                    <a:id>6</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_976936"(
+  i18nData: #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_975720"(
+    triggerRefresh: now()
+  ),
+  returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290163"
+)</a:value>
+                    <a:nameRef>countries</a:nameRef>
+                    <a:id>7</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e528-bc07-8000-9bcf-011c48011c48_1038472"/>
+        <historyInfo versionUuid="_a-0000e539-6d59-8000-9bd0-011c48011c48_1138247"/>
+        <historyInfo versionUuid="_a-0000e539-6d59-8000-9bd0-011c48011c48_1177112"/>
+        <historyInfo versionUuid="_a-0000e586-af6f-8000-9bd2-011c48011c48_1349281"/>
+        <historyInfo versionUuid="_a-0000e5a0-53e9-8000-9bd8-011c48011c48_1398050"/>
+        <historyInfo versionUuid="_a-0000e5a0-53e9-8000-9bd8-011c48011c48_1417390"/>
+        <historyInfo versionUuid="_a-0000e5a0-53e9-8000-9bd8-011c48011c48_1440314"/>
+        <historyInfo versionUuid="_a-0000e5fd-0ed3-8000-9be6-011c48011c48_1563935"/>
+        <historyInfo versionUuid="_a-0000e5fd-0ed3-8000-9be6-011c48011c48_1568539"/>
+        <historyInfo versionUuid="_a-0000e5fd-0ed3-8000-9be6-011c48011c48_1578763"/>
+        <historyInfo versionUuid="_a-0000e607-97fd-8000-9be9-011c48011c48_1613522"/>
+        <historyInfo versionUuid="_a-0000e62c-7375-8000-9bec-011c48011c48_1807143"/>
+        <historyInfo versionUuid="_a-0000e62c-7375-8000-9bec-011c48011c48_1825914"/>
+        <historyInfo versionUuid="_a-0000e673-a4a7-8000-9bef-011c48011c48_1965892"/>
+        <historyInfo versionUuid="_a-0000e69f-3688-8000-9bf2-011c48011c48_2120038"/>
+        <historyInfo versionUuid="_a-0000e69f-3688-8000-9bf2-011c48011c48_2138664"/>
+        <historyInfo versionUuid="_a-0000e69f-3688-8000-9bf2-011c48011c48_2167774"/>
+        <historyInfo versionUuid="_a-0000e69f-3688-8000-9bf2-011c48011c48_2173824"/>
+        <historyInfo versionUuid="_a-0000e6ca-7e19-8000-9bfb-011c48011c48_2225240"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2703709"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2719364"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2756795"/>
+    </history>
+</contentHaul>

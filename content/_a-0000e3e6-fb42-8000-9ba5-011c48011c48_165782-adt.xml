@@ -1,0 +1,591 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e70f-2824-8000-9c01-011c48011c48_2627130</versionUuid>
+    <rule>
+        <name>AS_ADT_UT_calculateObjectAudit_MultipleObjects</name>
+        <uuid>_a-0000e3e6-fb42-8000-9ba5-011c48011c48_165782-adt</uuid>
+        <description>[DO NOT CALL DIRECTLY] Calculates audit CDTs for an array of original and new objects</description>
+        <parentUuid>_a-0000e42d-ffef-8000-9ba6-011c48011c48_7213-adt</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  /*Get the distinct IDs*/
+  local!distinctIds: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73758"(
+    tointeger(
+      {
+        index(
+          ri!originalObjects,
+          ri!auditConfig.idField,
+          {}
+        ),
+        index(
+          ri!newObjects,
+          ri!auditConfig.idField,
+          {}
+        )
+      }
+    )
+  ),
+  #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_76367"(
+    array: #"SYSTEM_SYSRULES_forEach"(
+      items: local!distinctIds,
+      expression: #"_a-0000e3e6-fb42-8000-9ba5-011c48011c48_165180-adt"(
+        originalObject: index(
+          #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+            cdt: ri!originalObjects,
+            field: ri!auditConfig.idField,
+            value: fv!item
+          ),
+          1,
+          null
+        ),
+        newObject: index(
+          #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+            cdt: ri!newObjects,
+            field: ri!auditConfig.idField,
+            value: fv!item
+          ),
+          1,
+          null
+        ),
+        auditConfig: ri!auditConfig,
+        username: ri!username
+      )
+    )
+  )
+)</definition>
+        <namedTypedValue>
+            <name>originalObjects</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>newObjects</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>auditConfig</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>username</name>
+            <type>
+                <name>string</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+            <value/>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name>Large Modification</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">{'type!{urn:com:appian:types:AS:ADT}AS_ADT_SAMPLE_Parent'(
+  parentId: 1,
+  name: "name",
+  text: "",
+  date: today(),
+  referenceChild: 'type!{urn:com:appian:types:AS:ADT}AS_ADT_SAMPLE_ReferenceChildSingle'(
+    childId: 2,
+    text: "",
+    date: today()
+  ),
+  complexChildSingle: 'type!{urn:com:appian:types:AS:ADT}AS_ADT_SAMPLE_ComplexChildSingle'(
+    childId: 3,
+    text: "",
+    date: today(),
+    referenceChild: 'type!{urn:com:appian:types:AS:ADT}AS_ADT_SAMPLE_ReferenceChildSingle'(
+      childId: 4,
+      text: "",
+      date: today()
+    ),
+  ),
+  complexChildMultiple: {
+    'type!{urn:com:appian:types:AS:ADT}AS_ADT_SAMPLE_ComplexChildMultiple'(
+      parentId: 1,
+      childId: 5,
+      text: "",
+      date: today(),
+      referenceChild: 'type!{urn:com:appian:types:AS:ADT}AS_ADT_SAMPLE_ReferenceChildSingle'(
+        childId: 6,
+        text: "",
+        date: today()
+      ),
+    )
+  }
+)}</a:value>
+                    <a:nameRef>originalObjects</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">{'type!{urn:com:appian:types:AS:ADT}AS_ADT_SAMPLE_Parent'(
+  parentId: 1,
+  name: "name",
+  text: "New Text",
+  date: today(),
+  referenceChild: 'type!{urn:com:appian:types:AS:ADT}AS_ADT_SAMPLE_ReferenceChildSingle'(
+    childId: 2,
+    text: "New Text",
+    date: today()
+  ),
+  complexChildSingle: 'type!{urn:com:appian:types:AS:ADT}AS_ADT_SAMPLE_ComplexChildSingle'(
+    childId: 3,
+    text: "New Text",
+    date: today(),
+    referenceChild: 'type!{urn:com:appian:types:AS:ADT}AS_ADT_SAMPLE_ReferenceChildSingle'(
+      childId: 9,
+      text: "New Text",
+      date: today()
+    ),
+  ),
+  complexChildMultiple: {
+    'type!{urn:com:appian:types:AS:ADT}AS_ADT_SAMPLE_ComplexChildMultiple'(
+      parentId: 1,
+      childId: 5,
+      text: "New Text",
+      date: today(),
+      referenceChild: 'type!{urn:com:appian:types:AS:ADT}AS_ADT_SAMPLE_ReferenceChildSingle'(
+        childId: 6,
+        text: "",
+        date: today()
+      ),
+    ),
+    'type!{urn:com:appian:types:AS:ADT}AS_ADT_SAMPLE_ComplexChildMultiple'(
+      parentId: 1,
+      childId: 7,
+      text: "New Text",
+      date: today(),
+      referenceChild: 'type!{urn:com:appian:types:AS:ADT}AS_ADT_SAMPLE_ReferenceChildSingle'(
+        childId: 8,
+        text: "New Text",
+        date: today()
+      ),
+    )
+  }
+)}</a:value>
+                    <a:nameRef>newObjects</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e3ff-79a3-8000-7714-45ef9045ef90_8682-adt"()</a:value>
+                    <a:nameRef>auditConfig</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">loggedInUser()</a:value>
+                    <a:nameRef>username</a:nameRef>
+                    <a:id>4</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions>
+                    <a:expectedOutput xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                    <a:resultAssertions>tostring(
+  test!output
+) = tostring(
+  {
+    {
+      parentId: 1,
+      recordId: "",
+      username: loggedInUser(),
+      timestamp: now(),
+      auditActionCode: "MODIFY",
+      auditDisplayName: "name",
+      simpleFieldChanges: {
+        {
+          fieldName: "text",
+          oldValue: "",
+          newValue: "New Text"
+        },
+        {
+          fieldName: "complexChildSingle.text",
+          oldValue: "",
+          newValue: "New Text"
+        },
+        {
+          fieldName: "complexChildSingle.referenceChild.childId",
+          oldValue: 4,
+          newValue: 9
+        }
+      },
+      complexChildMultipleChanges: {
+        {
+          childId: 5,
+          recordId: "",
+          username: loggedInUser(),
+          timestamp: now(),
+          auditActionCode: "MODIFY",
+          simpleFieldChanges: {
+            {
+              fieldName: "text",
+              oldValue: "",
+              newValue: "New Text"
+            }
+          }
+        },
+        {
+          childId: 7,
+          recordId: "",
+          username: loggedInUser(),
+          timestamp: now(),
+          auditActionCode: "ADD",
+          simpleFieldChanges: {
+            {
+              fieldName: "text",
+              oldValue: "",
+              newValue: "New Text"
+            },
+            {
+              fieldName: "date",
+              oldValue: "",
+              newValue: today()
+            },
+            {
+              fieldName: "referenceChild.childId",
+              oldValue: "",
+              newValue: 8
+            }
+          }
+        }
+      }
+    }
+  }
+)</a:resultAssertions>
+                </a:assertions>
+            </el>
+            <el>
+                <a:name>No change</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">{'type!{urn:com:appian:types:AS:ADT}AS_ADT_SAMPLE_Parent'(
+  parentId: 1,
+  name: "name",
+  text: "",
+  date: today(),
+  referenceChild: 'type!{urn:com:appian:types:AS:ADT}AS_ADT_SAMPLE_ReferenceChildSingle'(
+    childId: 2,
+    text: "",
+    date: today()
+  ),
+  complexChildSingle: 'type!{urn:com:appian:types:AS:ADT}AS_ADT_SAMPLE_ComplexChildSingle'(
+    childId: 3,
+    text: "",
+    date: today(),
+    referenceChild: 'type!{urn:com:appian:types:AS:ADT}AS_ADT_SAMPLE_ReferenceChildSingle'(
+      childId: 4,
+      text: "",
+      date: today()
+    ),
+  ),
+  complexChildMultiple: {
+    'type!{urn:com:appian:types:AS:ADT}AS_ADT_SAMPLE_ComplexChildMultiple'(
+      parentId: 1,
+      childId: 5,
+      text: "",
+      date: today(),
+      referenceChild: 'type!{urn:com:appian:types:AS:ADT}AS_ADT_SAMPLE_ReferenceChildSingle'(
+        childId: 6,
+        text: "",
+        date: today()
+      ),
+    )
+  }
+)}</a:value>
+                    <a:nameRef>originalObjects</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">{'type!{urn:com:appian:types:AS:ADT}AS_ADT_SAMPLE_Parent'(
+  parentId: 1,
+  name: "name",
+  text: "",
+  date: today(),
+  referenceChild: 'type!{urn:com:appian:types:AS:ADT}AS_ADT_SAMPLE_ReferenceChildSingle'(
+    childId: 2,
+    text: "",
+    date: today()
+  ),
+  complexChildSingle: 'type!{urn:com:appian:types:AS:ADT}AS_ADT_SAMPLE_ComplexChildSingle'(
+    childId: 3,
+    text: "",
+    date: today(),
+    referenceChild: 'type!{urn:com:appian:types:AS:ADT}AS_ADT_SAMPLE_ReferenceChildSingle'(
+      childId: 4,
+      text: "",
+      date: today()
+    ),
+  ),
+  complexChildMultiple: {
+    'type!{urn:com:appian:types:AS:ADT}AS_ADT_SAMPLE_ComplexChildMultiple'(
+      parentId: 1,
+      childId: 5,
+      text: "",
+      date: today(),
+      referenceChild: 'type!{urn:com:appian:types:AS:ADT}AS_ADT_SAMPLE_ReferenceChildSingle'(
+        childId: 6,
+        text: "",
+        date: today()
+      ),
+    )
+  }
+)}</a:value>
+                    <a:nameRef>newObjects</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e3ff-79a3-8000-7714-45ef9045ef90_8682-adt"()</a:value>
+                    <a:nameRef>auditConfig</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">loggedInUser()</a:value>
+                    <a:nameRef>username</a:nameRef>
+                    <a:id>4</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions>
+                    <a:expectedOutput xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                    <a:resultAssertions>#"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73624"(
+  value1: test!output,
+  value2: {
+    {
+      parentId: 1,
+      recordId: "",
+      username: loggedInUser(),
+      timestamp: now(),
+      auditActionCode: #"_a-0000e3e6-fb42-8000-9ba5-011c48011c48_232728-adt",
+      auditDisplayName: "name"
+    }
+  }
+)</a:resultAssertions>
+                </a:assertions>
+            </el>
+            <el>
+                <a:name>Create object</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">{}</a:value>
+                    <a:nameRef>originalObjects</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">{'type!{urn:com:appian:types:AS:ADT}AS_ADT_SAMPLE_Parent'(
+  parentId: 1,
+  name: "name",
+  text: "New Text",
+  date: today(),
+  referenceChild: 'type!{urn:com:appian:types:AS:ADT}AS_ADT_SAMPLE_ReferenceChildSingle'(
+    childId: 2,
+    text: "New Text",
+    date: today()
+  ),
+  complexChildSingle: 'type!{urn:com:appian:types:AS:ADT}AS_ADT_SAMPLE_ComplexChildSingle'(
+    childId: 3,
+    text: "New Text",
+    date: today(),
+    referenceChild: 'type!{urn:com:appian:types:AS:ADT}AS_ADT_SAMPLE_ReferenceChildSingle'(
+      childId: 9,
+      text: "New Text",
+      date: today()
+    ),
+  ),
+  complexChildMultiple: {
+    'type!{urn:com:appian:types:AS:ADT}AS_ADT_SAMPLE_ComplexChildMultiple'(
+      parentId: 1,
+      childId: 5,
+      text: "New Text",
+      date: today(),
+      referenceChild: 'type!{urn:com:appian:types:AS:ADT}AS_ADT_SAMPLE_ReferenceChildSingle'(
+        childId: 6,
+        text: "",
+        date: today()
+      ),
+    ),
+    'type!{urn:com:appian:types:AS:ADT}AS_ADT_SAMPLE_ComplexChildMultiple'(
+      parentId: 1,
+      childId: 7,
+      text: "New Text",
+      date: today(),
+      referenceChild: 'type!{urn:com:appian:types:AS:ADT}AS_ADT_SAMPLE_ReferenceChildSingle'(
+        childId: 8,
+        text: "New Text",
+        date: today()
+      ),
+    )
+  }
+)}</a:value>
+                    <a:nameRef>newObjects</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e3ff-79a3-8000-7714-45ef9045ef90_8682-adt"()</a:value>
+                    <a:nameRef>auditConfig</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">loggedInUser()</a:value>
+                    <a:nameRef>username</a:nameRef>
+                    <a:id>4</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions>
+                    <a:expectedOutput xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                    <a:resultAssertions>test!output = tostring(
+  {
+    {
+      parentId: 1,
+      recordId: "",
+      username: loggedInUser(),
+      timestamp: now(),
+      auditActionCode: #"_a-0000e3e6-fb42-8000-9ba5-011c48011c48_181584-adt",
+      auditDisplayName: "name",
+      simpleFieldChanges: {
+        {
+          fieldName: "name",
+          oldValue: "",
+          newValue: "name"
+        },
+        {
+          fieldName: "text",
+          oldValue: "",
+          newValue: "New Text"
+        },
+        {
+          fieldName: "date",
+          oldValue: "",
+          newValue: today()
+        },
+        {
+          fieldName: "referenceChild.childId",
+          oldValue: "",
+          newValue: "2"
+        },
+        {
+          fieldName: "complexChildSingle.text",
+          oldValue: "",
+          newValue: "New Text"
+        },
+        {
+          fieldName: "complexChildSingle.date",
+          oldValue: "",
+          newValue: today()
+        },
+        {
+          fieldName: "complexChildSingle.referenceChild.childId",
+          oldValue: "",
+          newValue: 9
+        }
+      },
+      complexChildMultipleChanges: {
+        {
+          childId: 5,
+          recordId: "",
+          username: loggedInUser(),
+          timestamp: now(),
+          auditActionCode: #"_a-0000e3e6-fb42-8000-9ba5-011c48011c48_181584-adt",
+          simpleFieldChanges: {
+            {
+              fieldName: "text",
+              oldValue: "",
+              newValue: "New Text"
+            },
+            {
+              fieldName: "date",
+              oldValue: "",
+              newValue: today()
+            },
+            {
+              fieldName: "referenceChild.childId",
+              oldValue: "",
+              newValue: 6
+            }
+          }
+        },
+        {
+          childId: 7,
+          recordId: "",
+          username: loggedInUser(),
+          timestamp: now(),
+          auditActionCode: #"_a-0000e3e6-fb42-8000-9ba5-011c48011c48_181584-adt",
+          simpleFieldChanges: {
+            {
+              fieldName: "text",
+              oldValue: "",
+              newValue: "New Text"
+            },
+            {
+              fieldName: "date",
+              oldValue: "",
+              newValue: today()
+            },
+            {
+              fieldName: "referenceChild.childId",
+              oldValue: "",
+              newValue: 8
+            }
+          }
+        }
+      }
+    }
+  }
+)</a:resultAssertions>
+                </a:assertions>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e3e6-fb42-8000-9ba5-011c48011c48_181388"/>
+        <historyInfo versionUuid="_a-0000e3ff-79a3-8000-7714-45ef9045ef90_8817-fs"/>
+        <historyInfo versionUuid="_a-0000e430-f270-8000-9bbc-011c48011c48_370943"/>
+        <historyInfo versionUuid="_a-0000e467-127b-8000-0fb7-43ef9043ef90_9027-adt"/>
+        <historyInfo versionUuid="_a-0000e447-933d-8000-9baa-011c48011c48_85215"/>
+        <historyInfo versionUuid="_a-0000e5d4-2024-8000-9baf-011c48011c48_320573"/>
+        <historyInfo versionUuid="_a-0000e5d4-2024-8000-9baf-011c48011c48_323098"/>
+        <historyInfo versionUuid="_a-0000e5d6-d648-8000-9bde-011c48011c48_1484580"/>
+        <historyInfo versionUuid="_a-0000e607-97fd-8000-9be9-011c48011c48_1676267"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2626974"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2627130"/>
+    </history>
+</contentHaul>

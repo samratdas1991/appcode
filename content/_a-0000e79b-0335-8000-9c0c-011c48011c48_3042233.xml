@@ -1,0 +1,580 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e825-b425-8000-9c1c-011c48011c48_3573176</versionUuid>
+    <interface>
+        <name>AS_IO_CPS_contentsForUploadNowDecision</name>
+        <uuid>_a-0000e79b-0335-8000-9c0c-011c48011c48_3042233</uuid>
+        <description>This interface contains Contents For Decision of Upload Now document details</description>
+        <parentUuid>_a-0000e2bb-4188-8000-9ba2-011c48011c48_25469</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  local!customerInternalFolder: #"_a-0000e62c-7375-8000-9bec-011c48011c48_1834953"(
+    customerFolderId: ri!onboardingRequest.customer.folderId
+  ),
+  local!customerPublicFolder: #"_a-0000e528-bc07-8000-9bcf-011c48011c48_1106615"(
+    customerFolderId: ri!onboardingRequest.customer.folderId
+  ),
+  local!uploadType: #"_a-0000e438-fd8a-8000-9bbe-011c48011c48_377879",
+  local!customerDocuments,
+  local!documentsToExclude: #"_a-0000e7c7-bc72-8000-9c0e-011c48011c48_3071564"(
+    requestId: ri!onboardingRequest.requestId,
+    fields: #"urn:appian:record-relationship:v1:ebe416f9-47e7-4305-98b7-d2227d9a71a0/4756c7ad-6134-48ea-819e-328cfd66be96",
+    returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290163",
+    castToCdtType: true()
+  ),
+  local!currentRequirementIndex: wherecontains(
+    ri!requiredDocument.requirementName,
+    ri!allDocumentRequirements.requirementName
+  ),
+  {
+    #"SYSTEM_SYSRULES_columnsLayout"(
+      columns: {
+        #"SYSTEM_SYSRULES_columnLayout"(
+          contents: {
+            #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_74506"(
+              label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                i18nData: ri!i18nData,
+                bundleKey: "AS.CO.AllBundles.lbl_NewOrExistingDocument"
+              ),
+              readOnly: false,
+              choiceLabels: {
+                #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                  i18nData: ri!i18nData,
+                  bundleKey: "AS.CO.AllBundles.lbl_New"
+                ),
+                #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                  i18nData: ri!i18nData,
+                  bundleKey: "AS.CO.AllBundles.lbl_Existing"
+                )
+              },
+              choiceValues: {
+                #"_a-0000e438-fd8a-8000-9bbe-011c48011c48_377879",
+                #"_a-0000e438-fd8a-8000-9bbe-011c48011c48_377885"
+              },
+              value: local!uploadType,
+              saveInto: {
+                /*save upload type*/
+                local!uploadType,
+                a!save(
+                  ri!requiredDocument.onboardingDocument.customerDocument,
+                  null
+                ),
+                /*if they choose existing, load all existing docs of the appropriate type*/
+                if(
+                  local!uploadType = #"_a-0000e438-fd8a-8000-9bbe-011c48011c48_377885",
+                  {
+                    a!save(
+                      local!customerDocuments,
+                      #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_971481"(
+                        returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290163",
+                        docTypeCodes: ri!requiredDocument.docTypeCode,
+                        customerId: ri!onboardingRequest.customer.customerId,
+                        documentsToExclude: {
+                          local!documentsToExclude.customerDocument.customerDocumentId,
+                          ri!allDocumentRequirements.onboardingDocument.customerDocument.customerDocumentId,
+                          ri!mappedCustomerDocumentIds
+                        },
+                        nonExpired: true()
+                      )
+                    ),
+                    /*if there is only one appropriate doc, automatically populate it*/
+                    if(
+                      #"_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_880586"(value: local!customerDocuments) = 1,
+                      {
+                        a!save(
+                          ri!requiredDocument.onboardingDocument.customerDocument,
+                          local!customerDocuments[1]
+                        ),
+                        a!save(
+                          ri!allDocumentRequirements,
+                          #"_a-0000e40a-de32-8000-9ba8-011c48011c48_260165"(
+                            cdt: ri!allDocumentRequirements,
+                            fields: "onboardingDocument",
+                            indices: local!currentRequirementIndex,
+                            newValues: ri!requiredDocument.onboardingDocument
+                          )
+                        )
+                      },
+                      {}
+                    )
+                  },
+                  {}
+                )
+              },
+              choiceLayout: "COMPACT",
+              helpTooltip: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                i18nData: ri!i18nData,
+                bundleKey: "AS.CO.AllBundles.ins_YouCanAttachACustomerDoc"
+              )
+            ),
+            if(
+              local!uploadType = #"_a-0000e438-fd8a-8000-9bbe-011c48011c48_377885",
+              /*Existing Document Dropdown*/
+              #"_a-0000e528-bc07-8000-9bcf-011c48011c48_1027802"(
+                label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                  i18nData: ri!i18nData,
+                  bundleKey: "AS.CO.AllBundles.lbl_Document"
+                ),
+                required: ri!markRequiredFields,
+                disabled: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(ri!requiredDocument.docTypeCode),
+                choiceLabels: local!customerDocuments.documentName,
+                choiceValues: local!customerDocuments,
+                placeholderLabel: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                  i18nData: ri!i18nData,
+                  bundleKey: if(
+                    #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(local!customerDocuments),
+                    "AS.CO.AllBundles.plc_NoExistingDocumentsAvailable",
+                    "AS.CO.AllBundles.lbl_Document"
+                  )
+                ),
+                value: ri!requiredDocument.onboardingDocument.customerDocument,
+                saveInto: {
+                  ri!requiredDocument.onboardingDocument.customerDocument,
+                  a!save(
+                    ri!allDocumentRequirements,
+                    #"_a-0000e40a-de32-8000-9ba8-011c48011c48_260165"(
+                      cdt: ri!allDocumentRequirements,
+                      fields: "onboardingDocument",
+                      indices: local!currentRequirementIndex,
+                      newValues: ri!requiredDocument.onboardingDocument
+                    )
+                  )
+                }
+              ),
+              /*New doc file upload*/
+              #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_74302"(
+                label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                  i18nData: ri!i18nData,
+                  bundleKey: "AS.CO.AllBundles.lbl_Document"
+                ),
+                target: if(
+                  ri!requiredDocument.onboardingDocument.customerDocument.isInternal,
+                  local!customerInternalFolder,
+                  local!customerPublicFolder
+                ),
+                maxSelections: 1,
+                value: ri!requiredDocument.onboardingDocument.customerDocument.appianDocId,
+                saveInto: {
+                  ri!requiredDocument.onboardingDocument.customerDocument.appianDocId,
+                  a!save(
+                    ri!requiredDocument.onboardingDocument.customerDocument.createdDatetime,
+                    now()
+                  ),
+                  a!save(
+                    ri!allDocumentRequirements,
+                    #"_a-0000e40a-de32-8000-9ba8-011c48011c48_260165"(
+                      cdt: ri!allDocumentRequirements,
+                      fields: "onboardingDocument",
+                      indices: local!currentRequirementIndex,
+                      newValues: ri!requiredDocument.onboardingDocument
+                    )
+                  )/*Do not set folder ID here -- instead set in process to follow the "process model as a webservice" paradigm */
+                  
+                },
+                required: ri!markRequiredFields,
+                allUploadedDocuments: ri!allUploadedDocuments
+              )
+            )
+          }
+        ),
+        #"SYSTEM_SYSRULES_columnLayout"(contents: {})
+      }
+    ),
+    #"SYSTEM_SYSRULES_columnsLayout"(
+      columns: {
+        #"SYSTEM_SYSRULES_columnLayout"(
+          contents: {
+            /*Description Field*/
+            #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_74400"(
+              label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                i18nData: ri!i18nData,
+                bundleKey: "AS.CO.AllBundles.lbl_Description"
+              ),
+              readOnly: local!uploadType = #"_a-0000e438-fd8a-8000-9bbe-011c48011c48_377885",
+              value: ri!requiredDocument.onboardingDocument.customerDocument.documentDesc,
+              validations: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_74104"(
+                value: ri!requiredDocument.onboardingDocument.customerDocument.documentDesc,
+                maxLength: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73500"
+              ),
+              saveInto: {
+                ri!requiredDocument.onboardingDocument.customerDocument.documentDesc,
+                a!save(
+                  ri!allDocumentRequirements,
+                  #"_a-0000e40a-de32-8000-9ba8-011c48011c48_260165"(
+                    cdt: ri!allDocumentRequirements,
+                    fields: "onboardingDocument",
+                    indices: local!currentRequirementIndex,
+                    newValues: ri!requiredDocument.onboardingDocument
+                  )
+                )
+              },
+              labelPosition: "ABOVE",
+              height: "SHORT"
+            ),
+            /*Expiration Date*/
+            #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_74175"(
+              label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                i18nData: ri!i18nData,
+                bundleKey: "AS.CO.AllBundles.lbl_ExpirationDate"
+              ),
+              readOnly: local!uploadType = #"_a-0000e438-fd8a-8000-9bbe-011c48011c48_377885",
+              value: ri!requiredDocument.onboardingDocument.customerDocument.expirationDate,
+              saveInto: {
+                ri!requiredDocument.onboardingDocument.customerDocument.expirationDate,
+                a!save(
+                  ri!allDocumentRequirements,
+                  #"_a-0000e40a-de32-8000-9ba8-011c48011c48_260165"(
+                    cdt: ri!allDocumentRequirements,
+                    fields: "onboardingDocument",
+                    indices: local!currentRequirementIndex,
+                    newValues: ri!requiredDocument.onboardingDocument
+                  )
+                )
+              },
+              align: "LEFT",
+              labelPosition: "ABOVE"
+            ),
+            /*Security*/
+            #"_a-0000e62c-7375-8000-9bec-011c48011c48_1726044"(
+              i18nData: ri!i18nData,
+              required: false(),
+              labelPosition: "ABOVE",
+              isInternalValue: ri!requiredDocument.onboardingDocument.customerDocument.isInternal,
+              choiceLayout: "COMPACT",
+              align: "LEFT",
+              readOnlyValue: if(
+                local!uploadType = #"_a-0000e438-fd8a-8000-9bbe-011c48011c48_377879",
+                {},
+                if(
+                  #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(
+                    ri!requiredDocument.onboardingDocument.customerDocument
+                  ),
+                  "-",
+                  #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                    i18nData: ri!i18nData,
+                    bundleKey: if(
+                      ri!requiredDocument.onboardingDocument.customerDocument.isInternal,
+                      "AS.CO.AllBundles.txt_InternalViewersOnly",
+                      "AS.CO.AllBundles.txt_ExternalViewersPermitted"
+                    )
+                  )
+                )
+              ),
+              label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                i18nData: ri!i18nData,
+                bundleKey: "AS.FS.AllBundles.lbl_Security"
+              ),
+              additionalSave: {
+                /*      When user selects Internal Use Only, the customer group should not be able to review              */
+                a!save(
+                  ri!reviewTasks[ri!taskIndex].groupAssignee,
+                  if(
+                    and(
+                      ri!requiredDocument.onboardingDocument.customerDocument.isInternal,
+                      ri!reviewTasks[ri!taskIndex].groupAssignee = ri!onboardingRequest.customer.groupId
+                    ),
+                    {},
+                    ri!reviewTasks[ri!taskIndex].groupAssignee
+                  )
+                ),
+                a!save(
+                  ri!allDocumentRequirements,
+                  #"_a-0000e40a-de32-8000-9ba8-011c48011c48_260165"(
+                    cdt: ri!allDocumentRequirements,
+                    fields: "onboardingDocument",
+                    indices: local!currentRequirementIndex,
+                    newValues: ri!requiredDocument.onboardingDocument
+                  )
+                )
+              }
+            ),
+            #"SYSTEM_SYSRULES_columnsLayout"(
+              columns: {
+                #"SYSTEM_SYSRULES_columnLayout"(
+                  contents: /*Review Group*/
+                  #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_74426"(
+                    label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                      i18nData: ri!i18nData,
+                      bundleKey: "AS.FS.AllBundles.lbl_ReviewGroup"
+                    ),
+                    required: ri!markRequiredFields,
+                    maxSelections: 1,
+                    /*      When user selects Internal Use Only, the customer group should not be able to review              */
+                    suggestFunction: #"_a-0000e586-af6f-8000-9bd2-011c48011c48_1359122"(
+                      searchText: _,
+                      customerGroupId: if(
+                        ri!requiredDocument.onboardingDocument.customerDocument.isInternal,
+                        {},
+                        ri!onboardingRequest.customer.groupId
+                      )
+                    ),
+                    selectedLabels: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73726"(
+                      groupOrUser: ri!reviewTasks[ri!taskIndex].groupAssignee
+                    ),
+                    value: ri!reviewTasks[ri!taskIndex].groupAssignee,
+                    saveInto: {
+                      ri!reviewTasks[ri!taskIndex].groupAssignee
+                    },
+                    labelPosition: "ABOVE"
+                  )
+                ),
+                #"SYSTEM_SYSRULES_columnLayout"(
+                  contents: /* Review User */
+                  #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_74494"(
+                    label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                      i18nData: ri!i18nData,
+                      bundleKey: "AS.FS.AllBundles.lbl_ReviewIndividual"
+                    ),
+                    required: false,
+                    maxselections: 1,
+                    groupfilter: if(
+                      tointeger(
+                        ri!reviewTasks[ri!taskIndex].groupAssignee
+                      ) = tointeger(ri!onboardingRequest.customer.groupId),
+                      togroup(ri!onboardingRequest.customer.groupId),
+                      #"_a-0000e36c-7599-8000-9ba2-011c48011c48_44966"
+                    ),
+                    value: ri!reviewTasks[ri!taskIndex].userAssignee,
+                    saveInto: ri!reviewTasks[ri!taskIndex].userAssignee,
+                    labelPosition: "ABOVE",
+                    i18nData: ri!i18nData
+                  )
+                )
+              }
+            ),
+            /*Review Task Due Date*/
+            #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_74175"(
+              label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                i18nData: ri!i18nData,
+                bundleKey: "AS.CO.AllBundles.lbl_ReviewTaskDueDate"
+              ),
+              required: ri!markRequiredFields,
+              value: ri!reviewTasks[ri!taskIndex].dueDate,
+              validations: if(
+                ri!reviewTasks[ri!taskIndex].dueDate &lt; today(),
+                #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                  i18nData: ri!i18nData,
+                  bundleKey: "AS.CO.AllBundles.vld_PastDueDates"
+                ),
+                ""
+              ),
+              saveInto: ri!reviewTasks[ri!taskIndex].dueDate
+            )
+          }
+        ),
+        #"SYSTEM_SYSRULES_columnLayout"(contents: {}, width: "MEDIUM_PLUS")
+      }
+    ),
+    #"SYSTEM_SYSRULES_sectionLayout_v1"(contents: {})
+  }
+)</definition>
+        <namedTypedValue>
+            <name>i18nData</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>requiredDocument</name>
+            <type>
+                <name>AS_IO_RequiredOnboardingDocument</name>
+                <namespace>urn:com:appian:types:AS:IO</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>allUploadedDocuments</name>
+            <type>
+                <name>CollaborationDocument?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>onboardingRequest</name>
+            <type>
+                <name>AS_IO_OnboardingRequest</name>
+                <namespace>urn:com:appian:types:AS:IO</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>mappedCustomerDocumentIds</name>
+            <type>
+                <name>Integer?list</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>allDocumentRequirements</name>
+            <type>
+                <name>AS_IO_RequiredOnboardingDocument?list</name>
+                <namespace>urn:com:appian:types:AS:IO</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>markRequiredFields</name>
+            <type>
+                <name>boolean</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>taskIndex</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>reviewTasks</name>
+            <type>
+                <name>AS_IO_Task?list</name>
+                <namespace>urn:com:appian:types:AS:IO</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+        <isCustom>false</isCustom>
+    </interface>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name/>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81834"(
+  triggerRefresh: null
+)</a:value>
+                    <a:nameRef>i18nData</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:n1="urn:com:appian:types:AS:IO" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="n1:AS_IO_RequiredOnboardingDocument"/>
+                    <a:nameRef>requiredDocument</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                    <a:nameRef>allUploadedDocuments</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:n1="urn:com:appian:types:AS:IO" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="n1:AS_IO_OnboardingRequest"/>
+                    <a:nameRef>onboardingRequest</a:nameRef>
+                    <a:id>4</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+                    <a:nameRef>mappedCustomerDocumentIds</a:nameRef>
+                    <a:id>5</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">{}</a:value>
+                    <a:nameRef>allDocumentRequirements</a:nameRef>
+                    <a:id>6</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="xsd:boolean"/>
+                    <a:nameRef>markRequiredFields</a:nameRef>
+                    <a:id>7</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:int">1</a:value>
+                    <a:nameRef>taskIndex</a:nameRef>
+                    <a:id>8</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">'type!{urn:com:appian:types:AS:IO}AS_IO_Task'(
+  'taskName': "Review Document | Agreement: Payments",
+  'taskBehaviorType': 'type!{urn:com:appian:types:AS:IO}AS_IO_R_TaskBehaviorType'(
+    'taskBehaviorTypeId': 7,
+    'behaviorTypeCode': "DATA_ENTRY",
+    'behaviorSubtypeCode': "DOCUMENT_REVIEW",
+    'configurationLevelCode': "SYSTEM",
+    'createdBy': "appian.administrator",
+    'createdDatetime': fn!datetime(2021, 12, 6, 7, 12, 41, 0),
+    'modifiedBy': "appian.administrator",
+    'modifiedDatetime': fn!datetime(2021, 12, 6, 7, 12, 41, 0),
+    'icon': "search"
+  ),
+  'taskCategory': 'type!{urn:com:appian:types:AS:IO}AS_IO_R_TaskCategory'(
+    'taskCategoryId': 2,
+    'categoryName': "Document Review",
+    'createdBy': "appian.administrator",
+    'createdDatetime': fn!datetime(2021, 11, 25, 3, 54, 24, 0),
+    'modifiedBy': "appian.administrator",
+    'modifiedDatetime': fn!datetime(2021, 11, 25, 3, 54, 24, 0),
+    'isActive': true
+  ),
+  'groupAssignee': 110,
+  'taskStatus': 'type!{urn:com:appian:types:AS:IO}AS_IO_R_TaskStatus'(
+    'taskStatusId': 1,
+    'icon': "clock-o",
+    'createdBy': "appian.administrator",
+    'createdDatetime': fn!datetime(2021, 11, 25, 3, 54, 24, 0),
+    'modifiedBy': "appian.administrator",
+    'modifiedDatetime': fn!datetime(2021, 11, 25, 3, 54, 24, 0)
+  ),
+  'taskPrecedents': {
+    'type!{urn:com:appian:types:AS:IO}AS_IO_Task_Precedent'()
+  },
+  'dueDate': fn!date(2022, 1, 10),
+  'createdBy': "System",
+  'createdDatetime': fn!datetime(2021, 12, 21, 14, 10, 52, 548),
+  'modifiedBy': "System",
+  'modifiedDatetime': fn!datetime(2021, 12, 21, 14, 10, 52, 548)
+)</a:value>
+                    <a:nameRef>reviewTasks</a:nameRef>
+                    <a:id>9</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e79b-0335-8000-9c0c-011c48011c48_3044784"/>
+        <historyInfo versionUuid="_a-0000e7c7-bc72-8000-9c0e-011c48011c48_3073227"/>
+        <historyInfo versionUuid="_a-0000e7c7-bc72-8000-9c0e-011c48011c48_3087305"/>
+        <historyInfo versionUuid="_a-0000e7d2-6286-8000-9c11-011c48011c48_3110250"/>
+        <historyInfo versionUuid="_a-0000e7d2-6286-8000-9c11-011c48011c48_3138234"/>
+        <historyInfo versionUuid="_a-0000e7e5-dad4-8000-9c14-011c48011c48_3317592"/>
+        <historyInfo versionUuid="_a-0000e811-1167-8000-9c18-011c48011c48_3489752"/>
+        <historyInfo versionUuid="_a-0000e825-b425-8000-9c1c-011c48011c48_3573176"/>
+    </history>
+</contentHaul>

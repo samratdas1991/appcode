@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e70f-2824-8000-9c01-011c48011c48_2759534</versionUuid>
+    <rule>
+        <name>AS_FS_ALT_UT_BuildAlertsFromAlertConfigurations</name>
+        <uuid>_a-0000e70f-2824-8000-9c01-011c48011c48_2587127</uuid>
+        <description>Given a list of alertConfigurations and an alertSetId, builds a list of alerts to be generated</description>
+        <parentUuid>_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_968428</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>#"SYSTEM_SYSRULES_forEach"(
+  items: ri!alertConfigurations,
+  expression: a!localVariables(
+    /*filter out event type codes that don't exist in the env*/
+    local!generatedEventCodes: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+      cdt: fv!item.events,
+      field: "eventTypeCode",
+      value: index(
+        #"_a-0000e70f-2824-8000-9c01-011c48011c48_2541492"(),
+        "eventTypeCode",
+        {}
+      )
+    ).eventTypeCode,
+    local!message: if(
+      count(local!generatedEventCodes) = 0,
+      fv!item.alertText,
+      "AS.FS.AllBundles.lbl_AlertMessageWithEventCreation"
+    ),
+    local!arguments: if(
+      count(local!generatedEventCodes) = 0,
+      {},
+      append(
+        'type!{urn:com:appian:types:AS:ALT}AS_ALT_AlertArgument'(
+          argument: fv!item.alertText,
+          argumentDisplayType: null
+        ),
+        'type!{urn:com:appian:types:AS:ALT}AS_ALT_AlertArgument'(
+          argument: if(
+            count(local!generatedEventCodes) = 1,
+            "AS.FS.AllBundles.lbl_AlertSingleEventCreation",
+            "AS.FS.AllBundles.lbl_AlertMultipleEventCreation"
+          ),
+          argumentDisplayType: #"_a-0000e70f-2824-8000-9c01-011c48011c48_2608118",
+          nestedArguments: #"SYSTEM_SYSRULES_forEach"(
+            local!generatedEventCodes,
+            'type!{urn:com:appian:types:AS:ALT}AS_ALT_AlertArgument'(
+              /* This will be updated to the ID after creation of the event object */
+              argument: null,
+              argumentDisplayType: fv!item
+            )
+          )
+        )
+      )
+    ),
+    #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_994447"(
+      alertSetId: ri!alertSetId,
+      alertConfigurationId: fv!item.alertConfigurationId,
+      message: local!message,
+      arguments: local!arguments,
+      createdBy: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73366"
+    )
+  )
+)</definition>
+        <namedTypedValue>
+            <name>alertConfigurations</name>
+            <type>
+                <name>AS_FS_ALT_CONF_AlertConfiguration?list</name>
+                <namespace>urn:com:appian:types:AS:FS</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>alertSetId</name>
+            <type>
+                <name>int</name>
+                <namespace>http://www.w3.org/2001/XMLSchema</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name>Sample Test Case</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">'type!{urn:com:appian:types:AS:FS}AS_FS_ALT_CONF_AlertConfiguration'(
+  alertConfigurationId: 1,
+  events: {
+    'type!{urn:com:appian:types:AS:FS}AS_FS_ALT_CONF_AlertConfigurationEvent'(eventTypeCode: "SRQ")
+  }
+)</a:value>
+                    <a:nameRef>alertConfigurations</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="xsd:int">1</a:value>
+                    <a:nameRef>alertSetId</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2587276"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2608548"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2621756"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2621852"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2624796"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2635159"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2644370"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2759228"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2759402"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2759534"/>
+    </history>
+</contentHaul>

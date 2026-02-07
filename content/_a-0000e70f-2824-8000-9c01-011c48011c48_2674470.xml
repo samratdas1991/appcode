@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e70f-2824-8000-9c01-011c48011c48_2678261</versionUuid>
+    <rule>
+        <name>AS_FS_ALT_GenerateAlertAuditMappings</name>
+        <uuid>_a-0000e70f-2824-8000-9c01-011c48011c48_2674470</uuid>
+        <description>Given a list of alertIds and a list of auditParams, creates a list of alertAuditMappings</description>
+        <parentUuid>_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_968428</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!flatten(
+  #"SYSTEM_SYSRULES_forEach"(
+    items: ri!alerts,
+    expression: {
+      if(
+        #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(ri!customerAuditParameters.auditObject),
+        {},
+        'type!{urn:com:appian:types:AS:FS}AS_FS_ALT_AlertAuditMapping'(
+          alertId: fv!item.alertId,
+          auditTypeCode: #"_a-0000e70f-2824-8000-9c01-011c48011c48_2677100",
+          auditId: ri!customerAuditParameters.auditObject.customerAuditId
+        )
+      ),
+      if(
+        #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(
+          ri!beneficialOwnersAuditParameters.auditObject
+        ),
+        {},
+        /*Ideally we would only link the actual audit entry that triggered the event, but this overlinking is sufficient for now */
+        apply(
+          'type!{urn:com:appian:types:AS:FS}AS_FS_ALT_AlertAuditMapping'(
+            alertId: fv!item.alertId,
+            auditTypeCode: #"_a-0000e70f-2824-8000-9c01-011c48011c48_2677106",
+            auditId: _
+          ),
+          ri!beneficialOwnersAuditParameters.auditObject.beneficialOwnerAuditId
+        )
+      ),
+      if(
+        #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(
+          ri!entityRelationsAuditParameters.auditObject
+        ),
+        {},
+        /*Ideally we would only link the actual audit entry that triggered the event, but this overlinking is sufficient for now */
+        apply(
+          'type!{urn:com:appian:types:AS:FS}AS_FS_ALT_AlertAuditMapping'(
+            alertId: fv!item.alertId,
+            auditTypeCode: #"_a-0000e70f-2824-8000-9c01-011c48011c48_2677113",
+            auditId: _
+          ),
+          ri!entityRelationsAuditParameters.auditObject.customerRelationAuditId
+        )
+      )
+    }
+  )
+)</definition>
+        <namedTypedValue>
+            <name>customerAuditParameters</name>
+            <type>
+                <name>AS_ADT_P_AuditProcessParameters</name>
+                <namespace>urn:com:appian:types:AS:ADT</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>beneficialOwnersAuditParameters</name>
+            <type>
+                <name>AS_ADT_P_AuditProcessParameters</name>
+                <namespace>urn:com:appian:types:AS:ADT</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>entityRelationsAuditParameters</name>
+            <type>
+                <name>AS_ADT_P_AuditProcessParameters</name>
+                <namespace>urn:com:appian:types:AS:ADT</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>alerts</name>
+            <type>
+                <name>AS_ALT_Alert?list</name>
+                <namespace>urn:com:appian:types:AS:ALT</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name>Sample Test Case</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">'type!{urn:com:appian:types:AS:ADT}AS_ADT_P_AuditProcessParameters'(
+  auditObject: 'type!{urn:com:appian:types:AS:FS}AS_FS_A_Customer'(
+    customerAuditId: 1
+  )
+)</a:value>
+                    <a:nameRef>customerAuditParameters</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">'type!{urn:com:appian:types:AS:ADT}AS_ADT_P_AuditProcessParameters'(
+  auditObject: {'type!{urn:com:appian:types:AS:FS}AS_FS_A_BeneficialOwner'(
+    beneficialOwnerAuditId: 2
+  )}
+)</a:value>
+                    <a:nameRef>beneficialOwnersAuditParameters</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">'type!{urn:com:appian:types:AS:ADT}AS_ADT_P_AuditProcessParameters'(
+  auditObject: {'type!{urn:com:appian:types:AS:FS}AS_FS_A_CustomerRelation'(
+    customerRelationAuditId: 3
+  )}
+)</a:value>
+                    <a:nameRef>entityRelationsAuditParameters</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">{
+  'type!{urn:com:appian:types:AS:ALT}AS_ALT_Alert'(
+    alertId: 4
+  ),
+  'type!{urn:com:appian:types:AS:ALT}AS_ALT_Alert'(
+    alertId: 5
+  ),
+  'type!{urn:com:appian:types:AS:ALT}AS_ALT_Alert'(
+    alertId: 6
+  )
+}</a:value>
+                    <a:nameRef>alerts</a:nameRef>
+                    <a:id>4</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions>
+                    <a:expectedOutput>
+                        <a:type a:uuid="{http://www.appian.com/ae/types/2009}Variant"/>
+                        <a:runtimeType a:uuid="{http://www.appian.com/ae/types/2009}Variant"/>
+                        <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">{
+  'type!{urn:com:appian:types:AS:FS}AS_FS_ALT_AlertAuditMapping'(
+    'alertId': 4,
+    'auditId': 1,
+    'auditTypeCode': "CUSTOMER"
+  ),
+  'type!{urn:com:appian:types:AS:FS}AS_FS_ALT_AlertAuditMapping'(
+    'alertId': 4,
+    'auditId': 2,
+    'auditTypeCode': "BENEFICIAL_OWNER"
+  ),
+  'type!{urn:com:appian:types:AS:FS}AS_FS_ALT_AlertAuditMapping'(
+    'alertId': 4,
+    'auditId': 3,
+    'auditTypeCode': "ENTITY_RELATIONSHIP"
+  ),
+  'type!{urn:com:appian:types:AS:FS}AS_FS_ALT_AlertAuditMapping'(
+    'alertId': 5,
+    'auditId': 1,
+    'auditTypeCode': "CUSTOMER"
+  ),
+  'type!{urn:com:appian:types:AS:FS}AS_FS_ALT_AlertAuditMapping'(
+    'alertId': 5,
+    'auditId': 2,
+    'auditTypeCode': "BENEFICIAL_OWNER"
+  ),
+  'type!{urn:com:appian:types:AS:FS}AS_FS_ALT_AlertAuditMapping'(
+    'alertId': 5,
+    'auditId': 3,
+    'auditTypeCode': "ENTITY_RELATIONSHIP"
+  ),
+  'type!{urn:com:appian:types:AS:FS}AS_FS_ALT_AlertAuditMapping'(
+    'alertId': 6,
+    'auditId': 1,
+    'auditTypeCode': "CUSTOMER"
+  ),
+  'type!{urn:com:appian:types:AS:FS}AS_FS_ALT_AlertAuditMapping'(
+    'alertId': 6,
+    'auditId': 2,
+    'auditTypeCode': "BENEFICIAL_OWNER"
+  ),
+  'type!{urn:com:appian:types:AS:FS}AS_FS_ALT_AlertAuditMapping'(
+    'alertId': 6,
+    'auditId': 3,
+    'auditTypeCode': "ENTITY_RELATIONSHIP"
+  )
+}</a:value>
+                    </a:expectedOutput>
+                </a:assertions>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2675235"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2677165"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2678005"/>
+        <historyInfo versionUuid="_a-0000e70f-2824-8000-9c01-011c48011c48_2678261"/>
+    </history>
+</contentHaul>

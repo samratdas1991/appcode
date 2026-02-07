@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e539-6d59-8000-9bd0-011c48011c48_1153760</versionUuid>
+    <rule>
+        <name>AS_QNM_ADT_BL_auditConfig_Questionnaire_Template</name>
+        <uuid>_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_941303</uuid>
+        <description>Audit config for the AS_QNM_T_Questionnaire CDT</description>
+        <parentUuid>_a-0000e42d-ffef-8000-9ba6-011c48011c48_7213-qnm</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>/*AS_QNM_T_Questionnaire*/
+{
+  idField: "questionnaireTemplateId",
+  simpleFields: {
+    "name",
+    "description",
+    "customerDomicile",
+    "customerTypeCode"
+  },
+  complexFields: {
+    /*AS_QNM_T_Question*/
+    {
+      fieldName: "questions",
+      auditFieldName: "questionChanges",
+      idField: "questionTemplateId",
+      simpleFields: {
+        "questionReferenceId",
+        "label",
+        "instructions",
+        "pageNumber",
+        "groupNumber",
+        "orderNumber",
+        "questionCategoryTemplateId",
+        "isExternalUserFacing"
+      },
+      complexFields: {
+        /*Response Options*/
+        {
+          fieldName: "responseOptions",
+          auditFieldName: "responseOptionsChanges",
+          idField: "responseTemplateId",
+          simpleFields: {
+            "fieldKey",
+            "label",
+            "value"
+          },
+          complexFields: {},
+          recordIdField:"questionTemplateId"
+        },
+        /*Default Responses*/
+        {
+          fieldName: "defaultResponses",
+          auditFieldName: "defaultResponsesChanges",
+          idField: "responseTemplateId",
+          simpleFields: {
+            "fieldKey",
+            "label",
+            "value"
+          },
+          complexFields: {},
+          recordIdField:"questionTemplateId"
+        },
+        /*Response Requirements*/
+        {
+          fieldName: "responseRequirements",
+          auditFieldName: "responseRequirementsChanges",
+          idField: "responseRequirementTemplateId",
+          simpleFields: {
+            "fieldKey",
+            "requirementTypeCode",
+            "requirementValue"
+          },
+          complexFields: {},
+          recordIdField:"questionTemplateId"
+        },
+        /*Displayed Precedent Sets*/
+        {
+          fieldName: "isDisplayedPrecedentSets",
+          auditFieldName: "isDisplayedPrecedentSetsChanges",
+          idField: "questionPrecedentSetTemplateId",
+          simpleFields: {
+            "fieldKey",
+            "operator"
+          },
+          complexFields: {
+            /*Question Precedent Sets*/
+            {
+              fieldName: "questionPrecedentSets",
+              auditFieldName: "questionPrecedentSetChanges",
+              idField: "questionPrecedentSetTemplateId",
+              simpleFields: {
+                "fieldKey",
+                "operator"
+              },
+              complexFields: {}
+            },
+            /*Question Precedents*/
+            {
+              fieldName: "questionPrecedents",
+              auditFieldName: "questionPrecedentChanges",
+              idField: "questionPrecedentTemplateId",
+              simpleFields: {
+                "questionTemplateId_precedent"
+              },
+              complexFields: {
+                {
+                  fieldName: "responseRequirement",
+                  auditFieldName: "responseRequirementChanges",
+                  idField: "responseRequirementTemplateId",
+                  simpleFields: {
+                    "fieldKey",
+                    "requirementTypeCode",
+                    "requirementValue"
+                  },
+                  complexFields: {}
+                }
+              }
+            }
+          },
+          recordIdField:"questionTemplateId"
+        },
+        /*Required Precedent Sets*/
+        {
+          fieldName: "isRequiredPrecedentSets",
+          auditFieldName: "isRequiredPrecedentSetsChanges",
+          idField: "questionPrecedentSetTemplateId",
+          simpleFields: {
+            "fieldKey",
+            "operator"
+          },
+          complexFields: {
+            /*Question Precedent Sets*/
+            {
+              fieldName: "questionPrecedentSets",
+              auditFieldName: "questionPrecedentSetChanges",
+              idField: "questionPrecedentSetTemplateId",
+              simpleFields: {
+                "fieldKey",
+                "operator"
+              },
+              complexFields: {},
+              recordIdField:"questionTemplateId"
+            },
+            /*Question Precedents*/
+            {
+              fieldName: "questionPrecedents",
+              auditFieldName: "questionPrecedentChanges",
+              idField: "questionPrecedentTemplateId",
+              simpleFields: {
+                "questionTemplateId_precedent"
+              },
+              complexFields: {
+                {
+                  fieldName: "responseRequirement",
+                  auditFieldName: "responseRequirementChanges",
+                  idField: "responseRequirementTemplateId",
+                  simpleFields: {
+                    "fieldKey",
+                    "requirementTypeCode",
+                    "requirementValue"
+                  },
+                  complexFields: {},
+                  recordIdField:"questionTemplateId"
+                }
+              },
+              recordIdField:"questionTemplateId"
+            }
+          },
+          recordIdField:"questionTemplateId"
+        }
+      },
+      recordIdField:"questionnaireTemplateId"
+    },
+    /*AS_QNM_T_QuestionCategory*/
+    {
+      fieldName: "questionCategories",
+      auditFieldName: "questionCategoryChanges",
+      idField: "questionCategoryTemplateId",
+      simpleFields: {
+        "questionCategoryName"
+      },
+      complexFields: {},
+      recordIdField:"questionnaireTemplateId"
+    }
+  },
+  recordIdField:"questionnaireTemplateId"
+}</definition>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <history>
+        <historyInfo versionUuid="_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_951894"/>
+        <historyInfo versionUuid="_a-0000e539-6d59-8000-9bd0-011c48011c48_1153760"/>
+    </history>
+</contentHaul>

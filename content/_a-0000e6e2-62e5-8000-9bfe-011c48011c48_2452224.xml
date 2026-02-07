@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2455546</versionUuid>
+    <rule>
+        <name>AS_FS_WORKFLOW_OffHoursAutomatedProcessesKickoffConfiguration_v1_default</name>
+        <uuid>_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2452224</uuid>
+        <description>Default rule controlling the kickoff time of any daily, automated processes in the FS suite.  These processes should be scheduled to run during user off hours to minimize the chance that any users experience slowness in the application due to bulk process operations.
+@customizable:1.0
+@category:WORKFLOW
+@app:FS</description>
+        <parentUuid>_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_968428</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>/*
+
+DESCRIPTION: This rule controls the kickoff time of all daily, automated processes in the FS suite.
+These processes should be scheduled to run during user off hours to minimize the chance that any users
+experience slowness in the application due to bulk process operations.
+Additional process constants can be added here to be kicked off along with those that are shipped by default.
+
+
+DEFAULT BEHAVIOR: 
+By default, nightly processes will kick off at 11pm GMT.
+
+
+CUSTOMIZATION STEPS:
+Provide an alternate kickoff time using the time() function.  This time will be evaluated in GMT.
+  This time can be set programmatically (i.e. be different for different days depending upon conditions)
+  but should NEVER be null -- this will result in an error and processes will not be kicked off that day.
+If you wish to run additional nightly processes, list constants for them in the additionalProcessToRun field.
+
+
+PARAMETERS: 
+None
+
+
+EXPECTED RETURN TYPE: Map with fields...
+  `timeInGmt` - Time
+  `additionalProcessToRun` - List of Process Models
+
+*/
+a!map(
+  timeInGmt: time(23, 0, 0, 0),
+  additionalProcessToRun: cast(
+    'type!{http://www.appian.com/ae/types/2009}ProcessModel?list',
+    {}
+  )
+)</definition>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <history>
+        <historyInfo versionUuid="_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2455546"/>
+    </history>
+</contentHaul>

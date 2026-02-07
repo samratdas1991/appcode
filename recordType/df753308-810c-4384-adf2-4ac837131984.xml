@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<recordTypeHaul xmlns:a="http://www.appian.com/ae/types/2009" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <versionUuid>7c1b200c-f436-49c6-a3f7-d79d7b258a74</versionUuid>
+  <recordType a:uuid="df753308-810c-4384-adf2-4ac837131984" name="AS_QNM_Questionnaire_RecordType">
+    <a:pluralName>Questionnaires</a:pluralName>
+    <a:description>List of live questionnaires</a:description>
+    <a:urlStub>qgAowA</a:urlStub>
+    <a:source
+      a:uuid="18567dc8-f988-4792-8087-f1320b03a1aa@_a-0000e447-933d-8000-9baa-011c48011c48_39484" xsi:type="a:DataStoreEntity"/>
+    <a:listViewTemplateExpr>#"SYSTEM_SYSRULES_recordGridField"(
+  columns: {
+    #"SYSTEM_SYSRULES_gridColumn"(
+      label: "Questionnaire Id",
+      sortField: #"urn:appian:record-field:v1:df753308-810c-4384-adf2-4ac837131984/questionnaireId",
+      value: tointeger(
+        fv!row[#"urn:appian:record-field:v1:df753308-810c-4384-adf2-4ac837131984/questionnaireId"]
+      ),
+      align: "START",
+      width: "NARROW"
+    ),
+    #"SYSTEM_SYSRULES_gridColumn"(
+      label: "Created By",
+      sortField: #"urn:appian:record-field:v1:df753308-810c-4384-adf2-4ac837131984/createdBy",
+      value: fv!row[#"urn:appian:record-field:v1:df753308-810c-4384-adf2-4ac837131984/createdBy"],
+      width: "NARROW"
+    ),
+    #"SYSTEM_SYSRULES_gridColumn"(
+      label: "Created On",
+      sortField: #"urn:appian:record-field:v1:df753308-810c-4384-adf2-4ac837131984/createdDatetime",
+      value: fv!row[#"urn:appian:record-field:v1:df753308-810c-4384-adf2-4ac837131984/createdDatetime"],
+      align: "END",
+      width: "NARROW"
+    )
+  },
+  pageSize: 50,
+  initialSorts: {
+    #"SYSTEM_SYSRULES_sortInfo"(
+      field: #"urn:appian:record-field:v1:df753308-810c-4384-adf2-4ac837131984/createdDatetime",
+      ascending: fn!true()
+    )
+  },
+  shadeAlternateRows: true
+)</a:listViewTemplateExpr>
+    <a:detailViewCfg>
+      <a:nameExpr>#"SYSTEM_SYSRULES_rtd_getDefaultSummaryViewName"()</a:nameExpr>
+      <a:uiExpr/>
+      <a:visibilityExpr>=true()</a:visibilityExpr>
+      <a:urlStub>summary</a:urlStub>
+      <a:headerExpr/>
+      <a:recordActionLaunchType>DIALOG</a:recordActionLaunchType>
+      <a:recordUiSecurityType>EXPRESSION</a:recordUiSecurityType>
+    </a:detailViewCfg>
+    <a:isSystem>false</a:isSystem>
+    <a:dataSrcExpr/>
+    <a:facetsListExpr/>
+    <a:titleExpr/>
+    <a:defaultFiltersExpr>if(
+  #"_a-0000e69f-3688-8000-9bf2-011c48011c48_2143846"(),
+  {},
+  #"SYSTEM_SYSRULES_queryFilter"(
+    field: #"urn:appian:record-field:v1:df753308-810c-4384-adf2-4ac837131984/questionnaireId",
+    operator: "is null"
+  )
+)</a:defaultFiltersExpr>
+    <a:layoutType>GRID</a:layoutType>
+    <a:security>16383</a:security>
+    <a:hideLatestNews>false</a:hideLatestNews>
+    <a:hideNewsView>false</a:hideNewsView>
+    <a:hideRelatedActionsView>false</a:hideRelatedActionsView>
+    <a:isExportable>false</a:isExportable>
+    <a:listViewSrcExpr/>
+    <a:recordViewSrcExpr/>
+    <a:recordTypeSearchCfg>
+      <searchFieldsSrc>DEFAULT</searchFieldsSrc>
+      <placeholderSrc>DEFAULT</placeholderSrc>
+      <placeholder/>
+    </a:recordTypeSearchCfg>
+    <a:iconId/>
+    <a:listAutoRefreshInterval>0.0</a:listAutoRefreshInterval>
+    <a:enabledFeatures>63</a:enabledFeatures>
+    <a:isVisibleInRecordTypeList>false</a:isVisibleInRecordTypeList>
+    <a:recordActionLaunchType>DIALOG</a:recordActionLaunchType>
+    <a:showSearchBox>true</a:showSearchBox>
+    <a:isVisibleInDataFabric>false</a:isVisibleInDataFabric>
+    <a:usesRollingSyncLimit>false</a:usesRollingSyncLimit>
+    <a:usesRecoverySync>false</a:usesRecoverySync>
+    <a:isScheduledIndexingEnabled>false</a:isScheduledIndexingEnabled>
+    <a:smartSearchAcceptableFailureRate>0.0</a:smartSearchAcceptableFailureRate>
+    <a:skipFailedSmartServicesSync>false</a:skipFailedSmartServicesSync>
+  </recordType>
+  <roleMap>
+    <role name="record_type_administrator">
+      <users/>
+      <groups>
+        <groupUuid>_e-0000e42d-ffef-8000-9af3-01075c01075c_19-qnm</groupUuid>
+      </groups>
+    </role>
+    <role name="record_type_viewer">
+      <users/>
+      <groups>
+        <groupUuid>_e-0000e42d-ffef-8000-9af3-01075c01075c_26-qnm</groupUuid>
+      </groups>
+    </role>
+  </roleMap>
+  <history>
+    <historyInfo versionUuid="e0293673-08ad-4e81-8639-706b4afb1d0e"/>
+    <historyInfo versionUuid="7bfdd2b8-c678-4090-8acd-a75bdbefde77"/>
+    <historyInfo versionUuid="ad1a83e4-176f-4850-9911-6383044f74b4"/>
+    <historyInfo versionUuid="998a4905-0b75-444c-af4e-f6c89f62ce5e"/>
+    <historyInfo versionUuid="ee3f6525-7d2b-4e2c-95b1-eba2ab2852dd"/>
+    <historyInfo versionUuid="6cde0c72-f220-4e84-a467-4deb707107fd"/>
+    <historyInfo versionUuid="038022da-4f64-45f2-ac3b-65563f8a4d4a"/>
+    <historyInfo versionUuid="7c1b200c-f436-49c6-a3f7-d79d7b258a74"/>
+  </history>
+  <migrationVersion>1</migrationVersion>
+</recordTypeHaul>

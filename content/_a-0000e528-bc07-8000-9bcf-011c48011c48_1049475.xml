@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e673-a4a7-8000-9bef-011c48011c48_1964113</versionUuid>
+    <interface>
+        <name>AS_CO_CPS_dynamicFourColumnDisplay</name>
+        <uuid>_a-0000e528-bc07-8000-9bcf-011c48011c48_1049475</uuid>
+        <description>given a list of dictionary with one of the fields being "components" and another being "span" (1, 2, or 4), dynamically displays the components with the appropriate span in a columns layout</description>
+        <parentUuid>_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73105</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  local!fullSpanComponents: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(cdt: ri!allFields, field: "span", value: 4),
+  /*local!span3Components: rule!AS_CO_UT_filterCdtByField(cdt: ri!allFields, field: "span", value: 3),*/
+  local!span2Components: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(cdt: ri!allFields, field: "span", value: 2),
+  local!span1Components: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(cdt: ri!allFields, field: "span", value: 1),
+  local!lengthSpan1Components: length(local!span1Components),
+  local!indicesSpan1Components: enumerate(local!lengthSpan1Components),
+  local!lengthSpan2Components: length(local!span2Components),
+  local!indicesSpan2Components: enumerate(local!lengthSpan2Components),
+  local!column1Components: index(
+    local!span1Components.components,
+    where(mod(local!indicesSpan1Components, 4) = 0),
+    null
+  ),
+  local!column2Components: index(
+    local!span1Components.components,
+    where(mod(local!indicesSpan1Components, 4) = 1),
+    null
+  ),
+  local!column3Components: index(
+    local!span1Components.components,
+    where(mod(local!indicesSpan1Components, 4) = 2),
+    null
+  ),
+  local!column4Components: index(
+    local!span1Components.components,
+    where(mod(local!indicesSpan1Components, 4) = 3),
+    null
+  ),
+  local!column1and2Components: index(
+    local!span2Components.components,
+    where(mod(local!indicesSpan2Components, 2) = 0),
+    null
+  ),
+  local!column3and4Components: index(
+    local!span2Components.components,
+    where(mod(local!indicesSpan2Components, 2) = 1),
+    null
+  ),
+  /*Adjust span 1 components in the case of an odd number of span 2 components*/
+  local!needsSpan1Adjustment: mod(local!lengthSpan2Components, 2) = 1,
+  local!column1ComponentsAdjusted: if(
+    and(
+      #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(local!column1Components),
+      local!needsSpan1Adjustment
+    ),
+    remove(local!column1Components, 1),
+    local!column1Components
+  ),
+  local!column2ComponentsAdjusted: if(
+    and(
+      #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(local!column1Components),
+      local!needsSpan1Adjustment
+    ),
+    remove(local!column2Components, 1),
+    local!column2Components
+  ),
+  local!column3ComponentsAdjusted: if(
+    local!needsSpan1Adjustment,
+    append(
+      local!column3Components,
+      index(local!column1Components, 1, null)
+    ),
+    local!column3Components
+  ),
+  local!column4ComponentsAdjusted: if(
+    local!needsSpan1Adjustment,
+    append(
+      local!column4Components,
+      index(local!column2Components, 1, null)
+    ),
+    local!column4Components
+  ),
+  /*Adjust span 2 components in the case of the first two columns being longer than the second two columns after span 1 adjustment */
+  local!needsSpan2Adjustment: length(local!column1ComponentsAdjusted) + length(local!column1and2Components) &lt; length(local!column3ComponentsAdjusted) + length(local!column3and4Components),
+  local!column1and2ComponentsAdjusted: if(
+    local!needsSpan2Adjustment,
+    append(
+      local!column1and2Components,
+      index(local!column3and4Components, 1, null)
+    ),
+    local!column1and2Components
+  ),
+  local!column3and4ComponentsAdjusted: if(
+    and(
+      local!needsSpan2Adjustment,
+      #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(local!column3and4Components)
+    ),
+    remove(local!column3and4Components, 1),
+    local!column3and4Components
+  ),
+  #"SYSTEM_SYSRULES_columnsLayout"(
+    columns: {
+      #"SYSTEM_SYSRULES_columnLayout"(
+        /*reject null values from array of contents for each column to ensure no lists of null cause the interface to error*/
+        contents: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_76367"(
+          {
+            #"SYSTEM_SYSRULES_columnsLayout"(
+              columns: {
+                #"SYSTEM_SYSRULES_columnLayout"(
+                  contents: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_76367"(
+                    {
+                      #"SYSTEM_SYSRULES_columnsLayout"(
+                        columns: {
+                          #"SYSTEM_SYSRULES_columnLayout"(
+                            contents: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_76367"({ local!column1ComponentsAdjusted })
+                          ),
+                          #"SYSTEM_SYSRULES_columnLayout"(
+                            contents: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_76367"({ local!column2ComponentsAdjusted })
+                          )
+                        }
+                      ),
+                      /*Put half of the components that span 2 columns here*/
+                      local!column1and2ComponentsAdjusted
+                    }
+                  )
+                ),
+                #"SYSTEM_SYSRULES_columnLayout"(
+                  contents: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_76367"(
+                    {
+                      #"SYSTEM_SYSRULES_columnsLayout"(
+                        columns: {
+                          #"SYSTEM_SYSRULES_columnLayout"(
+                            contents: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_76367"(local!column3ComponentsAdjusted)
+                          ),
+                          #"SYSTEM_SYSRULES_columnLayout"(
+                            contents: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_76367"(local!column4ComponentsAdjusted)
+                          )
+                        }
+                      ),
+                      /*Put half of the components that span 2 columns here*/
+                      local!column3and4ComponentsAdjusted
+                    }
+                  )
+                )
+              },
+              stackWhen: {
+                "PHONE",
+                "TABLET_PORTRAIT",
+                "TABLET_LANDSCAPE"
+              }
+            ),
+            /*Put things that span all the way across here */
+            local!fullSpanComponents.components
+          }
+        )
+      )
+    }
+  )
+)</definition>
+        <namedTypedValue>
+            <name>allFields</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+        <isCustom>false</isCustom>
+    </interface>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name/>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression"> {
+   {
+     span: 2,
+     components: #"SYSTEM_SYSRULES_textField"(value: "span2")
+   },
+   {
+     span: 1,
+     components: #"SYSTEM_SYSRULES_textField"(value: "span1")
+   },
+   {
+     span: 2,
+     components: #"SYSTEM_SYSRULES_textField"(value: "span2")
+   },
+   {
+     span: 1,
+     components: #"SYSTEM_SYSRULES_textField"(value: "span1")
+   },
+   {
+     span: 1,
+     components: #"SYSTEM_SYSRULES_textField"(value: "span1")
+   },
+   {
+     span: 1,
+     components: #"SYSTEM_SYSRULES_textField"(value: "span1")
+   },
+   {
+     span: 1,
+     components: #"SYSTEM_SYSRULES_textField"(value: "span1")
+   },
+   {
+     span: 2,
+     components: #"SYSTEM_SYSRULES_textField"(value: "span2")
+   },
+   {
+     span: 1,
+     components: #"SYSTEM_SYSRULES_textField"(value: "span1")
+   },
+   {
+     span: 1,
+     components: #"SYSTEM_SYSRULES_textField"(value: "span1")
+   },
+   {
+     span: 4,
+     components: #"SYSTEM_SYSRULES_textField"(value: "span4")
+   },
+   {
+     span: 4,
+     components: #"SYSTEM_SYSRULES_textField"(value: "span4")
+   },
+
+ },</a:value>
+                    <a:nameRef>allFields</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e528-bc07-8000-9bcf-011c48011c48_1049487"/>
+        <historyInfo versionUuid="_a-0000e528-bc07-8000-9bcf-011c48011c48_1050257"/>
+        <historyInfo versionUuid="_a-0000e539-6d59-8000-9bd0-011c48011c48_1160475"/>
+        <historyInfo versionUuid="_a-0000e539-6d59-8000-9bd0-011c48011c48_1237259"/>
+        <historyInfo versionUuid="_a-0000e673-a4a7-8000-9bef-011c48011c48_1964113"/>
+    </history>
+</contentHaul>

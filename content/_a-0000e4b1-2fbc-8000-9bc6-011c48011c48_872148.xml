@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2486885</versionUuid>
+    <interface>
+        <name>AS_QNM_CPS_manageTemplateQuestion_PrecedentStructure</name>
+        <uuid>_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_872148</uuid>
+        <description>Rule holds the question settings section for add questions</description>
+        <parentUuid>_a-0000e42d-ffef-8000-9ba6-011c48011c48_7213-qnm</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>a!localVariables(
+  local!possiblePrecedentQuestions: a!refreshVariable(
+    value: #"_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_872090"(
+      question: ri!question,
+      allQuestions: ri!questionnaireTemplate.questions
+    ),
+    refreshAlways: true
+  ),
+  local!isFollowup: a!refreshVariable(
+    value: #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(
+      #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+        cdt: ri!question.isDisplayedPrecedentSets,
+        field: "fieldKey",
+        value: null
+      )
+    ),
+    refreshOnReferencedVarChange: false
+  ),
+  /* We track the displayPrecedentSet separately from the ri so that it is not lost if the followup checkbox is unselected 
+  Currently this is only set up to support a simple, single question response requirement because this is easier
+  The CDT structure supports more complicated conditions, but this would require some heavy lifting here in the UX */
+  local!questionDisplayPrecedentSet: a!refreshVariable(
+    value: index(
+      #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+        cdt: ri!question.isDisplayedPrecedentSets,
+        field: "fieldKey",
+        value: null
+      ),
+      1,
+      null
+    ),
+    refreshOnReferencedVarChange: true
+  ),
+  /* Must be executed after each save in this interface to persist the local into the ri */
+  local!saveDisplayedPrecedent: a!refreshVariable(
+    value: a!save(
+      ri!question.isDisplayedPrecedentSets,
+      /* Only replace question level display precedents -- field level display is controlled within the question and handled separately */
+      if(
+        toboolean(local!isFollowup) = true,
+        #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_76367"(
+          append(
+            #"_a-0000e40a-de32-8000-9ba8-011c48011c48_271202"(
+              cdt: ri!question.isDisplayedPrecedentSets,
+              field: "fieldKey",
+              value: null
+            ),
+            local!questionDisplayPrecedentSet
+          )
+        ),
+        null
+      )
+    ),
+    refreshAlways: true
+  ),
+  local!notConfigurable: a!refreshVariable(
+    value: or(
+      #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(local!possiblePrecedentQuestions),
+      #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(ri!question.questionReferenceId)
+    ),
+    refreshOnVarChange: ri!question
+  ),
+  #"SYSTEM_SYSRULES_sectionLayout_v1"(
+    label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+      i18nData: ri!i18nData,
+      bundleKey: "AS.QNM.QuestionnaireSettings.lbl_ConfigureVisibility"
+    ),
+    contents: {
+      #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_74506"(
+        label: "",
+        choiceLabels: {
+          #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+            i18nData: ri!i18nData,
+            bundleKey: "AS.QNM.QuestionnaireSettings.txt_StandaloneQuestion"
+          ),
+          #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+            i18nData: ri!i18nData,
+            bundleKey: "AS.QNM.QuestionnaireSettings.txt_FollowUpQuestion"
+          )
+        },
+        choiceValues: { false, true },
+        value: local!isFollowup,
+        saveInto: {
+          local!isFollowup,
+          local!saveDisplayedPrecedent
+        },
+        disabled: local!notConfigurable
+      ),
+      a!localVariables(
+        local!selectedPrecedentQuestion: index(
+          #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+            cdt: ri!questionnaireTemplate.questions,
+            field: "questionTemplateId",
+            value: index(
+              local!questionDisplayPrecedentSet.questionPrecedents,
+              "questionTemplateId_precedent",
+              null
+            )
+          ),
+          1,
+          null
+        ),
+        #"SYSTEM_SYSRULES_columnsLayout"(
+          columns: {
+            #"SYSTEM_SYSRULES_columnLayout"(
+              contents: {
+                #"_a-0000e528-bc07-8000-9bcf-011c48011c48_1027802"(
+                  label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                    i18nData: ri!i18nData,
+                    bundleKey: "AS.QNM.QuestionnaireSettings.lbl_WhichQuestionFollow"
+                  ),
+                  placeholderLabel: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                    i18nData: ri!i18nData,
+                    bundleKey: "AS.QNM.QuestionnaireSettings.lbl_Question"
+                  ),
+                  value: local!selectedPrecedentQuestion.questionTemplateId,
+                  choiceLabels: local!possiblePrecedentQuestions.label,
+                  choiceValues: local!possiblePrecedentQuestions.questionTemplateId,
+                  saveInto: {
+                    a!save(
+                      local!questionDisplayPrecedentSet,
+                      if(
+                        #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(save!value),
+                        null,
+                        'type!{urn:com:appian:types:AS:QNM}AS_QNM_T_QuestionPrecedentSet'(
+                          operator: "AND",
+                          questionPrecedents: 'type!{urn:com:appian:types:AS:QNM}AS_QNM_T_QuestionPrecedent'(
+                            questionTemplateId_precedent: save!value,
+                            responseRequirement: 'type!{urn:com:appian:types:AS:QNM}AS_QNM_T_ResponseRequirement'()
+                          )
+                        )
+                      )
+                    ),
+                    local!saveDisplayedPrecedent
+                  },
+                  required: true,
+                  validations: {
+                    #"_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_866716"(
+                      selectedQuestion: ri!question,
+                      allQuestions: ri!questionnaireTemplate.questions,
+                      i18nData: ri!i18nData
+                    )
+                  }
+                )
+              }
+            ),
+            #"SYSTEM_SYSRULES_columnLayout"(
+              contents: if(
+                #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75782"(local!selectedPrecedentQuestion),
+                a!localVariables(
+                  local!selectedPrecedentQuestionResponses: local!selectedPrecedentQuestion.responseOptions,
+                  local!selectedQuestionChoice: local!questionDisplayPrecedentSet.questionPrecedents[1].responseRequirement.requirementValue,
+                  {
+                    #"_a-0000e528-bc07-8000-9bcf-011c48011c48_1027802"(
+                      label: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                        i18nData: ri!i18nData,
+                        bundleKey: "AS.QNM.QuestionnaireSettings.lbl_WhichChoiceSelected"
+                      ),
+                      placeholderLabel: #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_81818"(
+                        i18nData: ri!i18nData,
+                        bundleKey: "AS.QNM.QuestionnaireSettings.lbl_Choice"
+                      ),
+                      value: local!selectedQuestionChoice,
+                      required: true,
+                      choiceLabels: local!selectedPrecedentQuestionResponses.label,
+                      choiceValues: local!selectedPrecedentQuestionResponses.value,
+                      saveInto: {
+                        a!save(
+                          local!questionDisplayPrecedentSet.questionPrecedents[1].responseRequirement,
+                          'type!{urn:com:appian:types:AS:QNM}AS_QNM_T_ResponseRequirement'(
+                            requirementTypeCode: #"_a-0000e471-623a-8000-9bc3-011c48011c48_671102",
+                            requirementValue: save!value
+                          )
+                        ),
+                        local!saveDisplayedPrecedent
+                      }
+                    )
+                  }
+                ),
+                {}
+              )
+            ),
+            #"SYSTEM_SYSRULES_columnLayout"(contents: {})
+          },
+          showWhen: and(
+            local!isFollowup,
+            local!notConfigurable = false
+          )
+        )
+      )
+    }
+  )
+)</definition>
+        <namedTypedValue>
+            <name>i18nData</name>
+            <type>
+                <name>Variant</name>
+                <namespace>http://www.appian.com/ae/types/2009</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>questionnaireTemplate</name>
+            <type>
+                <name>AS_QNM_T_Questionnaire</name>
+                <namespace>urn:com:appian:types:AS:QNM</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>question</name>
+            <type>
+                <name>AS_QNM_T_Question</name>
+                <namespace>urn:com:appian:types:AS:QNM</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>interface</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+        <isCustom>false</isCustom>
+    </interface>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name/>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e447-933d-8000-9baa-011c48011c48_43088"(
+  triggerRefresh: null
+)</a:value>
+                    <a:nameRef>i18nData</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_870515"()</a:value>
+                    <a:nameRef>questionnaireTemplate</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">#"_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_870515"().questions[5]</a:value>
+                    <a:nameRef>question</a:nameRef>
+                    <a:id>3</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true"/>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_873093"/>
+        <historyInfo versionUuid="_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_877640"/>
+        <historyInfo versionUuid="_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_882493"/>
+        <historyInfo versionUuid="_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_893487"/>
+        <historyInfo versionUuid="_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_926945"/>
+        <historyInfo versionUuid="_a-0000e528-bc07-8000-9bcf-011c48011c48_1030635"/>
+        <historyInfo versionUuid="_a-0000e62c-7375-8000-9bec-011c48011c48_1863048"/>
+        <historyInfo versionUuid="_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2485833"/>
+        <historyInfo versionUuid="_a-0000e6e2-62e5-8000-9bfe-011c48011c48_2486885"/>
+    </history>
+</contentHaul>

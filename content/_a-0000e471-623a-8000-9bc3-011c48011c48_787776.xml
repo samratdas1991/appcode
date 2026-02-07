@@ -1,0 +1,372 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<contentHaul xmlns:a="http://www.appian.com/ae/types/2009">
+    <versionUuid>_a-0000e6c5-6536-8000-9bf8-011c48011c48_2205623</versionUuid>
+    <rule>
+        <name>AS_IO_BL_getOnboardingFundingDetailsFieldAuditForComment</name>
+        <uuid>_a-0000e471-623a-8000-9bc3-011c48011c48_787776</uuid>
+        <description>BL for AS IO Update Funding details. If funded, retrieves audit of funding date change to add comment. Otherwise, retrieves audit of estimated funding date change to add comment.</description>
+        <parentUuid>_a-0000e2bb-4188-8000-9ba2-011c48011c48_25469</parentUuid>
+        <visibility>
+            <advertise>false</advertise>
+            <hierarchy>true</hierarchy>
+            <indexable>true</indexable>
+            <quota>false</quota>
+            <searchable>true</searchable>
+            <system>false</system>
+            <unlogged>false</unlogged>
+        </visibility>
+        <definition>if(
+  #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_73536"(
+    ri!onboardingFundingDetailsAuditProcessParameters
+  ),
+  null,
+  a!localVariables(
+    local!simpleFieldChanges: a!flatten(
+      #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_76433"(
+        cdt: a!flatten(ri!onboardingFundingDetailsAuditProcessParameters.auditObject),
+        field: "[1].simpleFieldChanges"
+      )
+    ),
+    local!simpleFieldChange: if(
+      length(local!simpleFieldChanges) &gt; 1,
+      #"_a-0000e2ad-62e7-8000-9ba2-011c48011c48_75800"(
+        cdt: local!simpleFieldChanges,
+        field: "fieldName",
+        value: if(
+          or(
+            ri!request.status = #"_a-0000e471-623a-8000-9bc3-011c48011c48_659949",
+            ri!request.status = #"_a-0000e2cd-bc96-8000-9ba2-011c48011c48_49488"
+          ),
+          "actualFundingDate",
+          "estFundingDate"
+        )
+      ),
+      local!simpleFieldChanges
+    ),
+    #"_a-0000e3e6-fb42-8000-9ba5-011c48011c48_157603"(
+      type: 'type!{urn:com:appian:types:AS:IO}AS_IO_A_FundingDetails_Field',
+      value: #"_a-0000e40a-de32-8000-9ba8-011c48011c48_260165"(
+        cdt: local!simpleFieldChange,
+        fields: "fundingDetailsAuditId",
+        newValues: index(
+          a!flatten(
+            ri!onboardingFundingDetailsAuditProcessParameters.auditObject
+          )[1],
+          "fundingDetailsAuditId",
+          null
+        )
+      )
+    )
+  )
+)</definition>
+        <namedTypedValue>
+            <name>onboardingFundingDetailsAuditProcessParameters</name>
+            <type>
+                <name>AS_ADT_P_AuditProcessParameters</name>
+                <namespace>urn:com:appian:types:AS:ADT</namespace>
+            </type>
+        </namedTypedValue>
+        <namedTypedValue>
+            <name>request</name>
+            <type>
+                <name>AS_IO_OnboardingRequest</name>
+                <namespace>urn:com:appian:types:AS:IO</namespace>
+            </type>
+        </namedTypedValue>
+        <preferredEditor>legacy</preferredEditor>
+        <offlineEnabled>false</offlineEnabled>
+    </rule>
+    <roleMap public="true">
+        <role inherit="true" allowForAll="false" name="readers">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="authors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="true" allowForAll="false" name="administrators">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyReaders">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAuthors">
+            <users/>
+            <groups/>
+        </role>
+        <role inherit="false" allowForAll="false" name="denyAdministrators">
+            <users/>
+            <groups/>
+        </role>
+    </roleMap>
+    <typedValue>
+        <type>
+            <name>RuleTestConfig?list</name>
+            <namespace>http://www.appian.com/ae/types/2009</namespace>
+        </type>
+        <value>
+            <el>
+                <a:name>Null Inputs</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:n1="urn:com:appian:types:AS:ADT" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="n1:AS_ADT_P_AuditProcessParameters"/>
+                    <a:nameRef>onboardingFundingDetailsAuditProcessParameters</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:n2="urn:com:appian:types:AS:IO" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="n2:AS_IO_OnboardingRequest"/>
+                    <a:nameRef>request</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions>
+                    <a:expectedOutput>
+                        <a:type a:uuid="{http://www.appian.com/ae/types/2009}Variant"/>
+                        <a:runtimeType a:uuid="{http://www.appian.com/ae/types/2009}Variant"/>
+                        <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">null</a:value>
+                    </a:expectedOutput>
+                </a:assertions>
+            </el>
+            <el>
+                <a:name>Unnamed Test Case</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">'type!{urn:com:appian:types:AS:ADT}AS_ADT_P_AuditProcessParameters'(
+  originalObjects: 
+  {fundingDetailsId:92,
+  estFundingDate:11/25/2020,
+  estFundingValue:100000000,
+  estValueCurrencyCode:"USD",
+  actualFundingDate:3/17/2021,
+  actualFundingValue:10001000,
+  actualValueCurrencyCode:"SAR",
+  createdBy:"surendran.neelamegam",
+  createdDatetime:1/19/2021,
+  modifiedBy:"annika.basch",
+  newObjects: 
+  {fundingDetailsId:92,
+  estFundingDate:11/25/2020,
+  estFundingValue:100000000,
+  estValueCurrencyCode:"USD",
+  actualFundingDate:3/31/2021,
+  actualFundingValue:10001000,
+  actualValueCurrencyCode:"SAR",
+  createdBy:"surendran.neelamegam",
+  modifiedBy:"annika.basch",
+  }
+  },
+  objectTypeNumber:7486,
+  namespace:"urn:com:appian:types:AS:IO",
+  objectDse:"90566270-d725-4a28-950e-40a1ea171f4f@5468",
+  auditDse:"5449af44-f3f1-475c-8da9-30f46e503469@16392",
+  username: "annika.basch",
+  auditConfig:{idField:"fundingDetailsId",
+  simpleFields:{"estFundingDate",
+  "estFundingValue",
+  "estValueCurrencyCode",
+  "actualFundingDate",
+  "actualFundingValue",
+  "actualValueCurrencyCode"},
+  recordIdField:"fundingDetailsId"},
+  auditObject: 
+  {fundingDetailsAuditId:83,
+  fundingDetailsId:92,
+  recordId:92,
+  username:"annika.basch",
+  auditActionCode:"MODIFY",
+  simpleFieldChanges: 
+  {fundingDetailsAuditFieldId:142,
+  fundingDetailsAuditId: tointeger(""),
+  fieldName:"actualFundingDate",
+  oldValue:3/17/2021,
+  newValue:3/31/2021}}
+
+
+)</a:value>
+                    <a:nameRef>onboardingFundingDetailsAuditProcessParameters</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:n2="urn:com:appian:types:AS:IO" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nil="true" xsi:type="n2:AS_IO_OnboardingRequest"/>
+                    <a:nameRef>request</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions>
+                    <a:expectedOutput>
+                        <a:type a:uuid="{http://www.appian.com/ae/types/2009}Variant"/>
+                        <a:runtimeType a:uuid="{http://www.appian.com/ae/types/2009}Variant"/>
+                        <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">cast(
+  'type!{urn:com:appian:types:AS:IO}AS_IO_A_FundingDetails_Field',
+  {
+    fundingDetailsAuditFieldId:142,
+    fundingDetailsAuditId:83,
+    fieldName:"actualFundingDate",
+    oldValue:"8.731845e-05",
+    newValue:"4.788431e-05",
+    comment:""
+  }
+)</a:value>
+                    </a:expectedOutput>
+                </a:assertions>
+            </el>
+            <el>
+                <a:name>Valid data</a:name>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">'type!{urn:com:appian:types:AS:ADT}AS_ADT_P_AuditProcessParameters'(
+  'originalObjects': {
+    'type!{urn:com:appian:types:AS:IO}AS_IO_OnboardingFundingDetails'(
+      'fundingDetailsId': 5,
+      'estFundingDate': fn!date(2021, 5, 18),
+      'estFundingValue': 50000.0,
+      'estValueCurrencyCode': "USD",
+      'actualFundingDate': fn!date(2021, 5, 25),
+      'actualFundingValue': 50000.0,
+      'actualValueCurrencyCode': "USD",
+      'createdBy': "annika.basch",
+      'createdDatetime': fn!datetime(2021, 3, 19, 15, 40, 49, 0),
+      'modifiedBy': "saurabh.sabat",
+      'modifiedDatetime': fn!datetime(2021, 3, 23, 17, 41, 30, 0)
+    )
+  },
+  'newObjects': {
+    'type!{urn:com:appian:types:AS:IO}AS_IO_OnboardingFundingDetails'(
+      'fundingDetailsId': 5,
+      'estFundingDate': fn!date(2021, 5, 18),
+      'estFundingValue': 50000.0,
+      'estValueCurrencyCode': "USD",
+      'actualFundingDate': fn!date(2021, 5, 26),
+      'actualFundingValue': 50000.0,
+      'actualValueCurrencyCode': "USD",
+      'createdBy': "annika.basch",
+      'createdDatetime': fn!datetime(2021, 3, 19, 15, 40, 49, 0),
+      'modifiedBy': "saurabh.sabat",
+      'modifiedDatetime': fn!datetime(2021, 3, 23, 17, 42, 16, 0)
+    )
+  },
+  'objectTypeNumber': 7486,
+  'namespace': "urn:com:appian:types:AS:IO",
+  'username': "saurabh.sabat",
+  'auditConfig': {
+    idField: "fundingDetailsId",
+    simpleFields: {
+      "estFundingDate",
+      "estFundingValue",
+      "estValueCurrencyCode",
+      "actualFundingDate",
+      "actualFundingValue",
+      "actualValueCurrencyCode"
+    },
+    complexFields: {},
+    recordIdField: "fundingDetailsId"
+  },
+  'auditObject': {
+    {
+      'type!{urn:com:appian:types:AS:IO}AS_IO_A_OnboardingFundingDetails'(
+        'fundingDetailsAuditId': 22,
+        'fundingDetailsId': 5,
+        'recordId': 5,
+        'timestamp': fn!datetime(2021, 3, 23, 17, 42, 16, 720),
+        'username': "saurabh.sabat",
+        'auditActionCode': "MODIFY",
+        'simpleFieldChanges': {
+          'type!{urn:com:appian:types:AS:IO}AS_IO_A_FundingDetails_Field'(
+            'fundingDetailsAuditFieldId': 40,
+            'fieldName': "actualFundingDate",
+            'oldValue': "5/25/2021",
+            'newValue': "5/26/2021"
+          )
+        }
+      )
+    }
+  }
+)</a:value>
+                    <a:nameRef>onboardingFundingDetailsAuditProcessParameters</a:nameRef>
+                    <a:id>1</a:id>
+                </a:ruleInputTestConfigs>
+                <a:ruleInputTestConfigs>
+                    <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">'type!{urn:com:appian:types:AS:IO}AS_IO_OnboardingRequest'(
+  'requestId': 5,
+  'uniqueIdentifier': "PIN-ONB-0002",
+  'status': "ONBOARDING_STATUS_FUNDED",
+  'type': "ONBOARDING_TYPE_CAPITAL_MARKETS_SELL_SIDE",
+  'priorityCode': "ONBOARDING_PRIORITY_NO_PRIORITY",
+  'templateId': 2,
+  'createdBy': "annika.basch",
+  'createdDatetime': fn!datetime(2021, 3, 19, 15, 40, 49, 0),
+  'modifiedBy': "mason.ma",
+  'modifiedDatetime': fn!datetime(2021, 3, 19, 19, 19, 22, 0),
+  'isDeleted': false,
+  'customer': 'type!{urn:com:appian:types:AS:FS}AS_FS_Customer'(
+    'customerId': 1,
+    'name': "Penrose Investments",
+    'customerAcronym': "PIN",
+    'isInternational': false,
+    'domicile': #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_976936"(
+      countryCodes: #"_a-0000e50d-bf1d-8000-9bcd-011c48011c48_981494",
+      returnType: #"_a-0000e415-3035-8000-9bb2-011c48011c48_290157"
+    ),
+    'customerTypeCode': "CUSTOMER_TYPE_BUY_SIDE_CORPORATE_BANKING",
+    'riskScore': 250,
+    'duns': "123456789",
+    'customerNumber': "12345678",
+    'gmei': "1338-85-5462898516494551-55",
+    'taxId': "889-73-3539",
+    'isQIB': true,
+    'isERISA': true,
+    'industryClassificationCode': "10101010",
+    'folderId': 100507,
+    'createdBy': "Administrator",
+    'createdDatetime': fn!datetime(2021, 3, 19, 14, 50, 9, 0),
+    'modifiedBy': "Northrow",
+    'modifiedDatetime': fn!datetime(2021, 3, 22, 8, 4, 28, 0),
+    'isDeleted': false,
+    'alertSetId': 1,
+    'groupId': 318
+  ),
+  'fundingDetails': 'type!{urn:com:appian:types:AS:IO}AS_IO_OnboardingFundingDetails'(
+    'fundingDetailsId': 5,
+    'estFundingDate': fn!date(2021, 5, 18),
+    'estFundingValue': 50000.0,
+    'estValueCurrencyCode': "USD",
+    'actualFundingDate': fn!date(2021, 5, 26),
+    'actualFundingValue': 50000.0,
+    'actualValueCurrencyCode': "USD",
+    'createdBy': "annika.basch",
+    'createdDatetime': fn!datetime(2021, 3, 19, 15, 40, 49, 0),
+    'modifiedBy': "saurabh.sabat",
+    'modifiedDatetime': fn!datetime(2021, 3, 23, 17, 41, 30, 0)
+  )
+)</a:value>
+                    <a:nameRef>request</a:nameRef>
+                    <a:id>2</a:id>
+                </a:ruleInputTestConfigs>
+                <a:assertions>
+                    <a:expectedOutput>
+                        <a:type a:uuid="{http://www.appian.com/ae/types/2009}Variant"/>
+                        <a:runtimeType a:uuid="{http://www.appian.com/ae/types/2009}Variant"/>
+                        <a:value xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="a:Expression">'type!{urn:com:appian:types:AS:IO}AS_IO_A_FundingDetails_Field'(
+  'fundingDetailsAuditFieldId': 40,
+  'fundingDetailsAuditId': 22,
+  'fieldName': "actualFundingDate",
+  'oldValue': "5/25/2021",
+  'newValue': "5/26/2021"
+)</a:value>
+                    </a:expectedOutput>
+                </a:assertions>
+            </el>
+        </value>
+    </typedValue>
+    <history>
+        <historyInfo versionUuid="_a-0000e471-623a-8000-9bc3-011c48011c48_787787"/>
+        <historyInfo versionUuid="_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_824284"/>
+        <historyInfo versionUuid="_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_830949"/>
+        <historyInfo versionUuid="_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_835603"/>
+        <historyInfo versionUuid="_a-0000e4b1-2fbc-8000-9bc6-011c48011c48_841527"/>
+        <historyInfo versionUuid="_a-0000e539-6d59-8000-9bd0-011c48011c48_1241121"/>
+        <historyInfo versionUuid="_a-0000e607-97fd-8000-9be9-011c48011c48_1625148"/>
+        <historyInfo versionUuid="_a-0000e607-97fd-8000-9be9-011c48011c48_1629012"/>
+        <historyInfo versionUuid="_a-0000e607-97fd-8000-9be9-011c48011c48_1640910"/>
+        <historyInfo versionUuid="_a-0000e62c-7375-8000-9bec-011c48011c48_1887434"/>
+        <historyInfo versionUuid="_a-0000e6c5-6536-8000-9bf8-011c48011c48_2205623"/>
+    </history>
+</contentHaul>
