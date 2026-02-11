@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL"
+  xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+  xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+  xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
+  id="Definitions_AS_FS_Update_Customer"
+  targetNamespace="http://bpmn.io/schema/bpmn">
+
+  <!-- Appian Process Model: AS FS Update Customer -->
+  <!-- Source UUID: 0000e517-12e0-8000-18ff-7f0000014e7a -->
+  <!-- Description: PM to update/save a customer -->
+  <!-- Pega Case Type Mapping: See migration metadata for stage/step correlation -->
+
+  <bpmn:collaboration id="Collaboration_AS_FS_Update_Customer">
+    <bpmn:participant id="Participant_AS_FS_Update_Customer" name="AS FS Update Customer" processRef="Process_AS_FS_Update_Customer" />
+  </bpmn:collaboration>
+
+  <bpmn:process id="Process_AS_FS_Update_Customer" name="AS FS Update Customer" isExecutable="false">
+    <bpmn:documentation>PM to update/save a customer</bpmn:documentation>
+
+    <bpmn:laneSet id="LaneSet_AS_FS_Update_Customer">
+      <bpmn:lane id="Lane_0" name="">
+      </bpmn:lane>
+    </bpmn:laneSet>
+
+    <bpmn:dataObject id="DataObject_customer" name="customer" />
+    <bpmn:dataObject id="DataObject_customerAuditProcessParameter" name="customerAuditProcessParameter" />
+    <bpmn:dataObject id="DataObject_modifiedByOverride" name="modifiedByOverride" />
+    <bpmn:dataObject id="DataObject_skipAlertGeneration" name="skipAlertGeneration" />
+    <bpmn:dataObject id="DataObject_userAction" name="userAction" />
+
+    <bpmn:startEvent id="StartEvent_0" name="Start Node">
+      <bpmn:outgoing>Flow_0</bpmn:outgoing>
+    </bpmn:startEvent>
+
+    <bpmn:endEvent id="EndEvent_1" name="End Node">
+      <bpmn:incoming>Flow_1</bpmn:incoming>
+      <bpmn:incoming>Flow_2</bpmn:incoming>
+      <bpmn:incoming>Flow_3</bpmn:incoming>
+    </bpmn:endEvent>
+
+    <bpmn:userTask id="UserTask_2" name="Save customer">
+      <bpmn:incoming>Flow_4</bpmn:incoming>
+      <bpmn:outgoing>Flow_5</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_3" name="Update Group">
+      <bpmn:incoming>Flow_6</bpmn:incoming>
+      <bpmn:outgoing>Flow_7</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_4" name="Update Customer Folders">
+      <bpmn:incoming>Flow_8</bpmn:incoming>
+      <bpmn:outgoing>Flow_9</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:exclusiveGateway id="ExclusiveGateway_5" name="Cancel?">
+      <bpmn:incoming>Flow_10</bpmn:incoming>
+      <bpmn:outgoing>Flow_11</bpmn:outgoing>
+      <bpmn:outgoing>Flow_12</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+
+    <bpmn:userTask id="UserTask_6" name="Evaluate alert configurations">
+      <bpmn:incoming>Flow_13</bpmn:incoming>
+      <bpmn:outgoing>Flow_14</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:exclusiveGateway id="ExclusiveGateway_7" name="Skip alert generation?">
+      <bpmn:incoming>Flow_15</bpmn:incoming>
+      <bpmn:outgoing>Flow_16</bpmn:outgoing>
+      <bpmn:outgoing>Flow_17</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+
+    <bpmn:userTask id="UserTask_8" name="Set pv!customer">
+      <bpmn:incoming>Flow_18</bpmn:incoming>
+      <bpmn:outgoing>Flow_19</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:sequenceFlow id="Flow_0" sourceRef="StartEvent_0" targetRef="ExclusiveGateway_5" />
+    <bpmn:sequenceFlow id="Flow_1" sourceRef="ExclusiveGateway_5" targetRef="EndEvent_1" />
+    <bpmn:sequenceFlow id="Flow_2" sourceRef="UserTask_6" targetRef="EndEvent_1" />
+    <bpmn:sequenceFlow id="Flow_3" sourceRef="ExclusiveGateway_7" targetRef="EndEvent_1" />
+    <bpmn:sequenceFlow id="Flow_4" sourceRef="UserTask_4" targetRef="UserTask_2" />
+    <bpmn:sequenceFlow id="Flow_5" sourceRef="UserTask_2" targetRef="UserTask_8" />
+    <bpmn:sequenceFlow id="Flow_6" sourceRef="ExclusiveGateway_5" targetRef="UserTask_3" />
+    <bpmn:sequenceFlow id="Flow_7" sourceRef="UserTask_3" targetRef="UserTask_4" />
+    <bpmn:sequenceFlow id="Flow_13" sourceRef="ExclusiveGateway_7" targetRef="UserTask_6" />
+    <bpmn:sequenceFlow id="Flow_15" sourceRef="UserTask_8" targetRef="ExclusiveGateway_7" />
+  </bpmn:process>
+
+</bpmn:definitions>

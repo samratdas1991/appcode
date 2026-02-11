@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL"
+  xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+  xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+  xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
+  id="Definitions_AS_FS_User_Settings_Initializer"
+  targetNamespace="http://bpmn.io/schema/bpmn">
+
+  <!-- Appian Process Model: AS FS User Settings Initializer -->
+  <!-- Source UUID: 0004e60d-71de-8000-35ab-7f0000014e7a -->
+  <!-- Description: DO NOT DELETE THIS PROCESS.
+One time run process model for migrating previously used constants to database settings.
+Will need to be executed for any customer who is upgrading from any version prior t -->
+  <!-- Pega Case Type Mapping: See migration metadata for stage/step correlation -->
+
+  <bpmn:collaboration id="Collaboration_AS_FS_User_Settings_Initializer">
+    <bpmn:participant id="Participant_AS_FS_User_Settings_Initializer" name="AS FS User Settings Initializer" processRef="Process_AS_FS_User_Settings_Initializer" />
+  </bpmn:collaboration>
+
+  <bpmn:process id="Process_AS_FS_User_Settings_Initializer" name="AS FS User Settings Initializer" isExecutable="false">
+    <bpmn:documentation>DO NOT DELETE THIS PROCESS.
+One time run process model for migrating previously used constants to database settings.
+Will need to be executed for any customer who is upgrading from any version prior to IO 3.2.0.</bpmn:documentation>
+
+    <bpmn:dataObject id="DataObject_userSettings" name="userSettings" />
+
+    <bpmn:endEvent id="EndEvent_0" name="End Event">
+      <bpmn:incoming>Flow_0</bpmn:incoming>
+      <bpmn:incoming>Flow_1</bpmn:incoming>
+    </bpmn:endEvent>
+
+    <bpmn:userTask id="UserTask_1" name="Construct CDTs">
+      <bpmn:incoming>Flow_2</bpmn:incoming>
+      <bpmn:outgoing>Flow_3</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:startEvent id="StartEvent_2" name="Start Event">
+      <bpmn:outgoing>Flow_4</bpmn:outgoing>
+    </bpmn:startEvent>
+
+    <bpmn:userTask id="UserTask_3" name="Save All User Settings with audit">
+      <bpmn:incoming>Flow_5</bpmn:incoming>
+      <bpmn:outgoing>Flow_6</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:exclusiveGateway id="ExclusiveGateway_4" name="is cdt list empty?">
+      <bpmn:incoming>Flow_7</bpmn:incoming>
+      <bpmn:outgoing>Flow_8</bpmn:outgoing>
+      <bpmn:outgoing>Flow_9</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+
+    <bpmn:sequenceFlow id="Flow_0" sourceRef="UserTask_3" targetRef="EndEvent_0" />
+    <bpmn:sequenceFlow id="Flow_1" sourceRef="ExclusiveGateway_4" targetRef="EndEvent_0" />
+    <bpmn:sequenceFlow id="Flow_2" sourceRef="StartEvent_2" targetRef="UserTask_1" />
+    <bpmn:sequenceFlow id="Flow_3" sourceRef="UserTask_1" targetRef="ExclusiveGateway_4" />
+    <bpmn:sequenceFlow id="Flow_5" sourceRef="ExclusiveGateway_4" targetRef="UserTask_3" />
+  </bpmn:process>
+
+</bpmn:definitions>

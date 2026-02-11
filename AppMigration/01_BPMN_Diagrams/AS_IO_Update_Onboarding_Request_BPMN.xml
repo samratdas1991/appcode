@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL"
+  xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+  xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+  xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
+  id="Definitions_AS_IO_Update_Onboarding_Request"
+  targetNamespace="http://bpmn.io/schema/bpmn">
+
+  <!-- Appian Process Model: AS IO Update Onboarding Request -->
+  <!-- Source UUID: 001de309-300a-8000-f92f-7f0000014e7a -->
+  <!-- Description: Process model to update an onboarding request -->
+  <!-- Pega Case Type Mapping: See migration metadata for stage/step correlation -->
+
+  <bpmn:collaboration id="Collaboration_AS_IO_Update_Onboarding_Request">
+    <bpmn:participant id="Participant_AS_IO_Update_Onboarding_Request" name="AS IO Update Onboarding Request" processRef="Process_AS_IO_Update_Onboarding_Request" />
+  </bpmn:collaboration>
+
+  <bpmn:process id="Process_AS_IO_Update_Onboarding_Request" name="AS IO Update Onboarding Request" isExecutable="false">
+    <bpmn:documentation>Process model to update an onboarding request</bpmn:documentation>
+
+    <bpmn:laneSet id="LaneSet_AS_IO_Update_Onboarding_Request">
+      <bpmn:lane id="Lane_0" name="">
+      </bpmn:lane>
+    </bpmn:laneSet>
+
+    <bpmn:dataObject id="DataObject_button" name="button" />
+    <bpmn:dataObject id="DataObject_funds" name="funds" />
+    <bpmn:dataObject id="DataObject_onboardingRequest" name="onboardingRequest" />
+
+    <bpmn:startEvent id="StartEvent_0" name="Start Node">
+      <bpmn:outgoing>Flow_0</bpmn:outgoing>
+    </bpmn:startEvent>
+
+    <bpmn:exclusiveGateway id="ExclusiveGateway_1" name="Cancel?">
+      <bpmn:incoming>Flow_1</bpmn:incoming>
+      <bpmn:outgoing>Flow_2</bpmn:outgoing>
+      <bpmn:outgoing>Flow_3</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+
+    <bpmn:userTask id="UserTask_2" name="Write Onboarding Request">
+      <bpmn:incoming>Flow_4</bpmn:incoming>
+      <bpmn:outgoing>Flow_5</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_3" name="Update Metadata">
+      <bpmn:incoming>Flow_6</bpmn:incoming>
+      <bpmn:outgoing>Flow_7</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_4" name="Update funds">
+      <bpmn:incoming>Flow_8</bpmn:incoming>
+      <bpmn:outgoing>Flow_9</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:exclusiveGateway id="ExclusiveGateway_5" name="funds to update?">
+      <bpmn:incoming>Flow_10</bpmn:incoming>
+      <bpmn:outgoing>Flow_11</bpmn:outgoing>
+      <bpmn:outgoing>Flow_12</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+
+    <bpmn:endEvent id="EndEvent_6" name="End Node">
+      <bpmn:incoming>Flow_13</bpmn:incoming>
+      <bpmn:incoming>Flow_14</bpmn:incoming>
+      <bpmn:incoming>Flow_15</bpmn:incoming>
+    </bpmn:endEvent>
+
+    <bpmn:userTask id="UserTask_7" name="Set cust ID and request Id on fund">
+      <bpmn:incoming>Flow_16</bpmn:incoming>
+      <bpmn:outgoing>Flow_17</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:sequenceFlow id="Flow_0" sourceRef="StartEvent_0" targetRef="ExclusiveGateway_1" />
+    <bpmn:sequenceFlow id="Flow_2" sourceRef="ExclusiveGateway_1" targetRef="UserTask_3" />
+    <bpmn:sequenceFlow id="Flow_3" sourceRef="ExclusiveGateway_1" targetRef="EndEvent_6" />
+    <bpmn:sequenceFlow id="Flow_4" sourceRef="UserTask_3" targetRef="UserTask_2" />
+    <bpmn:sequenceFlow id="Flow_5" sourceRef="UserTask_2" targetRef="ExclusiveGateway_5" />
+    <bpmn:sequenceFlow id="Flow_8" sourceRef="UserTask_7" targetRef="UserTask_4" />
+    <bpmn:sequenceFlow id="Flow_9" sourceRef="UserTask_4" targetRef="EndEvent_6" />
+    <bpmn:sequenceFlow id="Flow_11" sourceRef="ExclusiveGateway_5" targetRef="UserTask_7" />
+    <bpmn:sequenceFlow id="Flow_12" sourceRef="ExclusiveGateway_5" targetRef="EndEvent_6" />
+  </bpmn:process>
+
+</bpmn:definitions>

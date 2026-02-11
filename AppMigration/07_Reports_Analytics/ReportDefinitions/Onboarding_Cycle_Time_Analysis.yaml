@@ -1,0 +1,35 @@
+# Report Definition: Onboarding Cycle Time Analysis
+# Pega Migration Target: Report Definition (Summary)
+
+reportName: Onboarding Cycle Time Analysis
+description: Analyze end-to-end onboarding processing times by type
+dataSource: AS_IO_OnboardingRequest
+columns:
+- name: RequestType
+  dataType: Text
+  aggregation: Group By
+- name: AvgCycleTime
+  dataType: Decimal
+  aggregation: Average
+- name: MinCycleTime
+  dataType: Decimal
+  aggregation: Min
+- name: MaxCycleTime
+  dataType: Decimal
+  aggregation: Max
+- name: TotalRequests
+  dataType: Integer
+  aggregation: Count
+filters:
+- field: CompletionDate
+  operator: BETWEEN
+  defaultValue: Last 6 months
+sorting:
+- field: AvgCycleTime
+  direction: ASC
+grouping:
+- RequestType
+- Month
+pegaReportType: Report Definition (Summary)
+pegaImplementationNotes: Use Pega Insights and Process Mining capabilities for cycle
+  time analysis.

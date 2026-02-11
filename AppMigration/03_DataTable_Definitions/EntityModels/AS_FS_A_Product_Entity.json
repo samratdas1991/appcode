@@ -1,0 +1,76 @@
+{
+  "entityName": "AS_FS_A_Product",
+  "pegaClassName": "Data-FS-AProduct",
+  "tableName": "AS_FS_A_PRODUCT",
+  "description": "Data type refers to the attributes related to the product audit",
+  "module": "FS",
+  "attributes": [
+    {
+      "appianFieldName": "productAuditId",
+      "pegaPropertyName": "Productauditid",
+      "appianDataType": "xsd:int",
+      "pegaDataType": "Integer",
+      "columnName": "PRODUCT_AUDIT_ID",
+      "required": true,
+      "isPrimaryKey": true,
+      "isForeignKey": false
+    },
+    {
+      "appianFieldName": "productId",
+      "pegaPropertyName": "Productid",
+      "appianDataType": "xsd:int",
+      "pegaDataType": "Integer",
+      "columnName": "PRODUCT_ID",
+      "required": false,
+      "isPrimaryKey": false,
+      "isForeignKey": false
+    },
+    {
+      "appianFieldName": "timestamp",
+      "pegaPropertyName": "Timestamp",
+      "appianDataType": "xsd:dateTime",
+      "pegaDataType": "DateTime",
+      "columnName": "TIMESTAMP",
+      "required": false,
+      "isPrimaryKey": false,
+      "isForeignKey": false
+    },
+    {
+      "appianFieldName": "username",
+      "pegaPropertyName": "Username",
+      "appianDataType": "xsd:string",
+      "pegaDataType": "Text",
+      "columnName": "USERNAME",
+      "required": false,
+      "isPrimaryKey": false,
+      "isForeignKey": false
+    },
+    {
+      "appianFieldName": "auditActionCode",
+      "pegaPropertyName": "Auditactioncode",
+      "appianDataType": "xsd:string",
+      "pegaDataType": "Text",
+      "columnName": "AUDIT_ACTION_CODE",
+      "required": false,
+      "isPrimaryKey": false,
+      "isForeignKey": false
+    },
+    {
+      "appianFieldName": "termChange",
+      "pegaPropertyName": "Termchange",
+      "appianDataType": "tns:AS_FS_A_Term",
+      "pegaDataType": "Integer",
+      "columnName": "TERM_AUDIT_ID",
+      "required": false,
+      "isPrimaryKey": false,
+      "isForeignKey": true
+    }
+  ],
+  "relationships": [
+    {
+      "type": "ManyToOne",
+      "foreignKey": "TERM_AUDIT_ID",
+      "appianFieldName": "termChange"
+    }
+  ]
+}

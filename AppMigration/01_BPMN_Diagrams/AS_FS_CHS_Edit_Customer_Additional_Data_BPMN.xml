@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL"
+  xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+  xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+  xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
+  id="Definitions_AS_FS_CHS_Edit_Customer_Additional_Data"
+  targetNamespace="http://bpmn.io/schema/bpmn">
+
+  <!-- Appian Process Model: AS FS CHS Edit Customer Additional Data -->
+  <!-- Source UUID: 0006e604-79cb-8000-344f-7f0000014e7a -->
+  <!-- Description: PM to update/save a customer's additional details -->
+  <!-- Pega Case Type Mapping: See migration metadata for stage/step correlation -->
+
+  <bpmn:collaboration id="Collaboration_AS_FS_CHS_Edit_Customer_Additional_Data">
+    <bpmn:participant id="Participant_AS_FS_CHS_Edit_Customer_Additional_Data" name="AS FS CHS Edit Customer Additional Data" processRef="Process_AS_FS_CHS_Edit_Customer_Additional_Data" />
+  </bpmn:collaboration>
+
+  <bpmn:process id="Process_AS_FS_CHS_Edit_Customer_Additional_Data" name="AS FS CHS Edit Customer Additional Data" isExecutable="false">
+    <bpmn:documentation>PM to update/save a customer's additional details</bpmn:documentation>
+
+    <bpmn:laneSet id="LaneSet_AS_FS_CHS_Edit_Customer_Additional_Data">
+      <bpmn:lane id="Lane_0" name="">
+      </bpmn:lane>
+    </bpmn:laneSet>
+
+    <bpmn:dataObject id="DataObject_chsCompanyDetails" name="chsCompanyDetails" />
+    <bpmn:dataObject id="DataObject_customer" name="customer" />
+    <bpmn:dataObject id="DataObject_isCustomerNumberUpdated" name="isCustomerNumberUpdated" />
+    <bpmn:dataObject id="DataObject_userAction" name="userAction" />
+
+    <bpmn:startEvent id="StartEvent_0" name="Start Node">
+      <bpmn:outgoing>Flow_0</bpmn:outgoing>
+    </bpmn:startEvent>
+
+    <bpmn:endEvent id="EndEvent_1" name="End Node">
+      <bpmn:incoming>Flow_1</bpmn:incoming>
+      <bpmn:incoming>Flow_2</bpmn:incoming>
+      <bpmn:incoming>Flow_3</bpmn:incoming>
+    </bpmn:endEvent>
+
+    <bpmn:exclusiveGateway id="ExclusiveGateway_2" name="Cancel?">
+      <bpmn:incoming>Flow_4</bpmn:incoming>
+      <bpmn:outgoing>Flow_5</bpmn:outgoing>
+      <bpmn:outgoing>Flow_6</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+
+    <bpmn:userTask id="UserTask_3" name="Save customer">
+      <bpmn:incoming>Flow_7</bpmn:incoming>
+      <bpmn:outgoing>Flow_8</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:exclusiveGateway id="ExclusiveGateway_4" name="Is Customer Number Updated?">
+      <bpmn:incoming>Flow_9</bpmn:incoming>
+      <bpmn:outgoing>Flow_10</bpmn:outgoing>
+      <bpmn:outgoing>Flow_11</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+
+    <bpmn:userTask id="UserTask_5" name="Retrieve Company house details">
+      <bpmn:incoming>Flow_12</bpmn:incoming>
+      <bpmn:outgoing>Flow_13</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_6" name="Save Company Details">
+      <bpmn:incoming>Flow_14</bpmn:incoming>
+      <bpmn:outgoing>Flow_15</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:sequenceFlow id="Flow_0" sourceRef="StartEvent_0" targetRef="ExclusiveGateway_2" />
+    <bpmn:sequenceFlow id="Flow_1" sourceRef="ExclusiveGateway_2" targetRef="EndEvent_1" />
+    <bpmn:sequenceFlow id="Flow_2" sourceRef="UserTask_5" targetRef="EndEvent_1" />
+    <bpmn:sequenceFlow id="Flow_3" sourceRef="UserTask_6" targetRef="EndEvent_1" />
+    <bpmn:sequenceFlow id="Flow_6" sourceRef="ExclusiveGateway_2" targetRef="UserTask_3" />
+    <bpmn:sequenceFlow id="Flow_8" sourceRef="UserTask_3" targetRef="ExclusiveGateway_4" />
+    <bpmn:sequenceFlow id="Flow_10" sourceRef="ExclusiveGateway_4" targetRef="UserTask_5" />
+    <bpmn:sequenceFlow id="Flow_11" sourceRef="ExclusiveGateway_4" targetRef="UserTask_6" />
+  </bpmn:process>
+
+</bpmn:definitions>

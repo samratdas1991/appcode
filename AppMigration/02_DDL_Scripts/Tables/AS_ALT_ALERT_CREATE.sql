@@ -1,0 +1,11 @@
+-- Source Appian CDT: AS_ALT_Alert
+-- Description: Alert datatype for the ALT application.  Supports internationalization.
+DROP TABLE IF EXISTS AS_ALT_ALERT CASCADE;
+CREATE TABLE AS_ALT_ALERT (
+    ALERT_ID INT PRIMARY KEY,
+    ALERT_SET_ID INT,
+    ALERT_CONFIGURATION_ID INT,
+    MESSAGE VARCHAR(255),
+    CREATED_BY VARCHAR(255),
+    CREATED_DATETIME TIMESTAMP
+);

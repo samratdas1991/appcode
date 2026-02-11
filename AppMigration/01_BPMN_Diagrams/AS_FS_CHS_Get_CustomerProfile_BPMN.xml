@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL"
+  xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+  xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+  xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
+  id="Definitions_AS_FS_CHS_Get_CustomerProfile"
+  targetNamespace="http://bpmn.io/schema/bpmn">
+
+  <!-- Appian Process Model: AS FS CHS Get CustomerProfile -->
+  <!-- Source UUID: 0002e5b1-0bd6-8000-2a70-7f0000014e7a -->
+  <!-- Description: Executes the Companies House Company Profile API against a customer -->
+  <!-- Pega Case Type Mapping: See migration metadata for stage/step correlation -->
+
+  <bpmn:collaboration id="Collaboration_AS_FS_CHS_Get_CustomerProfile">
+    <bpmn:participant id="Participant_AS_FS_CHS_Get_CustomerProfile" name="AS FS CHS Get CustomerProfile" processRef="Process_AS_FS_CHS_Get_CustomerProfile" />
+  </bpmn:collaboration>
+
+  <bpmn:process id="Process_AS_FS_CHS_Get_CustomerProfile" name="AS FS CHS Get CustomerProfile" isExecutable="false">
+    <bpmn:documentation>Executes the Companies House Company Profile API against a customer</bpmn:documentation>
+
+    <bpmn:laneSet id="LaneSet_AS_FS_CHS_Get_CustomerProfile">
+      <bpmn:lane id="Lane_0" name="">
+      </bpmn:lane>
+    </bpmn:laneSet>
+
+    <bpmn:dataObject id="DataObject_auditParams" name="auditParams" />
+    <bpmn:dataObject id="DataObject_chainIntoImpedimentForm" name="chainIntoImpedimentForm" />
+    <bpmn:dataObject id="DataObject_companyProfile" name="companyProfile" />
+    <bpmn:dataObject id="DataObject_customer" name="customer" />
+    <bpmn:dataObject id="DataObject_existingCompanyDetails" name="existingCompanyDetails" />
+    <bpmn:dataObject id="DataObject_isRequestSuccess" name="isRequestSuccess" />
+
+    <bpmn:startEvent id="StartEvent_0" name="Start Node">
+      <bpmn:outgoing>Flow_0</bpmn:outgoing>
+    </bpmn:startEvent>
+
+    <bpmn:endEvent id="EndEvent_1" name="End Node">
+      <bpmn:incoming>Flow_1</bpmn:incoming>
+      <bpmn:incoming>Flow_2</bpmn:incoming>
+      <bpmn:incoming>Flow_3</bpmn:incoming>
+    </bpmn:endEvent>
+
+    <bpmn:userTask id="UserTask_2" name="Get Customer Profile">
+      <bpmn:incoming>Flow_4</bpmn:incoming>
+      <bpmn:outgoing>Flow_5</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_3" name="Set integration status to complete">
+      <bpmn:incoming>Flow_6</bpmn:incoming>
+      <bpmn:incoming>Flow_7</bpmn:incoming>
+      <bpmn:outgoing>Flow_8</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:exclusiveGateway id="ExclusiveGateway_4" name="API Success ?">
+      <bpmn:incoming>Flow_9</bpmn:incoming>
+      <bpmn:outgoing>Flow_10</bpmn:outgoing>
+      <bpmn:outgoing>Flow_11</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+
+    <bpmn:exclusiveGateway id="ExclusiveGateway_5" name="Show form?">
+      <bpmn:incoming>Flow_12</bpmn:incoming>
+      <bpmn:outgoing>Flow_13</bpmn:outgoing>
+      <bpmn:outgoing>Flow_14</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+
+    <bpmn:endEvent id="EndEvent_6" name="End Event">
+    </bpmn:endEvent>
+
+    <bpmn:scriptTask id="ScriptTask_7" name="Display reason">
+      <bpmn:incoming>Flow_15</bpmn:incoming>
+      <bpmn:outgoing>Flow_16</bpmn:outgoing>
+    </bpmn:scriptTask>
+
+    <bpmn:userTask id="UserTask_8" name="Set Company Details">
+      <bpmn:incoming>Flow_17</bpmn:incoming>
+      <bpmn:outgoing>Flow_18</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:exclusiveGateway id="ExclusiveGateway_9" name="Execute request?">
+      <bpmn:incoming>Flow_19</bpmn:incoming>
+      <bpmn:outgoing>Flow_20</bpmn:outgoing>
+      <bpmn:outgoing>Flow_21</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+
+    <bpmn:userTask id="UserTask_10" name="Parse and Save Details to DB">
+      <bpmn:incoming>Flow_22</bpmn:incoming>
+      <bpmn:outgoing>Flow_23</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:sequenceFlow id="Flow_0" sourceRef="StartEvent_0" targetRef="ExclusiveGateway_9" />
+    <bpmn:sequenceFlow id="Flow_1" sourceRef="UserTask_3" targetRef="EndEvent_1" />
+    <bpmn:sequenceFlow id="Flow_2" sourceRef="ExclusiveGateway_5" targetRef="EndEvent_1" />
+    <bpmn:sequenceFlow id="Flow_3" sourceRef="ScriptTask_7" targetRef="EndEvent_1" />
+    <bpmn:sequenceFlow id="Flow_4" sourceRef="ExclusiveGateway_9" targetRef="UserTask_2" />
+    <bpmn:sequenceFlow id="Flow_5" sourceRef="UserTask_2" targetRef="ExclusiveGateway_4" />
+    <bpmn:sequenceFlow id="Flow_6" sourceRef="ExclusiveGateway_4" targetRef="UserTask_3" />
+    <bpmn:sequenceFlow id="Flow_7" sourceRef="UserTask_8" targetRef="UserTask_3" />
+    <bpmn:sequenceFlow id="Flow_10" sourceRef="ExclusiveGateway_4" targetRef="UserTask_10" />
+    <bpmn:sequenceFlow id="Flow_12" sourceRef="ExclusiveGateway_9" targetRef="ExclusiveGateway_5" />
+    <bpmn:sequenceFlow id="Flow_14" sourceRef="ExclusiveGateway_5" targetRef="ScriptTask_7" />
+    <bpmn:sequenceFlow id="Flow_17" sourceRef="UserTask_10" targetRef="UserTask_8" />
+  </bpmn:process>
+
+</bpmn:definitions>

@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL"
+  xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+  xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+  xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
+  id="Definitions_AS_FS_IDP_Classify_Document"
+  targetNamespace="http://bpmn.io/schema/bpmn">
+
+  <!-- Appian Process Model: AS FS IDP Classify Document -->
+  <!-- Source UUID: 001ae579-c81f-8000-2214-7f0000014e7a -->
+  <!-- Description: Classify Document -->
+  <!-- Pega Case Type Mapping: See migration metadata for stage/step correlation -->
+
+  <bpmn:collaboration id="Collaboration_AS_FS_IDP_Classify_Document">
+    <bpmn:participant id="Participant_AS_FS_IDP_Classify_Document" name="AS FS IDP Classify Document" processRef="Process_AS_FS_IDP_Classify_Document" />
+  </bpmn:collaboration>
+
+  <bpmn:process id="Process_AS_FS_IDP_Classify_Document" name="AS FS IDP Classify Document" isExecutable="false">
+    <bpmn:documentation>Classify Document</bpmn:documentation>
+
+    <bpmn:laneSet id="LaneSet_AS_FS_IDP_Classify_Document">
+      <bpmn:lane id="Lane_0" name="">
+      </bpmn:lane>
+    </bpmn:laneSet>
+
+    <bpmn:dataObject id="DataObject_deleteFromStorageError" name="deleteFromStorageError" />
+    <bpmn:dataObject id="DataObject_deleteFromStorageSuccess" name="deleteFromStorageSuccess" />
+    <bpmn:dataObject id="DataObject_docChannel" name="docChannel" />
+    <bpmn:dataObject id="DataObject_docUnderstanding" name="docUnderstanding" />
+    <bpmn:dataObject id="DataObject_predictError" name="predictError" />
+    <bpmn:dataObject id="DataObject_predictResult" name="predictResult" />
+    <bpmn:dataObject id="DataObject_predictSuccess" name="predictSuccess" />
+    <bpmn:dataObject id="DataObject_prediction" name="prediction" />
+    <bpmn:dataObject id="DataObject_requiredDocTypeId" name="requiredDocTypeId" />
+    <bpmn:dataObject id="DataObject_uploadToStorageError" name="uploadToStorageError" />
+    <bpmn:dataObject id="DataObject_uploadToStorageSuccess" name="uploadToStorageSuccess" />
+    <bpmn:dataObject id="DataObject_uploadedDocPath" name="uploadedDocPath" />
+
+    <bpmn:startEvent id="StartEvent_0" name="Start Node">
+      <bpmn:outgoing>Flow_0</bpmn:outgoing>
+    </bpmn:startEvent>
+
+    <bpmn:endEvent id="EndEvent_1" name="End Node">
+      <bpmn:incoming>Flow_1</bpmn:incoming>
+    </bpmn:endEvent>
+
+    <bpmn:endEvent id="EndEvent_2" name="End Node">
+      <bpmn:incoming>Flow_2</bpmn:incoming>
+    </bpmn:endEvent>
+
+    <bpmn:userTask id="UserTask_3" name="Update doc understanding">
+      <bpmn:incoming>Flow_3</bpmn:incoming>
+      <bpmn:outgoing>Flow_4</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_4" name="Update doc understanding">
+      <bpmn:incoming>Flow_5</bpmn:incoming>
+      <bpmn:outgoing>Flow_6</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_5" name="Predict document classification">
+      <bpmn:incoming>Flow_7</bpmn:incoming>
+      <bpmn:outgoing>Flow_8</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_6" name="Set prediction and conf">
+      <bpmn:incoming>Flow_9</bpmn:incoming>
+      <bpmn:outgoing>Flow_10</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_7" name="Delete doc from cloud storage">
+      <bpmn:incoming>Flow_11</bpmn:incoming>
+      <bpmn:outgoing>Flow_12</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_8" name="Upload doc to cloud storage">
+      <bpmn:incoming>Flow_13</bpmn:incoming>
+      <bpmn:outgoing>Flow_14</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:exclusiveGateway id="ExclusiveGateway_9" name="Skip prediction / trained?">
+      <bpmn:incoming>Flow_15</bpmn:incoming>
+      <bpmn:outgoing>Flow_16</bpmn:outgoing>
+      <bpmn:outgoing>Flow_17</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+
+    <bpmn:exclusiveGateway id="ExclusiveGateway_10" name="High conf and valid?">
+      <bpmn:incoming>Flow_18</bpmn:incoming>
+      <bpmn:outgoing>Flow_19</bpmn:outgoing>
+      <bpmn:outgoing>Flow_20</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+
+    <bpmn:userTask id="UserTask_11" name="Set classification task fields">
+      <bpmn:incoming>Flow_21</bpmn:incoming>
+      <bpmn:incoming>Flow_22</bpmn:incoming>
+      <bpmn:outgoing>Flow_23</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_12" name="Set status Completed">
+      <bpmn:incoming>Flow_24</bpmn:incoming>
+      <bpmn:outgoing>Flow_25</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:sequenceFlow id="Flow_0" sourceRef="StartEvent_0" targetRef="ExclusiveGateway_9" />
+    <bpmn:sequenceFlow id="Flow_1" sourceRef="UserTask_4" targetRef="EndEvent_1" />
+    <bpmn:sequenceFlow id="Flow_2" sourceRef="UserTask_3" targetRef="EndEvent_2" />
+    <bpmn:sequenceFlow id="Flow_3" sourceRef="UserTask_12" targetRef="UserTask_3" />
+    <bpmn:sequenceFlow id="Flow_5" sourceRef="UserTask_11" targetRef="UserTask_4" />
+    <bpmn:sequenceFlow id="Flow_7" sourceRef="UserTask_8" targetRef="UserTask_5" />
+    <bpmn:sequenceFlow id="Flow_8" sourceRef="UserTask_5" targetRef="UserTask_7" />
+    <bpmn:sequenceFlow id="Flow_9" sourceRef="UserTask_7" targetRef="UserTask_6" />
+    <bpmn:sequenceFlow id="Flow_10" sourceRef="UserTask_6" targetRef="ExclusiveGateway_10" />
+    <bpmn:sequenceFlow id="Flow_13" sourceRef="ExclusiveGateway_9" targetRef="UserTask_8" />
+    <bpmn:sequenceFlow id="Flow_17" sourceRef="ExclusiveGateway_9" targetRef="UserTask_11" />
+    <bpmn:sequenceFlow id="Flow_19" sourceRef="ExclusiveGateway_10" targetRef="UserTask_12" />
+    <bpmn:sequenceFlow id="Flow_20" sourceRef="ExclusiveGateway_10" targetRef="UserTask_11" />
+  </bpmn:process>
+
+</bpmn:definitions>

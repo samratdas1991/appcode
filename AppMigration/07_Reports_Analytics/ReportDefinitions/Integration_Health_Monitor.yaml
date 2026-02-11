@@ -1,0 +1,31 @@
+# Report Definition: Integration Health Monitor
+# Pega Migration Target: Report Definition (Summary)
+
+reportName: Integration Health Monitor
+description: Monitor external integration call success rates and response times
+dataSource: Integration Logs
+columns:
+- name: IntegrationName
+  dataType: Text
+  aggregation: Group By
+- name: SuccessRate
+  dataType: Decimal
+  aggregation: Average
+- name: AvgResponseTime
+  dataType: Decimal
+  aggregation: Average
+- name: ErrorCount
+  dataType: Integer
+  aggregation: Sum
+filters:
+- field: Date
+  operator: '>='
+  defaultValue: Last 7 days
+sorting:
+- field: ErrorCount
+  direction: DESC
+grouping:
+- IntegrationName
+pegaReportType: Report Definition (Summary)
+pegaImplementationNotes: Leverage Pega Health Check and Predictive Diagnostic Cloud
+  for integration monitoring.

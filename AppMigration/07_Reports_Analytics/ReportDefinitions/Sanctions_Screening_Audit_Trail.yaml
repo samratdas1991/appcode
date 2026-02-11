@@ -1,0 +1,38 @@
+# Report Definition: Sanctions Screening Audit Trail
+# Pega Migration Target: Report Definition (List)
+
+reportName: Sanctions Screening Audit Trail
+description: Complete audit log of all sanctions screening activities
+dataSource: AS_FS_SanctionsScreening
+columns:
+- name: EntityName
+  dataType: Text
+  aggregation: None
+- name: ScreeningProvider
+  dataType: Text
+  aggregation: Group By
+- name: Result
+  dataType: Text
+  aggregation: Group By
+- name: ScreenedBy
+  dataType: Text
+  aggregation: None
+- name: Timestamp
+  dataType: DateTime
+  aggregation: None
+filters:
+- field: Result
+  operator: '='
+  defaultValue: All
+- field: Timestamp
+  operator: BETWEEN
+  defaultValue: Date range
+sorting:
+- field: Timestamp
+  direction: DESC
+grouping:
+- ScreeningProvider
+- Result
+pegaReportType: Report Definition (List)
+pegaImplementationNotes: Create as audit report with full export capabilities. Include
+  regulatory compliance headers.

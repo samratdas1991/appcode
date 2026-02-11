@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL"
+  xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+  xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+  xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
+  id="Definitions_AS_FS_Delete_Account_Type_Wrapper"
+  targetNamespace="http://bpmn.io/schema/bpmn">
+
+  <!-- Appian Process Model: AS FS Delete Account Type Wrapper -->
+  <!-- Source UUID: 0002e54f-a065-8000-1db5-7f0000014e7a -->
+  <!-- Description: Wrapper to delete account type and to deactivate the account product mapping -->
+  <!-- Pega Case Type Mapping: See migration metadata for stage/step correlation -->
+
+  <bpmn:collaboration id="Collaboration_AS_FS_Delete_Account_Type_Wrapper">
+    <bpmn:participant id="Participant_AS_FS_Delete_Account_Type_Wrapper" name="AS FS Delete Account Type Wrapper" processRef="Process_AS_FS_Delete_Account_Type_Wrapper" />
+  </bpmn:collaboration>
+
+  <bpmn:process id="Process_AS_FS_Delete_Account_Type_Wrapper" name="AS FS Delete Account Type Wrapper" isExecutable="false">
+    <bpmn:documentation>Wrapper to delete account type and to deactivate the account product mapping</bpmn:documentation>
+
+    <bpmn:laneSet id="LaneSet_AS_FS_Delete_Account_Type_Wrapper">
+      <bpmn:lane id="Lane_0" name="">
+      </bpmn:lane>
+    </bpmn:laneSet>
+
+    <bpmn:dataObject id="DataObject_accountProductMapping" name="accountProductMapping" />
+    <bpmn:dataObject id="DataObject_refData" name="refData" />
+
+    <bpmn:startEvent id="StartEvent_0" name="Start Node">
+      <bpmn:outgoing>Flow_0</bpmn:outgoing>
+    </bpmn:startEvent>
+
+    <bpmn:endEvent id="EndEvent_1" name="End Node">
+      <bpmn:incoming>Flow_1</bpmn:incoming>
+      <bpmn:incoming>Flow_2</bpmn:incoming>
+    </bpmn:endEvent>
+
+    <bpmn:userTask id="UserTask_2" name="Deactivate Account type">
+      <bpmn:incoming>Flow_3</bpmn:incoming>
+      <bpmn:outgoing>Flow_4</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:exclusiveGateway id="ExclusiveGateway_3" name="Check for mapping">
+      <bpmn:incoming>Flow_5</bpmn:incoming>
+      <bpmn:outgoing>Flow_6</bpmn:outgoing>
+      <bpmn:outgoing>Flow_7</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+
+    <bpmn:userTask id="UserTask_4" name="Deactivate Acc Prod Mapping">
+      <bpmn:incoming>Flow_8</bpmn:incoming>
+      <bpmn:outgoing>Flow_9</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:sequenceFlow id="Flow_0" sourceRef="StartEvent_0" targetRef="UserTask_2" />
+    <bpmn:sequenceFlow id="Flow_1" sourceRef="ExclusiveGateway_3" targetRef="EndEvent_1" />
+    <bpmn:sequenceFlow id="Flow_2" sourceRef="UserTask_4" targetRef="EndEvent_1" />
+    <bpmn:sequenceFlow id="Flow_4" sourceRef="UserTask_2" targetRef="ExclusiveGateway_3" />
+    <bpmn:sequenceFlow id="Flow_6" sourceRef="ExclusiveGateway_3" targetRef="UserTask_4" />
+  </bpmn:process>
+
+</bpmn:definitions>

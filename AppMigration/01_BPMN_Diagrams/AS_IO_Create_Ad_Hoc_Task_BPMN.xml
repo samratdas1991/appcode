@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL"
+  xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+  xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+  xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
+  id="Definitions_AS_IO_Create_Ad_Hoc_Task"
+  targetNamespace="http://bpmn.io/schema/bpmn">
+
+  <!-- Appian Process Model: AS IO Create Ad Hoc Task -->
+  <!-- Source UUID: 0002e2d9-bff4-8000-f92f-7f0000014e7a -->
+  <!-- Description: creates and ad hoc onboarding task -->
+  <!-- Pega Case Type Mapping: See migration metadata for stage/step correlation -->
+
+  <bpmn:collaboration id="Collaboration_AS_IO_Create_Ad_Hoc_Task">
+    <bpmn:participant id="Participant_AS_IO_Create_Ad_Hoc_Task" name="AS IO Create Ad Hoc Task" processRef="Process_AS_IO_Create_Ad_Hoc_Task" />
+  </bpmn:collaboration>
+
+  <bpmn:process id="Process_AS_IO_Create_Ad_Hoc_Task" name="AS IO Create Ad Hoc Task" isExecutable="false">
+    <bpmn:documentation>creates and ad hoc onboarding task</bpmn:documentation>
+
+    <bpmn:laneSet id="LaneSet_AS_IO_Create_Ad_Hoc_Task">
+      <bpmn:lane id="Lane_0" name="">
+      </bpmn:lane>
+    </bpmn:laneSet>
+
+    <bpmn:dataObject id="DataObject_allUploadedDocuments" name="allUploadedDocuments" />
+    <bpmn:dataObject id="DataObject_task" name="task" />
+    <bpmn:dataObject id="DataObject_userAction" name="userAction" />
+
+    <bpmn:startEvent id="StartEvent_0" name="Start Node">
+      <bpmn:outgoing>Flow_0</bpmn:outgoing>
+    </bpmn:startEvent>
+
+    <bpmn:endEvent id="EndEvent_1" name="End Node">
+      <bpmn:incoming>Flow_1</bpmn:incoming>
+      <bpmn:incoming>Flow_2</bpmn:incoming>
+      <bpmn:incoming>Flow_3</bpmn:incoming>
+    </bpmn:endEvent>
+
+    <bpmn:userTask id="UserTask_2" name="Audit">
+      <bpmn:incoming>Flow_4</bpmn:incoming>
+      <bpmn:incoming>Flow_5</bpmn:incoming>
+      <bpmn:outgoing>Flow_6</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:exclusiveGateway id="ExclusiveGateway_3" name="cancel?">
+      <bpmn:incoming>Flow_7</bpmn:incoming>
+      <bpmn:outgoing>Flow_8</bpmn:outgoing>
+      <bpmn:outgoing>Flow_9</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+
+    <bpmn:userTask id="UserTask_4" name="Write to Task">
+      <bpmn:incoming>Flow_10</bpmn:incoming>
+      <bpmn:outgoing>Flow_11</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_5" name="update task">
+      <bpmn:incoming>Flow_12</bpmn:incoming>
+      <bpmn:outgoing>Flow_13</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:exclusiveGateway id="ExclusiveGateway_6" name="Check for DocuSign Task?">
+      <bpmn:incoming>Flow_14</bpmn:incoming>
+      <bpmn:outgoing>Flow_15</bpmn:outgoing>
+      <bpmn:outgoing>Flow_16</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+
+    <bpmn:userTask id="UserTask_7" name="Delete uploaded documents">
+      <bpmn:incoming>Flow_17</bpmn:incoming>
+      <bpmn:outgoing>Flow_18</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_8" name="Setup Docusign Task">
+      <bpmn:incoming>Flow_19</bpmn:incoming>
+      <bpmn:outgoing>Flow_20</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:exclusiveGateway id="ExclusiveGateway_9" name="External task?">
+      <bpmn:incoming>Flow_21</bpmn:incoming>
+      <bpmn:outgoing>Flow_22</bpmn:outgoing>
+      <bpmn:outgoing>Flow_23</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+
+    <bpmn:userTask id="UserTask_10" name="Send Task Email Notification">
+      <bpmn:incoming>Flow_24</bpmn:incoming>
+      <bpmn:outgoing>Flow_25</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:sequenceFlow id="Flow_0" sourceRef="StartEvent_0" targetRef="ExclusiveGateway_3" />
+    <bpmn:sequenceFlow id="Flow_1" sourceRef="UserTask_7" targetRef="EndEvent_1" />
+    <bpmn:sequenceFlow id="Flow_2" sourceRef="ExclusiveGateway_9" targetRef="EndEvent_1" />
+    <bpmn:sequenceFlow id="Flow_3" sourceRef="UserTask_10" targetRef="EndEvent_1" />
+    <bpmn:sequenceFlow id="Flow_4" sourceRef="ExclusiveGateway_6" targetRef="UserTask_2" />
+    <bpmn:sequenceFlow id="Flow_5" sourceRef="UserTask_8" targetRef="UserTask_2" />
+    <bpmn:sequenceFlow id="Flow_6" sourceRef="UserTask_2" targetRef="ExclusiveGateway_9" />
+    <bpmn:sequenceFlow id="Flow_8" sourceRef="ExclusiveGateway_3" targetRef="UserTask_5" />
+    <bpmn:sequenceFlow id="Flow_9" sourceRef="ExclusiveGateway_3" targetRef="UserTask_7" />
+    <bpmn:sequenceFlow id="Flow_10" sourceRef="UserTask_5" targetRef="UserTask_4" />
+    <bpmn:sequenceFlow id="Flow_11" sourceRef="UserTask_4" targetRef="ExclusiveGateway_6" />
+    <bpmn:sequenceFlow id="Flow_15" sourceRef="ExclusiveGateway_6" targetRef="UserTask_8" />
+    <bpmn:sequenceFlow id="Flow_22" sourceRef="ExclusiveGateway_9" targetRef="UserTask_10" />
+  </bpmn:process>
+
+</bpmn:definitions>

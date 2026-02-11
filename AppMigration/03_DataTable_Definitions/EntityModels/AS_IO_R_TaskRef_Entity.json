@@ -1,0 +1,141 @@
+{
+  "entityName": "AS_IO_R_TaskRef",
+  "pegaClassName": "Data-IO-RTaskRef",
+  "tableName": "AS_IO_R_TASK_REF",
+  "description": "Reference task which can be referenced in templates",
+  "module": "IO",
+  "attributes": [
+    {
+      "appianFieldName": "taskRefId",
+      "pegaPropertyName": "Taskrefid",
+      "appianDataType": "xsd:int",
+      "pegaDataType": "Integer",
+      "columnName": "TASK_REF_ID",
+      "required": true,
+      "isPrimaryKey": true,
+      "isForeignKey": false
+    },
+    {
+      "appianFieldName": "taskName",
+      "pegaPropertyName": "Taskname",
+      "appianDataType": "xsd:string",
+      "pegaDataType": "Text",
+      "columnName": "TASK_NAME",
+      "required": false,
+      "isPrimaryKey": false,
+      "isForeignKey": false
+    },
+    {
+      "appianFieldName": "taskBehaviorType",
+      "pegaPropertyName": "Taskbehaviortype",
+      "appianDataType": "tns:AS_IO_R_TaskBehaviorType",
+      "pegaDataType": "Integer",
+      "columnName": "TASK_BEHAVIOR_TYPE_ID",
+      "required": false,
+      "isPrimaryKey": false,
+      "isForeignKey": true
+    },
+    {
+      "appianFieldName": "taskCategory",
+      "pegaPropertyName": "Taskcategory",
+      "appianDataType": "tns:AS_IO_R_TaskCategory",
+      "pegaDataType": "Integer",
+      "columnName": "TASK_CATEGORY_ID",
+      "required": false,
+      "isPrimaryKey": false,
+      "isForeignKey": true
+    },
+    {
+      "appianFieldName": "defaultGroupAssignee",
+      "pegaPropertyName": "Defaultgroupassignee",
+      "appianDataType": "xsd:int",
+      "pegaDataType": "Integer",
+      "columnName": "DEFAULT_GROUP_ASSIGNEE",
+      "required": false,
+      "isPrimaryKey": false,
+      "isForeignKey": false
+    },
+    {
+      "appianFieldName": "docUploadContext",
+      "pegaPropertyName": "Docuploadcontext",
+      "appianDataType": "tns:AS_IO_R_TaskRef_DocUploadContext",
+      "pegaDataType": "Integer",
+      "columnName": "TASK_REF_DOC_UPLOAD_ID",
+      "required": false,
+      "isPrimaryKey": false,
+      "isForeignKey": true
+    },
+    {
+      "appianFieldName": "docSignatureContext",
+      "pegaPropertyName": "Docsignaturecontext",
+      "appianDataType": "fs1:AS_FS_DOCUSIGN_R_DocSignatureContext",
+      "pegaDataType": "Integer",
+      "columnName": "DOC_SIGNATURE_CONTEXT_REF_ID",
+      "required": false,
+      "isPrimaryKey": false,
+      "isForeignKey": true
+    },
+    {
+      "appianFieldName": "createdBy",
+      "pegaPropertyName": "Createdby",
+      "appianDataType": "xsd:string",
+      "pegaDataType": "Text",
+      "columnName": "CREATED_BY",
+      "required": false,
+      "isPrimaryKey": false,
+      "isForeignKey": false
+    },
+    {
+      "appianFieldName": "createdDatetime",
+      "pegaPropertyName": "Createddatetime",
+      "appianDataType": "xsd:dateTime",
+      "pegaDataType": "DateTime",
+      "columnName": "CREATED_DATETIME",
+      "required": false,
+      "isPrimaryKey": false,
+      "isForeignKey": false
+    },
+    {
+      "appianFieldName": "modifiedBy",
+      "pegaPropertyName": "Modifiedby",
+      "appianDataType": "xsd:string",
+      "pegaDataType": "Text",
+      "columnName": "MODIFIED_BY",
+      "required": false,
+      "isPrimaryKey": false,
+      "isForeignKey": false
+    },
+    {
+      "appianFieldName": "modifiedDatetime",
+      "pegaPropertyName": "Modifieddatetime",
+      "appianDataType": "xsd:dateTime",
+      "pegaDataType": "DateTime",
+      "columnName": "MODIFIED_DATETIME",
+      "required": false,
+      "isPrimaryKey": false,
+      "isForeignKey": false
+    }
+  ],
+  "relationships": [
+    {
+      "type": "ManyToOne",
+      "foreignKey": "TASK_BEHAVIOR_TYPE_ID",
+      "appianFieldName": "taskBehaviorType"
+    },
+    {
+      "type": "ManyToOne",
+      "foreignKey": "TASK_CATEGORY_ID",
+      "appianFieldName": "taskCategory"
+    },
+    {
+      "type": "ManyToOne",
+      "foreignKey": "TASK_REF_DOC_UPLOAD_ID",
+      "appianFieldName": "docUploadContext"
+    },
+    {
+      "type": "ManyToOne",
+      "foreignKey": "DOC_SIGNATURE_CONTEXT_REF_ID",
+      "appianFieldName": "docSignatureContext"
+    }
+  ]
+}

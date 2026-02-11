@@ -1,0 +1,34 @@
+# Report Definition: KYC/AML Compliance Report
+# Pega Migration Target: Report Definition (List)
+
+reportName: KYC/AML Compliance Report
+description: Compliance screening results and verification status
+dataSource: AS_FS_KYCResult, AS_FS_AMLScreening
+columns:
+- name: CustomerName
+  dataType: Text
+  aggregation: None
+- name: ScreeningResult
+  dataType: Text
+  aggregation: Group By
+- name: RiskScore
+  dataType: Decimal
+  aggregation: Average
+- name: ScreeningDate
+  dataType: DateTime
+  aggregation: None
+filters:
+- field: ScreeningDate
+  operator: BETWEEN
+  defaultValue: Date range
+- field: ScreeningResult
+  operator: '='
+  defaultValue: All
+sorting:
+- field: RiskScore
+  direction: DESC
+grouping:
+- ScreeningResult
+pegaReportType: Report Definition (List)
+pegaImplementationNotes: Create as list report with drill-down to case details. Include
+  export to PDF/Excel.

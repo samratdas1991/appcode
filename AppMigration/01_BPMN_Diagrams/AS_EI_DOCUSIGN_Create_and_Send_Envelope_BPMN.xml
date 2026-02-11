@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL"
+  xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+  xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+  xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
+  id="Definitions_AS_EI_DOCUSIGN_Create_and_Send_Envelope"
+  targetNamespace="http://bpmn.io/schema/bpmn">
+
+  <!-- Appian Process Model: AS EI DOCUSIGN Create and Send Envelope -->
+  <!-- Source UUID: 0002e595-4861-8000-2797-7f0000014e7a -->
+  <!-- Description: Calls Docusign Create and Send Envelope -->
+  <!-- Pega Case Type Mapping: See migration metadata for stage/step correlation -->
+
+  <bpmn:collaboration id="Collaboration_AS_EI_DOCUSIGN_Create_and_Send_Envelope">
+    <bpmn:participant id="Participant_AS_EI_DOCUSIGN_Create_and_Send_Envelope" name="AS EI DOCUSIGN Create and Send Envelope" processRef="Process_AS_EI_DOCUSIGN_Create_and_Send_Envelope" />
+  </bpmn:collaboration>
+
+  <bpmn:process id="Process_AS_EI_DOCUSIGN_Create_and_Send_Envelope" name="AS EI DOCUSIGN Create and Send Envelope" isExecutable="false">
+    <bpmn:documentation>Calls Docusign Create and Send Envelope</bpmn:documentation>
+
+    <bpmn:dataObject id="DataObject_Success" name="Success" />
+    <bpmn:dataObject id="DataObject_envelopeId" name="envelopeId" />
+    <bpmn:dataObject id="DataObject_inputs" name="inputs" />
+
+    <bpmn:startEvent id="StartEvent_0" name="Start Node">
+      <bpmn:outgoing>Flow_0</bpmn:outgoing>
+    </bpmn:startEvent>
+
+    <bpmn:endEvent id="EndEvent_1" name="End Node">
+      <bpmn:incoming>Flow_1</bpmn:incoming>
+      <bpmn:incoming>Flow_2</bpmn:incoming>
+    </bpmn:endEvent>
+
+    <bpmn:userTask id="UserTask_2" name="Create and Send Envelope">
+      <bpmn:incoming>Flow_3</bpmn:incoming>
+      <bpmn:outgoing>Flow_4</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:exclusiveGateway id="ExclusiveGateway_3" name="is DocuSign Enabled?">
+      <bpmn:incoming>Flow_5</bpmn:incoming>
+      <bpmn:outgoing>Flow_6</bpmn:outgoing>
+      <bpmn:outgoing>Flow_7</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+
+    <bpmn:sequenceFlow id="Flow_0" sourceRef="StartEvent_0" targetRef="ExclusiveGateway_3" />
+    <bpmn:sequenceFlow id="Flow_1" sourceRef="UserTask_2" targetRef="EndEvent_1" />
+    <bpmn:sequenceFlow id="Flow_2" sourceRef="ExclusiveGateway_3" targetRef="EndEvent_1" />
+    <bpmn:sequenceFlow id="Flow_3" sourceRef="ExclusiveGateway_3" targetRef="UserTask_2" />
+  </bpmn:process>
+
+</bpmn:definitions>

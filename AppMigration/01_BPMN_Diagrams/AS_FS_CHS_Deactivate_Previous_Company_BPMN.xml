@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL"
+  xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+  xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+  xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
+  id="Definitions_AS_FS_CHS_Deactivate_Previous_Company"
+  targetNamespace="http://bpmn.io/schema/bpmn">
+
+  <!-- Appian Process Model: AS FS CHS Deactivate Previous Company -->
+  <!-- Source UUID: 0000e5c1-ee26-8000-2c05-7f0000014e7a -->
+  <!-- Description: Process to deactivate a Previous Company Details -->
+  <!-- Pega Case Type Mapping: See migration metadata for stage/step correlation -->
+
+  <bpmn:collaboration id="Collaboration_AS_FS_CHS_Deactivate_Previous_Company">
+    <bpmn:participant id="Participant_AS_FS_CHS_Deactivate_Previous_Company" name="AS FS CHS Deactivate Previous Company" processRef="Process_AS_FS_CHS_Deactivate_Previous_Company" />
+  </bpmn:collaboration>
+
+  <bpmn:process id="Process_AS_FS_CHS_Deactivate_Previous_Company" name="AS FS CHS Deactivate Previous Company" isExecutable="false">
+    <bpmn:documentation>Process to deactivate a Previous Company Details</bpmn:documentation>
+
+    <bpmn:laneSet id="LaneSet_AS_FS_CHS_Deactivate_Previous_Company">
+      <bpmn:lane id="Lane_0" name="">
+      </bpmn:lane>
+    </bpmn:laneSet>
+
+    <bpmn:dataObject id="DataObject_modifiedByOverride" name="modifiedByOverride" />
+    <bpmn:dataObject id="DataObject_previousCompanyDetail" name="previousCompanyDetail" />
+    <bpmn:dataObject id="DataObject_userAction" name="userAction" />
+
+    <bpmn:startEvent id="StartEvent_0" name="Start Node">
+      <bpmn:outgoing>Flow_0</bpmn:outgoing>
+    </bpmn:startEvent>
+
+    <bpmn:endEvent id="EndEvent_1" name="End Node">
+      <bpmn:incoming>Flow_1</bpmn:incoming>
+    </bpmn:endEvent>
+
+    <bpmn:userTask id="UserTask_2" name="Deactivate Previous Company Detail owners">
+      <bpmn:incoming>Flow_2</bpmn:incoming>
+      <bpmn:outgoing>Flow_3</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_3" name="Save Details">
+      <bpmn:incoming>Flow_4</bpmn:incoming>
+      <bpmn:outgoing>Flow_5</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:sequenceFlow id="Flow_0" sourceRef="StartEvent_0" targetRef="UserTask_2" />
+    <bpmn:sequenceFlow id="Flow_1" sourceRef="UserTask_3" targetRef="EndEvent_1" />
+    <bpmn:sequenceFlow id="Flow_3" sourceRef="UserTask_2" targetRef="UserTask_3" />
+  </bpmn:process>
+
+</bpmn:definitions>

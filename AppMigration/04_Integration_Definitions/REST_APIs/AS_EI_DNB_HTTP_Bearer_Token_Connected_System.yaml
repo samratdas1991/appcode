@@ -1,0 +1,30 @@
+# Integration Definition: AS EI DNB HTTP Bearer Token Connected System
+# Source: _a-0000e673-a4a7-8000-9bef-011c48011c48_1983874.xml
+# Pega Migration Target: REST Connector
+
+integrationName: AS EI DNB HTTP Bearer Token Connected System
+uuid: _a-0000e673-a4a7-8000-9bef-011c48011c48_1983874
+description: HTTP connected system explicitly for retrieving the bearer token for
+  authorization in other Dun and Bradstreet endpoints
+integrationType: system.http
+pegaConnectorType: REST Connector
+baseURL: https://plus.dnb.com
+authentication:
+  appianAuthType: Basic Auth (Preemptive)
+  pegaAuthProfile: OAuth 2.0 Client Credentials
+  notes: D&B compliance and ownership data
+endpoints:
+- name: Get Token
+  method: POST
+  path: /v2/token
+  description: Retrieve bearer token
+- name: Sanctions Screening
+  method: GET
+  path: /v1/compliance/sanctions
+  description: Screen against sanctions
+- name: Beneficial Ownership
+  method: GET
+  path: /v1/beneficialowner
+  description: Get UBO data
+pegaMappingNotes: Map to Pega REST Connector with OAuth 2.0 Client Credentials
+sourceFile: _a-0000e673-a4a7-8000-9bef-011c48011c48_1983874.xml

@@ -1,0 +1,12 @@
+-- Source Appian CDT: AS_QNM_Questionnaire
+-- Description: Datatype for questionnaires.  This should be used exclusively to link a set of questions to some other type of business CDT.
+DROP TABLE IF EXISTS AS_QNM_QUESTIONNAIRE CASCADE;
+CREATE TABLE AS_QNM_QUESTIONNAIRE (
+    QUESTIONNAIRE_ID INT PRIMARY KEY,
+    QUESTIONNAIRE_TEMPLATE_ID INT,
+    QUESTIONNAIRE_STATUS_CODE VARCHAR(255),
+    CREATED_BY VARCHAR(255),
+    CREATED_DATETIME TIMESTAMP,
+    MODIFIED_BY VARCHAR(255),
+    MODIFIED_DATETIME TIMESTAMP
+);

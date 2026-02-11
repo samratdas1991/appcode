@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL"
+  xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+  xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+  xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
+  id="Definitions_AS_FS_ALT_Evaluate_Alerts_Configurations"
+  targetNamespace="http://bpmn.io/schema/bpmn">
+
+  <!-- Appian Process Model: AS FS ALT Evaluate Alerts Configurations -->
+  <!-- Source UUID: 0002e722-a8b5-8000-54d1-7f0000014e7a -->
+  <!-- Description: Given the audit parameters of the object(s) which were just updated, evaluates whether any alerts and events should be generated -->
+  <!-- Pega Case Type Mapping: See migration metadata for stage/step correlation -->
+
+  <bpmn:collaboration id="Collaboration_AS_FS_ALT_Evaluate_Alerts_Configurations">
+    <bpmn:participant id="Participant_AS_FS_ALT_Evaluate_Alerts_Configurations" name="AS FS ALT Evaluate Alerts Configurations" processRef="Process_AS_FS_ALT_Evaluate_Alerts_Configurations" />
+  </bpmn:collaboration>
+
+  <bpmn:process id="Process_AS_FS_ALT_Evaluate_Alerts_Configurations" name="AS FS ALT Evaluate Alerts Configurations" isExecutable="false">
+    <bpmn:documentation>Given the audit parameters of the object(s) which were just updated, evaluates whether any alerts and events should be generated</bpmn:documentation>
+
+    <bpmn:laneSet id="LaneSet_AS_FS_ALT_Evaluate_Alerts_Configurations">
+      <bpmn:lane id="Lane_0" name="">
+      </bpmn:lane>
+    </bpmn:laneSet>
+
+    <bpmn:dataObject id="DataObject_additionalEntityRelationsAuditParams" name="additionalEntityRelationsAuditParams" />
+    <bpmn:dataObject id="DataObject_alertAuditMappings" name="alertAuditMappings" />
+    <bpmn:dataObject id="DataObject_alertConfigurationsThatGenerateKYCInvestigation" name="alertConfigurationsThatGenerateKYCInvestigation" />
+    <bpmn:dataObject id="DataObject_alertConfigurationsThatGenerateServiceRequest" name="alertConfigurationsThatGenerateServiceRequest" />
+    <bpmn:dataObject id="DataObject_alertConfigurationsTriggered" name="alertConfigurationsTriggered" />
+    <bpmn:dataObject id="DataObject_alerts" name="alerts" />
+    <bpmn:dataObject id="DataObject_beneficialOwnerAuditParameters" name="beneficialOwnerAuditParameters" />
+    <bpmn:dataObject id="DataObject_customerAuditParameters" name="customerAuditParameters" />
+    <bpmn:dataObject id="DataObject_customerId" name="customerId" />
+    <bpmn:dataObject id="DataObject_entityRelationsAuditParameters" name="entityRelationsAuditParameters" />
+    <bpmn:dataObject id="DataObject_skipFurtherEntityEvaluation" name="skipFurtherEntityEvaluation" />
+
+    <bpmn:startEvent id="StartEvent_0" name="Start Node">
+      <bpmn:outgoing>Flow_0</bpmn:outgoing>
+    </bpmn:startEvent>
+
+    <bpmn:userTask id="UserTask_1" name="Create list of entity relations and customer">
+      <bpmn:incoming>Flow_1</bpmn:incoming>
+      <bpmn:outgoing>Flow_2</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_2" name="Save Alerts">
+      <bpmn:incoming>Flow_3</bpmn:incoming>
+      <bpmn:outgoing>Flow_4</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:endEvent id="EndEvent_3" name="End Node">
+      <bpmn:incoming>Flow_5</bpmn:incoming>
+      <bpmn:incoming>Flow_6</bpmn:incoming>
+      <bpmn:incoming>Flow_7</bpmn:incoming>
+      <bpmn:incoming>Flow_8</bpmn:incoming>
+      <bpmn:incoming>Flow_9</bpmn:incoming>
+      <bpmn:incoming>Flow_10</bpmn:incoming>
+    </bpmn:endEvent>
+
+    <bpmn:userTask id="UserTask_4" name="Evaluate Alert Configurations">
+      <bpmn:incoming>Flow_11</bpmn:incoming>
+      <bpmn:outgoing>Flow_12</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_5" name="Create KYCs">
+      <bpmn:incoming>Flow_13</bpmn:incoming>
+      <bpmn:outgoing>Flow_14</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_6" name="Create SRQs">
+      <bpmn:incoming>Flow_15</bpmn:incoming>
+      <bpmn:outgoing>Flow_16</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:subProcess id="SubProcess_7" name="AND">
+      <bpmn:incoming>Flow_17</bpmn:incoming>
+      <bpmn:outgoing>Flow_18</bpmn:outgoing>
+      <bpmn:outgoing>Flow_19</bpmn:outgoing>
+    </bpmn:subProcess>
+
+    <bpmn:exclusiveGateway id="ExclusiveGateway_8" name="Any alerts to be generated?">
+      <bpmn:incoming>Flow_20</bpmn:incoming>
+      <bpmn:outgoing>Flow_21</bpmn:outgoing>
+      <bpmn:outgoing>Flow_22</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+
+    <bpmn:parallelGateway id="ParallelGateway_9" name="Any events triggered?">
+      <bpmn:incoming>Flow_23</bpmn:incoming>
+      <bpmn:outgoing>Flow_24</bpmn:outgoing>
+      <bpmn:outgoing>Flow_25</bpmn:outgoing>
+      <bpmn:outgoing>Flow_26</bpmn:outgoing>
+    </bpmn:parallelGateway>
+
+    <bpmn:userTask id="UserTask_10" name="Write alert audit mappings">
+      <bpmn:incoming>Flow_27</bpmn:incoming>
+      <bpmn:outgoing>Flow_28</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_11" name="Create alerts for other customers">
+      <bpmn:incoming>Flow_29</bpmn:incoming>
+      <bpmn:outgoing>Flow_30</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:exclusiveGateway id="ExclusiveGateway_12" name="Any entity relations updates?">
+      <bpmn:incoming>Flow_31</bpmn:incoming>
+      <bpmn:outgoing>Flow_32</bpmn:outgoing>
+      <bpmn:outgoing>Flow_33</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+
+    <bpmn:userTask id="UserTask_13" name="Determine configs with events">
+      <bpmn:incoming>Flow_34</bpmn:incoming>
+      <bpmn:outgoing>Flow_35</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:sequenceFlow id="Flow_0" sourceRef="StartEvent_0" targetRef="UserTask_4" />
+    <bpmn:sequenceFlow id="Flow_1" sourceRef="ExclusiveGateway_12" targetRef="UserTask_1" />
+    <bpmn:sequenceFlow id="Flow_2" sourceRef="UserTask_1" targetRef="UserTask_11" />
+    <bpmn:sequenceFlow id="Flow_3" sourceRef="ExclusiveGateway_8" targetRef="UserTask_2" />
+    <bpmn:sequenceFlow id="Flow_4" sourceRef="UserTask_2" targetRef="UserTask_13" />
+    <bpmn:sequenceFlow id="Flow_5" sourceRef="UserTask_5" targetRef="EndEvent_3" />
+    <bpmn:sequenceFlow id="Flow_6" sourceRef="UserTask_6" targetRef="EndEvent_3" />
+    <bpmn:sequenceFlow id="Flow_7" sourceRef="ExclusiveGateway_8" targetRef="EndEvent_3" />
+    <bpmn:sequenceFlow id="Flow_8" sourceRef="ParallelGateway_9" targetRef="EndEvent_3" />
+    <bpmn:sequenceFlow id="Flow_9" sourceRef="UserTask_11" targetRef="EndEvent_3" />
+    <bpmn:sequenceFlow id="Flow_10" sourceRef="ExclusiveGateway_12" targetRef="EndEvent_3" />
+    <bpmn:sequenceFlow id="Flow_12" sourceRef="UserTask_4" targetRef="SubProcess_7" />
+    <bpmn:sequenceFlow id="Flow_13" sourceRef="ParallelGateway_9" targetRef="UserTask_5" />
+    <bpmn:sequenceFlow id="Flow_15" sourceRef="ParallelGateway_9" targetRef="UserTask_6" />
+    <bpmn:sequenceFlow id="Flow_18" sourceRef="SubProcess_7" targetRef="ExclusiveGateway_8" />
+    <bpmn:sequenceFlow id="Flow_19" sourceRef="SubProcess_7" targetRef="ExclusiveGateway_12" />
+    <bpmn:sequenceFlow id="Flow_23" sourceRef="UserTask_10" targetRef="ParallelGateway_9" />
+    <bpmn:sequenceFlow id="Flow_27" sourceRef="UserTask_13" targetRef="UserTask_10" />
+  </bpmn:process>
+
+</bpmn:definitions>

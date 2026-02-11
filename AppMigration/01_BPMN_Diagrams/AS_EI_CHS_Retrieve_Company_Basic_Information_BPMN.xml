@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL"
+  xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+  xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+  xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
+  id="Definitions_AS_EI_CHS_Retrieve_Company_Basic_Information"
+  targetNamespace="http://bpmn.io/schema/bpmn">
+
+  <!-- Appian Process Model: AS EI CHS Retrieve Company Basic Information -->
+  <!-- Source UUID: 0002e5b0-e5f6-8000-2a4e-7f0000014e7a -->
+  <!-- Description: PM to retrieve company basic information -->
+  <!-- Pega Case Type Mapping: See migration metadata for stage/step correlation -->
+
+  <bpmn:collaboration id="Collaboration_AS_EI_CHS_Retrieve_Company_Basic_Information">
+    <bpmn:participant id="Participant_AS_EI_CHS_Retrieve_Company_Basic_Information" name="AS EI CHS Retrieve Company Basic Information" processRef="Process_AS_EI_CHS_Retrieve_Company_Basic_Information" />
+  </bpmn:collaboration>
+
+  <bpmn:process id="Process_AS_EI_CHS_Retrieve_Company_Basic_Information" name="AS EI CHS Retrieve Company Basic Information" isExecutable="false">
+    <bpmn:documentation>PM to retrieve company basic information</bpmn:documentation>
+
+    <bpmn:laneSet id="LaneSet_AS_EI_CHS_Retrieve_Company_Basic_Information">
+      <bpmn:lane id="Lane_0" name="">
+      </bpmn:lane>
+    </bpmn:laneSet>
+
+    <bpmn:dataObject id="DataObject_companyId" name="companyId" />
+    <bpmn:dataObject id="DataObject_companyNumber" name="companyNumber" />
+    <bpmn:dataObject id="DataObject_integrationError" name="integrationError" />
+    <bpmn:dataObject id="DataObject_integrationResult" name="integrationResult" />
+    <bpmn:dataObject id="DataObject_isRequestSuccess" name="isRequestSuccess" />
+    <bpmn:dataObject id="DataObject_requstDetails" name="requstDetails" />
+
+    <bpmn:startEvent id="StartEvent_0" name="Start Node">
+      <bpmn:outgoing>Flow_0</bpmn:outgoing>
+    </bpmn:startEvent>
+
+    <bpmn:userTask id="UserTask_1" name="Get Company Information">
+      <bpmn:incoming>Flow_1</bpmn:incoming>
+      <bpmn:incoming>Flow_2</bpmn:incoming>
+      <bpmn:outgoing>Flow_3</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_2" name="Wait">
+      <bpmn:incoming>Flow_4</bpmn:incoming>
+      <bpmn:outgoing>Flow_5</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_3" name="Default Timeout">
+      <bpmn:outgoing>Flow_6</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_4" name="Save Request Details">
+      <bpmn:incoming>Flow_7</bpmn:incoming>
+      <bpmn:outgoing>Flow_8</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_5" name="Update Request Details">
+      <bpmn:incoming>Flow_9</bpmn:incoming>
+      <bpmn:incoming>Flow_10</bpmn:incoming>
+      <bpmn:outgoing>Flow_11</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:exclusiveGateway id="ExclusiveGateway_6" name="Retry ?">
+      <bpmn:incoming>Flow_12</bpmn:incoming>
+      <bpmn:outgoing>Flow_13</bpmn:outgoing>
+      <bpmn:outgoing>Flow_14</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+
+    <bpmn:endEvent id="EndEvent_7" name="End Node">
+      <bpmn:incoming>Flow_15</bpmn:incoming>
+    </bpmn:endEvent>
+
+    <bpmn:sequenceFlow id="Flow_0" sourceRef="StartEvent_0" targetRef="UserTask_1" />
+    <bpmn:sequenceFlow id="Flow_2" sourceRef="UserTask_2" targetRef="UserTask_1" />
+    <bpmn:sequenceFlow id="Flow_3" sourceRef="UserTask_1" targetRef="UserTask_4" />
+    <bpmn:sequenceFlow id="Flow_4" sourceRef="ExclusiveGateway_6" targetRef="UserTask_2" />
+    <bpmn:sequenceFlow id="Flow_6" sourceRef="UserTask_3" targetRef="UserTask_5" />
+    <bpmn:sequenceFlow id="Flow_8" sourceRef="UserTask_4" targetRef="ExclusiveGateway_6" />
+    <bpmn:sequenceFlow id="Flow_10" sourceRef="ExclusiveGateway_6" targetRef="UserTask_5" />
+    <bpmn:sequenceFlow id="Flow_11" sourceRef="UserTask_5" targetRef="EndEvent_7" />
+  </bpmn:process>
+
+</bpmn:definitions>

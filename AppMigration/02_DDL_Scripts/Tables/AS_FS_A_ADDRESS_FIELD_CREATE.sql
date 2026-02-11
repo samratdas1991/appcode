@@ -1,0 +1,10 @@
+-- Source Appian CDT: AS_FS_A_Address_Field
+-- Description: Holds auditing data for `AS_FS_Address` - simple field change
+DROP TABLE IF EXISTS AS_FS_A_ADDRESS_FIELD CASCADE;
+CREATE TABLE AS_FS_A_ADDRESS_FIELD (
+    ADDRESS_AUDIT_FIELD_ID INT PRIMARY KEY,
+    ADDRESS_AUDIT_ID INT,
+    FIELD_NAME VARCHAR(255),
+    OLD_VALUE VARCHAR(255),
+    NEW_VALUE VARCHAR(255)
+);

@@ -1,0 +1,59 @@
+# Connected Systems Summary - Appian to Pega Migration
+# Total Connected Systems: 11
+
+connectedSystems:
+- name: AS FS Trade.gov Consolidated Screening
+  type: system.http
+  pegaEquivalent: REST Connector
+  authType: API Key
+  baseURL: https://api.trade.gov/gateway/v2/consolidated_screening_list
+- name: AS EI CS Northrow
+  type: system.http
+  pegaEquivalent: REST Connector
+  authType: Bearer Token
+  baseURL: https://api.northrow.com
+- name: AS FS IDP Google Cloud Storage
+  type: plugin.[com.appian.ps.google.cloud.storage.csp].[GoogleCloudStorageConnectedSystemTemplate]
+  pegaEquivalent: REST Connector
+  authType: Google Service Account
+  baseURL: https://storage.googleapis.com
+- name: AS FS IDP Google Cloud AutoML
+  type: plugin.[com.appian.ps.google.ai.automl.csp].[AutoMLConnectedSystemTemplate]
+  pegaEquivalent: REST Connector
+  authType: Google Service Account
+  baseURL: https://automl.googleapis.com
+- name: AS FS IDP Google Cloud General
+  type: system.http
+  pegaEquivalent: REST Connector
+  authType: Google Service Account
+  baseURL: https://www.googleapis.com
+- name: AS EI Docusign Connected System
+  type: plugin.[DocuSignMultiAuth].[DocuSignConnectedSystem]
+  pegaEquivalent: REST Connector
+  authType: OAuth 2.0 (CSTF)
+  baseURL: https://demo.docusign.net/restapi
+- name: AS EI CHS CS Companies House
+  type: system.http
+  pegaEquivalent: REST Connector
+  authType: API Key
+  baseURL: https://api.company-information.service.gov.uk
+- name: AS FS RPA Connected System
+  type: plugin.[AppianRPA].[AppianRPA]@2
+  pegaEquivalent: Pega RPA Connected System
+  authType: Encrypted API Key
+  baseURL: ''
+- name: AS FS CS RPA API
+  type: system.http
+  pegaEquivalent: Pega RPA / REST Connector
+  authType: API Key
+  baseURL: ''
+- name: AS EI DNB HTTP Bearer Token Connected System
+  type: system.http
+  pegaEquivalent: REST Connector
+  authType: Basic Auth (Preemptive)
+  baseURL: https://plus.dnb.com
+- name: AS EI Northrow FS Bearer Token Connected System
+  type: plugin.[com.appian.solutions.fsintegrations].[Northrow]
+  pegaEquivalent: REST Connector
+  authType: Custom (Org UID + Access Key)
+  baseURL: https://api.northrow.com

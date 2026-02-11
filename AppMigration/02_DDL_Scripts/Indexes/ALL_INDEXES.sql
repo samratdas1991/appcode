@@ -1,0 +1,700 @@
+-- Index definitions for all tables
+-- Generated from Appian CDT JPA annotations
+
+-- Index on primary key for AS_ALT_ALERT
+CREATE INDEX IF NOT EXISTS idx_as_alt_alert_pk ON AS_ALT_ALERT (ALERT_ID);
+
+-- Index on primary key for AS_ALT_ALERT_ARGUMENT
+CREATE INDEX IF NOT EXISTS idx_as_alt_alert_argument_pk ON AS_ALT_ALERT_ARGUMENT (ALERT_ARGUMENT_ID);
+
+-- Index on primary key for AS_ALT_ALERT_DISMISSAL
+CREATE INDEX IF NOT EXISTS idx_as_alt_alert_dismissal_pk ON AS_ALT_ALERT_DISMISSAL (ALERT_DISMISSAL_ID);
+CREATE INDEX IF NOT EXISTS idx_as_alt_alert_dismissal_reason ON AS_ALT_ALERT_DISMISSAL (REASON);
+
+-- Index on primary key for AS_ALT_ALERT_DISMISSAL_STATUS
+CREATE INDEX IF NOT EXISTS idx_as_alt_alert_dismissal_status_pk ON AS_ALT_ALERT_DISMISSAL_STATUS (ALERT_ID);
+
+-- Index on primary key for AS_ALT_ALERT_SET
+CREATE INDEX IF NOT EXISTS idx_as_alt_alert_set_pk ON AS_ALT_ALERT_SET (ALERT_SET_ID);
+
+-- Index on primary key for AS_EI_CHS_COMPANY_PROFILE
+CREATE INDEX IF NOT EXISTS idx_as_ei_chs_company_profile_pk ON AS_EI_CHS_COMPANY_PROFILE (COMPANY_PROFILE_ID);
+
+-- Index on primary key for AS_EI_DNB_SANCTIONS_WATCHLIST
+CREATE INDEX IF NOT EXISTS idx_as_ei_dnb_sanctions_watchlist_pk ON AS_EI_DNB_SANCTIONS_WATCHLIST (SANCTIONS_WATCHLIST_ID);
+
+-- Index on primary key for AS_EI_DNB_ULTIMATE_BENEFICIAL_OWNERSHIP
+CREATE INDEX IF NOT EXISTS idx_as_ei_dnb_ultimate_beneficial_ownership_pk ON AS_EI_DNB_ULTIMATE_BENEFICIAL_OWNERSHIP (ULTIMATE_BENEFICIAL_OWNERSHIP _ID);
+
+-- Index on primary key for AS_EI_NORTHROW_ALERTS
+CREATE INDEX IF NOT EXISTS idx_as_ei_northrow_alerts_pk ON AS_EI_NORTHROW_ALERTS (ID);
+
+-- Index on primary key for AS_EI_NORTHROW_COMPANY_CHECK_REFRESH_INTERVAL
+CREATE INDEX IF NOT EXISTS idx_as_ei_northrow_company_check_refresh_interval_pk ON AS_EI_NORTHROW_COMPANY_CHECK_REFRESH_INTERVAL (ID);
+
+-- Index on primary key for AS_EI_NORTHROW_COMPANY_CHECK_SUMMARY
+CREATE INDEX IF NOT EXISTS idx_as_ei_northrow_company_check_summary_pk ON AS_EI_NORTHROW_COMPANY_CHECK_SUMMARY (ID);
+
+-- Index on primary key for AS_FS_ACCOUNT
+CREATE INDEX IF NOT EXISTS idx_as_fs_account_pk ON AS_FS_ACCOUNT (ACCOUNT_ID);
+
+-- Index on primary key for AS_FS_ADDRESS
+CREATE INDEX IF NOT EXISTS idx_as_fs_address_pk ON AS_FS_ADDRESS (ADDRESS_ID);
+
+-- Index on primary key for AS_FS_ALT_ALERT_AUDIT_MAPPING
+CREATE INDEX IF NOT EXISTS idx_as_fs_alt_alert_audit_mapping_pk ON AS_FS_ALT_ALERT_AUDIT_MAPPING (ALERT_AUDIT_MAPPING_ID);
+
+-- Index on primary key for AS_FS_ALT_A_ALERT_CONFIGURATION
+CREATE INDEX IF NOT EXISTS idx_as_fs_alt_a_alert_configuration_pk ON AS_FS_ALT_A_ALERT_CONFIGURATION (ALERT_CONFIGURATION_AUDIT_ID);
+CREATE INDEX IF NOT EXISTS idx_as_fs_alt_a_alert_configuration_alert_configuration_filter_set_audit_id ON AS_FS_ALT_A_ALERT_CONFIGURATION (ALERT_CONFIGURATION_FILTER_SET_AUDIT_ID);
+CREATE INDEX IF NOT EXISTS idx_as_fs_alt_a_alert_configuration_alert_configuration_trigger_set_audit_id ON AS_FS_ALT_A_ALERT_CONFIGURATION (ALERT_CONFIGURATION_TRIGGER_SET_AUDIT_ID);
+
+-- Index on primary key for AS_FS_ALT_A_ALERT_CONFIGURATION_EVENT
+CREATE INDEX IF NOT EXISTS idx_as_fs_alt_a_alert_configuration_event_pk ON AS_FS_ALT_A_ALERT_CONFIGURATION_EVENT (ALERT_CONFIGURATION_EVENT_AUDIT_ID);
+
+-- Index on primary key for AS_FS_ALT_A_ALERT_CONFIGURATION_EVENT_FIELD
+CREATE INDEX IF NOT EXISTS idx_as_fs_alt_a_alert_configuration_event_field_pk ON AS_FS_ALT_A_ALERT_CONFIGURATION_EVENT_FIELD (ALERT_CONFIGURATION_AUDIT_FIELD_ID);
+
+-- Index on primary key for AS_FS_ALT_A_ALERT_CONFIGURATION_FIELD
+CREATE INDEX IF NOT EXISTS idx_as_fs_alt_a_alert_configuration_field_pk ON AS_FS_ALT_A_ALERT_CONFIGURATION_FIELD (ALERT_CONFIGURATION_AUDIT_FIELD_ID);
+
+-- Index on primary key for AS_FS_ALT_A_ALERT_CONFIGURATION_FILTER_CONDITION
+CREATE INDEX IF NOT EXISTS idx_as_fs_alt_a_alert_configuration_filter_condition_pk ON AS_FS_ALT_A_ALERT_CONFIGURATION_FILTER_CONDITION (ALERT_CONFIGURATION_FILTER_CONDITION_AUDIT_ID);
+
+-- Index on primary key for AS_FS_ALT_A_ALERT_CONFIGURATION_FILTER_CONDITION_FIELD
+CREATE INDEX IF NOT EXISTS idx_as_fs_alt_a_alert_configuration_filter_condition_field_pk ON AS_FS_ALT_A_ALERT_CONFIGURATION_FILTER_CONDITION_FIELD (ALERT_CONFIGURATION_FILTER_CONDITION_FIELD_ID);
+
+-- Index on primary key for AS_FS_ALT_A_ALERT_CONFIGURATION_FILTER_SET
+CREATE INDEX IF NOT EXISTS idx_as_fs_alt_a_alert_configuration_filter_set_pk ON AS_FS_ALT_A_ALERT_CONFIGURATION_FILTER_SET (ALERT_CONFIGURATION_FILTER_SET_AUDIT_ID);
+
+-- Index on primary key for AS_FS_ALT_A_ALERT_CONFIGURATION_FILTER_SET_FIELD
+CREATE INDEX IF NOT EXISTS idx_as_fs_alt_a_alert_configuration_filter_set_field_pk ON AS_FS_ALT_A_ALERT_CONFIGURATION_FILTER_SET_FIELD (ALERT_CONFIGURATION_FILTER_SET_AUDIT_FIELD_ID);
+
+-- Index on primary key for AS_FS_ALT_A_ALERT_CONFIGURATION_TRIGGER_CONDITION
+CREATE INDEX IF NOT EXISTS idx_as_fs_alt_a_alert_configuration_trigger_condition_pk ON AS_FS_ALT_A_ALERT_CONFIGURATION_TRIGGER_CONDITION (ALERT_CONFIGURATION_TRIGGER_CONDITION_AUDIT_ID);
+
+-- Index on primary key for AS_FS_ALT_A_ALERT_CONFIGURATION_TRIGGER_CONDITION_FIELD
+CREATE INDEX IF NOT EXISTS idx_as_fs_alt_a_alert_configuration_trigger_condition_field_pk ON AS_FS_ALT_A_ALERT_CONFIGURATION_TRIGGER_CONDITION_FIELD (ALERT_CONFIGURATION_TRIGGER_CONDITION_FIELD_ID);
+
+-- Index on primary key for AS_FS_ALT_A_ALERT_CONFIGURATION_TRIGGER_SET
+CREATE INDEX IF NOT EXISTS idx_as_fs_alt_a_alert_configuration_trigger_set_pk ON AS_FS_ALT_A_ALERT_CONFIGURATION_TRIGGER_SET (ALERT_CONFIGURATION_TRIGGER_SET_AUDIT_ID);
+
+-- Index on primary key for AS_FS_ALT_A_ALERT_CONFIGURATION_TRIGGER_SET_FIELD
+CREATE INDEX IF NOT EXISTS idx_as_fs_alt_a_alert_configuration_trigger_set_field_pk ON AS_FS_ALT_A_ALERT_CONFIGURATION_TRIGGER_SET_FIELD (ALERT_CONFIGURATION_TRIGGER_SET_AUDIT_FIELD_ID);
+
+-- Index on primary key for AS_FS_ALT_CONF_ALERT_CONFIGURATION
+CREATE INDEX IF NOT EXISTS idx_as_fs_alt_conf_alert_configuration_pk ON AS_FS_ALT_CONF_ALERT_CONFIGURATION (ALERT_CONFIGURATION_ID);
+CREATE INDEX IF NOT EXISTS idx_as_fs_alt_conf_alert_configuration_alert_configuration_filter_set_id ON AS_FS_ALT_CONF_ALERT_CONFIGURATION (ALERT_CONFIGURATION_FILTER_SET_ID);
+CREATE INDEX IF NOT EXISTS idx_as_fs_alt_conf_alert_configuration_alert_configuration_trigger_set_id ON AS_FS_ALT_CONF_ALERT_CONFIGURATION (ALERT_CONFIGURATION_TRIGGER_SET_ID);
+
+-- Index on primary key for AS_FS_ALT_CONF_ALERT_CONFIGURATION_EVENT
+CREATE INDEX IF NOT EXISTS idx_as_fs_alt_conf_alert_configuration_event_pk ON AS_FS_ALT_CONF_ALERT_CONFIGURATION_EVENT (ALERT_CONFIGURATION_EVENT_ID);
+
+-- Index on primary key for AS_FS_ALT_CONF_ALERT_CONFIGURATION_FILTER_CONDITION
+CREATE INDEX IF NOT EXISTS idx_as_fs_alt_conf_alert_configuration_filter_condition_pk ON AS_FS_ALT_CONF_ALERT_CONFIGURATION_FILTER_CONDITION (ALERT_CONFIGURATION_FILTER_CONDITION_ID);
+
+-- Index on primary key for AS_FS_ALT_CONF_ALERT_CONFIGURATION_FILTER_SET
+CREATE INDEX IF NOT EXISTS idx_as_fs_alt_conf_alert_configuration_filter_set_pk ON AS_FS_ALT_CONF_ALERT_CONFIGURATION_FILTER_SET (ALERT_CONFIGURATION_FILTER_SET_ID);
+
+-- Index on primary key for AS_FS_ALT_CONF_ALERT_CONFIGURATION_TRIGGER_CONDITION
+CREATE INDEX IF NOT EXISTS idx_as_fs_alt_conf_alert_configuration_trigger_condition_pk ON AS_FS_ALT_CONF_ALERT_CONFIGURATION_TRIGGER_CONDITION (ALERT_CONFIGURATION_TRIGGER_CONDITION_ID);
+
+-- Index on primary key for AS_FS_ALT_CONF_ALERT_CONFIGURATION_TRIGGER_SET
+CREATE INDEX IF NOT EXISTS idx_as_fs_alt_conf_alert_configuration_trigger_set_pk ON AS_FS_ALT_CONF_ALERT_CONFIGURATION_TRIGGER_SET (ALERT_CONFIGURATION_TRIGGER_SET_ID);
+
+-- Index on primary key for AS_FS_A_ACCOUNT
+CREATE INDEX IF NOT EXISTS idx_as_fs_a_account_pk ON AS_FS_A_ACCOUNT (ACCOUNT_AUDIT_ID);
+
+-- Index on primary key for AS_FS_A_ACCOUNT_FIELD
+CREATE INDEX IF NOT EXISTS idx_as_fs_a_account_field_pk ON AS_FS_A_ACCOUNT_FIELD (ACCOUNT_AUDIT_FIELD_ID);
+
+-- Index on primary key for AS_FS_A_ADDRESS
+CREATE INDEX IF NOT EXISTS idx_as_fs_a_address_pk ON AS_FS_A_ADDRESS (ADDRESS_AUDIT_ID);
+
+-- Index on primary key for AS_FS_A_ADDRESS_FIELD
+CREATE INDEX IF NOT EXISTS idx_as_fs_a_address_field_pk ON AS_FS_A_ADDRESS_FIELD (ADDRESS_AUDIT_FIELD_ID);
+
+-- Index on primary key for AS_FS_A_BENEFICIAL_OWNER
+CREATE INDEX IF NOT EXISTS idx_as_fs_a_beneficial_owner_pk ON AS_FS_A_BENEFICIAL_OWNER (BENEFICIAL_OWNER_AUDIT_ID);
+
+-- Index on primary key for AS_FS_A_BENEFICIAL_OWNER_FIELD
+CREATE INDEX IF NOT EXISTS idx_as_fs_a_beneficial_owner_field_pk ON AS_FS_A_BENEFICIAL_OWNER_FIELD (BENEFICIAL_OWNER_AUDIT_FIELD_ID);
+
+-- Index on primary key for AS_FS_A_CONTACT
+CREATE INDEX IF NOT EXISTS idx_as_fs_a_contact_pk ON AS_FS_A_CONTACT (CONTACT_AUDIT_ID);
+
+-- Index on primary key for AS_FS_A_CONTACT_FIELD
+CREATE INDEX IF NOT EXISTS idx_as_fs_a_contact_field_pk ON AS_FS_A_CONTACT_FIELD (CONTACT_AUDIT_FIELD_ID);
+
+-- Index on primary key for AS_FS_A_COUNTRY
+CREATE INDEX IF NOT EXISTS idx_as_fs_a_country_pk ON AS_FS_A_COUNTRY (COUNTRY_AUDIT_ID);
+
+-- Index on primary key for AS_FS_A_COUNTRY_FIELD
+CREATE INDEX IF NOT EXISTS idx_as_fs_a_country_field_pk ON AS_FS_A_COUNTRY_FIELD (COUNTRY_AUDIT_FIELD_ID);
+
+-- Index on primary key for AS_FS_A_CUSTOMER
+CREATE INDEX IF NOT EXISTS idx_as_fs_a_customer_pk ON AS_FS_A_CUSTOMER (CUSTOMER_AUDIT_ID);
+
+-- Index on primary key for AS_FS_A_CUSTOMER_FIELD
+CREATE INDEX IF NOT EXISTS idx_as_fs_a_customer_field_pk ON AS_FS_A_CUSTOMER_FIELD (CUSTOMER_AUDIT_FIELD_ID);
+
+-- Index on primary key for AS_FS_A_CUSTOMER_RELATION
+CREATE INDEX IF NOT EXISTS idx_as_fs_a_customer_relation_pk ON AS_FS_A_CUSTOMER_RELATION (CUSTOMER_RELATION_AUDIT_ID);
+
+-- Index on primary key for AS_FS_A_CUSTOMER_RELATION_FIELD
+CREATE INDEX IF NOT EXISTS idx_as_fs_a_customer_relation_field_pk ON AS_FS_A_CUSTOMER_RELATION_FIELD (CUSTOMER_RELATION_AUDIT_FIELD_ID);
+
+-- Index on primary key for AS_FS_A_FEE
+CREATE INDEX IF NOT EXISTS idx_as_fs_a_fee_pk ON AS_FS_A_FEE (FEE_AUDIT_ID);
+CREATE INDEX IF NOT EXISTS idx_as_fs_a_fee_country_audit_id ON AS_FS_A_FEE (COUNTRY_AUDIT_ID);
+
+-- Index on primary key for AS_FS_A_FEE_FIELD
+CREATE INDEX IF NOT EXISTS idx_as_fs_a_fee_field_pk ON AS_FS_A_FEE_FIELD (FEE_AUDIT_FIELD_ID);
+
+-- Index on primary key for AS_FS_A_PAY_THRESHOLD
+CREATE INDEX IF NOT EXISTS idx_as_fs_a_pay_threshold_pk ON AS_FS_A_PAY_THRESHOLD (PAY_THRESHOLD_AUDIT_ID);
+
+-- Index on primary key for AS_FS_A_PAY_THRESHOLD_FIELD
+CREATE INDEX IF NOT EXISTS idx_as_fs_a_pay_threshold_field_pk ON AS_FS_A_PAY_THRESHOLD_FIELD (PAY_THRESHOLD_AUDIT_FIELD_ID);
+
+-- Index on primary key for AS_FS_A_PHONE
+CREATE INDEX IF NOT EXISTS idx_as_fs_a_phone_pk ON AS_FS_A_PHONE (PHONE_AUDIT_ID);
+
+-- Index on primary key for AS_FS_A_PHONE_FIELD
+CREATE INDEX IF NOT EXISTS idx_as_fs_a_phone_field_pk ON AS_FS_A_PHONE_FIELD (PHONE_AUDIT_FIELD_ID);
+
+-- Index on primary key for AS_FS_A_PRODUCT
+CREATE INDEX IF NOT EXISTS idx_as_fs_a_product_pk ON AS_FS_A_PRODUCT (PRODUCT_AUDIT_ID);
+CREATE INDEX IF NOT EXISTS idx_as_fs_a_product_term_audit_id ON AS_FS_A_PRODUCT (TERM_AUDIT_ID);
+
+-- Index on primary key for AS_FS_A_PRODUCT_FIELD
+CREATE INDEX IF NOT EXISTS idx_as_fs_a_product_field_pk ON AS_FS_A_PRODUCT_FIELD (PRODUCT_AUDIT_FIELD_ID);
+
+-- Index on primary key for AS_FS_A_R_ALL_USER_SETTINGS
+CREATE INDEX IF NOT EXISTS idx_as_fs_a_r_all_user_settings_pk ON AS_FS_A_R_ALL_USER_SETTINGS (USER_SETTINGS_AUDIT_ID);
+
+-- Index on primary key for AS_FS_A_R_ALL_USER_SETTINGS_FIELD
+CREATE INDEX IF NOT EXISTS idx_as_fs_a_r_all_user_settings_field_pk ON AS_FS_A_R_ALL_USER_SETTINGS_FIELD (USER_SETTINGS_AUDIT_FIELD_ID);
+
+-- Index on primary key for AS_FS_A_TERM
+CREATE INDEX IF NOT EXISTS idx_as_fs_a_term_pk ON AS_FS_A_TERM (TERM_AUDIT_ID);
+
+-- Index on primary key for AS_FS_A_TERM_FIELD
+CREATE INDEX IF NOT EXISTS idx_as_fs_a_term_field_pk ON AS_FS_A_TERM_FIELD (TERM_AUDIT_FIELD_ID);
+
+-- Index on primary key for AS_FS_BENEFICIAL_OWNER
+CREATE INDEX IF NOT EXISTS idx_as_fs_beneficial_owner_pk ON AS_FS_BENEFICIAL_OWNER (BENEFICIAL_OWNER_ID);
+
+-- Index on primary key for AS_FS_CHS_A_COMPANY_DETAILS
+CREATE INDEX IF NOT EXISTS idx_as_fs_chs_a_company_details_pk ON AS_FS_CHS_A_COMPANY_DETAILS (COMPANY_DETAILS_AUDIT_ID);
+
+-- Index on primary key for AS_FS_CHS_A_COMPANY_DETAILS_FIELD
+CREATE INDEX IF NOT EXISTS idx_as_fs_chs_a_company_details_field_pk ON AS_FS_CHS_A_COMPANY_DETAILS_FIELD (COMPANY_DETAILS_AUDIT_FIELD_ID);
+
+-- Index on primary key for AS_FS_CHS_A_PREVIOUS_COMPANY_DETAILS
+CREATE INDEX IF NOT EXISTS idx_as_fs_chs_a_previous_company_details_pk ON AS_FS_CHS_A_PREVIOUS_COMPANY_DETAILS (PREVIOUS_COMPANY_DETAILS_AUDIT_ID);
+
+-- Index on primary key for AS_FS_CHS_A_PREVIOUS_COMPANY_DETAILS_FIELD
+CREATE INDEX IF NOT EXISTS idx_as_fs_chs_a_previous_company_details_field_pk ON AS_FS_CHS_A_PREVIOUS_COMPANY_DETAILS_FIELD (PREVIOUS_COMPANY_DETAILS_AUDIT_FIELD_ID);
+
+-- Index on primary key for AS_FS_CHS_COMPANY_DETAILS
+CREATE INDEX IF NOT EXISTS idx_as_fs_chs_company_details_pk ON AS_FS_CHS_COMPANY_DETAILS (COMPANY_DETAILS_ID);
+CREATE INDEX IF NOT EXISTS idx_as_fs_chs_company_details_company_link_id ON AS_FS_CHS_COMPANY_DETAILS (COMPANY_LINK_ID);
+CREATE INDEX IF NOT EXISTS idx_as_fs_chs_company_details_foreign_company_details_id ON AS_FS_CHS_COMPANY_DETAILS (FOREIGN_COMPANY_DETAILS_ID);
+CREATE INDEX IF NOT EXISTS idx_as_fs_chs_company_details_address_id ON AS_FS_CHS_COMPANY_DETAILS (ADDRESS_ID);
+
+-- Index on primary key for AS_FS_CHS_COMPANY_LINK
+CREATE INDEX IF NOT EXISTS idx_as_fs_chs_company_link_pk ON AS_FS_CHS_COMPANY_LINK (COMPANY_LINK_ID);
+
+-- Index on primary key for AS_FS_CHS_FOREIGN_COMPANY_DETAILS
+CREATE INDEX IF NOT EXISTS idx_as_fs_chs_foreign_company_details_pk ON AS_FS_CHS_FOREIGN_COMPANY_DETAILS (FOREIGN_COMPANY_DETAILS_ID);
+
+-- Index on primary key for AS_FS_CHS_PREVIOUS_COMPANY_DETAILS
+CREATE INDEX IF NOT EXISTS idx_as_fs_chs_previous_company_details_pk ON AS_FS_CHS_PREVIOUS_COMPANY_DETAILS (PREVIOUS_COMPANY_DETAILS_ID);
+
+-- Index on primary key for AS_FS_CHS_R_DATA
+CREATE INDEX IF NOT EXISTS idx_as_fs_chs_r_data_pk ON AS_FS_CHS_R_DATA (R_DATA_ID);
+
+-- Index on primary key for AS_FS_CONTACT
+CREATE INDEX IF NOT EXISTS idx_as_fs_contact_pk ON AS_FS_CONTACT (CONTACT_ID);
+
+-- Index on primary key for AS_FS_COUNTRY
+CREATE INDEX IF NOT EXISTS idx_as_fs_country_pk ON AS_FS_COUNTRY (COUNTRY_ID);
+
+-- Index on primary key for AS_FS_CS_RESULT
+CREATE INDEX IF NOT EXISTS idx_as_fs_cs_result_pk ON AS_FS_CS_RESULT (RESULT_ID);
+
+-- Index on primary key for AS_FS_CS_RESULT_FINDING
+CREATE INDEX IF NOT EXISTS idx_as_fs_cs_result_finding_pk ON AS_FS_CS_RESULT_FINDING (RESULT_FINDING_ID);
+
+-- Index on primary key for AS_FS_CUSTOMER
+CREATE INDEX IF NOT EXISTS idx_as_fs_customer_pk ON AS_FS_CUSTOMER (CUSTOMER_ID);
+CREATE INDEX IF NOT EXISTS idx_as_fs_customer_domicile ON AS_FS_CUSTOMER (DOMICILE);
+
+-- Index on primary key for AS_FS_CUSTOMER_DOCUMENT
+CREATE INDEX IF NOT EXISTS idx_as_fs_customer_document_pk ON AS_FS_CUSTOMER_DOCUMENT (CUSTOMER_DOCUMENT_ID);
+CREATE INDEX IF NOT EXISTS idx_as_fs_customer_document_appian_doc_id ON AS_FS_CUSTOMER_DOCUMENT (APPIAN_DOC_ID);
+
+-- Index on primary key for AS_FS_CUSTOMER_RELATION
+CREATE INDEX IF NOT EXISTS idx_as_fs_customer_relation_pk ON AS_FS_CUSTOMER_RELATION (CUSTOMER_RELATION_ID);
+
+-- Index on primary key for AS_FS_DOCUSIGN_DOC_SIGNATURE_CONTEXT
+CREATE INDEX IF NOT EXISTS idx_as_fs_docusign_doc_signature_context_pk ON AS_FS_DOCUSIGN_DOC_SIGNATURE_CONTEXT (DOC_SIGNATURE_CONTEXT_ID);
+
+-- Index on primary key for AS_FS_DOCUSIGN_R_DOC_SIGNATURE_CONTEXT
+CREATE INDEX IF NOT EXISTS idx_as_fs_docusign_r_doc_signature_context_pk ON AS_FS_DOCUSIGN_R_DOC_SIGNATURE_CONTEXT (DOC_SIGNATURE_CONTEXT_REF_ID);
+
+-- Index on primary key for AS_FS_FEE
+CREATE INDEX IF NOT EXISTS idx_as_fs_fee_pk ON AS_FS_FEE (FEE_ID);
+CREATE INDEX IF NOT EXISTS idx_as_fs_fee_country_id ON AS_FS_FEE (COUNTRY_ID);
+
+-- Index on primary key for AS_FS_FUND
+CREATE INDEX IF NOT EXISTS idx_as_fs_fund_pk ON AS_FS_FUND (FUND_ID);
+
+-- Index on primary key for AS_FS_IDP_A_PREFERENCES
+CREATE INDEX IF NOT EXISTS idx_as_fs_idp_a_preferences_pk ON AS_FS_IDP_A_PREFERENCES (PREFERENCES_AUDIT_ID);
+
+-- Index on primary key for AS_FS_IDP_A_PREFERENCES_FIELD
+CREATE INDEX IF NOT EXISTS idx_as_fs_idp_a_preferences_field_pk ON AS_FS_IDP_A_PREFERENCES_FIELD (PREFERENCES_AUDIT_FIELD_ID);
+
+-- Index on primary key for AS_FS_IDP_DOC_TYPE_ZIP
+CREATE INDEX IF NOT EXISTS idx_as_fs_idp_doc_type_zip_pk ON AS_FS_IDP_DOC_TYPE_ZIP (DOC_TYPE_ZIP_ID);
+
+-- Index on primary key for AS_FS_IDP_DOC_UNDERSTANDING
+CREATE INDEX IF NOT EXISTS idx_as_fs_idp_doc_understanding_pk ON AS_FS_IDP_DOC_UNDERSTANDING (UNDERSTANDING_ID);
+
+-- Index on primary key for AS_FS_IDP_R_DOC_CHANNEL
+CREATE INDEX IF NOT EXISTS idx_as_fs_idp_r_doc_channel_pk ON AS_FS_IDP_R_DOC_CHANNEL (CHANNEL_ID);
+
+-- Index on primary key for AS_FS_IDP_R_DOC_TYPE
+CREATE INDEX IF NOT EXISTS idx_as_fs_idp_r_doc_type_pk ON AS_FS_IDP_R_DOC_TYPE (DOC_TYPE_ID);
+
+-- Index on primary key for AS_FS_PAY_THRESHOLD
+CREATE INDEX IF NOT EXISTS idx_as_fs_pay_threshold_pk ON AS_FS_PAY_THRESHOLD (PAY_THRESHOLD_ID);
+
+-- Index on primary key for AS_FS_PHONE
+CREATE INDEX IF NOT EXISTS idx_as_fs_phone_pk ON AS_FS_PHONE (PHONE_ID);
+
+-- Index on primary key for AS_FS_PRODUCT
+CREATE INDEX IF NOT EXISTS idx_as_fs_product_pk ON AS_FS_PRODUCT (PRODUCT_ID);
+CREATE INDEX IF NOT EXISTS idx_as_fs_product_term_id ON AS_FS_PRODUCT (TERM_ID);
+
+-- Index on primary key for AS_FS_REF_A_R_DATA
+CREATE INDEX IF NOT EXISTS idx_as_fs_ref_a_r_data_pk ON AS_FS_REF_A_R_DATA (R_DATA_AUDIT_ID);
+
+-- Index on primary key for AS_FS_REF_A_R_DATA_FIELD
+CREATE INDEX IF NOT EXISTS idx_as_fs_ref_a_r_data_field_pk ON AS_FS_REF_A_R_DATA_FIELD (R_DATA_AUDIT_FIELD_ID);
+
+-- Index on primary key for AS_FS_R_ACCOUNT_TYPE_PRODUCT_TYPE_MAPPING
+CREATE INDEX IF NOT EXISTS idx_as_fs_r_account_type_product_type_mapping_pk ON AS_FS_R_ACCOUNT_TYPE_PRODUCT_TYPE_MAPPING (ACCOUNT_TYPE_PRODUCT_TYPE_MAPPING_ID);
+
+-- Index on primary key for AS_FS_R_ALL_USER_SETTINGS
+CREATE INDEX IF NOT EXISTS idx_as_fs_r_all_user_settings_pk ON AS_FS_R_ALL_USER_SETTINGS (USER_SETTING_ID);
+
+-- Index on primary key for AS_FS_R_COUNTRY
+CREATE INDEX IF NOT EXISTS idx_as_fs_r_country_pk ON AS_FS_R_COUNTRY (COUNTRY_CODE);
+
+-- Index on primary key for AS_FS_R_CURRENCY
+CREATE INDEX IF NOT EXISTS idx_as_fs_r_currency_pk ON AS_FS_R_CURRENCY (CURRENCY_ID);
+
+-- Index on primary key for AS_FS_R_DATA
+CREATE INDEX IF NOT EXISTS idx_as_fs_r_data_pk ON AS_FS_R_DATA (R_DATA_ID);
+
+-- Index on primary key for AS_FS_R_GLOBAL_INDUSTRY_CLASS
+CREATE INDEX IF NOT EXISTS idx_as_fs_r_global_industry_class_pk ON AS_FS_R_GLOBAL_INDUSTRY_CLASS (GBL_INDUSTRY_CLASS_ID);
+
+-- Index on primary key for AS_FS_R_PRODUCT_TYPE_FIELD_MAPPING
+CREATE INDEX IF NOT EXISTS idx_as_fs_r_product_type_field_mapping_pk ON AS_FS_R_PRODUCT_TYPE_FIELD_MAPPING (PRODUCT_TYPE_FIELD_MAPPING_ID);
+
+-- Index on primary key for AS_FS_R_REGION
+CREATE INDEX IF NOT EXISTS idx_as_fs_r_region_pk ON AS_FS_R_REGION (REGION_ID);
+
+-- Index on primary key for AS_FS_R_STATE
+CREATE INDEX IF NOT EXISTS idx_as_fs_r_state_pk ON AS_FS_R_STATE (STATE_ID);
+
+-- Index on primary key for AS_FS_TERM
+CREATE INDEX IF NOT EXISTS idx_as_fs_term_pk ON AS_FS_TERM (TERM_ID);
+
+-- Index on primary key for AS_GM_GRP_MGMT_AUDIT_ACTION
+CREATE INDEX IF NOT EXISTS idx_as_gm_grp_mgmt_audit_action_pk ON AS_GM_GRP_MGMT_AUDIT_ACTION (GRP_MGMT_AUDIT_ID);
+
+-- Index on primary key for AS_GM_USER_DETAILS
+CREATE INDEX IF NOT EXISTS idx_as_gm_user_details_pk ON AS_GM_USER_DETAILS (USER_DETAILS_ID);
+
+-- Index on primary key for AS_IO_ACCOUNT
+CREATE INDEX IF NOT EXISTS idx_as_io_account_pk ON AS_IO_ACCOUNT (ACCOUNT_ID);
+CREATE INDEX IF NOT EXISTS idx_as_io_account_term_id ON AS_IO_ACCOUNT (TERM_ID);
+
+-- Index on primary key for AS_IO_ANSWER
+CREATE INDEX IF NOT EXISTS idx_as_io_answer_pk ON AS_IO_ANSWER (ANSWER_ID);
+
+-- Index on primary key for AS_IO_AUDIT_EVENT
+CREATE INDEX IF NOT EXISTS idx_as_io_audit_event_pk ON AS_IO_AUDIT_EVENT (AUDIT_EVENT_ID);
+
+-- Index on primary key for AS_IO_A_CUSTOMER_BENCHMARK
+CREATE INDEX IF NOT EXISTS idx_as_io_a_customer_benchmark_pk ON AS_IO_A_CUSTOMER_BENCHMARK (BENCHMARK_AUDIT_ID);
+
+-- Index on primary key for AS_IO_A_CUSTOMER_BENCHMARK_FIELD
+CREATE INDEX IF NOT EXISTS idx_as_io_a_customer_benchmark_field_pk ON AS_IO_A_CUSTOMER_BENCHMARK_FIELD (BENCHMARK_AUDIT_FIELD_ID);
+
+-- Index on primary key for AS_IO_A_FUNDING_DETAILS_FIELD
+CREATE INDEX IF NOT EXISTS idx_as_io_a_funding_details_field_pk ON AS_IO_A_FUNDING_DETAILS_FIELD (FUNDING_DETAILS_AUDIT_FIELD_ID);
+
+-- Index on primary key for AS_IO_A_ONBOARDING_DOCUMENT
+CREATE INDEX IF NOT EXISTS idx_as_io_a_onboarding_document_pk ON AS_IO_A_ONBOARDING_DOCUMENT (ONBOARDING_DOCUMENT_AUDIT_ID);
+
+-- Index on primary key for AS_IO_A_ONBOARDING_DOCUMENT_FIELD
+CREATE INDEX IF NOT EXISTS idx_as_io_a_onboarding_document_field_pk ON AS_IO_A_ONBOARDING_DOCUMENT_FIELD (ONBOARDING_DOCUMENT_AUDIT_FIELD_ID);
+
+-- Index on primary key for AS_IO_A_ONBOARDING_FUNDING_DETAILS
+CREATE INDEX IF NOT EXISTS idx_as_io_a_onboarding_funding_details_pk ON AS_IO_A_ONBOARDING_FUNDING_DETAILS (FUNDING_DETAILS_AUDIT_ID);
+
+-- Index on primary key for AS_IO_A_ONBOARDING_REQUEST
+CREATE INDEX IF NOT EXISTS idx_as_io_a_onboarding_request_pk ON AS_IO_A_ONBOARDING_REQUEST (ONBOARDING_AUDIT_ID);
+
+-- Index on primary key for AS_IO_A_ONBOARDING_REQUEST_FIELD
+CREATE INDEX IF NOT EXISTS idx_as_io_a_onboarding_request_field_pk ON AS_IO_A_ONBOARDING_REQUEST_FIELD (ONBOARDING_AUDIT_FIELD_ID);
+
+-- Index on primary key for AS_IO_A_REQUIRED_DOCUMENT
+CREATE INDEX IF NOT EXISTS idx_as_io_a_required_document_pk ON AS_IO_A_REQUIRED_DOCUMENT (REQUIRED_DOCUMENT_AUDIT_ID);
+
+-- Index on primary key for AS_IO_A_REQUIRED_DOCUMENT_FIELD
+CREATE INDEX IF NOT EXISTS idx_as_io_a_required_document_field_pk ON AS_IO_A_REQUIRED_DOCUMENT_FIELD (REQUIRED_DOCUMENT_AUDIT_FIELD_ID);
+
+-- Index on primary key for AS_IO_A_R_TASK_CATEGORY
+CREATE INDEX IF NOT EXISTS idx_as_io_a_r_task_category_pk ON AS_IO_A_R_TASK_CATEGORY (TASK_CATEGORY_AUDIT_ID);
+
+-- Index on primary key for AS_IO_A_R_TASK_CATEGORY_FIELD
+CREATE INDEX IF NOT EXISTS idx_as_io_a_r_task_category_field_pk ON AS_IO_A_R_TASK_CATEGORY_FIELD (TASK_CATEGORY_AUDIT_FIELD_ID);
+
+-- Index on primary key for AS_IO_A_R_TASK_REF
+CREATE INDEX IF NOT EXISTS idx_as_io_a_r_task_ref_pk ON AS_IO_A_R_TASK_REF (TASK_REF_AUDIT_ID);
+
+-- Index on primary key for AS_IO_A_R_TASK_REF_FIELD
+CREATE INDEX IF NOT EXISTS idx_as_io_a_r_task_ref_field_pk ON AS_IO_A_R_TASK_REF_FIELD (TASK_REF_AUDIT_FIELD_ID);
+
+-- Index on primary key for AS_IO_A_R_TEMPLATE
+CREATE INDEX IF NOT EXISTS idx_as_io_a_r_template_pk ON AS_IO_A_R_TEMPLATE (TEMPLATE_AUDIT_ID);
+
+-- Index on primary key for AS_IO_A_R_TEMPLATE_FIELD
+CREATE INDEX IF NOT EXISTS idx_as_io_a_r_template_field_pk ON AS_IO_A_R_TEMPLATE_FIELD (TEMPLATE_AUDIT_FIELD_ID);
+
+-- Index on primary key for AS_IO_A_R_TEMPLATE_TASK
+CREATE INDEX IF NOT EXISTS idx_as_io_a_r_template_task_pk ON AS_IO_A_R_TEMPLATE_TASK (TEMPLATE_TASK_AUDIT_ID);
+
+-- Index on primary key for AS_IO_A_R_TEMPLATE_TASK_FIELD
+CREATE INDEX IF NOT EXISTS idx_as_io_a_r_template_task_field_pk ON AS_IO_A_R_TEMPLATE_TASK_FIELD (TEMPLATE_TASK_AUDIT_FIELD_ID);
+
+-- Index on primary key for AS_IO_A_R_TEMPLATE_TASK_PREC
+CREATE INDEX IF NOT EXISTS idx_as_io_a_r_template_task_prec_pk ON AS_IO_A_R_TEMPLATE_TASK_PREC (TEMPLATE_TASK_PREC_AUDIT_ID);
+
+-- Index on primary key for AS_IO_A_R_TEMPLATE_TASK_PREC_F
+CREATE INDEX IF NOT EXISTS idx_as_io_a_r_template_task_prec_f_pk ON AS_IO_A_R_TEMPLATE_TASK_PREC_F (TEMP_TASK_PREC_ADT_FLD_ID);
+
+-- Index on primary key for AS_IO_A_TASK_PROCESS_SETUP
+CREATE INDEX IF NOT EXISTS idx_as_io_a_task_process_setup_pk ON AS_IO_A_TASK_PROCESS_SETUP (TASK_PROC_SETUP_AUDIT_ID);
+
+-- Index on primary key for AS_IO_A_TASK_PROCESS_SETUP_FIELD
+CREATE INDEX IF NOT EXISTS idx_as_io_a_task_process_setup_field_pk ON AS_IO_A_TASK_PROCESS_SETUP_FIELD (TASK_PROC_SETUP_AUDIT_FIELD_ID);
+
+-- Index on primary key for AS_IO_A_TEMPLATE_PROCESS_SETUP
+CREATE INDEX IF NOT EXISTS idx_as_io_a_template_process_setup_pk ON AS_IO_A_TEMPLATE_PROCESS_SETUP (TEMPLATE_PROC_SETUP_AUDIT_ID);
+
+-- Index on primary key for AS_IO_A_T_ACCOUNT_TYPE_PRODUCT_TYPE_MAPPING
+CREATE INDEX IF NOT EXISTS idx_as_io_a_t_account_type_product_type_mapping_pk ON AS_IO_A_T_ACCOUNT_TYPE_PRODUCT_TYPE_MAPPING (ONBOARDING_ACCOUNT_TYPE_PRODUCT_TYPE_MAPPING_AUDIT_ID);
+
+-- Index on primary key for AS_IO_A_T_ACCOUNT_TYPE_PRODUCT_TYPE_MAPPING_FIELD
+CREATE INDEX IF NOT EXISTS idx_as_io_a_t_account_type_product_type_mapping_field_pk ON AS_IO_A_T_ACCOUNT_TYPE_PRODUCT_TYPE_MAPPING_FIELD (ONBOARDING_ACCOUNT_TYPE_PRODUCT_TYPE_MAPPING_AUDIT_FIELD_ID);
+
+-- Index on primary key for AS_IO_A_T_ONBOARDING_PRODUCT
+CREATE INDEX IF NOT EXISTS idx_as_io_a_t_onboarding_product_pk ON AS_IO_A_T_ONBOARDING_PRODUCT (ONBOARDING_PRODUCT_TEMPLATE_AUDIT_ID);
+
+-- Index on primary key for AS_IO_A_T_ONBOARDING_PRODUCT_FIELD
+CREATE INDEX IF NOT EXISTS idx_as_io_a_t_onboarding_product_field_pk ON AS_IO_A_T_ONBOARDING_PRODUCT_FIELD (ONBOARDING_PRODUCT_TEMPLATE_AUDIT_FIELD_ID);
+
+-- Index on primary key for AS_IO_A_T_REQUIRED_DOCUMENT
+CREATE INDEX IF NOT EXISTS idx_as_io_a_t_required_document_pk ON AS_IO_A_T_REQUIRED_DOCUMENT (REQUIRED_DOCUMENT_TEMPLATE_AUDIT_ID);
+
+-- Index on primary key for AS_IO_A_T_REQUIRED_DOCUMENT_FIELD
+CREATE INDEX IF NOT EXISTS idx_as_io_a_t_required_document_field_pk ON AS_IO_A_T_REQUIRED_DOCUMENT_FIELD (REQUIRED_DOCUMENT_TEMPLATE_AUDIT_FIELD_ID);
+
+-- Index on primary key for AS_IO_COUNTRY
+CREATE INDEX IF NOT EXISTS idx_as_io_country_pk ON AS_IO_COUNTRY (COUNTRY_ID);
+
+-- Index on primary key for AS_IO_CS_RESULT
+CREATE INDEX IF NOT EXISTS idx_as_io_cs_result_pk ON AS_IO_CS_RESULT (RESULT_ID);
+
+-- Index on primary key for AS_IO_CS_RESULT_FINDING
+CREATE INDEX IF NOT EXISTS idx_as_io_cs_result_finding_pk ON AS_IO_CS_RESULT_FINDING (RESULT_FINDING_ID);
+
+-- Index on primary key for AS_IO_CUSTOMER_BENCHMARK
+CREATE INDEX IF NOT EXISTS idx_as_io_customer_benchmark_pk ON AS_IO_CUSTOMER_BENCHMARK (BENCHMARK_ID);
+
+-- Index on primary key for AS_IO_FEE
+CREATE INDEX IF NOT EXISTS idx_as_io_fee_pk ON AS_IO_FEE (FEE_ID);
+CREATE INDEX IF NOT EXISTS idx_as_io_fee_country_id ON AS_IO_FEE (COUNTRY_ID);
+
+-- Index on primary key for AS_IO_FUND
+CREATE INDEX IF NOT EXISTS idx_as_io_fund_pk ON AS_IO_FUND (FUND_ID);
+
+-- Index on primary key for AS_IO_ONBOARDING_DOCUMENT
+CREATE INDEX IF NOT EXISTS idx_as_io_onboarding_document_pk ON AS_IO_ONBOARDING_DOCUMENT (ONBOARDING_DOCUMENT_ID);
+CREATE INDEX IF NOT EXISTS idx_as_io_onboarding_document_request_id ON AS_IO_ONBOARDING_DOCUMENT (REQUEST_ID);
+CREATE INDEX IF NOT EXISTS idx_as_io_onboarding_document_customer_document_id ON AS_IO_ONBOARDING_DOCUMENT (CUSTOMER_DOCUMENT_ID);
+
+-- Index on primary key for AS_IO_ONBOARDING_DOC_VAL_RULE
+CREATE INDEX IF NOT EXISTS idx_as_io_onboarding_doc_val_rule_pk ON AS_IO_ONBOARDING_DOC_VAL_RULE (VALIDATION_RULE_ID);
+
+-- Index on primary key for AS_IO_ONBOARDING_FUNDING_DETAILS
+CREATE INDEX IF NOT EXISTS idx_as_io_onboarding_funding_details_pk ON AS_IO_ONBOARDING_FUNDING_DETAILS (FUNDING_DETAILS_ID);
+
+-- Index on primary key for AS_IO_ONBOARDING_REQUEST
+CREATE INDEX IF NOT EXISTS idx_as_io_onboarding_request_pk ON AS_IO_ONBOARDING_REQUEST (REQUEST_ID);
+CREATE INDEX IF NOT EXISTS idx_as_io_onboarding_request_customer_id ON AS_IO_ONBOARDING_REQUEST (CUSTOMER_ID);
+CREATE INDEX IF NOT EXISTS idx_as_io_onboarding_request_owner_id ON AS_IO_ONBOARDING_REQUEST (OWNER_ID);
+CREATE INDEX IF NOT EXISTS idx_as_io_onboarding_request_funding_details_id ON AS_IO_ONBOARDING_REQUEST (FUNDING_DETAILS_ID);
+
+-- Index on primary key for AS_IO_OWNER
+CREATE INDEX IF NOT EXISTS idx_as_io_owner_pk ON AS_IO_OWNER (OWNER_ID);
+
+-- Index on primary key for AS_IO_PAY_THRESHOLD
+CREATE INDEX IF NOT EXISTS idx_as_io_pay_threshold_pk ON AS_IO_PAY_THRESHOLD (PAY_THRESHOLD_ID);
+
+-- Index on primary key for AS_IO_PRODUCT
+CREATE INDEX IF NOT EXISTS idx_as_io_product_pk ON AS_IO_PRODUCT (PRODUCT_ID);
+CREATE INDEX IF NOT EXISTS idx_as_io_product_term_id ON AS_IO_PRODUCT (TERM_ID);
+
+-- Index on primary key for AS_IO_PRODUCT_REQUIRED_DOCUMENT_MAP
+CREATE INDEX IF NOT EXISTS idx_as_io_product_required_document_map_pk ON AS_IO_PRODUCT_REQUIRED_DOCUMENT_MAP (PRODUCT_REQUIRED_DOCUMENT_MAP_ID);
+
+-- Index on primary key for AS_IO_RC_COMMENT
+CREATE INDEX IF NOT EXISTS idx_as_io_rc_comment_pk ON AS_IO_RC_COMMENT (COMMENT_ID);
+
+-- Index on primary key for AS_IO_REF_A_R_DATA
+CREATE INDEX IF NOT EXISTS idx_as_io_ref_a_r_data_pk ON AS_IO_REF_A_R_DATA (R_DATA_AUDIT_ID);
+
+-- Index on primary key for AS_IO_REF_A_R_DATA_FIELD
+CREATE INDEX IF NOT EXISTS idx_as_io_ref_a_r_data_field_pk ON AS_IO_REF_A_R_DATA_FIELD (R_DATA_AUDIT_FIELD_ID);
+
+-- Index on primary key for AS_IO_REQUIRED_ONBOARDING_DOC
+CREATE INDEX IF NOT EXISTS idx_as_io_required_onboarding_doc_pk ON AS_IO_REQUIRED_ONBOARDING_DOC (REQUIRED_ONBOARDING_DOCUMENT_ID);
+CREATE INDEX IF NOT EXISTS idx_as_io_required_onboarding_doc_onboarding_document_id ON AS_IO_REQUIRED_ONBOARDING_DOC (ONBOARDING_DOCUMENT_ID);
+
+-- Index on primary key for AS_IO_R_ACCOUNT_TYPE_PRODUCT_TYPE_MAPPING
+CREATE INDEX IF NOT EXISTS idx_as_io_r_account_type_product_type_mapping_pk ON AS_IO_R_ACCOUNT_TYPE_PRODUCT_TYPE_MAPPING (ACCOUNT_TYPE_PRODUCT_TYPE_MAPPING_ID);
+
+-- Index on primary key for AS_IO_R_DATA
+CREATE INDEX IF NOT EXISTS idx_as_io_r_data_pk ON AS_IO_R_DATA (R_DATA_ID);
+
+-- Index on primary key for AS_IO_R_ONBOARDING_TYPE_PRODUCT_TYPE_MAPPING
+CREATE INDEX IF NOT EXISTS idx_as_io_r_onboarding_type_product_type_mapping_pk ON AS_IO_R_ONBOARDING_TYPE_PRODUCT_TYPE_MAPPING (ONBOARDING_TYPE_PRODUCT_TYPE_MAPPING_ID);
+
+-- Index on primary key for AS_IO_R_PRODUCT_TYPE_DOC_MAP
+CREATE INDEX IF NOT EXISTS idx_as_io_r_product_type_doc_map_pk ON AS_IO_R_PRODUCT_TYPE_DOC_MAP (PRODUCT_TYPE_DOC_MAP_ID);
+
+-- Index on primary key for AS_IO_R_PRODUCT_TYPE_FIELD_MAPPING
+CREATE INDEX IF NOT EXISTS idx_as_io_r_product_type_field_mapping_pk ON AS_IO_R_PRODUCT_TYPE_FIELD_MAPPING (PRODUCT_TYPE_FIELD_MAPPING_ID);
+
+-- Index on primary key for AS_IO_R_TASK_ACTION
+CREATE INDEX IF NOT EXISTS idx_as_io_r_task_action_pk ON AS_IO_R_TASK_ACTION (TASK_ACTION_ID);
+
+-- Index on primary key for AS_IO_R_TASK_BEHAVIOR_TYPE
+CREATE INDEX IF NOT EXISTS idx_as_io_r_task_behavior_type_pk ON AS_IO_R_TASK_BEHAVIOR_TYPE (TASK_BEHAVIOR_TYPE_ID);
+
+-- Index on primary key for AS_IO_R_TASK_CATEGORY
+CREATE INDEX IF NOT EXISTS idx_as_io_r_task_category_pk ON AS_IO_R_TASK_CATEGORY (TASK_CATEGORY_ID);
+
+-- Index on primary key for AS_IO_R_TASK_REF
+CREATE INDEX IF NOT EXISTS idx_as_io_r_task_ref_pk ON AS_IO_R_TASK_REF (TASK_REF_ID);
+CREATE INDEX IF NOT EXISTS idx_as_io_r_task_ref_task_behavior_type_id ON AS_IO_R_TASK_REF (TASK_BEHAVIOR_TYPE_ID);
+CREATE INDEX IF NOT EXISTS idx_as_io_r_task_ref_task_category_id ON AS_IO_R_TASK_REF (TASK_CATEGORY_ID);
+CREATE INDEX IF NOT EXISTS idx_as_io_r_task_ref_task_ref_doc_upload_id ON AS_IO_R_TASK_REF (TASK_REF_DOC_UPLOAD_ID);
+CREATE INDEX IF NOT EXISTS idx_as_io_r_task_ref_doc_signature_context_ref_id ON AS_IO_R_TASK_REF (DOC_SIGNATURE_CONTEXT_REF_ID);
+
+-- Index on primary key for AS_IO_R_TASK_REF_DOC_UPLOAD
+CREATE INDEX IF NOT EXISTS idx_as_io_r_task_ref_doc_upload_pk ON AS_IO_R_TASK_REF_DOC_UPLOAD (TASK_REF_DOC_UPLOAD_ID);
+
+-- Index on primary key for AS_IO_R_TASK_STATUS
+CREATE INDEX IF NOT EXISTS idx_as_io_r_task_status_pk ON AS_IO_R_TASK_STATUS (TASK_STATUS_ID);
+
+-- Index on primary key for AS_IO_R_TEMPLATE
+CREATE INDEX IF NOT EXISTS idx_as_io_r_template_pk ON AS_IO_R_TEMPLATE (TEMPLATE_ID);
+CREATE INDEX IF NOT EXISTS idx_as_io_r_template_template_custom_fields_id ON AS_IO_R_TEMPLATE (TEMPLATE_CUSTOM_FIELDS_ID);
+
+-- Index on primary key for AS_IO_R_TEMPLATE_CUSTOM_FIELDS
+CREATE INDEX IF NOT EXISTS idx_as_io_r_template_custom_fields_pk ON AS_IO_R_TEMPLATE_CUSTOM_FIELDS (TEMPLATE_CUSTOM_FIELDS_ID);
+
+-- Index on primary key for AS_IO_R_TEMPLATE_TASK
+CREATE INDEX IF NOT EXISTS idx_as_io_r_template_task_pk ON AS_IO_R_TEMPLATE_TASK (TEMPLATE_TASK_ID);
+CREATE INDEX IF NOT EXISTS idx_as_io_r_template_task_task_ref_id ON AS_IO_R_TEMPLATE_TASK (TASK_REF_ID);
+
+-- Index on primary key for AS_IO_R_TEMPLATE_TASK_PRECEDNT
+CREATE INDEX IF NOT EXISTS idx_as_io_r_template_task_precednt_pk ON AS_IO_R_TEMPLATE_TASK_PRECEDNT (TEMPLATE_TASK_PRECEDENT_ID);
+
+-- Index on primary key for AS_IO_TASK
+CREATE INDEX IF NOT EXISTS idx_as_io_task_pk ON AS_IO_TASK (TASK_ID);
+CREATE INDEX IF NOT EXISTS idx_as_io_task_request_id ON AS_IO_TASK (REQUEST_ID);
+CREATE INDEX IF NOT EXISTS idx_as_io_task_task_behavior_type_id ON AS_IO_TASK (TASK_BEHAVIOR_TYPE_ID);
+CREATE INDEX IF NOT EXISTS idx_as_io_task_task_category_id ON AS_IO_TASK (TASK_CATEGORY_ID);
+CREATE INDEX IF NOT EXISTS idx_as_io_task_task_status_id ON AS_IO_TASK (TASK_STATUS_ID);
+CREATE INDEX IF NOT EXISTS idx_as_io_task_task_doc_upload_id ON AS_IO_TASK (TASK_DOC_UPLOAD_ID);
+CREATE INDEX IF NOT EXISTS idx_as_io_task_required_onboarding_document_id ON AS_IO_TASK (REQUIRED_ONBOARDING_DOCUMENT_ID);
+CREATE INDEX IF NOT EXISTS idx_as_io_task_task_review_id ON AS_IO_TASK (TASK_REVIEW_ID);
+CREATE INDEX IF NOT EXISTS idx_as_io_task_comment_id ON AS_IO_TASK (COMMENT_ID);
+CREATE INDEX IF NOT EXISTS idx_as_io_task_questionnaire_id ON AS_IO_TASK (QUESTIONNAIRE_ID);
+CREATE INDEX IF NOT EXISTS idx_as_io_task_understanding_id ON AS_IO_TASK (UNDERSTANDING_ID);
+CREATE INDEX IF NOT EXISTS idx_as_io_task_doc_signature_context_id ON AS_IO_TASK (DOC_SIGNATURE_CONTEXT_ID);
+CREATE INDEX IF NOT EXISTS idx_as_io_task_benchmark ON AS_IO_TASK (BENCHMARK);
+
+-- Index on primary key for AS_IO_TASK_ACTION_AUDIT
+CREATE INDEX IF NOT EXISTS idx_as_io_task_action_audit_pk ON AS_IO_TASK_ACTION_AUDIT (TASK_ACTION_AUDIT_ID);
+CREATE INDEX IF NOT EXISTS idx_as_io_task_action_audit_task_id ON AS_IO_TASK_ACTION_AUDIT (TASK_ID);
+CREATE INDEX IF NOT EXISTS idx_as_io_task_action_audit_task_action_id ON AS_IO_TASK_ACTION_AUDIT (TASK_ACTION_ID);
+CREATE INDEX IF NOT EXISTS idx_as_io_task_action_audit_task_review_id ON AS_IO_TASK_ACTION_AUDIT (TASK_REVIEW_ID);
+
+-- Index on primary key for AS_IO_TASK_DOC_UPLOAD
+CREATE INDEX IF NOT EXISTS idx_as_io_task_doc_upload_pk ON AS_IO_TASK_DOC_UPLOAD (TASK_DOC_UPLOAD_ID);
+
+-- Index on primary key for AS_IO_TASK_PRECEDENT
+CREATE INDEX IF NOT EXISTS idx_as_io_task_precedent_pk ON AS_IO_TASK_PRECEDENT (TASK_PRECEDENT_ID);
+
+-- Index on primary key for AS_IO_TASK_REVIEW
+CREATE INDEX IF NOT EXISTS idx_as_io_task_review_pk ON AS_IO_TASK_REVIEW (TASK_REVIEW_ID);
+
+-- Index on primary key for AS_IO_TERM
+CREATE INDEX IF NOT EXISTS idx_as_io_term_pk ON AS_IO_TERM (TERM_ID);
+
+-- Index on primary key for AS_IO_T_ONBOARDING_ACCOUNT_TYPE_PRODUCT_TYPE_MAPPING
+CREATE INDEX IF NOT EXISTS idx_as_io_t_onboarding_account_type_product_type_mapping_pk ON AS_IO_T_ONBOARDING_ACCOUNT_TYPE_PRODUCT_TYPE_MAPPING (ONBOARDING_ACCOUNT_TYPE_PRODUCT_TYPE_MAPPING_ID);
+
+-- Index on primary key for AS_IO_T_ONBOARDING_PRODUCT
+CREATE INDEX IF NOT EXISTS idx_as_io_t_onboarding_product_pk ON AS_IO_T_ONBOARDING_PRODUCT (ONBOARDING_PRODUCT_TEMPLATE_ID);
+
+-- Index on primary key for AS_IO_T_REQUIRED_DOCUMENT
+CREATE INDEX IF NOT EXISTS idx_as_io_t_required_document_pk ON AS_IO_T_REQUIRED_DOCUMENT (REQUIRED_DOCUMENT_TEMPLATE_ID);
+
+-- Index on primary key for AS_QNM_A_QUESTION
+CREATE INDEX IF NOT EXISTS idx_as_qnm_a_question_pk ON AS_QNM_A_QUESTION (QUESTION_AUDIT_ID);
+
+-- Index on primary key for AS_QNM_A_QUESTIONNAIRE
+CREATE INDEX IF NOT EXISTS idx_as_qnm_a_questionnaire_pk ON AS_QNM_A_QUESTIONNAIRE (QUESTIONNAIRE_AUDIT_ID);
+
+-- Index on primary key for AS_QNM_A_QUESTIONNAIRE_FIELD
+CREATE INDEX IF NOT EXISTS idx_as_qnm_a_questionnaire_field_pk ON AS_QNM_A_QUESTIONNAIRE_FIELD (QUESTIONNAIRE_AUDIT_FIELD_ID);
+
+-- Index on primary key for AS_QNM_A_QUESTION_FIELD
+CREATE INDEX IF NOT EXISTS idx_as_qnm_a_question_field_pk ON AS_QNM_A_QUESTION_FIELD (QUESTION_AUDIT_FIELD_ID);
+
+-- Index on primary key for AS_QNM_A_RESPONSE
+CREATE INDEX IF NOT EXISTS idx_as_qnm_a_response_pk ON AS_QNM_A_RESPONSE (RESPONSE_AUDIT_ID);
+
+-- Index on primary key for AS_QNM_A_RESPONSE_FIELD
+CREATE INDEX IF NOT EXISTS idx_as_qnm_a_response_field_pk ON AS_QNM_A_RESPONSE_FIELD (RESPONSE_AUDIT_FIELD_ID);
+
+-- Index on primary key for AS_QNM_A_T_QUESTION
+CREATE INDEX IF NOT EXISTS idx_as_qnm_a_t_question_pk ON AS_QNM_A_T_QUESTION (QUESTION_TEMPLATE_AUDIT_ID);
+
+-- Index on primary key for AS_QNM_A_T_QUESTIONNAIRE
+CREATE INDEX IF NOT EXISTS idx_as_qnm_a_t_questionnaire_pk ON AS_QNM_A_T_QUESTIONNAIRE (QUESTIONNAIRE_TEMPLATE_AUDIT_ID);
+
+-- Index on primary key for AS_QNM_A_T_QUESTIONNAIRE_FIELD
+CREATE INDEX IF NOT EXISTS idx_as_qnm_a_t_questionnaire_field_pk ON AS_QNM_A_T_QUESTIONNAIRE_FIELD (QUESTIONNAIRE_TEMPLATE_AUDIT_FIELD_ID);
+
+-- Index on primary key for AS_QNM_A_T_QUESTION_CATEGORY
+CREATE INDEX IF NOT EXISTS idx_as_qnm_a_t_question_category_pk ON AS_QNM_A_T_QUESTION_CATEGORY (QUESTION_CATEGORY_TEMPLATE_AUDIT_ID);
+
+-- Index on primary key for AS_QNM_A_T_QUESTION_CATEGORY_FIELD
+CREATE INDEX IF NOT EXISTS idx_as_qnm_a_t_question_category_field_pk ON AS_QNM_A_T_QUESTION_CATEGORY_FIELD (QUESTION_CATEGORY_TEMPLATE_AUDIT_FIELD_ID);
+
+-- Index on primary key for AS_QNM_A_T_QUESTION_FIELD
+CREATE INDEX IF NOT EXISTS idx_as_qnm_a_t_question_field_pk ON AS_QNM_A_T_QUESTION_FIELD (QUESTION_TEMPLATE_AUDIT_FIELD_ID);
+
+-- Index on primary key for AS_QNM_A_T_QUESTION_PRECEDENT
+CREATE INDEX IF NOT EXISTS idx_as_qnm_a_t_question_precedent_pk ON AS_QNM_A_T_QUESTION_PRECEDENT (QUESTION_PRECEDENT_AUDIT_ID);
+
+-- Index on primary key for AS_QNM_A_T_QUESTION_PRECEDENT_FIELD
+CREATE INDEX IF NOT EXISTS idx_as_qnm_a_t_question_precedent_field_pk ON AS_QNM_A_T_QUESTION_PRECEDENT_FIELD (QUESTION_PRECEDENT_AUDIT_FIELD_ID);
+
+-- Index on primary key for AS_QNM_A_T_QUESTION_PRECEDENT_SET
+CREATE INDEX IF NOT EXISTS idx_as_qnm_a_t_question_precedent_set_pk ON AS_QNM_A_T_QUESTION_PRECEDENT_SET (QUESTION_PRECEDENT_SET_AUDIT_ID);
+
+-- Index on primary key for AS_QNM_A_T_QUESTION_PRECEDENT_SET_FIELD
+CREATE INDEX IF NOT EXISTS idx_as_qnm_a_t_question_precedent_set_field_pk ON AS_QNM_A_T_QUESTION_PRECEDENT_SET_FIELD (QUESTION_PRECEDENT_SET_AUDIT_FIELD_ID);
+
+-- Index on primary key for AS_QNM_A_T_RESPONSE
+CREATE INDEX IF NOT EXISTS idx_as_qnm_a_t_response_pk ON AS_QNM_A_T_RESPONSE (RESPONSE_TEMPLATE_AUDIT_ID);
+
+-- Index on primary key for AS_QNM_A_T_RESPONSE_FIELD
+CREATE INDEX IF NOT EXISTS idx_as_qnm_a_t_response_field_pk ON AS_QNM_A_T_RESPONSE_FIELD (RESPONSE_TEMPLATE_AUDIT_FIELD_ID);
+
+-- Index on primary key for AS_QNM_A_T_RESPONSE_REQUIREMENT
+CREATE INDEX IF NOT EXISTS idx_as_qnm_a_t_response_requirement_pk ON AS_QNM_A_T_RESPONSE_REQUIREMENT (RESPONSE_REQ_TEMPLATE_AUDIT_ID);
+
+-- Index on primary key for AS_QNM_A_T_RESPONSE_REQUIREMENT_FIELD
+CREATE INDEX IF NOT EXISTS idx_as_qnm_a_t_response_requirement_field_pk ON AS_QNM_A_T_RESPONSE_REQUIREMENT_FIELD (RESPONSE_REQ_TEMPLATE_AUDIT_FIELD_ID);
+
+-- Index on primary key for AS_QNM_QSTN_PRECEDENT_SET
+CREATE INDEX IF NOT EXISTS idx_as_qnm_qstn_precedent_set_pk ON AS_QNM_QSTN_PRECEDENT_SET (QUESTION_PRECEDENT_SET_ID);
+
+-- Index on primary key for AS_QNM_QUESTION
+CREATE INDEX IF NOT EXISTS idx_as_qnm_question_pk ON AS_QNM_QUESTION (QUESTION_ID);
+
+-- Index on primary key for AS_QNM_QUESTIONNAIRE
+CREATE INDEX IF NOT EXISTS idx_as_qnm_questionnaire_pk ON AS_QNM_QUESTIONNAIRE (QUESTIONNAIRE_ID);
+
+-- Index on primary key for AS_QNM_QUESTION_CATEGORY
+CREATE INDEX IF NOT EXISTS idx_as_qnm_question_category_pk ON AS_QNM_QUESTION_CATEGORY (QUESTION_CATEGORY_ID);
+
+-- Index on primary key for AS_QNM_QUESTION_PRECEDENT
+CREATE INDEX IF NOT EXISTS idx_as_qnm_question_precedent_pk ON AS_QNM_QUESTION_PRECEDENT (QUESTION_PRECEDENT_ID);
+
+-- Index on primary key for AS_QNM_RESPONSE
+CREATE INDEX IF NOT EXISTS idx_as_qnm_response_pk ON AS_QNM_RESPONSE (RESPONSE_ID);
+
+-- Index on primary key for AS_QNM_RSPNS_REQUIREMENT
+CREATE INDEX IF NOT EXISTS idx_as_qnm_rspns_requirement_pk ON AS_QNM_RSPNS_REQUIREMENT (RESPONSE_REQUIREMENT_ID);
+
+-- Index on primary key for AS_QNM_R_QSTN_PRCDNT_SET
+CREATE INDEX IF NOT EXISTS idx_as_qnm_r_qstn_prcdnt_set_pk ON AS_QNM_R_QSTN_PRCDNT_SET (QSTN_PRECEDENT_SET_REF_ID);
+
+-- Index on primary key for AS_QNM_R_QSTN_PRECEDENT
+CREATE INDEX IF NOT EXISTS idx_as_qnm_r_qstn_precedent_pk ON AS_QNM_R_QSTN_PRECEDENT (QUESTION_PRECEDENT_REF_ID);
+
+-- Index on primary key for AS_QNM_R_QUESTION
+CREATE INDEX IF NOT EXISTS idx_as_qnm_r_question_pk ON AS_QNM_R_QUESTION (QUESTION_REFERENCE_ID);
+
+-- Index on primary key for AS_QNM_R_RESPONSE
+CREATE INDEX IF NOT EXISTS idx_as_qnm_r_response_pk ON AS_QNM_R_RESPONSE (RESPONSE_REFERENCE_ID);
+
+-- Index on primary key for AS_QNM_R_RSPNS_REQUIREMENT
+CREATE INDEX IF NOT EXISTS idx_as_qnm_r_rspns_requirement_pk ON AS_QNM_R_RSPNS_REQUIREMENT (RESPONSE_REQUIREMENT_REF_ID);
+
+-- Index on primary key for AS_QNM_T_QSTN_PRCDNT_SET
+CREATE INDEX IF NOT EXISTS idx_as_qnm_t_qstn_prcdnt_set_pk ON AS_QNM_T_QSTN_PRCDNT_SET (QSTN_PRCDNT_SET_TEMPLATE_ID);
+
+-- Index on primary key for AS_QNM_T_QSTN_PRECEDENT
+CREATE INDEX IF NOT EXISTS idx_as_qnm_t_qstn_precedent_pk ON AS_QNM_T_QSTN_PRECEDENT (QUESTION_PRECEDENT_TEMPLATE_ID);
+
+-- Index on primary key for AS_QNM_T_QUESTION
+CREATE INDEX IF NOT EXISTS idx_as_qnm_t_question_pk ON AS_QNM_T_QUESTION (QUESTION_TEMPLATE_ID);
+
+-- Index on primary key for AS_QNM_T_QUESTIONNAIRE
+CREATE INDEX IF NOT EXISTS idx_as_qnm_t_questionnaire_pk ON AS_QNM_T_QUESTIONNAIRE (QUESTIONNAIRE_TEMPLATE_ID);
+
+-- Index on primary key for AS_QNM_T_QUESTION_CATEGORY
+CREATE INDEX IF NOT EXISTS idx_as_qnm_t_question_category_pk ON AS_QNM_T_QUESTION_CATEGORY (QUESTION_CATEGORY_TEMPLATE_ID);
+
+-- Index on primary key for AS_QNM_T_RESPONSE
+CREATE INDEX IF NOT EXISTS idx_as_qnm_t_response_pk ON AS_QNM_T_RESPONSE (RESPONSE_TEMPLATE_ID);
+
+-- Index on primary key for AS_QNM_T_RSPNS_REQUIREMENT
+CREATE INDEX IF NOT EXISTS idx_as_qnm_t_rspns_requirement_pk ON AS_QNM_T_RSPNS_REQUIREMENT (RESPONSE_REQUIREMENT_TMPLT_ID);
+
+-- Index on primary key for AS_RC_COMMENT
+CREATE INDEX IF NOT EXISTS idx_as_rc_comment_pk ON AS_RC_COMMENT (COMMENT_ID);
+
+-- Index on primary key for AS_REF_A_R_DATA
+CREATE INDEX IF NOT EXISTS idx_as_ref_a_r_data_pk ON AS_REF_A_R_DATA (R_DATA_AUDIT_ID);
+
+-- Index on primary key for AS_REF_A_R_DATA_FIELD
+CREATE INDEX IF NOT EXISTS idx_as_ref_a_r_data_field_pk ON AS_REF_A_R_DATA_FIELD (R_DATA_AUDIT_FIELD_ID);

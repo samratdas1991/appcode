@@ -1,0 +1,10 @@
+-- Source Appian CDT: AS_FS_Country
+-- Description: Data type for a country added in a product
+DROP TABLE IF EXISTS AS_FS_COUNTRY CASCADE;
+CREATE TABLE AS_FS_COUNTRY (
+    COUNTRY_ID INT PRIMARY KEY,
+    PRODUCT_ID INT,
+    COUNTRY_CODE VARCHAR(255),
+    IS_TRADING_ALLOWED BOOLEAN,
+    IS_DELETED BOOLEAN
+);

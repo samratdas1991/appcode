@@ -1,0 +1,22 @@
+# Integration Definition: AS EI Northrow FS Bearer Token Connected System
+# Source: _a-0000e69f-3688-8000-9bf2-011c48011c48_2103610.xml
+# Pega Migration Target: REST Connector
+
+integrationName: AS EI Northrow FS Bearer Token Connected System
+uuid: _a-0000e69f-3688-8000-9bf2-011c48011c48_2103610
+description: Custom connected system for retrieving the bearer token used in authenticating
+  requests to other Northrow endpoints
+integrationType: plugin.[com.appian.solutions.fsintegrations].[Northrow]
+pegaConnectorType: REST Connector
+baseURL: https://api.northrow.com
+authentication:
+  appianAuthType: Custom (Org UID + Access Key)
+  pegaAuthProfile: OAuth 2.0 Client Credentials
+  notes: 'Two-step auth: retrieve bearer token first'
+endpoints:
+- name: Get Bearer Token
+  method: POST
+  path: /auth/token
+  description: Retrieve bearer token
+pegaMappingNotes: Map to Pega REST Connector with OAuth 2.0 Client Credentials
+sourceFile: _a-0000e69f-3688-8000-9bf2-011c48011c48_2103610.xml

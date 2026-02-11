@@ -1,0 +1,25 @@
+# Integration Definition: AS FS IDP Google Cloud AutoML
+# Source: _a-0000e539-6d59-8000-9bd0-011c48011c48_1266494.xml
+# Pega Migration Target: REST Connector
+
+integrationName: AS FS IDP Google Cloud AutoML
+uuid: _a-0000e539-6d59-8000-9bd0-011c48011c48_1266494
+description: Connected system for AS FS IDP Google Cloud AutoML
+integrationType: plugin.[com.appian.ps.google.ai.automl.csp].[AutoMLConnectedSystemTemplate]
+pegaConnectorType: REST Connector
+baseURL: https://automl.googleapis.com
+authentication:
+  appianAuthType: Google Service Account
+  pegaAuthProfile: Service Account OAuth 2.0
+  notes: ML model training and prediction
+endpoints:
+- name: Train Model
+  method: POST
+  path: /v1/projects/{project}/locations/{location}/models
+  description: Train AutoML model
+- name: Predict
+  method: POST
+  path: /v1/projects/{project}/locations/{location}/models/{model}:predict
+  description: Run prediction
+pegaMappingNotes: Map to Pega REST Connector with Service Account OAuth 2.0
+sourceFile: _a-0000e539-6d59-8000-9bd0-011c48011c48_1266494.xml

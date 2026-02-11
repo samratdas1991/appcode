@@ -1,0 +1,10 @@
+-- Source Appian CDT: AS_IO_A_R_TemplateTask_Precedent_Field
+-- Description: Holds auditing data for `AS_IO_R_TemplateTask_Precedent` - simple field change
+DROP TABLE IF EXISTS AS_IO_A_R_TEMPLATE_TASK_PREC_F CASCADE;
+CREATE TABLE AS_IO_A_R_TEMPLATE_TASK_PREC_F (
+    TEMP_TASK_PREC_ADT_FLD_ID INT PRIMARY KEY,
+    TEMPLATE_TASK_PREC_AUDIT_ID INT,
+    FIELD_NAME VARCHAR(255),
+    OLD_VALUE VARCHAR(255),
+    NEW_VALUE VARCHAR(255)
+);

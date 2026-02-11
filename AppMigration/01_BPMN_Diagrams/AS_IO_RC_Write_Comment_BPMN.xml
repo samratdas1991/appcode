@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL"
+  xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+  xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+  xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
+  id="Definitions_AS_IO_RC_Write_Comment"
+  targetNamespace="http://bpmn.io/schema/bpmn">
+
+  <!-- Appian Process Model: AS IO RC Write Comment -->
+  <!-- Source UUID: 0006e436-7161-8000-ff77-7f0000014e7a -->
+  <!-- Description: Add a new comment, update parent record fields, and send email (as configured) -->
+  <!-- Pega Case Type Mapping: See migration metadata for stage/step correlation -->
+
+  <bpmn:collaboration id="Collaboration_AS_IO_RC_Write_Comment">
+    <bpmn:participant id="Participant_AS_IO_RC_Write_Comment" name="AS IO RC Write Comment" processRef="Process_AS_IO_RC_Write_Comment" />
+  </bpmn:collaboration>
+
+  <bpmn:process id="Process_AS_IO_RC_Write_Comment" name="AS IO RC Write Comment" isExecutable="false">
+    <bpmn:documentation>Add a new comment, update parent record fields, and send email (as configured)</bpmn:documentation>
+
+    <bpmn:laneSet id="LaneSet_AS_IO_RC_Write_Comment">
+      <bpmn:lane id="Lane_0" name="">
+      </bpmn:lane>
+    </bpmn:laneSet>
+
+    <bpmn:dataObject id="DataObject_respondToCustomerDiscussionTask" name="respondToCustomerDiscussionTask" />
+    <bpmn:dataObject id="DataObject_comment" name="comment" />
+    <bpmn:dataObject id="DataObject_enableEmail" name="enableEmail" />
+    <bpmn:dataObject id="DataObject_recipients" name="recipients" />
+    <bpmn:dataObject id="DataObject_recordLink" name="recordLink" />
+    <bpmn:dataObject id="DataObject_recordName" name="recordName" />
+
+    <bpmn:startEvent id="StartEvent_0" name="Start Node">
+      <bpmn:outgoing>Flow_0</bpmn:outgoing>
+    </bpmn:startEvent>
+
+    <bpmn:endEvent id="EndEvent_1" name="End Node">
+      <bpmn:incoming>Flow_1</bpmn:incoming>
+      <bpmn:incoming>Flow_2</bpmn:incoming>
+    </bpmn:endEvent>
+
+    <bpmn:exclusiveGateway id="ExclusiveGateway_2" name="Email enabled and recipients not empty?">
+      <bpmn:incoming>Flow_3</bpmn:incoming>
+      <bpmn:incoming>Flow_4</bpmn:incoming>
+      <bpmn:outgoing>Flow_5</bpmn:outgoing>
+      <bpmn:outgoing>Flow_6</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+
+    <bpmn:userTask id="UserTask_3" name="Send E-Mail">
+      <bpmn:incoming>Flow_7</bpmn:incoming>
+      <bpmn:outgoing>Flow_8</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_4" name="Construct respond task">
+      <bpmn:incoming>Flow_9</bpmn:incoming>
+      <bpmn:outgoing>Flow_10</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_5" name="Write Respond to customer dicussionTask">
+      <bpmn:incoming>Flow_11</bpmn:incoming>
+      <bpmn:outgoing>Flow_12</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_6" name="Write Comment">
+      <bpmn:incoming>Flow_13</bpmn:incoming>
+      <bpmn:outgoing>Flow_14</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:exclusiveGateway id="ExclusiveGateway_7" name="Is Cmt added by Customer?">
+      <bpmn:incoming>Flow_15</bpmn:incoming>
+      <bpmn:outgoing>Flow_16</bpmn:outgoing>
+      <bpmn:outgoing>Flow_17</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+
+    <bpmn:sequenceFlow id="Flow_0" sourceRef="StartEvent_0" targetRef="UserTask_6" />
+    <bpmn:sequenceFlow id="Flow_1" sourceRef="ExclusiveGateway_2" targetRef="EndEvent_1" />
+    <bpmn:sequenceFlow id="Flow_2" sourceRef="UserTask_3" targetRef="EndEvent_1" />
+    <bpmn:sequenceFlow id="Flow_3" sourceRef="UserTask_5" targetRef="ExclusiveGateway_2" />
+    <bpmn:sequenceFlow id="Flow_4" sourceRef="ExclusiveGateway_7" targetRef="ExclusiveGateway_2" />
+    <bpmn:sequenceFlow id="Flow_6" sourceRef="ExclusiveGateway_2" targetRef="UserTask_3" />
+    <bpmn:sequenceFlow id="Flow_9" sourceRef="ExclusiveGateway_7" targetRef="UserTask_4" />
+    <bpmn:sequenceFlow id="Flow_10" sourceRef="UserTask_4" targetRef="UserTask_5" />
+    <bpmn:sequenceFlow id="Flow_14" sourceRef="UserTask_6" targetRef="ExclusiveGateway_7" />
+  </bpmn:process>
+
+</bpmn:definitions>

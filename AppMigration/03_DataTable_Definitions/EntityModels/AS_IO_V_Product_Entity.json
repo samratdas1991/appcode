@@ -1,0 +1,106 @@
+{
+  "entityName": "AS_IO_V_Product",
+  "pegaClassName": "Data-IO-VProduct",
+  "tableName": "AS_IO_V_PRODUCT",
+  "description": "Record View of Product with locales",
+  "module": "IO",
+  "attributes": [
+    {
+      "appianFieldName": "productId",
+      "pegaPropertyName": "Productid",
+      "appianDataType": "xsd:int",
+      "pegaDataType": "Integer",
+      "columnName": "PRODUCT_ID",
+      "required": true,
+      "isPrimaryKey": true,
+      "isForeignKey": false
+    },
+    {
+      "appianFieldName": "name",
+      "pegaPropertyName": "Name",
+      "appianDataType": "xsd:string",
+      "pegaDataType": "Text",
+      "columnName": "NAME",
+      "required": false,
+      "isPrimaryKey": false,
+      "isForeignKey": false
+    },
+    {
+      "appianFieldName": "productTypeCode",
+      "pegaPropertyName": "Producttypecode",
+      "appianDataType": "xsd:string",
+      "pegaDataType": "Text",
+      "columnName": "PRODUCT_TYPE_CODE",
+      "required": false,
+      "isPrimaryKey": false,
+      "isForeignKey": false
+    },
+    {
+      "appianFieldName": "strategy",
+      "pegaPropertyName": "Strategy",
+      "appianDataType": "xsd:string",
+      "pegaDataType": "Text",
+      "columnName": "STRATEGY",
+      "required": false,
+      "isPrimaryKey": false,
+      "isForeignKey": false
+    },
+    {
+      "appianFieldName": "createdDatetime",
+      "pegaPropertyName": "Createddatetime",
+      "appianDataType": "xsd:dateTime",
+      "pegaDataType": "DateTime",
+      "columnName": "CREATED_DATETIME",
+      "required": false,
+      "isPrimaryKey": false,
+      "isForeignKey": false
+    },
+    {
+      "appianFieldName": "modifiedDatetime",
+      "pegaPropertyName": "Modifieddatetime",
+      "appianDataType": "xsd:dateTime",
+      "pegaDataType": "DateTime",
+      "columnName": "MODIFIED_DATETIME",
+      "required": false,
+      "isPrimaryKey": false,
+      "isForeignKey": false
+    },
+    {
+      "appianFieldName": "isParent",
+      "pegaPropertyName": "Isparent",
+      "appianDataType": "xsd:boolean",
+      "pegaDataType": "True/False",
+      "columnName": "IS_PARENT",
+      "required": false,
+      "isPrimaryKey": false,
+      "isForeignKey": false
+    },
+    {
+      "appianFieldName": "isDeleted",
+      "pegaPropertyName": "Isdeleted",
+      "appianDataType": "xsd:boolean",
+      "pegaDataType": "True/False",
+      "columnName": "IS_DELETED",
+      "required": false,
+      "isPrimaryKey": false,
+      "isForeignKey": false
+    },
+    {
+      "appianFieldName": "request",
+      "pegaPropertyName": "Request",
+      "appianDataType": "tns:AS_IO_OnboardingRequest",
+      "pegaDataType": "Integer",
+      "columnName": "REQUEST_ID",
+      "required": false,
+      "isPrimaryKey": false,
+      "isForeignKey": true
+    }
+  ],
+  "relationships": [
+    {
+      "type": "ManyToOne",
+      "foreignKey": "REQUEST_ID",
+      "appianFieldName": "request"
+    }
+  ]
+}

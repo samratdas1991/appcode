@@ -1,0 +1,30 @@
+# Integration Definition: AS EI CS Northrow
+# Source: _a-0000e539-6d59-8000-9bd0-011c48011c48_1200457.xml
+# Pega Migration Target: REST Connector
+
+integrationName: AS EI CS Northrow
+uuid: _a-0000e539-6d59-8000-9bd0-011c48011c48_1200457
+description: 'Connected system that handles connecting to the Northrow API for calls
+  other than the bearer token retrieval. Documentation: https://apidocs.northrow.com/#northrow-api-authentication'
+integrationType: system.http
+pegaConnectorType: REST Connector
+baseURL: https://api.northrow.com
+authentication:
+  appianAuthType: Bearer Token
+  pegaAuthProfile: OAuth Bearer Token
+  notes: Uses bearer token from Northrow FS Bearer Token CS
+endpoints:
+- name: Person Check
+  method: POST
+  path: /checks/person
+  description: KYC identity verification
+- name: Company Check
+  method: POST
+  path: /checks/company
+  description: Company verification
+- name: Get Check Status
+  method: GET
+  path: /checks/{checkId}
+  description: Retrieve verification status
+pegaMappingNotes: Map to Pega REST Connector with OAuth Bearer Token
+sourceFile: _a-0000e539-6d59-8000-9bd0-011c48011c48_1200457.xml

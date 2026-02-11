@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL"
+  xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+  xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+  xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
+  id="Definitions_AS_IO_Set_Group_IDs"
+  targetNamespace="http://bpmn.io/schema/bpmn">
+
+  <!-- Appian Process Model: AS IO Set Group IDs -->
+  <!-- Source UUID: 0002e3dd-90f1-8000-f97b-7f0000014e7a -->
+  <!-- Description: Whenever IO is imported to a new environment, this process needs to be run once to guarantee that the group IDs in the database represent the actual group IDs of the environment. This process is desig -->
+  <!-- Pega Case Type Mapping: See migration metadata for stage/step correlation -->
+
+  <bpmn:collaboration id="Collaboration_AS_IO_Set_Group_IDs">
+    <bpmn:participant id="Participant_AS_IO_Set_Group_IDs" name="AS IO Set Group IDs" processRef="Process_AS_IO_Set_Group_IDs" />
+  </bpmn:collaboration>
+
+  <bpmn:process id="Process_AS_IO_Set_Group_IDs" name="AS IO Set Group IDs" isExecutable="false">
+    <bpmn:documentation>Whenever IO is imported to a new environment, this process needs to be run once to guarantee that the group IDs in the database represent the actual group IDs of the environment. This process is designed to run once on import, and never again.</bpmn:documentation>
+
+    <bpmn:laneSet id="LaneSet_AS_IO_Set_Group_IDs">
+      <bpmn:lane id="Lane_0" name="">
+      </bpmn:lane>
+    </bpmn:laneSet>
+
+    <bpmn:endEvent id="EndEvent_0" name="End Node">
+      <bpmn:incoming>Flow_0</bpmn:incoming>
+    </bpmn:endEvent>
+
+    <bpmn:userTask id="UserTask_1" name="Update Group IDs for Tasks and Templates">
+      <bpmn:incoming>Flow_1</bpmn:incoming>
+      <bpmn:outgoing>Flow_2</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:startEvent id="StartEvent_2" name="Start Node">
+      <bpmn:outgoing>Flow_3</bpmn:outgoing>
+    </bpmn:startEvent>
+
+    <bpmn:sequenceFlow id="Flow_0" sourceRef="UserTask_1" targetRef="EndEvent_0" />
+    <bpmn:sequenceFlow id="Flow_1" sourceRef="StartEvent_2" targetRef="UserTask_1" />
+  </bpmn:process>
+
+</bpmn:definitions>

@@ -1,0 +1,116 @@
+{
+  "entityName": "AS_IO_TaskActionAudit",
+  "pegaClassName": "Data-IO-TaskActionAudit",
+  "tableName": "AS_IO_TASK_ACTION_AUDIT",
+  "description": "Audit changes to work (runtime tasks)",
+  "module": "IO",
+  "attributes": [
+    {
+      "appianFieldName": "taskActionAuditId",
+      "pegaPropertyName": "Taskactionauditid",
+      "appianDataType": "xsd:int",
+      "pegaDataType": "Integer",
+      "columnName": "TASK_ACTION_AUDIT_ID",
+      "required": true,
+      "isPrimaryKey": true,
+      "isForeignKey": false
+    },
+    {
+      "appianFieldName": "task",
+      "pegaPropertyName": "Task",
+      "appianDataType": "tns:AS_IO_Task",
+      "pegaDataType": "Integer",
+      "columnName": "TASK_ID",
+      "required": false,
+      "isPrimaryKey": false,
+      "isForeignKey": true
+    },
+    {
+      "appianFieldName": "username",
+      "pegaPropertyName": "Username",
+      "appianDataType": "xsd:string",
+      "pegaDataType": "Text",
+      "columnName": "USERNAME",
+      "required": false,
+      "isPrimaryKey": false,
+      "isForeignKey": false
+    },
+    {
+      "appianFieldName": "timestamp",
+      "pegaPropertyName": "Timestamp",
+      "appianDataType": "xsd:dateTime",
+      "pegaDataType": "DateTime",
+      "columnName": "TIMESTAMP",
+      "required": false,
+      "isPrimaryKey": false,
+      "isForeignKey": false
+    },
+    {
+      "appianFieldName": "taskAction",
+      "pegaPropertyName": "Taskaction",
+      "appianDataType": "tns:AS_IO_R_TaskAction",
+      "pegaDataType": "Integer",
+      "columnName": "TASK_ACTION_ID",
+      "required": false,
+      "isPrimaryKey": false,
+      "isForeignKey": true
+    },
+    {
+      "appianFieldName": "assignedTo",
+      "pegaPropertyName": "Assignedto",
+      "appianDataType": "xsd:string",
+      "pegaDataType": "Text",
+      "columnName": "ASSIGNED_TO",
+      "required": false,
+      "isPrimaryKey": false,
+      "isForeignKey": false
+    },
+    {
+      "appianFieldName": "review",
+      "pegaPropertyName": "Review",
+      "appianDataType": "tns:AS_IO_Task_Review",
+      "pegaDataType": "Integer",
+      "columnName": "TASK_REVIEW_ID",
+      "required": false,
+      "isPrimaryKey": false,
+      "isForeignKey": true
+    },
+    {
+      "appianFieldName": "comment",
+      "pegaPropertyName": "Comment",
+      "appianDataType": "xsd:string",
+      "pegaDataType": "Text",
+      "columnName": "comment",
+      "required": false,
+      "isPrimaryKey": false,
+      "isForeignKey": false
+    },
+    {
+      "appianFieldName": "oldDueDate",
+      "pegaPropertyName": "Oldduedate",
+      "appianDataType": "xsd:date",
+      "pegaDataType": "Date",
+      "columnName": "OLD_DUE_DATE",
+      "required": false,
+      "isPrimaryKey": false,
+      "isForeignKey": false
+    }
+  ],
+  "relationships": [
+    {
+      "type": "ManyToOne",
+      "foreignKey": "TASK_ID",
+      "appianFieldName": "task"
+    },
+    {
+      "type": "ManyToOne",
+      "foreignKey": "TASK_ACTION_ID",
+      "appianFieldName": "taskAction"
+    },
+    {
+      "type": "ManyToOne",
+      "foreignKey": "TASK_REVIEW_ID",
+      "appianFieldName": "review"
+    }
+  ]
+}

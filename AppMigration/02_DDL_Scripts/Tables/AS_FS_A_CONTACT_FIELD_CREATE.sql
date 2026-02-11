@@ -1,0 +1,10 @@
+-- Source Appian CDT: AS_FS_A_Contact_Field
+-- Description: Holds auditing data for `AS_FS_Contact` - simple field change
+DROP TABLE IF EXISTS AS_FS_A_CONTACT_FIELD CASCADE;
+CREATE TABLE AS_FS_A_CONTACT_FIELD (
+    CONTACT_AUDIT_FIELD_ID INT PRIMARY KEY,
+    CONTACT_AUDIT_ID INT,
+    FIELD_NAME VARCHAR(255),
+    OLD_VALUE VARCHAR(255),
+    NEW_VALUE VARCHAR(255)
+);

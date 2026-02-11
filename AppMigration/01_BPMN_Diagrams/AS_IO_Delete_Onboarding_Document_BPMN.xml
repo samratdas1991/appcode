@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL"
+  xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+  xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+  xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
+  id="Definitions_AS_IO_Delete_Onboarding_Document"
+  targetNamespace="http://bpmn.io/schema/bpmn">
+
+  <!-- Appian Process Model: AS IO Delete Onboarding Document -->
+  <!-- Source UUID: 0002e437-e7f7-8000-0016-7f0000014e7a -->
+  <!-- Description: Deletes an onboarding document from onboarding record -->
+  <!-- Pega Case Type Mapping: See migration metadata for stage/step correlation -->
+
+  <bpmn:collaboration id="Collaboration_AS_IO_Delete_Onboarding_Document">
+    <bpmn:participant id="Participant_AS_IO_Delete_Onboarding_Document" name="AS IO Delete Onboarding Document" processRef="Process_AS_IO_Delete_Onboarding_Document" />
+  </bpmn:collaboration>
+
+  <bpmn:process id="Process_AS_IO_Delete_Onboarding_Document" name="AS IO Delete Onboarding Document" isExecutable="false">
+    <bpmn:documentation>Deletes an onboarding document from onboarding record</bpmn:documentation>
+
+    <bpmn:laneSet id="LaneSet_AS_IO_Delete_Onboarding_Document">
+      <bpmn:lane id="Lane_0" name="">
+      </bpmn:lane>
+    </bpmn:laneSet>
+
+    <bpmn:dataObject id="DataObject_onboardingDocument" name="onboardingDocument" />
+    <bpmn:dataObject id="DataObject_originalObj" name="originalObj" />
+    <bpmn:dataObject id="DataObject_userAction" name="userAction" />
+
+    <bpmn:startEvent id="StartEvent_0" name="Start Node">
+      <bpmn:outgoing>Flow_0</bpmn:outgoing>
+    </bpmn:startEvent>
+
+    <bpmn:endEvent id="EndEvent_1" name="End Node">
+      <bpmn:incoming>Flow_1</bpmn:incoming>
+      <bpmn:incoming>Flow_2</bpmn:incoming>
+    </bpmn:endEvent>
+
+    <bpmn:exclusiveGateway id="ExclusiveGateway_2" name="User Action">
+      <bpmn:incoming>Flow_3</bpmn:incoming>
+      <bpmn:outgoing>Flow_4</bpmn:outgoing>
+      <bpmn:outgoing>Flow_5</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+
+    <bpmn:userTask id="UserTask_3" name="Update Onboarding Document Details">
+      <bpmn:incoming>Flow_6</bpmn:incoming>
+      <bpmn:outgoing>Flow_7</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_4" name="Audit and save">
+      <bpmn:incoming>Flow_8</bpmn:incoming>
+      <bpmn:outgoing>Flow_9</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:sequenceFlow id="Flow_0" sourceRef="StartEvent_0" targetRef="ExclusiveGateway_2" />
+    <bpmn:sequenceFlow id="Flow_1" sourceRef="ExclusiveGateway_2" targetRef="EndEvent_1" />
+    <bpmn:sequenceFlow id="Flow_2" sourceRef="UserTask_4" targetRef="EndEvent_1" />
+    <bpmn:sequenceFlow id="Flow_5" sourceRef="ExclusiveGateway_2" targetRef="UserTask_3" />
+    <bpmn:sequenceFlow id="Flow_7" sourceRef="UserTask_3" targetRef="UserTask_4" />
+  </bpmn:process>
+
+</bpmn:definitions>

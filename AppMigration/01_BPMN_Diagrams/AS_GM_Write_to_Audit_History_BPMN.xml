@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL"
+  xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+  xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+  xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
+  id="Definitions_AS_GM_Write_to_Audit_History"
+  targetNamespace="http://bpmn.io/schema/bpmn">
+
+  <!-- Appian Process Model: AS GM Write to Audit History -->
+  <!-- Source UUID: 0002e313-db5c-8000-f92f-7f0000014e7a-io -->
+  <!-- Description: Process that writes to the audit history table -->
+  <!-- Pega Case Type Mapping: See migration metadata for stage/step correlation -->
+
+  <bpmn:collaboration id="Collaboration_AS_GM_Write_to_Audit_History">
+    <bpmn:participant id="Participant_AS_GM_Write_to_Audit_History" name="AS GM Write to Audit History" processRef="Process_AS_GM_Write_to_Audit_History" />
+  </bpmn:collaboration>
+
+  <bpmn:process id="Process_AS_GM_Write_to_Audit_History" name="AS GM Write to Audit History" isExecutable="false">
+    <bpmn:documentation>Process that writes to the audit history table</bpmn:documentation>
+
+    <bpmn:laneSet id="LaneSet_AS_GM_Write_to_Audit_History">
+      <bpmn:lane id="Lane_0" name="">
+      </bpmn:lane>
+    </bpmn:laneSet>
+
+    <bpmn:dataObject id="DataObject_action" name="action" />
+    <bpmn:dataObject id="DataObject_auditHistory" name="auditHistory" />
+    <bpmn:dataObject id="DataObject_initiator" name="initiator" />
+    <bpmn:dataObject id="DataObject_selectedGroup" name="selectedGroup" />
+    <bpmn:dataObject id="DataObject_users" name="users" />
+
+    <bpmn:startEvent id="StartEvent_0" name="Start Node">
+      <bpmn:outgoing>Flow_0</bpmn:outgoing>
+    </bpmn:startEvent>
+
+    <bpmn:endEvent id="EndEvent_1" name="End Node">
+      <bpmn:incoming>Flow_1</bpmn:incoming>
+      <bpmn:incoming>Flow_2</bpmn:incoming>
+    </bpmn:endEvent>
+
+    <bpmn:userTask id="UserTask_2" name="Generate Audit History">
+      <bpmn:incoming>Flow_3</bpmn:incoming>
+      <bpmn:outgoing>Flow_4</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:exclusiveGateway id="ExclusiveGateway_3" name="Is Audit History blank?">
+      <bpmn:incoming>Flow_5</bpmn:incoming>
+      <bpmn:outgoing>Flow_6</bpmn:outgoing>
+      <bpmn:outgoing>Flow_7</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+
+    <bpmn:userTask id="UserTask_4" name="Write to Audit History">
+      <bpmn:incoming>Flow_8</bpmn:incoming>
+      <bpmn:outgoing>Flow_9</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:sequenceFlow id="Flow_0" sourceRef="StartEvent_0" targetRef="UserTask_2" />
+    <bpmn:sequenceFlow id="Flow_1" sourceRef="ExclusiveGateway_3" targetRef="EndEvent_1" />
+    <bpmn:sequenceFlow id="Flow_2" sourceRef="UserTask_4" targetRef="EndEvent_1" />
+    <bpmn:sequenceFlow id="Flow_4" sourceRef="UserTask_2" targetRef="ExclusiveGateway_3" />
+    <bpmn:sequenceFlow id="Flow_6" sourceRef="ExclusiveGateway_3" targetRef="UserTask_4" />
+  </bpmn:process>
+
+</bpmn:definitions>

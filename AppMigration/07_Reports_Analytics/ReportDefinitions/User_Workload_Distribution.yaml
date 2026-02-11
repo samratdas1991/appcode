@@ -1,0 +1,32 @@
+# Report Definition: User Workload Distribution
+# Pega Migration Target: Report Definition (Summary)
+
+reportName: User Workload Distribution
+description: Display work distribution across team members
+dataSource: Assignment table
+columns:
+- name: Operator
+  dataType: Text
+  aggregation: Group By
+- name: OpenCases
+  dataType: Integer
+  aggregation: Count
+- name: CompletedToday
+  dataType: Integer
+  aggregation: Count
+- name: AvgCompletionTime
+  dataType: Decimal
+  aggregation: Average
+filters:
+- field: Team
+  operator: '='
+  defaultValue: Current team
+sorting:
+- field: OpenCases
+  direction: DESC
+grouping:
+- Operator
+- CaseType
+pegaReportType: Report Definition (Summary)
+pegaImplementationNotes: Use Pega Manager Portal workload views. Leverage built-in
+  assignment reporting.

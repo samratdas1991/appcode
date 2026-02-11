@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL"
+  xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+  xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+  xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
+  id="Definitions_AS_FS_RPA_Execute_and_Retrieve_Update_Address_Result"
+  targetNamespace="http://bpmn.io/schema/bpmn">
+
+  <!-- Appian Process Model: AS FS RPA Execute and Retrieve Update Address Result -->
+  <!-- Source UUID: 0003e5e0-ecc6-8000-2f9b-7f0000014e7a -->
+  <!-- Description: PM to execute and retrieve Update Address Robotic process result -->
+  <!-- Pega Case Type Mapping: See migration metadata for stage/step correlation -->
+
+  <bpmn:collaboration id="Collaboration_AS_FS_RPA_Execute_and_Retrieve_Update_Address_Result">
+    <bpmn:participant id="Participant_AS_FS_RPA_Execute_and_Retrieve_Update_Address_Result" name="AS FS RPA Execute and Retrieve Update Address Result" processRef="Process_AS_FS_RPA_Execute_and_Retrieve_Update_Address_Result" />
+  </bpmn:collaboration>
+
+  <bpmn:process id="Process_AS_FS_RPA_Execute_and_Retrieve_Update_Address_Result" name="AS FS RPA Execute and Retrieve Update Address Result" isExecutable="false">
+    <bpmn:documentation>PM to execute and retrieve Update Address Robotic process result</bpmn:documentation>
+
+    <bpmn:dataObject id="DataObject_addressAudit" name="addressAudit" />
+    <bpmn:dataObject id="DataObject_createAlertOnFailure" name="createAlertOnFailure" />
+    <bpmn:dataObject id="DataObject_customer" name="customer" />
+    <bpmn:dataObject id="DataObject_error" name="error" />
+    <bpmn:dataObject id="DataObject_executionId" name="executionId" />
+    <bpmn:dataObject id="DataObject_executionNumber" name="executionNumber" />
+    <bpmn:dataObject id="DataObject_messageRecipientProcessId" name="messageRecipientProcessId" />
+    <bpmn:dataObject id="DataObject_status" name="status" />
+    <bpmn:dataObject id="DataObject_success" name="success" />
+
+    <bpmn:startEvent id="StartEvent_0" name="Start Node">
+      <bpmn:outgoing>Flow_0</bpmn:outgoing>
+    </bpmn:startEvent>
+
+    <bpmn:userTask id="UserTask_1" name="Send Bot Result">
+      <bpmn:incoming>Flow_1</bpmn:incoming>
+      <bpmn:outgoing>Flow_2</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:endEvent id="EndEvent_2" name="End Node">
+      <bpmn:incoming>Flow_3</bpmn:incoming>
+      <bpmn:incoming>Flow_4</bpmn:incoming>
+      <bpmn:incoming>Flow_5</bpmn:incoming>
+    </bpmn:endEvent>
+
+    <bpmn:exclusiveGateway id="ExclusiveGateway_3" name="Success?">
+      <bpmn:incoming>Flow_6</bpmn:incoming>
+      <bpmn:outgoing>Flow_7</bpmn:outgoing>
+      <bpmn:outgoing>Flow_8</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+
+    <bpmn:exclusiveGateway id="ExclusiveGateway_4" name="Message recipient?">
+      <bpmn:incoming>Flow_9</bpmn:incoming>
+      <bpmn:outgoing>Flow_10</bpmn:outgoing>
+      <bpmn:outgoing>Flow_11</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+
+    <bpmn:exclusiveGateway id="ExclusiveGateway_5" name="Create Alert ?">
+      <bpmn:incoming>Flow_12</bpmn:incoming>
+      <bpmn:incoming>Flow_13</bpmn:incoming>
+      <bpmn:outgoing>Flow_14</bpmn:outgoing>
+      <bpmn:outgoing>Flow_15</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+
+    <bpmn:userTask id="UserTask_6" name="Execute Robotic Process">
+      <bpmn:incoming>Flow_16</bpmn:incoming>
+      <bpmn:outgoing>Flow_17</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_7" name="Get Execution Id">
+      <bpmn:incoming>Flow_18</bpmn:incoming>
+      <bpmn:outgoing>Flow_19</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_8" name="Create Alert">
+      <bpmn:incoming>Flow_20</bpmn:incoming>
+      <bpmn:outgoing>Flow_21</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:sequenceFlow id="Flow_0" sourceRef="StartEvent_0" targetRef="UserTask_6" />
+    <bpmn:sequenceFlow id="Flow_1" sourceRef="ExclusiveGateway_4" targetRef="UserTask_1" />
+    <bpmn:sequenceFlow id="Flow_2" sourceRef="UserTask_1" targetRef="ExclusiveGateway_5" />
+    <bpmn:sequenceFlow id="Flow_3" sourceRef="ExclusiveGateway_3" targetRef="EndEvent_2" />
+    <bpmn:sequenceFlow id="Flow_4" sourceRef="ExclusiveGateway_5" targetRef="EndEvent_2" />
+    <bpmn:sequenceFlow id="Flow_5" sourceRef="UserTask_8" targetRef="EndEvent_2" />
+    <bpmn:sequenceFlow id="Flow_6" sourceRef="ExclusiveGateway_5" targetRef="ExclusiveGateway_3" />
+    <bpmn:sequenceFlow id="Flow_7" sourceRef="ExclusiveGateway_3" targetRef="UserTask_8" />
+    <bpmn:sequenceFlow id="Flow_9" sourceRef="UserTask_7" targetRef="ExclusiveGateway_4" />
+    <bpmn:sequenceFlow id="Flow_11" sourceRef="ExclusiveGateway_4" targetRef="ExclusiveGateway_5" />
+    <bpmn:sequenceFlow id="Flow_17" sourceRef="UserTask_6" targetRef="UserTask_7" />
+  </bpmn:process>
+
+</bpmn:definitions>

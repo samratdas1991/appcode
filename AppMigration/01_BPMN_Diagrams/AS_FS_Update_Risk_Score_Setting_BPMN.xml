@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL"
+  xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+  xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+  xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
+  id="Definitions_AS_FS_Update_Risk_Score_Setting"
+  targetNamespace="http://bpmn.io/schema/bpmn">
+
+  <!-- Appian Process Model: AS FS Update Risk Score Setting -->
+  <!-- Source UUID: 0002e6aa-b40f-8000-475f-7f0000014e7a -->
+  <!-- Description: Process model to update risk score setting -->
+  <!-- Pega Case Type Mapping: See migration metadata for stage/step correlation -->
+
+  <bpmn:collaboration id="Collaboration_AS_FS_Update_Risk_Score_Setting">
+    <bpmn:participant id="Participant_AS_FS_Update_Risk_Score_Setting" name="AS FS Update Risk Score Setting" processRef="Process_AS_FS_Update_Risk_Score_Setting" />
+  </bpmn:collaboration>
+
+  <bpmn:process id="Process_AS_FS_Update_Risk_Score_Setting" name="AS FS Update Risk Score Setting" isExecutable="false">
+    <bpmn:documentation>Process model to update risk score setting</bpmn:documentation>
+
+    <bpmn:laneSet id="LaneSet_AS_FS_Update_Risk_Score_Setting">
+      <bpmn:lane id="Lane_0" name="">
+      </bpmn:lane>
+    </bpmn:laneSet>
+
+    <bpmn:dataObject id="DataObject_customer" name="customer" />
+    <bpmn:dataObject id="DataObject_isCancel" name="isCancel" />
+    <bpmn:dataObject id="DataObject_riskScoreSetting" name="riskScoreSetting" />
+
+    <bpmn:startEvent id="StartEvent_0" name="Start Node">
+      <bpmn:outgoing>Flow_0</bpmn:outgoing>
+    </bpmn:startEvent>
+
+    <bpmn:endEvent id="EndEvent_1" name="End Node">
+      <bpmn:incoming>Flow_1</bpmn:incoming>
+      <bpmn:incoming>Flow_2</bpmn:incoming>
+    </bpmn:endEvent>
+
+    <bpmn:exclusiveGateway id="ExclusiveGateway_2" name="Cancel?">
+      <bpmn:incoming>Flow_3</bpmn:incoming>
+      <bpmn:outgoing>Flow_4</bpmn:outgoing>
+      <bpmn:outgoing>Flow_5</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+
+    <bpmn:userTask id="UserTask_3" name="Write to Northrow Refresh Interval">
+      <bpmn:incoming>Flow_6</bpmn:incoming>
+      <bpmn:outgoing>Flow_7</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_4" name="Set customer ID">
+      <bpmn:incoming>Flow_8</bpmn:incoming>
+      <bpmn:outgoing>Flow_9</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:sequenceFlow id="Flow_0" sourceRef="StartEvent_0" targetRef="ExclusiveGateway_2" />
+    <bpmn:sequenceFlow id="Flow_1" sourceRef="ExclusiveGateway_2" targetRef="EndEvent_1" />
+    <bpmn:sequenceFlow id="Flow_2" sourceRef="UserTask_3" targetRef="EndEvent_1" />
+    <bpmn:sequenceFlow id="Flow_4" sourceRef="ExclusiveGateway_2" targetRef="UserTask_4" />
+    <bpmn:sequenceFlow id="Flow_6" sourceRef="UserTask_4" targetRef="UserTask_3" />
+  </bpmn:process>
+
+</bpmn:definitions>

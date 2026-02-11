@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL"
+  xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+  xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+  xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
+  id="Definitions_AS_IO_Review_Required__Document_Task"
+  targetNamespace="http://bpmn.io/schema/bpmn">
+
+  <!-- Appian Process Model: AS IO Review Required  Document Task -->
+  <!-- Source UUID: 0010e7d0-d0cb-8000-63a8-7f0000014e7a -->
+  <!-- Description: Process model to review document upload task -->
+  <!-- Pega Case Type Mapping: See migration metadata for stage/step correlation -->
+
+  <bpmn:collaboration id="Collaboration_AS_IO_Review_Required__Document_Task">
+    <bpmn:participant id="Participant_AS_IO_Review_Required__Document_Task" name="AS IO Review Required  Document Task" processRef="Process_AS_IO_Review_Required__Document_Task" />
+  </bpmn:collaboration>
+
+  <bpmn:process id="Process_AS_IO_Review_Required__Document_Task" name="AS IO Review Required  Document Task" isExecutable="false">
+    <bpmn:documentation>Process model to review document upload task</bpmn:documentation>
+
+    <bpmn:laneSet id="LaneSet_AS_IO_Review_Required__Document_Task">
+      <bpmn:lane id="Lane_0" name="">
+      </bpmn:lane>
+    </bpmn:laneSet>
+
+    <bpmn:dataObject id="DataObject_completeSubsequentTasks" name="completeSubsequentTasks" />
+    <bpmn:dataObject id="DataObject_index" name="index" />
+    <bpmn:dataObject id="DataObject_reasons" name="reasons" />
+    <bpmn:dataObject id="DataObject_rejectedRequiredDocuments" name="rejectedRequiredDocuments" />
+    <bpmn:dataObject id="DataObject_reviewDocTasks" name="reviewDocTasks" />
+    <bpmn:dataObject id="DataObject_tasks" name="tasks" />
+    <bpmn:dataObject id="DataObject_updatedDependentTasks" name="updatedDependentTasks" />
+    <bpmn:dataObject id="DataObject_uploadDocTasks" name="uploadDocTasks" />
+    <bpmn:dataObject id="DataObject_userAction" name="userAction" />
+
+    <bpmn:startEvent id="StartEvent_0" name="Start Node">
+      <bpmn:outgoing>Flow_0</bpmn:outgoing>
+    </bpmn:startEvent>
+
+    <bpmn:endEvent id="EndEvent_1" name="End Node">
+      <bpmn:incoming>Flow_1</bpmn:incoming>
+      <bpmn:incoming>Flow_2</bpmn:incoming>
+      <bpmn:incoming>Flow_3</bpmn:incoming>
+    </bpmn:endEvent>
+
+    <bpmn:userTask id="UserTask_2" name="Write doc upload tasks">
+      <bpmn:incoming>Flow_4</bpmn:incoming>
+      <bpmn:outgoing>Flow_5</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_3" name="Audit configuration">
+      <bpmn:incoming>Flow_6</bpmn:incoming>
+      <bpmn:incoming>Flow_7</bpmn:incoming>
+      <bpmn:outgoing>Flow_8</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_4" name="Write review tasks">
+      <bpmn:incoming>Flow_9</bpmn:incoming>
+      <bpmn:outgoing>Flow_10</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_5" name="Construct review doc tasks">
+      <bpmn:incoming>Flow_11</bpmn:incoming>
+      <bpmn:outgoing>Flow_12</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:exclusiveGateway id="ExclusiveGateway_6" name="is Rejected Req docs empty?">
+      <bpmn:incoming>Flow_13</bpmn:incoming>
+      <bpmn:outgoing>Flow_14</bpmn:outgoing>
+      <bpmn:outgoing>Flow_15</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+
+    <bpmn:userTask id="UserTask_7" name="Construct upload doc tasks">
+      <bpmn:incoming>Flow_16</bpmn:incoming>
+      <bpmn:outgoing>Flow_17</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:exclusiveGateway id="ExclusiveGateway_8" name="User action">
+      <bpmn:incoming>Flow_18</bpmn:incoming>
+      <bpmn:outgoing>Flow_19</bpmn:outgoing>
+      <bpmn:outgoing>Flow_20</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+
+    <bpmn:userTask id="UserTask_9" name="Rejected Required Documents">
+      <bpmn:incoming>Flow_21</bpmn:incoming>
+      <bpmn:outgoing>Flow_22</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_10" name="Update review tasks' dependents">
+      <bpmn:incoming>Flow_23</bpmn:incoming>
+      <bpmn:outgoing>Flow_24</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_11" name="Write updated dependent tasks">
+      <bpmn:incoming>Flow_25</bpmn:incoming>
+      <bpmn:outgoing>Flow_26</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:exclusiveGateway id="ExclusiveGateway_12" name="No dependents?">
+      <bpmn:incoming>Flow_27</bpmn:incoming>
+      <bpmn:outgoing>Flow_28</bpmn:outgoing>
+      <bpmn:outgoing>Flow_29</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+
+    <bpmn:userTask id="UserTask_13" name="Task Completion">
+      <bpmn:incoming>Flow_30</bpmn:incoming>
+      <bpmn:outgoing>Flow_31</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:sequenceFlow id="Flow_0" sourceRef="StartEvent_0" targetRef="ExclusiveGateway_8" />
+    <bpmn:sequenceFlow id="Flow_1" sourceRef="UserTask_3" targetRef="EndEvent_1" />
+    <bpmn:sequenceFlow id="Flow_2" sourceRef="ExclusiveGateway_6" targetRef="EndEvent_1" />
+    <bpmn:sequenceFlow id="Flow_3" sourceRef="ExclusiveGateway_8" targetRef="EndEvent_1" />
+    <bpmn:sequenceFlow id="Flow_4" sourceRef="UserTask_7" targetRef="UserTask_2" />
+    <bpmn:sequenceFlow id="Flow_5" sourceRef="UserTask_2" targetRef="UserTask_5" />
+    <bpmn:sequenceFlow id="Flow_6" sourceRef="UserTask_11" targetRef="UserTask_3" />
+    <bpmn:sequenceFlow id="Flow_7" sourceRef="ExclusiveGateway_12" targetRef="UserTask_3" />
+    <bpmn:sequenceFlow id="Flow_9" sourceRef="UserTask_5" targetRef="UserTask_4" />
+    <bpmn:sequenceFlow id="Flow_10" sourceRef="UserTask_4" targetRef="UserTask_10" />
+    <bpmn:sequenceFlow id="Flow_13" sourceRef="UserTask_13" targetRef="ExclusiveGateway_6" />
+    <bpmn:sequenceFlow id="Flow_14" sourceRef="ExclusiveGateway_6" targetRef="UserTask_7" />
+    <bpmn:sequenceFlow id="Flow_20" sourceRef="ExclusiveGateway_8" targetRef="UserTask_9" />
+    <bpmn:sequenceFlow id="Flow_22" sourceRef="UserTask_9" targetRef="UserTask_13" />
+    <bpmn:sequenceFlow id="Flow_24" sourceRef="UserTask_10" targetRef="ExclusiveGateway_12" />
+    <bpmn:sequenceFlow id="Flow_25" sourceRef="ExclusiveGateway_12" targetRef="UserTask_11" />
+  </bpmn:process>
+
+</bpmn:definitions>

@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL"
+  xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+  xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+  xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
+  id="Definitions_AS_IO_Add_New_Address_Task"
+  targetNamespace="http://bpmn.io/schema/bpmn">
+
+  <!-- Appian Process Model: AS IO Add New Address Task -->
+  <!-- Source UUID: 0002e5e1-9e64-8000-2fca-7f0000014e7a -->
+  <!-- Description: Process model to create a new address and trigger an RPA bot to update the address in a legacy system -->
+  <!-- Pega Case Type Mapping: See migration metadata for stage/step correlation -->
+
+  <bpmn:collaboration id="Collaboration_AS_IO_Add_New_Address_Task">
+    <bpmn:participant id="Participant_AS_IO_Add_New_Address_Task" name="AS IO Add New Address Task" processRef="Process_AS_IO_Add_New_Address_Task" />
+  </bpmn:collaboration>
+
+  <bpmn:process id="Process_AS_IO_Add_New_Address_Task" name="AS IO Add New Address Task" isExecutable="false">
+    <bpmn:documentation>Process model to create a new address and trigger an RPA bot to update the address in a legacy system</bpmn:documentation>
+
+    <bpmn:dataObject id="DataObject_address" name="address" />
+    <bpmn:dataObject id="DataObject_request" name="request" />
+    <bpmn:dataObject id="DataObject_roboticProcessStatus" name="roboticProcessStatus" />
+    <bpmn:dataObject id="DataObject_rpaExecutionId" name="rpaExecutionId" />
+    <bpmn:dataObject id="DataObject_task" name="task" />
+    <bpmn:dataObject id="DataObject_userAction" name="userAction" />
+
+    <bpmn:startEvent id="StartEvent_0" name="Start Node">
+      <bpmn:outgoing>Flow_0</bpmn:outgoing>
+    </bpmn:startEvent>
+
+    <bpmn:endEvent id="EndEvent_1" name="End Node">
+      <bpmn:incoming>Flow_1</bpmn:incoming>
+      <bpmn:incoming>Flow_2</bpmn:incoming>
+      <bpmn:incoming>Flow_3</bpmn:incoming>
+      <bpmn:incoming>Flow_4</bpmn:incoming>
+    </bpmn:endEvent>
+
+    <bpmn:userTask id="UserTask_2" name="Set Customer ID">
+      <bpmn:incoming>Flow_5</bpmn:incoming>
+      <bpmn:outgoing>Flow_6</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_3" name="Get Bot Result">
+      <bpmn:incoming>Flow_7</bpmn:incoming>
+      <bpmn:outgoing>Flow_8</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_4" name="Write to Task">
+      <bpmn:incoming>Flow_9</bpmn:incoming>
+      <bpmn:outgoing>Flow_10</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:parallelGateway id="ParallelGateway_5" name="Check User Action">
+      <bpmn:incoming>Flow_11</bpmn:incoming>
+      <bpmn:outgoing>Flow_12</bpmn:outgoing>
+      <bpmn:outgoing>Flow_13</bpmn:outgoing>
+    </bpmn:parallelGateway>
+
+    <bpmn:userTask id="UserTask_6" name="Set RPA execution ID in Task">
+      <bpmn:incoming>Flow_14</bpmn:incoming>
+      <bpmn:outgoing>Flow_15</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_7" name="Set address ID in task">
+      <bpmn:incoming>Flow_16</bpmn:incoming>
+      <bpmn:outgoing>Flow_17</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_8" name="Create Error">
+      <bpmn:incoming>Flow_18</bpmn:incoming>
+      <bpmn:outgoing>Flow_19</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_9" name="Complete Task">
+      <bpmn:incoming>Flow_20</bpmn:incoming>
+      <bpmn:outgoing>Flow_21</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_10" name="Create Update Address">
+      <bpmn:incoming>Flow_22</bpmn:incoming>
+      <bpmn:outgoing>Flow_23</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:exclusiveGateway id="ExclusiveGateway_11" name="Trigger Robotic Process ?">
+      <bpmn:incoming>Flow_24</bpmn:incoming>
+      <bpmn:outgoing>Flow_25</bpmn:outgoing>
+      <bpmn:outgoing>Flow_26</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+
+    <bpmn:exclusiveGateway id="ExclusiveGateway_12" name="Success or request is closed?">
+      <bpmn:incoming>Flow_27</bpmn:incoming>
+      <bpmn:outgoing>Flow_28</bpmn:outgoing>
+      <bpmn:outgoing>Flow_29</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+
+    <bpmn:sequenceFlow id="Flow_0" sourceRef="StartEvent_0" targetRef="ParallelGateway_5" />
+    <bpmn:sequenceFlow id="Flow_1" sourceRef="ParallelGateway_5" targetRef="EndEvent_1" />
+    <bpmn:sequenceFlow id="Flow_2" sourceRef="UserTask_8" targetRef="EndEvent_1" />
+    <bpmn:sequenceFlow id="Flow_3" sourceRef="ExclusiveGateway_11" targetRef="EndEvent_1" />
+    <bpmn:sequenceFlow id="Flow_4" sourceRef="ExclusiveGateway_12" targetRef="EndEvent_1" />
+    <bpmn:sequenceFlow id="Flow_5" sourceRef="ParallelGateway_5" targetRef="UserTask_2" />
+    <bpmn:sequenceFlow id="Flow_6" sourceRef="UserTask_2" targetRef="UserTask_10" />
+    <bpmn:sequenceFlow id="Flow_7" sourceRef="ExclusiveGateway_11" targetRef="UserTask_3" />
+    <bpmn:sequenceFlow id="Flow_8" sourceRef="UserTask_3" targetRef="UserTask_6" />
+    <bpmn:sequenceFlow id="Flow_9" sourceRef="UserTask_6" targetRef="UserTask_4" />
+    <bpmn:sequenceFlow id="Flow_10" sourceRef="UserTask_4" targetRef="ExclusiveGateway_12" />
+    <bpmn:sequenceFlow id="Flow_16" sourceRef="UserTask_10" targetRef="UserTask_7" />
+    <bpmn:sequenceFlow id="Flow_17" sourceRef="UserTask_7" targetRef="UserTask_9" />
+    <bpmn:sequenceFlow id="Flow_18" sourceRef="ExclusiveGateway_12" targetRef="UserTask_8" />
+    <bpmn:sequenceFlow id="Flow_21" sourceRef="UserTask_9" targetRef="ExclusiveGateway_11" />
+  </bpmn:process>
+
+</bpmn:definitions>

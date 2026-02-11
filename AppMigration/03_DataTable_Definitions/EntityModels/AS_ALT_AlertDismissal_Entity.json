@@ -1,0 +1,76 @@
+{
+  "entityName": "AS_ALT_AlertDismissal",
+  "pegaClassName": "Data-ALT-AlertDismissal",
+  "tableName": "AS_ALT_ALERT_DISMISSAL",
+  "description": "Tracks who has dismissed an alert so as to not display it for those users moving forward.",
+  "module": "ALT",
+  "attributes": [
+    {
+      "appianFieldName": "alertDismissalId",
+      "pegaPropertyName": "Alertdismissalid",
+      "appianDataType": "xsd:int",
+      "pegaDataType": "Integer",
+      "columnName": "ALERT_DISMISSAL_ID",
+      "required": true,
+      "isPrimaryKey": true,
+      "isForeignKey": false
+    },
+    {
+      "appianFieldName": "alertId",
+      "pegaPropertyName": "Alertid",
+      "appianDataType": "xsd:int",
+      "pegaDataType": "Integer",
+      "columnName": "ALERT_ID",
+      "required": false,
+      "isPrimaryKey": false,
+      "isForeignKey": false
+    },
+    {
+      "appianFieldName": "dismissalComment",
+      "pegaPropertyName": "Dismissalcomment",
+      "appianDataType": "xsd:string",
+      "pegaDataType": "Text",
+      "columnName": "DISMISSAL_COMMENT",
+      "required": false,
+      "isPrimaryKey": false,
+      "isForeignKey": false
+    },
+    {
+      "appianFieldName": "username",
+      "pegaPropertyName": "Username",
+      "appianDataType": "xsd:string",
+      "pegaDataType": "Text",
+      "columnName": "USERNAME",
+      "required": false,
+      "isPrimaryKey": false,
+      "isForeignKey": false
+    },
+    {
+      "appianFieldName": "createdDatetime",
+      "pegaPropertyName": "Createddatetime",
+      "appianDataType": "xsd:dateTime",
+      "pegaDataType": "DateTime",
+      "columnName": "CREATED_DATETIME",
+      "required": false,
+      "isPrimaryKey": false,
+      "isForeignKey": false
+    },
+    {
+      "appianFieldName": "reason",
+      "pegaPropertyName": "Reason",
+      "appianDataType": "fs2:AS_FS_R_Data",
+      "pegaDataType": "Integer",
+      "columnName": "REASON",
+      "required": false,
+      "isPrimaryKey": false,
+      "isForeignKey": true
+    }
+  ],
+  "relationships": [
+    {
+      "type": "ManyToOne",
+      "foreignKey": "REASON",
+      "appianFieldName": "reason"
+    }
+  ]
+}

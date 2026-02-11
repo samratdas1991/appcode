@@ -1,0 +1,30 @@
+# Integration Definition: AS EI CHS CS Companies House
+# Source: _a-0000e5a0-53e9-8000-9bd8-011c48011c48_1397593.xml
+# Pega Migration Target: REST Connector
+
+integrationName: AS EI CHS CS Companies House
+uuid: _a-0000e5a0-53e9-8000-9bd8-011c48011c48_1397593
+description: 'Connected system that handles connecting to the Companies House API  Documentation:
+  https://developer.company-information.service.gov.uk/api/docs/'
+integrationType: system.http
+pegaConnectorType: REST Connector
+baseURL: https://api.company-information.service.gov.uk
+authentication:
+  appianAuthType: API Key
+  pegaAuthProfile: Basic Auth (key as username)
+  notes: UK company registry lookup
+endpoints:
+- name: Search Companies
+  method: GET
+  path: /search/companies
+  description: Search UK companies
+- name: Get Company Profile
+  method: GET
+  path: /company/{companyNumber}
+  description: Get company details
+- name: Get Officers
+  method: GET
+  path: /company/{companyNumber}/officers
+  description: Get officers/directors
+pegaMappingNotes: Map to Pega REST Connector with Basic Auth (key as username)
+sourceFile: _a-0000e5a0-53e9-8000-9bd8-011c48011c48_1397593.xml

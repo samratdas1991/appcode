@@ -1,0 +1,29 @@
+# Integration Definition: AS FS IDP Google Cloud Storage
+# Source: _a-0000e539-6d59-8000-9bd0-011c48011c48_1266466.xml
+# Pega Migration Target: REST Connector
+
+integrationName: AS FS IDP Google Cloud Storage
+uuid: _a-0000e539-6d59-8000-9bd0-011c48011c48_1266466
+description: Connected system for AS FS IDP Google Cloud Storage
+integrationType: plugin.[com.appian.ps.google.cloud.storage.csp].[GoogleCloudStorageConnectedSystemTemplate]
+pegaConnectorType: REST Connector
+baseURL: https://storage.googleapis.com
+authentication:
+  appianAuthType: Google Service Account
+  pegaAuthProfile: Service Account OAuth 2.0
+  notes: GCS bucket operations for document storage
+endpoints:
+- name: Upload Object
+  method: POST
+  path: /upload/storage/v1/b/{bucket}/o
+  description: Upload document
+- name: Delete Object
+  method: DELETE
+  path: /storage/v1/b/{bucket}/o/{object}
+  description: Delete document
+- name: Get Object
+  method: GET
+  path: /storage/v1/b/{bucket}/o/{object}
+  description: Retrieve document
+pegaMappingNotes: Map to Pega REST Connector with Service Account OAuth 2.0
+sourceFile: _a-0000e539-6d59-8000-9bd0-011c48011c48_1266466.xml

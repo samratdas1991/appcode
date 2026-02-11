@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL"
+  xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+  xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+  xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
+  id="Definitions_AS_QNM_Delete_Appian_Documents"
+  targetNamespace="http://bpmn.io/schema/bpmn">
+
+  <!-- Appian Process Model: AS QNM Delete Appian Documents -->
+  <!-- Source UUID: 0000e4a0-c472-8000-0ea4-7f0000014e7a -->
+  <!-- Description: QNM wrapper for document deletion that checks to make sure there are IDs to be deleted -->
+  <!-- Pega Case Type Mapping: See migration metadata for stage/step correlation -->
+
+  <bpmn:collaboration id="Collaboration_AS_QNM_Delete_Appian_Documents">
+    <bpmn:participant id="Participant_AS_QNM_Delete_Appian_Documents" name="AS QNM Delete Appian Documents" processRef="Process_AS_QNM_Delete_Appian_Documents" />
+  </bpmn:collaboration>
+
+  <bpmn:process id="Process_AS_QNM_Delete_Appian_Documents" name="AS QNM Delete Appian Documents" isExecutable="false">
+    <bpmn:documentation>QNM wrapper for document deletion that checks to make sure there are IDs to be deleted</bpmn:documentation>
+
+    <bpmn:laneSet id="LaneSet_AS_QNM_Delete_Appian_Documents">
+      <bpmn:lane id="Lane_0" name="">
+      </bpmn:lane>
+    </bpmn:laneSet>
+
+    <bpmn:dataObject id="DataObject_documentsToDelete" name="documentsToDelete" />
+
+    <bpmn:startEvent id="StartEvent_0" name="Start Node">
+      <bpmn:outgoing>Flow_0</bpmn:outgoing>
+    </bpmn:startEvent>
+
+    <bpmn:endEvent id="EndEvent_1" name="End Node">
+      <bpmn:incoming>Flow_1</bpmn:incoming>
+      <bpmn:incoming>Flow_2</bpmn:incoming>
+    </bpmn:endEvent>
+
+    <bpmn:exclusiveGateway id="ExclusiveGateway_2" name="Documents to delete?">
+      <bpmn:incoming>Flow_3</bpmn:incoming>
+      <bpmn:outgoing>Flow_4</bpmn:outgoing>
+      <bpmn:outgoing>Flow_5</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+
+    <bpmn:userTask id="UserTask_3" name="Delete Document">
+      <bpmn:incoming>Flow_6</bpmn:incoming>
+      <bpmn:outgoing>Flow_7</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:sequenceFlow id="Flow_0" sourceRef="StartEvent_0" targetRef="ExclusiveGateway_2" />
+    <bpmn:sequenceFlow id="Flow_1" sourceRef="ExclusiveGateway_2" targetRef="EndEvent_1" />
+    <bpmn:sequenceFlow id="Flow_2" sourceRef="UserTask_3" targetRef="EndEvent_1" />
+    <bpmn:sequenceFlow id="Flow_4" sourceRef="ExclusiveGateway_2" targetRef="UserTask_3" />
+  </bpmn:process>
+
+</bpmn:definitions>

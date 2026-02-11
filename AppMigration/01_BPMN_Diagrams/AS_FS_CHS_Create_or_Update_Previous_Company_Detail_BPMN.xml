@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL"
+  xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+  xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+  xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
+  id="Definitions_AS_FS_CHS_Create_or_Update_Previous_Company_Detail"
+  targetNamespace="http://bpmn.io/schema/bpmn">
+
+  <!-- Appian Process Model: AS FS CHS Create or Update Previous Company Detail -->
+  <!-- Source UUID: 0000e5c1-e755-8000-2bfe-7f0000014e7a -->
+  <!-- Description: Process used to add or modify the Previous Company Detail on a customer -->
+  <!-- Pega Case Type Mapping: See migration metadata for stage/step correlation -->
+
+  <bpmn:collaboration id="Collaboration_AS_FS_CHS_Create_or_Update_Previous_Company_Detail">
+    <bpmn:participant id="Participant_AS_FS_CHS_Create_or_Update_Previous_Company_Detail" name="AS FS CHS Create or Update Previous Company Detail" processRef="Process_AS_FS_CHS_Create_or_Update_Previous_Company_Detail" />
+  </bpmn:collaboration>
+
+  <bpmn:process id="Process_AS_FS_CHS_Create_or_Update_Previous_Company_Detail" name="AS FS CHS Create or Update Previous Company Detail" isExecutable="false">
+    <bpmn:documentation>Process used to add or modify the Previous Company Detail on a customer</bpmn:documentation>
+
+    <bpmn:laneSet id="LaneSet_AS_FS_CHS_Create_or_Update_Previous_Company_Detail">
+      <bpmn:lane id="Lane_0" name="">
+      </bpmn:lane>
+    </bpmn:laneSet>
+
+    <bpmn:dataObject id="DataObject_auditParams" name="auditParams" />
+    <bpmn:dataObject id="DataObject_companyDetails" name="companyDetails" />
+    <bpmn:dataObject id="DataObject_modifiedByOverride" name="modifiedByOverride" />
+    <bpmn:dataObject id="DataObject_previousCompanyDetail" name="previousCompanyDetail" />
+    <bpmn:dataObject id="DataObject_userAction" name="userAction" />
+
+    <bpmn:startEvent id="StartEvent_0" name="Start Node">
+      <bpmn:outgoing>Flow_0</bpmn:outgoing>
+    </bpmn:startEvent>
+
+    <bpmn:endEvent id="EndEvent_1" name="End Node">
+      <bpmn:incoming>Flow_1</bpmn:incoming>
+      <bpmn:incoming>Flow_2</bpmn:incoming>
+    </bpmn:endEvent>
+
+    <bpmn:exclusiveGateway id="ExclusiveGateway_2" name="Cancel?">
+      <bpmn:incoming>Flow_3</bpmn:incoming>
+      <bpmn:outgoing>Flow_4</bpmn:outgoing>
+      <bpmn:outgoing>Flow_5</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+
+    <bpmn:userTask id="UserTask_3" name="Map Previous company Names to company details">
+      <bpmn:incoming>Flow_6</bpmn:incoming>
+      <bpmn:outgoing>Flow_7</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_4" name="get Company Details">
+      <bpmn:incoming>Flow_8</bpmn:incoming>
+      <bpmn:outgoing>Flow_9</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_5" name="Write Company Details">
+      <bpmn:incoming>Flow_10</bpmn:incoming>
+      <bpmn:outgoing>Flow_11</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:sequenceFlow id="Flow_0" sourceRef="StartEvent_0" targetRef="ExclusiveGateway_2" />
+    <bpmn:sequenceFlow id="Flow_1" sourceRef="ExclusiveGateway_2" targetRef="EndEvent_1" />
+    <bpmn:sequenceFlow id="Flow_2" sourceRef="UserTask_5" targetRef="EndEvent_1" />
+    <bpmn:sequenceFlow id="Flow_5" sourceRef="ExclusiveGateway_2" targetRef="UserTask_4" />
+    <bpmn:sequenceFlow id="Flow_6" sourceRef="UserTask_4" targetRef="UserTask_3" />
+    <bpmn:sequenceFlow id="Flow_7" sourceRef="UserTask_3" targetRef="UserTask_5" />
+  </bpmn:process>
+
+</bpmn:definitions>

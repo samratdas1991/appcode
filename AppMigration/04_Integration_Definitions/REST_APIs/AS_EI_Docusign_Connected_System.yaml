@@ -1,0 +1,29 @@
+# Integration Definition: AS EI Docusign Connected System
+# Source: _a-0000e539-6d59-8000-9bd0-011c48011c48_1302455.xml
+# Pega Migration Target: REST Connector
+
+integrationName: AS EI Docusign Connected System
+uuid: _a-0000e539-6d59-8000-9bd0-011c48011c48_1302455
+description: Connected system to provide the ability to have customers sign documents
+integrationType: plugin.[DocuSignMultiAuth].[DocuSignConnectedSystem]
+pegaConnectorType: REST Connector
+baseURL: https://demo.docusign.net/restapi
+authentication:
+  appianAuthType: OAuth 2.0 (CSTF)
+  pegaAuthProfile: OAuth 2.0 Authorization Code
+  notes: DocuSign e-signature integration
+endpoints:
+- name: Create Envelope
+  method: POST
+  path: /v2.1/accounts/{accountId}/envelopes
+  description: Create signature envelope
+- name: Get Envelope Status
+  method: GET
+  path: /v2.1/accounts/{accountId}/envelopes/{envelopeId}
+  description: Check status
+- name: Get Document
+  method: GET
+  path: /v2.1/accounts/{accountId}/envelopes/{envelopeId}/documents/{documentId}
+  description: Download signed doc
+pegaMappingNotes: Map to Pega REST Connector with OAuth 2.0 Authorization Code
+sourceFile: _a-0000e539-6d59-8000-9bd0-011c48011c48_1302455.xml

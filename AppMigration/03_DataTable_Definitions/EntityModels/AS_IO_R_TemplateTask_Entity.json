@@ -1,0 +1,166 @@
+{
+  "entityName": "AS_IO_R_TemplateTask",
+  "pegaClassName": "Data-IO-RTemplateTask",
+  "tableName": "AS_IO_R_TEMPLATE_TASK",
+  "description": "Maps tasks to a template; includes reference data and precedents",
+  "module": "IO",
+  "attributes": [
+    {
+      "appianFieldName": "templateTaskId",
+      "pegaPropertyName": "Templatetaskid",
+      "appianDataType": "xsd:int",
+      "pegaDataType": "Integer",
+      "columnName": "TEMPLATE_TASK_ID",
+      "required": true,
+      "isPrimaryKey": true,
+      "isForeignKey": false
+    },
+    {
+      "appianFieldName": "templateId",
+      "pegaPropertyName": "Templateid",
+      "appianDataType": "xsd:int",
+      "pegaDataType": "Integer",
+      "columnName": "TEMPLATE_ID",
+      "required": false,
+      "isPrimaryKey": false,
+      "isForeignKey": false
+    },
+    {
+      "appianFieldName": "taskRef",
+      "pegaPropertyName": "Taskref",
+      "appianDataType": "tns:AS_IO_R_TaskRef",
+      "pegaDataType": "Integer",
+      "columnName": "TASK_REF_ID",
+      "required": false,
+      "isPrimaryKey": false,
+      "isForeignKey": true
+    },
+    {
+      "appianFieldName": "orderNumber",
+      "pegaPropertyName": "Ordernumber",
+      "appianDataType": "xsd:int",
+      "pegaDataType": "Integer",
+      "columnName": "ORDER_NUMBER",
+      "required": false,
+      "isPrimaryKey": false,
+      "isForeignKey": false
+    },
+    {
+      "appianFieldName": "groupAssignee",
+      "pegaPropertyName": "Groupassignee",
+      "appianDataType": "xsd:int",
+      "pegaDataType": "Integer",
+      "columnName": "GROUP_ASSIGNEE",
+      "required": false,
+      "isPrimaryKey": false,
+      "isForeignKey": false
+    },
+    {
+      "appianFieldName": "requiredDocumentTemplateUUID",
+      "pegaPropertyName": "Requireddocumenttemplateuuid",
+      "appianDataType": "xsd:string",
+      "pegaDataType": "Text",
+      "columnName": "REQUIRED_DOCUMENT_TEMPLATE_UUID",
+      "required": false,
+      "isPrimaryKey": false,
+      "isForeignKey": false
+    },
+    {
+      "appianFieldName": "templateTaskUUID",
+      "pegaPropertyName": "Templatetaskuuid",
+      "appianDataType": "xsd:string",
+      "pegaDataType": "Text",
+      "columnName": "TEMPLATE_TASK_UUID",
+      "required": false,
+      "isPrimaryKey": false,
+      "isForeignKey": false
+    },
+    {
+      "appianFieldName": "taskName",
+      "pegaPropertyName": "Taskname",
+      "appianDataType": "xsd:string",
+      "pegaDataType": "Text",
+      "columnName": "TASK_NAME",
+      "required": false,
+      "isPrimaryKey": false,
+      "isForeignKey": false
+    },
+    {
+      "appianFieldName": "taskDesc",
+      "pegaPropertyName": "Taskdesc",
+      "appianDataType": "xsd:string",
+      "pegaDataType": "Text",
+      "columnName": "TASK_DESC",
+      "required": false,
+      "isPrimaryKey": false,
+      "isForeignKey": false
+    },
+    {
+      "appianFieldName": "slaDays",
+      "pegaPropertyName": "Sladays",
+      "appianDataType": "xsd:int",
+      "pegaDataType": "Integer",
+      "columnName": "SLA_DAYS",
+      "required": false,
+      "isPrimaryKey": false,
+      "isForeignKey": false
+    },
+    {
+      "appianFieldName": "slaRule",
+      "pegaPropertyName": "Slarule",
+      "appianDataType": "xsd:string",
+      "pegaDataType": "Text",
+      "columnName": "SLA_RULE",
+      "required": false,
+      "isPrimaryKey": false,
+      "isForeignKey": false
+    },
+    {
+      "appianFieldName": "createdBy",
+      "pegaPropertyName": "Createdby",
+      "appianDataType": "xsd:string",
+      "pegaDataType": "Text",
+      "columnName": "CREATED_BY",
+      "required": false,
+      "isPrimaryKey": false,
+      "isForeignKey": false
+    },
+    {
+      "appianFieldName": "createdDatetime",
+      "pegaPropertyName": "Createddatetime",
+      "appianDataType": "xsd:dateTime",
+      "pegaDataType": "DateTime",
+      "columnName": "CREATED_DATETIME",
+      "required": false,
+      "isPrimaryKey": false,
+      "isForeignKey": false
+    },
+    {
+      "appianFieldName": "modifiedBy",
+      "pegaPropertyName": "Modifiedby",
+      "appianDataType": "xsd:string",
+      "pegaDataType": "Text",
+      "columnName": "MODIFIED_BY",
+      "required": false,
+      "isPrimaryKey": false,
+      "isForeignKey": false
+    },
+    {
+      "appianFieldName": "modifiedDatetime",
+      "pegaPropertyName": "Modifieddatetime",
+      "appianDataType": "xsd:dateTime",
+      "pegaDataType": "DateTime",
+      "columnName": "MODIFIED_DATETIME",
+      "required": false,
+      "isPrimaryKey": false,
+      "isForeignKey": false
+    }
+  ],
+  "relationships": [
+    {
+      "type": "ManyToOne",
+      "foreignKey": "TASK_REF_ID",
+      "appianFieldName": "taskRef"
+    }
+  ]
+}

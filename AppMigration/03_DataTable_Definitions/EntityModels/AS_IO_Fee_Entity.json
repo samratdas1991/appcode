@@ -1,0 +1,106 @@
+{
+  "entityName": "AS_IO_Fee",
+  "pegaClassName": "Data-IO-Fee",
+  "tableName": "AS_IO_FEE",
+  "description": "fees for a product/account",
+  "module": "IO",
+  "attributes": [
+    {
+      "appianFieldName": "feeId",
+      "pegaPropertyName": "Feeid",
+      "appianDataType": "xsd:int",
+      "pegaDataType": "Integer",
+      "columnName": "FEE_ID",
+      "required": true,
+      "isPrimaryKey": true,
+      "isForeignKey": false
+    },
+    {
+      "appianFieldName": "productId",
+      "pegaPropertyName": "Productid",
+      "appianDataType": "xsd:int",
+      "pegaDataType": "Integer",
+      "columnName": "PRODUCT_ID",
+      "required": false,
+      "isPrimaryKey": false,
+      "isForeignKey": false
+    },
+    {
+      "appianFieldName": "fee",
+      "pegaPropertyName": "Fee",
+      "appianDataType": "xsd:double",
+      "pegaDataType": "Decimal",
+      "columnName": "FEE",
+      "required": false,
+      "isPrimaryKey": false,
+      "isForeignKey": false
+    },
+    {
+      "appianFieldName": "type",
+      "pegaPropertyName": "Type",
+      "appianDataType": "xsd:string",
+      "pegaDataType": "Text",
+      "columnName": "TYPE",
+      "required": false,
+      "isPrimaryKey": false,
+      "isForeignKey": false
+    },
+    {
+      "appianFieldName": "adValorem",
+      "pegaPropertyName": "Advalorem",
+      "appianDataType": "xsd:double",
+      "pegaDataType": "Decimal",
+      "columnName": "AD_VALOREM",
+      "required": false,
+      "isPrimaryKey": false,
+      "isForeignKey": false
+    },
+    {
+      "appianFieldName": "transactionCharge",
+      "pegaPropertyName": "Transactioncharge",
+      "appianDataType": "xsd:double",
+      "pegaDataType": "Decimal",
+      "columnName": "TRANSACTION_CHARGE",
+      "required": false,
+      "isPrimaryKey": false,
+      "isForeignKey": false
+    },
+    {
+      "appianFieldName": "transactionCurrencyCode",
+      "pegaPropertyName": "Transactioncurrencycode",
+      "appianDataType": "xsd:string",
+      "pegaDataType": "Text",
+      "columnName": "TRANSACTION_CURRENCY_CODE",
+      "required": false,
+      "isPrimaryKey": false,
+      "isForeignKey": false
+    },
+    {
+      "appianFieldName": "feeCurrencyCode",
+      "pegaPropertyName": "Feecurrencycode",
+      "appianDataType": "xsd:string",
+      "pegaDataType": "Text",
+      "columnName": "FEE_CURRENCY_CODE",
+      "required": false,
+      "isPrimaryKey": false,
+      "isForeignKey": false
+    },
+    {
+      "appianFieldName": "country",
+      "pegaPropertyName": "Country",
+      "appianDataType": "tns:AS_IO_Country",
+      "pegaDataType": "Integer",
+      "columnName": "COUNTRY_ID",
+      "required": false,
+      "isPrimaryKey": false,
+      "isForeignKey": true
+    }
+  ],
+  "relationships": [
+    {
+      "type": "ManyToOne",
+      "foreignKey": "COUNTRY_ID",
+      "appianFieldName": "country"
+    }
+  ]
+}

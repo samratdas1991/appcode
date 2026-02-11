@@ -1,0 +1,9 @@
+-- Source Appian CDT: AS_IO_Task_DocUploadContext
+-- Description: Data for the document upload context for a run-time task
+DROP TABLE IF EXISTS AS_IO_TASK_DOC_UPLOAD CASCADE;
+CREATE TABLE AS_IO_TASK_DOC_UPLOAD (
+    TASK_DOC_UPLOAD_ID INT PRIMARY KEY,
+    DOC_TYPE_CODE VARCHAR(255),
+    ONBOARDING_DOCUMENT_ID INT,
+    REQUIRED_DOCUMENT_ID INT
+);

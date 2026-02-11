@@ -1,0 +1,32 @@
+# Report Definition: Document Verification Status
+# Pega Migration Target: Report Definition (Summary)
+
+reportName: Document Verification Status
+description: Track document upload and verification progress
+dataSource: AS_IO_Document, AS_IO_DocumentVerification
+columns:
+- name: DocumentType
+  dataType: Text
+  aggregation: Group By
+- name: VerificationStatus
+  dataType: Text
+  aggregation: Count
+- name: UploadDate
+  dataType: DateTime
+  aggregation: None
+- name: ExpiryDate
+  dataType: Date
+  aggregation: None
+filters:
+- field: VerificationStatus
+  operator: '='
+  defaultValue: Pending
+sorting:
+- field: UploadDate
+  direction: DESC
+grouping:
+- DocumentType
+- VerificationStatus
+pegaReportType: Report Definition (Summary)
+pegaImplementationNotes: Implement with pie chart for status distribution and list
+  view for details.
