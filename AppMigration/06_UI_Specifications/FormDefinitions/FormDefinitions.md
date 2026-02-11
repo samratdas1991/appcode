@@ -1,0 +1,139 @@
+# Form Definitions Summary
+
+## Overview
+Total interfaces identified: 101
+
+## Interface Inventory
+
+| # | Interface Name | Components | Rule Inputs | Pega Section |
+|---|---------------|-----------|-------------|-------------|
+| 1 | 00029035-5bc6-4b94-a039-ab781bfd83a4.xml | 1 | 3 | Section: 00029035-5bc6-4b94-a039-ab781bfd83a4.xml |
+| 2 | 003f165e-2c57-4a8c-83b4-1c95b642cd22.xml | 2 | 1 | Section: 003f165e-2c57-4a8c-83b4-1c95b642cd22.xml |
+| 3 | 5e768860-c8fc-4d89-add9-cc19090a6534.xml | 2 | 2 | Section: 5e768860-c8fc-4d89-add9-cc19090a6534.xml |
+| 4 | _a-0000e2cd-bc96-8000-9ba2-011c48011c48_144143.xml | 3 | 2 | Section: _a-0000e2cd-bc96-8000-9ba2-011c48011c48_144143.xml |
+| 5 | _a-0000e2cd-bc96-8000-9ba2-011c48011c48_173935-io.xml | 2 | 7 | Section: _a-0000e2cd-bc96-8000-9ba2-011c48011c48_173935-io.xml |
+| 6 | _a-0000e2cd-bc96-8000-9ba2-011c48011c48_245794.xml | 2 | 4 | Section: _a-0000e2cd-bc96-8000-9ba2-011c48011c48_245794.xml |
+| 7 | _a-0000e2cd-bc96-8000-9ba2-011c48011c48_43360.xml | 1 | 3 | Section: _a-0000e2cd-bc96-8000-9ba2-011c48011c48_43360.xml |
+| 8 | _a-0000e2cd-bc96-8000-9ba2-011c48011c48_77938.xml | 2 | 2 | Section: _a-0000e2cd-bc96-8000-9ba2-011c48011c48_77938.xml |
+| 9 | _a-0000e393-fbf1-8000-9ba2-011c48011c48_100178.xml | 1 | 3 | Section: _a-0000e393-fbf1-8000-9ba2-011c48011c48_100178.xml |
+| 10 | _a-0000e393-fbf1-8000-9ba2-011c48011c48_113787.xml | 1 | 10 | Section: _a-0000e393-fbf1-8000-9ba2-011c48011c48_113787.xml |
+| 11 | _a-0000e3c8-6861-8000-9ba2-011c48011c48_116643.xml | 1 | 2 | Section: _a-0000e3c8-6861-8000-9ba2-011c48011c48_116643.xml |
+| 12 | _a-0000e3c8-6861-8000-9ba2-011c48011c48_126683.xml | 2 | 1 | Section: _a-0000e3c8-6861-8000-9ba2-011c48011c48_126683.xml |
+| 13 | _a-0000e3d1-f4dc-8000-9ba4-011c48011c48_134409.xml | 1 | 2 | Section: _a-0000e3d1-f4dc-8000-9ba4-011c48011c48_134409.xml |
+| 14 | _a-0000e3e6-fb42-8000-9ba5-011c48011c48_177416.xml | 1 | 4 | Section: _a-0000e3e6-fb42-8000-9ba5-011c48011c48_177416.xml |
+| 15 | _a-0000e3e6-fb42-8000-9ba5-011c48011c48_189668.xml | 2 | 20 | Section: _a-0000e3e6-fb42-8000-9ba5-011c48011c48_189668.xml |
+| 16 | _a-0000e3e6-fb42-8000-9ba5-011c48011c48_192676.xml | 1 | 12 | Section: _a-0000e3e6-fb42-8000-9ba5-011c48011c48_192676.xml |
+| 17 | _a-0000e3e6-fb42-8000-9ba5-011c48011c48_240231.xml | 1 | 3 | Section: _a-0000e3e6-fb42-8000-9ba5-011c48011c48_240231.xml |
+| 18 | _a-0000e40a-de32-8000-9ba8-011c48011c48_260609.xml | 1 | 1 | Section: _a-0000e40a-de32-8000-9ba8-011c48011c48_260609.xml |
+| 19 | _a-0000e40a-de32-8000-9ba8-011c48011c48_276828.xml | 1 | 3 | Section: _a-0000e40a-de32-8000-9ba8-011c48011c48_276828.xml |
+| 20 | _a-0000e40a-de32-8000-9ba8-011c48011c48_282524.xml | 1 | 6 | Section: _a-0000e40a-de32-8000-9ba8-011c48011c48_282524.xml |
+| 21 | _a-0000e41f-4b71-8000-9bba-011c48011c48_325747.xml | 1 | 2 | Section: _a-0000e41f-4b71-8000-9bba-011c48011c48_325747.xml |
+| 22 | _a-0000e41f-788a-8000-9ba9-011c48011c48_61958.xml | 1 | 9 | Section: _a-0000e41f-788a-8000-9ba9-011c48011c48_61958.xml |
+| 23 | _a-0000e430-f270-8000-9bbc-011c48011c48_337036.xml | 1 | 3 | Section: _a-0000e430-f270-8000-9bbc-011c48011c48_337036.xml |
+| 24 | _a-0000e430-f270-8000-9bbc-011c48011c48_337444.xml | 1 | 2 | Section: _a-0000e430-f270-8000-9bbc-011c48011c48_337444.xml |
+| 25 | _a-0000e430-f270-8000-9bbc-011c48011c48_360467.xml | 1 | 2 | Section: _a-0000e430-f270-8000-9bbc-011c48011c48_360467.xml |
+| 26 | _a-0000e447-933d-8000-9baa-011c48011c48_37608.xml | 3 | 6 | Section: _a-0000e447-933d-8000-9baa-011c48011c48_37608.xml |
+| 27 | _a-0000e471-623a-8000-9bc3-011c48011c48_696777.xml | 1 | 4 | Section: _a-0000e471-623a-8000-9bc3-011c48011c48_696777.xml |
+| 28 | _a-0000e471-623a-8000-9bc3-011c48011c48_704573.xml | 1 | 4 | Section: _a-0000e471-623a-8000-9bc3-011c48011c48_704573.xml |
+| 29 | _a-0000e471-623a-8000-9bc3-011c48011c48_712717.xml | 2 | 5 | Section: _a-0000e471-623a-8000-9bc3-011c48011c48_712717.xml |
+| 30 | _a-0000e471-623a-8000-9bc3-011c48011c48_713118.xml | 2 | 5 | Section: _a-0000e471-623a-8000-9bc3-011c48011c48_713118.xml |
+| 31 | _a-0000e471-623a-8000-9bc3-011c48011c48_761349.xml | 1 | 3 | Section: _a-0000e471-623a-8000-9bc3-011c48011c48_761349.xml |
+| 32 | _a-0000e471-623a-8000-9bc3-011c48011c48_792873.xml | 2 | 11 | Section: _a-0000e471-623a-8000-9bc3-011c48011c48_792873.xml |
+| 33 | _a-0000e4ae-1ed6-8000-9bc5-011c48011c48_798757.xml | 2 | 8 | Section: _a-0000e4ae-1ed6-8000-9bc5-011c48011c48_798757.xml |
+| 34 | _a-0000e4ae-1ed6-8000-9bc5-011c48011c48_798936.xml | 2 | 10 | Section: _a-0000e4ae-1ed6-8000-9bc5-011c48011c48_798936.xml |
+| 35 | _a-0000e4ae-1ed6-8000-9bc5-011c48011c48_804608.xml | 2 | 8 | Section: _a-0000e4ae-1ed6-8000-9bc5-011c48011c48_804608.xml |
+| 36 | _a-0000e4b1-2fbc-8000-9bc6-011c48011c48_847941.xml | 1 | 4 | Section: _a-0000e4b1-2fbc-8000-9bc6-011c48011c48_847941.xml |
+| 37 | _a-0000e4b1-2fbc-8000-9bc6-011c48011c48_857274.xml | 1 | 3 | Section: _a-0000e4b1-2fbc-8000-9bc6-011c48011c48_857274.xml |
+| 38 | _a-0000e4b1-2fbc-8000-9bc6-011c48011c48_857280.xml | 2 | 3 | Section: _a-0000e4b1-2fbc-8000-9bc6-011c48011c48_857280.xml |
+| 39 | _a-0000e4b1-2fbc-8000-9bc6-011c48011c48_861601.xml | 4 | 3 | Section: _a-0000e4b1-2fbc-8000-9bc6-011c48011c48_861601.xml |
+| 40 | _a-0000e4b1-2fbc-8000-9bc6-011c48011c48_866956.xml | 2 | 2 | Section: _a-0000e4b1-2fbc-8000-9bc6-011c48011c48_866956.xml |
+| 41 | _a-0000e4b1-2fbc-8000-9bc6-011c48011c48_886110.xml | 2 | 2 | Section: _a-0000e4b1-2fbc-8000-9bc6-011c48011c48_886110.xml |
+| 42 | _a-0000e4b1-2fbc-8000-9bc6-011c48011c48_899426.xml | 1 | 2 | Section: _a-0000e4b1-2fbc-8000-9bc6-011c48011c48_899426.xml |
+| 43 | _a-0000e4b1-2fbc-8000-9bc6-011c48011c48_933789.xml | 4 | 12 | Section: _a-0000e4b1-2fbc-8000-9bc6-011c48011c48_933789.xml |
+| 44 | _a-0000e50d-bf1d-8000-9bcd-011c48011c48_1006716.xml | 1 | 5 | Section: _a-0000e50d-bf1d-8000-9bcd-011c48011c48_1006716.xml |
+| 45 | _a-0000e50d-bf1d-8000-9bcd-011c48011c48_1008700.xml | 2 | 5 | Section: _a-0000e50d-bf1d-8000-9bcd-011c48011c48_1008700.xml |
+| 46 | _a-0000e50d-bf1d-8000-9bcd-011c48011c48_976983.xml | 1 | 7 | Section: _a-0000e50d-bf1d-8000-9bcd-011c48011c48_976983.xml |
+| 47 | _a-0000e50d-bf1d-8000-9bcd-011c48011c48_979127.xml | 2 | 3 | Section: _a-0000e50d-bf1d-8000-9bcd-011c48011c48_979127.xml |
+| 48 | _a-0000e50d-bf1d-8000-9bcd-011c48011c48_982517.xml | 1 | 2 | Section: _a-0000e50d-bf1d-8000-9bcd-011c48011c48_982517.xml |
+| 49 | _a-0000e50d-bf1d-8000-9bcd-011c48011c48_986558.xml | 1 | 2 | Section: _a-0000e50d-bf1d-8000-9bcd-011c48011c48_986558.xml |
+| 50 | _a-0000e50d-bf1d-8000-9bcd-011c48011c48_987625.xml | 2 | 2 | Section: _a-0000e50d-bf1d-8000-9bcd-011c48011c48_987625.xml |
+| 51 | _a-0000e50d-bf1d-8000-9bcd-011c48011c48_994978.xml | 2 | 4 | Section: _a-0000e50d-bf1d-8000-9bcd-011c48011c48_994978.xml |
+| 52 | _a-0000e528-bc07-8000-9bcf-011c48011c48_1105060.xml | 2 | 8 | Section: _a-0000e528-bc07-8000-9bcf-011c48011c48_1105060.xml |
+| 53 | _a-0000e528-bc07-8000-9bcf-011c48011c48_1115233.xml | 1 | 2 | Section: _a-0000e528-bc07-8000-9bcf-011c48011c48_1115233.xml |
+| 54 | _a-0000e539-6d59-8000-9bd0-011c48011c48_1163863.xml | 1 | 5 | Section: _a-0000e539-6d59-8000-9bd0-011c48011c48_1163863.xml |
+| 55 | _a-0000e539-6d59-8000-9bd0-011c48011c48_1188683.xml | 2 | 1 | Section: _a-0000e539-6d59-8000-9bd0-011c48011c48_1188683.xml |
+| 56 | _a-0000e539-6d59-8000-9bd0-011c48011c48_1192134.xml | 1 | 3 | Section: _a-0000e539-6d59-8000-9bd0-011c48011c48_1192134.xml |
+| 57 | _a-0000e539-6d59-8000-9bd0-011c48011c48_1197143.xml | 2 | 1 | Section: _a-0000e539-6d59-8000-9bd0-011c48011c48_1197143.xml |
+| 58 | _a-0000e539-6d59-8000-9bd0-011c48011c48_1220206.xml | 1 | 0 | Section: _a-0000e539-6d59-8000-9bd0-011c48011c48_1220206.xml |
+| 59 | _a-0000e539-6d59-8000-9bd0-011c48011c48_1267314.xml | 2 | 5 | Section: _a-0000e539-6d59-8000-9bd0-011c48011c48_1267314.xml |
+| 60 | _a-0000e539-6d59-8000-9bd0-011c48011c48_1294961.xml | 1 | 3 | Section: _a-0000e539-6d59-8000-9bd0-011c48011c48_1294961.xml |
+| 61 | _a-0000e586-af6f-8000-9bd2-011c48011c48_1308610.xml | 1 | 0 | Section: _a-0000e586-af6f-8000-9bd2-011c48011c48_1308610.xml |
+| 62 | _a-0000e586-af6f-8000-9bd2-011c48011c48_1342603.xml | 1 | 5 | Section: _a-0000e586-af6f-8000-9bd2-011c48011c48_1342603.xml |
+| 63 | _a-0000e5a0-53e9-8000-9bd8-011c48011c48_1413795.xml | 1 | 0 | Section: _a-0000e5a0-53e9-8000-9bd8-011c48011c48_1413795.xml |
+| 64 | _a-0000e5a0-53e9-8000-9bd8-011c48011c48_1418939.xml | 2 | 12 | Section: _a-0000e5a0-53e9-8000-9bd8-011c48011c48_1418939.xml |
+| 65 | _a-0000e5a0-53e9-8000-9bd8-011c48011c48_1430856.xml | 2 | 2 | Section: _a-0000e5a0-53e9-8000-9bd8-011c48011c48_1430856.xml |
+| 66 | _a-0000e5a0-53e9-8000-9bd8-011c48011c48_1441078.xml | 1 | 2 | Section: _a-0000e5a0-53e9-8000-9bd8-011c48011c48_1441078.xml |
+| 67 | _a-0000e5a0-53e9-8000-9bd8-011c48011c48_1451418.xml | 1 | 1 | Section: _a-0000e5a0-53e9-8000-9bd8-011c48011c48_1451418.xml |
+| 68 | _a-0000e5d6-d648-8000-9bde-011c48011c48_1513594.xml | 3 | 4 | Section: _a-0000e5d6-d648-8000-9bde-011c48011c48_1513594.xml |
+| 69 | _a-0000e5d6-d648-8000-9bde-011c48011c48_1526780.xml | 2 | 3 | Section: _a-0000e5d6-d648-8000-9bde-011c48011c48_1526780.xml |
+| 70 | _a-0000e5d6-d648-8000-9bde-011c48011c48_1535287.xml | 1 | 3 | Section: _a-0000e5d6-d648-8000-9bde-011c48011c48_1535287.xml |
+| 71 | _a-0000e5f9-18eb-8000-9be1-011c48011c48_1549264.xml | 2 | 2 | Section: _a-0000e5f9-18eb-8000-9be1-011c48011c48_1549264.xml |
+| 72 | _a-0000e5fd-0ed3-8000-9be6-011c48011c48_1574444.xml | 1 | 4 | Section: _a-0000e5fd-0ed3-8000-9be6-011c48011c48_1574444.xml |
+| 73 | _a-0000e5fd-0ed3-8000-9be6-011c48011c48_1583901.xml | 2 | 2 | Section: _a-0000e5fd-0ed3-8000-9be6-011c48011c48_1583901.xml |
+| 74 | _a-0000e607-97fd-8000-9be9-011c48011c48_1708178.xml | 2 | 0 | Section: _a-0000e607-97fd-8000-9be9-011c48011c48_1708178.xml |
+| 75 | _a-0000e62c-7375-8000-9bec-011c48011c48_1785586.xml | 1 | 0 | Section: _a-0000e62c-7375-8000-9bec-011c48011c48_1785586.xml |
+| 76 | _a-0000e673-a4a7-8000-9bef-011c48011c48_2036578.xml | 2 | 7 | Section: _a-0000e673-a4a7-8000-9bef-011c48011c48_2036578.xml |
+| 77 | _a-0000e673-a4a7-8000-9bef-011c48011c48_2053894.xml | 2 | 6 | Section: _a-0000e673-a4a7-8000-9bef-011c48011c48_2053894.xml |
+| 78 | _a-0000e69f-3688-8000-9bf2-011c48011c48_2080061.xml | 4 | 1 | Section: _a-0000e69f-3688-8000-9bf2-011c48011c48_2080061.xml |
+| 79 | _a-0000e69f-3688-8000-9bf2-011c48011c48_2083112.xml | 2 | 2 | Section: _a-0000e69f-3688-8000-9bf2-011c48011c48_2083112.xml |
+| 80 | _a-0000e69f-3688-8000-9bf2-011c48011c48_2125305.xml | 2 | 3 | Section: _a-0000e69f-3688-8000-9bf2-011c48011c48_2125305.xml |
+| 81 | _a-0000e6ca-7e19-8000-9bfb-011c48011c48_2259166.xml | 3 | 3 | Section: _a-0000e6ca-7e19-8000-9bfb-011c48011c48_2259166.xml |
+| 82 | _a-0000e6ca-7e19-8000-9bfb-011c48011c48_2343816.xml | 2 | 2 | Section: _a-0000e6ca-7e19-8000-9bfb-011c48011c48_2343816.xml |
+| 83 | _a-0000e6ca-7e19-8000-9bfb-011c48011c48_2348939.xml | 1 | 4 | Section: _a-0000e6ca-7e19-8000-9bfb-011c48011c48_2348939.xml |
+| 84 | _a-0000e6e2-62e5-8000-9bfe-011c48011c48_2410653.xml | 1 | 1 | Section: _a-0000e6e2-62e5-8000-9bfe-011c48011c48_2410653.xml |
+| 85 | _a-0000e6e2-62e5-8000-9bfe-011c48011c48_2423553.xml | 1 | 1 | Section: _a-0000e6e2-62e5-8000-9bfe-011c48011c48_2423553.xml |
+| 86 | _a-0000e6e2-62e5-8000-9bfe-011c48011c48_2464361.xml | 2 | 2 | Section: _a-0000e6e2-62e5-8000-9bfe-011c48011c48_2464361.xml |
+| 87 | _a-0000e6e2-62e5-8000-9bfe-011c48011c48_2468489.xml | 1 | 2 | Section: _a-0000e6e2-62e5-8000-9bfe-011c48011c48_2468489.xml |
+| 88 | _a-0000e6e2-62e5-8000-9bfe-011c48011c48_2478892.xml | 4 | 2 | Section: _a-0000e6e2-62e5-8000-9bfe-011c48011c48_2478892.xml |
+| 89 | _a-0000e70f-2824-8000-9c01-011c48011c48_2528661.xml | 3 | 2 | Section: _a-0000e70f-2824-8000-9c01-011c48011c48_2528661.xml |
+| 90 | _a-0000e70f-2824-8000-9c01-011c48011c48_2585359.xml | 1 | 5 | Section: _a-0000e70f-2824-8000-9c01-011c48011c48_2585359.xml |
+| 91 | _a-0000e70f-2824-8000-9c01-011c48011c48_2585904.xml | 2 | 2 | Section: _a-0000e70f-2824-8000-9c01-011c48011c48_2585904.xml |
+| 92 | _a-0000e776-697a-8000-9c05-011c48011c48_2826556.xml | 2 | 5 | Section: _a-0000e776-697a-8000-9c05-011c48011c48_2826556.xml |
+| 93 | _a-0000e79b-0335-8000-9c0c-011c48011c48_2943072.xml | 2 | 2 | Section: _a-0000e79b-0335-8000-9c0c-011c48011c48_2943072.xml |
+| 94 | _a-0000e79b-0335-8000-9c0c-011c48011c48_2981329.xml | 1 | 2 | Section: _a-0000e79b-0335-8000-9c0c-011c48011c48_2981329.xml |
+| 95 | _a-0000e79b-0335-8000-9c0c-011c48011c48_2983833.xml | 2 | 5 | Section: _a-0000e79b-0335-8000-9c0c-011c48011c48_2983833.xml |
+| 96 | _a-0000e79b-0335-8000-9c0c-011c48011c48_3001400.xml | 2 | 3 | Section: _a-0000e79b-0335-8000-9c0c-011c48011c48_3001400.xml |
+| 97 | _a-0000e79b-0335-8000-9c0c-011c48011c48_3033039.xml | 1 | 6 | Section: _a-0000e79b-0335-8000-9c0c-011c48011c48_3033039.xml |
+| 98 | _a-0000e79b-0335-8000-9c0c-011c48011c48_3040866.xml | 1 | 7 | Section: _a-0000e79b-0335-8000-9c0c-011c48011c48_3040866.xml |
+| 99 | _a-0000e7c7-bc72-8000-9c0e-011c48011c48_3077759.xml | 5 | 2 | Section: _a-0000e7c7-bc72-8000-9c0e-011c48011c48_3077759.xml |
+| 100 | _a-0000e7c7-bc72-8000-9c0e-011c48011c48_3103785.xml | 4 | 9 | Section: _a-0000e7c7-bc72-8000-9c0e-011c48011c48_3103785.xml |
+| 101 | b9bda8b1-7abf-4040-bd6d-eb585913a700.xml | 5 | 2 | Section: b9bda8b1-7abf-4040-bd6d-eb585913a700.xml |
+
+## SAIL Component Usage Summary
+
+| SAIL Component | Occurrences | Pega Equivalent |
+|---------------|-------------|-----------------|
+| a!formLayout | 66 | Section with layout (pxLayout) |
+| a!gridField | 35 | Repeating Dynamic Layout / Table |
+| a!richTextDisplayField | 32 | pxDisplayText |
+| a!columnsLayout | 24 | Two Column / Dynamic Layout |
+| a!cardLayout | 6 | Layout Group |
+| a!sectionLayout | 5 | Section (collapsible) |
+| a!linkField | 2 | pxLink |
+| a!textField | 2 | pxTextInput |
+| a!documentDownloadLink | 1 | pxAttachmentLink |
+| a!buttonWidget | 1 | pxButton |
+| a!recordLink | 1 | Data Reference Link |
+
+## Pega UI Migration Strategy
+
+1. **Phase 1:** Migrate forms with simple layouts (textField, dropdownField, buttonWidget)
+2. **Phase 2:** Migrate complex layouts (gridField, tabLayout, cardLayout)
+3. **Phase 3:** Migrate charts and visualizations (barChartField, pieChartField)
+4. **Phase 4:** Apply Pega Cosmos design system for consistent look and feel
+
+## Notes
+
+- Use Pega App Studio for rapid form creation
+- Leverage Pega Cosmos React UI for modern responsive design
+- Consider Pega DX API for any custom frontend requirements

@@ -1,0 +1,38 @@
+integrationName: AS FS RPA Connected System
+pegaConnectorType: Pega RPA Connector / REST Connector
+description: Appian RPA (Robotic Process Automation) integration for automating manual tasks. Uses encrypted API key authentication.
+sourceAppian:
+  connectedSystemType: plugin.[AppianRPA].[AppianRPA]@2
+  authType: CSTF Auth
+baseURL: Plugin-managed (see notes)
+authentication:
+  type: API Key
+  configuration: Encrypted API Key in X-API-Key header
+endpoints:
+- name: TriggerRPAProcess
+  method: POST
+  path: /rpa/v1/processes/execute
+  requestHeaders:
+    X-API-Key: ${encryptedApiKey}
+    Content-Type: application/json
+  requestBody:
+    schema: 'RPARequest: processId, inputParameters{}'
+  responseBody:
+    schema: 'RPAResponse: executionId, status, outputParameters{}'
+  errorHandling:
+    retryPolicy: No retry (long-running)
+    fallbackBehavior: Queue for manual execution
+- name: GetRPAStatus
+  method: GET
+  path: /rpa/v1/processes/{executionId}/status
+  requestHeaders:
+    X-API-Key: ${encryptedApiKey}
+  requestBody:
+    schema: N/A
+  responseBody:
+    schema: 'RPAStatus: executionId, status, startTime, endTime, result'
+  errorHandling:
+    retryPolicy: Retry 3x
+    fallbackBehavior: Return last known status
+pegaMappingNotes: Evaluate Pega RPA as replacement. If using Pega Robotic Process Automation, create native RPA connector.
+  Otherwise, use REST connector to call existing RPA endpoints.

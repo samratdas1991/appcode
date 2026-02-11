@@ -1,0 +1,40 @@
+integrationName: AS FS IDP Google Cloud AutoML
+pegaConnectorType: REST Connector + ML Integration
+description: Google Cloud AutoML integration for document classification and prediction. Uses trained ML models to classify
+  uploaded documents.
+sourceAppian:
+  connectedSystemType: plugin.[com.appian.ps.google.ai.automl.csp].[AutoMLConnectedSystemTemplate]
+  authType: CSTF Auth
+baseURL: Plugin-managed (see notes)
+authentication:
+  type: Google Service Account
+  configuration: Service account key with JWT token generation, configurable region
+endpoints:
+- name: PredictDocumentType
+  method: POST
+  path: /v1/projects/{project}/locations/{location}/models/{model}:predict
+  requestHeaders:
+    Authorization: Bearer ${serviceAccountToken}
+    Content-Type: application/json
+  requestBody:
+    schema: 'PredictRequest: payload.image.imageBytes (base64) or payload.textSnippet.content'
+  responseBody:
+    schema: 'PredictResponse: payload[].classification.score, displayName'
+  errorHandling:
+    retryPolicy: Retry 2x with 3s backoff
+    fallbackBehavior: Queue for manual classification
+- name: TrainModel
+  method: POST
+  path: /v1/projects/{project}/locations/{location}/models
+  requestHeaders:
+    Authorization: Bearer ${serviceAccountToken}
+    Content-Type: application/json
+  requestBody:
+    schema: 'CreateModelRequest: datasetId, modelMetadata, displayName'
+  responseBody:
+    schema: 'Operation: name, metadata, done'
+  errorHandling:
+    retryPolicy: No retry (long-running)
+    fallbackBehavior: Poll operation status
+pegaMappingNotes: Evaluate Pega AI/ML capabilities (Prediction Studio) as replacement. If GCP AutoML must be retained, create
+  REST connector with service account auth. Consider Pega text analytics for document classification.

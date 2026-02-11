@@ -1,0 +1,26 @@
+integrationName: AS FS CS RPA API
+pegaConnectorType: REST Connector
+description: Direct REST API interface for RPA operations. Used for scenarios not supported by the OOTB RPA connected system.
+sourceAppian:
+  connectedSystemType: system.http
+  authType: API Key
+baseURL: https://sitename.appiancloud.com/rpa/rest/oo/
+authentication:
+  type: API Key Auth Profile
+  configuration: API Key in header
+endpoints:
+- name: ExecuteRPATask
+  method: POST
+  path: /api/v1/tasks
+  requestHeaders:
+    X-API-Key: ${apiKey}
+    Content-Type: application/json
+  requestBody:
+    schema: 'TaskRequest: taskType, parameters{}, priority'
+  responseBody:
+    schema: 'TaskResponse: taskId, status, estimatedCompletion'
+  errorHandling:
+    retryPolicy: Retry 2x with 10s backoff
+    fallbackBehavior: Escalate to manual processing
+pegaMappingNotes: Consolidate with AS FS RPA Connected System into single Pega connector. Use Pega RPA if available, otherwise
+  REST connector.

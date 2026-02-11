@@ -1,0 +1,27 @@
+reportName: Task_Performance_Report
+description: Task completion metrics and SLA adherence across all task types
+dataSource: AS_IO_Task record type
+columns:
+- name: taskCategory
+  dataType: Text
+  aggregation: None
+- name: taskCount
+  dataType: Integer
+  aggregation: COUNT
+- name: avgCompletionTime
+  dataType: Decimal
+  aggregation: AVG
+- name: slaBreaches
+  dataType: Integer
+  aggregation: SUM
+filters:
+- field: completedDate
+  operator: BETWEEN
+  defaultValue: Last 30 days
+sorting:
+- field: slaBreaches
+  direction: DESC
+grouping:
+- taskCategory
+pegaReportType: Summary
+pegaImplementationNotes: Operational metrics report. Use Pega SLA reporting framework.

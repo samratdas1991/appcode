@@ -1,0 +1,51 @@
+integrationName: AS EI DNB HTTP Bearer Token Connected System
+pegaConnectorType: REST Connector
+description: Dun & Bradstreet business intelligence API. Uses Basic auth with preemptive credentials for token exchange, then
+  bearer token for API calls.
+sourceAppian:
+  connectedSystemType: system.http
+  authType: Basic
+baseURL: https://plus.dnb.com/v2/token
+authentication:
+  type: Basic Auth + Token Exchange
+  configuration: Basic auth credentials (preemptive) for token endpoint, bearer token for API calls
+endpoints:
+- name: GetToken
+  method: POST
+  path: /v2/token
+  requestHeaders:
+    Authorization: Basic ${base64Credentials}
+    Content-Type: application/x-www-form-urlencoded
+  requestBody:
+    schema: grant_type=client_credentials
+  responseBody:
+    schema: 'TokenResponse: access_token, token_type, expires_in'
+  errorHandling:
+    retryPolicy: Retry 2x
+    fallbackBehavior: Fail auth flow
+- name: SearchBusiness
+  method: GET
+  path: /v1/match/cleanseMatch
+  requestHeaders:
+    Authorization: Bearer ${token}
+  requestBody:
+    schema: 'Query: name, countryISOAlpha2Code, addressLocality'
+  responseBody:
+    schema: 'MatchResponse: matchCandidates[].organization.duns, primaryName, matchQualityInformation'
+  errorHandling:
+    retryPolicy: Retry 2x with 3s backoff
+    fallbackBehavior: Queue for manual D&B lookup
+- name: GetCompanyProfile
+  method: GET
+  path: /v1/data/duns/{duns}
+  requestHeaders:
+    Authorization: Bearer ${token}
+  requestBody:
+    schema: 'Query: blockIDs, tradeUp, orderReason'
+  responseBody:
+    schema: 'CompanyProfile: organization.primaryName, duns, financials, numberOfEmployees'
+  errorHandling:
+    retryPolicy: Retry 2x
+    fallbackBehavior: Return cached data if available
+pegaMappingNotes: Create REST Connector with Basic Auth -> Bearer Token chain. Implement token caching with expiration. Configure
+  as step in business verification subprocess.

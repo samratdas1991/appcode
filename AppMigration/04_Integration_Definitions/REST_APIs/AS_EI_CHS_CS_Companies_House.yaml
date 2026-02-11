@@ -1,0 +1,49 @@
+integrationName: AS EI CHS CS Companies House
+pegaConnectorType: REST Connector
+description: UK Companies House API for company information lookup. Used for business verification during onboarding.
+sourceAppian:
+  connectedSystemType: system.http
+  authType: API Key
+baseURL: https://api.company-information.service.gov.uk/
+authentication:
+  type: API Key Auth Profile
+  configuration: API Key in Authorization header
+endpoints:
+- name: SearchCompany
+  method: GET
+  path: /search/companies
+  requestHeaders:
+    Authorization: ${apiKey}
+  requestBody:
+    schema: 'Query params: q (search term), items_per_page, start_index'
+  responseBody:
+    schema: 'CompanySearch: items[].company_number, title, company_status, address'
+  errorHandling:
+    retryPolicy: Retry 3x with 1s backoff
+    fallbackBehavior: Return empty results with error flag
+- name: GetCompanyProfile
+  method: GET
+  path: /company/{companyNumber}
+  requestHeaders:
+    Authorization: ${apiKey}
+  requestBody:
+    schema: N/A
+  responseBody:
+    schema: 'CompanyProfile: company_name, company_number, type, registered_office_address, officers'
+  errorHandling:
+    retryPolicy: Retry 2x
+    fallbackBehavior: Mark as unverified, queue manual check
+- name: GetCompanyOfficers
+  method: GET
+  path: /company/{companyNumber}/officers
+  requestHeaders:
+    Authorization: ${apiKey}
+  requestBody:
+    schema: N/A
+  responseBody:
+    schema: 'OfficerList: items[].name, officer_role, appointed_on, nationality'
+  errorHandling:
+    retryPolicy: Retry 2x
+    fallbackBehavior: Return partial data
+pegaMappingNotes: Create REST Connector with API Key auth profile (key in Authorization header). Configure Data Page for company
+  search caching. Use in Compliance verification subprocess.

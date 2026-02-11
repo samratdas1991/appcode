@@ -1,0 +1,51 @@
+integrationName: AS FS IDP Google Cloud Storage
+pegaConnectorType: REST Connector + Custom Plugin
+description: Google Cloud Storage integration for document upload, download, and management. Uses service account authentication
+  with configurable regions (18 available).
+sourceAppian:
+  connectedSystemType: plugin.[com.appian.ps.google.cloud.storage.csp].[GoogleCloudStorageConnectedSystemTemplate]
+  authType: CSTF Auth
+baseURL: Plugin-managed (see notes)
+authentication:
+  type: Google Service Account
+  configuration: Service account key with JWT token generation, configurable region
+endpoints:
+- name: UploadDocument
+  method: POST
+  path: /upload/storage/v1/b/{bucket}/o
+  requestHeaders:
+    Authorization: Bearer ${serviceAccountToken}
+    Content-Type: multipart/related
+  requestBody:
+    schema: 'Multipart: metadata JSON + file binary'
+  responseBody:
+    schema: 'ObjectResource: name, bucket, generation, size, contentType'
+  errorHandling:
+    retryPolicy: Retry 3x with exponential backoff
+    fallbackBehavior: Queue for retry, notify user
+- name: DownloadDocument
+  method: GET
+  path: /storage/v1/b/{bucket}/o/{object}?alt=media
+  requestHeaders:
+    Authorization: Bearer ${serviceAccountToken}
+  requestBody:
+    schema: N/A
+  responseBody:
+    schema: Binary file content
+  errorHandling:
+    retryPolicy: Retry 3x
+    fallbackBehavior: Return error to user
+- name: ListObjects
+  method: GET
+  path: /storage/v1/b/{bucket}/o
+  requestHeaders:
+    Authorization: Bearer ${serviceAccountToken}
+  requestBody:
+    schema: 'Query params: prefix, maxResults, pageToken'
+  responseBody:
+    schema: 'ObjectList: items[], nextPageToken'
+  errorHandling:
+    retryPolicy: Retry 2x
+    fallbackBehavior: Return empty list with error flag
+pegaMappingNotes: Evaluate Pega Content Management or implement as REST connector with Google OAuth 2.0 service account flow.
+  Consider Pega attachment storage as alternative for simpler docs.

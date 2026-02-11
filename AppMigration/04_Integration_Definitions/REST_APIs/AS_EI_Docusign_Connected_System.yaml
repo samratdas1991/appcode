@@ -1,0 +1,51 @@
+integrationName: AS EI Docusign Connected System
+pegaConnectorType: REST Connector
+description: DocuSign integration for digital signature collection during customer onboarding. Uses CSTF Auth with 12 tracked
+  configuration versions.
+sourceAppian:
+  connectedSystemType: plugin.[DocuSignMultiAuth].[DocuSignConnectedSystem]
+  authType: CSTF Auth
+baseURL: Plugin-managed (see notes)
+authentication:
+  type: OAuth 2.0
+  configuration: CSTF Auth (Connected System Template Framework) - map to Pega OAuth 2.0 flow
+endpoints:
+- name: CreateEnvelope
+  method: POST
+  path: /restapi/v2.1/accounts/{accountId}/envelopes
+  requestHeaders:
+    Authorization: Bearer ${accessToken}
+    Content-Type: application/json
+  requestBody:
+    schema: 'EnvelopeDefinition: documents[], recipients.signers[], emailSubject, status'
+  responseBody:
+    schema: 'EnvelopeSummary: envelopeId, status, statusDateTime'
+  errorHandling:
+    retryPolicy: Retry 2x with 5s backoff
+    fallbackBehavior: Queue for manual signature collection
+- name: GetEnvelopeStatus
+  method: GET
+  path: /restapi/v2.1/accounts/{accountId}/envelopes/{envelopeId}
+  requestHeaders:
+    Authorization: Bearer ${accessToken}
+  requestBody:
+    schema: N/A
+  responseBody:
+    schema: 'Envelope: envelopeId, status, sentDateTime, completedDateTime'
+  errorHandling:
+    retryPolicy: Retry 3x
+    fallbackBehavior: Return last known status
+- name: DownloadDocument
+  method: GET
+  path: /restapi/v2.1/accounts/{accountId}/envelopes/{envelopeId}/documents/{documentId}
+  requestHeaders:
+    Authorization: Bearer ${accessToken}
+  requestBody:
+    schema: N/A
+  responseBody:
+    schema: Binary PDF content
+  errorHandling:
+    retryPolicy: Retry 2x
+    fallbackBehavior: Notify user of download failure
+pegaMappingNotes: Create REST Connector with OAuth 2.0 auth profile for DocuSign. Implement envelope creation as step in Document
+  Management flow. Configure webhook or polling for status updates.

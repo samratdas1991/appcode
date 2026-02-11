@@ -1,0 +1,31 @@
+reportName: Compliance_Verification_Report
+description: Status of all compliance verification checks (OFAC, KYC, CHS, D&B)
+dataSource: Compliance verification data
+columns:
+- name: customerName
+  dataType: Text
+  aggregation: None
+- name: verificationType
+  dataType: Text
+  aggregation: None
+- name: verificationStatus
+  dataType: Text
+  aggregation: None
+- name: verificationDate
+  dataType: DateTime
+  aggregation: None
+- name: riskScore
+  dataType: Decimal
+  aggregation: AVG
+filters:
+- field: verificationStatus
+  operator: EQUALS
+  defaultValue: All
+sorting:
+- field: verificationDate
+  direction: DESC
+grouping:
+- verificationType
+- verificationStatus
+pegaReportType: Summary
+pegaImplementationNotes: Compliance dashboard report. Include charts for verification status distribution.

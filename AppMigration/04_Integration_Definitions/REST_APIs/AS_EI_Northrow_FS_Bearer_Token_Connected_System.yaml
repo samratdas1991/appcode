@@ -1,0 +1,26 @@
+integrationName: AS EI Northrow FS Bearer Token Connected System
+pegaConnectorType: REST Connector
+description: Token retrieval service for Northrow API authentication. Uses Organization UID and Access Key to obtain bearer
+  tokens.
+sourceAppian:
+  connectedSystemType: plugin.[com.appian.solutions.fsintegrations].[Northrow]
+  authType: CSTF Auth
+baseURL: Plugin-managed (see notes)
+authentication:
+  type: Custom Auth (Org UID + Access Key)
+  configuration: Organization UID and Access Key in request body
+endpoints:
+- name: GetBearerToken
+  method: POST
+  path: /api/v2/auth/token
+  requestHeaders:
+    Content-Type: application/json
+  requestBody:
+    schema: 'TokenRequest: organizationUid, accessKey'
+  responseBody:
+    schema: 'TokenResponse: token, expiresIn'
+  errorHandling:
+    retryPolicy: Retry 2x with 1s backoff
+    fallbackBehavior: Fail with auth error
+pegaMappingNotes: Implement as authentication pre-step in Northrow connector. Store token in requestor context with expiration
+  tracking.

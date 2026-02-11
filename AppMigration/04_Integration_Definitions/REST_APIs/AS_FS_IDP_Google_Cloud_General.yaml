@@ -1,0 +1,25 @@
+integrationName: AS FS IDP Google Cloud General
+pegaConnectorType: REST Connector
+description: General Google Cloud Platform services connector. Used for miscellaneous GCP API calls.
+sourceAppian:
+  connectedSystemType: system.http
+  authType: Google Service Account
+baseURL: Plugin-managed (see notes)
+authentication:
+  type: OAuth 2.0 (Service Account)
+  configuration: Service account OAuth flow
+endpoints:
+- name: GenericGCPCall
+  method: GET/POST
+  path: /v1/{service-specific-path}
+  requestHeaders:
+    Authorization: Bearer ${serviceAccountToken}
+  requestBody:
+    schema: Service-specific
+  responseBody:
+    schema: Service-specific
+  errorHandling:
+    retryPolicy: Retry 2x
+    fallbackBehavior: Log and alert
+pegaMappingNotes: Review actual usage to determine specific GCP services called. Create targeted Pega connectors for each
+  service used.

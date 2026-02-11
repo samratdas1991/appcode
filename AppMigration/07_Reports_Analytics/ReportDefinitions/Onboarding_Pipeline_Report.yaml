@@ -1,0 +1,33 @@
+reportName: Onboarding_Pipeline_Report
+description: Overview of all active onboarding requests by status and stage
+dataSource: AS_IO_OnboardingRequest record type
+columns:
+- name: customerName
+  dataType: Text
+  aggregation: None
+- name: onboardingStatus
+  dataType: Text
+  aggregation: None
+- name: createdDate
+  dataType: DateTime
+  aggregation: None
+- name: targetCompletionDate
+  dataType: Date
+  aggregation: None
+- name: assignedTo
+  dataType: Text
+  aggregation: None
+filters:
+- field: onboardingStatus
+  operator: IN
+  defaultValue: Active, Pending Review
+- field: createdDate
+  operator: BETWEEN
+  defaultValue: Last 90 days
+sorting:
+- field: targetCompletionDate
+  direction: ASC
+grouping:
+- onboardingStatus
+pegaReportType: List
+pegaImplementationNotes: Primary operational report. Create as List report in Pega with status-based grouping.

@@ -1,0 +1,26 @@
+integrationName: AS FS Trade.gov Consolidated Screening
+pegaConnectorType: REST Connector
+description: OFAC sanctions screening via Trade.gov Consolidated Screening List API. Used to check customers and beneficial
+  owners against US sanctions lists.
+sourceAppian:
+  connectedSystemType: system.http
+  authType: API Key
+baseURL: https://data.trade.gov/consolidated_screening_list/v1/
+authentication:
+  type: API Key Auth Profile
+  configuration: API Key sent as subscription-key header parameter
+endpoints:
+- name: SearchScreeningList
+  method: GET
+  path: /search
+  requestHeaders:
+    subscription-key: ${apiKey}
+  requestBody:
+    schema: 'Query parameters: name, fuzzy_name, country, type'
+  responseBody:
+    schema: JSON array of screening results with source, entity, addresses
+  errorHandling:
+    retryPolicy: Retry 3x with 2s backoff
+    fallbackBehavior: Queue for manual review
+pegaMappingNotes: Create REST Connector with API Key auth profile. Map subscription-key to request header. Configure Data
+  Page for caching results. Implement as step in Compliance verification flow.

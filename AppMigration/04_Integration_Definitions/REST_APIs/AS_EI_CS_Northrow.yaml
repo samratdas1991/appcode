@@ -1,0 +1,52 @@
+integrationName: AS EI CS Northrow
+pegaConnectorType: REST Connector
+description: Northrow KYC identity verification API. Requires bearer token obtained from separate token endpoint. Performs
+  individual and company verification checks.
+sourceAppian:
+  connectedSystemType: system.http
+  authType: None
+baseURL: https://api.northrow.com/v3
+authentication:
+  type: Bearer Token Auth Profile (chained)
+  configuration: Token obtained from Northrow FS Bearer Token CS, cached with TTL
+endpoints:
+- name: VerifyIndividual
+  method: POST
+  path: /api/v2/verify/individual
+  requestHeaders:
+    Authorization: Bearer ${token}
+    Content-Type: application/json
+  requestBody:
+    schema: 'PersonVerificationRequest: firstName, lastName, dateOfBirth, address'
+  responseBody:
+    schema: 'VerificationResult: status, matchScore, verificationId, details'
+  errorHandling:
+    retryPolicy: Retry 2x with 5s backoff
+    fallbackBehavior: Mark as pending manual verification
+- name: VerifyCompany
+  method: POST
+  path: /api/v2/verify/company
+  requestHeaders:
+    Authorization: Bearer ${token}
+    Content-Type: application/json
+  requestBody:
+    schema: 'CompanyVerificationRequest: companyName, registrationNumber, country'
+  responseBody:
+    schema: 'CompanyVerificationResult: status, companyDetails, officers'
+  errorHandling:
+    retryPolicy: Retry 2x with 5s backoff
+    fallbackBehavior: Mark as pending manual verification
+- name: GetVerificationStatus
+  method: GET
+  path: /api/v2/verification/{verificationId}
+  requestHeaders:
+    Authorization: Bearer ${token}
+  requestBody:
+    schema: N/A
+  responseBody:
+    schema: 'VerificationStatus: status, lastUpdated, resultDetails'
+  errorHandling:
+    retryPolicy: Retry 3x
+    fallbackBehavior: Return last known status
+pegaMappingNotes: 'Create REST Connector with chained authentication: first call token endpoint, then use bearer token. Implement
+  token caching with refresh logic. Map to Compliance case subprocess.'
