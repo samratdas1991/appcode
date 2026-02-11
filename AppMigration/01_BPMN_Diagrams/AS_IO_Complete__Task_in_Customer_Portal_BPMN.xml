@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL"
+  xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+  xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+  xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
+  id="Definitions_AS_IO_Complete__Task_in_Customer_Portal"
+  targetNamespace="http://bpmn.io/schema/bpmn">
+
+  <!-- Appian Process Model: AS IO Complete  Task in Customer Portal -->
+  <!-- Source UUID: 0002e596-c76f-8000-27eb-7f0000014e7a -->
+  <!-- Description: Complete Task from customer portal -->
+  <!-- Pega Case Type Mapping: See migration metadata for stage/step correlation -->
+
+  <bpmn:collaboration id="Collaboration_AS_IO_Complete__Task_in_Customer_Portal">
+    <bpmn:participant id="Participant_AS_IO_Complete__Task_in_Customer_Portal" name="AS IO Complete  Task in Customer Portal" processRef="Process_AS_IO_Complete__Task_in_Customer_Portal" />
+  </bpmn:collaboration>
+
+  <bpmn:process id="Process_AS_IO_Complete__Task_in_Customer_Portal" name="AS IO Complete  Task in Customer Portal" isExecutable="false">
+    <bpmn:documentation>Complete Task from customer portal</bpmn:documentation>
+
+    <bpmn:laneSet id="LaneSet_AS_IO_Complete__Task_in_Customer_Portal">
+      <bpmn:lane id="Lane_0" name="">
+      </bpmn:lane>
+    </bpmn:laneSet>
+
+    <bpmn:dataObject id="DataObject_allUploadedDocs" name="allUploadedDocs" />
+    <bpmn:dataObject id="DataObject_docReviewRejectionReasons" name="docReviewRejectionReasons" />
+    <bpmn:dataObject id="DataObject_onboardingDocuments" name="onboardingDocuments" />
+    <bpmn:dataObject id="DataObject_startTime" name="startTime" />
+    <bpmn:dataObject id="DataObject_task" name="task" />
+    <bpmn:dataObject id="DataObject_userAction" name="userAction" />
+
+    <bpmn:startEvent id="StartEvent_0" name="Start Node">
+      <bpmn:outgoing>Flow_0</bpmn:outgoing>
+    </bpmn:startEvent>
+
+    <bpmn:endEvent id="EndEvent_1" name="End Node">
+      <bpmn:incoming>Flow_1</bpmn:incoming>
+      <bpmn:incoming>Flow_2</bpmn:incoming>
+      <bpmn:incoming>Flow_3</bpmn:incoming>
+      <bpmn:incoming>Flow_4</bpmn:incoming>
+      <bpmn:incoming>Flow_5</bpmn:incoming>
+      <bpmn:incoming>Flow_6</bpmn:incoming>
+      <bpmn:incoming>Flow_7</bpmn:incoming>
+      <bpmn:incoming>Flow_8</bpmn:incoming>
+    </bpmn:endEvent>
+
+    <bpmn:userTask id="UserTask_2" name="Confirmation">
+      <bpmn:incoming>Flow_9</bpmn:incoming>
+      <bpmn:outgoing>Flow_10</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_3" name="Review">
+      <bpmn:incoming>Flow_11</bpmn:incoming>
+      <bpmn:outgoing>Flow_12</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_4" name="Sign Document">
+      <bpmn:incoming>Flow_13</bpmn:incoming>
+      <bpmn:outgoing>Flow_14</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_5" name="Bench Mark Task">
+      <bpmn:incoming>Flow_15</bpmn:incoming>
+      <bpmn:outgoing>Flow_16</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:exclusiveGateway id="ExclusiveGateway_6" name="path">
+      <bpmn:incoming>Flow_17</bpmn:incoming>
+      <bpmn:outgoing>Flow_18</bpmn:outgoing>
+      <bpmn:outgoing>Flow_19</bpmn:outgoing>
+      <bpmn:outgoing>Flow_20</bpmn:outgoing>
+      <bpmn:outgoing>Flow_21</bpmn:outgoing>
+      <bpmn:outgoing>Flow_22</bpmn:outgoing>
+      <bpmn:outgoing>Flow_23</bpmn:outgoing>
+      <bpmn:outgoing>Flow_24</bpmn:outgoing>
+      <bpmn:outgoing>Flow_25</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+
+    <bpmn:userTask id="UserTask_7" name="Document Upload">
+      <bpmn:incoming>Flow_26</bpmn:incoming>
+      <bpmn:outgoing>Flow_27</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_8" name="Document Review">
+      <bpmn:incoming>Flow_28</bpmn:incoming>
+      <bpmn:outgoing>Flow_29</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_9" name="Document Reconcilliation">
+      <bpmn:incoming>Flow_30</bpmn:incoming>
+      <bpmn:outgoing>Flow_31</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:sequenceFlow id="Flow_0" sourceRef="StartEvent_0" targetRef="ExclusiveGateway_6" />
+    <bpmn:sequenceFlow id="Flow_1" sourceRef="UserTask_2" targetRef="EndEvent_1" />
+    <bpmn:sequenceFlow id="Flow_2" sourceRef="UserTask_3" targetRef="EndEvent_1" />
+    <bpmn:sequenceFlow id="Flow_3" sourceRef="UserTask_4" targetRef="EndEvent_1" />
+    <bpmn:sequenceFlow id="Flow_4" sourceRef="UserTask_5" targetRef="EndEvent_1" />
+    <bpmn:sequenceFlow id="Flow_5" sourceRef="ExclusiveGateway_6" targetRef="EndEvent_1" />
+    <bpmn:sequenceFlow id="Flow_6" sourceRef="UserTask_7" targetRef="EndEvent_1" />
+    <bpmn:sequenceFlow id="Flow_7" sourceRef="UserTask_8" targetRef="EndEvent_1" />
+    <bpmn:sequenceFlow id="Flow_8" sourceRef="UserTask_9" targetRef="EndEvent_1" />
+    <bpmn:sequenceFlow id="Flow_9" sourceRef="ExclusiveGateway_6" targetRef="UserTask_2" />
+    <bpmn:sequenceFlow id="Flow_11" sourceRef="ExclusiveGateway_6" targetRef="UserTask_3" />
+    <bpmn:sequenceFlow id="Flow_13" sourceRef="ExclusiveGateway_6" targetRef="UserTask_4" />
+    <bpmn:sequenceFlow id="Flow_15" sourceRef="ExclusiveGateway_6" targetRef="UserTask_5" />
+    <bpmn:sequenceFlow id="Flow_20" sourceRef="ExclusiveGateway_6" targetRef="UserTask_7" />
+    <bpmn:sequenceFlow id="Flow_23" sourceRef="ExclusiveGateway_6" targetRef="UserTask_8" />
+    <bpmn:sequenceFlow id="Flow_24" sourceRef="ExclusiveGateway_6" targetRef="UserTask_9" />
+  </bpmn:process>
+
+</bpmn:definitions>

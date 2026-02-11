@@ -1,0 +1,91 @@
+{
+  "entityName": "AS_FS_ALT_A_AlertConfiguration",
+  "pegaClassName": "Data-FS-ALTAAlertConfiguration",
+  "tableName": "AS_FS_ALT_A_ALERT_CONFIGURATION",
+  "description": "Audit table for alert configuration",
+  "module": "FS",
+  "attributes": [
+    {
+      "appianFieldName": "alertConfigurationAuditId",
+      "pegaPropertyName": "Alertconfigurationauditid",
+      "appianDataType": "xsd:int",
+      "pegaDataType": "Integer",
+      "columnName": "ALERT_CONFIGURATION_AUDIT_ID",
+      "required": true,
+      "isPrimaryKey": true,
+      "isForeignKey": false
+    },
+    {
+      "appianFieldName": "alertConfigurationId",
+      "pegaPropertyName": "Alertconfigurationid",
+      "appianDataType": "xsd:int",
+      "pegaDataType": "Integer",
+      "columnName": "ALERT_CONFIGURATION_ID",
+      "required": false,
+      "isPrimaryKey": false,
+      "isForeignKey": false
+    },
+    {
+      "appianFieldName": "timestamp",
+      "pegaPropertyName": "Timestamp",
+      "appianDataType": "xsd:dateTime",
+      "pegaDataType": "DateTime",
+      "columnName": "TIMESTAMP",
+      "required": false,
+      "isPrimaryKey": false,
+      "isForeignKey": false
+    },
+    {
+      "appianFieldName": "username",
+      "pegaPropertyName": "Username",
+      "appianDataType": "xsd:string",
+      "pegaDataType": "Text",
+      "columnName": "USERNAME",
+      "required": false,
+      "isPrimaryKey": false,
+      "isForeignKey": false
+    },
+    {
+      "appianFieldName": "auditActionCode",
+      "pegaPropertyName": "Auditactioncode",
+      "appianDataType": "xsd:string",
+      "pegaDataType": "Text",
+      "columnName": "AUDIT_ACTION_CODE",
+      "required": false,
+      "isPrimaryKey": false,
+      "isForeignKey": false
+    },
+    {
+      "appianFieldName": "filterSetChanges",
+      "pegaPropertyName": "Filtersetchanges",
+      "appianDataType": "tns:AS_FS_ALT_A_AlertConfigurationFilterSet",
+      "pegaDataType": "Integer",
+      "columnName": "ALERT_CONFIGURATION_FILTER_SET_AUDIT_ID",
+      "required": false,
+      "isPrimaryKey": false,
+      "isForeignKey": true
+    },
+    {
+      "appianFieldName": "triggerSetChanges",
+      "pegaPropertyName": "Triggersetchanges",
+      "appianDataType": "tns:AS_FS_ALT_A_AlertConfigurationTriggerSet",
+      "pegaDataType": "Integer",
+      "columnName": "ALERT_CONFIGURATION_TRIGGER_SET_AUDIT_ID",
+      "required": false,
+      "isPrimaryKey": false,
+      "isForeignKey": true
+    }
+  ],
+  "relationships": [
+    {
+      "type": "ManyToOne",
+      "foreignKey": "ALERT_CONFIGURATION_FILTER_SET_AUDIT_ID",
+      "appianFieldName": "filterSetChanges"
+    },
+    {
+      "type": "ManyToOne",
+      "foreignKey": "ALERT_CONFIGURATION_TRIGGER_SET_AUDIT_ID",
+      "appianFieldName": "triggerSetChanges"
+    }
+  ]
+}

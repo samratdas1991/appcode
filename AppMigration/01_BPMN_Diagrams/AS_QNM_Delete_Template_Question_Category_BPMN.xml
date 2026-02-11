@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL"
+  xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+  xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+  xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
+  id="Definitions_AS_QNM_Delete_Template_Question_Category"
+  targetNamespace="http://bpmn.io/schema/bpmn">
+
+  <!-- Appian Process Model: AS QNM Delete Template Question Category -->
+  <!-- Source UUID: 0002e4d4-c334-8000-1229-7f0000014e7a -->
+  <!-- Description: Process to delete the question category of a template -->
+  <!-- Pega Case Type Mapping: See migration metadata for stage/step correlation -->
+
+  <bpmn:collaboration id="Collaboration_AS_QNM_Delete_Template_Question_Category">
+    <bpmn:participant id="Participant_AS_QNM_Delete_Template_Question_Category" name="AS QNM Delete Template Question Category" processRef="Process_AS_QNM_Delete_Template_Question_Category" />
+  </bpmn:collaboration>
+
+  <bpmn:process id="Process_AS_QNM_Delete_Template_Question_Category" name="AS QNM Delete Template Question Category" isExecutable="false">
+    <bpmn:documentation>Process to delete the question category of a template</bpmn:documentation>
+
+    <bpmn:laneSet id="LaneSet_AS_QNM_Delete_Template_Question_Category">
+      <bpmn:lane id="Lane_0" name="">
+      </bpmn:lane>
+    </bpmn:laneSet>
+
+    <bpmn:dataObject id="DataObject_auditParams" name="auditParams" />
+    <bpmn:dataObject id="DataObject_questionCategoryTemplateId" name="questionCategoryTemplateId" />
+    <bpmn:dataObject id="DataObject_questionCategoryToBeDeleted" name="questionCategoryToBeDeleted" />
+    <bpmn:dataObject id="DataObject_questionTemplateIdsToBeDeleted" name="questionTemplateIdsToBeDeleted" />
+    <bpmn:dataObject id="DataObject_questionnaireTemplate" name="questionnaireTemplate" />
+    <bpmn:dataObject id="DataObject_userAction" name="userAction" />
+
+    <bpmn:startEvent id="StartEvent_0" name="Start Node">
+      <bpmn:outgoing>Flow_0</bpmn:outgoing>
+    </bpmn:startEvent>
+
+    <bpmn:endEvent id="EndEvent_1" name="End Node">
+      <bpmn:incoming>Flow_1</bpmn:incoming>
+      <bpmn:incoming>Flow_2</bpmn:incoming>
+    </bpmn:endEvent>
+
+    <bpmn:exclusiveGateway id="ExclusiveGateway_2" name="Is Cancel?">
+      <bpmn:incoming>Flow_3</bpmn:incoming>
+      <bpmn:outgoing>Flow_4</bpmn:outgoing>
+      <bpmn:outgoing>Flow_5</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+
+    <bpmn:userTask id="UserTask_3" name="Delete Questions">
+      <bpmn:incoming>Flow_6</bpmn:incoming>
+      <bpmn:outgoing>Flow_7</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:exclusiveGateway id="ExclusiveGateway_4" name="Questions to delete?">
+      <bpmn:incoming>Flow_8</bpmn:incoming>
+      <bpmn:outgoing>Flow_9</bpmn:outgoing>
+      <bpmn:outgoing>Flow_10</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+
+    <bpmn:userTask id="UserTask_5" name="Set Questionnaire Template">
+      <bpmn:incoming>Flow_11</bpmn:incoming>
+      <bpmn:outgoing>Flow_12</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_6" name="Update Questionnaire Template">
+      <bpmn:incoming>Flow_13</bpmn:incoming>
+      <bpmn:outgoing>Flow_14</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_7" name="Set Audit Params">
+      <bpmn:incoming>Flow_15</bpmn:incoming>
+      <bpmn:outgoing>Flow_16</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_8" name="Set Original Objects">
+      <bpmn:incoming>Flow_17</bpmn:incoming>
+      <bpmn:outgoing>Flow_18</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_9" name="Set up deletion info">
+      <bpmn:incoming>Flow_19</bpmn:incoming>
+      <bpmn:outgoing>Flow_20</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_10" name="Update Category">
+      <bpmn:incoming>Flow_21</bpmn:incoming>
+      <bpmn:incoming>Flow_22</bpmn:incoming>
+      <bpmn:outgoing>Flow_23</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:sequenceFlow id="Flow_0" sourceRef="StartEvent_0" targetRef="ExclusiveGateway_2" />
+    <bpmn:sequenceFlow id="Flow_1" sourceRef="ExclusiveGateway_2" targetRef="EndEvent_1" />
+    <bpmn:sequenceFlow id="Flow_2" sourceRef="UserTask_5" targetRef="EndEvent_1" />
+    <bpmn:sequenceFlow id="Flow_5" sourceRef="ExclusiveGateway_2" targetRef="UserTask_9" />
+    <bpmn:sequenceFlow id="Flow_6" sourceRef="ExclusiveGateway_4" targetRef="UserTask_3" />
+    <bpmn:sequenceFlow id="Flow_7" sourceRef="UserTask_3" targetRef="UserTask_10" />
+    <bpmn:sequenceFlow id="Flow_8" sourceRef="UserTask_9" targetRef="ExclusiveGateway_4" />
+    <bpmn:sequenceFlow id="Flow_10" sourceRef="ExclusiveGateway_4" targetRef="UserTask_10" />
+    <bpmn:sequenceFlow id="Flow_11" sourceRef="UserTask_6" targetRef="UserTask_5" />
+    <bpmn:sequenceFlow id="Flow_13" sourceRef="UserTask_8" targetRef="UserTask_6" />
+    <bpmn:sequenceFlow id="Flow_15" sourceRef="UserTask_10" targetRef="UserTask_7" />
+    <bpmn:sequenceFlow id="Flow_16" sourceRef="UserTask_7" targetRef="UserTask_8" />
+  </bpmn:process>
+
+</bpmn:definitions>

@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL"
+  xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+  xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+  xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
+  id="Definitions_AS_IO_Complete_Onboarding_Request"
+  targetNamespace="http://bpmn.io/schema/bpmn">
+
+  <!-- Appian Process Model: AS IO Complete Onboarding Request -->
+  <!-- Source UUID: 0002e308-fa11-8000-f92f-7f0000014e7a -->
+  <!-- Description: updates actual values, changes status to complete, closes remaining tasks -->
+  <!-- Pega Case Type Mapping: See migration metadata for stage/step correlation -->
+
+  <bpmn:collaboration id="Collaboration_AS_IO_Complete_Onboarding_Request">
+    <bpmn:participant id="Participant_AS_IO_Complete_Onboarding_Request" name="AS IO Complete Onboarding Request" processRef="Process_AS_IO_Complete_Onboarding_Request" />
+  </bpmn:collaboration>
+
+  <bpmn:process id="Process_AS_IO_Complete_Onboarding_Request" name="AS IO Complete Onboarding Request" isExecutable="false">
+    <bpmn:documentation>updates actual values, changes status to complete, closes remaining tasks</bpmn:documentation>
+
+    <bpmn:laneSet id="LaneSet_AS_IO_Complete_Onboarding_Request">
+      <bpmn:lane id="Lane_0" name="">
+      </bpmn:lane>
+    </bpmn:laneSet>
+
+    <bpmn:dataObject id="DataObject_comment" name="comment" />
+    <bpmn:dataObject id="DataObject_product" name="product" />
+    <bpmn:dataObject id="DataObject_request" name="request" />
+    <bpmn:dataObject id="DataObject_requiredDocsToRemove" name="requiredDocsToRemove" />
+    <bpmn:dataObject id="DataObject_tasksToMarkNotNeeded" name="tasksToMarkNotNeeded" />
+    <bpmn:dataObject id="DataObject_userAction" name="userAction" />
+
+    <bpmn:startEvent id="StartEvent_0" name="Start Node">
+      <bpmn:outgoing>Flow_0</bpmn:outgoing>
+    </bpmn:startEvent>
+
+    <bpmn:endEvent id="EndEvent_1" name="End Node">
+      <bpmn:incoming>Flow_1</bpmn:incoming>
+      <bpmn:incoming>Flow_2</bpmn:incoming>
+      <bpmn:incoming>Flow_3</bpmn:incoming>
+      <bpmn:incoming>Flow_4</bpmn:incoming>
+      <bpmn:incoming>Flow_5</bpmn:incoming>
+      <bpmn:incoming>Flow_6</bpmn:incoming>
+      <bpmn:incoming>Flow_7</bpmn:incoming>
+      <bpmn:incoming>Flow_8</bpmn:incoming>
+    </bpmn:endEvent>
+
+    <bpmn:subProcess id="SubProcess_2" name="AND">
+      <bpmn:incoming>Flow_9</bpmn:incoming>
+      <bpmn:outgoing>Flow_10</bpmn:outgoing>
+      <bpmn:outgoing>Flow_11</bpmn:outgoing>
+      <bpmn:outgoing>Flow_12</bpmn:outgoing>
+      <bpmn:outgoing>Flow_13</bpmn:outgoing>
+    </bpmn:subProcess>
+
+    <bpmn:exclusiveGateway id="ExclusiveGateway_3" name="userAction">
+      <bpmn:incoming>Flow_14</bpmn:incoming>
+      <bpmn:outgoing>Flow_15</bpmn:outgoing>
+      <bpmn:outgoing>Flow_16</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+
+    <bpmn:userTask id="UserTask_4" name="Write to Onboarding Request">
+      <bpmn:incoming>Flow_17</bpmn:incoming>
+      <bpmn:outgoing>Flow_18</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_5" name="Set onboarding status">
+      <bpmn:incoming>Flow_19</bpmn:incoming>
+      <bpmn:outgoing>Flow_20</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_6" name="Update Funding Details">
+      <bpmn:incoming>Flow_21</bpmn:incoming>
+      <bpmn:outgoing>Flow_22</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_7" name="Get Products for Onboarding">
+      <bpmn:incoming>Flow_23</bpmn:incoming>
+      <bpmn:outgoing>Flow_24</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_8" name="Update Products in FS">
+      <bpmn:incoming>Flow_25</bpmn:incoming>
+      <bpmn:outgoing>Flow_26</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:exclusiveGateway id="ExclusiveGateway_9" name="Any products?">
+      <bpmn:incoming>Flow_27</bpmn:incoming>
+      <bpmn:outgoing>Flow_28</bpmn:outgoing>
+      <bpmn:outgoing>Flow_29</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+
+    <bpmn:exclusiveGateway id="ExclusiveGateway_10" name="tasks to mark not needed empty?">
+      <bpmn:incoming>Flow_30</bpmn:incoming>
+      <bpmn:outgoing>Flow_31</bpmn:outgoing>
+      <bpmn:outgoing>Flow_32</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+
+    <bpmn:userTask id="UserTask_11" name="marks tasks as not needed">
+      <bpmn:incoming>Flow_33</bpmn:incoming>
+      <bpmn:outgoing>Flow_34</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:exclusiveGateway id="ExclusiveGateway_12" name="is Required docs to remove empty?">
+      <bpmn:incoming>Flow_35</bpmn:incoming>
+      <bpmn:outgoing>Flow_36</bpmn:outgoing>
+      <bpmn:outgoing>Flow_37</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+
+    <bpmn:userTask id="UserTask_13" name="Save & Audit Required Docs">
+      <bpmn:incoming>Flow_38</bpmn:incoming>
+      <bpmn:outgoing>Flow_39</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_14" name="Audit Status Change">
+      <bpmn:incoming>Flow_40</bpmn:incoming>
+      <bpmn:outgoing>Flow_41</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_15" name="Get Required Docs to Remove">
+      <bpmn:incoming>Flow_42</bpmn:incoming>
+      <bpmn:outgoing>Flow_43</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_16" name="get Tasks to Mark as Not needed">
+      <bpmn:incoming>Flow_44</bpmn:incoming>
+      <bpmn:outgoing>Flow_45</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:sequenceFlow id="Flow_0" sourceRef="StartEvent_0" targetRef="ExclusiveGateway_3" />
+    <bpmn:sequenceFlow id="Flow_1" sourceRef="ExclusiveGateway_3" targetRef="EndEvent_1" />
+    <bpmn:sequenceFlow id="Flow_2" sourceRef="UserTask_8" targetRef="EndEvent_1" />
+    <bpmn:sequenceFlow id="Flow_3" sourceRef="ExclusiveGateway_9" targetRef="EndEvent_1" />
+    <bpmn:sequenceFlow id="Flow_4" sourceRef="ExclusiveGateway_10" targetRef="EndEvent_1" />
+    <bpmn:sequenceFlow id="Flow_5" sourceRef="UserTask_11" targetRef="EndEvent_1" />
+    <bpmn:sequenceFlow id="Flow_6" sourceRef="ExclusiveGateway_12" targetRef="EndEvent_1" />
+    <bpmn:sequenceFlow id="Flow_7" sourceRef="UserTask_13" targetRef="EndEvent_1" />
+    <bpmn:sequenceFlow id="Flow_8" sourceRef="UserTask_14" targetRef="EndEvent_1" />
+    <bpmn:sequenceFlow id="Flow_9" sourceRef="ExclusiveGateway_3" targetRef="SubProcess_2" />
+    <bpmn:sequenceFlow id="Flow_10" sourceRef="SubProcess_2" targetRef="UserTask_16" />
+    <bpmn:sequenceFlow id="Flow_11" sourceRef="SubProcess_2" targetRef="UserTask_6" />
+    <bpmn:sequenceFlow id="Flow_12" sourceRef="SubProcess_2" targetRef="UserTask_7" />
+    <bpmn:sequenceFlow id="Flow_13" sourceRef="SubProcess_2" targetRef="UserTask_15" />
+    <bpmn:sequenceFlow id="Flow_17" sourceRef="UserTask_5" targetRef="UserTask_4" />
+    <bpmn:sequenceFlow id="Flow_18" sourceRef="UserTask_4" targetRef="UserTask_14" />
+    <bpmn:sequenceFlow id="Flow_19" sourceRef="UserTask_6" targetRef="UserTask_5" />
+    <bpmn:sequenceFlow id="Flow_24" sourceRef="UserTask_7" targetRef="ExclusiveGateway_9" />
+    <bpmn:sequenceFlow id="Flow_25" sourceRef="ExclusiveGateway_9" targetRef="UserTask_8" />
+    <bpmn:sequenceFlow id="Flow_30" sourceRef="UserTask_16" targetRef="ExclusiveGateway_10" />
+    <bpmn:sequenceFlow id="Flow_32" sourceRef="ExclusiveGateway_10" targetRef="UserTask_11" />
+    <bpmn:sequenceFlow id="Flow_35" sourceRef="UserTask_15" targetRef="ExclusiveGateway_12" />
+    <bpmn:sequenceFlow id="Flow_36" sourceRef="ExclusiveGateway_12" targetRef="UserTask_13" />
+  </bpmn:process>
+
+</bpmn:definitions>

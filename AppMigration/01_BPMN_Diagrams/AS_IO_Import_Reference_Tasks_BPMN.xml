@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL"
+  xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+  xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+  xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
+  id="Definitions_AS_IO_Import_Reference_Tasks"
+  targetNamespace="http://bpmn.io/schema/bpmn">
+
+  <!-- Appian Process Model: AS IO Import Reference Tasks -->
+  <!-- Source UUID: 0000e598-79cb-8000-2854-7f0000014e7a -->
+  <!-- Description: Process used to import reference tasks from an excel sheet -->
+  <!-- Pega Case Type Mapping: See migration metadata for stage/step correlation -->
+
+  <bpmn:collaboration id="Collaboration_AS_IO_Import_Reference_Tasks">
+    <bpmn:participant id="Participant_AS_IO_Import_Reference_Tasks" name="AS IO Import Reference Tasks" processRef="Process_AS_IO_Import_Reference_Tasks" />
+  </bpmn:collaboration>
+
+  <bpmn:process id="Process_AS_IO_Import_Reference_Tasks" name="AS IO Import Reference Tasks" isExecutable="false">
+    <bpmn:documentation>Process used to import reference tasks from an excel sheet</bpmn:documentation>
+
+    <bpmn:dataObject id="DataObject_allImportedTaskRefs" name="allImportedTaskRefs" />
+    <bpmn:dataObject id="DataObject_allUploadedDocuments" name="allUploadedDocuments" />
+    <bpmn:dataObject id="DataObject_newImportedTaskRefs" name="newImportedTaskRefs" />
+    <bpmn:dataObject id="DataObject_template" name="template" />
+    <bpmn:dataObject id="DataObject_userAction" name="userAction" />
+
+    <bpmn:endEvent id="EndEvent_0" name="End Node">
+      <bpmn:incoming>Flow_0</bpmn:incoming>
+      <bpmn:incoming>Flow_1</bpmn:incoming>
+      <bpmn:incoming>Flow_2</bpmn:incoming>
+    </bpmn:endEvent>
+
+    <bpmn:startEvent id="StartEvent_1" name="Start Node">
+      <bpmn:outgoing>Flow_3</bpmn:outgoing>
+    </bpmn:startEvent>
+
+    <bpmn:userTask id="UserTask_2" name="Filter new tasks">
+      <bpmn:incoming>Flow_4</bpmn:incoming>
+      <bpmn:outgoing>Flow_5</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_3" name="Create new task refs">
+      <bpmn:incoming>Flow_6</bpmn:incoming>
+      <bpmn:outgoing>Flow_7</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:exclusiveGateway id="ExclusiveGateway_4" name="Add to template?">
+      <bpmn:incoming>Flow_8</bpmn:incoming>
+      <bpmn:incoming>Flow_9</bpmn:incoming>
+      <bpmn:outgoing>Flow_10</bpmn:outgoing>
+      <bpmn:outgoing>Flow_11</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+
+    <bpmn:scriptTask id="ScriptTask_5" name="Add Template">
+      <bpmn:incoming>Flow_12</bpmn:incoming>
+      <bpmn:outgoing>Flow_13</bpmn:outgoing>
+    </bpmn:scriptTask>
+
+    <bpmn:userTask id="UserTask_6" name="Create Template">
+      <bpmn:incoming>Flow_14</bpmn:incoming>
+      <bpmn:outgoing>Flow_15</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:endEvent id="EndEvent_7" name="End Event">
+    </bpmn:endEvent>
+
+    <bpmn:exclusiveGateway id="ExclusiveGateway_8" name="If no filtered tasks">
+      <bpmn:incoming>Flow_16</bpmn:incoming>
+      <bpmn:outgoing>Flow_17</bpmn:outgoing>
+      <bpmn:outgoing>Flow_18</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+
+    <bpmn:userTask id="UserTask_9" name="Update Template Tasks">
+      <bpmn:incoming>Flow_19</bpmn:incoming>
+      <bpmn:outgoing>Flow_20</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:exclusiveGateway id="ExclusiveGateway_10" name="Cancel ?">
+      <bpmn:incoming>Flow_21</bpmn:incoming>
+      <bpmn:outgoing>Flow_22</bpmn:outgoing>
+      <bpmn:outgoing>Flow_23</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+
+    <bpmn:userTask id="UserTask_11" name="Delete uploaded document">
+      <bpmn:incoming>Flow_24</bpmn:incoming>
+      <bpmn:outgoing>Flow_25</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:sequenceFlow id="Flow_0" sourceRef="ExclusiveGateway_4" targetRef="EndEvent_0" />
+    <bpmn:sequenceFlow id="Flow_1" sourceRef="UserTask_6" targetRef="EndEvent_0" />
+    <bpmn:sequenceFlow id="Flow_2" sourceRef="UserTask_11" targetRef="EndEvent_0" />
+    <bpmn:sequenceFlow id="Flow_3" sourceRef="StartEvent_1" targetRef="ExclusiveGateway_10" />
+    <bpmn:sequenceFlow id="Flow_4" sourceRef="ExclusiveGateway_10" targetRef="UserTask_2" />
+    <bpmn:sequenceFlow id="Flow_5" sourceRef="UserTask_2" targetRef="ExclusiveGateway_8" />
+    <bpmn:sequenceFlow id="Flow_6" sourceRef="ExclusiveGateway_8" targetRef="UserTask_3" />
+    <bpmn:sequenceFlow id="Flow_7" sourceRef="UserTask_3" targetRef="ExclusiveGateway_4" />
+    <bpmn:sequenceFlow id="Flow_9" sourceRef="ExclusiveGateway_8" targetRef="ExclusiveGateway_4" />
+    <bpmn:sequenceFlow id="Flow_11" sourceRef="ExclusiveGateway_4" targetRef="UserTask_9" />
+    <bpmn:sequenceFlow id="Flow_12" sourceRef="UserTask_9" targetRef="ScriptTask_5" />
+    <bpmn:sequenceFlow id="Flow_13" sourceRef="ScriptTask_5" targetRef="UserTask_6" />
+    <bpmn:sequenceFlow id="Flow_23" sourceRef="ExclusiveGateway_10" targetRef="UserTask_11" />
+  </bpmn:process>
+
+</bpmn:definitions>

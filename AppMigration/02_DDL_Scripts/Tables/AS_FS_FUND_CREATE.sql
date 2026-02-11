@@ -1,0 +1,17 @@
+-- Source Appian CDT: AS_FS_Fund
+-- Description: FS Data type for request funds. Currently not db-backed, existed so IO funds can be safely casted and shown in FS
+DROP TABLE IF EXISTS AS_FS_FUND CASCADE;
+CREATE TABLE AS_FS_FUND (
+    FUND_ID INT PRIMARY KEY,
+    REQUEST_ID INT,
+    CUSTOMER_ID INT,
+    NAME VARCHAR(255),
+    REGION_CODE VARCHAR(255),
+    DOMICILE VARCHAR(255),
+    ADDRESS VARCHAR(255),
+    CREATED_BY VARCHAR(255),
+    CREATED_DATETIME TIMESTAMP,
+    MODIFIED_BY VARCHAR(255),
+    MODIFIED_DATETIME TIMESTAMP,
+    IS_DELETED BOOLEAN
+);

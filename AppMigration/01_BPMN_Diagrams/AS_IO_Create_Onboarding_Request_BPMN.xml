@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL"
+  xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+  xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+  xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
+  id="Definitions_AS_IO_Create_Onboarding_Request"
+  targetNamespace="http://bpmn.io/schema/bpmn">
+
+  <!-- Appian Process Model: AS IO Create Onboarding Request -->
+  <!-- Source UUID: 0002e2c7-525f-8000-f92f-7f0000014e7a -->
+  <!-- Description: Process model to create an onboarding request -->
+  <!-- Pega Case Type Mapping: See migration metadata for stage/step correlation -->
+
+  <bpmn:collaboration id="Collaboration_AS_IO_Create_Onboarding_Request">
+    <bpmn:participant id="Participant_AS_IO_Create_Onboarding_Request" name="AS IO Create Onboarding Request" processRef="Process_AS_IO_Create_Onboarding_Request" />
+  </bpmn:collaboration>
+
+  <bpmn:process id="Process_AS_IO_Create_Onboarding_Request" name="AS IO Create Onboarding Request" isExecutable="false">
+    <bpmn:documentation>Process model to create an onboarding request</bpmn:documentation>
+
+    <bpmn:laneSet id="LaneSet_AS_IO_Create_Onboarding_Request">
+      <bpmn:lane id="Lane_0" name="">
+      </bpmn:lane>
+    </bpmn:laneSet>
+
+    <bpmn:dataObject id="DataObject_accounts" name="accounts" />
+    <bpmn:dataObject id="DataObject_allDocumentRequirements" name="allDocumentRequirements" />
+    <bpmn:dataObject id="DataObject_answers" name="answers" />
+    <bpmn:dataObject id="DataObject_deletedProducts" name="deletedProducts" />
+    <bpmn:dataObject id="DataObject_funds" name="funds" />
+    <bpmn:dataObject id="DataObject_isWebApi" name="isWebApi" />
+    <bpmn:dataObject id="DataObject_onboardingDocuments" name="onboardingDocuments" />
+    <bpmn:dataObject id="DataObject_onboardingRequest" name="onboardingRequest" />
+    <bpmn:dataObject id="DataObject_products" name="products" />
+    <bpmn:dataObject id="DataObject_runtimeTasks" name="runtimeTasks" />
+    <bpmn:dataObject id="DataObject_template" name="template" />
+    <bpmn:dataObject id="DataObject_userAction" name="userAction" />
+
+    <bpmn:startEvent id="StartEvent_0" name="Start Node">
+      <bpmn:outgoing>Flow_0</bpmn:outgoing>
+    </bpmn:startEvent>
+
+    <bpmn:endEvent id="EndEvent_1" name="End Node">
+      <bpmn:incoming>Flow_1</bpmn:incoming>
+      <bpmn:incoming>Flow_2</bpmn:incoming>
+    </bpmn:endEvent>
+
+    <bpmn:endEvent id="EndEvent_2" name="End Node">
+      <bpmn:incoming>Flow_3</bpmn:incoming>
+    </bpmn:endEvent>
+
+    <bpmn:scriptTask id="ScriptTask_3" name="Confirmation screen for onboarding Request">
+      <bpmn:incoming>Flow_4</bpmn:incoming>
+      <bpmn:outgoing>Flow_5</bpmn:outgoing>
+    </bpmn:scriptTask>
+
+    <bpmn:userTask id="UserTask_4" name="Set cust ID on account">
+      <bpmn:incoming>Flow_6</bpmn:incoming>
+      <bpmn:outgoing>Flow_7</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_5" name="Update Onboarding Details">
+      <bpmn:incoming>Flow_8</bpmn:incoming>
+      <bpmn:outgoing>Flow_9</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_6" name="Set account status">
+      <bpmn:incoming>Flow_10</bpmn:incoming>
+      <bpmn:outgoing>Flow_11</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_7" name="get and update existing  deleted data">
+      <bpmn:incoming>Flow_12</bpmn:incoming>
+      <bpmn:outgoing>Flow_13</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_8" name="Update Metadata">
+      <bpmn:incoming>Flow_14</bpmn:incoming>
+      <bpmn:outgoing>Flow_15</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_9" name="Write Supplemental Data">
+      <bpmn:incoming>Flow_16</bpmn:incoming>
+      <bpmn:outgoing>Flow_17</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_10" name="Set priority and status of onboarding">
+      <bpmn:incoming>Flow_18</bpmn:incoming>
+      <bpmn:outgoing>Flow_19</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:exclusiveGateway id="ExclusiveGateway_11" name="Cancel?">
+      <bpmn:incoming>Flow_20</bpmn:incoming>
+      <bpmn:outgoing>Flow_21</bpmn:outgoing>
+      <bpmn:outgoing>Flow_22</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+
+    <bpmn:userTask id="UserTask_12" name="Process Setup">
+      <bpmn:incoming>Flow_23</bpmn:incoming>
+      <bpmn:outgoing>Flow_24</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_13" name="Update products">
+      <bpmn:incoming>Flow_25</bpmn:incoming>
+      <bpmn:outgoing>Flow_26</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_14" name="Set Request ID on Supplemental Data">
+      <bpmn:incoming>Flow_27</bpmn:incoming>
+      <bpmn:outgoing>Flow_28</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_15" name="Event Audit - status change">
+      <bpmn:incoming>Flow_29</bpmn:incoming>
+      <bpmn:outgoing>Flow_30</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:exclusiveGateway id="ExclusiveGateway_16" name="Chain into Process Setup?">
+      <bpmn:incoming>Flow_31</bpmn:incoming>
+      <bpmn:outgoing>Flow_32</bpmn:outgoing>
+      <bpmn:outgoing>Flow_33</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+
+    <bpmn:sequenceFlow id="Flow_0" sourceRef="StartEvent_0" targetRef="ExclusiveGateway_11" />
+    <bpmn:sequenceFlow id="Flow_1" sourceRef="ScriptTask_3" targetRef="EndEvent_1" />
+    <bpmn:sequenceFlow id="Flow_2" sourceRef="ExclusiveGateway_16" targetRef="EndEvent_1" />
+    <bpmn:sequenceFlow id="Flow_3" sourceRef="ExclusiveGateway_11" targetRef="EndEvent_2" />
+    <bpmn:sequenceFlow id="Flow_4" sourceRef="UserTask_12" targetRef="ScriptTask_3" />
+    <bpmn:sequenceFlow id="Flow_6" sourceRef="UserTask_14" targetRef="UserTask_4" />
+    <bpmn:sequenceFlow id="Flow_7" sourceRef="UserTask_4" targetRef="UserTask_13" />
+    <bpmn:sequenceFlow id="Flow_8" sourceRef="UserTask_8" targetRef="UserTask_5" />
+    <bpmn:sequenceFlow id="Flow_9" sourceRef="UserTask_5" targetRef="UserTask_15" />
+    <bpmn:sequenceFlow id="Flow_10" sourceRef="UserTask_13" targetRef="UserTask_6" />
+    <bpmn:sequenceFlow id="Flow_11" sourceRef="UserTask_6" targetRef="UserTask_7" />
+    <bpmn:sequenceFlow id="Flow_13" sourceRef="UserTask_7" targetRef="UserTask_9" />
+    <bpmn:sequenceFlow id="Flow_14" sourceRef="UserTask_10" targetRef="UserTask_8" />
+    <bpmn:sequenceFlow id="Flow_17" sourceRef="UserTask_9" targetRef="ExclusiveGateway_16" />
+    <bpmn:sequenceFlow id="Flow_18" sourceRef="ExclusiveGateway_11" targetRef="UserTask_10" />
+    <bpmn:sequenceFlow id="Flow_23" sourceRef="ExclusiveGateway_16" targetRef="UserTask_12" />
+    <bpmn:sequenceFlow id="Flow_27" sourceRef="UserTask_15" targetRef="UserTask_14" />
+  </bpmn:process>
+
+</bpmn:definitions>

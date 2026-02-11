@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL"
+  xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+  xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+  xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
+  id="Definitions_AS_IO_Update_Task_Due_Date"
+  targetNamespace="http://bpmn.io/schema/bpmn">
+
+  <!-- Appian Process Model: AS IO Update Task Due Date -->
+  <!-- Source UUID: 0002e481-e765-8000-08b2-7f0000014e7a -->
+  <!-- Description: Process to change the task due date -->
+  <!-- Pega Case Type Mapping: See migration metadata for stage/step correlation -->
+
+  <bpmn:collaboration id="Collaboration_AS_IO_Update_Task_Due_Date">
+    <bpmn:participant id="Participant_AS_IO_Update_Task_Due_Date" name="AS IO Update Task Due Date" processRef="Process_AS_IO_Update_Task_Due_Date" />
+  </bpmn:collaboration>
+
+  <bpmn:process id="Process_AS_IO_Update_Task_Due_Date" name="AS IO Update Task Due Date" isExecutable="false">
+    <bpmn:documentation>Process to change the task due date</bpmn:documentation>
+
+    <bpmn:laneSet id="LaneSet_AS_IO_Update_Task_Due_Date">
+      <bpmn:lane id="Lane_0" name="">
+      </bpmn:lane>
+    </bpmn:laneSet>
+
+    <bpmn:dataObject id="DataObject_comment" name="comment" />
+    <bpmn:dataObject id="DataObject_oldDueDate" name="oldDueDate" />
+    <bpmn:dataObject id="DataObject_startTime" name="startTime" />
+    <bpmn:dataObject id="DataObject_task" name="task" />
+    <bpmn:dataObject id="DataObject_userAction" name="userAction" />
+
+    <bpmn:startEvent id="StartEvent_0" name="Start Node">
+      <bpmn:outgoing>Flow_0</bpmn:outgoing>
+    </bpmn:startEvent>
+
+    <bpmn:endEvent id="EndEvent_1" name="End Node">
+      <bpmn:incoming>Flow_1</bpmn:incoming>
+      <bpmn:incoming>Flow_2</bpmn:incoming>
+    </bpmn:endEvent>
+
+    <bpmn:userTask id="UserTask_2" name="Update Metadata">
+      <bpmn:incoming>Flow_3</bpmn:incoming>
+      <bpmn:outgoing>Flow_4</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_3" name="Update Tasks">
+      <bpmn:incoming>Flow_5</bpmn:incoming>
+      <bpmn:outgoing>Flow_6</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:exclusiveGateway id="ExclusiveGateway_4" name="Submit ?">
+      <bpmn:incoming>Flow_7</bpmn:incoming>
+      <bpmn:outgoing>Flow_8</bpmn:outgoing>
+      <bpmn:outgoing>Flow_9</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+
+    <bpmn:userTask id="UserTask_5" name="Task Action Audit">
+      <bpmn:incoming>Flow_10</bpmn:incoming>
+      <bpmn:outgoing>Flow_11</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:sequenceFlow id="Flow_0" sourceRef="StartEvent_0" targetRef="ExclusiveGateway_4" />
+    <bpmn:sequenceFlow id="Flow_1" sourceRef="ExclusiveGateway_4" targetRef="EndEvent_1" />
+    <bpmn:sequenceFlow id="Flow_2" sourceRef="UserTask_5" targetRef="EndEvent_1" />
+    <bpmn:sequenceFlow id="Flow_3" sourceRef="ExclusiveGateway_4" targetRef="UserTask_2" />
+    <bpmn:sequenceFlow id="Flow_4" sourceRef="UserTask_2" targetRef="UserTask_3" />
+    <bpmn:sequenceFlow id="Flow_6" sourceRef="UserTask_3" targetRef="UserTask_5" />
+  </bpmn:process>
+
+</bpmn:definitions>

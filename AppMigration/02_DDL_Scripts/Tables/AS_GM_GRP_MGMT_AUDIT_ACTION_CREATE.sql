@@ -1,0 +1,12 @@
+-- Source Appian CDT: AS_GM_GroupMgmtAuditAction
+-- Description: Holds auditing information for added/removed users and groups
+DROP TABLE IF EXISTS AS_GM_GRP_MGMT_AUDIT_ACTION CASCADE;
+CREATE TABLE AS_GM_GRP_MGMT_AUDIT_ACTION (
+    GRP_MGMT_AUDIT_ID INT PRIMARY KEY,
+    DATETIME TIMESTAMP,
+    MEMBER VARCHAR(255),
+    MEMBER_TYPE VARCHAR(255),
+    ACTION VARCHAR(255),
+    INITIATOR VARCHAR(255),
+    GROUP_ID INT
+);

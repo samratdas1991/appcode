@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL"
+  xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+  xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+  xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
+  id="Definitions_AS_FS_Northrow_Request_and_Retrieve_Company_Check_Summary"
+  targetNamespace="http://bpmn.io/schema/bpmn">
+
+  <!-- Appian Process Model: AS FS Northrow Request and Retrieve Company Check Summary -->
+  <!-- Source UUID: 0009e575-2123-8000-20fa-7f0000014e7a -->
+  <!-- Description: Executes the Northrow company check API against a customer -->
+  <!-- Pega Case Type Mapping: See migration metadata for stage/step correlation -->
+
+  <bpmn:collaboration id="Collaboration_AS_FS_Northrow_Request_and_Retrieve_Company_Check_Summary">
+    <bpmn:participant id="Participant_AS_FS_Northrow_Request_and_Retrieve_Company_Check_Summary" name="AS FS Northrow Request and Retrieve Company Check Summary" processRef="Process_AS_FS_Northrow_Request_and_Retrieve_Company_Check_Summary" />
+  </bpmn:collaboration>
+
+  <bpmn:process id="Process_AS_FS_Northrow_Request_and_Retrieve_Company_Check_Summary" name="AS FS Northrow Request and Retrieve Company Check Summary" isExecutable="false">
+    <bpmn:documentation>Executes the Northrow company check API against a customer</bpmn:documentation>
+
+    <bpmn:dataObject id="DataObject_companyCheckSummary" name="companyCheckSummary" />
+    <bpmn:dataObject id="DataObject_customer" name="customer" />
+    <bpmn:dataObject id="DataObject_cutomerDocument" name="cutomerDocument" />
+    <bpmn:dataObject id="DataObject_northrowRiskScore" name="northrowRiskScore" />
+    <bpmn:dataObject id="DataObject_summaryRequestSuccess" name="summaryRequestSuccess" />
+
+    <bpmn:startEvent id="StartEvent_0" name="Start Node">
+      <bpmn:outgoing>Flow_0</bpmn:outgoing>
+    </bpmn:startEvent>
+
+    <bpmn:endEvent id="EndEvent_1" name="End Node">
+      <bpmn:incoming>Flow_1</bpmn:incoming>
+    </bpmn:endEvent>
+
+    <bpmn:userTask id="UserTask_2" name="Get risk score">
+      <bpmn:incoming>Flow_2</bpmn:incoming>
+      <bpmn:outgoing>Flow_3</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_3" name="Set risk score in customer">
+      <bpmn:incoming>Flow_4</bpmn:incoming>
+      <bpmn:outgoing>Flow_5</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_4" name="Set integration status to complete">
+      <bpmn:incoming>Flow_6</bpmn:incoming>
+      <bpmn:incoming>Flow_7</bpmn:incoming>
+      <bpmn:outgoing>Flow_8</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:exclusiveGateway id="ExclusiveGateway_5" name="API Success?">
+      <bpmn:incoming>Flow_9</bpmn:incoming>
+      <bpmn:outgoing>Flow_10</bpmn:outgoing>
+      <bpmn:outgoing>Flow_11</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+
+    <bpmn:userTask id="UserTask_6" name="update company check summary">
+      <bpmn:incoming>Flow_12</bpmn:incoming>
+      <bpmn:outgoing>Flow_13</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_7" name="get Report Summary Doc">
+      <bpmn:incoming>Flow_14</bpmn:incoming>
+      <bpmn:incoming>Flow_15</bpmn:incoming>
+      <bpmn:outgoing>Flow_16</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:exclusiveGateway id="ExclusiveGateway_8" name="Risk Score Update?">
+      <bpmn:incoming>Flow_17</bpmn:incoming>
+      <bpmn:outgoing>Flow_18</bpmn:outgoing>
+      <bpmn:outgoing>Flow_19</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+
+    <bpmn:userTask id="UserTask_9" name="Update Customer">
+      <bpmn:incoming>Flow_20</bpmn:incoming>
+      <bpmn:outgoing>Flow_21</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_10" name="Execute Northrow Company Check">
+      <bpmn:incoming>Flow_22</bpmn:incoming>
+      <bpmn:outgoing>Flow_23</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_11" name="Timer_1">
+      <bpmn:incoming>Flow_24</bpmn:incoming>
+      <bpmn:outgoing>Flow_25</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:sequenceFlow id="Flow_0" sourceRef="StartEvent_0" targetRef="UserTask_10" />
+    <bpmn:sequenceFlow id="Flow_1" sourceRef="UserTask_4" targetRef="EndEvent_1" />
+    <bpmn:sequenceFlow id="Flow_2" sourceRef="UserTask_11" targetRef="UserTask_2" />
+    <bpmn:sequenceFlow id="Flow_3" sourceRef="UserTask_2" targetRef="ExclusiveGateway_8" />
+    <bpmn:sequenceFlow id="Flow_4" sourceRef="ExclusiveGateway_8" targetRef="UserTask_3" />
+    <bpmn:sequenceFlow id="Flow_5" sourceRef="UserTask_3" targetRef="UserTask_9" />
+    <bpmn:sequenceFlow id="Flow_6" sourceRef="UserTask_6" targetRef="UserTask_4" />
+    <bpmn:sequenceFlow id="Flow_7" sourceRef="UserTask_7" targetRef="UserTask_4" />
+    <bpmn:sequenceFlow id="Flow_9" sourceRef="UserTask_10" targetRef="ExclusiveGateway_5" />
+    <bpmn:sequenceFlow id="Flow_10" sourceRef="ExclusiveGateway_5" targetRef="UserTask_6" />
+    <bpmn:sequenceFlow id="Flow_11" sourceRef="ExclusiveGateway_5" targetRef="UserTask_11" />
+    <bpmn:sequenceFlow id="Flow_14" sourceRef="ExclusiveGateway_8" targetRef="UserTask_7" />
+    <bpmn:sequenceFlow id="Flow_15" sourceRef="UserTask_9" targetRef="UserTask_7" />
+  </bpmn:process>
+
+</bpmn:definitions>

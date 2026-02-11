@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL"
+  xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+  xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+  xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
+  id="Definitions_AS_ALT_Auto_Dismiss_Alerts"
+  targetNamespace="http://bpmn.io/schema/bpmn">
+
+  <!-- Appian Process Model: AS ALT Auto Dismiss Alerts -->
+  <!-- Source UUID: 0002e6db-0617-8000-4aae-7f0000014e7a -->
+  <!-- Description: Process model to dismiss alert -->
+  <!-- Pega Case Type Mapping: See migration metadata for stage/step correlation -->
+
+  <bpmn:collaboration id="Collaboration_AS_ALT_Auto_Dismiss_Alerts">
+    <bpmn:participant id="Participant_AS_ALT_Auto_Dismiss_Alerts" name="AS ALT Auto Dismiss Alerts" processRef="Process_AS_ALT_Auto_Dismiss_Alerts" />
+  </bpmn:collaboration>
+
+  <bpmn:process id="Process_AS_ALT_Auto_Dismiss_Alerts" name="AS ALT Auto Dismiss Alerts" isExecutable="false">
+    <bpmn:documentation>Process model to dismiss alert</bpmn:documentation>
+
+    <bpmn:laneSet id="LaneSet_AS_ALT_Auto_Dismiss_Alerts">
+      <bpmn:lane id="Lane_0" name="">
+      </bpmn:lane>
+    </bpmn:laneSet>
+
+    <bpmn:dataObject id="DataObject_alertsToBeDismissed" name="alertsToBeDismissed" />
+    <bpmn:dataObject id="DataObject_altDismissalDays" name="altDismissalDays" />
+
+    <bpmn:userTask id="UserTask_0" name="Update Alerts">
+      <bpmn:incoming>Flow_0</bpmn:incoming>
+      <bpmn:outgoing>Flow_1</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:endEvent id="EndEvent_1" name="End Node">
+      <bpmn:incoming>Flow_2</bpmn:incoming>
+      <bpmn:incoming>Flow_3</bpmn:incoming>
+    </bpmn:endEvent>
+
+    <bpmn:userTask id="UserTask_2" name="Get User Settings">
+      <bpmn:incoming>Flow_4</bpmn:incoming>
+      <bpmn:outgoing>Flow_5</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:exclusiveGateway id="ExclusiveGateway_3" name="is Auto Dismiss ON ?">
+      <bpmn:incoming>Flow_6</bpmn:incoming>
+      <bpmn:outgoing>Flow_7</bpmn:outgoing>
+      <bpmn:outgoing>Flow_8</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+
+    <bpmn:exclusiveGateway id="ExclusiveGateway_4" name="Any Alerts To Be Dismiss ?">
+      <bpmn:incoming>Flow_9</bpmn:incoming>
+      <bpmn:outgoing>Flow_10</bpmn:outgoing>
+      <bpmn:outgoing>Flow_11</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+
+    <bpmn:userTask id="UserTask_5" name="Update Dismiss Details">
+      <bpmn:incoming>Flow_12</bpmn:incoming>
+      <bpmn:outgoing>Flow_13</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_6" name="SPACER">
+      <bpmn:incoming>Flow_14</bpmn:incoming>
+      <bpmn:outgoing>Flow_15</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_7" name="Get Alerts To Be Dismiss">
+      <bpmn:incoming>Flow_16</bpmn:incoming>
+      <bpmn:incoming>Flow_17</bpmn:incoming>
+      <bpmn:outgoing>Flow_18</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:startEvent id="StartEvent_8" name="Start Node">
+      <bpmn:outgoing>Flow_19</bpmn:outgoing>
+    </bpmn:startEvent>
+
+    <bpmn:sequenceFlow id="Flow_0" sourceRef="UserTask_5" targetRef="UserTask_0" />
+    <bpmn:sequenceFlow id="Flow_1" sourceRef="UserTask_0" targetRef="UserTask_6" />
+    <bpmn:sequenceFlow id="Flow_2" sourceRef="ExclusiveGateway_3" targetRef="EndEvent_1" />
+    <bpmn:sequenceFlow id="Flow_3" sourceRef="ExclusiveGateway_4" targetRef="EndEvent_1" />
+    <bpmn:sequenceFlow id="Flow_4" sourceRef="StartEvent_8" targetRef="UserTask_2" />
+    <bpmn:sequenceFlow id="Flow_5" sourceRef="UserTask_2" targetRef="ExclusiveGateway_3" />
+    <bpmn:sequenceFlow id="Flow_7" sourceRef="ExclusiveGateway_3" targetRef="UserTask_7" />
+    <bpmn:sequenceFlow id="Flow_9" sourceRef="UserTask_7" targetRef="ExclusiveGateway_4" />
+    <bpmn:sequenceFlow id="Flow_10" sourceRef="ExclusiveGateway_4" targetRef="UserTask_5" />
+    <bpmn:sequenceFlow id="Flow_15" sourceRef="UserTask_6" targetRef="UserTask_7" />
+  </bpmn:process>
+
+</bpmn:definitions>

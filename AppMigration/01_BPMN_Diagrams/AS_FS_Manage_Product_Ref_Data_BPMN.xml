@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL"
+  xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+  xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+  xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
+  id="Definitions_AS_FS_Manage_Product_Ref_Data"
+  targetNamespace="http://bpmn.io/schema/bpmn">
+
+  <!-- Appian Process Model: AS FS Manage Product Ref Data -->
+  <!-- Source UUID: 0000e54f-47ec-8000-1da0-7f0000014e7a -->
+  <!-- Description: Process model to add values to ref data table and update i18n bundles for product types -->
+  <!-- Pega Case Type Mapping: See migration metadata for stage/step correlation -->
+
+  <bpmn:collaboration id="Collaboration_AS_FS_Manage_Product_Ref_Data">
+    <bpmn:participant id="Participant_AS_FS_Manage_Product_Ref_Data" name="AS FS Manage Product Ref Data" processRef="Process_AS_FS_Manage_Product_Ref_Data" />
+  </bpmn:collaboration>
+
+  <bpmn:process id="Process_AS_FS_Manage_Product_Ref_Data" name="AS FS Manage Product Ref Data" isExecutable="false">
+    <bpmn:documentation>Process model to add values to ref data table and update i18n bundles for product types</bpmn:documentation>
+
+    <bpmn:laneSet id="LaneSet_AS_FS_Manage_Product_Ref_Data">
+      <bpmn:lane id="Lane_0" name="">
+      </bpmn:lane>
+    </bpmn:laneSet>
+
+    <bpmn:dataObject id="DataObject_bundleDictionary" name="bundleDictionary" />
+    <bpmn:dataObject id="DataObject_bundleName" name="bundleName" />
+    <bpmn:dataObject id="DataObject_locale" name="locale" />
+    <bpmn:dataObject id="DataObject_refData" name="refData" />
+
+    <bpmn:startEvent id="StartEvent_0" name="Start Node">
+      <bpmn:outgoing>Flow_0</bpmn:outgoing>
+    </bpmn:startEvent>
+
+    <bpmn:endEvent id="EndEvent_1" name="End Node">
+      <bpmn:incoming>Flow_1</bpmn:incoming>
+    </bpmn:endEvent>
+
+    <bpmn:exclusiveGateway id="ExclusiveGateway_2" name="Is New Entry">
+      <bpmn:incoming>Flow_2</bpmn:incoming>
+      <bpmn:outgoing>Flow_3</bpmn:outgoing>
+      <bpmn:outgoing>Flow_4</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+
+    <bpmn:userTask id="UserTask_3" name="Update Bundle RefData">
+      <bpmn:incoming>Flow_5</bpmn:incoming>
+      <bpmn:incoming>Flow_6</bpmn:incoming>
+      <bpmn:outgoing>Flow_7</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_4" name="Write to FS Product Type Field Mapping">
+      <bpmn:incoming>Flow_8</bpmn:incoming>
+      <bpmn:outgoing>Flow_9</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:sequenceFlow id="Flow_0" sourceRef="StartEvent_0" targetRef="ExclusiveGateway_2" />
+    <bpmn:sequenceFlow id="Flow_1" sourceRef="UserTask_3" targetRef="EndEvent_1" />
+    <bpmn:sequenceFlow id="Flow_3" sourceRef="ExclusiveGateway_2" targetRef="UserTask_3" />
+    <bpmn:sequenceFlow id="Flow_4" sourceRef="ExclusiveGateway_2" targetRef="UserTask_4" />
+    <bpmn:sequenceFlow id="Flow_6" sourceRef="UserTask_4" targetRef="UserTask_3" />
+  </bpmn:process>
+
+</bpmn:definitions>

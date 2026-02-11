@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL"
+  xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+  xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+  xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
+  id="Definitions_AS_FSTrain_AutoML_Natural_Language_Model"
+  targetNamespace="http://bpmn.io/schema/bpmn">
+
+  <!-- Appian Process Model: AS FSTrain AutoML Natural Language Model -->
+  <!-- Source UUID: 0000e578-47e6-8000-2140-7f0000014e7a -->
+  <!-- Description: This process model takes a dataset and sends it to Google Cloud AutoML Natural Language for training -->
+  <!-- Pega Case Type Mapping: See migration metadata for stage/step correlation -->
+
+  <bpmn:collaboration id="Collaboration_AS_FSTrain_AutoML_Natural_Language_Model">
+    <bpmn:participant id="Participant_AS_FSTrain_AutoML_Natural_Language_Model" name="AS FSTrain AutoML Natural Language Model" processRef="Process_AS_FSTrain_AutoML_Natural_Language_Model" />
+  </bpmn:collaboration>
+
+  <bpmn:process id="Process_AS_FSTrain_AutoML_Natural_Language_Model" name="AS FSTrain AutoML Natural Language Model" isExecutable="false">
+    <bpmn:documentation>This process model takes a dataset and sends it to Google Cloud AutoML Natural Language for training</bpmn:documentation>
+
+    <bpmn:laneSet id="LaneSet_AS_FSTrain_AutoML_Natural_Language_Model">
+      <bpmn:lane id="Lane_0" name="">
+      </bpmn:lane>
+    </bpmn:laneSet>
+
+    <bpmn:dataObject id="DataObject_bucketName" name="bucketName" />
+    <bpmn:dataObject id="DataObject_bucketURI" name="bucketURI" />
+    <bpmn:dataObject id="DataObject_createDatasetError" name="createDatasetError" />
+    <bpmn:dataObject id="DataObject_dataset" name="dataset" />
+    <bpmn:dataObject id="DataObject_datasetId" name="datasetId" />
+    <bpmn:dataObject id="DataObject_datasetImportComplete" name="datasetImportComplete" />
+    <bpmn:dataObject id="DataObject_datasetName" name="datasetName" />
+    <bpmn:dataObject id="DataObject_datasetOperationName" name="datasetOperationName" />
+    <bpmn:dataObject id="DataObject_datasetPath" name="datasetPath" />
+    <bpmn:dataObject id="DataObject_deployModelComplete" name="deployModelComplete" />
+    <bpmn:dataObject id="DataObject_deployModelError" name="deployModelError" />
+    <bpmn:dataObject id="DataObject_deployModelResult" name="deployModelResult" />
+    <bpmn:dataObject id="DataObject_deployOperationName" name="deployOperationName" />
+    <bpmn:dataObject id="DataObject_docChannel" name="docChannel" />
+    <bpmn:dataObject id="DataObject_docTypeIds" name="docTypeIds" />
+    <bpmn:dataObject id="DataObject_docTypeIdsToUpdate" name="docTypeIdsToUpdate" />
+    <bpmn:dataObject id="DataObject_docTypeZips" name="docTypeZips" />
+    <bpmn:dataObject id="DataObject_docTypes" name="docTypes" />
+    <bpmn:dataObject id="DataObject_endDateTime" name="endDateTime" />
+    <bpmn:dataObject id="DataObject_gcpDatasetName" name="gcpDatasetName" />
+    <bpmn:dataObject id="DataObject_getDeployStatusError" name="getDeployStatusError" />
+    <bpmn:dataObject id="DataObject_getImportStatusError" name="getImportStatusError" />
+    <bpmn:dataObject id="DataObject_getModelIdError" name="getModelIdError" />
+    <bpmn:dataObject id="DataObject_getTrainingStatusError" name="getTrainingStatusError" />
+    <bpmn:dataObject id="DataObject_importDatasetError" name="importDatasetError" />
+    <bpmn:dataObject id="DataObject_modelId" name="modelId" />
+    <bpmn:dataObject id="DataObject_modelOperationName" name="modelOperationName" />
+    <bpmn:dataObject id="DataObject_modelTrainedOn" name="modelTrainedOn" />
+    <bpmn:dataObject id="DataObject_modelTrainingComplete" name="modelTrainingComplete" />
+    <bpmn:dataObject id="DataObject_startTrainingError" name="startTrainingError" />
+    <bpmn:dataObject id="DataObject_trainingDataCount" name="trainingDataCount" />
+    <bpmn:dataObject id="DataObject_uploadDatasetError" name="uploadDatasetError" />
+
+    <bpmn:startEvent id="StartEvent_0" name="Start Node">
+      <bpmn:outgoing>Flow_0</bpmn:outgoing>
+    </bpmn:startEvent>
+
+    <bpmn:userTask id="UserTask_1" name="Give time for import to complete">
+      <bpmn:incoming>Flow_1</bpmn:incoming>
+      <bpmn:outgoing>Flow_2</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_2" name="Give time for training to complete">
+      <bpmn:incoming>Flow_3</bpmn:incoming>
+      <bpmn:outgoing>Flow_4</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_3" name="Give time for deploy to complete">
+      <bpmn:incoming>Flow_5</bpmn:incoming>
+      <bpmn:outgoing>Flow_6</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:endEvent id="EndEvent_4" name="End Node">
+      <bpmn:incoming>Flow_7</bpmn:incoming>
+      <bpmn:incoming>Flow_8</bpmn:incoming>
+    </bpmn:endEvent>
+
+    <bpmn:endEvent id="EndEvent_5" name="End Node">
+      <bpmn:incoming>Flow_9</bpmn:incoming>
+    </bpmn:endEvent>
+
+    <bpmn:userTask id="UserTask_6" name="Set doc channel vars">
+      <bpmn:incoming>Flow_10</bpmn:incoming>
+      <bpmn:outgoing>Flow_11</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_7" name="Upload doc batch">
+      <bpmn:incoming>Flow_12</bpmn:incoming>
+      <bpmn:outgoing>Flow_13</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_8" name="Clean up">
+      <bpmn:incoming>Flow_14</bpmn:incoming>
+      <bpmn:incoming>Flow_15</bpmn:incoming>
+      <bpmn:outgoing>Flow_16</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_9" name="Update doc channel">
+      <bpmn:incoming>Flow_17</bpmn:incoming>
+      <bpmn:outgoing>Flow_18</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_10" name="Set dataset, bucket, URI, end datetime">
+      <bpmn:incoming>Flow_19</bpmn:incoming>
+      <bpmn:outgoing>Flow_20</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_11" name="Create AutoML Dataset">
+      <bpmn:incoming>Flow_21</bpmn:incoming>
+      <bpmn:outgoing>Flow_22</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_12" name="Import Dataset into AutoML">
+      <bpmn:incoming>Flow_23</bpmn:incoming>
+      <bpmn:outgoing>Flow_24</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_13" name="Get import status">
+      <bpmn:incoming>Flow_25</bpmn:incoming>
+      <bpmn:incoming>Flow_26</bpmn:incoming>
+      <bpmn:outgoing>Flow_27</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_14" name="Start training">
+      <bpmn:incoming>Flow_28</bpmn:incoming>
+      <bpmn:outgoing>Flow_29</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_15" name="Get training model ID">
+      <bpmn:incoming>Flow_30</bpmn:incoming>
+      <bpmn:outgoing>Flow_31</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_16" name="Get training status">
+      <bpmn:incoming>Flow_32</bpmn:incoming>
+      <bpmn:incoming>Flow_33</bpmn:incoming>
+      <bpmn:outgoing>Flow_34</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_17" name="Get deploy status">
+      <bpmn:incoming>Flow_35</bpmn:incoming>
+      <bpmn:incoming>Flow_36</bpmn:incoming>
+      <bpmn:outgoing>Flow_37</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_18" name="Export understanding to CSV">
+      <bpmn:incoming>Flow_38</bpmn:incoming>
+      <bpmn:outgoing>Flow_39</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_19" name="Upload Dataset to Cloud Storage">
+      <bpmn:incoming>Flow_40</bpmn:incoming>
+      <bpmn:outgoing>Flow_41</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_20" name="Update Valid Doc Types">
+      <bpmn:incoming>Flow_42</bpmn:incoming>
+      <bpmn:outgoing>Flow_43</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_21" name="Set Doc Type and Ids">
+      <bpmn:incoming>Flow_44</bpmn:incoming>
+      <bpmn:outgoing>Flow_45</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_22" name="Deploy model">
+      <bpmn:incoming>Flow_46</bpmn:incoming>
+      <bpmn:outgoing>Flow_47</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_23" name="Store DocTypeZIp">
+      <bpmn:incoming>Flow_48</bpmn:incoming>
+      <bpmn:outgoing>Flow_49</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:exclusiveGateway id="ExclusiveGateway_24" name="Is import complete?">
+      <bpmn:incoming>Flow_50</bpmn:incoming>
+      <bpmn:outgoing>Flow_51</bpmn:outgoing>
+      <bpmn:outgoing>Flow_52</bpmn:outgoing>
+      <bpmn:outgoing>Flow_53</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+
+    <bpmn:exclusiveGateway id="ExclusiveGateway_25" name="Is training complete?">
+      <bpmn:incoming>Flow_54</bpmn:incoming>
+      <bpmn:outgoing>Flow_55</bpmn:outgoing>
+      <bpmn:outgoing>Flow_56</bpmn:outgoing>
+      <bpmn:outgoing>Flow_57</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+
+    <bpmn:exclusiveGateway id="ExclusiveGateway_26" name="Is deployment complete?">
+      <bpmn:incoming>Flow_58</bpmn:incoming>
+      <bpmn:outgoing>Flow_59</bpmn:outgoing>
+      <bpmn:outgoing>Flow_60</bpmn:outgoing>
+      <bpmn:outgoing>Flow_61</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+
+    <bpmn:userTask id="UserTask_27" name="Update Valid Doc Types">
+      <bpmn:incoming>Flow_62</bpmn:incoming>
+      <bpmn:outgoing>Flow_63</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:exclusiveGateway id="ExclusiveGateway_28" name="Update DocType Zips">
+      <bpmn:incoming>Flow_64</bpmn:incoming>
+      <bpmn:incoming>Flow_65</bpmn:incoming>
+      <bpmn:incoming>Flow_66</bpmn:incoming>
+      <bpmn:outgoing>Flow_67</bpmn:outgoing>
+      <bpmn:outgoing>Flow_68</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+
+    <bpmn:exclusiveGateway id="ExclusiveGateway_29" name="Has doc type to update ?">
+      <bpmn:incoming>Flow_69</bpmn:incoming>
+      <bpmn:incoming>Flow_70</bpmn:incoming>
+      <bpmn:outgoing>Flow_71</bpmn:outgoing>
+      <bpmn:outgoing>Flow_72</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+
+    <bpmn:exclusiveGateway id="ExclusiveGateway_30" name="Is Doc available for training?">
+      <bpmn:incoming>Flow_73</bpmn:incoming>
+      <bpmn:outgoing>Flow_74</bpmn:outgoing>
+      <bpmn:outgoing>Flow_75</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+
+    <bpmn:sequenceFlow id="Flow_0" sourceRef="StartEvent_0" targetRef="UserTask_21" />
+    <bpmn:sequenceFlow id="Flow_1" sourceRef="ExclusiveGateway_24" targetRef="UserTask_1" />
+    <bpmn:sequenceFlow id="Flow_2" sourceRef="UserTask_1" targetRef="UserTask_13" />
+    <bpmn:sequenceFlow id="Flow_3" sourceRef="ExclusiveGateway_25" targetRef="UserTask_2" />
+    <bpmn:sequenceFlow id="Flow_4" sourceRef="UserTask_2" targetRef="UserTask_16" />
+    <bpmn:sequenceFlow id="Flow_5" sourceRef="ExclusiveGateway_26" targetRef="UserTask_3" />
+    <bpmn:sequenceFlow id="Flow_6" sourceRef="UserTask_3" targetRef="UserTask_17" />
+    <bpmn:sequenceFlow id="Flow_7" sourceRef="UserTask_27" targetRef="EndEvent_4" />
+    <bpmn:sequenceFlow id="Flow_8" sourceRef="ExclusiveGateway_29" targetRef="EndEvent_4" />
+    <bpmn:sequenceFlow id="Flow_9" sourceRef="UserTask_20" targetRef="EndEvent_5" />
+    <bpmn:sequenceFlow id="Flow_10" sourceRef="UserTask_8" targetRef="UserTask_6" />
+    <bpmn:sequenceFlow id="Flow_11" sourceRef="UserTask_6" targetRef="UserTask_9" />
+    <bpmn:sequenceFlow id="Flow_12" sourceRef="ExclusiveGateway_30" targetRef="UserTask_7" />
+    <bpmn:sequenceFlow id="Flow_13" sourceRef="UserTask_7" targetRef="UserTask_18" />
+    <bpmn:sequenceFlow id="Flow_14" sourceRef="ExclusiveGateway_26" targetRef="UserTask_8" />
+    <bpmn:sequenceFlow id="Flow_15" sourceRef="ExclusiveGateway_30" targetRef="UserTask_8" />
+    <bpmn:sequenceFlow id="Flow_18" sourceRef="UserTask_9" targetRef="UserTask_20" />
+    <bpmn:sequenceFlow id="Flow_19" sourceRef="UserTask_18" targetRef="UserTask_10" />
+    <bpmn:sequenceFlow id="Flow_20" sourceRef="UserTask_10" targetRef="UserTask_19" />
+    <bpmn:sequenceFlow id="Flow_21" sourceRef="UserTask_19" targetRef="UserTask_11" />
+    <bpmn:sequenceFlow id="Flow_22" sourceRef="UserTask_11" targetRef="UserTask_12" />
+    <bpmn:sequenceFlow id="Flow_24" sourceRef="UserTask_12" targetRef="UserTask_13" />
+    <bpmn:sequenceFlow id="Flow_27" sourceRef="UserTask_13" targetRef="ExclusiveGateway_24" />
+    <bpmn:sequenceFlow id="Flow_28" sourceRef="ExclusiveGateway_24" targetRef="UserTask_14" />
+    <bpmn:sequenceFlow id="Flow_29" sourceRef="UserTask_14" targetRef="UserTask_16" />
+    <bpmn:sequenceFlow id="Flow_30" sourceRef="ExclusiveGateway_25" targetRef="UserTask_15" />
+    <bpmn:sequenceFlow id="Flow_31" sourceRef="UserTask_15" targetRef="UserTask_22" />
+    <bpmn:sequenceFlow id="Flow_34" sourceRef="UserTask_16" targetRef="ExclusiveGateway_25" />
+    <bpmn:sequenceFlow id="Flow_36" sourceRef="UserTask_22" targetRef="UserTask_17" />
+    <bpmn:sequenceFlow id="Flow_37" sourceRef="UserTask_17" targetRef="ExclusiveGateway_26" />
+    <bpmn:sequenceFlow id="Flow_45" sourceRef="UserTask_21" targetRef="ExclusiveGateway_30" />
+    <bpmn:sequenceFlow id="Flow_48" sourceRef="ExclusiveGateway_28" targetRef="UserTask_23" />
+    <bpmn:sequenceFlow id="Flow_49" sourceRef="UserTask_23" targetRef="ExclusiveGateway_29" />
+    <bpmn:sequenceFlow id="Flow_53" sourceRef="ExclusiveGateway_24" targetRef="ExclusiveGateway_28" />
+    <bpmn:sequenceFlow id="Flow_57" sourceRef="ExclusiveGateway_25" targetRef="ExclusiveGateway_28" />
+    <bpmn:sequenceFlow id="Flow_61" sourceRef="ExclusiveGateway_26" targetRef="ExclusiveGateway_28" />
+    <bpmn:sequenceFlow id="Flow_62" sourceRef="ExclusiveGateway_29" targetRef="UserTask_27" />
+    <bpmn:sequenceFlow id="Flow_68" sourceRef="ExclusiveGateway_28" targetRef="ExclusiveGateway_29" />
+  </bpmn:process>
+
+</bpmn:definitions>

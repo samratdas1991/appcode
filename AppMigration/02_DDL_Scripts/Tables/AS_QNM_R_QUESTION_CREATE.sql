@@ -1,0 +1,15 @@
+-- Source Appian CDT: AS_QNM_R_Question
+-- Description: Datatype for storing predefined reference questions that can be used to add questions to questionnaire templates/live questionnaires
+DROP TABLE IF EXISTS AS_QNM_R_QUESTION CASCADE;
+CREATE TABLE AS_QNM_R_QUESTION (
+    QUESTION_REFERENCE_ID INT PRIMARY KEY,
+    DESCRIPTION VARCHAR(255),
+    DEFAULT_LABEL VARCHAR(255),
+    DEFAULT_INSTRUCTIONS VARCHAR(255),
+    QUESTION_TYPE_CODE VARCHAR(255),
+    IS_ACTIVE BOOLEAN,
+    CREATED_BY VARCHAR(255),
+    CREATED_DATETIME TIMESTAMP,
+    MODIFIED_BY VARCHAR(255),
+    MODIFIED_DATETIME TIMESTAMP
+);

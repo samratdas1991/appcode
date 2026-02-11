@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL"
+  xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+  xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+  xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
+  id="Definitions_AS_FS_Del_Batch_from_Cloud_Storage_Sub"
+  targetNamespace="http://bpmn.io/schema/bpmn">
+
+  <!-- Appian Process Model: AS FS Del Batch from Cloud Storage Sub -->
+  <!-- Source UUID: 0000e578-63df-8000-2162-7f0000014e7a -->
+  <!-- Pega Case Type Mapping: See migration metadata for stage/step correlation -->
+
+  <bpmn:collaboration id="Collaboration_AS_FS_Del_Batch_from_Cloud_Storage_Sub">
+    <bpmn:participant id="Participant_AS_FS_Del_Batch_from_Cloud_Storage_Sub" name="AS FS Del Batch from Cloud Storage Sub" processRef="Process_AS_FS_Del_Batch_from_Cloud_Storage_Sub" />
+  </bpmn:collaboration>
+
+  <bpmn:process id="Process_AS_FS_Del_Batch_from_Cloud_Storage_Sub" name="AS FS Del Batch from Cloud Storage Sub" isExecutable="false">
+
+    <bpmn:laneSet id="LaneSet_AS_FS_Del_Batch_from_Cloud_Storage_Sub">
+      <bpmn:lane id="Lane_0" name="">
+      </bpmn:lane>
+    </bpmn:laneSet>
+
+    <bpmn:dataObject id="DataObject_Error" name="Error" />
+    <bpmn:dataObject id="DataObject_Result" name="Result" />
+    <bpmn:dataObject id="DataObject_Success" name="Success" />
+    <bpmn:dataObject id="DataObject_deleteFromStorageErrors" name="deleteFromStorageErrors" />
+    <bpmn:dataObject id="DataObject_duDocUnderstanding" name="duDocUnderstanding" />
+    <bpmn:dataObject id="DataObject_objectNames" name="objectNames" />
+
+    <bpmn:startEvent id="StartEvent_0" name="Start Node">
+      <bpmn:outgoing>Flow_0</bpmn:outgoing>
+    </bpmn:startEvent>
+
+    <bpmn:endEvent id="EndEvent_1" name="End Node">
+      <bpmn:incoming>Flow_1</bpmn:incoming>
+    </bpmn:endEvent>
+
+    <bpmn:userTask id="UserTask_2" name="Set objectNames">
+      <bpmn:incoming>Flow_2</bpmn:incoming>
+      <bpmn:outgoing>Flow_3</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:scriptTask id="ScriptTask_3" name="Delete objects">
+      <bpmn:incoming>Flow_4</bpmn:incoming>
+      <bpmn:outgoing>Flow_5</bpmn:outgoing>
+    </bpmn:scriptTask>
+
+    <bpmn:sequenceFlow id="Flow_0" sourceRef="StartEvent_0" targetRef="UserTask_2" />
+    <bpmn:sequenceFlow id="Flow_1" sourceRef="ScriptTask_3" targetRef="EndEvent_1" />
+    <bpmn:sequenceFlow id="Flow_3" sourceRef="UserTask_2" targetRef="ScriptTask_3" />
+  </bpmn:process>
+
+</bpmn:definitions>

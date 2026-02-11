@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL"
+  xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+  xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+  xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
+  id="Definitions_AS_IO_Task_Action_Audit"
+  targetNamespace="http://bpmn.io/schema/bpmn">
+
+  <!-- Appian Process Model: AS IO Task Action Audit -->
+  <!-- Source UUID: 0002e2d7-0c89-8000-f92f-7f0000014e7a -->
+  <!-- Description: Sub-process to track task action audits -->
+  <!-- Pega Case Type Mapping: See migration metadata for stage/step correlation -->
+
+  <bpmn:collaboration id="Collaboration_AS_IO_Task_Action_Audit">
+    <bpmn:participant id="Participant_AS_IO_Task_Action_Audit" name="AS IO Task Action Audit" processRef="Process_AS_IO_Task_Action_Audit" />
+  </bpmn:collaboration>
+
+  <bpmn:process id="Process_AS_IO_Task_Action_Audit" name="AS IO Task Action Audit" isExecutable="false">
+    <bpmn:documentation>Sub-process to track task action audits</bpmn:documentation>
+
+    <bpmn:laneSet id="LaneSet_AS_IO_Task_Action_Audit">
+      <bpmn:lane id="Lane_0" name="">
+      </bpmn:lane>
+    </bpmn:laneSet>
+
+    <bpmn:dataObject id="DataObject_comment" name="comment" />
+    <bpmn:dataObject id="DataObject_oldDueDate" name="oldDueDate" />
+    <bpmn:dataObject id="DataObject_startTime" name="startTime" />
+    <bpmn:dataObject id="DataObject_taskActionAudits" name="taskActionAudits" />
+    <bpmn:dataObject id="DataObject_taskActionId" name="taskActionId" />
+    <bpmn:dataObject id="DataObject_tasks" name="tasks" />
+
+    <bpmn:startEvent id="StartEvent_0" name="Start Node">
+      <bpmn:outgoing>Flow_0</bpmn:outgoing>
+    </bpmn:startEvent>
+
+    <bpmn:endEvent id="EndEvent_1" name="End Node">
+      <bpmn:incoming>Flow_1</bpmn:incoming>
+      <bpmn:incoming>Flow_2</bpmn:incoming>
+    </bpmn:endEvent>
+
+    <bpmn:exclusiveGateway id="ExclusiveGateway_2" name="data?">
+      <bpmn:incoming>Flow_3</bpmn:incoming>
+      <bpmn:outgoing>Flow_4</bpmn:outgoing>
+      <bpmn:outgoing>Flow_5</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+
+    <bpmn:userTask id="UserTask_3" name="Write to Task Action Audit">
+      <bpmn:incoming>Flow_6</bpmn:incoming>
+      <bpmn:outgoing>Flow_7</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_4" name="Create Task Action Audit CDTs">
+      <bpmn:incoming>Flow_8</bpmn:incoming>
+      <bpmn:outgoing>Flow_9</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:sequenceFlow id="Flow_0" sourceRef="StartEvent_0" targetRef="ExclusiveGateway_2" />
+    <bpmn:sequenceFlow id="Flow_1" sourceRef="ExclusiveGateway_2" targetRef="EndEvent_1" />
+    <bpmn:sequenceFlow id="Flow_2" sourceRef="UserTask_3" targetRef="EndEvent_1" />
+    <bpmn:sequenceFlow id="Flow_5" sourceRef="ExclusiveGateway_2" targetRef="UserTask_4" />
+    <bpmn:sequenceFlow id="Flow_6" sourceRef="UserTask_4" targetRef="UserTask_3" />
+  </bpmn:process>
+
+</bpmn:definitions>

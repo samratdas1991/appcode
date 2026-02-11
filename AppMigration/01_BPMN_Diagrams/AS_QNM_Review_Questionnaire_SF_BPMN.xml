@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL"
+  xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+  xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+  xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
+  id="Definitions_AS_QNM_Review_Questionnaire_SF"
+  targetNamespace="http://bpmn.io/schema/bpmn">
+
+  <!-- Appian Process Model: AS QNM Review Questionnaire SF -->
+  <!-- Source UUID: 0002e469-08ea-8000-fbf2-7f0000014e7a -->
+  <!-- Description: Read only review step with start form -->
+  <!-- Pega Case Type Mapping: See migration metadata for stage/step correlation -->
+
+  <bpmn:collaboration id="Collaboration_AS_QNM_Review_Questionnaire_SF">
+    <bpmn:participant id="Participant_AS_QNM_Review_Questionnaire_SF" name="AS QNM Review Questionnaire SF" processRef="Process_AS_QNM_Review_Questionnaire_SF" />
+  </bpmn:collaboration>
+
+  <bpmn:process id="Process_AS_QNM_Review_Questionnaire_SF" name="AS QNM Review Questionnaire SF" isExecutable="false">
+    <bpmn:documentation>Read only review step with start form</bpmn:documentation>
+
+    <bpmn:laneSet id="LaneSet_AS_QNM_Review_Questionnaire_SF">
+      <bpmn:lane id="Lane_0" name="">
+      </bpmn:lane>
+    </bpmn:laneSet>
+
+    <bpmn:dataObject id="DataObject_allUploadedDocuments" name="allUploadedDocuments" />
+    <bpmn:dataObject id="DataObject_appSpecificFormInputs" name="appSpecificFormInputs" />
+    <bpmn:dataObject id="DataObject_documentDestinationFolder" name="documentDestinationFolder" />
+    <bpmn:dataObject id="DataObject_questionnaire" name="questionnaire" />
+    <bpmn:dataObject id="DataObject_userAction" name="userAction" />
+
+    <bpmn:startEvent id="StartEvent_0" name="Start Node">
+      <bpmn:outgoing>Flow_0</bpmn:outgoing>
+    </bpmn:startEvent>
+
+    <bpmn:userTask id="UserTask_1" name="Set status to Completed">
+      <bpmn:incoming>Flow_1</bpmn:incoming>
+      <bpmn:outgoing>Flow_2</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:endEvent id="EndEvent_2" name="End Node">
+      <bpmn:incoming>Flow_3</bpmn:incoming>
+      <bpmn:incoming>Flow_4</bpmn:incoming>
+      <bpmn:incoming>Flow_5</bpmn:incoming>
+    </bpmn:endEvent>
+
+    <bpmn:userTask id="UserTask_3" name="Save questionnaire">
+      <bpmn:incoming>Flow_6</bpmn:incoming>
+      <bpmn:outgoing>Flow_7</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:exclusiveGateway id="ExclusiveGateway_4" name="User Action">
+      <bpmn:incoming>Flow_8</bpmn:incoming>
+      <bpmn:outgoing>Flow_9</bpmn:outgoing>
+      <bpmn:outgoing>Flow_10</bpmn:outgoing>
+      <bpmn:outgoing>Flow_11</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+
+    <bpmn:userTask id="UserTask_5" name="Delete Uploaded Documents">
+      <bpmn:incoming>Flow_12</bpmn:incoming>
+      <bpmn:outgoing>Flow_13</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:sequenceFlow id="Flow_0" sourceRef="StartEvent_0" targetRef="ExclusiveGateway_4" />
+    <bpmn:sequenceFlow id="Flow_1" sourceRef="ExclusiveGateway_4" targetRef="UserTask_1" />
+    <bpmn:sequenceFlow id="Flow_2" sourceRef="UserTask_1" targetRef="UserTask_3" />
+    <bpmn:sequenceFlow id="Flow_3" sourceRef="UserTask_3" targetRef="EndEvent_2" />
+    <bpmn:sequenceFlow id="Flow_4" sourceRef="ExclusiveGateway_4" targetRef="EndEvent_2" />
+    <bpmn:sequenceFlow id="Flow_5" sourceRef="UserTask_5" targetRef="EndEvent_2" />
+    <bpmn:sequenceFlow id="Flow_11" sourceRef="ExclusiveGateway_4" targetRef="UserTask_5" />
+  </bpmn:process>
+
+</bpmn:definitions>

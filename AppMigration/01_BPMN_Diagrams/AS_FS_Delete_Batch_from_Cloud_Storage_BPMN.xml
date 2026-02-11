@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL"
+  xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+  xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+  xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
+  id="Definitions_AS_FS_Delete_Batch_from_Cloud_Storage"
+  targetNamespace="http://bpmn.io/schema/bpmn">
+
+  <!-- Appian Process Model: AS FS Delete Batch from Cloud Storage -->
+  <!-- Source UUID: 0000e578-62f9-8000-215d-7f0000014e7a -->
+  <!-- Pega Case Type Mapping: See migration metadata for stage/step correlation -->
+
+  <bpmn:collaboration id="Collaboration_AS_FS_Delete_Batch_from_Cloud_Storage">
+    <bpmn:participant id="Participant_AS_FS_Delete_Batch_from_Cloud_Storage" name="AS FS Delete Batch from Cloud Storage" processRef="Process_AS_FS_Delete_Batch_from_Cloud_Storage" />
+  </bpmn:collaboration>
+
+  <bpmn:process id="Process_AS_FS_Delete_Batch_from_Cloud_Storage" name="AS FS Delete Batch from Cloud Storage" isExecutable="false">
+
+    <bpmn:laneSet id="LaneSet_AS_FS_Delete_Batch_from_Cloud_Storage">
+      <bpmn:lane id="Lane_0" name="">
+      </bpmn:lane>
+    </bpmn:laneSet>
+
+    <bpmn:dataObject id="DataObject_docTypeIds" name="docTypeIds" />
+    <bpmn:dataObject id="DataObject_duDocUnderstanding" name="duDocUnderstanding" />
+    <bpmn:dataObject id="DataObject_duDocUnderstandingBatch" name="duDocUnderstandingBatch" />
+    <bpmn:dataObject id="DataObject_isDeleteSuccess" name="isDeleteSuccess" />
+    <bpmn:dataObject id="DataObject_startIndex" name="startIndex" />
+    <bpmn:dataObject id="DataObject_understandingIdArray" name="understandingIdArray" />
+
+    <bpmn:startEvent id="StartEvent_0" name="Start Node">
+      <bpmn:outgoing>Flow_0</bpmn:outgoing>
+    </bpmn:startEvent>
+
+    <bpmn:endEvent id="EndEvent_1" name="End Node">
+      <bpmn:incoming>Flow_1</bpmn:incoming>
+    </bpmn:endEvent>
+
+    <bpmn:endEvent id="EndEvent_2" name="End Node">
+      <bpmn:incoming>Flow_2</bpmn:incoming>
+    </bpmn:endEvent>
+
+    <bpmn:exclusiveGateway id="ExclusiveGateway_3" name="Batch Completed?">
+      <bpmn:incoming>Flow_3</bpmn:incoming>
+      <bpmn:outgoing>Flow_4</bpmn:outgoing>
+      <bpmn:outgoing>Flow_5</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+
+    <bpmn:exclusiveGateway id="ExclusiveGateway_4" name="Error deleting from cloud storage?">
+      <bpmn:incoming>Flow_6</bpmn:incoming>
+      <bpmn:outgoing>Flow_7</bpmn:outgoing>
+      <bpmn:outgoing>Flow_8</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+
+    <bpmn:userTask id="UserTask_5" name="Join">
+      <bpmn:incoming>Flow_9</bpmn:incoming>
+      <bpmn:outgoing>Flow_10</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_6" name="Delete Batch">
+      <bpmn:incoming>Flow_11</bpmn:incoming>
+      <bpmn:incoming>Flow_12</bpmn:incoming>
+      <bpmn:outgoing>Flow_13</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:scriptTask id="ScriptTask_7" name="Clear out cloud storage URIs">
+      <bpmn:incoming>Flow_14</bpmn:incoming>
+      <bpmn:outgoing>Flow_15</bpmn:outgoing>
+    </bpmn:scriptTask>
+
+    <bpmn:exclusiveGateway id="ExclusiveGateway_8" name="Data less than batch value?">
+      <bpmn:incoming>Flow_16</bpmn:incoming>
+      <bpmn:outgoing>Flow_17</bpmn:outgoing>
+      <bpmn:outgoing>Flow_18</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+
+    <bpmn:userTask id="UserTask_9" name="Update Index">
+      <bpmn:incoming>Flow_19</bpmn:incoming>
+      <bpmn:outgoing>Flow_20</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_10" name="Set cloudStorageUris">
+      <bpmn:incoming>Flow_21</bpmn:incoming>
+      <bpmn:outgoing>Flow_22</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_11" name="Split Into Batches">
+      <bpmn:incoming>Flow_23</bpmn:incoming>
+      <bpmn:incoming>Flow_24</bpmn:incoming>
+      <bpmn:outgoing>Flow_25</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:sequenceFlow id="Flow_0" sourceRef="StartEvent_0" targetRef="UserTask_10" />
+    <bpmn:sequenceFlow id="Flow_1" sourceRef="ScriptTask_7" targetRef="EndEvent_1" />
+    <bpmn:sequenceFlow id="Flow_2" sourceRef="ExclusiveGateway_4" targetRef="EndEvent_2" />
+    <bpmn:sequenceFlow id="Flow_3" sourceRef="UserTask_9" targetRef="ExclusiveGateway_3" />
+    <bpmn:sequenceFlow id="Flow_4" sourceRef="ExclusiveGateway_3" targetRef="UserTask_5" />
+    <bpmn:sequenceFlow id="Flow_5" sourceRef="ExclusiveGateway_3" targetRef="UserTask_11" />
+    <bpmn:sequenceFlow id="Flow_6" sourceRef="UserTask_5" targetRef="ExclusiveGateway_4" />
+    <bpmn:sequenceFlow id="Flow_7" sourceRef="ExclusiveGateway_4" targetRef="ScriptTask_7" />
+    <bpmn:sequenceFlow id="Flow_11" sourceRef="ExclusiveGateway_8" targetRef="UserTask_6" />
+    <bpmn:sequenceFlow id="Flow_12" sourceRef="UserTask_11" targetRef="UserTask_6" />
+    <bpmn:sequenceFlow id="Flow_13" sourceRef="UserTask_6" targetRef="UserTask_9" />
+    <bpmn:sequenceFlow id="Flow_16" sourceRef="UserTask_10" targetRef="ExclusiveGateway_8" />
+    <bpmn:sequenceFlow id="Flow_17" sourceRef="ExclusiveGateway_8" targetRef="UserTask_11" />
+  </bpmn:process>
+
+</bpmn:definitions>

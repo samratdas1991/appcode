@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL"
+  xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+  xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+  xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
+  id="Definitions_AS_IO_Create_Onboarding_by_Web_API"
+  targetNamespace="http://bpmn.io/schema/bpmn">
+
+  <!-- Appian Process Model: AS IO Create Onboarding by Web API -->
+  <!-- Source UUID: 0002e312-7954-8000-f92f-7f0000014e7a -->
+  <!-- Description: This process creates an onboarding request based on data and events from TP systems -->
+  <!-- Pega Case Type Mapping: See migration metadata for stage/step correlation -->
+
+  <bpmn:collaboration id="Collaboration_AS_IO_Create_Onboarding_by_Web_API">
+    <bpmn:participant id="Participant_AS_IO_Create_Onboarding_by_Web_API" name="AS IO Create Onboarding by Web API" processRef="Process_AS_IO_Create_Onboarding_by_Web_API" />
+  </bpmn:collaboration>
+
+  <bpmn:process id="Process_AS_IO_Create_Onboarding_by_Web_API" name="AS IO Create Onboarding by Web API" isExecutable="false">
+    <bpmn:documentation>This process creates an onboarding request based on data and events from TP systems</bpmn:documentation>
+
+    <bpmn:laneSet id="LaneSet_AS_IO_Create_Onboarding_by_Web_API">
+      <bpmn:lane id="Lane_0" name="">
+      </bpmn:lane>
+    </bpmn:laneSet>
+
+    <bpmn:dataObject id="DataObject_accounts" name="accounts" />
+    <bpmn:dataObject id="DataObject_answers" name="answers" />
+    <bpmn:dataObject id="DataObject_customer" name="customer" />
+    <bpmn:dataObject id="DataObject_customerRelations" name="customerRelations" />
+    <bpmn:dataObject id="DataObject_funds" name="funds" />
+    <bpmn:dataObject id="DataObject_onboardingRequest" name="onboardingRequest" />
+    <bpmn:dataObject id="DataObject_products" name="products" />
+    <bpmn:dataObject id="DataObject_requiredDocuments" name="requiredDocuments" />
+    <bpmn:dataObject id="DataObject_runtimeTasks" name="runtimeTasks" />
+    <bpmn:dataObject id="DataObject_template" name="template" />
+
+    <bpmn:startEvent id="StartEvent_0" name="Start Node">
+      <bpmn:outgoing>Flow_0</bpmn:outgoing>
+    </bpmn:startEvent>
+
+    <bpmn:endEvent id="EndEvent_1" name="End Node">
+      <bpmn:incoming>Flow_1</bpmn:incoming>
+    </bpmn:endEvent>
+
+    <bpmn:userTask id="UserTask_2" name="Prepare Data (customizable)">
+      <bpmn:incoming>Flow_2</bpmn:incoming>
+      <bpmn:outgoing>Flow_3</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_3" name="Create Onboarding">
+      <bpmn:incoming>Flow_4</bpmn:incoming>
+      <bpmn:outgoing>Flow_5</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:sequenceFlow id="Flow_0" sourceRef="StartEvent_0" targetRef="UserTask_2" />
+    <bpmn:sequenceFlow id="Flow_1" sourceRef="UserTask_3" targetRef="EndEvent_1" />
+    <bpmn:sequenceFlow id="Flow_3" sourceRef="UserTask_2" targetRef="UserTask_3" />
+  </bpmn:process>
+
+</bpmn:definitions>

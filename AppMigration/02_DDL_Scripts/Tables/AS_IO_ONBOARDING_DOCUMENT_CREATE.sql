@@ -1,0 +1,8 @@
+-- Source Appian CDT: AS_IO_OnboardingDocumentWithIONesting
+-- Description: Created to contain Onboarding Requests Nesting
+DROP TABLE IF EXISTS AS_IO_ONBOARDING_DOCUMENT CASCADE;
+CREATE TABLE AS_IO_ONBOARDING_DOCUMENT (
+    ONBOARDING_DOCUMENT_ID INT PRIMARY KEY,
+    REQUEST_ID INT,
+    CUSTOMER_DOCUMENT_ID INT
+);

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL"
+  xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+  xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+  xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
+  id="Definitions_AS_ADT_Audit_Process"
+  targetNamespace="http://bpmn.io/schema/bpmn">
+
+  <!-- Appian Process Model: AS ADT Audit Process -->
+  <!-- Source UUID: 0002e3f1-20c0-8000-f9f8-7f0000014e7a-adt -->
+  <!-- Description: Generic process model for saving and capturing audit changes to any CDT -->
+  <!-- Pega Case Type Mapping: See migration metadata for stage/step correlation -->
+
+  <bpmn:collaboration id="Collaboration_AS_ADT_Audit_Process">
+    <bpmn:participant id="Participant_AS_ADT_Audit_Process" name="AS ADT Audit Process" processRef="Process_AS_ADT_Audit_Process" />
+  </bpmn:collaboration>
+
+  <bpmn:process id="Process_AS_ADT_Audit_Process" name="AS ADT Audit Process" isExecutable="false">
+    <bpmn:documentation>Generic process model for saving and capturing audit changes to any CDT</bpmn:documentation>
+
+    <bpmn:laneSet id="LaneSet_AS_ADT_Audit_Process">
+      <bpmn:lane id="Lane_0" name="">
+      </bpmn:lane>
+    </bpmn:laneSet>
+
+    <bpmn:dataObject id="DataObject_auditParams" name="auditParams" />
+    <bpmn:dataObject id="DataObject_skipFetchNewObjects" name="skipFetchNewObjects" />
+
+    <bpmn:startEvent id="StartEvent_0" name="Start Node">
+      <bpmn:outgoing>Flow_0</bpmn:outgoing>
+    </bpmn:startEvent>
+
+    <bpmn:endEvent id="EndEvent_1" name="End Node">
+      <bpmn:incoming>Flow_1</bpmn:incoming>
+      <bpmn:incoming>Flow_2</bpmn:incoming>
+    </bpmn:endEvent>
+
+    <bpmn:userTask id="UserTask_2" name="Get Original Objects if not prepopulated">
+      <bpmn:incoming>Flow_3</bpmn:incoming>
+      <bpmn:outgoing>Flow_4</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_3" name="Write Audit">
+      <bpmn:incoming>Flow_5</bpmn:incoming>
+      <bpmn:outgoing>Flow_6</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_4" name="Write Object Data">
+      <bpmn:incoming>Flow_7</bpmn:incoming>
+      <bpmn:outgoing>Flow_8</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_5" name="Build audit">
+      <bpmn:incoming>Flow_9</bpmn:incoming>
+      <bpmn:incoming>Flow_10</bpmn:incoming>
+      <bpmn:incoming>Flow_11</bpmn:incoming>
+      <bpmn:outgoing>Flow_12</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:exclusiveGateway id="ExclusiveGateway_6" name="Object DSE exists?">
+      <bpmn:incoming>Flow_13</bpmn:incoming>
+      <bpmn:outgoing>Flow_14</bpmn:outgoing>
+      <bpmn:outgoing>Flow_15</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+
+    <bpmn:exclusiveGateway id="ExclusiveGateway_7" name="Object changes?">
+      <bpmn:incoming>Flow_16</bpmn:incoming>
+      <bpmn:outgoing>Flow_17</bpmn:outgoing>
+      <bpmn:outgoing>Flow_18</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+
+    <bpmn:exclusiveGateway id="ExclusiveGateway_8" name="Audit to write?">
+      <bpmn:incoming>Flow_19</bpmn:incoming>
+      <bpmn:outgoing>Flow_20</bpmn:outgoing>
+      <bpmn:outgoing>Flow_21</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+
+    <bpmn:sequenceFlow id="Flow_0" sourceRef="StartEvent_0" targetRef="ExclusiveGateway_6" />
+    <bpmn:sequenceFlow id="Flow_1" sourceRef="UserTask_3" targetRef="EndEvent_1" />
+    <bpmn:sequenceFlow id="Flow_2" sourceRef="ExclusiveGateway_8" targetRef="EndEvent_1" />
+    <bpmn:sequenceFlow id="Flow_3" sourceRef="ExclusiveGateway_6" targetRef="UserTask_2" />
+    <bpmn:sequenceFlow id="Flow_4" sourceRef="UserTask_2" targetRef="ExclusiveGateway_7" />
+    <bpmn:sequenceFlow id="Flow_5" sourceRef="ExclusiveGateway_8" targetRef="UserTask_3" />
+    <bpmn:sequenceFlow id="Flow_7" sourceRef="ExclusiveGateway_7" targetRef="UserTask_4" />
+    <bpmn:sequenceFlow id="Flow_8" sourceRef="UserTask_4" targetRef="UserTask_5" />
+    <bpmn:sequenceFlow id="Flow_10" sourceRef="ExclusiveGateway_6" targetRef="UserTask_5" />
+    <bpmn:sequenceFlow id="Flow_11" sourceRef="ExclusiveGateway_7" targetRef="UserTask_5" />
+    <bpmn:sequenceFlow id="Flow_12" sourceRef="UserTask_5" targetRef="ExclusiveGateway_8" />
+  </bpmn:process>
+
+</bpmn:definitions>

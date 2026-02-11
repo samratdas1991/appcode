@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL"
+  xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+  xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+  xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
+  id="Definitions_AS_IO_Configure_Document_Requirement"
+  targetNamespace="http://bpmn.io/schema/bpmn">
+
+  <!-- Appian Process Model: AS IO Configure Document Requirement -->
+  <!-- Source UUID: 0013e7c1-c863-8000-6026-7f0000014e7a -->
+  <!-- Description: Model to configure document requirement -->
+  <!-- Pega Case Type Mapping: See migration metadata for stage/step correlation -->
+
+  <bpmn:collaboration id="Collaboration_AS_IO_Configure_Document_Requirement">
+    <bpmn:participant id="Participant_AS_IO_Configure_Document_Requirement" name="AS IO Configure Document Requirement" processRef="Process_AS_IO_Configure_Document_Requirement" />
+  </bpmn:collaboration>
+
+  <bpmn:process id="Process_AS_IO_Configure_Document_Requirement" name="AS IO Configure Document Requirement" isExecutable="false">
+    <bpmn:documentation>Model to configure document requirement</bpmn:documentation>
+
+    <bpmn:laneSet id="LaneSet_AS_IO_Configure_Document_Requirement">
+      <bpmn:lane id="Lane_0" name="">
+      </bpmn:lane>
+    </bpmn:laneSet>
+
+    <bpmn:dataObject id="DataObject_allUploadedDocuments" name="allUploadedDocuments" />
+    <bpmn:dataObject id="DataObject_docUploadTasks" name="docUploadTasks" />
+    <bpmn:dataObject id="DataObject_documentRequirements" name="documentRequirements" />
+    <bpmn:dataObject id="DataObject_newDocRequirements" name="newDocRequirements" />
+    <bpmn:dataObject id="DataObject_onboardingDetails" name="onboardingDetails" />
+    <bpmn:dataObject id="DataObject_reconciliationTasks" name="reconciliationTasks" />
+    <bpmn:dataObject id="DataObject_requestId" name="requestId" />
+    <bpmn:dataObject id="DataObject_reviewTasks" name="reviewTasks" />
+    <bpmn:dataObject id="DataObject_userAction" name="userAction" />
+
+    <bpmn:startEvent id="StartEvent_0" name="Start Node">
+      <bpmn:outgoing>Flow_0</bpmn:outgoing>
+    </bpmn:startEvent>
+
+    <bpmn:endEvent id="EndEvent_1" name="End Node">
+      <bpmn:incoming>Flow_1</bpmn:incoming>
+      <bpmn:incoming>Flow_2</bpmn:incoming>
+      <bpmn:incoming>Flow_3</bpmn:incoming>
+    </bpmn:endEvent>
+
+    <bpmn:exclusiveGateway id="ExclusiveGateway_2" name="Is IDP enabled?">
+      <bpmn:incoming>Flow_4</bpmn:incoming>
+      <bpmn:outgoing>Flow_5</bpmn:outgoing>
+      <bpmn:outgoing>Flow_6</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+
+    <bpmn:userTask id="UserTask_3" name="Map docTask as precde to reconTask">
+      <bpmn:incoming>Flow_7</bpmn:incoming>
+      <bpmn:outgoing>Flow_8</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_4" name="Write reconcilation tasks">
+      <bpmn:incoming>Flow_9</bpmn:incoming>
+      <bpmn:outgoing>Flow_10</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_5" name="Write docUpload tasks">
+      <bpmn:incoming>Flow_11</bpmn:incoming>
+      <bpmn:outgoing>Flow_12</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_6" name="Write review tasks">
+      <bpmn:incoming>Flow_13</bpmn:incoming>
+      <bpmn:incoming>Flow_14</bpmn:incoming>
+      <bpmn:outgoing>Flow_15</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_7" name="Remove Requirements">
+      <bpmn:incoming>Flow_16</bpmn:incoming>
+      <bpmn:outgoing>Flow_17</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:exclusiveGateway id="ExclusiveGateway_8" name="New requirement?">
+      <bpmn:incoming>Flow_18</bpmn:incoming>
+      <bpmn:outgoing>Flow_19</bpmn:outgoing>
+      <bpmn:outgoing>Flow_20</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+
+    <bpmn:userTask id="UserTask_9" name="Write requirements">
+      <bpmn:incoming>Flow_21</bpmn:incoming>
+      <bpmn:incoming>Flow_22</bpmn:incoming>
+      <bpmn:outgoing>Flow_23</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_10" name="Delete Uploaded Doc on Form Cancel">
+      <bpmn:incoming>Flow_24</bpmn:incoming>
+      <bpmn:outgoing>Flow_25</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:exclusiveGateway id="ExclusiveGateway_11" name="Cancel?">
+      <bpmn:incoming>Flow_26</bpmn:incoming>
+      <bpmn:outgoing>Flow_27</bpmn:outgoing>
+      <bpmn:outgoing>Flow_28</bpmn:outgoing>
+      <bpmn:outgoing>Flow_29</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+
+    <bpmn:sequenceFlow id="Flow_0" sourceRef="StartEvent_0" targetRef="ExclusiveGateway_11" />
+    <bpmn:sequenceFlow id="Flow_1" sourceRef="UserTask_6" targetRef="EndEvent_1" />
+    <bpmn:sequenceFlow id="Flow_2" sourceRef="ExclusiveGateway_8" targetRef="EndEvent_1" />
+    <bpmn:sequenceFlow id="Flow_3" sourceRef="UserTask_10" targetRef="EndEvent_1" />
+    <bpmn:sequenceFlow id="Flow_4" sourceRef="UserTask_5" targetRef="ExclusiveGateway_2" />
+    <bpmn:sequenceFlow id="Flow_5" sourceRef="ExclusiveGateway_2" targetRef="UserTask_3" />
+    <bpmn:sequenceFlow id="Flow_6" sourceRef="ExclusiveGateway_2" targetRef="UserTask_6" />
+    <bpmn:sequenceFlow id="Flow_8" sourceRef="UserTask_3" targetRef="UserTask_4" />
+    <bpmn:sequenceFlow id="Flow_10" sourceRef="UserTask_4" targetRef="UserTask_6" />
+    <bpmn:sequenceFlow id="Flow_11" sourceRef="UserTask_9" targetRef="UserTask_5" />
+    <bpmn:sequenceFlow id="Flow_16" sourceRef="ExclusiveGateway_11" targetRef="UserTask_7" />
+    <bpmn:sequenceFlow id="Flow_17" sourceRef="UserTask_7" targetRef="ExclusiveGateway_8" />
+    <bpmn:sequenceFlow id="Flow_20" sourceRef="ExclusiveGateway_8" targetRef="UserTask_9" />
+    <bpmn:sequenceFlow id="Flow_22" sourceRef="ExclusiveGateway_11" targetRef="UserTask_9" />
+    <bpmn:sequenceFlow id="Flow_24" sourceRef="ExclusiveGateway_11" targetRef="UserTask_10" />
+  </bpmn:process>
+
+</bpmn:definitions>

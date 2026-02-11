@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL"
+  xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+  xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+  xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
+  id="Definitions_AS_IO_Make_Owners_Primary"
+  targetNamespace="http://bpmn.io/schema/bpmn">
+
+  <!-- Appian Process Model: AS IO Make Owners Primary -->
+  <!-- Source UUID: 0000e49c-0e87-8000-0d41-7f0000014e7a -->
+  <!-- Description: Make the existing owners primary -->
+  <!-- Pega Case Type Mapping: See migration metadata for stage/step correlation -->
+
+  <bpmn:collaboration id="Collaboration_AS_IO_Make_Owners_Primary">
+    <bpmn:participant id="Participant_AS_IO_Make_Owners_Primary" name="AS IO Make Owners Primary" processRef="Process_AS_IO_Make_Owners_Primary" />
+  </bpmn:collaboration>
+
+  <bpmn:process id="Process_AS_IO_Make_Owners_Primary" name="AS IO Make Owners Primary" isExecutable="false">
+    <bpmn:documentation>Make the existing owners primary</bpmn:documentation>
+
+    <bpmn:laneSet id="LaneSet_AS_IO_Make_Owners_Primary">
+      <bpmn:lane id="Lane_0" name="">
+      </bpmn:lane>
+    </bpmn:laneSet>
+
+    <bpmn:dataObject id="DataObject_auditProcessParameters" name="auditProcessParameters" />
+    <bpmn:dataObject id="DataObject_onboardingRequest" name="onboardingRequest" />
+    <bpmn:dataObject id="DataObject_primaryOwner" name="primaryOwner" />
+
+    <bpmn:startEvent id="StartEvent_0" name="Start Node">
+      <bpmn:outgoing>Flow_0</bpmn:outgoing>
+    </bpmn:startEvent>
+
+    <bpmn:endEvent id="EndEvent_1" name="End Node">
+      <bpmn:incoming>Flow_1</bpmn:incoming>
+    </bpmn:endEvent>
+
+    <bpmn:userTask id="UserTask_2" name="Set primary owner">
+      <bpmn:incoming>Flow_2</bpmn:incoming>
+      <bpmn:outgoing>Flow_3</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_3" name="Audit change to primary owner">
+      <bpmn:incoming>Flow_4</bpmn:incoming>
+      <bpmn:outgoing>Flow_5</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:sequenceFlow id="Flow_0" sourceRef="StartEvent_0" targetRef="UserTask_2" />
+    <bpmn:sequenceFlow id="Flow_1" sourceRef="UserTask_3" targetRef="EndEvent_1" />
+    <bpmn:sequenceFlow id="Flow_3" sourceRef="UserTask_2" targetRef="UserTask_3" />
+  </bpmn:process>
+
+</bpmn:definitions>

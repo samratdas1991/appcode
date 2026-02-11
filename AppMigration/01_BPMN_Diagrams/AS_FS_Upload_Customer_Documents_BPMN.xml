@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL"
+  xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+  xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+  xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
+  id="Definitions_AS_FS_Upload_Customer_Documents"
+  targetNamespace="http://bpmn.io/schema/bpmn">
+
+  <!-- Appian Process Model: AS FS Upload Customer Documents -->
+  <!-- Source UUID: 0002e423-8347-8000-fbae-7f0000014e7a -->
+  <!-- Description: Process for uploading documents to a customer record -->
+  <!-- Pega Case Type Mapping: See migration metadata for stage/step correlation -->
+
+  <bpmn:collaboration id="Collaboration_AS_FS_Upload_Customer_Documents">
+    <bpmn:participant id="Participant_AS_FS_Upload_Customer_Documents" name="AS FS Upload Customer Documents" processRef="Process_AS_FS_Upload_Customer_Documents" />
+  </bpmn:collaboration>
+
+  <bpmn:process id="Process_AS_FS_Upload_Customer_Documents" name="AS FS Upload Customer Documents" isExecutable="false">
+    <bpmn:documentation>Process for uploading documents to a customer record</bpmn:documentation>
+
+    <bpmn:laneSet id="LaneSet_AS_FS_Upload_Customer_Documents">
+      <bpmn:lane id="Lane_0" name="">
+      </bpmn:lane>
+    </bpmn:laneSet>
+
+    <bpmn:dataObject id="DataObject_allUploadedDocs" name="allUploadedDocs" />
+    <bpmn:dataObject id="DataObject_classifyDoc" name="classifyDoc" />
+    <bpmn:dataObject id="DataObject_customerDocuments" name="customerDocuments" />
+    <bpmn:dataObject id="DataObject_customerFolder" name="customerFolder" />
+    <bpmn:dataObject id="DataObject_customerId" name="customerId" />
+    <bpmn:dataObject id="DataObject_modifiedByOverride" name="modifiedByOverride" />
+    <bpmn:dataObject id="DataObject_recordTypeCode" name="recordTypeCode" />
+    <bpmn:dataObject id="DataObject_userAction" name="userAction" />
+    <bpmn:dataObject id="DataObject_userGroupAssigneeMap" name="userGroupAssigneeMap" />
+    <bpmn:dataObject id="DataObject_userSettings" name="userSettings" />
+
+    <bpmn:startEvent id="StartEvent_0" name="Start Node">
+      <bpmn:outgoing>Flow_0</bpmn:outgoing>
+    </bpmn:startEvent>
+
+    <bpmn:exclusiveGateway id="ExclusiveGateway_1" name="Is Doc Uploaded?">
+      <bpmn:incoming>Flow_1</bpmn:incoming>
+      <bpmn:outgoing>Flow_2</bpmn:outgoing>
+      <bpmn:outgoing>Flow_3</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+
+    <bpmn:userTask id="UserTask_2" name="Delete uploaded Docs">
+      <bpmn:incoming>Flow_4</bpmn:incoming>
+      <bpmn:outgoing>Flow_5</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:endEvent id="EndEvent_3" name="End Node">
+      <bpmn:incoming>Flow_6</bpmn:incoming>
+      <bpmn:incoming>Flow_7</bpmn:incoming>
+      <bpmn:incoming>Flow_8</bpmn:incoming>
+    </bpmn:endEvent>
+
+    <bpmn:exclusiveGateway id="ExclusiveGateway_4" name="Is IDP enabled?">
+      <bpmn:incoming>Flow_9</bpmn:incoming>
+      <bpmn:outgoing>Flow_10</bpmn:outgoing>
+      <bpmn:outgoing>Flow_11</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+
+    <bpmn:userTask id="UserTask_5" name="Move Document">
+      <bpmn:incoming>Flow_12</bpmn:incoming>
+      <bpmn:outgoing>Flow_13</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_6" name="Classify Doc">
+      <bpmn:incoming>Flow_14</bpmn:incoming>
+      <bpmn:outgoing>Flow_15</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_7" name="Save Customer Document">
+      <bpmn:incoming>Flow_16</bpmn:incoming>
+      <bpmn:outgoing>Flow_17</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:sequenceFlow id="Flow_0" sourceRef="StartEvent_0" targetRef="ExclusiveGateway_1" />
+    <bpmn:sequenceFlow id="Flow_2" sourceRef="ExclusiveGateway_1" targetRef="UserTask_2" />
+    <bpmn:sequenceFlow id="Flow_3" sourceRef="ExclusiveGateway_1" targetRef="UserTask_7" />
+    <bpmn:sequenceFlow id="Flow_5" sourceRef="UserTask_2" targetRef="EndEvent_3" />
+    <bpmn:sequenceFlow id="Flow_7" sourceRef="ExclusiveGateway_4" targetRef="EndEvent_3" />
+    <bpmn:sequenceFlow id="Flow_8" sourceRef="UserTask_6" targetRef="EndEvent_3" />
+    <bpmn:sequenceFlow id="Flow_9" sourceRef="UserTask_5" targetRef="ExclusiveGateway_4" />
+    <bpmn:sequenceFlow id="Flow_10" sourceRef="ExclusiveGateway_4" targetRef="UserTask_6" />
+    <bpmn:sequenceFlow id="Flow_12" sourceRef="UserTask_7" targetRef="UserTask_5" />
+  </bpmn:process>
+
+</bpmn:definitions>

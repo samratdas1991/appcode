@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL"
+  xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+  xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+  xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
+  id="Definitions_AS_QNM_Save_Questionnaire_Template"
+  targetNamespace="http://bpmn.io/schema/bpmn">
+
+  <!-- Appian Process Model: AS QNM Save Questionnaire Template -->
+  <!-- Source UUID: 0002e44d-8a5f-8000-fac0-7f0000014e7a -->
+  <!-- Description: Process used to create a questionnaire template -->
+  <!-- Pega Case Type Mapping: See migration metadata for stage/step correlation -->
+
+  <bpmn:collaboration id="Collaboration_AS_QNM_Save_Questionnaire_Template">
+    <bpmn:participant id="Participant_AS_QNM_Save_Questionnaire_Template" name="AS QNM Save Questionnaire Template" processRef="Process_AS_QNM_Save_Questionnaire_Template" />
+  </bpmn:collaboration>
+
+  <bpmn:process id="Process_AS_QNM_Save_Questionnaire_Template" name="AS QNM Save Questionnaire Template" isExecutable="false">
+    <bpmn:documentation>Process used to create a questionnaire template</bpmn:documentation>
+
+    <bpmn:laneSet id="LaneSet_AS_QNM_Save_Questionnaire_Template">
+      <bpmn:lane id="Lane_0" name="">
+      </bpmn:lane>
+    </bpmn:laneSet>
+
+    <bpmn:dataObject id="DataObject_auditParams" name="auditParams" />
+    <bpmn:dataObject id="DataObject_questionnaire_template" name="questionnaire_template" />
+
+    <bpmn:startEvent id="StartEvent_0" name="Start Node">
+      <bpmn:outgoing>Flow_0</bpmn:outgoing>
+    </bpmn:startEvent>
+
+    <bpmn:endEvent id="EndEvent_1" name="End Node">
+      <bpmn:incoming>Flow_1</bpmn:incoming>
+    </bpmn:endEvent>
+
+    <bpmn:userTask id="UserTask_2" name="Write Questionnaire Template">
+      <bpmn:incoming>Flow_2</bpmn:incoming>
+      <bpmn:outgoing>Flow_3</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_3" name="Get Questionnaire Template">
+      <bpmn:incoming>Flow_4</bpmn:incoming>
+      <bpmn:outgoing>Flow_5</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:sequenceFlow id="Flow_0" sourceRef="StartEvent_0" targetRef="UserTask_2" />
+    <bpmn:sequenceFlow id="Flow_1" sourceRef="UserTask_3" targetRef="EndEvent_1" />
+    <bpmn:sequenceFlow id="Flow_3" sourceRef="UserTask_2" targetRef="UserTask_3" />
+  </bpmn:process>
+
+</bpmn:definitions>

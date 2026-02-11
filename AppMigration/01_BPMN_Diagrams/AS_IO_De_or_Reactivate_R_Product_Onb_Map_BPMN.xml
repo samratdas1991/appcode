@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL"
+  xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+  xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+  xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
+  id="Definitions_AS_IO_De_or_Reactivate_R_Product_Onb_Map"
+  targetNamespace="http://bpmn.io/schema/bpmn">
+
+  <!-- Appian Process Model: AS IO De or Reactivate R_Product Onb Map -->
+  <!-- Source UUID: 0002e556-180a-8000-1df9-7f0000014e7a -->
+  <!-- Description: PM to remove or reactivate the product and onboarding type mapping -->
+  <!-- Pega Case Type Mapping: See migration metadata for stage/step correlation -->
+
+  <bpmn:collaboration id="Collaboration_AS_IO_De_or_Reactivate_R_Product_Onb_Map">
+    <bpmn:participant id="Participant_AS_IO_De_or_Reactivate_R_Product_Onb_Map" name="AS IO De or Reactivate R_Product Onb Map" processRef="Process_AS_IO_De_or_Reactivate_R_Product_Onb_Map" />
+  </bpmn:collaboration>
+
+  <bpmn:process id="Process_AS_IO_De_or_Reactivate_R_Product_Onb_Map" name="AS IO De or Reactivate R_Product Onb Map" isExecutable="false">
+    <bpmn:documentation>PM to remove or reactivate the product and onboarding type mapping</bpmn:documentation>
+
+    <bpmn:laneSet id="LaneSet_AS_IO_De_or_Reactivate_R_Product_Onb_Map">
+      <bpmn:lane id="Lane_0" name="">
+      </bpmn:lane>
+    </bpmn:laneSet>
+
+    <bpmn:dataObject id="DataObject_onboardingProductTypeMappingToReactivate" name="onboardingProductTypeMappingToReactivate" />
+    <bpmn:dataObject id="DataObject_onboardingType" name="onboardingType" />
+    <bpmn:dataObject id="DataObject_productOnboardingTypeMappingToDeactivate" name="productOnboardingTypeMappingToDeactivate" />
+    <bpmn:dataObject id="DataObject_productTypesToDeactivate" name="productTypesToDeactivate" />
+    <bpmn:dataObject id="DataObject_productTypesToReactivate" name="productTypesToReactivate" />
+
+    <bpmn:startEvent id="StartEvent_0" name="Start Node">
+      <bpmn:outgoing>Flow_0</bpmn:outgoing>
+    </bpmn:startEvent>
+
+    <bpmn:endEvent id="EndEvent_1" name="End Node">
+      <bpmn:incoming>Flow_1</bpmn:incoming>
+      <bpmn:incoming>Flow_2</bpmn:incoming>
+      <bpmn:incoming>Flow_3</bpmn:incoming>
+    </bpmn:endEvent>
+
+    <bpmn:userTask id="UserTask_2" name="Write to Data Store Entity">
+      <bpmn:incoming>Flow_4</bpmn:incoming>
+      <bpmn:outgoing>Flow_5</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_3" name="Write to Data Store Entity">
+      <bpmn:incoming>Flow_6</bpmn:incoming>
+      <bpmn:outgoing>Flow_7</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:exclusiveGateway id="ExclusiveGateway_4" name="None to reactivate?">
+      <bpmn:incoming>Flow_8</bpmn:incoming>
+      <bpmn:outgoing>Flow_9</bpmn:outgoing>
+      <bpmn:outgoing>Flow_10</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+
+    <bpmn:userTask id="UserTask_5" name="Deactivate R Product Onboarding Mappings">
+      <bpmn:incoming>Flow_11</bpmn:incoming>
+      <bpmn:outgoing>Flow_12</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_6" name="Reactivate R Product Onboarding">
+      <bpmn:incoming>Flow_13</bpmn:incoming>
+      <bpmn:outgoing>Flow_14</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_7" name="deactivate product templates">
+      <bpmn:incoming>Flow_15</bpmn:incoming>
+      <bpmn:outgoing>Flow_16</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_8" name="Reactivate product templates">
+      <bpmn:incoming>Flow_17</bpmn:incoming>
+      <bpmn:incoming>Flow_18</bpmn:incoming>
+      <bpmn:outgoing>Flow_19</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:endEvent id="EndEvent_9" name="End Event">
+      <bpmn:incoming>Flow_20</bpmn:incoming>
+    </bpmn:endEvent>
+
+    <bpmn:exclusiveGateway id="ExclusiveGateway_10" name="Products to Delete empty?">
+      <bpmn:incoming>Flow_21</bpmn:incoming>
+      <bpmn:outgoing>Flow_22</bpmn:outgoing>
+      <bpmn:outgoing>Flow_23</bpmn:outgoing>
+      <bpmn:outgoing>Flow_24</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+
+    <bpmn:exclusiveGateway id="ExclusiveGateway_11" name="Products to activate empty?">
+      <bpmn:incoming>Flow_25</bpmn:incoming>
+      <bpmn:incoming>Flow_26</bpmn:incoming>
+      <bpmn:outgoing>Flow_27</bpmn:outgoing>
+      <bpmn:outgoing>Flow_28</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+
+    <bpmn:exclusiveGateway id="ExclusiveGateway_12" name="None to deactivate?">
+      <bpmn:incoming>Flow_29</bpmn:incoming>
+      <bpmn:outgoing>Flow_30</bpmn:outgoing>
+      <bpmn:outgoing>Flow_31</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+
+    <bpmn:sequenceFlow id="Flow_0" sourceRef="StartEvent_0" targetRef="ExclusiveGateway_10" />
+    <bpmn:sequenceFlow id="Flow_1" sourceRef="UserTask_3" targetRef="EndEvent_1" />
+    <bpmn:sequenceFlow id="Flow_2" sourceRef="ExclusiveGateway_4" targetRef="EndEvent_1" />
+    <bpmn:sequenceFlow id="Flow_3" sourceRef="ExclusiveGateway_11" targetRef="EndEvent_1" />
+    <bpmn:sequenceFlow id="Flow_4" sourceRef="ExclusiveGateway_12" targetRef="UserTask_2" />
+    <bpmn:sequenceFlow id="Flow_5" sourceRef="UserTask_2" targetRef="ExclusiveGateway_11" />
+    <bpmn:sequenceFlow id="Flow_6" sourceRef="ExclusiveGateway_4" targetRef="UserTask_3" />
+    <bpmn:sequenceFlow id="Flow_8" sourceRef="UserTask_6" targetRef="ExclusiveGateway_4" />
+    <bpmn:sequenceFlow id="Flow_11" sourceRef="UserTask_7" targetRef="UserTask_5" />
+    <bpmn:sequenceFlow id="Flow_12" sourceRef="UserTask_5" targetRef="ExclusiveGateway_12" />
+    <bpmn:sequenceFlow id="Flow_13" sourceRef="UserTask_8" targetRef="UserTask_6" />
+    <bpmn:sequenceFlow id="Flow_15" sourceRef="ExclusiveGateway_10" targetRef="UserTask_7" />
+    <bpmn:sequenceFlow id="Flow_17" sourceRef="ExclusiveGateway_10" targetRef="UserTask_8" />
+    <bpmn:sequenceFlow id="Flow_18" sourceRef="ExclusiveGateway_11" targetRef="UserTask_8" />
+    <bpmn:sequenceFlow id="Flow_20" sourceRef="ExclusiveGateway_10" targetRef="EndEvent_9" />
+    <bpmn:sequenceFlow id="Flow_26" sourceRef="ExclusiveGateway_12" targetRef="ExclusiveGateway_11" />
+  </bpmn:process>
+
+</bpmn:definitions>

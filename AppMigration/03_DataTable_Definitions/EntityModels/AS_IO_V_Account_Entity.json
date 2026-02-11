@@ -1,0 +1,116 @@
+{
+  "entityName": "AS_IO_V_Account",
+  "pegaClassName": "Data-IO-VAccount",
+  "tableName": "AS_IO_V_ACCOUNT",
+  "description": "Record View of Account with locales",
+  "module": "IO",
+  "attributes": [
+    {
+      "appianFieldName": "accountId",
+      "pegaPropertyName": "Accountid",
+      "appianDataType": "xsd:int",
+      "pegaDataType": "Integer",
+      "columnName": "ACCOUNT_ID",
+      "required": true,
+      "isPrimaryKey": true,
+      "isForeignKey": false
+    },
+    {
+      "appianFieldName": "accountName",
+      "pegaPropertyName": "Accountname",
+      "appianDataType": "xsd:string",
+      "pegaDataType": "Text",
+      "columnName": "ACCOUNT_NAME",
+      "required": false,
+      "isPrimaryKey": false,
+      "isForeignKey": false
+    },
+    {
+      "appianFieldName": "type",
+      "pegaPropertyName": "Type",
+      "appianDataType": "xsd:string",
+      "pegaDataType": "Text",
+      "columnName": "TYPE",
+      "required": false,
+      "isPrimaryKey": false,
+      "isForeignKey": false
+    },
+    {
+      "appianFieldName": "estFundingDate",
+      "pegaPropertyName": "Estfundingdate",
+      "appianDataType": "xsd:date",
+      "pegaDataType": "Date",
+      "columnName": "EST_FUNDING_DATE",
+      "required": false,
+      "isPrimaryKey": false,
+      "isForeignKey": false
+    },
+    {
+      "appianFieldName": "actualFundingDate",
+      "pegaPropertyName": "Actualfundingdate",
+      "appianDataType": "xsd:date",
+      "pegaDataType": "Date",
+      "columnName": "ACTUAL_FUNDING_DATE",
+      "required": false,
+      "isPrimaryKey": false,
+      "isForeignKey": false
+    },
+    {
+      "appianFieldName": "createdDatetime",
+      "pegaPropertyName": "Createddatetime",
+      "appianDataType": "xsd:dateTime",
+      "pegaDataType": "DateTime",
+      "columnName": "CREATED_DATETIME",
+      "required": false,
+      "isPrimaryKey": false,
+      "isForeignKey": false
+    },
+    {
+      "appianFieldName": "modifiedDatetime",
+      "pegaPropertyName": "Modifieddatetime",
+      "appianDataType": "xsd:dateTime",
+      "pegaDataType": "DateTime",
+      "columnName": "MODIFIED_DATETIME",
+      "required": false,
+      "isPrimaryKey": false,
+      "isForeignKey": false
+    },
+    {
+      "appianFieldName": "isParent",
+      "pegaPropertyName": "Isparent",
+      "appianDataType": "xsd:boolean",
+      "pegaDataType": "True/False",
+      "columnName": "IS_PARENT",
+      "required": false,
+      "isPrimaryKey": false,
+      "isForeignKey": false
+    },
+    {
+      "appianFieldName": "isDeleted",
+      "pegaPropertyName": "Isdeleted",
+      "appianDataType": "xsd:boolean",
+      "pegaDataType": "True/False",
+      "columnName": "IS_DELETED",
+      "required": false,
+      "isPrimaryKey": false,
+      "isForeignKey": false
+    },
+    {
+      "appianFieldName": "request",
+      "pegaPropertyName": "Request",
+      "appianDataType": "tns:AS_IO_OnboardingRequest",
+      "pegaDataType": "Integer",
+      "columnName": "REQUEST_ID",
+      "required": false,
+      "isPrimaryKey": false,
+      "isForeignKey": true
+    }
+  ],
+  "relationships": [
+    {
+      "type": "ManyToOne",
+      "foreignKey": "REQUEST_ID",
+      "appianFieldName": "request"
+    }
+  ]
+}

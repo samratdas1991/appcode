@@ -1,0 +1,9 @@
+-- Source Appian CDT: AS_FS_R_Currency
+-- Description: International Currency Information
+DROP TABLE IF EXISTS AS_FS_R_CURRENCY CASCADE;
+CREATE TABLE AS_FS_R_CURRENCY (
+    CURRENCY_ID INT PRIMARY KEY,
+    CURRENCY_CODE VARCHAR(255),
+    IS_ACTIVE BOOLEAN,
+    SORT_ORDER INT
+);

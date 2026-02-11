@@ -1,0 +1,11 @@
+-- Source Appian CDT: AS_FS_A_Pay_Threshold
+-- Description: Data type refers to the attributes related to the pay  threshold audit
+DROP TABLE IF EXISTS AS_FS_A_PAY_THRESHOLD CASCADE;
+CREATE TABLE AS_FS_A_PAY_THRESHOLD (
+    PAY_THRESHOLD_AUDIT_ID INT PRIMARY KEY,
+    PAY_THRESHOLD_ID INT,
+    PRODUCT_AUDIT_ID INT,
+    TIMESTAMP TIMESTAMP,
+    USERNAME VARCHAR(255),
+    AUDIT_ACTION_CODE VARCHAR(255)
+);

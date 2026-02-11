@@ -1,0 +1,32 @@
+# Report Definition: Approval Turnaround Time
+# Pega Migration Target: Report Definition (Summary)
+
+reportName: Approval Turnaround Time
+description: Measure approval processing times and SLA compliance
+dataSource: AS_IO_ApprovalHistory
+columns:
+- name: ApproverName
+  dataType: Text
+  aggregation: Group By
+- name: AverageTime
+  dataType: Decimal
+  aggregation: Average
+- name: TotalApprovals
+  dataType: Integer
+  aggregation: Count
+- name: SLABreaches
+  dataType: Integer
+  aggregation: Sum
+filters:
+- field: ApprovalDate
+  operator: BETWEEN
+  defaultValue: Last quarter
+sorting:
+- field: AverageTime
+  direction: ASC
+grouping:
+- ApproverName
+- ApprovalType
+pegaReportType: Report Definition (Summary)
+pegaImplementationNotes: Use Pega SLA reporting capabilities. Create dashboard widget
+  for manager portal.

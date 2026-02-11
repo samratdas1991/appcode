@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL"
+  xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+  xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+  xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
+  id="Definitions_AS_FS_IDP_Manage_Document_Type"
+  targetNamespace="http://bpmn.io/schema/bpmn">
+
+  <!-- Appian Process Model: AS FS IDP Manage Document Type -->
+  <!-- Source UUID: 0002e578-8602-8000-217f-7f0000014e7a -->
+  <!-- Description: A wrapper model to manage document type -->
+  <!-- Pega Case Type Mapping: See migration metadata for stage/step correlation -->
+
+  <bpmn:collaboration id="Collaboration_AS_FS_IDP_Manage_Document_Type">
+    <bpmn:participant id="Participant_AS_FS_IDP_Manage_Document_Type" name="AS FS IDP Manage Document Type" processRef="Process_AS_FS_IDP_Manage_Document_Type" />
+  </bpmn:collaboration>
+
+  <bpmn:process id="Process_AS_FS_IDP_Manage_Document_Type" name="AS FS IDP Manage Document Type" isExecutable="false">
+    <bpmn:documentation>A wrapper model to manage document type</bpmn:documentation>
+
+    <bpmn:laneSet id="LaneSet_AS_FS_IDP_Manage_Document_Type">
+      <bpmn:lane id="Lane_0" name="">
+      </bpmn:lane>
+    </bpmn:laneSet>
+
+    <bpmn:dataObject id="DataObject_IDPDocTypes" name="IDPDocTypes" />
+    <bpmn:dataObject id="DataObject_docTypeCode" name="docTypeCode" />
+    <bpmn:dataObject id="DataObject_docTypeUnderstandingList" name="docTypeUnderstandingList" />
+    <bpmn:dataObject id="DataObject_manageRefDataParam" name="manageRefDataParam" />
+    <bpmn:dataObject id="DataObject_removedDocIdentifiers" name="removedDocIdentifiers" />
+    <bpmn:dataObject id="DataObject_removedDocumentIds" name="removedDocumentIds" />
+    <bpmn:dataObject id="DataObject_selectedDocumentType" name="selectedDocumentType" />
+    <bpmn:dataObject id="DataObject_userAction" name="userAction" />
+    <bpmn:dataObject id="DataObject_userSettings" name="userSettings" />
+
+    <bpmn:startEvent id="StartEvent_0" name="Start Node">
+      <bpmn:outgoing>Flow_0</bpmn:outgoing>
+    </bpmn:startEvent>
+
+    <bpmn:endEvent id="EndEvent_1" name="End Node">
+      <bpmn:incoming>Flow_1</bpmn:incoming>
+      <bpmn:incoming>Flow_2</bpmn:incoming>
+    </bpmn:endEvent>
+
+    <bpmn:userTask id="UserTask_2" name="Dummy">
+      <bpmn:incoming>Flow_3</bpmn:incoming>
+      <bpmn:incoming>Flow_4</bpmn:incoming>
+      <bpmn:outgoing>Flow_5</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:endEvent id="EndEvent_3" name="End">
+      <bpmn:incoming>Flow_6</bpmn:incoming>
+    </bpmn:endEvent>
+
+    <bpmn:exclusiveGateway id="ExclusiveGateway_4" name="Is New Doc Type?">
+      <bpmn:incoming>Flow_7</bpmn:incoming>
+      <bpmn:outgoing>Flow_8</bpmn:outgoing>
+      <bpmn:outgoing>Flow_9</bpmn:outgoing>
+      <bpmn:outgoing>Flow_10</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+
+    <bpmn:userTask id="UserTask_5" name="Delete Classification Doc Entry">
+      <bpmn:incoming>Flow_11</bpmn:incoming>
+      <bpmn:outgoing>Flow_12</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_6" name="Update Understanding List">
+      <bpmn:incoming>Flow_13</bpmn:incoming>
+      <bpmn:outgoing>Flow_14</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_7" name="Update the Understanding Table">
+      <bpmn:incoming>Flow_15</bpmn:incoming>
+      <bpmn:outgoing>Flow_16</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_8" name="Write to IDP Doc Type">
+      <bpmn:incoming>Flow_17</bpmn:incoming>
+      <bpmn:outgoing>Flow_18</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_9" name="Get Doc Understanding Details">
+      <bpmn:incoming>Flow_19</bpmn:incoming>
+      <bpmn:outgoing>Flow_20</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_10" name="Delete Document">
+      <bpmn:incoming>Flow_21</bpmn:incoming>
+      <bpmn:outgoing>Flow_22</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_11" name="AS FS Document Type Training">
+      <bpmn:incoming>Flow_23</bpmn:incoming>
+      <bpmn:outgoing>Flow_24</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:exclusiveGateway id="ExclusiveGateway_12" name="Is Removed Doc ZipIds Null ?">
+      <bpmn:incoming>Flow_25</bpmn:incoming>
+      <bpmn:outgoing>Flow_26</bpmn:outgoing>
+      <bpmn:outgoing>Flow_27</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+
+    <bpmn:userTask id="UserTask_13" name="Manage Ref Data">
+      <bpmn:incoming>Flow_28</bpmn:incoming>
+      <bpmn:incoming>Flow_29</bpmn:incoming>
+      <bpmn:outgoing>Flow_30</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:exclusiveGateway id="ExclusiveGateway_14" name="Proceed to IDP?">
+      <bpmn:incoming>Flow_31</bpmn:incoming>
+      <bpmn:outgoing>Flow_32</bpmn:outgoing>
+      <bpmn:outgoing>Flow_33</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+
+    <bpmn:sequenceFlow id="Flow_0" sourceRef="StartEvent_0" targetRef="ExclusiveGateway_4" />
+    <bpmn:sequenceFlow id="Flow_1" sourceRef="UserTask_11" targetRef="EndEvent_1" />
+    <bpmn:sequenceFlow id="Flow_2" sourceRef="ExclusiveGateway_14" targetRef="EndEvent_1" />
+    <bpmn:sequenceFlow id="Flow_3" sourceRef="ExclusiveGateway_4" targetRef="UserTask_2" />
+    <bpmn:sequenceFlow id="Flow_4" sourceRef="UserTask_8" targetRef="UserTask_2" />
+    <bpmn:sequenceFlow id="Flow_5" sourceRef="UserTask_2" targetRef="ExclusiveGateway_12" />
+    <bpmn:sequenceFlow id="Flow_6" sourceRef="ExclusiveGateway_4" targetRef="EndEvent_3" />
+    <bpmn:sequenceFlow id="Flow_8" sourceRef="ExclusiveGateway_4" targetRef="UserTask_8" />
+    <bpmn:sequenceFlow id="Flow_11" sourceRef="UserTask_7" targetRef="UserTask_5" />
+    <bpmn:sequenceFlow id="Flow_12" sourceRef="UserTask_5" targetRef="UserTask_10" />
+    <bpmn:sequenceFlow id="Flow_13" sourceRef="UserTask_9" targetRef="UserTask_6" />
+    <bpmn:sequenceFlow id="Flow_14" sourceRef="UserTask_6" targetRef="UserTask_7" />
+    <bpmn:sequenceFlow id="Flow_19" sourceRef="ExclusiveGateway_12" targetRef="UserTask_9" />
+    <bpmn:sequenceFlow id="Flow_22" sourceRef="UserTask_10" targetRef="UserTask_13" />
+    <bpmn:sequenceFlow id="Flow_23" sourceRef="ExclusiveGateway_14" targetRef="UserTask_11" />
+    <bpmn:sequenceFlow id="Flow_27" sourceRef="ExclusiveGateway_12" targetRef="UserTask_13" />
+    <bpmn:sequenceFlow id="Flow_30" sourceRef="UserTask_13" targetRef="ExclusiveGateway_14" />
+  </bpmn:process>
+
+</bpmn:definitions>

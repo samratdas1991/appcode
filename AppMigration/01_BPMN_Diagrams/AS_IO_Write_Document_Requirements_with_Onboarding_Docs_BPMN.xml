@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL"
+  xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+  xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+  xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
+  id="Definitions_AS_IO_Write_Document_Requirements_with_Onboarding_Docs"
+  targetNamespace="http://bpmn.io/schema/bpmn">
+
+  <!-- Appian Process Model: AS IO Write Document Requirements with Onboarding Docs -->
+  <!-- Source UUID: 0008e7c2-d2c2-8000-6096-7f0000014e7a -->
+  <!-- Description: Model to write document requirements with inboarding docs -->
+  <!-- Pega Case Type Mapping: See migration metadata for stage/step correlation -->
+
+  <bpmn:collaboration id="Collaboration_AS_IO_Write_Document_Requirements_with_Onboarding_Docs">
+    <bpmn:participant id="Participant_AS_IO_Write_Document_Requirements_with_Onboarding_Docs" name="AS IO Write Document Requirements with Onboarding Docs" processRef="Process_AS_IO_Write_Document_Requirements_with_Onboarding_Docs" />
+  </bpmn:collaboration>
+
+  <bpmn:process id="Process_AS_IO_Write_Document_Requirements_with_Onboarding_Docs" name="AS IO Write Document Requirements with Onboarding Docs" isExecutable="false">
+    <bpmn:documentation>Model to write document requirements with inboarding docs</bpmn:documentation>
+
+    <bpmn:laneSet id="LaneSet_AS_IO_Write_Document_Requirements_with_Onboarding_Docs">
+      <bpmn:lane id="Lane_0" name="">
+      </bpmn:lane>
+    </bpmn:laneSet>
+
+    <bpmn:dataObject id="DataObject_attachLaterDocs" name="attachLaterDocs" />
+    <bpmn:dataObject id="DataObject_attachNowDocs" name="attachNowDocs" />
+    <bpmn:dataObject id="DataObject_attachNowDocsMapOrderCache" name="attachNowDocsMapOrderCache" />
+    <bpmn:dataObject id="DataObject_auditProcessParameters" name="auditProcessParameters" />
+    <bpmn:dataObject id="DataObject_currentDocumentRequirements" name="currentDocumentRequirements" />
+    <bpmn:dataObject id="DataObject_onboardingDetails" name="onboardingDetails" />
+    <bpmn:dataObject id="DataObject_onboardingDocuments" name="onboardingDocuments" />
+
+    <bpmn:startEvent id="StartEvent_0" name="Start Node">
+      <bpmn:outgoing>Flow_0</bpmn:outgoing>
+    </bpmn:startEvent>
+
+    <bpmn:endEvent id="EndEvent_1" name="End Event">
+      <bpmn:incoming>Flow_1</bpmn:incoming>
+    </bpmn:endEvent>
+
+    <bpmn:userTask id="UserTask_2" name="Back-end Investigation doc">
+      <bpmn:incoming>Flow_2</bpmn:incoming>
+      <bpmn:outgoing>Flow_3</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:exclusiveGateway id="ExclusiveGateway_3" name="Is "Attach Now Docs" empty?">
+      <bpmn:incoming>Flow_4</bpmn:incoming>
+      <bpmn:outgoing>Flow_5</bpmn:outgoing>
+      <bpmn:outgoing>Flow_6</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+
+    <bpmn:userTask id="UserTask_4" name="Document Classification">
+      <bpmn:incoming>Flow_7</bpmn:incoming>
+      <bpmn:outgoing>Flow_8</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_5" name="Audit and save">
+      <bpmn:incoming>Flow_9</bpmn:incoming>
+      <bpmn:incoming>Flow_10</bpmn:incoming>
+      <bpmn:outgoing>Flow_11</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_6" name="Save doc requirements">
+      <bpmn:incoming>Flow_12</bpmn:incoming>
+      <bpmn:outgoing>Flow_13</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:sequenceFlow id="Flow_0" sourceRef="StartEvent_0" targetRef="UserTask_4" />
+    <bpmn:sequenceFlow id="Flow_1" sourceRef="UserTask_6" targetRef="EndEvent_1" />
+    <bpmn:sequenceFlow id="Flow_2" sourceRef="ExclusiveGateway_3" targetRef="UserTask_2" />
+    <bpmn:sequenceFlow id="Flow_3" sourceRef="UserTask_2" targetRef="UserTask_5" />
+    <bpmn:sequenceFlow id="Flow_4" sourceRef="UserTask_4" targetRef="ExclusiveGateway_3" />
+    <bpmn:sequenceFlow id="Flow_6" sourceRef="ExclusiveGateway_3" targetRef="UserTask_5" />
+    <bpmn:sequenceFlow id="Flow_11" sourceRef="UserTask_5" targetRef="UserTask_6" />
+  </bpmn:process>
+
+</bpmn:definitions>

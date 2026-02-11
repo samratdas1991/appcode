@@ -1,0 +1,51 @@
+{
+  "entityName": "AS_IO_OnboardingDocumentWithIONesting",
+  "pegaClassName": "Data-IO-OnboardingDocumentWithIONesting",
+  "tableName": "AS_IO_ONBOARDING_DOCUMENT",
+  "description": "Created to contain Onboarding Requests Nesting",
+  "module": "IO",
+  "attributes": [
+    {
+      "appianFieldName": "onboardingDocumentId",
+      "pegaPropertyName": "Onboardingdocumentid",
+      "appianDataType": "xsd:int",
+      "pegaDataType": "Integer",
+      "columnName": "ONBOARDING_DOCUMENT_ID",
+      "required": true,
+      "isPrimaryKey": true,
+      "isForeignKey": false
+    },
+    {
+      "appianFieldName": "onboarding",
+      "pegaPropertyName": "Onboarding",
+      "appianDataType": "tns:AS_IO_OnboardingRequest",
+      "pegaDataType": "Integer",
+      "columnName": "REQUEST_ID",
+      "required": false,
+      "isPrimaryKey": false,
+      "isForeignKey": true
+    },
+    {
+      "appianFieldName": "customerDocuments",
+      "pegaPropertyName": "Customerdocuments",
+      "appianDataType": "fs1:AS_FS_CustomerDocument",
+      "pegaDataType": "Integer",
+      "columnName": "CUSTOMER_DOCUMENT_ID",
+      "required": false,
+      "isPrimaryKey": false,
+      "isForeignKey": true
+    }
+  ],
+  "relationships": [
+    {
+      "type": "ManyToOne",
+      "foreignKey": "REQUEST_ID",
+      "appianFieldName": "onboarding"
+    },
+    {
+      "type": "ManyToOne",
+      "foreignKey": "CUSTOMER_DOCUMENT_ID",
+      "appianFieldName": "customerDocuments"
+    }
+  ]
+}

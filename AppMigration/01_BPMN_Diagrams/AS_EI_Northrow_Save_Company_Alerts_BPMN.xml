@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL"
+  xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+  xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+  xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
+  id="Definitions_AS_EI_Northrow_Save_Company_Alerts"
+  targetNamespace="http://bpmn.io/schema/bpmn">
+
+  <!-- Appian Process Model: AS EI Northrow Save Company Alerts -->
+  <!-- Source UUID: 0002e578-6c32-8000-2173-7f0000014e7a -->
+  <!-- Description: Returns the Northrow alerts for a company from a company check, writes them to the DB, and generates an ALT alert if the alertSetId is provided and the Northrow alert satisfies the criteria for alert  -->
+  <!-- Pega Case Type Mapping: See migration metadata for stage/step correlation -->
+
+  <bpmn:collaboration id="Collaboration_AS_EI_Northrow_Save_Company_Alerts">
+    <bpmn:participant id="Participant_AS_EI_Northrow_Save_Company_Alerts" name="AS EI Northrow Save Company Alerts" processRef="Process_AS_EI_Northrow_Save_Company_Alerts" />
+  </bpmn:collaboration>
+
+  <bpmn:process id="Process_AS_EI_Northrow_Save_Company_Alerts" name="AS EI Northrow Save Company Alerts" isExecutable="false">
+    <bpmn:documentation>Returns the Northrow alerts for a company from a company check, writes them to the DB, and generates an ALT alert if the alertSetId is provided and the Northrow alert satisfies the criteria for alert generation.</bpmn:documentation>
+
+    <bpmn:laneSet id="LaneSet_AS_EI_Northrow_Save_Company_Alerts">
+      <bpmn:lane id="Lane_0" name="">
+      </bpmn:lane>
+    </bpmn:laneSet>
+
+    <bpmn:dataObject id="DataObject_alertSetId" name="alertSetId" />
+    <bpmn:dataObject id="DataObject_alerts" name="alerts" />
+    <bpmn:dataObject id="DataObject_companyCheckSummary" name="companyCheckSummary" />
+    <bpmn:dataObject id="DataObject_companyId" name="companyId" />
+    <bpmn:dataObject id="DataObject_noteworthyAlerts" name="noteworthyAlerts" />
+
+    <bpmn:startEvent id="StartEvent_0" name="Start Node">
+      <bpmn:outgoing>Flow_0</bpmn:outgoing>
+    </bpmn:startEvent>
+
+    <bpmn:endEvent id="EndEvent_1" name="End Node">
+      <bpmn:incoming>Flow_1</bpmn:incoming>
+      <bpmn:incoming>Flow_2</bpmn:incoming>
+      <bpmn:incoming>Flow_3</bpmn:incoming>
+    </bpmn:endEvent>
+
+    <bpmn:exclusiveGateway id="ExclusiveGateway_2" name="Any alerts?">
+      <bpmn:incoming>Flow_4</bpmn:incoming>
+      <bpmn:outgoing>Flow_5</bpmn:outgoing>
+      <bpmn:outgoing>Flow_6</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+
+    <bpmn:exclusiveGateway id="ExclusiveGateway_3" name="Noteworthy alerts?">
+      <bpmn:incoming>Flow_7</bpmn:incoming>
+      <bpmn:outgoing>Flow_8</bpmn:outgoing>
+      <bpmn:outgoing>Flow_9</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+
+    <bpmn:userTask id="UserTask_4" name="Parse Alerts">
+      <bpmn:incoming>Flow_10</bpmn:incoming>
+      <bpmn:outgoing>Flow_11</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_5" name="Set company ID">
+      <bpmn:incoming>Flow_12</bpmn:incoming>
+      <bpmn:outgoing>Flow_13</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_6" name="Identify noteworthy alerts">
+      <bpmn:incoming>Flow_14</bpmn:incoming>
+      <bpmn:outgoing>Flow_15</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_7" name="Save Northrow Alerts">
+      <bpmn:incoming>Flow_16</bpmn:incoming>
+      <bpmn:outgoing>Flow_17</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_8" name="Create ALT Alerts">
+      <bpmn:incoming>Flow_18</bpmn:incoming>
+      <bpmn:outgoing>Flow_19</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:sequenceFlow id="Flow_0" sourceRef="StartEvent_0" targetRef="UserTask_4" />
+    <bpmn:sequenceFlow id="Flow_1" sourceRef="ExclusiveGateway_2" targetRef="EndEvent_1" />
+    <bpmn:sequenceFlow id="Flow_2" sourceRef="ExclusiveGateway_3" targetRef="EndEvent_1" />
+    <bpmn:sequenceFlow id="Flow_3" sourceRef="UserTask_8" targetRef="EndEvent_1" />
+    <bpmn:sequenceFlow id="Flow_4" sourceRef="UserTask_4" targetRef="ExclusiveGateway_2" />
+    <bpmn:sequenceFlow id="Flow_6" sourceRef="ExclusiveGateway_2" targetRef="UserTask_5" />
+    <bpmn:sequenceFlow id="Flow_7" sourceRef="UserTask_6" targetRef="ExclusiveGateway_3" />
+    <bpmn:sequenceFlow id="Flow_8" sourceRef="ExclusiveGateway_3" targetRef="UserTask_8" />
+    <bpmn:sequenceFlow id="Flow_13" sourceRef="UserTask_5" targetRef="UserTask_7" />
+    <bpmn:sequenceFlow id="Flow_14" sourceRef="UserTask_7" targetRef="UserTask_6" />
+  </bpmn:process>
+
+</bpmn:definitions>

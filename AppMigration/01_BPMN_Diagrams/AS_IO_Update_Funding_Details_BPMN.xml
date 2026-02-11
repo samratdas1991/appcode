@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL"
+  xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+  xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+  xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
+  id="Definitions_AS_IO_Update_Funding_Details"
+  targetNamespace="http://bpmn.io/schema/bpmn">
+
+  <!-- Appian Process Model: AS IO Update Funding Details -->
+  <!-- Source UUID: 0002e480-8925-8000-0886-7f0000014e7a -->
+  <!-- Description: Process model is used for updating the estimated funding details or actual funding details -->
+  <!-- Pega Case Type Mapping: See migration metadata for stage/step correlation -->
+
+  <bpmn:collaboration id="Collaboration_AS_IO_Update_Funding_Details">
+    <bpmn:participant id="Participant_AS_IO_Update_Funding_Details" name="AS IO Update Funding Details" processRef="Process_AS_IO_Update_Funding_Details" />
+  </bpmn:collaboration>
+
+  <bpmn:process id="Process_AS_IO_Update_Funding_Details" name="AS IO Update Funding Details" isExecutable="false">
+    <bpmn:documentation>Process model is used for updating the estimated funding details or actual funding details</bpmn:documentation>
+
+    <bpmn:laneSet id="LaneSet_AS_IO_Update_Funding_Details">
+      <bpmn:lane id="Lane_0" name="">
+      </bpmn:lane>
+    </bpmn:laneSet>
+
+    <bpmn:dataObject id="DataObject_auditCommentField" name="auditCommentField" />
+    <bpmn:dataObject id="DataObject_comment" name="comment" />
+    <bpmn:dataObject id="DataObject_fundingDetailsAuditProcessParameters" name="fundingDetailsAuditProcessParameters" />
+    <bpmn:dataObject id="DataObject_isUpdateTaskDueDates" name="isUpdateTaskDueDates" />
+    <bpmn:dataObject id="DataObject_request" name="request" />
+    <bpmn:dataObject id="DataObject_userAction" name="userAction" />
+
+    <bpmn:startEvent id="StartEvent_0" name="Start Node">
+      <bpmn:outgoing>Flow_0</bpmn:outgoing>
+    </bpmn:startEvent>
+
+    <bpmn:endEvent id="EndEvent_1" name="End Node">
+      <bpmn:incoming>Flow_1</bpmn:incoming>
+      <bpmn:incoming>Flow_2</bpmn:incoming>
+      <bpmn:incoming>Flow_3</bpmn:incoming>
+      <bpmn:incoming>Flow_4</bpmn:incoming>
+    </bpmn:endEvent>
+
+    <bpmn:userTask id="UserTask_2" name="Update Task Due Dates">
+      <bpmn:incoming>Flow_5</bpmn:incoming>
+      <bpmn:outgoing>Flow_6</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:exclusiveGateway id="ExclusiveGateway_3" name="Update Tasks?">
+      <bpmn:incoming>Flow_7</bpmn:incoming>
+      <bpmn:outgoing>Flow_8</bpmn:outgoing>
+      <bpmn:outgoing>Flow_9</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+
+    <bpmn:exclusiveGateway id="ExclusiveGateway_4" name="Submit?">
+      <bpmn:incoming>Flow_10</bpmn:incoming>
+      <bpmn:outgoing>Flow_11</bpmn:outgoing>
+      <bpmn:outgoing>Flow_12</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+
+    <bpmn:userTask id="UserTask_5" name="Set comment">
+      <bpmn:incoming>Flow_13</bpmn:incoming>
+      <bpmn:outgoing>Flow_14</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:exclusiveGateway id="ExclusiveGateway_6" name="Is comment null?">
+      <bpmn:incoming>Flow_15</bpmn:incoming>
+      <bpmn:outgoing>Flow_16</bpmn:outgoing>
+      <bpmn:outgoing>Flow_17</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+
+    <bpmn:userTask id="UserTask_7" name="Write comment on funding date audit">
+      <bpmn:incoming>Flow_18</bpmn:incoming>
+      <bpmn:outgoing>Flow_19</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_8" name="Audit and save">
+      <bpmn:incoming>Flow_20</bpmn:incoming>
+      <bpmn:outgoing>Flow_21</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_9" name="Capture metric">
+      <bpmn:incoming>Flow_22</bpmn:incoming>
+      <bpmn:outgoing>Flow_23</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_10" name="Get funding date audit">
+      <bpmn:incoming>Flow_24</bpmn:incoming>
+      <bpmn:outgoing>Flow_25</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:sequenceFlow id="Flow_0" sourceRef="StartEvent_0" targetRef="ExclusiveGateway_4" />
+    <bpmn:sequenceFlow id="Flow_1" sourceRef="UserTask_2" targetRef="EndEvent_1" />
+    <bpmn:sequenceFlow id="Flow_2" sourceRef="ExclusiveGateway_3" targetRef="EndEvent_1" />
+    <bpmn:sequenceFlow id="Flow_3" sourceRef="ExclusiveGateway_4" targetRef="EndEvent_1" />
+    <bpmn:sequenceFlow id="Flow_4" sourceRef="ExclusiveGateway_6" targetRef="EndEvent_1" />
+    <bpmn:sequenceFlow id="Flow_5" sourceRef="ExclusiveGateway_3" targetRef="UserTask_2" />
+    <bpmn:sequenceFlow id="Flow_7" sourceRef="UserTask_7" targetRef="ExclusiveGateway_3" />
+    <bpmn:sequenceFlow id="Flow_12" sourceRef="ExclusiveGateway_4" targetRef="UserTask_9" />
+    <bpmn:sequenceFlow id="Flow_13" sourceRef="UserTask_10" targetRef="UserTask_5" />
+    <bpmn:sequenceFlow id="Flow_14" sourceRef="UserTask_5" targetRef="UserTask_7" />
+    <bpmn:sequenceFlow id="Flow_15" sourceRef="UserTask_8" targetRef="ExclusiveGateway_6" />
+    <bpmn:sequenceFlow id="Flow_16" sourceRef="ExclusiveGateway_6" targetRef="UserTask_10" />
+    <bpmn:sequenceFlow id="Flow_20" sourceRef="UserTask_9" targetRef="UserTask_8" />
+  </bpmn:process>
+
+</bpmn:definitions>

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL"
+  xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+  xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+  xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
+  id="Definitions_AS_FS_DNB_Get_Beneficial_Owners_From_DnB"
+  targetNamespace="http://bpmn.io/schema/bpmn">
+
+  <!-- Appian Process Model: AS FS DNB Get Beneficial Owners From DnB -->
+  <!-- Source UUID: 000be69a-4cc8-8000-4653-7f0000014e7a -->
+  <!-- Description: Executes the DNB Ultimate Beneficial Owner API against a customer -->
+  <!-- Pega Case Type Mapping: See migration metadata for stage/step correlation -->
+
+  <bpmn:collaboration id="Collaboration_AS_FS_DNB_Get_Beneficial_Owners_From_DnB">
+    <bpmn:participant id="Participant_AS_FS_DNB_Get_Beneficial_Owners_From_DnB" name="AS FS DNB Get Beneficial Owners From DnB" processRef="Process_AS_FS_DNB_Get_Beneficial_Owners_From_DnB" />
+  </bpmn:collaboration>
+
+  <bpmn:process id="Process_AS_FS_DNB_Get_Beneficial_Owners_From_DnB" name="AS FS DNB Get Beneficial Owners From DnB" isExecutable="false">
+    <bpmn:documentation>Executes the DNB Ultimate Beneficial Owner API against a customer</bpmn:documentation>
+
+    <bpmn:laneSet id="LaneSet_AS_FS_DNB_Get_Beneficial_Owners_From_DnB">
+      <bpmn:lane id="Lane_0" name="">
+      </bpmn:lane>
+    </bpmn:laneSet>
+
+    <bpmn:dataObject id="DataObject_customer" name="customer" />
+    <bpmn:dataObject id="DataObject_newBeneficialOwnersIntegration" name="newBeneficialOwnersIntegration" />
+    <bpmn:dataObject id="DataObject_requestSuccess" name="requestSuccess" />
+    <bpmn:dataObject id="DataObject_uboRequest" name="uboRequest" />
+    <bpmn:dataObject id="DataObject_uboResponse" name="uboResponse" />
+
+    <bpmn:startEvent id="StartEvent_0" name="Start Node">
+      <bpmn:outgoing>Flow_0</bpmn:outgoing>
+    </bpmn:startEvent>
+
+    <bpmn:userTask id="UserTask_1" name="Execute DNB Request UBOs">
+      <bpmn:incoming>Flow_1</bpmn:incoming>
+      <bpmn:outgoing>Flow_2</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:exclusiveGateway id="ExclusiveGateway_2" name="API Success?">
+      <bpmn:incoming>Flow_3</bpmn:incoming>
+      <bpmn:outgoing>Flow_4</bpmn:outgoing>
+      <bpmn:outgoing>Flow_5</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+
+    <bpmn:endEvent id="EndEvent_3" name="End Node">
+      <bpmn:incoming>Flow_6</bpmn:incoming>
+    </bpmn:endEvent>
+
+    <bpmn:userTask id="UserTask_4" name="parse UBO details">
+      <bpmn:incoming>Flow_7</bpmn:incoming>
+      <bpmn:outgoing>Flow_8</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_5" name="Set integration status to complete">
+      <bpmn:incoming>Flow_9</bpmn:incoming>
+      <bpmn:incoming>Flow_10</bpmn:incoming>
+      <bpmn:outgoing>Flow_11</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:sequenceFlow id="Flow_0" sourceRef="StartEvent_0" targetRef="UserTask_1" />
+    <bpmn:sequenceFlow id="Flow_2" sourceRef="UserTask_1" targetRef="ExclusiveGateway_2" />
+    <bpmn:sequenceFlow id="Flow_4" sourceRef="ExclusiveGateway_2" targetRef="UserTask_4" />
+    <bpmn:sequenceFlow id="Flow_5" sourceRef="ExclusiveGateway_2" targetRef="UserTask_5" />
+    <bpmn:sequenceFlow id="Flow_6" sourceRef="UserTask_5" targetRef="EndEvent_3" />
+    <bpmn:sequenceFlow id="Flow_8" sourceRef="UserTask_4" targetRef="UserTask_5" />
+  </bpmn:process>
+
+</bpmn:definitions>

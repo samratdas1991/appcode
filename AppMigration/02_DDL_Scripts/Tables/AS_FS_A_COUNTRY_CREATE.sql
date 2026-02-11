@@ -1,0 +1,11 @@
+-- Source Appian CDT: AS_FS_A_Country
+-- Description: Data type refers to the attributes related to the country audit
+DROP TABLE IF EXISTS AS_FS_A_COUNTRY CASCADE;
+CREATE TABLE AS_FS_A_COUNTRY (
+    COUNTRY_AUDIT_ID INT PRIMARY KEY,
+    COUNTRY_ID INT,
+    PRODUCT_AUDIT_ID INT,
+    TIMESTAMP TIMESTAMP,
+    USERNAME VARCHAR(255),
+    AUDIT_ACTION_CODE VARCHAR(255)
+);

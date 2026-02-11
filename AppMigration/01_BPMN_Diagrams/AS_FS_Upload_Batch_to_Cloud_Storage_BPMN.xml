@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL"
+  xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+  xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+  xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
+  id="Definitions_AS_FS_Upload_Batch_to_Cloud_Storage"
+  targetNamespace="http://bpmn.io/schema/bpmn">
+
+  <!-- Appian Process Model: AS FS Upload Batch to Cloud Storage -->
+  <!-- Source UUID: 0000e578-603c-8000-2153-7f0000014e7a -->
+  <!-- Pega Case Type Mapping: See migration metadata for stage/step correlation -->
+
+  <bpmn:collaboration id="Collaboration_AS_FS_Upload_Batch_to_Cloud_Storage">
+    <bpmn:participant id="Participant_AS_FS_Upload_Batch_to_Cloud_Storage" name="AS FS Upload Batch to Cloud Storage" processRef="Process_AS_FS_Upload_Batch_to_Cloud_Storage" />
+  </bpmn:collaboration>
+
+  <bpmn:process id="Process_AS_FS_Upload_Batch_to_Cloud_Storage" name="AS FS Upload Batch to Cloud Storage" isExecutable="false">
+
+    <bpmn:laneSet id="LaneSet_AS_FS_Upload_Batch_to_Cloud_Storage">
+      <bpmn:lane id="Lane_0" name="">
+      </bpmn:lane>
+    </bpmn:laneSet>
+
+    <bpmn:dataObject id="DataObject_batchArray" name="batchArray" />
+    <bpmn:dataObject id="DataObject_docTypeIds" name="docTypeIds" />
+    <bpmn:dataObject id="DataObject_objectNames" name="objectNames" />
+    <bpmn:dataObject id="DataObject_objects" name="objects" />
+    <bpmn:dataObject id="DataObject_startIndex" name="startIndex" />
+    <bpmn:dataObject id="DataObject_totalCount" name="totalCount" />
+    <bpmn:dataObject id="DataObject_understandingArray" name="understandingArray" />
+    <bpmn:dataObject id="DataObject_uploadToCloudStorageErrors" name="uploadToCloudStorageErrors" />
+
+    <bpmn:startEvent id="StartEvent_0" name="Start Node">
+      <bpmn:outgoing>Flow_0</bpmn:outgoing>
+    </bpmn:startEvent>
+
+    <bpmn:endEvent id="EndEvent_1" name="End Node">
+      <bpmn:incoming>Flow_1</bpmn:incoming>
+    </bpmn:endEvent>
+
+    <bpmn:userTask id="UserTask_2" name="Long delay">
+      <bpmn:incoming>Flow_2</bpmn:incoming>
+      <bpmn:outgoing>Flow_3</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:endEvent id="EndEvent_3" name="End Node">
+      <bpmn:incoming>Flow_4</bpmn:incoming>
+    </bpmn:endEvent>
+
+    <bpmn:userTask id="UserTask_4" name="Join">
+      <bpmn:incoming>Flow_5</bpmn:incoming>
+      <bpmn:outgoing>Flow_6</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_5" name="Upload to cloud storage">
+      <bpmn:incoming>Flow_7</bpmn:incoming>
+      <bpmn:incoming>Flow_8</bpmn:incoming>
+      <bpmn:outgoing>Flow_9</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:exclusiveGateway id="ExclusiveGateway_6" name="Batch Completed?">
+      <bpmn:incoming>Flow_10</bpmn:incoming>
+      <bpmn:outgoing>Flow_11</bpmn:outgoing>
+      <bpmn:outgoing>Flow_12</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+
+    <bpmn:exclusiveGateway id="ExclusiveGateway_7" name="Data less than batch value?">
+      <bpmn:incoming>Flow_13</bpmn:incoming>
+      <bpmn:outgoing>Flow_14</bpmn:outgoing>
+      <bpmn:outgoing>Flow_15</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+
+    <bpmn:userTask id="UserTask_8" name="Set understanding array">
+      <bpmn:incoming>Flow_16</bpmn:incoming>
+      <bpmn:outgoing>Flow_17</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_9" name="Split Into Batches">
+      <bpmn:incoming>Flow_18</bpmn:incoming>
+      <bpmn:incoming>Flow_19</bpmn:incoming>
+      <bpmn:outgoing>Flow_20</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_10" name="Update Index">
+      <bpmn:incoming>Flow_21</bpmn:incoming>
+      <bpmn:outgoing>Flow_22</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_11" name="Update understanding array">
+      <bpmn:incoming>Flow_23</bpmn:incoming>
+      <bpmn:outgoing>Flow_24</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:exclusiveGateway id="ExclusiveGateway_12" name="Upload to cloud storage error?">
+      <bpmn:incoming>Flow_25</bpmn:incoming>
+      <bpmn:outgoing>Flow_26</bpmn:outgoing>
+      <bpmn:outgoing>Flow_27</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+
+    <bpmn:userTask id="UserTask_13" name="Update understanding array">
+      <bpmn:incoming>Flow_28</bpmn:incoming>
+      <bpmn:outgoing>Flow_29</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:sequenceFlow id="Flow_0" sourceRef="StartEvent_0" targetRef="UserTask_8" />
+    <bpmn:sequenceFlow id="Flow_1" sourceRef="UserTask_11" targetRef="EndEvent_1" />
+    <bpmn:sequenceFlow id="Flow_2" sourceRef="ExclusiveGateway_12" targetRef="UserTask_2" />
+    <bpmn:sequenceFlow id="Flow_3" sourceRef="UserTask_2" targetRef="EndEvent_3" />
+    <bpmn:sequenceFlow id="Flow_5" sourceRef="ExclusiveGateway_6" targetRef="UserTask_4" />
+    <bpmn:sequenceFlow id="Flow_6" sourceRef="UserTask_4" targetRef="ExclusiveGateway_12" />
+    <bpmn:sequenceFlow id="Flow_7" sourceRef="ExclusiveGateway_7" targetRef="UserTask_5" />
+    <bpmn:sequenceFlow id="Flow_8" sourceRef="UserTask_9" targetRef="UserTask_5" />
+    <bpmn:sequenceFlow id="Flow_9" sourceRef="UserTask_5" targetRef="UserTask_10" />
+    <bpmn:sequenceFlow id="Flow_10" sourceRef="UserTask_10" targetRef="ExclusiveGateway_6" />
+    <bpmn:sequenceFlow id="Flow_12" sourceRef="ExclusiveGateway_6" targetRef="UserTask_9" />
+    <bpmn:sequenceFlow id="Flow_13" sourceRef="UserTask_8" targetRef="ExclusiveGateway_7" />
+    <bpmn:sequenceFlow id="Flow_14" sourceRef="ExclusiveGateway_7" targetRef="UserTask_9" />
+    <bpmn:sequenceFlow id="Flow_23" sourceRef="UserTask_13" targetRef="UserTask_11" />
+    <bpmn:sequenceFlow id="Flow_26" sourceRef="ExclusiveGateway_12" targetRef="UserTask_13" />
+  </bpmn:process>
+
+</bpmn:definitions>

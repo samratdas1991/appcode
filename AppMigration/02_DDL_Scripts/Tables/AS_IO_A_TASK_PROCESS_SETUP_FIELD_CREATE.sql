@@ -1,0 +1,10 @@
+-- Source Appian CDT: AS_IO_A_TaskProcessSetup_Field
+-- Description: Holds auditing data for process setup modification - simple field change
+DROP TABLE IF EXISTS AS_IO_A_TASK_PROCESS_SETUP_FIELD CASCADE;
+CREATE TABLE AS_IO_A_TASK_PROCESS_SETUP_FIELD (
+    TASK_PROC_SETUP_AUDIT_FIELD_ID INT PRIMARY KEY,
+    TASK_PROC_SETUP_AUDIT_ID INT,
+    FIELD_NAME VARCHAR(255),
+    OLD_VALUE VARCHAR(255),
+    NEW_VALUE VARCHAR(255)
+);

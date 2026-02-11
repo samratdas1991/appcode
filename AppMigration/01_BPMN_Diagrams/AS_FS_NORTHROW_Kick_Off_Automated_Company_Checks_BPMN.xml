@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL"
+  xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+  xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+  xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
+  id="Definitions_AS_FS_NORTHROW_Kick_Off_Automated_Company_Checks"
+  targetNamespace="http://bpmn.io/schema/bpmn">
+
+  <!-- Appian Process Model: AS FS NORTHROW Kick Off Automated Company Checks -->
+  <!-- Source UUID: 0002e583-921a-8000-245b-7f0000014e7a -->
+  <!-- Description: Kicks off company checks for customers that are scheduled to take place on a timer and are due. -->
+  <!-- Pega Case Type Mapping: See migration metadata for stage/step correlation -->
+
+  <bpmn:collaboration id="Collaboration_AS_FS_NORTHROW_Kick_Off_Automated_Company_Checks">
+    <bpmn:participant id="Participant_AS_FS_NORTHROW_Kick_Off_Automated_Company_Checks" name="AS FS NORTHROW Kick Off Automated Company Checks" processRef="Process_AS_FS_NORTHROW_Kick_Off_Automated_Company_Checks" />
+  </bpmn:collaboration>
+
+  <bpmn:process id="Process_AS_FS_NORTHROW_Kick_Off_Automated_Company_Checks" name="AS FS NORTHROW Kick Off Automated Company Checks" isExecutable="false">
+    <bpmn:documentation>Kicks off company checks for customers that are scheduled to take place on a timer and are due.</bpmn:documentation>
+
+    <bpmn:dataObject id="DataObject_scheduledCompanyIds" name="scheduledCompanyIds" />
+
+    <bpmn:userTask id="UserTask_0" name="Check for due Northrow integrations">
+      <bpmn:incoming>Flow_0</bpmn:incoming>
+      <bpmn:outgoing>Flow_1</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:endEvent id="EndEvent_1" name="End Node">
+      <bpmn:incoming>Flow_2</bpmn:incoming>
+      <bpmn:incoming>Flow_3</bpmn:incoming>
+      <bpmn:incoming>Flow_4</bpmn:incoming>
+    </bpmn:endEvent>
+
+    <bpmn:exclusiveGateway id="ExclusiveGateway_2" name="check for empty array?">
+      <bpmn:incoming>Flow_5</bpmn:incoming>
+      <bpmn:outgoing>Flow_6</bpmn:outgoing>
+      <bpmn:outgoing>Flow_7</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+
+    <bpmn:exclusiveGateway id="ExclusiveGateway_3" name="Northrow on?">
+      <bpmn:incoming>Flow_8</bpmn:incoming>
+      <bpmn:outgoing>Flow_9</bpmn:outgoing>
+      <bpmn:outgoing>Flow_10</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+
+    <bpmn:userTask id="UserTask_4" name="Execute Company check">
+      <bpmn:incoming>Flow_11</bpmn:incoming>
+      <bpmn:outgoing>Flow_12</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:startEvent id="StartEvent_5" name="Start Node">
+      <bpmn:outgoing>Flow_13</bpmn:outgoing>
+    </bpmn:startEvent>
+
+    <bpmn:sequenceFlow id="Flow_0" sourceRef="ExclusiveGateway_3" targetRef="UserTask_0" />
+    <bpmn:sequenceFlow id="Flow_1" sourceRef="UserTask_0" targetRef="ExclusiveGateway_2" />
+    <bpmn:sequenceFlow id="Flow_2" sourceRef="ExclusiveGateway_2" targetRef="EndEvent_1" />
+    <bpmn:sequenceFlow id="Flow_3" sourceRef="ExclusiveGateway_3" targetRef="EndEvent_1" />
+    <bpmn:sequenceFlow id="Flow_4" sourceRef="UserTask_4" targetRef="EndEvent_1" />
+    <bpmn:sequenceFlow id="Flow_6" sourceRef="ExclusiveGateway_2" targetRef="UserTask_4" />
+    <bpmn:sequenceFlow id="Flow_8" sourceRef="StartEvent_5" targetRef="ExclusiveGateway_3" />
+  </bpmn:process>
+
+</bpmn:definitions>

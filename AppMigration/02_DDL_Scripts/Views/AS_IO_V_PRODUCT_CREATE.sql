@@ -1,0 +1,16 @@
+-- Source Appian CDT: AS_IO_V_Product
+-- Description: Record View of Product with locales
+DROP VIEW IF EXISTS AS_IO_V_PRODUCT CASCADE;
+CREATE VIEW AS_IO_V_PRODUCT AS
+SELECT
+    NULL::INT AS PRODUCT_ID,
+    NULL::VARCHAR(255) AS NAME,
+    NULL::VARCHAR(255) AS PRODUCT_TYPE_CODE,
+    NULL::VARCHAR(255) AS STRATEGY,
+    NULL::TIMESTAMP AS CREATED_DATETIME,
+    NULL::TIMESTAMP AS MODIFIED_DATETIME,
+    NULL::BOOLEAN AS IS_PARENT,
+    NULL::BOOLEAN AS IS_DELETED,
+    NULL::INT AS REQUEST_ID
+;
+-- NOTE: View definition requires manual review to add proper source tables and joins

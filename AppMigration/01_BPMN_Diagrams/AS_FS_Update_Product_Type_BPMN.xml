@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL"
+  xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+  xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+  xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
+  id="Definitions_AS_FS_Update_Product_Type"
+  targetNamespace="http://bpmn.io/schema/bpmn">
+
+  <!-- Appian Process Model: AS FS Update Product Type -->
+  <!-- Source UUID: 0006e801-5805-8000-6f79-7f0000014e7a -->
+  <!-- Description: Wrapper Process Model for  AS FS Manage Product Ref Data and AS IO Apply Ref Product Updates to Templates. -->
+  <!-- Pega Case Type Mapping: See migration metadata for stage/step correlation -->
+
+  <bpmn:collaboration id="Collaboration_AS_FS_Update_Product_Type">
+    <bpmn:participant id="Participant_AS_FS_Update_Product_Type" name="AS FS Update Product Type" processRef="Process_AS_FS_Update_Product_Type" />
+  </bpmn:collaboration>
+
+  <bpmn:process id="Process_AS_FS_Update_Product_Type" name="AS FS Update Product Type" isExecutable="false">
+    <bpmn:documentation>Wrapper Process Model for  AS FS Manage Product Ref Data and AS IO Apply Ref Product Updates to Templates.</bpmn:documentation>
+
+    <bpmn:laneSet id="LaneSet_AS_FS_Update_Product_Type">
+      <bpmn:lane id="Lane_0" name="">
+      </bpmn:lane>
+    </bpmn:laneSet>
+
+    <bpmn:dataObject id="DataObject_accountTypesAdded" name="accountTypesAdded" />
+    <bpmn:dataObject id="DataObject_accountTypesDeleted" name="accountTypesDeleted" />
+    <bpmn:dataObject id="DataObject_bundleDictionary" name="bundleDictionary" />
+    <bpmn:dataObject id="DataObject_bundleName" name="bundleName" />
+    <bpmn:dataObject id="DataObject_isNewProduct" name="isNewProduct" />
+    <bpmn:dataObject id="DataObject_locale" name="locale" />
+    <bpmn:dataObject id="DataObject_productTypeCode" name="productTypeCode" />
+    <bpmn:dataObject id="DataObject_refData" name="refData" />
+
+    <bpmn:startEvent id="StartEvent_0" name="Start Node">
+      <bpmn:outgoing>Flow_0</bpmn:outgoing>
+    </bpmn:startEvent>
+
+    <bpmn:endEvent id="EndEvent_1" name="End Node">
+      <bpmn:incoming>Flow_1</bpmn:incoming>
+      <bpmn:incoming>Flow_2</bpmn:incoming>
+    </bpmn:endEvent>
+
+    <bpmn:userTask id="UserTask_2" name="AS FS Manage Product Ref Data">
+      <bpmn:incoming>Flow_3</bpmn:incoming>
+      <bpmn:outgoing>Flow_4</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_3" name="AS IO Apply Ref Product Updates">
+      <bpmn:incoming>Flow_5</bpmn:incoming>
+      <bpmn:outgoing>Flow_6</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:exclusiveGateway id="ExclusiveGateway_4" name="is existing product and IO exists?">
+      <bpmn:incoming>Flow_7</bpmn:incoming>
+      <bpmn:outgoing>Flow_8</bpmn:outgoing>
+      <bpmn:outgoing>Flow_9</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+
+    <bpmn:sequenceFlow id="Flow_0" sourceRef="StartEvent_0" targetRef="UserTask_2" />
+    <bpmn:sequenceFlow id="Flow_1" sourceRef="UserTask_3" targetRef="EndEvent_1" />
+    <bpmn:sequenceFlow id="Flow_2" sourceRef="ExclusiveGateway_4" targetRef="EndEvent_1" />
+    <bpmn:sequenceFlow id="Flow_4" sourceRef="UserTask_2" targetRef="ExclusiveGateway_4" />
+    <bpmn:sequenceFlow id="Flow_5" sourceRef="ExclusiveGateway_4" targetRef="UserTask_3" />
+  </bpmn:process>
+
+</bpmn:definitions>

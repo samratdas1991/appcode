@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL"
+  xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+  xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+  xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
+  id="Definitions_AS_FS_Create_Customer"
+  targetNamespace="http://bpmn.io/schema/bpmn">
+
+  <!-- Appian Process Model: AS FS Create Customer -->
+  <!-- Source UUID: 0002e2d9-b743-8000-f92f-7f0000014e7a -->
+  <!-- Description: Creates a new customer -->
+  <!-- Pega Case Type Mapping: See migration metadata for stage/step correlation -->
+
+  <bpmn:collaboration id="Collaboration_AS_FS_Create_Customer">
+    <bpmn:participant id="Participant_AS_FS_Create_Customer" name="AS FS Create Customer" processRef="Process_AS_FS_Create_Customer" />
+  </bpmn:collaboration>
+
+  <bpmn:process id="Process_AS_FS_Create_Customer" name="AS FS Create Customer" isExecutable="false">
+    <bpmn:documentation>Creates a new customer</bpmn:documentation>
+
+    <bpmn:laneSet id="LaneSet_AS_FS_Create_Customer">
+      <bpmn:lane id="Lane_0" name="">
+      </bpmn:lane>
+    </bpmn:laneSet>
+
+    <bpmn:dataObject id="DataObject_addresses" name="addresses" />
+    <bpmn:dataObject id="DataObject_alertSet" name="alertSet" />
+    <bpmn:dataObject id="DataObject_beneficialOwnerAuditProcessParameters" name="beneficialOwnerAuditProcessParameters" />
+    <bpmn:dataObject id="DataObject_beneficialOwners" name="beneficialOwners" />
+    <bpmn:dataObject id="DataObject_companyDetails" name="companyDetails" />
+    <bpmn:dataObject id="DataObject_contacts" name="contacts" />
+    <bpmn:dataObject id="DataObject_customer" name="customer" />
+    <bpmn:dataObject id="DataObject_customerAuditProcessParameters" name="customerAuditProcessParameters" />
+    <bpmn:dataObject id="DataObject_customerRelations" name="customerRelations" />
+    <bpmn:dataObject id="DataObject_entityRelationsAuditProcessParameters" name="entityRelationsAuditProcessParameters" />
+    <bpmn:dataObject id="DataObject_userAction" name="userAction" />
+
+    <bpmn:startEvent id="StartEvent_0" name="Start Node">
+      <bpmn:outgoing>Flow_0</bpmn:outgoing>
+    </bpmn:startEvent>
+
+    <bpmn:userTask id="UserTask_1" name="Write Customer Contacts">
+      <bpmn:incoming>Flow_1</bpmn:incoming>
+      <bpmn:outgoing>Flow_2</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_2" name="Write Customer Address">
+      <bpmn:incoming>Flow_3</bpmn:incoming>
+      <bpmn:outgoing>Flow_4</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:exclusiveGateway id="ExclusiveGateway_3" name="Is Contacts Null ?">
+      <bpmn:incoming>Flow_5</bpmn:incoming>
+      <bpmn:outgoing>Flow_6</bpmn:outgoing>
+      <bpmn:outgoing>Flow_7</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+
+    <bpmn:exclusiveGateway id="ExclusiveGateway_4" name="Is Address Null ?">
+      <bpmn:incoming>Flow_8</bpmn:incoming>
+      <bpmn:incoming>Flow_9</bpmn:incoming>
+      <bpmn:outgoing>Flow_10</bpmn:outgoing>
+      <bpmn:outgoing>Flow_11</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+
+    <bpmn:endEvent id="EndEvent_5" name="End Node">
+      <bpmn:incoming>Flow_12</bpmn:incoming>
+    </bpmn:endEvent>
+
+    <bpmn:userTask id="UserTask_6" name="Map Customer Id">
+      <bpmn:incoming>Flow_13</bpmn:incoming>
+      <bpmn:outgoing>Flow_14</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_7" name="Map Alert Set Id">
+      <bpmn:incoming>Flow_15</bpmn:incoming>
+      <bpmn:outgoing>Flow_16</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_8" name="Create Alert Set">
+      <bpmn:incoming>Flow_17</bpmn:incoming>
+      <bpmn:outgoing>Flow_18</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:parallelGateway id="ParallelGateway_9" name="Complex">
+      <bpmn:incoming>Flow_19</bpmn:incoming>
+      <bpmn:incoming>Flow_20</bpmn:incoming>
+      <bpmn:outgoing>Flow_21</bpmn:outgoing>
+    </bpmn:parallelGateway>
+
+    <bpmn:endEvent id="EndEvent_10" name="End Event">
+      <bpmn:incoming>Flow_22</bpmn:incoming>
+    </bpmn:endEvent>
+
+    <bpmn:userTask id="UserTask_11" name="Save Company Details">
+      <bpmn:incoming>Flow_23</bpmn:incoming>
+      <bpmn:outgoing>Flow_24</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_12" name="Write Entity Relationships">
+      <bpmn:incoming>Flow_25</bpmn:incoming>
+      <bpmn:outgoing>Flow_26</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_13" name="Write Beneficial Owners">
+      <bpmn:incoming>Flow_27</bpmn:incoming>
+      <bpmn:incoming>Flow_28</bpmn:incoming>
+      <bpmn:outgoing>Flow_29</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_14" name="Generate Alerts">
+      <bpmn:incoming>Flow_30</bpmn:incoming>
+      <bpmn:outgoing>Flow_31</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_15" name="Create folders and save customer">
+      <bpmn:incoming>Flow_32</bpmn:incoming>
+      <bpmn:outgoing>Flow_33</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_16" name="Set pv!customer">
+      <bpmn:incoming>Flow_34</bpmn:incoming>
+      <bpmn:outgoing>Flow_35</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:subProcess id="SubProcess_17" name="Split">
+      <bpmn:incoming>Flow_36</bpmn:incoming>
+      <bpmn:outgoing>Flow_37</bpmn:outgoing>
+      <bpmn:outgoing>Flow_38</bpmn:outgoing>
+    </bpmn:subProcess>
+
+    <bpmn:exclusiveGateway id="ExclusiveGateway_18" name="Cancel">
+      <bpmn:incoming>Flow_39</bpmn:incoming>
+      <bpmn:outgoing>Flow_40</bpmn:outgoing>
+      <bpmn:outgoing>Flow_41</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+
+    <bpmn:scriptTask id="ScriptTask_19" name="Confirmation Screen">
+      <bpmn:incoming>Flow_42</bpmn:incoming>
+      <bpmn:outgoing>Flow_43</bpmn:outgoing>
+    </bpmn:scriptTask>
+
+    <bpmn:sequenceFlow id="Flow_0" sourceRef="StartEvent_0" targetRef="ExclusiveGateway_18" />
+    <bpmn:sequenceFlow id="Flow_1" sourceRef="ExclusiveGateway_3" targetRef="UserTask_1" />
+    <bpmn:sequenceFlow id="Flow_2" sourceRef="UserTask_1" targetRef="ExclusiveGateway_4" />
+    <bpmn:sequenceFlow id="Flow_3" sourceRef="ExclusiveGateway_4" targetRef="UserTask_2" />
+    <bpmn:sequenceFlow id="Flow_4" sourceRef="UserTask_2" targetRef="UserTask_13" />
+    <bpmn:sequenceFlow id="Flow_5" sourceRef="UserTask_11" targetRef="ExclusiveGateway_3" />
+    <bpmn:sequenceFlow id="Flow_7" sourceRef="ExclusiveGateway_3" targetRef="ExclusiveGateway_4" />
+    <bpmn:sequenceFlow id="Flow_11" sourceRef="ExclusiveGateway_4" targetRef="UserTask_13" />
+    <bpmn:sequenceFlow id="Flow_12" sourceRef="ExclusiveGateway_18" targetRef="EndEvent_5" />
+    <bpmn:sequenceFlow id="Flow_13" sourceRef="SubProcess_17" targetRef="UserTask_6" />
+    <bpmn:sequenceFlow id="Flow_14" sourceRef="UserTask_6" targetRef="UserTask_11" />
+    <bpmn:sequenceFlow id="Flow_15" sourceRef="UserTask_8" targetRef="UserTask_7" />
+    <bpmn:sequenceFlow id="Flow_16" sourceRef="UserTask_7" targetRef="UserTask_15" />
+    <bpmn:sequenceFlow id="Flow_17" sourceRef="ExclusiveGateway_18" targetRef="UserTask_8" />
+    <bpmn:sequenceFlow id="Flow_19" sourceRef="UserTask_14" targetRef="ParallelGateway_9" />
+    <bpmn:sequenceFlow id="Flow_20" sourceRef="ScriptTask_19" targetRef="ParallelGateway_9" />
+    <bpmn:sequenceFlow id="Flow_21" sourceRef="ParallelGateway_9" targetRef="EndEvent_10" />
+    <bpmn:sequenceFlow id="Flow_25" sourceRef="UserTask_13" targetRef="UserTask_12" />
+    <bpmn:sequenceFlow id="Flow_26" sourceRef="UserTask_12" targetRef="UserTask_14" />
+    <bpmn:sequenceFlow id="Flow_33" sourceRef="UserTask_15" targetRef="UserTask_16" />
+    <bpmn:sequenceFlow id="Flow_35" sourceRef="UserTask_16" targetRef="SubProcess_17" />
+    <bpmn:sequenceFlow id="Flow_38" sourceRef="SubProcess_17" targetRef="ScriptTask_19" />
+  </bpmn:process>
+
+</bpmn:definitions>

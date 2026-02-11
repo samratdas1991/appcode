@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL"
+  xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+  xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+  xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
+  id="Definitions_AS_FS_IDP_Single_Upload_Classification_Docs"
+  targetNamespace="http://bpmn.io/schema/bpmn">
+
+  <!-- Appian Process Model: AS FS IDP Single Upload Classification Docs -->
+  <!-- Source UUID: 0000e595-6335-8000-27a2-7f0000014e7a -->
+  <!-- Description: Modal to upload single classification docs -->
+  <!-- Pega Case Type Mapping: See migration metadata for stage/step correlation -->
+
+  <bpmn:collaboration id="Collaboration_AS_FS_IDP_Single_Upload_Classification_Docs">
+    <bpmn:participant id="Participant_AS_FS_IDP_Single_Upload_Classification_Docs" name="AS FS IDP Single Upload Classification Docs" processRef="Process_AS_FS_IDP_Single_Upload_Classification_Docs" />
+  </bpmn:collaboration>
+
+  <bpmn:process id="Process_AS_FS_IDP_Single_Upload_Classification_Docs" name="AS FS IDP Single Upload Classification Docs" isExecutable="false">
+    <bpmn:documentation>Modal to upload single classification docs</bpmn:documentation>
+
+    <bpmn:laneSet id="LaneSet_AS_FS_IDP_Single_Upload_Classification_Docs">
+      <bpmn:lane id="Lane_0" name="">
+      </bpmn:lane>
+    </bpmn:laneSet>
+
+    <bpmn:dataObject id="DataObject_allUploadedDocuments" name="allUploadedDocuments" />
+    <bpmn:dataObject id="DataObject_docChannel" name="docChannel" />
+    <bpmn:dataObject id="DataObject_docType" name="docType" />
+    <bpmn:dataObject id="DataObject_docTypeZip" name="docTypeZip" />
+    <bpmn:dataObject id="DataObject_userAction" name="userAction" />
+
+    <bpmn:startEvent id="StartEvent_0" name="Start Node">
+      <bpmn:outgoing>Flow_0</bpmn:outgoing>
+    </bpmn:startEvent>
+
+    <bpmn:endEvent id="EndEvent_1" name="End Node">
+      <bpmn:incoming>Flow_1</bpmn:incoming>
+    </bpmn:endEvent>
+
+    <bpmn:userTask id="UserTask_2" name="Document Training">
+      <bpmn:incoming>Flow_2</bpmn:incoming>
+      <bpmn:outgoing>Flow_3</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:sequenceFlow id="Flow_0" sourceRef="StartEvent_0" targetRef="UserTask_2" />
+    <bpmn:sequenceFlow id="Flow_1" sourceRef="UserTask_2" targetRef="EndEvent_1" />
+  </bpmn:process>
+
+</bpmn:definitions>

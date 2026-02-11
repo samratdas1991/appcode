@@ -1,0 +1,86 @@
+{
+  "entityName": "AS_FS_A_Fee",
+  "pegaClassName": "Data-FS-AFee",
+  "tableName": "AS_FS_A_FEE",
+  "description": "Data type refers to the attributes related to the Fee audit",
+  "module": "FS",
+  "attributes": [
+    {
+      "appianFieldName": "feeAuditId",
+      "pegaPropertyName": "Feeauditid",
+      "appianDataType": "xsd:int",
+      "pegaDataType": "Integer",
+      "columnName": "FEE_AUDIT_ID",
+      "required": true,
+      "isPrimaryKey": true,
+      "isForeignKey": false
+    },
+    {
+      "appianFieldName": "feeId",
+      "pegaPropertyName": "Feeid",
+      "appianDataType": "xsd:int",
+      "pegaDataType": "Integer",
+      "columnName": "FEE_ID",
+      "required": false,
+      "isPrimaryKey": false,
+      "isForeignKey": false
+    },
+    {
+      "appianFieldName": "productAuditId",
+      "pegaPropertyName": "Productauditid",
+      "appianDataType": "xsd:int",
+      "pegaDataType": "Integer",
+      "columnName": "PRODUCT_AUDIT_ID",
+      "required": false,
+      "isPrimaryKey": false,
+      "isForeignKey": false
+    },
+    {
+      "appianFieldName": "timestamp",
+      "pegaPropertyName": "Timestamp",
+      "appianDataType": "xsd:dateTime",
+      "pegaDataType": "DateTime",
+      "columnName": "TIMESTAMP",
+      "required": false,
+      "isPrimaryKey": false,
+      "isForeignKey": false
+    },
+    {
+      "appianFieldName": "username",
+      "pegaPropertyName": "Username",
+      "appianDataType": "xsd:string",
+      "pegaDataType": "Text",
+      "columnName": "USERNAME",
+      "required": false,
+      "isPrimaryKey": false,
+      "isForeignKey": false
+    },
+    {
+      "appianFieldName": "auditActionCode",
+      "pegaPropertyName": "Auditactioncode",
+      "appianDataType": "xsd:string",
+      "pegaDataType": "Text",
+      "columnName": "AUDIT_ACTION_CODE",
+      "required": false,
+      "isPrimaryKey": false,
+      "isForeignKey": false
+    },
+    {
+      "appianFieldName": "countryChange",
+      "pegaPropertyName": "Countrychange",
+      "appianDataType": "tns:AS_FS_A_Country",
+      "pegaDataType": "Integer",
+      "columnName": "COUNTRY_AUDIT_ID",
+      "required": false,
+      "isPrimaryKey": false,
+      "isForeignKey": true
+    }
+  ],
+  "relationships": [
+    {
+      "type": "ManyToOne",
+      "foreignKey": "COUNTRY_AUDIT_ID",
+      "appianFieldName": "countryChange"
+    }
+  ]
+}

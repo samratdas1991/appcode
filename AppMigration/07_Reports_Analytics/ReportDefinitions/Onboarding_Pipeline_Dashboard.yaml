@@ -1,0 +1,35 @@
+# Report Definition: Onboarding Pipeline Dashboard
+# Pega Migration Target: Report Definition (Summary)
+
+reportName: Onboarding Pipeline Dashboard
+description: Real-time view of all onboarding requests by status and stage
+dataSource: AS_IO_OnboardingRequest, AS_IO_OnboardingStatus
+columns:
+- name: RequestId
+  dataType: Integer
+  aggregation: Count
+- name: Status
+  dataType: Text
+  aggregation: Group By
+- name: RequestDate
+  dataType: DateTime
+  aggregation: None
+- name: AssignedTo
+  dataType: Text
+  aggregation: Group By
+filters:
+- field: Status
+  operator: IN
+  defaultValue: Active,Pending,In Review
+- field: RequestDate
+  operator: '>='
+  defaultValue: Last 30 days
+sorting:
+- field: RequestDate
+  direction: DESC
+grouping:
+- Status
+- RequestType
+pegaReportType: Report Definition (Summary)
+pegaImplementationNotes: Create as Pega Report Definition with chart visualization.
+  Use Data Page for real-time data.

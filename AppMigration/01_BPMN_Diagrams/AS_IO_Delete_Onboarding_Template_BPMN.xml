@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL"
+  xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+  xmlns:dc="http://www.omg.org/spec/DD/20100524/DC"
+  xmlns:di="http://www.omg.org/spec/DD/20100524/DI"
+  id="Definitions_AS_IO_Delete_Onboarding_Template"
+  targetNamespace="http://bpmn.io/schema/bpmn">
+
+  <!-- Appian Process Model: AS IO Delete Onboarding Template -->
+  <!-- Source UUID: 0006e7f9-9c56-8000-6dd6-7f0000014e7a -->
+  <!-- Description: Used to mark an onboarding template as deleted -->
+  <!-- Pega Case Type Mapping: See migration metadata for stage/step correlation -->
+
+  <bpmn:collaboration id="Collaboration_AS_IO_Delete_Onboarding_Template">
+    <bpmn:participant id="Participant_AS_IO_Delete_Onboarding_Template" name="AS IO Delete Onboarding Template" processRef="Process_AS_IO_Delete_Onboarding_Template" />
+  </bpmn:collaboration>
+
+  <bpmn:process id="Process_AS_IO_Delete_Onboarding_Template" name="AS IO Delete Onboarding Template" isExecutable="false">
+    <bpmn:documentation>Used to mark an onboarding template as deleted</bpmn:documentation>
+
+    <bpmn:laneSet id="LaneSet_AS_IO_Delete_Onboarding_Template">
+      <bpmn:lane id="Lane_0" name="">
+      </bpmn:lane>
+    </bpmn:laneSet>
+
+    <bpmn:dataObject id="DataObject_template" name="template" />
+    <bpmn:dataObject id="DataObject_userAction" name="userAction" />
+
+    <bpmn:startEvent id="StartEvent_0" name="Start Node">
+      <bpmn:outgoing>Flow_0</bpmn:outgoing>
+    </bpmn:startEvent>
+
+    <bpmn:exclusiveGateway id="ExclusiveGateway_1" name="User Action?">
+      <bpmn:incoming>Flow_1</bpmn:incoming>
+      <bpmn:outgoing>Flow_2</bpmn:outgoing>
+      <bpmn:outgoing>Flow_3</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+
+    <bpmn:endEvent id="EndEvent_2" name="End Node">
+      <bpmn:incoming>Flow_4</bpmn:incoming>
+      <bpmn:incoming>Flow_5</bpmn:incoming>
+    </bpmn:endEvent>
+
+    <bpmn:userTask id="UserTask_3" name="Set isDeleted to true">
+      <bpmn:incoming>Flow_6</bpmn:incoming>
+      <bpmn:outgoing>Flow_7</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:userTask id="UserTask_4" name="Save/Audit">
+      <bpmn:incoming>Flow_8</bpmn:incoming>
+      <bpmn:outgoing>Flow_9</bpmn:outgoing>
+    </bpmn:userTask>
+
+    <bpmn:sequenceFlow id="Flow_0" sourceRef="StartEvent_0" targetRef="ExclusiveGateway_1" />
+    <bpmn:sequenceFlow id="Flow_2" sourceRef="ExclusiveGateway_1" targetRef="UserTask_3" />
+    <bpmn:sequenceFlow id="Flow_3" sourceRef="ExclusiveGateway_1" targetRef="EndEvent_2" />
+    <bpmn:sequenceFlow id="Flow_5" sourceRef="UserTask_4" targetRef="EndEvent_2" />
+    <bpmn:sequenceFlow id="Flow_7" sourceRef="UserTask_3" targetRef="UserTask_4" />
+  </bpmn:process>
+
+</bpmn:definitions>
